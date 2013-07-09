@@ -22,7 +22,7 @@ ifeq ("$(OSTYPE)","Darwin")
 	LDFLAGS += -framework OpenGL -framework GLUT
 else
 	CFLAGS += -DUNIX -DGLX_GLXEXT_LEGACY
-	USED_LIBS += glut GL pthread
+	USED_LIBS += glut GL rt
 endif
 
 LIB_DIRS  += ../../../ThirdParty/PSCommon/XnLib/Bin/$(PLATFORM)-$(CFG)
