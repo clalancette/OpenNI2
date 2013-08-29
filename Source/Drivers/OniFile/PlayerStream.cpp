@@ -123,8 +123,8 @@ OniStatus PlayerStream::setProperty(int propertyId, const void* pData, int dataS
 		OniVideoMode currMode;
 		int size = sizeof(currMode);
 		OniStatus nRetVal = getProperty(ONI_STREAM_PROPERTY_VIDEO_MODE, &currMode, &size);
-		(void)nRetVal;
 		XN_ASSERT(nRetVal == ONI_STATUS_OK);
+		XN_REFERENCE_VARIABLE(nRetVal);
 
 		OniVideoMode* pRequestedMode = (OniVideoMode*)pData;
 		if (pRequestedMode->resolutionX == currMode.resolutionX &&
