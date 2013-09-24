@@ -129,13 +129,17 @@ Other than that, sensible and meaningful contributions are very welcome!
 
 ### Android
 
-- Download and install the Android NDK version **r8d**. Newer versions will **NOT** work.
-
-- For Mac OS X: http://dl.google.com/android/ndk/android-ndk-r8d-darwin-x86.tar.bz2
-- For Windows:  http://dl.google.com/android/ndk/android-ndk-r8d-windows.zip
-- For Linux:    http://dl.google.com/android/ndk/android-ndk-r8d-linux-x86.tar.bz2
-
-    Building Android packages requires the NDK_ROOT environment variable to be defined, and its value must be pointing to the NDK installation dir: `NDK_ROOT=/path/to/android-ndk-r8d`
+- Download and install the Android NDK from http://developer.android.com/tools/sdk/ndk/index.html#Downloads
+- You must also define an environment variable called "NDK_HOME" that points to the NDK installation directory.
+- Download and install the Android SDK from http://developer.android.com/sdk/index.html#download
+- You must also define an environment variable called "ANDROID_HOME" that points to the SDK installation directory.
+- Download and install Ant:
+  - Ubuntu: sudo apt-get install ant
+  - Windows: https://code.google.com/p/winant
+- Download and install JDK 6.0
+  - Ubuntu: sudo apt-get install openjdk-6-jdk
+  - Windows: http://www.oracle.com/technetwork/java/javase/downloads/jdk-6u32-downloads-1594644.html
+  - You must also define an environment variable called "JAVA_HOME" that points to the JDK installation directory.
 
 ## Building
 
@@ -165,6 +169,6 @@ Then, run:
   - Go into the directory `Packaging`
   - Run:
 
-		ReleaseVersion.py [x86|x64|arm|android]
+		ReleaseVersion.py [x86|x64|Arm|Android]
 
   - The installer will be placed in the `Final` directory
