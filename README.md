@@ -132,6 +132,7 @@ Other than that, sensible and meaningful contributions are very welcome!
 - Download and install the Android NDK from http://developer.android.com/tools/sdk/ndk/index.html#Downloads
 - You must also define an environment variable called "NDK_HOME" that points to the NDK installation directory.
 - Download and install the Android SDK from http://developer.android.com/sdk/index.html#download
+  - Currently requires installing SDK for API level 12 and 18 (via Android SDK Manager)
 - You must also define an environment variable called "ANDROID_HOME" that points to the SDK installation directory.
 - Download and install Ant:
   - Ubuntu: sudo apt-get install ant
