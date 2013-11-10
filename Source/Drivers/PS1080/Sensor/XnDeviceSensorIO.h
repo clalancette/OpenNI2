@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef __XN_DEVICE_SENSOR_I_O_H__
-#define __XN_DEVICE_SENSOR_I_O_H__
+#ifndef XNDEVICESENSORIO_H
+#define XNDEVICESENSORIO_H
 
 //---------------------------------------------------------------------------
 // Includes
@@ -95,4 +95,4 @@ private:
 	XnBool m_bIsLowBandwidth;
 };
 
-#endif //__XN_DEVICE_SENSOR_I_O_H__
+#endif // XNDEVICESENSORIO_H
