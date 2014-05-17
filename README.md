@@ -142,13 +142,19 @@ Other than that, sensible and meaningful contributions are very welcome!
   - Windows: http://www.oracle.com/technetwork/java/javase/downloads/jdk-6u32-downloads-1594644.html
   - You must also define an environment variable called "JAVA_HOME" that points to the JDK installation directory.
 
+### macOS
+- Libusb 1.0
+  - Install Homebrew: ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+  - brew install libusb --universal
+
+
 ## Building
 
 ### Building on Windows:
 
   Open the solution `OpenNI.sln`
 
-### Building on Linux:
+### Building on Linux / macOS:
 
   Run:
 
