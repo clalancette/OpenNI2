@@ -174,7 +174,10 @@ static XnStatus GetOSName(xnOSInfo* pOSInfo)
 	OSVERSIONINFOEX osVersionInfo;
 	osVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
+#pragma warning(push)
+#pragma warning(disable:4996)
 	if (0 == GetVersionEx((LPOSVERSIONINFO)&osVersionInfo))
+#pragma warning(pop)
 	{
 		DWORD nErr = GetLastError();
 		xnLogWarning(XN_MASK_OS, "Failed getting OS version information. Error code: %d", nErr);
