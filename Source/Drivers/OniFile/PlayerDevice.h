@@ -151,6 +151,7 @@ private:
 	// Seek frame.
 	Seek m_seek;
 	OniBool m_isSeeking;
+    OniBool m_seekingFailed;
 
 	// Speed of playback.
 	XnDouble m_dPlaybackSpeed;

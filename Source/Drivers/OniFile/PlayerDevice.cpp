@@ -184,7 +184,7 @@ void PlayerDevice::LoadConfigurationFromIniFile()
 }
 
 PlayerDevice::PlayerDevice(const xnl::String& filePath) : 
-	m_filePath(filePath), m_fileHandle(0), m_threadHandle(NULL), m_running(FALSE), m_isSeeking(FALSE),
+	m_filePath(filePath), m_fileHandle(0), m_threadHandle(NULL), m_running(FALSE), m_isSeeking(FALSE), m_seekingFailed(FALSE),
 	m_dPlaybackSpeed(1.0), m_nStartTimestamp(0), m_nStartTime(0), m_bHasTimeReference(FALSE), 
 	m_bRepeat(TRUE), m_player(filePath.Data()), m_driverEOFCallback(NULL), m_driverCookie(NULL)
 {
@@ -538,6 +538,7 @@ OniStatus PlayerDevice::invoke(int commandId, void* data, int dataSize)
 		m_seek.frameId = pSeek->frameId;
 		m_seek.pStream = pSeek->pStream;
 		m_isSeeking = TRUE;
+        m_seekingFailed = FALSE;
 
 		// Set the ready for data and manual trigger events, to make sure player thread wakes up.
 		m_readyForDataInternalEvent.Set();
@@ -545,6 +546,9 @@ OniStatus PlayerDevice::invoke(int commandId, void* data, int dataSize)
 
 		// Wait for seek to complete.
 		m_SeekCompleteInternalEvent.Wait(XN_WAIT_INFINITE);
+        
+        if (m_seekingFailed)
+            return ONI_STATUS_ERROR;
 	}
 	else
 	{
@@ -651,7 +655,13 @@ void PlayerDevice::MainLoop()
 
 			// Seek the frame ID for first source (seek to (frame ID-1) so next read frame is frameId).
 			PlayerSource* pSource = m_seek.pStream->GetSource();
-			m_player.SeekToFrame(pSource->GetNodeName(), m_seek.frameId, XN_PLAYER_SEEK_SET);
+			XnStatus xnrc = m_player.SeekToFrame(pSource->GetNodeName(), m_seek.frameId, XN_PLAYER_SEEK_SET);
+
+			if (xnrc != XN_STATUS_OK)
+			{
+				// Failure to seek.
+				m_seekingFailed = TRUE;
+			}
 
 			// Return playback speed to normal.
 			m_dPlaybackSpeed = playbackSpeed;
