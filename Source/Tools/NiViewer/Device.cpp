@@ -487,7 +487,7 @@ void seekStream(openni::VideoStream* pStream, openni::VideoFrameRef* pCurFrame, 
 		}
 
 		// the new frameId might be different than expected (due to clipping to edges)
-		frameId = pCurFrame->getFrameIndex();
+		frameId = pCurFrame->isValid()? pCurFrame->getFrameIndex() : 0;
 
 		displayMessage("Current frame: %u/%u", frameId, numberOfFrames);
 	}
@@ -516,7 +516,7 @@ void seekFrame(int nDiff)
 	if (pStream == NULL)
 		return;
 
-	int frameId = pCurFrame->getFrameIndex();
+	int frameId = pCurFrame->isValid() ? pCurFrame->getFrameIndex() : 0;
 	// Calculate the new frame ID
 	frameId = (frameId + nDiff < 1) ? 1 : frameId + nDiff;
 
