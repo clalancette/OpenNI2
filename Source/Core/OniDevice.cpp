@@ -209,6 +209,8 @@ void Device::notifyAllProperties()
 }
 OniStatus Device::invoke(int commandId, void* data, int dataSize)
 {
+	Device::Seek seek;
+
 	if (commandId == ONI_DEVICE_COMMAND_SEEK)
 	{
 		if (dataSize != sizeof(OniSeek))
@@ -217,17 +219,12 @@ OniStatus Device::invoke(int commandId, void* data, int dataSize)
 		}
 
 		// Change seek's stream handle.
-		Device::Seek seek;
 		OniSeek* pSeek = (OniSeek*)data;
 		seek.frameId = pSeek->frameIndex;
 		seek.pStream = ((_OniStream*)pSeek->stream)->pStream->getHandle();
-
-		// Update data to point to new structure.
-		data = &seek;
-		dataSize = sizeof(seek);
 	}
 
-	return m_driverHandler.deviceInvoke(m_deviceHandle, commandId, data, dataSize);
+	return m_driverHandler.deviceInvoke(m_deviceHandle, commandId, &seek, sizeof(seek));
 }
 OniBool Device::isCommandSupported(int commandId)
 {
