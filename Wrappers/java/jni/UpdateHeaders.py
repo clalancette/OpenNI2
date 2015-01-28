@@ -28,7 +28,7 @@ import glob
 import sys
 
 if len(sys.argv) < 2 or sys.argv[1] in ('-h', '--help') or not sys.argv[1] in('android', 'java'):
-    print 'usage: ' + sys.argv[0] + ' <android|java>'
+    print('usage: ' + sys.argv[0] + ' <android|java>')
     sys.exit(1)
 
 type = sys.argv[1]
@@ -56,7 +56,7 @@ else:
     JAVAH = 'javah'
 
 cmd = [JAVAH, '-classpath', class_dir] + classes
-print cmd
+print(cmd)
 subprocess.check_call(cmd)
 
 # now create the methods.inl file

@@ -20,6 +20,8 @@
 #*  limitations under the License.                                           *
 #*                                                                           *
 #****************************************************************************/
+from __future__ import print_function
+
 import os
 import re
 import sys
@@ -33,7 +35,7 @@ import UpdateVersion
 from Harvest import Harvest
 
 if len(sys.argv) < 2 or sys.argv[1] in ('-h','--help'):
-    print "usage: " + sys.argv[0] + " <x86|x64|Arm|Android> [UpdateVersion]"
+    print("usage: " + sys.argv[0] + " <x86|x64|Arm|Android> [UpdateVersion]")
     sys.exit(1)
 
 plat = sys.argv[1]
@@ -56,7 +58,7 @@ def check_call(cmd, outputFile = None):
 
     rc = subprocess.call(cmd, shell=useShell, stdout=outputFile, stderr=outputFile)
     if rc != 0:
-        print 'Failed to execute command: ' + str(cmd)
+        print('Failed to execute command: ' + str(cmd))
         sys.exit(9)
 
 def get_reg_values(reg_key, value_list):
@@ -101,11 +103,11 @@ def calc_jobs_number():
 
 def build_android_project(path, outputFile, target = 'release'):
     if not 'NDK_HOME' in os.environ:
-        print 'Please define NDK_HOME!'
+        print('Please define NDK_HOME!')
         sys.exit(2)
 
     if not 'ANDROID_HOME' in os.environ:
-        print 'Please define ANDROID_HOME!'
+        print('Please define ANDROID_HOME!')
         sys.exit(2)
 
     sdkDir = os.environ['ANDROID_HOME']
@@ -122,29 +124,29 @@ def build_android():
     # build all projects
     android_projects = libraries + samples + tools
     # clean all
-    print 'Cleaning...'
+    print('Cleaning...')
     for proj in android_projects:
         logFile.write('**** Cleaning ' + proj + "...****\n")
         build_android_project(os.path.join('..', proj), outputFile=logFile, target='clean')
     # and build all
     for proj in android_projects:
         logFile.write('**** Building ' + proj + "...****\n")
-        print 'Building ' + proj + '...',
+        print('Building ' + proj + '...', end=" ")
         build_android_project(os.path.join('..', proj), outputFile=logFile)
-        print 'OK'
+        print('OK')
 
     # build documentation
-    print 'Creating C++ documentation...',
+    print('Creating C++ documentation...', end=" ")
     check_call([os.path.join('..', 'Source', 'Documentation', 'Runme.py')], outputFile=logFile)
-    print 'OK'
+    print('OK')
 
-    print 'Creating java documentation...',
+    print('Creating java documentation...', end=" ")
     build_android_project('../Wrappers/java', outputFile=logFile, target='javadoc')
-    print 'OK'
+    print('OK')
 
 # Create installer
 strVersion = UpdateVersion.getVersionName()
-print "Creating installer for OpenNI " + strVersion + " " + plat
+print("Creating installer for OpenNI " + strVersion + " " + plat)
 finalDir = "Final"
 if not os.path.isdir(finalDir):
     os.mkdir(finalDir)
@@ -204,12 +206,12 @@ elif platform.system() == 'Linux' or platform.system() == 'Darwin':
     os.remove(origDir + '/build.release.' + plat + '.log')
 
 else:
-    print "Unknown OS"
+    print("Unknown OS")
     sys.exit(2)
 
 # also copy Release Notes and CHANGES documents
 shutil.copy('../ReleaseNotes.txt', finalDir)
 shutil.copy('../CHANGES.txt', finalDir)
 
-print "Installer can be found under: " + finalDir
-print "Done"
+print("Installer can be found under: " + finalDir)
+print("Done")

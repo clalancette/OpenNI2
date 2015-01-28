@@ -467,7 +467,7 @@ $(OUTPUT_FILE): copy-redist
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
-        print 'Usage: ' + sys.argv[0] + ' <OutDir> <x86|x64|Arm|Android>'
+        print('Usage: ' + sys.argv[0] + ' <OutDir> <x86|x64|Arm|Android>')
         exit(1)
 
     rootDir = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..'))

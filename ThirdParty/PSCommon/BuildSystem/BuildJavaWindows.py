@@ -25,7 +25,7 @@ import shutil
 
 # parse command line
 if len(sys.argv) < 5:
-    print "usage: " + sys.argv[0] + " <x86|x64> <BinDir> <SourceDir> <Name> [NeededJarFiles] [MainClass]"
+    print("usage: " + sys.argv[0] + " <x86|x64> <BinDir> <SourceDir> <Name> [NeededJarFiles] [MainClass]")
     exit(1)
 
 platform_string = ""
@@ -34,7 +34,7 @@ if sys.argv[1] == "" or sys.argv[1] == "x86":
 elif sys.argv[1] == "x64":
     platform_string = "x64"
 else:
-    print 'First argument must be "x86", "x64" or empty (x86)'
+    print('First argument must be "x86", "x64" or empty (x86)')
     exit(1)
     
 bin_dir = os.path.abspath(sys.argv[2])
@@ -57,7 +57,7 @@ BATCH_FILE = os.path.join(RELEASE_DIR, proj_name + '.bat')
 # make sure JAVA_HOME is set
 JAVA_HOME = os.path.expandvars("$JAVA_HOME")
 if JAVA_HOME == "":
-    print "JAVA_HOME is not set!"
+    print("JAVA_HOME is not set!")
     exit(1)
     
 CLASS_PATH = os.path.expandvars("$CLASSPATH")
@@ -126,7 +126,7 @@ shutil.copy(JAR_FILE, DEBUG_DIR)
     
 # create batch file (by default, windows does not open a console when double-clicking jar files)
 if main_class != "":
-    print "Creating batch file..."
+    print("Creating batch file...")
     batch = open(BATCH_FILE, 'w')
     batch.write('java -Xmx768m -jar ' + proj_name + '.jar %*\n')
     batch.close()
