@@ -195,11 +195,11 @@ elif platform.system() == 'Windows':
 elif platform.system() == 'Linux' or platform.system() == 'Darwin':
 
     devNull = open('/dev/null', 'w')
-    subprocess.check_call(['make', '-C', '../', '-j' + calc_jobs_number(), 'PLATFORM=' + plat, 'clean'], stdout=devNull, stderr=devNull)
+    subprocess.check_call(['make', '-C', '../', '-j' + calc_jobs_number(), 'PLATFORM=' + plat, 'HAS_JAVA=1', 'clean'], stdout=devNull, stderr=devNull)
     devNull.close()
 
     buildLog = open(origDir + '/build.release.' + plat + '.log', 'w')
-    subprocess.check_call(['make', '-C', '../', '-j' + calc_jobs_number(), 'PLATFORM=' + plat, 'release'], stdout=buildLog, stderr=buildLog)
+    subprocess.check_call(['make', '-C', '../', '-j' + calc_jobs_number(), 'PLATFORM=' + plat, 'HAS_JAVA=1', 'release'], stdout=buildLog, stderr=buildLog)
     buildLog.close()
 
     # everything OK, can remove build log
