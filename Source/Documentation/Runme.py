@@ -35,13 +35,13 @@ def create_page(orig_path, page_name, page_header):
     dest.write("\n*/")
     orig.close()
     dest.close()
-   
+
 beforeDir = os.getcwd()
 scriptDir = os.path.dirname(sys.argv[0])
 os.chdir(scriptDir)
 
 # Start with C++ reference
-   
+
 # create Legal page
 if os.path.isdir("Temp"):
     shutil.rmtree("Temp")
@@ -62,7 +62,7 @@ else:
 javaSrc = os.path.join('..', '..', 'Wrappers', 'java', 'src', 'org', 'openni')
 
 # workaround a strange linux behavior where you must pass the list of files
-cmd = [javaDocExe, '-d', 'java']
+cmd = [javaDocExe, '-d', 'java', '-Xdoclint:none']
 for root, dirs, files in os.walk(javaSrc):
     for file in files:
         cmd.append(os.path.join(root, file))
