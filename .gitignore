@@ -21,4 +21,10 @@ Redist/OpenNI-*
 Source/Documentation/html
 Source/Documentation/java
 Source/Documentation/xml
+Source/Documentation/cpp
 OpenNI.xcodeproj
+.DS_Store
+local.properties
+build.android.log
+gen/
+Packaging/Final/
