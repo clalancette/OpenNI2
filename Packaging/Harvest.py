@@ -285,7 +285,7 @@ $(OUTPUT_FILE): copy-redist
 
         # and executable
         if self.osName == 'Android':
-            apkName = glob.glob(os.path.join(sampleSourceDir, 'bin', '*-release.apk'))[0]
+            apkName = glob.glob(os.path.join(sampleSourceDir, 'bin', '*-release*.apk'))[0]
             realName = os.path.split(sampleTargetDir)[1]
             shutil.copy(apkName, os.path.join(targetBinDir, realName + '.apk'))
         elif isJava:
@@ -349,11 +349,11 @@ $(OUTPUT_FILE): copy-redist
         shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PS1080.ini'), targetDir)
         shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PSLink.ini'), targetDir)
         shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'OniFile.ini'), targetDir)
-        
+
     def createNativeMakefile(self, nativeDir, redistDir):
         nativeAndroidMk = open(os.path.join(nativeDir, 'Android.mk'), 'w')
         nativeAndroidMk.write('LOCAL_PATH := $(call my-dir)\n')
-        
+
         libs = []
         for root, dirs, files in os.walk(redistDir):
             for file in files:
@@ -365,7 +365,7 @@ $(OUTPUT_FILE): copy-redist
                     nativeAndroidMk.write('LOCAL_SRC_FILES := $(TARGET_ARCH_ABI)/' + file + '\n')
                     nativeAndroidMk.write('include $(PREBUILT_SHARED_LIBRARY)\n')
                     nativeAndroidMk.write('\n')
-        
+
         # and now OpenNI itself
         nativeAndroidMk.write('include $(CLEAR_VARS)\n')
         nativeAndroidMk.write('LOCAL_MODULE := OpenNI2\n')
@@ -442,7 +442,7 @@ $(OUTPUT_FILE): copy-redist
             # Android lib
             self.copyAndroidLib(os.path.join(self.outDir, 'OpenNIAndroidLibrary'))
             self.copyAssets(os.path.join(self.outDir, 'Assets', 'openni'))
-            
+
 
         # Release notes and change log
         shutil.copy(os.path.join(self.rootDir, 'ReleaseNotes.txt'), self.outDir)
