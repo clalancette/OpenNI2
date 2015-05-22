@@ -48,24 +48,31 @@ class Harvest:
                 self.glutSuffix = '64'
         elif self.osName == 'Android':
             self.binDir = os.path.join(rootDir, 'Wrappers', 'java', 'libs', 'armeabi-v7a')
+    def shcopy(self, src, targetDir):
+        if os.path.exists(src):
+            shutil.copy(src, targetDir)
+
+    def shcopytree(self, srcDir, targetDir):
+        if os.path.exists(srcDir):
+            shutil.copytree(srcDir, targetDir)
 
     def copySharedObject(self, sourceDir, name, targetDir):
         if self.osName == 'Windows':
-            shutil.copy(os.path.join(sourceDir, name + '.dll'), targetDir)
-            shutil.copy(os.path.join(sourceDir, name + '.pdb'), targetDir)
+            self.shcopy(os.path.join(sourceDir, name + '.dll'), targetDir)
+            self.shcopy(os.path.join(sourceDir, name + '.pdb'), targetDir)
         elif self.osName == 'Linux' or self.osName == 'Android':
-            shutil.copy(os.path.join(sourceDir, 'lib' + name + '.so'), targetDir)
+            self.shcopy(os.path.join(sourceDir, 'lib' + name + '.so'), targetDir)
         elif self.osName == 'Darwin':
-            shutil.copy(os.path.join(sourceDir, 'lib' + name + '.dylib'), targetDir)
+            self.shcopy(os.path.join(sourceDir, 'lib' + name + '.dylib'), targetDir)
         else:
             raise 'Unsupported platform!'
 
     def copyExecutable(self, sourceDir, name, targetDir):
         if self.osName == 'Windows':
-            shutil.copy(os.path.join(sourceDir, name + '.exe'), targetDir)
-            shutil.copy(os.path.join(sourceDir, name + '.pdb'), targetDir)
+            self.shcopy(os.path.join(sourceDir, name + '.exe'), targetDir)
+            self.shcopy(os.path.join(sourceDir, name + '.pdb'), targetDir)
         else:
-            shutil.copy(os.path.join(sourceDir, name), targetDir)
+            self.shcopy(os.path.join(sourceDir, name), targetDir)
 
     def regxReplace(self, findStr, repStr, filePath):
         "replaces all findStr by repStr in file filePath using regular expression"
@@ -89,8 +96,8 @@ class Harvest:
         self.copySharedObject(self.binDir, 'OpenNI2.jni', targetDir)
 
         if self.osName != 'Android':
-            shutil.copy(os.path.join(self.binDir, 'org.openni.jar'), targetDir)
-            shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI.ini'), targetDir)
+            self.shcopy(os.path.join(self.binDir, 'org.openni.jar'), targetDir)
+            self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI.ini'), targetDir)
 
         # and now all drivers
         if self.osName != 'Android':
@@ -107,9 +114,9 @@ class Harvest:
         self.copySharedObject(binDriversDir, 'PSLink', targetDriversDir)
 
         if self.osName != 'Android':
-            shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PS1080.ini'), targetDriversDir)
-            shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PSLink.ini'), targetDriversDir)
-            shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'OniFile.ini'), targetDriversDir)
+            self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PS1080.ini'), targetDriversDir)
+            self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PSLink.ini'), targetDriversDir)
+            self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'OniFile.ini'), targetDriversDir)
 
         if self.osName == 'Windows':
             self.copySharedObject(binDriversDir, 'Kinect', targetDriversDir)
@@ -130,12 +137,12 @@ class Harvest:
 
         # copy sources
         if self.osName == 'Android':
-            shutil.copytree(os.path.join(sampleSourceDir, 'src'), os.path.join(sampleTargetDir, 'src'))
-            shutil.copytree(os.path.join(sampleSourceDir, 'res'), os.path.join(sampleTargetDir, 'res'))
+            self.shcopytree(os.path.join(sampleSourceDir, 'src'), os.path.join(sampleTargetDir, 'src'))
+            self.shcopytree(os.path.join(sampleSourceDir, 'res'), os.path.join(sampleTargetDir, 'res'))
             if os.path.exists(os.path.join(sampleSourceDir, 'jni')):
-                shutil.copytree(os.path.join(sampleSourceDir, 'jni'), os.path.join(sampleTargetDir, 'jni'))
+                self.shcopytree(os.path.join(sampleSourceDir, 'jni'), os.path.join(sampleTargetDir, 'jni'))
             if os.path.exists(os.path.join(sampleSourceDir, 'assets')):
-                shutil.copytree(os.path.join(sampleSourceDir, 'assets'), os.path.join(sampleTargetDir, 'assets'))
+                self.shcopytree(os.path.join(sampleSourceDir, 'assets'), os.path.join(sampleTargetDir, 'assets'))
         else:
             for root, dirs, files in os.walk(sampleSourceDir):
                 # take dir name without 'root' and append to target
@@ -144,26 +151,26 @@ class Harvest:
                     if (isJava and file.endswith('.java')) or (not isJava and (file.endswith('.h') or file.endswith('.cpp'))):
                         if not os.path.exists(dst):
                             os.makedirs(dst)
-                        shutil.copy(os.path.join(root, file), dst)
+                        self.shcopy(os.path.join(root, file), dst)
 
         # copy common header
         if not isJava and not isLibrary and self.osName != 'Android':
-            shutil.copy(os.path.join(self.rootDir, 'Samples', 'Common', 'OniSampleUtilities.h'), sampleTargetDir)
+            self.shcopy(os.path.join(self.rootDir, 'Samples', 'Common', 'OniSampleUtilities.h'), sampleTargetDir)
 
         # copy GL headers
         if self.osName == 'Windows' and isGL:
-            shutil.copytree(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'GL'), os.path.join(sampleTargetDir, 'GL'))
+            self.shcopytree(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'GL'), os.path.join(sampleTargetDir, 'GL'))
             # and lib
-            shutil.copy(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'glut32.lib'), sampleTargetDir)
-            shutil.copy(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'glut64.lib'), sampleTargetDir)
-            shutil.copy(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'glut32.dll'), sampleTargetDir)
-            shutil.copy(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'glut64.dll'), sampleTargetDir)
+            self.shcopy(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'glut32.lib'), sampleTargetDir)
+            self.shcopy(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'glut64.lib'), sampleTargetDir)
+            self.shcopy(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'glut32.dll'), sampleTargetDir)
+            self.shcopy(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'glut64.dll'), sampleTargetDir)
 
         # and project file / makefile
         if self.osName == 'Windows':
             if isJava:
-                shutil.copy(os.path.join(sampleSourceDir, 'Build.bat'), sampleTargetDir)
-                shutil.copy(os.path.join(self.rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'BuildJavaWindows.py'), sampleTargetDir)
+                self.shcopy(os.path.join(sampleSourceDir, 'Build.bat'), sampleTargetDir)
+                self.shcopy(os.path.join(self.rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'BuildJavaWindows.py'), sampleTargetDir)
                 # fix call
                 buildFile = open(os.path.join(sampleTargetDir, 'Build.bat'))
                 buildScript = buildFile.read()
@@ -183,7 +190,7 @@ class Harvest:
                 buildFile.close()
 
             else:
-                shutil.copy(os.path.join(sampleSourceDir, name + '.vcxproj'), sampleTargetDir)
+                self.shcopy(os.path.join(sampleSourceDir, name + '.vcxproj'), sampleTargetDir)
                 projFile = os.path.join(sampleTargetDir, name + '.vcxproj')
                 #ET.register_namespace('', 'http://schemas.microsoft.com/developer/msbuild/2003')
                 doc = xml.dom.minidom.parse(projFile)
@@ -236,16 +243,16 @@ class Harvest:
                 proj.close()
 
         elif self.osName == 'Linux' or self.osName == 'Darwin':
-            shutil.copy(os.path.join(sampleSourceDir, 'Makefile'), sampleTargetDir)
-            shutil.copy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'CommonDefs.mak'), sampleTargetDir)
-            shutil.copy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'CommonTargets.mak'), sampleTargetDir)
-            shutil.copy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'Platform.x86'), sampleTargetDir)
-            shutil.copy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'Platform.x64'), sampleTargetDir)
-            shutil.copy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'Platform.Arm'), sampleTargetDir)
+            self.shcopy(os.path.join(sampleSourceDir, 'Makefile'), sampleTargetDir)
+            self.shcopy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'CommonDefs.mak'), sampleTargetDir)
+            self.shcopy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'CommonTargets.mak'), sampleTargetDir)
+            self.shcopy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'Platform.x86'), sampleTargetDir)
+            self.shcopy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'Platform.x64'), sampleTargetDir)
+            self.shcopy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'Platform.Arm'), sampleTargetDir)
             if isJava:
-                shutil.copy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'CommonJavaMakefile'), sampleTargetDir)
+                self.shcopy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'CommonJavaMakefile'), sampleTargetDir)
             else:
-                shutil.copy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'CommonCppMakefile'), sampleTargetDir)
+                self.shcopy(os.path.join(rootDir, 'ThirdParty', 'PSCommon', 'BuildSystem', 'CommonCppMakefile'), sampleTargetDir)
 
             # fix common makefiles path
             self.regxReplace('../../ThirdParty/PSCommon/BuildSystem/', '', os.path.join(sampleTargetDir, 'Makefile'))
@@ -273,12 +280,12 @@ $(OUTPUT_FILE): copy-redist
 '''
             self.regxReplace(r'include (Common.*Makefile)', add, os.path.join(sampleTargetDir, 'Makefile'))
         elif self.osName == 'Android':
-            shutil.copy(os.path.join(sampleSourceDir, '.classpath'), sampleTargetDir)
-            shutil.copy(os.path.join(sampleSourceDir, '.project'), sampleTargetDir)
-            shutil.copy(os.path.join(sampleSourceDir, 'AndroidManifest.xml'), sampleTargetDir)
-            shutil.copy(os.path.join(sampleSourceDir, 'build.xml'), sampleTargetDir)
-            shutil.copy(os.path.join(sampleSourceDir, 'proguard-project.txt'), sampleTargetDir)
-            shutil.copy(os.path.join(sampleSourceDir, 'project.properties'), sampleTargetDir)
+            self.shcopy(os.path.join(sampleSourceDir, '.classpath'), sampleTargetDir)
+            self.shcopy(os.path.join(sampleSourceDir, '.project'), sampleTargetDir)
+            self.shcopy(os.path.join(sampleSourceDir, 'AndroidManifest.xml'), sampleTargetDir)
+            self.shcopy(os.path.join(sampleSourceDir, 'build.xml'), sampleTargetDir)
+            self.shcopy(os.path.join(sampleSourceDir, 'proguard-project.txt'), sampleTargetDir)
+            self.shcopy(os.path.join(sampleSourceDir, 'project.properties'), sampleTargetDir)
             # fix dependency
             self.regxReplace('../../../Wrappers/java', '../../OpenNIAndroidLibrary', os.path.join(sampleTargetDir, 'project.properties'))
             self.regxReplace('../../Wrappers/java', '../../OpenNIAndroidLibrary', os.path.join(sampleTargetDir, 'project.properties'))
@@ -287,21 +294,21 @@ $(OUTPUT_FILE): copy-redist
         if self.osName == 'Android':
             apkName = glob.glob(os.path.join(sampleSourceDir, 'bin', '*-release*.apk'))[0]
             realName = os.path.split(sampleTargetDir)[1]
-            shutil.copy(apkName, os.path.join(targetBinDir, realName + '.apk'))
+            self.shcopy(apkName, os.path.join(targetBinDir, realName + '.apk'))
         elif isJava:
             splitName = os.path.splitext(name)
             # copy jar
-            shutil.copy(os.path.join(self.binDir, 'org.openni.Samples.' + splitName[0] + '.jar'), targetBinDir)
+            self.shcopy(os.path.join(self.binDir, 'org.openni.Samples.' + splitName[0] + '.jar'), targetBinDir)
             # and script
             if not isLibrary:
                 if self.osName == 'Windows':
-                    shutil.copy(os.path.join(self.binDir, 'org.openni.Samples.' + splitName[0] + '.bat'), targetBinDir)
+                    self.shcopy(os.path.join(self.binDir, 'org.openni.Samples.' + splitName[0] + '.bat'), targetBinDir)
                 else:
-                    shutil.copy(os.path.join(self.binDir, 'org.openni.Samples.' + splitName[0]), targetBinDir)
+                    self.shcopy(os.path.join(self.binDir, 'org.openni.Samples.' + splitName[0]), targetBinDir)
         elif isLibrary:
             self.copySharedObject(self.binDir, name, targetBinDir)
             if self.osName == 'Windows':
-                shutil.copy(os.path.join(self.binDir, name + '.lib'), targetBinDir)
+                self.shcopy(os.path.join(self.binDir, name + '.lib'), targetBinDir)
         else: # regular executable
             self.copyExecutable(self.binDir, name, targetBinDir)
 
@@ -314,41 +321,41 @@ $(OUTPUT_FILE): copy-redist
     def copyDocumentation(self, docDir):
         os.makedirs(docDir)
         if self.osName == 'Windows':
-            shutil.copy(os.path.join(self.rootDir, 'Source', 'Documentation', 'cpp', 'OpenNI.chm'), docDir)
+            self.shcopy(os.path.join(self.rootDir, 'Source', 'Documentation', 'cpp', 'OpenNI.chm'), docDir)
         else:
-            shutil.copytree(os.path.join(self.rootDir, 'Source', 'Documentation', 'cpp'), os.path.join(docDir, 'cpp'))
+            self.shcopytree(os.path.join(self.rootDir, 'Source', 'Documentation', 'cpp'), os.path.join(docDir, 'cpp'))
 
         if self.osName == 'Android':
-            shutil.copytree(os.path.join(self.rootDir, 'Wrappers', 'java', 'doc', 'gen'), os.path.join(docDir, 'java'))
+            self.shcopytree(os.path.join(self.rootDir, 'Wrappers', 'java', 'doc', 'gen'), os.path.join(docDir, 'java'))
         else:
-            shutil.copytree(os.path.join(self.rootDir, 'Source', 'Documentation', 'java'), os.path.join(docDir, 'java'))
+            self.shcopytree(os.path.join(self.rootDir, 'Source', 'Documentation', 'java'), os.path.join(docDir, 'java'))
 
     def copyGLUT(self, targetDir):
         if self.osName == 'Windows':
-            shutil.copy(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'glut' + self.glutSuffix + '.dll'), targetDir)
+            self.shcopy(os.path.join(self.rootDir, 'ThirdParty', 'GL', 'glut' + self.glutSuffix + '.dll'), targetDir)
 
     def copyAndroidLib(self, targetDir):
         os.makedirs(targetDir)
-        shutil.copytree(os.path.join(self.rootDir, 'Wrappers', 'java', 'src'), os.path.join(targetDir, 'src'))
-        shutil.copytree(os.path.join(self.rootDir, 'Wrappers', 'java', 'res'), os.path.join(targetDir, 'res'))
-        shutil.copytree(os.path.join(self.rootDir, 'Wrappers', 'java', 'libs'), os.path.join(targetDir, 'libs'))
+        self.shcopytree(os.path.join(self.rootDir, 'Wrappers', 'java', 'src'), os.path.join(targetDir, 'src'))
+        self.shcopytree(os.path.join(self.rootDir, 'Wrappers', 'java', 'res'), os.path.join(targetDir, 'res'))
+        self.shcopytree(os.path.join(self.rootDir, 'Wrappers', 'java', 'libs'), os.path.join(targetDir, 'libs'))
         os.makedirs(os.path.join(targetDir, 'bin'))
-        shutil.copy(os.path.join(self.rootDir, 'Wrappers', 'java', 'bin', 'classes.jar'), os.path.join(targetDir, 'bin', 'org.openni.jar'))
-        shutil.copy(os.path.join(self.rootDir, 'Wrappers', 'java', '.classpath'), targetDir)
-        shutil.copy(os.path.join(self.rootDir, 'Wrappers', 'java', '.project'), targetDir)
-        shutil.copy(os.path.join(self.rootDir, 'Wrappers', 'java', 'AndroidManifest.xml'), targetDir)
-        shutil.copy(os.path.join(self.rootDir, 'Wrappers', 'java', 'build.xml'), targetDir)
-        shutil.copy(os.path.join(self.rootDir, 'Wrappers', 'java', 'proguard-project.txt'), targetDir)
-        shutil.copy(os.path.join(self.rootDir, 'Wrappers', 'java', 'project.properties'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Wrappers', 'java', 'bin', 'classes.jar'), os.path.join(targetDir, 'bin', 'org.openni.jar'))
+        self.shcopy(os.path.join(self.rootDir, 'Wrappers', 'java', '.classpath'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Wrappers', 'java', '.project'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Wrappers', 'java', 'AndroidManifest.xml'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Wrappers', 'java', 'build.xml'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Wrappers', 'java', 'proguard-project.txt'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Wrappers', 'java', 'project.properties'), targetDir)
         # remove redundant file
         os.remove(os.path.join(targetDir, 'res', '.gitignore'))
 
     def copyAssets(self, targetDir):
         os.makedirs(targetDir)
-        shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI.ini'), targetDir)
-        shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PS1080.ini'), targetDir)
-        shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PSLink.ini'), targetDir)
-        shutil.copy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'OniFile.ini'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI.ini'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PS1080.ini'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PSLink.ini'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'OniFile.ini'), targetDir)
 
     def createNativeMakefile(self, nativeDir, redistDir):
         nativeAndroidMk = open(os.path.join(nativeDir, 'Android.mk'), 'w')
@@ -432,7 +439,7 @@ $(OUTPUT_FILE): copy-redist
             incDir = os.path.join(nativeDir, 'include')
         else:
             incDir = os.path.join(self.outDir, 'Include')
-        shutil.copytree(os.path.join(self.rootDir, 'Include'), incDir)
+        self.shcopytree(os.path.join(self.rootDir, 'Include'), incDir)
 
         # Android stuff
         if self.osName == 'Android':
@@ -445,25 +452,25 @@ $(OUTPUT_FILE): copy-redist
 
 
         # Release notes and change log
-        shutil.copy(os.path.join(self.rootDir, 'ReleaseNotes.txt'), self.outDir)
-        shutil.copy(os.path.join(self.rootDir, 'CHANGES.txt'), self.outDir)
+        self.shcopy(os.path.join(self.rootDir, 'ReleaseNotes.txt'), self.outDir)
+        self.shcopy(os.path.join(self.rootDir, 'CHANGES.txt'), self.outDir)
 
         # Licenses
-        shutil.copy(os.path.join(self.rootDir, 'NOTICE'), self.outDir)
-        shutil.copy(os.path.join(self.rootDir, 'LICENSE'), self.outDir)
+        self.shcopy(os.path.join(self.rootDir, 'NOTICE'), self.outDir)
+        self.shcopy(os.path.join(self.rootDir, 'LICENSE'), self.outDir)
 
         if self.osName == 'Windows':
             # Driver
-            shutil.copytree(os.path.join(self.rootDir, 'ThirdParty', 'PSCommon', 'XnLib', 'Driver', 'Win32', 'Bin'), os.path.join(self.outDir, 'Driver'))
+            self.shcopytree(os.path.join(self.rootDir, 'ThirdParty', 'PSCommon', 'XnLib', 'Driver', 'Win32', 'Bin'), os.path.join(self.outDir, 'Driver'))
 
             # Library
             libDir = os.path.join(self.outDir, 'Lib')
             os.makedirs(libDir)
-            shutil.copy(os.path.join(self.binDir, 'OpenNI2.lib'), libDir)
+            self.shcopy(os.path.join(self.binDir, 'OpenNI2.lib'), libDir)
         elif self.osName != 'Android':
             # install script
-            shutil.copy(os.path.join(self.rootDir, 'Packaging', 'Linux', 'install.sh'), self.outDir)
-            shutil.copy(os.path.join(self.rootDir, 'Packaging', 'Linux', 'primesense-usb.rules'), self.outDir)
+            self.shcopy(os.path.join(self.rootDir, 'Packaging', 'Linux', 'install.sh'), self.outDir)
+            self.shcopy(os.path.join(self.rootDir, 'Packaging', 'Linux', 'primesense-usb.rules'), self.outDir)
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
