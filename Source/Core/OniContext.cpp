@@ -214,6 +214,7 @@ XnStatus Context::configure()
 #if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
 	m_driversList.AddLast("libOniFile.so");
 	m_driversList.AddLast("libPS1080.so");
+	m_driversList.AddLast("liborbbec.so");
 	m_driversList.AddLast("libPSLink.so");
 	m_driversList.AddLast("libSD.so");
 #endif
