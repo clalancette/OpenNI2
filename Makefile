@@ -46,6 +46,7 @@ CXX_MAIN_SUBDIRS = \
 	Source/DepthUtils \
 	Source/Drivers/DummyDevice   \
 	Source/Drivers/PS1080 \
+	Source/Drivers/orbbec \
 	Source/Drivers/PSLink \
 	Source/Drivers/OniFile \
 	Source/Drivers/PS1080/PS1080Console \
@@ -153,6 +154,7 @@ Wrappers/java/jni:                    $(CORE)
 Source/Drivers/DummyDevice:           $(CORE)
 Source/Drivers/RawDevice:             $(CORE)
 Source/Drivers/PS1080:                $(CORE) $(DEPTH_UTILS)
+Source/Drivers/orbbec:                $(CORE) $(DEPTH_UTILS)
 Source/Drivers/PS1080/PS1080Console:  $(CORE)
 Source/Drivers/PSLink:                $(CORE)
 Source/Drivers/PSLink/PSLinkConsole:  $(CORE)

@@ -111,10 +111,12 @@ class Harvest:
 
         self.copySharedObject(binDriversDir, 'OniFile', targetDriversDir)
         self.copySharedObject(binDriversDir, 'PS1080', targetDriversDir)
+        self.copySharedObject(binDriversDir, 'orbbec', targetDriversDir)
         self.copySharedObject(binDriversDir, 'PSLink', targetDriversDir)
 
         if self.osName != 'Android':
             self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PS1080.ini'), targetDriversDir)
+            self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'orbbec.ini'), targetDriversDir)
             self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PSLink.ini'), targetDriversDir)
             self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'OniFile.ini'), targetDriversDir)
 
@@ -274,7 +276,7 @@ include \1
 
 .PHONY: copy-redist
 copy-redist:
-	cp -R $(OPENNI2_REDIST)/* $(OUT_DIR)
+    cp -R $(OPENNI2_REDIST)/* $(OUT_DIR)
 
 $(OUTPUT_FILE): copy-redist
 '''
@@ -354,6 +356,7 @@ $(OUTPUT_FILE): copy-redist
         os.makedirs(targetDir)
         self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI.ini'), targetDir)
         self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PS1080.ini'), targetDir)
+        self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'orbbec.ini'), targetDir)
         self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'PSLink.ini'), targetDir)
         self.shcopy(os.path.join(self.rootDir, 'Config', 'OpenNI2', 'Drivers', 'OniFile.ini'), targetDir)
 
