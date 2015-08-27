@@ -1,22 +1,22 @@
 /*****************************************************************************
-*									     *
-*  OpenNI 2.x Alpha							     *
-*  Copyright (C) 2012 PrimeSense Ltd.					     *
-*									     *
-*  This file is part of OpenNI. 					     *
-*									     *
-*  Licensed under the Apache License, Version 2.0 (the "License");	     *
-*  you may not use this file except in compliance with the License.	     *
-*  You may obtain a copy of the License at				     *
-*									     *
-*      http://www.apache.org/licenses/LICENSE-2.0			     *
-*									     *
-*  Unless required by applicable law or agreed to in writing, software	     *
-*  distributed under the License is distributed on an "AS IS" BASIS,	     *
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  *
-*  See the License for the specific language governing permissions and	     *
-*  limitations under the License.					     *
-*									     *
+*                                                                           *
+*  OpenNI 2.x Alpha                                                         *
+*  Copyright (C) 2012 PrimeSense Ltd.                                       *
+*                                                                           *
+*  This file is part of OpenNI.                                             *
+*                                                                           *
+*  Licensed under the Apache License, Version 2.0 (the "License");          *
+*  you may not use this file except in compliance with the License.         *
+*  You may obtain a copy of the License at                                  *
+*                                                                           *
+*      http://www.apache.org/licenses/LICENSE-2.0                           *
+*                                                                           *
+*  Unless required by applicable law or agreed to in writing, software      *
+*  distributed under the License is distributed on an "AS IS" BASIS,        *
+*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. *
+*  See the License for the specific language governing permissions and      *
+*  limitations under the License.                                           *
+*                                                                           *
 *****************************************************************************/
 #include "XnDeviceSensorProtocol.h"
 #include "XnHostProtocol.h"
@@ -82,11 +82,7 @@ inline XnInt32 CompareVersion(XnUInt8 nMajor1, XnUInt8 nMinor1, XnUInt16 nBuild1
 
 static XnFWVer GetFWVersion(XnUInt8 nMajor, XnUInt8 nMinor, XnUInt16 nBuild)
 {
-	if (CompareVersion(nMajor, nMinor, nBuild, 5, 9, 0) >= 0)
-	{
-		return XN_SENSOR_FW_VER_5_9;
-	}
-	else if (CompareVersion(nMajor, nMinor, nBuild, 5, 8, 0) >= 0)
+	if (CompareVersion(nMajor, nMinor, nBuild, 5, 8, 0) >= 0)
 	{
 		return XN_SENSOR_FW_VER_5_8;
 	}
@@ -483,6 +479,18 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 		nRetVal = pDevicePrivateData->FWInfo.irModes.AddLast(irHighResMode);
 		XN_IS_STATUS_OK(nRetVal);
 
+		// add SXGA depth modes
+		XnCmosPreset aSXGAmodes[] =
+		{
+			{ XN_IO_DEPTH_FORMAT_COMPRESSED_PS, XN_RESOLUTION_SXGA, 30 },
+			{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_11_BIT, XN_RESOLUTION_SXGA, 30 },
+			{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_12_BIT, XN_RESOLUTION_SXGA, 30 },
+			{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_16_BIT, XN_RESOLUTION_SXGA, 30 },
+		};
+		nRetVal = pDevicePrivateData->FWInfo.depthModes.AddLast(aSXGAmodes, sizeof(aSXGAmodes) / sizeof(aSXGAmodes[0]));
+		XN_IS_STATUS_OK(nRetVal)
+
+
 		// opcode added
 		pDevicePrivateData->FWInfo.nOpcodeGetCmosBlanking = OPCODE_GET_CMOS_BLANKING;
 	}
@@ -629,6 +637,11 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 		};
 		nRetVal = pDevicePrivateData->FWInfo.depthModes.AddLast(aQQmodes, sizeof(aQQmodes)/sizeof(aQQmodes[0]));
 		XN_IS_STATUS_OK(nRetVal);
+
+
+
+
+
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 6, 9) >= 0)
@@ -671,9 +684,9 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 		pDevicePrivateData->FWInfo.nISOLowDepthAlternativeInterface = 2;
 	}
 
-	if (CompareVersion(nMajor, nMinor, nBuild, 5, 10, 0) >= 0)
+	if (CompareVersion(nMajor, nMinor, nBuild, 5, 9, 0) >= 0)
 	{
-		xnLogWarning(XN_MASK_SENSOR_PROTOCOL, "Sensor version %d.%d.%x is newer than latest known. Trying to use 5.9 protocol...", nMajor, nMinor, nBuild);
+		xnLogWarning(XN_MASK_SENSOR_PROTOCOL, "Sensor version %d.%d.%x is newer than latest known. Trying to use 5.8 protocol...", nMajor, nMinor, nBuild);
 	}
 
 	// If FW is already known, update image modes
@@ -1313,7 +1326,7 @@ XnStatus XnHostProtocolGetLog(XnDevicePrivateData* pDevicePrivateData, XnChar* c
 			pData->nLine = XN_PREPARE_VAR16_IN_BUFFER(pData->nLine);
 			pData->nParam = XN_PREPARE_VAR16_IN_BUFFER(pData->nParam);
 
-			rc = xnOSStrFormat((XnChar*)csBuffer + nBufferUsed, nBufferSize - nBufferUsed, &nCharsWritten,
+			rc = xnOSStrFormat((XnChar*)csBuffer + nBufferUsed, nBufferSize - nBufferUsed, &nCharsWritten, 
 				"%u:\tModule: [0x%X], Error: [0x%X], Param: 0x%X, (Line: %d)\n",
 				pLogEntryHeader->nTimeStamp, XnChar(pLogEntryHeader->nLogType >> 8),
 				XnChar(pLogEntryHeader->nLogType), pData->nParam, pData->nLine);
@@ -2594,7 +2607,7 @@ XnStatus XnHostProtocolFileDownload(XnDevicePrivateData* pDevicePrivateData, XnU
 }
 
 #define XN_HOST_PROTOCOL_INIT_BUFFER(pBuffer)	\
-	XnUChar* __pBuffer = (XnUChar*)pBuffer; \
+	XnUChar* __pBuffer = (XnUChar*)pBuffer;	\
 	XnUInt16 __nBufferSize = 0;
 
 #define XN_HOST_PROTOCOL_APPEND_PARAM(type, param)	\
