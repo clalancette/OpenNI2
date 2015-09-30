@@ -242,6 +242,7 @@ private:
 	XnGeneralProperty m_CmosBlankingTime;
 	XnIntProperty m_Reset;
 	XnVersions m_VersionData;
+	XnDevicePrivateData m_DevicePrivateData;
 	XnActualGeneralProperty m_Version;
 	XnGeneralProperty m_FixedParam;
 	XnActualStringProperty m_ID;
@@ -277,7 +278,6 @@ private:
 	XnGeneralProperty m_BIST;
 	XnGeneralProperty m_ProjectorFault;
 	XnSensorFirmware m_Firmware;
-	XnDevicePrivateData m_DevicePrivateData;
 	XnSensorFPS m_FPS;
 	XnCmosInfo m_CmosInfo;
 	XnSensorIO m_SensorIO;
