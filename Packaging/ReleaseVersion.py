@@ -35,7 +35,7 @@ import UpdateVersion
 from Harvest import Harvest
 
 if len(sys.argv) < 2 or sys.argv[1] in ('-h','--help'):
-    print("usage: " + sys.argv[0] + " <x86|x64|Arm|Android> [UpdateVersion]")
+    print("usage: " + sys.argv[0] + " <x86|x64|Arm|Arm64|Android> [UpdateVersion]")
     sys.exit(1)
 
 plat = sys.argv[1]
