@@ -179,3 +179,25 @@ Then, run:
 		ReleaseVersion.py [x86|x64|Arm|Android]
 
   - The installer will be placed in the `Final` directory
+
+### Building in an armhf qemu-enabled docker container
+
+- Note: we're building from the osrf fork which has a couple of minor tweaks compared to the orbbec upstream repo (https://github.com/orbbec/OpenNI2/compare/orbbec-dev...osrf:orbbec-dev?expand=1):
+  - don't force soft-float in third-party software (because we're building with hard-float)
+  - disable documentation generation (because we don't need it, and also because doxygen seems to just hang in this environment).
+
+- Check out the code (because git doesn't work inside qemu):
+  - git clone https://github.com/osrf/OpenNI2
+  - cd OpenNI2
+  - git checkout orbbec-dev
+  - cd ..
+- Start docker, mounting in the git repo:
+  - docker run -ti -v `pwd`/OpenNI2:/tmp/OpenNI2 osrf/ubuntu_armhf:trusty bash
+- Now inside docker, install prereqs (we're removing udev because it somehow conflicts with libudev-dev; we're leaving out doxygen and graphviz because we're not going to build docs):
+  - apt-get update
+  - apt-get remove -y --force-yes udev
+  - apt-get install -y build-essential python libusb-1.0-0-dev libudev-dev openjdk-6-jdk freeglut3-dev
+- Still inside docker, build the release package (note that, instead of running `ReleaseVersion.py` inside `Packaging`, you could just run `make HAS_JAVA=1 release` at the top level):
+  - cd /tmp/OpenNI2/Packaging
+  - ./ReleaseVersion.py Arm
+- If all goes well, there will be a file in the docker container called something like `/tmp/OpenNI2/Packaging/Final/OpenNI-Linux-Arm-2.3.tar.bz2`.  It's also in the corresponding place in the host filesystem, so it will survive exiting the container. That file contains the compiled libraries (importantly, `OpenNI-Linux-Arm-2.3/Redist/libOpenNI2.so`).
