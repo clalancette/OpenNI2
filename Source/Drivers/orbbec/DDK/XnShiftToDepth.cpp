@@ -24,6 +24,8 @@
 #include "XnShiftToDepth.h"
 #include <XnOS.h>
 #include "XnDDK.h"
+#include <cmath>
+using namespace std;
 
 //---------------------------------------------------------------------------
 // Code
@@ -57,15 +59,26 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	if (pConfig->nDeviceMaxDepthValue > pShiftToDepth->nDepthsCount)
 		return XN_STATUS_DEVICE_INVALID_MAX_DEPTH;
 
+    enum OpticsRelationShip OpticsRelation;
 	XnUInt32 nIndex = 0;
 	XnInt16  nShiftValue = 0;
 	XnDouble dFixedRefX = 0;
 	XnDouble dMetric = 0;
 	XnDouble dDepth = 0;
+    XnInt32 nConstShift;
 	XnDouble dPlanePixelSize = pConfig->fZeroPlanePixelSize;
 	XnDouble dPlaneDsr = pConfig->nZeroPlaneDistance;
 	XnDouble dPlaneDcl = pConfig->fEmitterDCmosDistance;
-	XnInt32 nConstShift = pConfig->nParamCoeff * pConfig->nConstShift;
+    if (pConfig->nConstShift == 201)
+    {
+        OpticsRelation = ProjectRightOfCMOS;
+        nConstShift = pConfig->nParamCoeff * (pConfig->nConstShift-1);
+    }
+    else
+    {
+        OpticsRelation = ProjectLeftOfCMOS;
+	    nConstShift = pConfig->nParamCoeff * pConfig->nConstShift;
+    }
 
 	dPlanePixelSize *= pConfig->nPixelSizeFactor;
 	nConstShift /= pConfig->nPixelSizeFactor;
@@ -84,6 +97,10 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	for (nIndex = 1; nIndex < pConfig->nDeviceMaxShiftValue; nIndex++)
 	{
 		nShiftValue = (XnInt16)nIndex;
+		if (OpticsRelation == ProjectRightOfCMOS)
+		{
+			 nShiftValue = 1603 - nShiftValue;
+		}
 
 		dFixedRefX = (XnDouble)(nShiftValue - nConstShift) / (XnDouble)pConfig->nParamCoeff;
 		dFixedRefX -= 0.375;

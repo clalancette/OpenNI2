@@ -42,6 +42,14 @@ XnDeviceEnumeration::XnUsbId XnDeviceEnumeration::ms_supportedProducts[] =
     { 0x2BC5, 0x0403 },
     { 0x2BC5, 0x0404 },
     { 0x2BC5, 0x0405 },
+	{ 0x2BC5, 0x0406 },
+	{ 0x2BC5, 0x0407 },
+	{ 0x2BC5, 0x0408 },
+	{ 0x2BC5, 0x0409 },
+	{ 0x2BC5, 0x040a },
+	{ 0x2BC5, 0x040b },
+	{ 0x2BC5, 0x040c },
+	{ 0x2BC5, 0x04ff },
 };
 
 XnUInt32 XnDeviceEnumeration::ms_supportedProductsCount = sizeof(XnDeviceEnumeration::ms_supportedProducts) / sizeof(XnDeviceEnumeration::ms_supportedProducts[0]);

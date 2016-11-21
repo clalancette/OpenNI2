@@ -25,7 +25,11 @@
 #include "XnSensor.h"
 #include <XnProfiling.h>
 #include <XnLog.h>
-
+#if (XN_PLATFORM == XN_PLATFORM_WIN32 || XN_PLATFORM == XN_PLATFORM_LINUX_X86 || XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
+#include <softlib.h>
+#endif
+#include <cstdlib>
+using namespace std;
 //---------------------------------------------------------------------------
 // Defines
 //---------------------------------------------------------------------------
@@ -39,8 +43,99 @@ XnDepthProcessor::XnDepthProcessor(XnSensorDepthStream* pStream, XnSensorStreamH
 	m_applyRegistrationOnEnd(FALSE),
 	m_nExpectedFrameSize(0),
 	m_bShiftToDepthAllocated(FALSE),
-	m_pShiftToDepthTable(pStream->GetShiftToDepthTable())
+    m_pShiftToDepthTable(pStream->GetShiftToDepthTable()),
+    pDepthToShiftTable_org(pStream->GetDepthToShiftTable())
 {
+    DepthBuf=new OniDepthPixel[1280*1024];
+
+    size_t bufSize = 1280*1024*(int)(sizeof(int) + sizeof(int) + sizeof(char));
+    //	if( !_buf.isContinuous() || !_buf.data || _buf.cols*_buf.rows*_buf.elemSize() < bufSize )
+    //		_buf.create(1, (int)bufSize, CV_8U);
+    _buf=new unsigned char[bufSize];
+
+    config.nZeroPlaneDistance = 120;
+    config.fZeroPlanePixelSize = 0.10419999808073044;
+    config.fEmitterDCmosDistance = 7.5;
+    config.nDeviceMaxShiftValue = 2047;
+
+    config.nDeviceMaxDepthValue = 10000;
+
+    config.nConstShift = 200;
+    config.nPixelSizeFactor = 1;
+    config.nParamCoeff = 4;
+    config.nShiftScale = 10;
+
+    config.nDepthMinCutOff = 0;
+    config.nDepthMaxCutOff = static_cast<short>(config.nDeviceMaxDepthValue);
+
+    unsigned short nIndex = 0;
+    short  nShiftValue = 0;
+    double dFixedRefX = 0;
+    double dMetric = 0;
+    double dDepth = 0;
+    double dPlanePixelSize = config.fZeroPlanePixelSize;
+    double dPlaneDsr = config.nZeroPlaneDistance;
+    double dPlaneDcl = config.fEmitterDCmosDistance;
+    int nConstShift =config.nParamCoeff * config.nConstShift;
+
+    dPlanePixelSize *= config.nPixelSizeFactor;
+    nConstShift /=config.nPixelSizeFactor;
+
+
+
+    //	XN_VALIDATE_ALIGNED_CALLOC(m_ShiftToDepth.pShiftToDepthTable, XnDepthPixel, config.nDeviceMaxShiftValue+1, XN_DEFAULT_MEM_ALIGN);
+    //	XN_VALIDATE_ALIGNED_CALLOC(m_ShiftToDepth.pDepthToShiftTable, XnUInt16, config.nDeviceMaxDepthValue+1, XN_DEFAULT_MEM_ALIGN);
+
+    //	m_ShiftToDepth.pShiftToDepthTable=(unsigned short*)malloc( (config.nDeviceMaxShiftValue+1)*sizeof(unsigned short));
+    //	m_ShiftToDepth.pDepthToShiftTable=(unsigned short*)malloc( (config.nDeviceMaxDepthValue+1)*sizeof(unsigned short));
+
+    m_ShiftToDepth.pShiftToDepthTable= new unsigned short[config.nDeviceMaxShiftValue+1];
+    m_ShiftToDepth.pDepthToShiftTable= new unsigned short[config.nDeviceMaxDepthValue+1];
+
+    m_ShiftToDepth.bIsInitialized = TRUE;
+
+    // store allocation sizes
+    m_ShiftToDepth.nShiftsCount =  config.nDeviceMaxShiftValue + 1;
+    m_ShiftToDepth.nDepthsCount = config.nDeviceMaxDepthValue + 1;
+    unsigned short* pShiftToDepthTable = m_ShiftToDepth.pShiftToDepthTable;
+    unsigned short* pDepthToShiftTable = m_ShiftToDepth.pDepthToShiftTable;
+
+    memset(pShiftToDepthTable, 0, m_ShiftToDepth.nShiftsCount * sizeof(unsigned short));
+    memset(pDepthToShiftTable, 0, m_ShiftToDepth.nDepthsCount * sizeof(unsigned short));
+
+    unsigned short nLastDepth = 0;
+    unsigned short nLastIndex = 0;
+
+    for (nIndex = 1; nIndex < config.nDeviceMaxShiftValue; nIndex++)
+    {
+        nShiftValue = nIndex;
+
+        dFixedRefX = (double)(nShiftValue - nConstShift) / (double)config.nParamCoeff;
+        dFixedRefX -= 0.375;
+        dMetric = dFixedRefX * dPlanePixelSize;
+        dDepth =config.nShiftScale * ((dMetric * dPlaneDsr / (dPlaneDcl - dMetric)) + dPlaneDsr);
+
+        // check cut-offs
+        if ((dDepth > config.nDepthMinCutOff) && (dDepth < config.nDepthMaxCutOff))
+        {
+            pShiftToDepthTable[nIndex] = (unsigned short)dDepth;
+
+
+            for (unsigned short i = nLastDepth; i < dDepth; i++)
+                pDepthToShiftTable[i] = nLastIndex;
+
+            nLastIndex = nIndex;
+            nLastDepth = (unsigned short)dDepth;
+
+        //	std::cout<<nIndex<<" "<<dDepth<<endl;
+        }
+    }
+
+    for (unsigned short i = nLastDepth; i <= config.nDeviceMaxDepthValue; i++){
+        pDepthToShiftTable[i] = nLastIndex;
+        //	std::cout<<pDepthToShiftTable[i] <<" "<<i<<endl;
+
+    }
 }
 
 XnDepthProcessor::~XnDepthProcessor()
@@ -49,6 +144,8 @@ XnDepthProcessor::~XnDepthProcessor()
 	{
 		xnOSFree(m_pShiftToDepthTable);
 	}
+    delete[] DepthBuf;
+    delete[]  _buf;
 }
 
 XnStatus XnDepthProcessor::Init()
@@ -173,6 +270,25 @@ void XnDepthProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 
 	pFrame->stride = pFrame->width * GetStream()->GetBytesPerPixel();
 
+    //softfilter
+    OniDepthPixel* pDepth = (OniDepthPixel*)pFrame->data;
+    xnOSMemCopy(DepthBuf,pDepth,pFrame->width*pFrame->height*sizeof(OniDepthPixel));
+
+#if (XN_PLATFORM == XN_PLATFORM_ANDROID_ARM)
+
+#elif (XN_PLATFORM == XN_PLATFORM_WIN32 || XN_PLATFORM == XN_PLATFORM_LINUX_X86 | XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
+
+#if (FILTER == 1)
+    Softfilter(_buf, (unsigned short*)(DepthBuf), pFrame->width, pFrame->height);
+#endif
+
+#endif
+
+    for(int i=0;i< pFrame->width*pFrame->height;i++){
+            pDepth[i]=m_pShiftToDepthTable[DepthBuf[i]];
+            if(pDepth[i]==5506 || pDepth[i]==288)
+                pDepth[i]=0;
+    }
 	// call base
 	XnFrameStreamProcessor::OnEndOfFrame(pHeader);
 }

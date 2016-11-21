@@ -67,6 +67,11 @@ typedef struct XnShiftToDepthTables
 	XnUInt32 nDepthsCount;
 } XnShiftToDepthTables;
 
+enum OpticsRelationShip
+{
+   ProjectLeftOfCMOS,
+   ProjectRightOfCMOS
+};
 //---------------------------------------------------------------------------
 // Functions Declaration
 //---------------------------------------------------------------------------

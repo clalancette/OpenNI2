@@ -18,8 +18,8 @@
 *  limitations under the License.					     *
 *									     *
 *****************************************************************************/
-#ifndef XNDEPTHPROCESSOR_H
-#define XNDEPTHPROCESSOR_H
+#ifndef __XN_DEPTH_PROCESSOR_H__
+#define __XN_DEPTH_PROCESSOR_H__
 
 //---------------------------------------------------------------------------
 // Includes
@@ -43,6 +43,42 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
+typedef struct ShiftToDepthConfig
+{
+	/** The zero plane distance in depth units. */
+	unsigned short nZeroPlaneDistance;
+	/** The zero plane pixel size */
+	float fZeroPlanePixelSize;
+	/** The distance between the emitter and the Depth Cmos */
+	float fEmitterDCmosDistance;
+	/** The maximum possible shift value from this device. */
+	unsigned int nDeviceMaxShiftValue;
+	/** The maximum possible depth from this device (as opposed to a cut-off). */
+	unsigned int nDeviceMaxDepthValue;
+
+	unsigned int nConstShift;
+	unsigned int nPixelSizeFactor;
+	unsigned int nParamCoeff;
+	unsigned int nShiftScale;
+
+	unsigned short nDepthMinCutOff;
+	unsigned short nDepthMaxCutOff;
+
+} ShiftToDepthConfig;
+
+typedef struct ShiftToDepthTables
+{
+	XnBool bIsInitialized;
+	/** The shift-to-depth table. */
+	unsigned short* pShiftToDepthTable;
+	/** The number of entries in the shift-to-depth table. */
+	unsigned int nShiftsCount;
+	/** The depth-to-shift table. */
+	unsigned short* pDepthToShiftTable;
+	/** The number of entries in the depth-to-shift table. */
+	unsigned int nDepthsCount;
+} ShiftToDepthTables;
+
 class XnDepthProcessor : public XnFrameStreamProcessor
 {
 public:
@@ -69,7 +105,7 @@ protected:
 
 	inline OniDepthPixel GetOutput(XnUInt16 nShift)
 	{
-		return m_pShiftToDepthTable[nShift];
+		return nShift;//m_pShiftToDepthTable[nShift];
 	}
 
 	inline XnUInt32 GetExpectedSize()
@@ -87,6 +123,12 @@ private:
 	XnBool m_bShiftToDepthAllocated;
 	OniDepthPixel* m_pShiftToDepthTable;
 	OniDepthPixel m_noDepthValue;
+	OniDepthPixel* DepthBuf;
+	OniDepthPixel* pDepthToShiftTable_org;
+	// get config
+	ShiftToDepthConfig config;
+	ShiftToDepthTables m_ShiftToDepth;
+	unsigned char* _buf;
 };
 
 #endif // XNDEPTHPROCESSOR_H

@@ -6,6 +6,11 @@ ifndef CFG
     CFG = Release
 endif
 
+ifndef FILTER
+    FILTER = On
+endif
+
+
 # find out the platform on which we're running
 MACHINE = $(shell uname -m)
 ifneq (,$(findstring x86_64,$(MACHINE)))

@@ -69,6 +69,14 @@ ifeq "$(CFG)" "Release"
 	CFLAGS += -O2 -DNDEBUG
 endif
 
+# set Filter On/Off flags
+ifeq "$(FILTER)" "On"
+	CFLAGS += -DFILTER=1
+endif
+ifeq "$(FILTER)" "Off"
+	CFLAGS += -DFILTER=0
+endif
+
 CFLAGS += $(INC_DIRS_OPTION) $(DEFINES_OPTION)
 CFLAGS += -fPIC -fvisibility=hidden
 

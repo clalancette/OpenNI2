@@ -4,6 +4,9 @@
 # Default configuration is Release. for a debug version use:
 # 	make CFG=Debug
 #
+# Default use filter library to get better performance:
+# 	make FILTER=On /Off
+#
 # Default compiler is g++. for another one use:
 #   make CXX=<comp>
 #
