@@ -276,7 +276,7 @@ void XnDepthProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 
 #if (XN_PLATFORM == XN_PLATFORM_ANDROID_ARM)
 
-#elif (XN_PLATFORM == XN_PLATFORM_WIN32 || XN_PLATFORM == XN_PLATFORM_LINUX_X86 | XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
+#elif (XN_PLATFORM == XN_PLATFORM_WIN32 || XN_PLATFORM == XN_PLATFORM_LINUX_X86 || XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
 
 #if (FILTER == 1)
     Softfilter(_buf, (unsigned short*)(DepthBuf), pFrame->width, pFrame->height);
