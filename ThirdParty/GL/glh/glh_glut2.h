@@ -190,7 +190,7 @@ namespace glh
   {
       if (interactors.empty())
 	  return;
-	  std::list<glut_interactor *>::iterator it = 
+      std::list<glut_interactor *>::iterator it = 
 		  std::find(interactors.begin(), interactors.end(), gi);
 	if(it != interactors.end())
 	  interactors.erase(it);
