@@ -225,7 +225,7 @@ namespace glh
 		for(int i = 0; i < N; i++)
 			if(v1.v[i] != v2.v[i])
 				return false;
-			return true;
+		return true;
 	}
 	
 	template <int N, class T> inline
@@ -633,7 +633,7 @@ namespace glh
 			scp[i] = real(fabs(s[i][0]));
 			for(j=1;j<4;j++)
 				if(real(fabs(s[i][j])) > scp[i]) scp[i] = real(fabs(s[i][j]));
-				if(scp[i] == 0.0) return minv; // singular matrix!
+			if(scp[i] == 0.0) return minv; // singular matrix!
 		}
 		
 		int pivot_to;
@@ -647,27 +647,27 @@ namespace glh
 			for(p=i+1;p<4;p++)
 				if(real(fabs(s[p][i]/scp[p])) > scp_max)
 				{ scp_max = real(fabs(s[p][i]/scp[p])); pivot_to = p; }
-				// Pivot if necessary
-				if(pivot_to != i)
-				{
-					tmprow = s[i];
-					s[i] = s[pivot_to];
-					s[pivot_to] = tmprow;
-					real tmpscp;
-					tmpscp = scp[i];
-					scp[i] = scp[pivot_to];
-					scp[pivot_to] = tmpscp;
-				}
+			// Pivot if necessary
+			if(pivot_to != i)
+			{
+				tmprow = s[i];
+				s[i] = s[pivot_to];
+				s[pivot_to] = tmprow;
+				real tmpscp;
+				tmpscp = scp[i];
+				scp[i] = scp[pivot_to];
+				scp[pivot_to] = tmpscp;
+			}
 				
-				real mji;
-				// perform gaussian elimination
-				for(j=i+1;j<4;j++)
-				{
-					mji = s[j][i]/s[i][i];
-					s[j][i] = 0.0;
-					for(jj=i+1;jj<8;jj++)
-						s[j][jj] -= mji*s[i][jj];
-				}
+			real mji;
+			// perform gaussian elimination
+			for(j=i+1;j<4;j++)
+			{
+				mji = s[j][i]/s[i][i];
+				s[j][i] = 0.0;
+				for(jj=i+1;jj<8;jj++)
+					s[j][jj] -= mji*s[i][jj];
+			}
 		}
 		if(s[3][3] == 0.0) return minv; // singular matrix!
 		
@@ -702,7 +702,7 @@ namespace glh
 			for(j=0;j<4;j++)
 				minv(i,j) = s[i][j+4] / s[i][i];
 			
-			return minv;
+		return minv;
 	}
     
     
