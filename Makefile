@@ -15,6 +15,8 @@
 
 include ThirdParty/PSCommon/BuildSystem/CommonDefs.mak
 
+export ALLOW_WARNINGS = 1
+
 MAJOR_VERSION = $(shell grep "define ONI_VERSION_MAJOR" Include/OniVersion.h | cut -f 2)
 MINOR_VERSION = $(shell grep "define ONI_VERSION_MINOR" Include/OniVersion.h | cut -f 2)
 MAINT_VERSION = $(shell grep "define ONI_VERSION_MAINT" Include/OniVersion.h | cut -f 2)
@@ -47,7 +49,7 @@ ALL_WRAPPERS = \
 ALL_TOOLS = \
 	Source/Drivers/PS1080/PS1080Console \
 	Source/Drivers/PSLink/PSLinkConsole
-	
+
 # list all core projects
 ALL_CORE_PROJS = \
 	$(XNLIB)  \
@@ -151,7 +153,7 @@ $(FINAL_DIR):
 doc:
 	Source/Documentation/Runme.py
 	rm -f Source/Documentation/html/*.md5
-	
+
 release: | all doc $(FINAL_DIR)
 	Packaging/Harvest.py Packaging/$(PRODUCT_STRING) $(PLATFORM)
 	cd Packaging; tar -cjf Final/$(PRODUCT_STRING).tar.bz2 $(PRODUCT_STRING)
