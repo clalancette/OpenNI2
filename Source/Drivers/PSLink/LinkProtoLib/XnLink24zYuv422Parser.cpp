@@ -42,7 +42,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	
-	if ((fragmentation | XN_LINK_FRAG_BEGIN) != 0)
+	if ((fragmentation & XN_LINK_FRAG_BEGIN) != 0)
 	{
 		m_dataFromPrevPacketBytes = 0;
 		m_tempYuvImageBytes = 0;
@@ -88,7 +88,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 		xnOSMemMove(m_dataFromPrevPacket, pInput + actualRead, m_dataFromPrevPacketBytes);
 	}
 
-	if ((fragmentation | XN_LINK_FRAG_END) != 0)
+	if ((fragmentation & XN_LINK_FRAG_END) != 0)
 	{
 		outputSize = pDstEnd - pDst;
 		LinkYuvToRgb::Yuv422ToRgb888(m_tempYuvImage, m_tempYuvImageBytes, pDst, outputSize);
