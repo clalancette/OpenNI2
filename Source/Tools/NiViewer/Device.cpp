@@ -364,7 +364,7 @@ void toggleMirror(int )
 
 void toggleCloseRange(int )
 {
-	bool bCloseRange;
+	bool bCloseRange = false;
 	g_depthStream.getProperty(XN_STREAM_PROPERTY_CLOSE_RANGE, &bCloseRange);
 
 	bCloseRange = !bCloseRange;

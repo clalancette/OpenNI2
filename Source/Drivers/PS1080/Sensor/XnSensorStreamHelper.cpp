@@ -177,6 +177,8 @@ XnStatus XnSensorStreamHelper::MapFirmwareProperty(XnActualIntProperty& Property
 	
 	// init data
 	XnSensorStreamHelperCookie cookie(&Property, &FirmwareProperty, bAllowChangeWhileOpen, pStreamToFirmwareFunc);
+	cookie.CurrentTransaction.bShouldOpen = false;
+	cookie.CurrentTransaction.bChooseProcessor = false;
 
 	// add it to the list
 	nRetVal = m_FirmwareProperties.Set(&Property, cookie);
