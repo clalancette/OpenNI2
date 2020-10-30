@@ -111,7 +111,6 @@ private:
 	XnBool m_bInitialized;
     volatile XnBool m_bConnected;
 	xnl::Array<LinkInputDataEndpoint> m_inputDataEndpoints;
-	XnBool m_bAnyDataEndpointConnected;
     XnUInt16 m_nFWLogStreamID;
 	XnChar m_strConnectionString[XN_FILE_MAX_PATH];
 
