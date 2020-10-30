@@ -14,10 +14,6 @@
 
 #define XN_MASK_LINK "xnLink"
 
-#ifndef XN_COMPILER_ASSERT
-#define XN_COMPILER_ASSERT(x) typedef int compileAssert[x ? 1 : -1]
-#endif
-
 template <typename T>
 class XnArray;
 
@@ -48,7 +44,7 @@ public:
 	void SetCID(XnUInt16 nCID) { m_nCID = nCID; }
 };
 
-XN_COMPILER_ASSERT(sizeof(xn::LinkPacketHeader) == sizeof(XnLinkPacketHeader));
+static_assert(sizeof(xn::LinkPacketHeader) == sizeof(XnLinkPacketHeader));
 
 }
 

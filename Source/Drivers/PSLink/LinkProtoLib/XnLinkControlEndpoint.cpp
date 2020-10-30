@@ -1171,7 +1171,7 @@ XnStatus LinkControlEndpoint::EnumerateStreams(xnl::Array<XnFwStreamInfo>& aStre
 	for (XnUInt32 i = 0; i < nNumNodes; i++)
 	{
 		aStreamInfos[i].type = (XnFwStreamType)XN_PREPARE_VAR32_IN_BUFFER(pEnumerateNodesResponse->m_streamInfos[i].m_nStreamType);
-		XN_COMPILER_ASSERT(sizeof(aStreamInfos[i].creationInfo) >= sizeof(pEnumerateNodesResponse->m_streamInfos[i].m_strCreationInfo));
+		static_assert(sizeof(aStreamInfos[i].creationInfo) >= sizeof(pEnumerateNodesResponse->m_streamInfos[i].m_strCreationInfo));
 		xnOSStrCopy(aStreamInfos[i].creationInfo, 
 			pEnumerateNodesResponse->m_streamInfos[i].m_strCreationInfo, 
 			sizeof(aStreamInfos[i].creationInfo));
