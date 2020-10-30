@@ -57,7 +57,8 @@ SampleViewer::SampleViewer(const char* strSampleName, const char* deviceUri) :
 
 {
 	ms_self = this;
-	strncpy(m_strSampleName, strSampleName, ONI_MAX_STR);
+	strncpy(m_strSampleName, strSampleName, ONI_MAX_STR - 1);
+	m_strSampleName[ONI_MAX_STR - 1] = '\0';
 
 	m_pClosestPoint = new closest_point::ClosestPoint(deviceUri);
 }

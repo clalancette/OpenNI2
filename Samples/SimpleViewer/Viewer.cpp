@@ -67,7 +67,8 @@ SampleViewer::SampleViewer(const char* strSampleName, openni::Device& device, op
 
 {
 	ms_self = this;
-	strncpy(m_strSampleName, strSampleName, ONI_MAX_STR);
+	strncpy(m_strSampleName, strSampleName, ONI_MAX_STR - 1);
+	m_strSampleName[ONI_MAX_STR - 1] = '\0';
 }
 SampleViewer::~SampleViewer()
 {
