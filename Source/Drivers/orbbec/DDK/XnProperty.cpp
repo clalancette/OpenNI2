@@ -50,9 +50,11 @@ XnProperty::~XnProperty()
 
 void XnProperty::UpdateName(const XnChar* strModule, const XnChar* strName)
 {
-	strncpy(m_strModule, strModule, XN_DEVICE_MAX_STRING_LENGTH);
+	strncpy(m_strModule, strModule, XN_DEVICE_MAX_STRING_LENGTH - 1);
+	m_strModule[XN_DEVICE_MAX_STRING_LENGTH - 1] = '\0';
 	if (m_strName != strName) {
-		strncpy(m_strName, strName, XN_DEVICE_MAX_STRING_LENGTH);
+		strncpy(m_strName, strName, XN_DEVICE_MAX_STRING_LENGTH - 1);
+		m_strName[XN_DEVICE_MAX_STRING_LENGTH - 1] = '\0';
 	}
 }
 

@@ -336,7 +336,8 @@ XnStatus XnPropertySetGetEnumerator(const XnPropertySet* pSet, XnPropertySetEnum
 	pEnumer->pModules = pSet->pData;
 	if (strModule != NULL)
 	{
-		strncpy(pEnumer->strModule, strModule, XN_DEVICE_MAX_STRING_LENGTH);
+		strncpy(pEnumer->strModule, strModule, XN_DEVICE_MAX_STRING_LENGTH - 1);
+		pEnumer->strModule[XN_DEVICE_MAX_STRING_LENGTH - 1] = '\0';
 	}
 	else
 	{

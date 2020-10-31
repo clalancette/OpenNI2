@@ -37,7 +37,8 @@ XnDeviceModule::XnDeviceModule(const XnChar* strName) :
 	m_Lock(XN_MODULE_PROPERTY_LOCK, "Lock", FALSE, strName),
 	m_hLockCS(NULL)
 {
-	strncpy(m_strName, strName, XN_DEVICE_MAX_STRING_LENGTH);
+	strncpy(m_strName, strName, XN_DEVICE_MAX_STRING_LENGTH - 1);
+	m_strName[XN_DEVICE_MAX_STRING_LENGTH - 1] = '\0';
 	m_Lock.UpdateSetCallback(SetLockStateCallback, this);
 }
 
