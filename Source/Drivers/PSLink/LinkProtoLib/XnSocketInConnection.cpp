@@ -177,7 +177,10 @@ XnStatus SocketInConnection::ReadThreadProcImpl()
 			m_nConnectionStatus = ReceivePacket(hSocket, m_pBuffer + nTotalBytesRead, nPacketBytesRead, bCanceled);
 			if (m_nConnectionStatus != XN_STATUS_OK)
 			{
-				m_pDataDestination->HandleDisconnection();				
+				if (m_pDataDestination != NULL)
+				{
+					m_pDataDestination->HandleDisconnection();
+				}
 				xnLogError(XN_MASK_LINK, "Failed to receive packet: %s", xnGetStatusString(m_nConnectionStatus));
 				//XN_ASSERT(FALSE);
 				return m_nConnectionStatus;

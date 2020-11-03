@@ -608,6 +608,7 @@ XnStatus XnSensorImageStream::SetCroppingImpl(const OniCropping* pCropping, XnCr
 	}
 
 	nRetVal = m_CroppingMode.UnsafeUpdateValue(mode);
+	XN_REFERENCE_VARIABLE(nRetVal);
 	XN_ASSERT(nRetVal == XN_STATUS_OK);
 
 	nRetVal = XnImageStream::SetCropping(pCropping);

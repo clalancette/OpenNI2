@@ -440,6 +440,7 @@ XnStatus PlayerNode::SeekToFrameAbsolute(XnUInt32 nNodeID, XnUInt32 nDestFrame)
 
 			//Now handle the frame
 			nRetVal = HandleNewDataRecord(record, FALSE);
+			XN_IS_STATUS_OK(nRetVal);
 			XnBool bUndone = FALSE;
 
 			for (XnUInt32 i = 0; i < m_nMaxNodes; ++i)
@@ -1621,11 +1622,11 @@ XnStatus PlayerNode::SeekToTimeStampAbsolute(XnUInt64 nDestTimeStamp)
 	XnStatus nRetVal = XN_STATUS_OK;
 	XnUInt64 nRecordTimeStamp = 0LL;
 	XnUInt64 nStartPos = TellStream(); //We'll revert to this in case nDestTimeStamp is beyond end of stream
-	XN_IS_STATUS_OK(nRetVal);
 
 	if (nDestTimeStamp < m_nTimeStamp)
 	{
 		nRetVal = Rewind();
+		XN_IS_STATUS_OK(nRetVal);
 	}
 	else if (nDestTimeStamp == m_nTimeStamp)
 	{

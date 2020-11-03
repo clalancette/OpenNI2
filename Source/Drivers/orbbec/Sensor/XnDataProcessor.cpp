@@ -158,7 +158,6 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp)
 		m_TimeStampData.nTotalTicksAtReferenceTS = nWrapPoint * nWraps;
 		m_TimeStampData.nLastDeviceTS = 0;
 		m_TimeStampData.bFirst = FALSE;
-		nResultInTicks = 0;
 		bCheckSanity = FALSE; // no need.
 		sprintf(csDumpComment, "Init. Total Ticks in Ref TS: %llu", m_TimeStampData.nTotalTicksAtReferenceTS);
 	}

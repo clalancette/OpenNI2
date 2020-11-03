@@ -90,7 +90,6 @@ XnUInt32 Link12BitS2DParser::ProcessFramePacketChunk(const XnUInt8* pData,XnUInt
 {
 	
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt32 totalRead = 0;
 	XnUInt32 totalWrite = 0;
 
 	// check if we have data from previous packet
@@ -112,7 +111,6 @@ XnUInt32 Link12BitS2DParser::ProcessFramePacketChunk(const XnUInt8* pData,XnUInt
 			XnUInt32 nActualWritten = 0;
 			Unpack12to16(m_ContinuousBuffer,pDest, XN_INPUT_ELEMENT_SIZE, &nActualRead, &nActualWritten);
 			pDest += nActualWritten;
-			totalRead += nActualRead;
 			totalWrite += nActualWritten;
 			m_ContinuousBufferSize = 0;
 		}
@@ -122,7 +120,6 @@ XnUInt32 Link12BitS2DParser::ProcessFramePacketChunk(const XnUInt8* pData,XnUInt
 	XnUInt32 nActualRead = 0;
 	XnUInt32 nActualWritten = 0;
 	nRetVal = Unpack12to16(pData, pDest, nDataSize, &nActualRead, &nActualWritten);
-	totalRead += nActualRead;
 	totalWrite += nActualWritten;
 	if (nRetVal == XN_STATUS_OK)
 	{

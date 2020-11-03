@@ -180,6 +180,11 @@ void* XnOniDriver::enableFrameSync(oni::driver::StreamBase** pStreams, int strea
 		}
 	}
 
+	if (pDevice == NULL)
+	{
+		return NULL;
+	}
+
 	// Create the frame sync group handle.
 	FrameSyncGroup* pFrameSyncGroup = XN_NEW(FrameSyncGroup);
 	if (pFrameSyncGroup == NULL)
