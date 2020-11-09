@@ -915,13 +915,19 @@ OniStatus Context::enableFrameSyncEx(VideoStream** pStreams, int numStreams, Dev
 
 	// Configure frame-sync group in driver.
 	void* driverHandle = pDeviceDriver->enableFrameSync(pStreams, numStreams);
-	XN_VALIDATE_PTR(driverHandle, ONI_STATUS_ERROR);
+	if (driverHandle == NULL)
+	{
+		m_errorLogger.Append("Couldn't enable frame sync");
+		XN_DELETE(pSyncedStreamsFrameHolder);
+		return ONI_STATUS_ERROR;
+	}
 
 	// Return the frame sync handle.
 	*pFrameSyncHandle = XN_NEW(_OniFrameSync);
 	if (*pFrameSyncHandle == NULL)
 	{
 		m_errorLogger.Append("Couldn't allocate memory for FrameSyncHandle");
+		XN_DELETE(pSyncedStreamsFrameHolder);
 		return ONI_STATUS_ERROR;
 	}
 	(*pFrameSyncHandle)->pSyncedStreamsFrameHolder = pSyncedStreamsFrameHolder;

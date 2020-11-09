@@ -1235,6 +1235,7 @@ bool RunBIST(openni::Device& Device, vector<string>& Command)
 
 	XnBist bist;
 	bist.nTestsMask = 0;
+	bist.nFailures = 0;
 
 	bool bShowUsage = false;
 
