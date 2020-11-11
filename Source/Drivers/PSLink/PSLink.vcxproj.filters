@@ -205,9 +205,6 @@
     <ClInclude Include="LinkProtoLib\XnMapSequenceListConverter.h">
       <Filter>LinkProtoLib\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="LinkProtoLib\XnCyclicBuffer.h">
-      <Filter>LinkProtoLib\Utils</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DriverImpl\LinkExportedOniDriver.cpp">

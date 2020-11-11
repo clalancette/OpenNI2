@@ -206,7 +206,6 @@
     <ClInclude Include="LinkProtoLib\XnClientUSBControlEndpoint.h" />
     <ClInclude Include="LinkProtoLib\XnClientUSBInDataEndpoint.h" />
     <ClInclude Include="LinkProtoLib\XnClientUSBOutDataEndpoint.h" />
-    <ClInclude Include="LinkProtoLib\XnCyclicBuffer.h" />
     <ClInclude Include="LinkProtoLib\XnLink11BitS2DParser.h" />
     <ClInclude Include="LinkProtoLib\XnLink12BitS2DParser.h" />
     <ClInclude Include="LinkProtoLib\XnLink16zParser.h" />

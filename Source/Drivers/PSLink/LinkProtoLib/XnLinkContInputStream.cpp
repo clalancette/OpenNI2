@@ -21,7 +21,6 @@
 #include "XnLinkContInputStream.h"
 #include "XnLinkProtoUtils.h"
 #include "XnLinkProtoLibDefs.h"
-#include "XnCyclicBuffer.h"
 #include "XnLinkControlEndpoint.h"
 #include <XnLog.h>
 #include <XnEvent.h>
