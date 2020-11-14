@@ -25,7 +25,6 @@
 // Includes
 //---------------------------------------------------------------------------
 #include <XnDevice.h>
-#include <XnList.h>
 #include <XnStringsHash.h>
 #include <XnLog.h>
 #include <XnEvent.h>
@@ -134,9 +133,6 @@ private:
 	XnInt32 m_LogSeverity;
 	XnBool m_bAlwaysSet;
 };
-
-/** A property list */
-typedef xnl::List<XnProperty*> XnPropertiesList;
 
 /** A hash table, mapping property name to the property */
 typedef xnl::Hash<XnUInt32, XnProperty*> XnPropertiesHash;
