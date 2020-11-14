@@ -24,7 +24,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
-#include <XnList.h>
+#include <list>
+
 #include <DDK/XnIntProperty.h>
 
 //---------------------------------------------------------------------------
@@ -43,8 +44,7 @@ public:
 	XnStatus RegisterSynchronization(XnIntProperty* pSource, XnIntProperty* pDestination, XnIntPropertyConvertCallback pConvertFunc = NULL);
 
 private:
-	typedef xnl::List<XnIntSynchronizerCookie*> CookiesList;
-	CookiesList m_Cookies;
+	std::list<XnIntSynchronizerCookie*> m_Cookies;
 };
 
 #endif // XNINTPROPERTYSYNCHRONIZER_H
