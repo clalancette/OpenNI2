@@ -18,6 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <list>
+
 #include "OniDataRecords.h"
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
@@ -258,7 +260,7 @@ OniStatus RecordAssembler::emit_RECORD_NODE_REMOVED(XnUInt32 nodeId, XnUInt64 no
     return ONI_STATUS_OK;
 }
 
-OniStatus RecordAssembler::emit_RECORD_SEEK_TABLE(XnUInt32 nodeId, XnUInt32 numFrames, DataIndexEntryList dataIndexEntryList)
+OniStatus RecordAssembler::emit_RECORD_SEEK_TABLE(XnUInt32 nodeId, XnUInt32 numFrames, const std::list<DataIndexEntry>& dataIndexEntryList)
 {
     MUST_BE_INITIALIZED(ONI_STATUS_ERROR)
 
@@ -284,7 +286,7 @@ OniStatus RecordAssembler::emit_RECORD_SEEK_TABLE(XnUInt32 nodeId, XnUInt32 numF
     emitData(&emptyEntry, entrySize); ++nWritten;
 
     // now the table itself
-    for (DataIndexEntryList::ConstIterator it = dataIndexEntryList.Begin(); it != dataIndexEntryList.End(); ++it)
+    for (std::list<DataIndexEntry>::const_iterator it = dataIndexEntryList.begin(); it != dataIndexEntryList.end(); ++it)
     {
         emitData(&(*it), entrySize); ++nWritten;
     }

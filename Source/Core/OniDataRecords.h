@@ -21,8 +21,9 @@
 #ifndef ONIDATARECORDS_H
 #define ONIDATARECORDS_H 1
 
+#include <list>
+
 #include "XnOS.h"
-#include "XnList.h"
 
 #include "OniCommon.h"
 #include "OniCTypes.h"
@@ -80,8 +81,6 @@ typedef struct DataIndexEntry
 	XnUInt32 nConfigurationID;
 	XnUInt64 nSeekPos;
 } DataIndexEntry;
-
-typedef xnl::List<DataIndexEntry> DataIndexEntryList;
 
 /// Enumerates known record types.
 enum RecordType
@@ -176,7 +175,7 @@ public:
     OniStatus emit_RECORD_SEEK_TABLE(
             XnUInt32 nodeId, 
 	    XnUInt32 numFrames, 
-	    DataIndexEntryList dataIndexEntryList);
+	    const std::list<DataIndexEntry>& dataIndexEntryList);
 
     ///
     OniStatus emit_RECORD_END();
