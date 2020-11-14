@@ -23,6 +23,8 @@
 //---------------------------------------------------------------------------
 #include <algorithm>
 #include <list>
+#include <set>
+#include <string>
 
 #include "XnDeviceBase.h"
 #include <XnOS.h>
@@ -230,7 +232,7 @@ XnStatus XnDeviceBase::GetSupportedStreams(const XnChar** aStreamNames, XnUInt32
 	// NOTE: we allow aStreamName to be NULL
 
 	// first of all count streams
-	XnUInt32 nStreamsCount = m_SupportedStreams.Size();
+	XnUInt32 nStreamsCount = m_SupportedStreams.size();
 
 	// now check if we have enough room
 	if (nStreamsCount > *pnStreamNamesCount)
@@ -241,9 +243,9 @@ XnStatus XnDeviceBase::GetSupportedStreams(const XnChar** aStreamNames, XnUInt32
 
 	// now copy values
 	nStreamsCount = 0;
-	for (XnStringsSet::Iterator it = m_SupportedStreams.Begin(); it != m_SupportedStreams.End(); ++it)
+	for (std::set<std::string>::iterator it = m_SupportedStreams.begin(); it != m_SupportedStreams.end(); ++it)
 	{
-		aStreamNames[nStreamsCount] = it->Key();
+		aStreamNames[nStreamsCount] = it->c_str();
 		nStreamsCount++;
 	}
 
@@ -805,16 +807,14 @@ XnStatus XnDeviceBase::FindStream(const XnChar* StreamName, XnDeviceModuleHolder
 XnStatus XnDeviceBase::AddSupportedStream(const XnChar* StreamType)
 {
 	// make sure stream doesn't exist yet
-	XnStringsSet::Iterator it = m_SupportedStreams.End();
-	if (XN_STATUS_OK == m_SupportedStreams.Find(StreamType, it))
+	if (m_SupportedStreams.find(StreamType) != m_SupportedStreams.end())
 	{
 		xnLogError(XN_MASK_DEVICE, "A stream with the name %s already exists!", StreamType);
 		return XN_STATUS_STREAM_ALREADY_EXISTS;
 	}
 
 	// add it to the list
-	XnStatus nRetVal = m_SupportedStreams.Set(StreamType);
-	XN_IS_STATUS_OK(nRetVal);
+	m_SupportedStreams.insert(StreamType);
 
 	return XN_STATUS_OK;
 }

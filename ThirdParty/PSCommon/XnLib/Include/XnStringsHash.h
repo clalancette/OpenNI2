@@ -96,15 +96,4 @@ public:
 	}
 };
 
-class XnStringsSet : public XnStringsHashT<void*>
-{
-	typedef XnStringsHashT<void*> Base;
-
-public:
-	XnStatus Set(const XnChar* key)
-	{
-		return Base::Set(key, NULL);
-	}
-};
-
 #endif // _XN_STRINGS_HASH_T_H_

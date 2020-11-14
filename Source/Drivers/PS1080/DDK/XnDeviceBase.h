@@ -25,6 +25,8 @@
 // Includes
 //---------------------------------------------------------------------------
 #include <list>
+#include <set>
+#include <string>
 
 #include <XnStringsHash.h>
 #include <XnDevice.h>
@@ -209,7 +211,7 @@ private:
 	typedef XnStringsHashT<XnDeviceModuleHolder*> ModuleHoldersHash;
 	ModuleHoldersHash m_Modules;
 
-	XnStringsSet m_SupportedStreams;
+	std::set<std::string> m_SupportedStreams;
 
 	struct XnPropertyCallback
 	{
