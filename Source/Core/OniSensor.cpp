@@ -18,6 +18,9 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <algorithm>
+#include <list>
+
 #include "OniSensor.h"
 #include <OniCAPI.h>
 
@@ -121,7 +124,7 @@ OniFrame* Sensor::acquireFrame()
 	pResult->freeBufferFuncCookie = m_frameBufferAllocatorCookie;
 
 	xnl::AutoCSLocker lock(m_framesCS);
-	m_currentStreamFrames.AddLast(pResult);
+	m_currentStreamFrames.push_back(pResult);
 
 	return pResult;
 }
@@ -131,17 +134,17 @@ void* Sensor::allocFrameBufferFromPool(int size)
 	XN_ASSERT(size == m_requiredFrameSize);
 	void* pResult = NULL;
 	xnl::AutoCSLocker lock(m_framesCS);
-	if (m_availableFrameBuffers.IsEmpty())
+	if (m_availableFrameBuffers.empty())
 	{
 		// create a new one
 		pResult = xnOSMallocAligned(size, XN_DEFAULT_MEM_ALIGN);
-		m_allFrameBuffers.AddLast(pResult);
+		m_allFrameBuffers.push_back(pResult);
 	}
 	else
 	{
-		xnl::List<void*>::Iterator it = m_availableFrameBuffers.Begin();
+		std::list<void*>::iterator it = m_availableFrameBuffers.begin();
 		pResult = *it;
-		m_availableFrameBuffers.Remove(it);
+		m_availableFrameBuffers.erase(it);
 	}
 	return pResult;
 }
@@ -149,7 +152,7 @@ void* Sensor::allocFrameBufferFromPool(int size)
 void Sensor::releaseFrameBufferToPool(void* pBuffer)
 {
 	xnl::AutoCSLocker lock(m_framesCS);
-	m_availableFrameBuffers.AddLast(pBuffer);
+	m_availableFrameBuffers.push_back(pBuffer);
 }
 
 void* ONI_CALLBACK_TYPE Sensor::allocFrameBufferFromPoolCallback(int size, void* pCookie)
@@ -173,7 +176,7 @@ void Sensor::releaseAllFrames()
 {
 	xnl::AutoCSLocker lock(m_framesCS);
 	// change release method of current frames
-	for (xnl::List<OniFrameInternal*>::Iterator it = m_currentStreamFrames.Begin(); it != m_currentStreamFrames.End(); ++it)
+	for (std::list<OniFrameInternal*>::iterator it = m_currentStreamFrames.begin(); it != m_currentStreamFrames.end(); ++it)
 	{
 		// don't return frame buffer to pool, instead just free it
 		if ((*it)->freeBufferFunc == releaseFrameBufferToPoolCallback)
@@ -185,14 +188,14 @@ void Sensor::releaseAllFrames()
 		(*it)->backToPoolFuncCookie = NULL;
 	}
 
-	m_currentStreamFrames.Clear();
+	m_currentStreamFrames.clear();
 
 	// delete all available frames
-	for (xnl::List<void*>::Iterator it = m_availableFrameBuffers.Begin(); it != m_availableFrameBuffers.End(); ++it)
+	for (std::list<void*>::iterator it = m_availableFrameBuffers.begin(); it != m_availableFrameBuffers.end(); ++it)
 	{
 		xnOSFreeAligned(*it);
 	}
-	m_availableFrameBuffers.Clear();
+	m_availableFrameBuffers.clear();
 }
 
 void ONI_CALLBACK_TYPE Sensor::frameBackToPoolCallback(OniFrameInternal* pFrame, void* pCookie)
@@ -209,7 +212,11 @@ void ONI_CALLBACK_TYPE Sensor::frameBackToPoolCallback(OniFrameInternal* pFrame,
 	{
 		Sensor* pThis = (Sensor*)pCookie;
 		xnl::AutoCSLocker lock(pThis->m_framesCS);
-		pThis->m_currentStreamFrames.Remove(pFrame);
+		std::list<OniFrameInternal*>::iterator it = std::find(pThis->m_currentStreamFrames.begin(), pThis->m_currentStreamFrames.end(), pFrame);
+		if (it != pThis->m_currentStreamFrames.end())
+		{
+			pThis->m_currentStreamFrames.erase(it);
+		}
 	}
 }
 

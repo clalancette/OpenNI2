@@ -21,12 +21,13 @@
 #ifndef ONISENSOR_H
 #define ONISENSOR_H
 
+#include <list>
+
 #include "OniCommon.h"
 #include "OniFrameManager.h"
 #include "OniDriverHandler.h"
 #include <Driver/OniDriverTypes.h>
 #include <XnOSCpp.h>
-#include <XnList.h>
 #include <XnEvent.h>
 #include <XnErrorLogger.h>
 
@@ -87,9 +88,9 @@ private:
 
 	// following members are for the frame buffer pool that is used by default
 	xnl::CriticalSection m_framesCS;
-	xnl::List<void*> m_allFrameBuffers;
-	xnl::List<void*> m_availableFrameBuffers;
-	xnl::List<OniFrameInternal*> m_currentStreamFrames;
+	std::list<void*> m_allFrameBuffers;
+	std::list<void*> m_availableFrameBuffers;
+	std::list<OniFrameInternal*> m_currentStreamFrames;
 
 	// following members point to current allocation functions
 	OniFrameAllocBufferCallback m_allocFrameBufferCallback;
