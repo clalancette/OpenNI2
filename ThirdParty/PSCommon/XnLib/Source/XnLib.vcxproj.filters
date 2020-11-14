@@ -120,9 +120,6 @@
     <ClInclude Include="..\Include\XnProperty.h">
       <Filter>Header Files\DataContainers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\XnQueue.h">
-      <Filter>Header Files\DataContainers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\XnSmartPointer.h">
       <Filter>Header Files\DataContainers</Filter>
     </ClInclude>

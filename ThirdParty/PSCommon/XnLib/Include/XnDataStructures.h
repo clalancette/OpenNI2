@@ -23,7 +23,6 @@
 
 #include "XnVector3D.h"
 #include "XnBox3D.h"
-#include "XnQueue.h"
 #include "XnHash.h"
 #include "XnSmartPointer.h"
 #include "XnEvent.h"

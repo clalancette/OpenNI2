@@ -21,7 +21,7 @@
 #ifndef _XN_PRIORITY_QUEUE_H_
 #define _XN_PRIORITY_QUEUE_H_
 
-#include "XnQueue.h"
+#include <queue>
 
 namespace xnl
 {
@@ -50,15 +50,18 @@ public:
 
 	XnStatus Push(const T& value, int priority)
 	{
-		return m_queues[priority].Push(value);
+		m_queues[priority].push(value);
+		return XN_STATUS_OK;
 	}
 	XnStatus Pop(T& value)
 	{
 		for (int i = 0; i < Max; ++i)
 		{
-			if  (!m_queues[i].IsEmpty())
+			if  (!m_queues[i].empty())
 			{
-				return m_queues[i].Pop(value);
+				value = m_queues[i].front();
+				m_queues[i].pop();
+				return XN_STATUS_OK;
 			}
 		}
 		return XN_STATUS_IS_EMPTY;
@@ -68,9 +71,9 @@ public:
 	{
 		for (int i = 0; i < Max; ++i)
 		{
-			if  (!m_queues[i].IsEmpty())
+			if  (!m_queues[i].empty())
 			{
-				return m_queues[i].Top();
+				return m_queues[i].front();
 			}
 		}
 	}
@@ -78,9 +81,9 @@ public:
 	{
 		for (int i = 0; i < Max; ++i)
 		{
-			if  (!m_queues[i].IsEmpty())
+			if  (!m_queues[i].empty())
 			{
-				return m_queues[i].Top();
+				return m_queues[i].front();
 			}
 		}
 	}
@@ -89,13 +92,13 @@ public:
 	{
 		for (int i = 0; i < Max; ++i)
 		{
-			if (!m_queues[i].IsEmpty())
+			if (!m_queues[i].empty())
 				return false;
 		}
 		return true;
 	}
 private:
-	Queue<T> m_queues[Max];
+	std::queue<T> m_queues[Max];
 };
 
 } // xnl

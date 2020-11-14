@@ -45,7 +45,6 @@
     <ClInclude Include="..\Include\XnPool.h" />
     <ClInclude Include="..\Include\XnPriorityQueue.h" />
     <ClInclude Include="..\Include\XnProperty.h" />
-    <ClInclude Include="..\Include\XnQueue.h" />
     <ClInclude Include="..\Include\XnSIMD-Neon.h" />
     <ClInclude Include="..\Include\XnSIMD-None.h" />
     <ClInclude Include="..\Include\XnSIMD-SSE.h" />
