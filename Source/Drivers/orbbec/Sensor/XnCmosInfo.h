@@ -24,8 +24,9 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <list>
+
 #include "XnSensorFirmware.h"
-#include <XnList.h>
 
 //---------------------------------------------------------------------------
 // Types
@@ -48,12 +49,10 @@ public:
 	inline const XnCmosBlankingCoefficients* GetBlankingCoefficients(XnCMOSType nCmos) const { return m_pCurrCmosBlankingInfo[nCmos]; }
 
 private:
-	typedef xnl::List<XnCmosBlankingData> XnCmosBlankingDataList;
-
 	XnSensorFirmware* m_pFirmware;
 	XnDevicePrivateData* m_pDevicePrivateData;
 
-	XnCmosBlankingDataList m_CmosBlankingInfo;
+	std::list<XnCmosBlankingData> m_CmosBlankingInfo;
 	XnCmosBlankingCoefficients* m_pCurrCmosBlankingInfo[XN_CMOS_COUNT];
 };
 
