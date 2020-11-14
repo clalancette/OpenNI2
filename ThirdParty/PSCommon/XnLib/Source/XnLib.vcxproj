@@ -21,7 +21,6 @@
   <ItemGroup>
     <ClInclude Include="..\Include\Win32\usb100.h" />
     <ClInclude Include="..\Include\Win32\XnOSWin32.h" />
-    <ClInclude Include="..\Include\XnCallStackLogger.h" />
     <ClInclude Include="..\Include\XnErrorLogger.h" />
     <ClInclude Include="..\Include\XnJpeg.h" />
     <ClInclude Include="..\Include\XnLib.h" />

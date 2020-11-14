@@ -72,9 +72,6 @@
     <ClInclude Include="..\Include\XnErrorLogger.h">
       <Filter>Header Files\Infrastructures</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\XnCallStackLogger.h">
-      <Filter>Header Files\Infrastructures</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\XnLockable.h">
       <Filter>Header Files\Infrastructures</Filter>
     </ClInclude>
