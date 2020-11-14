@@ -21,12 +21,14 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <algorithm>
+#include <list>
+
 #include <XnDump.h>
 #include <XnDumpWriters.h>
 #include <XnStringsHash.h>
 #include <XnLogTypes.h>
 #include <XnLog.h>
-#include <XnList.h>
 #include <XnArray.h>
 #include "XnDumpFileWriter.h"
 
@@ -38,7 +40,6 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-typedef xnl::List<XnDumpWriter*> XnDumpWriters;
 typedef XnStringsHashT<XnBool> XnDumpsHash;
 
 class DumpData
@@ -63,7 +64,7 @@ public:
 		}
 	}
 
-	XnDumpWriters writers;
+	std::list<XnDumpWriter*> writers;
 	XnDumpsHash dumpsState;
 	XnBool bDefaultState;
 
@@ -121,12 +122,17 @@ XN_C_API XnBool XN_C_DECL xnLogIsDumpMaskEnabled(const XnChar* strDumpMask)
 
 XN_C_API XnStatus XN_C_DECL xnDumpRegisterWriter(XnDumpWriter* pWriter)
 {
-	return DumpData::GetInstance().writers.AddLast(pWriter);
+	DumpData::GetInstance().writers.push_back(pWriter);
+	return XN_STATUS_OK;
 }
 
 XN_C_API void XN_C_DECL xnDumpUnregisterWriter(XnDumpWriter* pWriter)
 {
-	DumpData::GetInstance().writers.Remove(pWriter);
+	std::list<XnDumpWriter*>::iterator it = std::find(DumpData::GetInstance().writers.begin(), DumpData::GetInstance().writers.end(), pWriter);
+	if (it != DumpData::GetInstance().writers.end())
+	{
+		DumpData::GetInstance().writers.erase(it);
+	}
 }
 
 XN_C_API XnStatus XN_C_DECL xnDumpSetFilesOutput(XnBool bOn)
@@ -150,7 +156,7 @@ XnDumpFile* xnDumpFileOpenImpl(const XnChar* strDumpName, XnBool bForce, XnBool 
 	DumpData& dumpData = DumpData::GetInstance();
 
 	// check if there are writers
-	if (dumpData.writers.IsEmpty())
+	if (dumpData.writers.empty())
 	{
 		return NULL;
 	}
@@ -177,7 +183,7 @@ XnDumpFile* xnDumpFileOpenImpl(const XnChar* strDumpName, XnBool bForce, XnBool 
 	XnDumpFile* pFile = XN_NEW(XnDumpFile);
 
 	// try to add writers
-	for (XnDumpWriters::Iterator it = dumpData.writers.Begin(); it != dumpData.writers.End(); ++it)
+	for (std::list<XnDumpWriter*>::iterator it = dumpData.writers.begin(); it != dumpData.writers.end(); ++it)
 	{
 		XnDumpWriterFile writerFile;
 		writerFile.pWriter = *it;
