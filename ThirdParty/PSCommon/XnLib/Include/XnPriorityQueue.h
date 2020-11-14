@@ -26,20 +26,20 @@
 namespace xnl
 {
 
-template <class T, int Max, class TAlloc = LinkedNodeDefaultAllocator<T> >
+template <class T, int Max>
 class PriorityQueue
 {
 public:
 	PriorityQueue()
 	{}
-	PriorityQueue(const PriorityQueue<T, Max, TAlloc>& other)
+	PriorityQueue(const PriorityQueue<T, Max>& other)
 	{
 		*this = other;
 	}
 	~PriorityQueue()
 	{}
 
-	PriorityQueue& operator=(const PriorityQueue<T, Max, TAlloc>& other)
+	PriorityQueue& operator=(const PriorityQueue<T, Max>& other)
 	{
 		for (int i = 0; i < Max; ++i)
 		{
@@ -95,7 +95,7 @@ public:
 		return true;
 	}
 private:
-	Queue<T, TAlloc> m_queues[Max];
+	Queue<T> m_queues[Max];
 };
 
 } // xnl
