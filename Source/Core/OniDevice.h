@@ -21,11 +21,12 @@
 #ifndef ONIDEVICE_H
 #define ONIDEVICE_H
 
+#include <list>
+
 #include "OniDriverHandler.h"
 #include "OniFrameManager.h"
 #include "OniSensor.h"
 #include "OniCommon.h"
-#include "XnList.h"
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
@@ -93,7 +94,7 @@ private:
 	void* m_deviceHandle;
 	DeviceDriver* m_pDeviceDriver;
 
-	xnl::List<VideoStream*> m_streams;
+	std::list<VideoStream*> m_streams;
 	xnl::CriticalSection m_cs;
 	OniFrameSyncHandle m_depthColorSyncHandle;
 	Context* m_pContext;

@@ -18,6 +18,9 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <algorithm>
+#include <list>
+
 #include "OniDevice.h"
 #include "OniStream.h"
 #include "OniContext.h"
@@ -77,11 +80,12 @@ OniStatus Device::close()
 
 	if (m_openCount == 0)
 	{
-		while(m_streams.Begin() != m_streams.End())
+		while(m_streams.begin() != m_streams.end())
 		{
-			VideoStream* pStream = *m_streams.Begin();
+			std::list<VideoStream*>::iterator it = m_streams.begin();
+			VideoStream* pStream = *it;
 			pStream->stop();
-			m_streams.Remove(pStream);
+			m_streams.erase(it);
 		}
 		
 		for (int i = 0; i < MAX_SENSORS_PER_DEVICE; ++i)
@@ -171,7 +175,7 @@ VideoStream* Device::createStream(OniSensorType sensorType)
 	}
 
 	VideoStream* pStream = XN_NEW(VideoStream, m_sensors[sensorType], pSensorInfo, *this, m_driverHandler, m_frameManager, m_errorLogger);
-	m_streams.AddLast(pStream);
+	m_streams.push_back(pStream);
 
 	if ((sensorType == ONI_SENSOR_DEPTH || sensorType == ONI_SENSOR_COLOR) &&
 		m_depthColorSyncHandle != NULL && m_pContext != NULL)
@@ -247,7 +251,11 @@ void Device::refreshDepthColorSyncState()
 void Device::clearStream(VideoStream* pStream)
 {
 	xnl::AutoCSLocker lock(m_cs);
-	m_streams.Remove(pStream);
+	std::list<VideoStream*>::iterator it = std::find(m_streams.begin(), m_streams.end(), pStream);
+	if (it != m_streams.end())
+	{
+		m_streams.erase(it);
+	}
 
 	if ((pStream->getSensorInfo()->sensorType == ONI_SENSOR_DEPTH ||
 		pStream->getSensorInfo()->sensorType == ONI_SENSOR_COLOR) &&
@@ -261,11 +269,11 @@ OniStatus Device::enableDepthColorSync(Context* pContext)
 {
 	m_pContext = pContext;
 	m_syncEnabled = TRUE;
-	xnl::Array<VideoStream*> streamArray(m_streams.Size());
-	streamArray.SetSize(m_streams.Size());
+	xnl::Array<VideoStream*> streamArray(m_streams.size());
+	streamArray.SetSize(m_streams.size());
 
 	int streamsUsed = 0;
-	for (xnl::List<VideoStream*>::Iterator iter = m_streams.Begin(); iter != m_streams.End(); ++iter)
+	for (std::list<VideoStream*>::iterator iter = m_streams.begin(); iter != m_streams.end(); ++iter)
 	{
 		if (((*iter)->getSensorInfo()->sensorType == ONI_SENSOR_DEPTH || (*iter)->getSensorInfo()->sensorType == ONI_SENSOR_COLOR) &&
 			(*iter)->isStarted())
