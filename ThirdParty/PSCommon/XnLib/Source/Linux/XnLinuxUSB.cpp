@@ -21,6 +21,9 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <algorithm>
+#include <list>
+
 #include <XnUSB.h>
 
 #if defined(XN_PLATFORM_MACOSX_XCODE) || defined(XN_PLATFORM_IOS)
@@ -34,7 +37,6 @@
 #include <XnOS.h>
 #include <XnLog.h>
 #include <XnOSCpp.h>
-#include <XnList.h>
 
 #if (XN_PLATFORM == XN_PLATFORM_LINUX_X86 || XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
 #include <libudev.h>
@@ -54,9 +56,7 @@ typedef struct XnUSBEventCallback
 	XnUInt16 nProductID;
 } XnUSBEventCallback;
 
-typedef xnl::List<XnUSBEventCallback*> XnUSBEventCallbackList;
-
-XnUSBEventCallbackList g_connectivityEvent;
+static std::list<XnUSBEventCallback*> g_connectivityEvent;
 
 #ifdef XN_USE_UDEV
 typedef struct XnUSBConnectedDevice
@@ -73,9 +73,7 @@ typedef struct XnUSBConnectedDevice
 	XnChar strDevicePath[XN_FILE_MAX_PATH + 1];
 } XnUSBConnectedDevice;
 
-typedef xnl::List<XnUSBConnectedDevice*> XnUSBConnectedDeviceList;
-
-XnUSBConnectedDeviceList g_connectedDevices;
+static std::list<XnUSBConnectedDevice*> g_connectedDevices;
 
 XN_THREAD_HANDLE g_hUDEVThread = NULL;
 XnBool g_bShouldRunUDEVThread = false;
@@ -139,10 +137,10 @@ void xnUSBDeviceConnected(struct udev_device *dev)
 				pConnected->nDevNum);
 
 	// add the device to the connectedDevices List
-	g_connectedDevices.AddLast(pConnected);
+	g_connectedDevices.push_back(pConnected);
 
 	// notify the proper events of the connection
-	for (XnUSBEventCallbackList::Iterator it = g_connectivityEvent.Begin(); it != g_connectivityEvent.End(); ++it)
+	for (std::list<XnUSBEventCallback*>::iterator it = g_connectivityEvent.begin(); it != g_connectivityEvent.end(); ++it)
 	{
 		XnUSBEventCallback* pCallback = *it;
 
@@ -160,7 +158,7 @@ void xnUSBDeviceDisconnected(struct udev_device *dev)
 {
 	// find dev in the connected devices' list
 	XnUSBConnectedDevice *pConnected = NULL;
-	for (XnUSBConnectedDeviceList::Iterator it = g_connectedDevices.Begin(); it != g_connectedDevices.End(); ++it)
+	for (std::list<XnUSBConnectedDevice*>::iterator it = g_connectedDevices.begin(); it != g_connectedDevices.end(); ++it)
 	{
 		if (!xnOSStrCmp(((XnUSBConnectedDevice *)*it)->strNode, udev_device_get_devnode(dev)))
 		{
@@ -177,7 +175,7 @@ void xnUSBDeviceDisconnected(struct udev_device *dev)
 	}
 
 	// notify the proper events of the disconnection
-	for (XnUSBEventCallbackList::Iterator it = g_connectivityEvent.Begin(); it != g_connectivityEvent.End(); ++it)
+	for (std::list<XnUSBEventCallback*>::iterator it = g_connectivityEvent.begin(); it != g_connectivityEvent.end(); ++it)
 	{
 		XnUSBEventCallback* pCallback = *it;
 
@@ -191,7 +189,11 @@ void xnUSBDeviceDisconnected(struct udev_device *dev)
 	}
 
 	// remove the device from connectedDevices List
-	g_connectedDevices.Remove(pConnected);
+	std::list<XnUSBConnectedDevice*>::iterator it = std::find(g_connectedDevices.begin(), g_connectedDevices.end(), pConnected);
+	if (it != g_connectedDevices.end())
+	{
+		g_connectedDevices.erase(it);
+	}
 	XN_DELETE(pConnected);
 }
 
@@ -1680,8 +1682,6 @@ XN_C_API XnStatus xnUSBSetCallbackHandler(XnUInt16 nVendorID, XnUInt16 /*nProduc
 
 XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(XnUInt16 nVendorID, XnUInt16 nProductID, XnUSBDeviceCallbackFunctionPtr pFunc, void* pCookie, XnRegistrationHandle* phRegistration)
 {
-	XnStatus nRetVal = XN_STATUS_OK;
-
 	XN_VALIDATE_INPUT_PTR(pFunc);
 	XN_VALIDATE_OUTPUT_PTR(phRegistration);
 
@@ -1692,12 +1692,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(XnUInt16 nVendorID
 	pCallback->nVendorID  = nVendorID;
 	pCallback->nProductID = nProductID;
 
-	nRetVal = g_connectivityEvent.AddLast(pCallback);
-	if (nRetVal != XN_STATUS_OK)
-	{
-		XN_DELETE(pCallback);
-		return (nRetVal);
-	}
+	g_connectivityEvent.push_back(pCallback);
 
 	*phRegistration = (XnRegistrationHandle)pCallback;
 
@@ -1707,10 +1702,10 @@ XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(XnUInt16 nVendorID
 XN_C_API void XN_C_DECL xnUSBUnregisterFromConnectivityEvents(XnRegistrationHandle hRegistration)
 {
 	XnUSBEventCallback* pCallback = reinterpret_cast<XnUSBEventCallback*>(hRegistration);
-	XnUSBEventCallbackList::Iterator it = g_connectivityEvent.Find(pCallback);
-	if (it != g_connectivityEvent.End())
+	std::list<XnUSBEventCallback*>::iterator it = std::find(g_connectivityEvent.begin(), g_connectivityEvent.end(), pCallback);
+	if (it != g_connectivityEvent.end())
 	{
-		g_connectivityEvent.Remove(it);
+		g_connectivityEvent.erase(it);
 		XN_DELETE(pCallback);
 	}
 }
