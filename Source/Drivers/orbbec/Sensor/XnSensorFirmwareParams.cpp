@@ -21,6 +21,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <list>
+
 #include "XnSensorFirmwareParams.h"
 
 //---------------------------------------------------------------------------
@@ -318,7 +320,7 @@ XnStatus XnSensorFirmwareParams::StartTransaction()
 
 	m_bInTransaction = TRUE;
 	m_Transaction.Clear();
-	m_TransactionOrder.Clear();
+	m_TransactionOrder.clear();
 
 	return (XN_STATUS_OK);
 }
@@ -335,7 +337,7 @@ XnStatus XnSensorFirmwareParams::CommitTransaction()
 	// we are no longer in transaction, even if we fail to commit.
 	m_bInTransaction = FALSE;
 
-	for (XnActualIntPropertyList::Iterator it = m_TransactionOrder.Begin(); it != m_TransactionOrder.End(); ++it)
+	for (std::list<XnActualIntProperty*>::iterator it = m_TransactionOrder.begin(); it != m_TransactionOrder.end(); ++it)
 	{
 		XnActualIntProperty* pProp = *it;
 
@@ -348,7 +350,7 @@ XnStatus XnSensorFirmwareParams::CommitTransaction()
 	}
 
 	m_Transaction.Clear();
-	m_TransactionOrder.Clear();
+	m_TransactionOrder.clear();
 
 	return (XN_STATUS_OK);
 }
@@ -365,9 +367,9 @@ XnStatus XnSensorFirmwareParams::CommitTransactionAsBatch()
 	// we are no longer in transaction, even if we fail to commit.
 	m_bInTransaction = FALSE;
 
-	if (m_TransactionOrder.Size() != 0)
+	if (m_TransactionOrder.size() != 0)
 	{
-		XnUInt32 nMaxCount = m_TransactionOrder.Size();
+		XnUInt32 nMaxCount = m_TransactionOrder.size();
 		XnInnerParamData* pParams;
 		XN_VALIDATE_CALLOC(pParams, XnInnerParamData, nMaxCount);
 
@@ -380,7 +382,7 @@ XnStatus XnSensorFirmwareParams::CommitTransactionAsBatch()
 
 		XnUInt32 nCount = 0;
 
-		for (XnActualIntPropertyList::Iterator it = m_TransactionOrder.Begin(); it != m_TransactionOrder.End(); ++it)
+		for (std::list<XnActualIntProperty*>::iterator it = m_TransactionOrder.begin(); it != m_TransactionOrder.end(); ++it)
 		{
 			XnActualIntProperty* pProp = *it;
 
@@ -419,7 +421,7 @@ XnStatus XnSensorFirmwareParams::CommitTransactionAsBatch()
 		XN_IS_STATUS_OK(nRetVal);
 
 		// and update their props
-		for (XnActualIntPropertyList::Iterator it = m_TransactionOrder.Begin(); it != m_TransactionOrder.End(); ++it)
+		for (std::list<XnActualIntProperty*>::iterator it = m_TransactionOrder.begin(); it != m_TransactionOrder.end(); ++it)
 		{
 			XnActualIntProperty* pProp = *it;
 
@@ -433,7 +435,7 @@ XnStatus XnSensorFirmwareParams::CommitTransactionAsBatch()
 	}
 
 	m_Transaction.Clear();
-	m_TransactionOrder.Clear();
+	m_TransactionOrder.clear();
 
 	return (XN_STATUS_OK);
 }
@@ -446,7 +448,7 @@ XnStatus XnSensorFirmwareParams::RollbackTransaction()
 	}
 
 	m_Transaction.Clear();
-	m_TransactionOrder.Clear();
+	m_TransactionOrder.clear();
 	m_bInTransaction = FALSE;
 
 	return (XN_STATUS_OK);
@@ -492,8 +494,7 @@ XnStatus XnSensorFirmwareParams::SetFirmwareParam(XnActualIntProperty* pProperty
 		nRetVal = m_Transaction.Set(pProperty, (XnUInt32)nValue);
 		XN_IS_STATUS_OK(nRetVal);
 
-		nRetVal = m_TransactionOrder.AddLast(pProperty);
-		XN_IS_STATUS_OK(nRetVal);
+		m_TransactionOrder.push_back(pProperty);
 	}
 	else
 	{

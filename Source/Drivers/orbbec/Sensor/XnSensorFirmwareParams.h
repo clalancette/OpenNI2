@@ -24,12 +24,13 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <list>
+
 #include <DDK/XnActualIntProperty.h>
 #include "XnParams.h"
 #include <XnHash.h>
 #include "XnFirmwareInfo.h"
 #include "XnFirmwareCommands.h"
-#include <XnList.h>
 
 //---------------------------------------------------------------------------
 // Types
@@ -126,7 +127,6 @@ private:
 	} XnFirmwareParam;
 
 	typedef xnl::Hash<XnActualIntProperty*, XnFirmwareParam> XnFirmwareParamsHash;
-	typedef xnl::List<XnActualIntProperty*> XnActualIntPropertyList;
 	typedef xnl::Hash<XnActualIntProperty*, XnUInt32> XnPropertyToValueHash;
 
 	XnStatus AddFirmwareParam(XnActualIntProperty& Property, XnUInt16 nFirmwareParam, XnFWVer nMinVer = XN_SENSOR_FW_VER_UNKNOWN, XnFWVer nMaxVer = XN_SENSOR_FW_VER_UNKNOWN, XnUInt16 nValueIfNotSupported = 0);
@@ -155,7 +155,7 @@ private:
 	XnFirmwareInfo* m_pInfo;
 	XnFirmwareCommands* m_pCommands;
 	XnBool m_bInTransaction;
-	XnActualIntPropertyList m_TransactionOrder; // the transaction according to the order in which it was set
+	std::list<XnActualIntProperty *> m_TransactionOrder; // the transaction according to the order in which it was set
 	XnPropertyToValueHash m_Transaction; // maps a property to its new value
 };
 
