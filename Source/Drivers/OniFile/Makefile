@@ -25,9 +25,9 @@ endif
 LIB_NAME = OniFile
 
 LIB_DIRS = ../../../ThirdParty/PSCommon/XnLib/Bin/$(PLATFORM)-$(CFG)
-USED_LIBS = XnLib pthread dl
+USED_LIBS = XnLib pthread dl jpeg
 ifneq ("$(OSTYPE)","Darwin")
-        USED_LIBS += rt  
+        USED_LIBS += rt
 endif
 
 CFLAGS += -Wall
