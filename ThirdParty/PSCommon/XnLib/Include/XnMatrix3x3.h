@@ -22,7 +22,6 @@
 #define _XN_MATRIX_3X3_H_
 
 #include "XnVector3D.h"
-#include "XnSymmetricMatrix3x3.h"
 
 namespace xnl
 {
@@ -54,12 +53,6 @@ public:
 	Matrix3x3(const Vector3D& col0, const Vector3D& col1, const Vector3D& col2)
 	{
 		Set(col0, col1, col2);
-	}
-	explicit Matrix3x3(const SymmetricMatrix3x3& mat)
-	{
-		elements[0] = mat(0,0); elements[1] = mat(0,1); elements[2] = mat(0,2);
-		elements[3] = mat(0,1); elements[4] = mat(1,1); elements[5] = mat(1,2);
-		elements[6] = mat(0,2); elements[7] = mat(1,2); elements[8] = mat(2,2);
 	}
 
 	Matrix3x3& operator+=(const Matrix3x3& other);
@@ -160,13 +153,6 @@ public:
 	void SingularValueDecomposition(Matrix3x3& U, Vector3D& singularValues, Matrix3x3& sV, XnFloat tolerance=1e-8) const;
 	void ActualSingularValueDecomposition(Matrix3x3 &U, Vector3D &singularValues, Matrix3x3 &V, XnFloat tolerance=1e-8) const;
 
-	SymmetricMatrix3x3 NormalEquationsMatrix() const;
-	SymmetricMatrix3x3 ToSymmetricMatrix() const
-	{
-		return SymmetricMatrix3x3((*this)(0,0), (*this)(0,1), (*this)(0,2), (*this)(1,1), (*this)(1,2), (*this)(2,2));
-	}
-	XnBool IsSymmetric() const;
-
 	XnInt32 GetEigenValues(XnFloat& val1, XnFloat& val2, XnFloat& val3) const;
 	XnInt32 GetEigenValues(XnFloat* pEigenValues) const;
 	XnInt32 GetEigenValues(Vector3D& eigenValues) const;
@@ -208,24 +194,6 @@ private:
 inline XnBool IsNaN(const Matrix3x3 &mat) { 
 	for(XnInt32 i=0; i<9; i++) if(Math::IsNaN(mat[i])) return true;
 	return false;
-}
-
-inline Matrix3x3 operator*(const SymmetricMatrix3x3 &A, const SymmetricMatrix3x3 &B)
-{
-	return Matrix3x3(A) * Matrix3x3(B);
-}
-
-inline SymmetricMatrix3x3 Algb_ABAt(const Matrix3x3 &A, const SymmetricMatrix3x3 &B)
-{
-	// TODO: make optimized version
-	return (A * Matrix3x3(B) * A.Transposed()).ToSymmetricMatrix();
-}
-
-inline SymmetricMatrix3x3 Algb_ApAt(const Matrix3x3 &A)
-{
-	return SymmetricMatrix3x3(2*A(0,0), A(0,1)+A(1,0), A(0,2)+A(2,0),
-		2*A(1,1), A(1,2)+A(2,1),
-		2*A(2,2));
 }
 
 //ARCCHANGE: static Matrix3X3<T> OuterProduct(const Vector3D<T> &v1, const Vector3D<T> &v2)
