@@ -21,10 +21,12 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <algorithm>
+#include <list>
+
 #include <XnLog.h>
 #include <XnStringsHash.h>
 #include <stdarg.h>
-#include <XnList.h>
 #include <XnArray.h>
 #include <XnOSCpp.h>
 
@@ -40,8 +42,6 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-typedef xnl::List<XnLogWriter*> XnLogWritersList;
-
 typedef XnStringsHashT<XnLogger> XnLogMasksHash;
 
 class XnBufferedLogEntry : public XnLogEntry
@@ -97,7 +97,7 @@ public:
 	XnChar strLogDir[XN_FILE_MAX_PATH];
 	XnLogMasksHash* pMasksHash;
 	XnLogSeverity defaultMinSeverity;
-	XnLogWritersList writers;
+	std::list<XnLogWriter*> writers;
 	XnBool anyWriters;
 	XnChar strSessionTimestamp[25];
 	XN_CRITICAL_SECTION_HANDLE hLock;
@@ -189,7 +189,7 @@ static void xnLogWriteEntry(XnLogEntry* pEntry)
 {
 	LogData& logData = LogData::GetInstance();
 	xnl::AutoCSLocker locker(logData.hLock);
-	for (XnLogWritersList::ConstIterator it = logData.writers.Begin(); it != logData.writers.End(); ++it)
+	for (std::list<XnLogWriter*>::const_iterator it = logData.writers.begin(); it != logData.writers.end(); ++it)
 	{
 		const XnLogWriter* pWriter = *it;
 		pWriter->WriteEntry(pEntry, pWriter->pCookie);
@@ -324,7 +324,7 @@ static void xnLogFilterChanged()
 
 	LogData& logData = LogData::GetInstance();
 	xnl::AutoCSLocker locker(logData.hLock);
-	for (XnLogWritersList::ConstIterator it = logData.writers.Begin(); it != logData.writers.End(); ++it)
+	for (std::list<XnLogWriter*>::const_iterator it = logData.writers.begin(); it != logData.writers.end(); ++it)
 	{
 		const XnLogWriter* pWriter = *it;
 		pWriter->OnConfigurationChanged(pWriter->pCookie);
@@ -437,15 +437,12 @@ XN_C_API XnStatus xnLogInitFromINIFile(const XnChar* cpINIFileName, const XnChar
 
 XN_C_API XnStatus xnLogRegisterLogWriter(XnLogWriter* pWriter)
 {
-	XnStatus nRetVal = XN_STATUS_OK;
-	
 	LogData& logData = LogData::GetInstance();
 
 	{
 		xnl::AutoCSLocker locker(logData.hLock);
-		nRetVal = logData.writers.AddLast(pWriter);
+		logData.writers.push_back(pWriter);
 	}
-	XN_IS_STATUS_OK(nRetVal);
 
 	logData.anyWriters = TRUE;
 
@@ -462,9 +459,13 @@ XN_C_API void xnLogUnregisterLogWriter(XnLogWriter* pWriter)
 	LogData& logData = LogData::GetInstance();
 
 	xnl::AutoCSLocker locker(logData.hLock);
-	nRetVal = logData.writers.Remove(pWriter);
+	std::list<XnLogWriter*>::iterator it = std::find(logData.writers.begin(), logData.writers.end(), pWriter);
+	if (it != logData.writers.end())
+	{
+		logData.writers.erase(it);
+	}
 
-	logData.anyWriters = !logData.writers.IsEmpty();
+	logData.anyWriters = !logData.writers.empty();
 }
 
 XN_C_API XnStatus xnLogStartNewFile()
@@ -489,10 +490,10 @@ XN_C_API XnStatus xnLogClose()
 	LogData& logData = LogData::GetInstance();
 
 	xnl::AutoCSLocker locker(logData.hLock);
-	XnLogWritersList::ConstIterator it = logData.writers.Begin();
-	while (it != logData.writers.End())
+	std::list<XnLogWriter*>::const_iterator it = logData.writers.begin();
+	while (it != logData.writers.end())
 	{
-		XnLogWritersList::ConstIterator curr = it;
+		std::list<XnLogWriter*>::const_iterator curr = it;
 		++it;
 
 		const XnLogWriter* pWriter = *curr;
@@ -646,7 +647,7 @@ void xnLogWriteNoEntryImplV(const XnChar* csFormat, va_list args)
 
 	LogData& logData = LogData::GetInstance();
 	xnl::AutoCSLocker locker(logData.hLock);
-	for (XnLogWritersList::ConstIterator it = logData.writers.Begin(); it != logData.writers.End(); ++it)
+	for (std::list<XnLogWriter*>::const_iterator it = logData.writers.begin(); it != logData.writers.end(); ++it)
 	{
 		const XnLogWriter* pWriter = *it;
 		pWriter->WriteUnformatted(csMessage, pWriter->pCookie);
@@ -886,7 +887,7 @@ XN_C_API void xnLogWriteNoEntry(const XnChar* csLogMask, XnLogSeverity nSeverity
 
 	LogData& logData = LogData::GetInstance();
 	xnl::AutoCSLocker locker(logData.hLock);
-	for (XnLogWritersList::ConstIterator it = logData.writers.Begin(); it != logData.writers.End(); ++it)
+	for (std::list<XnLogWriter*>::const_iterator it = logData.writers.begin(); it != logData.writers.end(); ++it)
 	{
 		const XnLogWriter* pWriter = *it;
 		pWriter->WriteUnformatted(csMessage, pWriter->pCookie);
