@@ -21,6 +21,8 @@
 #ifndef ONIFILERECORDER_H
 #define ONIFILERECORDER_H 1
 
+#include <list>
+
 #include "XnString.h"
 #include "XnPriorityQueue.h"
 
@@ -148,7 +150,7 @@ private:
                        lastPropertyRecordPosition;
 
         // needed for generating the SeekTable in the end
-        DataIndexEntryList dataIndex;
+        std::list<DataIndexEntry> dataIndex;
     };
 
     // A map of stream -> stream information.

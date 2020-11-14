@@ -256,7 +256,7 @@ OniStatus FileRecorder::attachStream(VideoStream& stream, OniBool allowLossyComp
 		m_streams[pStream].lastOutputTimestamp       = 0;
 		m_streams[pStream].lastInputTimestamp        = 0;
 		m_streams[pStream].lastNewDataRecordPosition = 0;
-		m_streams[pStream].dataIndex.Clear();
+		m_streams[pStream].dataIndex.clear();
 		send(Message::MESSAGE_ATTACH, pStream);
 	}
 
@@ -1036,7 +1036,7 @@ void FileRecorder::onRecord(XnUInt32 nodeId, XnCodecBase* pCodec, const OniFrame
     dataIndexEntry.nConfigurationID = m_configurationId;
     dataIndexEntry.nSeekPos = undoPoint.GetPosition();
 
-    pInfo->dataIndex.AddLast(dataIndexEntry);
+    pInfo->dataIndex.push_back(dataIndexEntry);
 }
 
 void FileRecorder::onRecordProperty(
