@@ -47,7 +47,7 @@ XnStatus XnCmosInfo::SetCmosConfig(XnCMOSType nCmos, XnResolutions nResolution, 
 		XnCmosBlankingInformation* pInfo = NULL;
 
 		// search the list if we already have this info
-		for (XnCmosBlankingDataList::Iterator it = m_CmosBlankingInfo.Begin(); it != m_CmosBlankingInfo.End(); ++it)
+		for (std::list<XnCmosBlankingData>::iterator it = m_CmosBlankingInfo.begin(); it != m_CmosBlankingInfo.end(); ++it)
 		{
 			XnCmosBlankingData& data = *it;
 			if (data.nRes == nResolution && data.nFPS == nFPS)
@@ -68,11 +68,10 @@ XnStatus XnCmosInfo::SetCmosConfig(XnCMOSType nCmos, XnResolutions nResolution, 
 			XN_IS_STATUS_OK(nRetVal);
 
 			// add to list
-			nRetVal = m_CmosBlankingInfo.AddFirst(data);
-			XN_IS_STATUS_OK(nRetVal);
+			m_CmosBlankingInfo.push_front(data);
 
 			// take its info (take a pointer to the object in the list, and not to the one on the stack)
-			pInfo = &m_CmosBlankingInfo.Begin()->BlankingInfo;
+			pInfo = &m_CmosBlankingInfo.begin()->BlankingInfo;
 		}
 
 		m_pCurrCmosBlankingInfo[nCmos] = &pInfo->Coefficients[nCmos];
