@@ -18,6 +18,9 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <algorithm>
+#include <list>
+
 #include "OniContext.h"
 #include "OniFileRecorder.h"
 #include "OniStreamFrameHolder.h"
@@ -295,14 +298,14 @@ XnStatus Context::loadLibraries()
 			continue;
 		}
 		m_cs.Lock();
-		m_deviceDrivers.AddLast(pDeviceDriver);
+		m_deviceDrivers.push_back(pDeviceDriver);
 		m_cs.Unlock();
 	}
 
 	// Return to directory
 	xnOSSetCurrentDir(workingDir);
 
-	if (m_deviceDrivers.Size() == 0)
+	if (m_deviceDrivers.size() == 0)
 	{
 		xnLogError(XN_MASK_ONI_CONTEXT, "Found no valid drivers");
 		m_errorLogger.Append("Found no valid drivers");
@@ -330,34 +333,35 @@ void Context::shutdown()
 	m_cs.Lock();
 
     // Close all recorders.
-    while (m_recorders.Begin() != m_recorders.End())
+    while (m_recorders.begin() != m_recorders.end())
     {
-        Recorder* pRecorder = *m_recorders.Begin();
+        Recorder* pRecorder = *m_recorders.begin();
         recorderClose(pRecorder);
     }
 
 	// Destroy all streams
-	while (m_streams.Begin() != m_streams.End())
+	while (m_streams.begin() != m_streams.end())
 	{
-		VideoStream* pStream = *m_streams.Begin();
+		VideoStream* pStream = *m_streams.begin();
 		streamDestroy(pStream);
 	}
 
 	// Close all devices
-	while (m_devices.Begin() != m_devices.End())
+	while (m_devices.begin() != m_devices.end())
 	{
-		Device* pDevice = *m_devices.Begin();
-		m_devices.Remove(pDevice);
+		std::list<Device*>::iterator it = m_devices.begin();
+		Device* pDevice = *it;
+		m_devices.erase(it);
 		pDevice->close();
 		XN_DELETE(pDevice);
 	}
 
-	for (xnl::List<DeviceDriver*>::Iterator iter = m_deviceDrivers.Begin(); iter != m_deviceDrivers.End(); ++iter)
+	for (std::list<DeviceDriver*>::iterator iter = m_deviceDrivers.begin(); iter != m_deviceDrivers.end(); ++iter)
 	{
 		DeviceDriver* pDriver = *iter;
 		XN_DELETE(pDriver);
 	}
-	m_deviceDrivers.Clear();
+	m_deviceDrivers.clear();
 
 	m_cs.Unlock();
 
@@ -399,11 +403,11 @@ OniStatus Context::getDeviceList(OniDeviceInfo** pDevices, int* pDeviceCount)
 {
 	m_cs.Lock();
 
-	*pDeviceCount = m_devices.Size();
+	*pDeviceCount = m_devices.size();
 	*pDevices = XN_NEW_ARR(OniDeviceInfo, *pDeviceCount);
 
 	int idx = 0;
-	for (xnl::List<Device*>::ConstIterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter, ++idx)
+	for (std::list<Device*>::const_iterator iter = m_devices.begin(); iter != m_devices.end(); ++iter, ++idx)
 	{
 		xnOSMemCopy((*pDevices)+idx, (*iter)->getInfo(), sizeof(OniDeviceInfo));
 	}
@@ -433,7 +437,7 @@ OniStatus Context::deviceOpen(const char* uri, const char* mode, OniDeviceHandle
 	if (deviceURI == NULL)
 	{
 		// Default
-		if (m_devices.Size() == 0)
+		if (m_devices.size() == 0)
 		{
 			m_errorLogger.Append("DeviceOpen using default: no devices found");
 			xnLogError(XN_MASK_ONI_CONTEXT, "Can't open default device - none found");
@@ -441,11 +445,11 @@ OniStatus Context::deviceOpen(const char* uri, const char* mode, OniDeviceHandle
 			return ONI_STATUS_ERROR;
 		}
 
-		pMyDevice = *m_devices.Begin();
+		pMyDevice = *m_devices.begin();
 	}
 	else
 	{
-		for (xnl::List<Device*>::Iterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter)
+		for (std::list<Device*>::iterator iter = m_devices.begin(); iter != m_devices.end(); ++iter)
 		{
 			if (xnOSStrCmp((*iter)->getInfo()->uri, deviceURI) == 0)
 			{
@@ -456,11 +460,11 @@ OniStatus Context::deviceOpen(const char* uri, const char* mode, OniDeviceHandle
 
 	if (pMyDevice == NULL)
 	{
-		for (xnl::List<DeviceDriver*>::Iterator iter = m_deviceDrivers.Begin(); iter != m_deviceDrivers.End() && pMyDevice == NULL; ++iter)
+		for (std::list<DeviceDriver*>::iterator iter = m_deviceDrivers.begin(); iter != m_deviceDrivers.end() && pMyDevice == NULL; ++iter)
 		{
 			if ((*iter)->tryDevice(deviceURI))
 			{
-				for (xnl::List<Device*>::Iterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter)
+				for (std::list<Device*>::iterator iter = m_devices.begin(); iter != m_devices.end(); ++iter)
 				{
 					if (xnOSStrCmp((*iter)->getInfo()->uri, deviceURI) == 0)
 					{
@@ -580,13 +584,13 @@ OniStatus Context::createStream(OniDeviceHandle device, OniSensorType sensorType
 	pStreamHandle->pStream = pMyStream;
 
 	m_cs.Lock();
-	m_streams.AddLast(pMyStream);
+	m_streams.push_back(pMyStream);
 	m_cs.Unlock();
 
 	if (m_autoRecording)
 	{
 		m_streamsToAutoRecord.Lock();
-		m_streamsToAutoRecord.AddLast(*pStream);
+		m_streamsToAutoRecord.push_back(*pStream);
 		m_streamsToAutoRecord.Unlock();
 	}
 
@@ -605,7 +609,11 @@ OniStatus Context::streamDestroy(OniStreamHandle stream)
 	if (m_autoRecording)
 	{
 		m_streamsToAutoRecord.Lock();
-		m_streamsToAutoRecord.Remove(stream);
+		std::list<OniStreamHandle>::iterator it = std::find(m_streamsToAutoRecord.begin(), m_streamsToAutoRecord.end(), stream);
+		if (it != m_streamsToAutoRecord.end())
+		{
+			m_streamsToAutoRecord.erase(it);
+		}
 		m_streamsToAutoRecord.Unlock();
 	}
 
@@ -633,7 +641,11 @@ OniStatus Context::streamDestroy(VideoStream* pStream)
 	m_cs.Lock();
 
 	// Remove the stream from the streams list.
-	m_streams.Remove(pStream);
+	std::list<VideoStream*>::iterator it = std::find(m_streams.begin(), m_streams.end(), pStream);
+	if (it != m_streams.end())
+	{
+		m_streams.erase(it);
+	}
 
 	m_cs.Unlock();
 
@@ -708,7 +720,7 @@ OniStatus Context::waitForStreams(OniStreamHandle* pStreams, int streamCount, in
 	if (m_autoRecording && !m_autoRecordingStarted)
 	{
 		m_streamsToAutoRecord.Lock();
-		for (xnl::List<OniStreamHandle>::ConstIterator iter = m_streamsToAutoRecord.Begin(); iter != m_streamsToAutoRecord.End(); ++iter)
+		for (std::list<OniStreamHandle>::const_iterator iter = m_streamsToAutoRecord.begin(); iter != m_streamsToAutoRecord.end(); ++iter)
 		{
 			m_autoRecorder->pRecorder->attachStream(*(*iter)->pStream, true);
 		}
@@ -972,7 +984,7 @@ void ONI_CALLBACK_TYPE Context::deviceDriver_DeviceConnected(Device* pDevice, vo
 	Context* pContext = (Context*)pCookie;
 
 	pContext->m_cs.Lock();
-	pContext->m_devices.AddLast(pDevice);
+	pContext->m_devices.push_back(pDevice);
 	pContext->m_cs.Unlock();
 
 	pContext->m_deviceConnectedEvent.Raise(pDevice->getInfo());
@@ -982,7 +994,11 @@ void ONI_CALLBACK_TYPE Context::deviceDriver_DeviceDisconnected(Device* pDevice,
 	Context* pContext = (Context*)pCookie;
 
 	pContext->m_cs.Lock();
-	pContext->m_devices.Remove(pDevice);
+	std::list<Device*>::iterator it = std::find(pContext->m_devices.begin(), pContext->m_devices.end(), pDevice);
+	if (it != pContext->m_devices.end())
+	{
+		pContext->m_devices.erase(it);
+	}
 	pContext->m_cs.Unlock();
 
 	pContext->m_deviceDisconnectedEvent.Raise(pDevice->getInfo());
@@ -1019,7 +1035,7 @@ OniStatus Context::recorderOpen(const char* fileName, OniRecorderHandle* pRecord
     OniStatus status = (*pRecorder)->pRecorder->initialize(fileName);
     if (ONI_STATUS_OK == status) 
     {
-        m_recorders.AddLast((*pRecorder)->pRecorder);
+        m_recorders.push_back((*pRecorder)->pRecorder);
     }
     else
     {
@@ -1082,7 +1098,11 @@ OniStatus Context::recorderClose(Recorder* pRecorder)
     }
     pRecorder->stop();
     pRecorder->detachAllStreams();
-    m_recorders.Remove(pRecorder);
+    std::list<Recorder*>::iterator it = std::find(m_recorders.begin(), m_recorders.end(), pRecorder);
+    if (it != m_recorders.end())
+    {
+        m_recorders.erase(it);
+    }
     XN_DELETE(pRecorder);
     return ONI_STATUS_OK;
 }
@@ -1120,7 +1140,7 @@ void Context::onNewFrame()
 		xnOSStrFormat(fpsInfo + written, sizeof(fpsInfo) - written, &writtenNow, "[FPS] ");
 		written += writtenNow;
 
-		for (xnl::List<VideoStream*>::Iterator it = m_streams.Begin(); it != m_streams.End(); ++it)
+		for (std::list<VideoStream*>::iterator it = m_streams.begin(); it != m_streams.end(); ++it)
 		{
 			VideoStream* pStream = *it;
 			if (written > sizeof(fpsInfo))

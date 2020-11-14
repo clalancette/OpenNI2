@@ -21,6 +21,8 @@
 #ifndef ONICONTEXT_H
 #define ONICONTEXT_H
 
+#include <list>
+
 #include "OniStream.h"
 #include "OniDevice.h"
 #include "OniSyncedStreamsFrameHolder.h"
@@ -31,7 +33,6 @@
 #include "OniDriverHandler.h"
 #include "OniCommon.h"
 
-#include <XnList.h>
 #include <XnSimpleString.h>
 #include <XnHash.h>
 #include <XnEvent.h>
@@ -133,12 +134,12 @@ private:
 	xnl::Event1Arg<const OniDeviceInfo*> m_deviceDisconnectedEvent;
 	xnl::Event2Args<const OniDeviceInfo*, OniDeviceState> m_deviceStateChangedEvent;
 
-	xnl::List<oni::implementation::DeviceDriver*> m_deviceDrivers;
-	xnl::List<oni::implementation::Device*> m_devices;
-	xnl::List<oni::implementation::VideoStream*> m_streams;
-    xnl::List<oni::implementation::Recorder*> m_recorders;
+	std::list<oni::implementation::DeviceDriver*> m_deviceDrivers;
+	std::list<oni::implementation::Device*> m_devices;
+	std::list<oni::implementation::VideoStream*> m_streams;
+	std::list<oni::implementation::Recorder*> m_recorders;
 
-	xnl::Lockable<xnl::List<OniStreamHandle> > m_streamsToAutoRecord;
+	xnl::Lockable<std::list<OniStreamHandle> > m_streamsToAutoRecord;
 	XnBool m_autoRecording;
 	XnBool m_autoRecordingStarted;
 	OniRecorderHandle m_autoRecorder;
