@@ -21,8 +21,10 @@
 #ifndef _XN_EVENT_H_
 #define _XN_EVENT_H_
 
+#include <algorithm>
+#include <list>
+
 #include "XnOSCpp.h"
-#include "XnList.h"
 
 namespace xnl
 {
@@ -52,8 +54,6 @@ public:
 	}
 	XnStatus Register(FuncPtr pFunc, void* pCookie, XnCallbackHandle& handle)
 	{
-		XnStatus retVal = XN_STATUS_OK;
-
 		XN_VALIDATE_INPUT_PTR(pFunc);
 
 		Callback* pCallback = NULL;
@@ -61,13 +61,7 @@ public:
 
 		{
 			AutoCSLocker locker(m_hModLock);
-			retVal = m_toAdd.AddLast(pCallback);
-		}
-
-		if (retVal != XN_STATUS_OK)
-		{
-			XN_DELETE(pCallback);
-			return retVal;
+			m_toAdd.push_back(pCallback);
 		}
 
 		handle = (XnCallbackHandle)pCallback;
@@ -75,22 +69,18 @@ public:
 	}
 	XnStatus Unregister(XnCallbackHandle handle)
 	{
-		XnStatus retVal = XN_STATUS_OK;
-
 		Callback* pCallback = (Callback*)handle;
 
 		{
 			AutoCSLocker locker(m_hModLock);
 			if (!RemoveCallback(m_toAdd, pCallback))
 			{
-				retVal = m_toRemove.AddLast(pCallback);
+				m_toRemove.push_back(pCallback);
 			}
 		}
-		return retVal;
+		return XN_STATUS_OK;
 	}
 protected:
-	typedef List<Callback*> CallbackPtrList;
-
 	EventInterface()
 	{
 		Init();
@@ -123,15 +113,15 @@ protected:
 
 		ApplyListChanges();
 
-		for (typename CallbackPtrList::ConstIterator it = m_callbacks.Begin(); it != m_callbacks.End(); ++it)
+		for (typename std::list<Callback*>::const_iterator it = m_callbacks.begin(); it != m_callbacks.end(); ++it)
 		{
 			Callback* pCallback = *it;
 			XN_DELETE(pCallback);
 		}
 
-		m_callbacks.Clear();
-		m_toRemove.Clear();
-		m_toAdd.Clear();
+		m_callbacks.clear();
+		m_toRemove.clear();
+		m_toAdd.clear();
 
 		return XN_STATUS_OK;
 	}
@@ -141,37 +131,37 @@ protected:
 		AutoCSLocker locker(m_hLock);
 		AutoCSLocker modLocker(m_hModLock);
 
-		for (typename CallbackPtrList::ConstIterator it = m_toAdd.Begin(); it != m_toAdd.End(); ++it)
+		for (typename std::list<Callback*>::const_iterator it = m_toAdd.begin(); it != m_toAdd.end(); ++it)
 		{
-			m_callbacks.AddLast(*it);
+			m_callbacks.push_back(*it);
 		}
-		m_toAdd.Clear();
+		m_toAdd.clear();
 
-		for (typename CallbackPtrList::ConstIterator it = m_toRemove.Begin(); it != m_toRemove.End(); ++it)
+		for (typename std::list<Callback*>::const_iterator it = m_toRemove.begin(); it != m_toRemove.end(); ++it)
 		{
 			Callback* pCallback = *it;
 			RemoveCallback(m_callbacks, pCallback);
 		}
-		m_toRemove.Clear();
+		m_toRemove.clear();
 
 		return XN_STATUS_OK;
 	}
 
-	bool RemoveCallback(CallbackPtrList& list, Callback* pCallback)
+	bool RemoveCallback(std::list<Callback*>& list, Callback* pCallback)
 	{
-		typename CallbackPtrList::Iterator it = list.Find(pCallback);
-		if (it != list.End())
+		typename std::list<Callback*>::iterator it = std::find(list.begin(), list.end(), pCallback);
+		if (it != list.end())
 		{
-			list.Remove(it);
+			list.erase(it);
 			XN_DELETE(pCallback);
 			return true;
 		}
 		return false;
 	}
 	XN_CRITICAL_SECTION_HANDLE m_hLock;
-	CallbackPtrList m_callbacks;
-	CallbackPtrList m_toAdd;
-	CallbackPtrList m_toRemove;
+	std::list<Callback*> m_callbacks;
+	std::list<Callback*> m_toAdd;
+	std::list<Callback*> m_toRemove;
 private:
 	XN_CRITICAL_SECTION_HANDLE m_hModLock;
 	void Init()
@@ -242,7 +232,7 @@ public:
 		AutoCSLocker locker(this->m_hLock);
 		ApplyListChanges();
 
-		for (CallbackPtrList::ConstIterator it = m_callbacks.Begin(); it != m_callbacks.End(); ++it)
+		for (std::list<Callback*>::const_iterator it = m_callbacks.begin(); it != m_callbacks.end(); ++it)
 		{
 			Callback* pCallback = *it;
 			pCallback->pFunc(pCallback->pCookie);
@@ -263,7 +253,7 @@ public:
 		AutoCSLocker locker(this->m_hLock);
 		this->ApplyListChanges();
 
-		for (typename Base::CallbackPtrList::ConstIterator it = this->m_callbacks.Begin(); it != this->m_callbacks.End(); ++it)
+		for (typename std::list<typename Base::Callback*>::const_iterator it = this->m_callbacks.begin(); it != this->m_callbacks.end(); ++it)
 		{
 			typename Base::Callback* pCallback = *it;
 			pCallback->pFunc(arg, pCallback->pCookie);
@@ -288,7 +278,7 @@ public:
 		AutoCSLocker locker(this->m_hLock);
 		this->ApplyListChanges();
 
-		for (typename Base::CallbackPtrList::ConstIterator it = this->m_callbacks.Begin(); it != this->m_callbacks.End(); ++it)
+		for (typename std::list<typename Base::Callback*>::const_iterator it = this->m_callbacks.begin(); it != this->m_callbacks.end(); ++it)
 		{
 			typename Base::Callback* pCallback = *it;
 			pCallback->pFunc(arg1, arg2, pCallback->pCookie);
@@ -309,7 +299,7 @@ public:
 		AutoCSLocker locker(this->m_hLock);
 		this->ApplyListChanges();
 
-		for (typename Base::CallbackPtrList::ConstIterator it = this->m_callbacks.Begin(); it != this->m_callbacks.End(); ++it)
+		for (typename std::list<typename Base::Callback*>::const_iterator it = this->m_callbacks.begin(); it != this->m_callbacks.end(); ++it)
 		{
 			typename Base::Callback* pCallback = *it;
 			pCallback->pFunc(arg1, arg2, arg3, pCallback->pCookie);
@@ -330,7 +320,7 @@ public:
 		AutoCSLocker locker(this->m_hLock);
 		this->ApplyListChanges();
 
-		for (typename Base::CallbackPtrList::ConstIterator it = this->m_callbacks.Begin(); it != this->m_callbacks.End(); ++it)
+		for (typename std::list<typename Base::Callback*>::const_iterator it = this->m_callbacks.begin(); it != this->m_callbacks.end(); ++it)
 		{
 			typename Base::Callback* pCallback = *it;
 			pCallback->pFunc(arg1, arg2, arg3, arg4, pCallback->pCookie);
@@ -351,7 +341,7 @@ public:
 		AutoCSLocker locker(this->m_hLock);
 		this->ApplyListChanges();
 
-		for (typename Base::CallbackPtrList::ConstIterator it = this->m_callbacks.Begin(); it != this->m_callbacks.End(); ++it)
+		for (typename std::list<typename Base::Callback*>::const_iterator it = this->m_callbacks.begin(); it != this->m_callbacks.end(); ++it)
 		{
 			typename Base::Callback* pCallback = *it;
 			pCallback->pFunc(arg1, arg2, arg3, arg4, arg5, pCallback->pCookie);
