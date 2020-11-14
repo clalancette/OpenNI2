@@ -18,6 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <list>
+
 #include "XnErrorLogger.h"
 
 namespace xnl
@@ -116,16 +118,16 @@ namespace xnl
 		}
 
 		// Go over list and remove any buffer for which the thread no longer exists
-		xnl::List<XN_THREAD_ID> deadThreads;
+		std::list<XN_THREAD_ID> deadThreads;
 		for (xnl::Hash<XN_THREAD_ID, SingleBuffer*>::ConstIterator iter = m_buffers.Begin(); iter != m_buffers.End(); ++iter)
 		{
 			if (xnOSDoesThreadExistByID(iter->Key()) != TRUE)
 			{
-				deadThreads.AddLast(iter->Key());
+				deadThreads.push_back(iter->Key());
 			}
 		}
 
-		for (xnl::List<XN_THREAD_ID>::ConstIterator deadIter = deadThreads.Begin(); deadIter != deadThreads.End(); ++deadIter)
+		for (std::list<XN_THREAD_ID>::const_iterator deadIter = deadThreads.begin(); deadIter != deadThreads.end(); ++deadIter)
 		{
 			SingleBuffer* pBuffer = m_buffers[*deadIter];
 			XN_DELETE(pBuffer);
