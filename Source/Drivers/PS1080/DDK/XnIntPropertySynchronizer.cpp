@@ -21,6 +21,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <list>
+
 #include "XnIntPropertySynchronizer.h"
 
 //---------------------------------------------------------------------------
@@ -48,7 +50,7 @@ XnIntPropertySynchronizer::XnIntPropertySynchronizer()
 
 XnIntPropertySynchronizer::~XnIntPropertySynchronizer()
 {
-	for (CookiesList::Iterator it = m_Cookies.Begin(); it != m_Cookies.End(); ++it)
+	for (std::list<XnIntSynchronizerCookie*>::iterator it = m_Cookies.begin(); it != m_Cookies.end(); ++it)
 	{
 		XnIntSynchronizerCookie* pSynchData = (XnIntSynchronizerCookie*)*it;
 		pSynchData->pSource->OnChangeEvent().Unregister(pSynchData->hCallback);
@@ -96,18 +98,13 @@ XnStatus XnIntPropertySynchronizer::RegisterSynchronization(XnIntProperty* pSour
 	XnIntSynchronizerCookie* pCookie;
 	XN_VALIDATE_NEW(pCookie, XnIntSynchronizerCookie, pSource, pDestination, pConvertFunc);
 
-	nRetVal = m_Cookies.AddFirst(pCookie);
-	if (nRetVal != XN_STATUS_OK)
-	{
-		XN_DELETE(pCookie);
-		return (nRetVal);
-	}
+	m_Cookies.push_front(pCookie);
 
 	nRetVal = pSource->OnChangeEvent().Register(IntPropertyValueChangedCallback, pCookie, pCookie->hCallback);
 	if (nRetVal != XN_STATUS_OK)
 	{
 		XN_DELETE(pCookie);
-		m_Cookies.Remove(m_Cookies.Begin());
+		m_Cookies.erase(m_Cookies.begin());
 		return (nRetVal);
 	}
 	
