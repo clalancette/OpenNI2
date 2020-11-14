@@ -34,7 +34,6 @@
     <ClInclude Include="..\Include\XnLockGuard.h" />
     <ClInclude Include="..\Include\XnLog.h" />
     <ClInclude Include="..\Include\XnMath.h" />
-    <ClInclude Include="..\Include\XnMatrix3x3.h" />
     <ClInclude Include="..\Include\XnMemory.h" />
     <ClInclude Include="..\Include\XnOS.h" />
     <ClInclude Include="..\Include\XnOSCpp.h" />
@@ -53,7 +52,6 @@
     <ClInclude Include="..\Include\XnStatusCodes.h" />
     <ClInclude Include="..\Include\XnStatusRegister.h" />
     <ClInclude Include="..\Include\XnString.h" />
-    <ClInclude Include="..\Include\XnSymmetricMatrix3x3.h" />
     <ClInclude Include="..\Include\XnUSB.h" />
     <ClInclude Include="..\Include\XnUSBDevice.h" />
     <ClInclude Include="..\Include\XnVector3D.h" />
@@ -104,7 +102,6 @@
     <ClCompile Include="XnScheduler.cpp" />
     <ClCompile Include="XnStatus.cpp" />
     <ClCompile Include="XnStrings.cpp" />
-    <ClCompile Include="XnSytmmetricMatrix3x3.cpp" />
     <ClCompile Include="XnThreads.cpp" />
     <ClCompile Include="XnUSB.cpp" />
     <ClCompile Include="XnVector3D.cpp" />

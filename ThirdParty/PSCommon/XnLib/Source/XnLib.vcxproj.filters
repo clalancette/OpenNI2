@@ -99,9 +99,6 @@
     <ClInclude Include="..\Include\XnList.h">
       <Filter>Header Files\DataContainers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\XnMatrix3x3.h">
-      <Filter>Header Files\DataContainers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\XnPair.h">
       <Filter>Header Files\DataContainers</Filter>
     </ClInclude>
@@ -128,9 +125,6 @@
     </ClInclude>
     <ClInclude Include="..\Include\XnUSBDevice.h">
       <Filter>Header Files\OS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\XnSymmetricMatrix3x3.h">
-      <Filter>Header Files\DataContainers</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\XnLib.h">
       <Filter>Header Files</Filter>
@@ -173,9 +167,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="XnSytmmetricMatrix3x3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="XnVector3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
