@@ -44,44 +44,44 @@ enum PropertyType
 };
 
 const struct PropertyTable {
-    XnUInt32     propertyId;
-    const char*  propertyName;
+	XnUInt32     propertyId;
+	const char*  propertyName;
 	PropertyType propertyType;
 } propertyTable[] = {
 	// PS1080 Properties
-    { XN_STREAM_PROPERTY_INPUT_FORMAT,				"InputFormat"         , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_CROPPING_MODE,				"CroppingMode"        , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_WHITE_BALANCE_ENABLED,		"WhiteBalancedEnabled", PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_GAIN,						"Gain"                , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_HOLE_FILTER,				"HoleFilter"          , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_REGISTRATION_TYPE,			"RegistrationType"    , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_AGC_BIN,					"AGCBin"              , PROPERTY_TYPE_GENERAL  },
-    { XN_STREAM_PROPERTY_CONST_SHIFT,				"ConstShift"          , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_PIXEL_SIZE_FACTOR,			"PixelSizeFactor"     , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_MAX_SHIFT,					"MaxShift"            , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_PARAM_COEFF,				"ParamCoeff"          , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_SHIFT_SCALE,				"ShiftScale"          , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_S2D_TABLE,					"S2D"                 , PROPERTY_TYPE_GENERAL  },
-    { XN_STREAM_PROPERTY_D2S_TABLE,					"D2S"                 , PROPERTY_TYPE_GENERAL  },
-    { XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE,		"ZPD"                 , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_ZERO_PLANE_PIXEL_SIZE,		"ZPPS"                , PROPERTY_TYPE_REAL     },
-    { XN_STREAM_PROPERTY_EMITTER_DCMOS_DISTANCE,	"LDDIS"               , PROPERTY_TYPE_REAL     },
-    { XN_STREAM_PROPERTY_DCMOS_RCMOS_DISTANCE,		"DCRCDIS"             , PROPERTY_TYPE_REAL     },
-    { XN_STREAM_PROPERTY_CLOSE_RANGE,				"CloseRange"          , PROPERTY_TYPE_INTEGER  },
-	{ XN_STREAM_PROPERTY_FAST_ZOOM_CROP,			"FastZoomCrop"		  , PROPERTY_TYPE_INTEGER  },
-    { XN_STREAM_PROPERTY_PIXEL_REGISTRATION,		"PixelRegistration"   , PROPERTY_TYPE_GENERAL  },
+	{ XN_STREAM_PROPERTY_INPUT_FORMAT,			"InputFormat",		PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_CROPPING_MODE,			"CroppingMode",		PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_WHITE_BALANCE_ENABLED,		"WhiteBalancedEnabled",	PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_GAIN,				"Gain",			PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_HOLE_FILTER,			"HoleFilter",		PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_REGISTRATION_TYPE,			"RegistrationType",	PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_AGC_BIN,				"AGCBin",		PROPERTY_TYPE_GENERAL  },
+	{ XN_STREAM_PROPERTY_CONST_SHIFT,			"ConstShift",		PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_PIXEL_SIZE_FACTOR,			"PixelSizeFactor",	PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_MAX_SHIFT,				"MaxShift",		PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_PARAM_COEFF,			"ParamCoeff",		PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_SHIFT_SCALE,			"ShiftScale",		PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_S2D_TABLE,				"S2D",			PROPERTY_TYPE_GENERAL  },
+	{ XN_STREAM_PROPERTY_D2S_TABLE,				"D2S",			PROPERTY_TYPE_GENERAL  },
+	{ XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE,		"ZPD",			PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_ZERO_PLANE_PIXEL_SIZE,		"ZPPS",			PROPERTY_TYPE_REAL     },
+	{ XN_STREAM_PROPERTY_EMITTER_DCMOS_DISTANCE,		"LDDIS",		PROPERTY_TYPE_REAL     },
+	{ XN_STREAM_PROPERTY_DCMOS_RCMOS_DISTANCE,		"DCRCDIS",		PROPERTY_TYPE_REAL     },
+	{ XN_STREAM_PROPERTY_CLOSE_RANGE,			"CloseRange",		PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_FAST_ZOOM_CROP,			"FastZoomCrop",		PROPERTY_TYPE_INTEGER  },
+	{ XN_STREAM_PROPERTY_PIXEL_REGISTRATION,		"PixelRegistration",	PROPERTY_TYPE_GENERAL  },
 	// PSLink Properties
-	{ LINK_PROP_MAX_SHIFT,						"MaxShift",		PROPERTY_TYPE_INTEGER},
-	{ LINK_PROP_ZERO_PLANE_DISTANCE,			"ZPD",			PROPERTY_TYPE_INTEGER},
-	{ LINK_PROP_CONST_SHIFT,					"ConstShift",	PROPERTY_TYPE_INTEGER},
-	{ LINK_PROP_PARAM_COEFF,					"ParamCoeff",	PROPERTY_TYPE_INTEGER},
-	{ LINK_PROP_SHIFT_SCALE,					"ShiftScale",	PROPERTY_TYPE_INTEGER},
-	{ LINK_PROP_ZERO_PLANE_PIXEL_SIZE,			"ZPPS",			PROPERTY_TYPE_REAL},
-	{ LINK_PROP_EMITTER_DEPTH_CMOS_DISTANCE,	"LDDIS", 		PROPERTY_TYPE_REAL},
-	{ LINK_PROP_SHIFT_TO_DEPTH_TABLE,			"S2D",			PROPERTY_TYPE_GENERAL},
-	{ LINK_PROP_DEPTH_TO_SHIFT_TABLE,			"D2S",			PROPERTY_TYPE_GENERAL},
+	{ LINK_PROP_MAX_SHIFT,					"MaxShift",		PROPERTY_TYPE_INTEGER  },
+	{ LINK_PROP_ZERO_PLANE_DISTANCE,			"ZPD",			PROPERTY_TYPE_INTEGER  },
+	{ LINK_PROP_CONST_SHIFT,				"ConstShift",		PROPERTY_TYPE_INTEGER  },
+	{ LINK_PROP_PARAM_COEFF,				"ParamCoeff",		PROPERTY_TYPE_INTEGER  },
+	{ LINK_PROP_SHIFT_SCALE,				"ShiftScale",		PROPERTY_TYPE_INTEGER  },
+	{ LINK_PROP_ZERO_PLANE_PIXEL_SIZE,			"ZPPS",			PROPERTY_TYPE_REAL     },
+	{ LINK_PROP_EMITTER_DEPTH_CMOS_DISTANCE,		"LDDIS", 		PROPERTY_TYPE_REAL     },
+	{ LINK_PROP_SHIFT_TO_DEPTH_TABLE,			"S2D",			PROPERTY_TYPE_GENERAL  },
+	{ LINK_PROP_DEPTH_TO_SHIFT_TABLE,			"D2S",			PROPERTY_TYPE_GENERAL  },
 	// File Properties
-	{ ONI_FILE_PROPERTY_ORIGINAL_DEVICE,		"oniOriginalDevice", PROPERTY_TYPE_GENERAL}
+	{ ONI_FILE_PROPERTY_ORIGINAL_DEVICE,			"oniOriginalDevice", 	PROPERTY_TYPE_GENERAL  },
 };
 
 const XnSizeT propertyTableItemsCount = sizeof(propertyTable) / sizeof(propertyTable[0]);
@@ -109,136 +109,136 @@ const XnSizeT propertyTableItemsCount = sizeof(propertyTable) / sizeof(propertyT
 class FileRecorder::Memento
 {
 public:
-    /**
-     * Creates a Memento for the current state of the given Recorder.
-     */
-    Memento(FileRecorder* pRecorder)
-        : m_pRecorder(pRecorder), m_offset(XN_UINT64_C(0))
-    {
-    	Reuse();
-    }
+	/**
+	 * Creates a Memento for the current state of the given Recorder.
+	 */
+	Memento(FileRecorder* pRecorder)
+	: m_pRecorder(pRecorder), m_offset(XN_UINT64_C(0))
+	{
+		Reuse();
+	}
 
-    /**
-     * Destroys the Memento and reverts the Recorder back to the remembered state.
-     *
-     * @note The undo action will not be done if you have released the Memento.
-     */
-    ~Memento()
-    {
-        if (m_needRollback)
-        {
-            Undo();
-        }
-    }
+	/**
+	 * Destroys the Memento and reverts the Recorder back to the remembered state.
+	 *
+	 * @note The undo action will not be done if you have released the Memento.
+	 */
+	~Memento()
+	{
+		if (m_needRollback)
+		{
+			Undo();
+		}
+	}
 
-    /**
-     * Releases the Memento. A released memento will not undo.
-     */
-    void Release()
-    {
-        m_needRollback = false;
-    }
+	/**
+	 * Releases the Memento. A released memento will not undo.
+	 */
+	void Release()
+	{
+		m_needRollback = false;
+	}
 
-    /**
-     * ReUses the Memento. it will function like a brand-new one.
-     */
-    void Reuse()
-    {
-        m_needRollback = true;
+	/**
+	 * ReUses the Memento. it will function like a brand-new one.
+	 */
+	void Reuse()
+	{
+		m_needRollback = true;
 
-        XnStatus status = xnOSTellFile64(m_pRecorder->m_file, &m_offset);
-        if (status != XN_STATUS_OK)
-        {
-            m_pRecorder = NULL;
-        }
-    }
+		XnStatus status = xnOSTellFile64(m_pRecorder->m_file, &m_offset);
+		if (status != XN_STATUS_OK)
+		{
+			m_pRecorder = NULL;
+		}
+	}
 
-    /**
-     * Explicitly undo emits. Reverts the Recorder back to the remembered state.
-     */
-    void Undo()
-    {
-        if (m_pRecorder != NULL)
-        {
-            xnOSSeekFile64(m_pRecorder->m_file, XN_OS_SEEK_SET, m_offset);
-        }
-    }
+	/**
+	 * Explicitly undo emits. Reverts the Recorder back to the remembered state.
+	 */
+	void Undo()
+	{
+		if (m_pRecorder != NULL)
+		{
+			xnOSSeekFile64(m_pRecorder->m_file, XN_OS_SEEK_SET, m_offset);
+		}
+	}
 
-    /**
-     * An easy way to get the current position of the file. (and save for later use)
-     */
-    XnUInt64 GetPosition()
-    {
-        return m_offset;
-    }
+	/**
+	 * An easy way to get the current position of the file. (and save for later use)
+	 */
+	XnUInt64 GetPosition()
+	{
+		return m_offset;
+	}
 
-    /**
-     * An easey way to get the current position of the file. (for later use)
-     */
-    void SetPosition(XnUInt64 pos)
-    {
-        if (m_pRecorder != NULL)
-        {
-            xnOSSeekFile64(m_pRecorder->m_file, XN_OS_SEEK_SET, pos);
-        }
-    }
+	/**
+	 * An easey way to get the current position of the file. (for later use)
+	*/
+	void SetPosition(XnUInt64 pos)
+	{
+		if (m_pRecorder != NULL)
+		{
+			xnOSSeekFile64(m_pRecorder->m_file, XN_OS_SEEK_SET, pos);
+		}
+	}
 
 private:
-    FileRecorder* m_pRecorder;
-    XnUInt64  m_offset;
-    XnBool    m_needRollback;
+	FileRecorder* m_pRecorder;
+	XnUInt64  m_offset;
+	XnBool    m_needRollback;
 };
 
 FileRecorder::FileRecorder(FrameManager& frameManager, xnl::ErrorLogger& errorLogger, OniRecorderHandle handle) :
 		  Recorder(handle),
-          m_frameManager(frameManager),
-          m_errorLogger(errorLogger), 
-          m_maxId(0),
-          m_configurationId(0),
-		  m_propertyPriority(ms_priorityNormal),
-          m_file(XN_INVALID_FILE_HANDLE)
+	m_frameManager(frameManager),
+	m_errorLogger(errorLogger),
+	m_maxId(0),
+	m_configurationId(0),
+	m_propertyPriority(ms_priorityNormal),
+	m_file(XN_INVALID_FILE_HANDLE)
 {
 }
 
 FileRecorder::~FileRecorder()
 {
-    stop();
-    detachAllStreams();
-    send(Message::MESSAGE_TERMINATE);
-    xnOSWaitForThreadExit(m_thread, XN_WAIT_INFINITE);
+	stop();
+	detachAllStreams();
+	send(Message::MESSAGE_TERMINATE);
+	xnOSWaitForThreadExit(m_thread, XN_WAIT_INFINITE);
 	xnOSCloseThread(&m_thread);
-    if (NULL != m_handle)
-    {
-        m_handle->pRecorder = NULL;
-    }
+	if (NULL != m_handle)
+	{
+		m_handle->pRecorder = NULL;
+	}
 }
 
 OniStatus FileRecorder::initialize(const char* fileName)
 {
-    m_fileName = fileName;
+	m_fileName = fileName;
 
-    // Probe if we can actually open the file.
-    XN_FILE_HANDLE fileHandle = XN_INVALID_FILE_HANDLE;
-    XnStatus status = xnOSOpenFile(
-            /* file name  = */ fileName, 
-            /* open flags = */ XN_OS_FILE_WRITE | XN_OS_FILE_TRUNCATE, 
-            /* out handle = */ &fileHandle);
-    if (XN_STATUS_OK != status)
-    {
-        return ONI_STATUS_ERROR;
-    }
-    xnOSCloseFile(&fileHandle);
+	// Probe if we can actually open the file.
+	XN_FILE_HANDLE fileHandle = XN_INVALID_FILE_HANDLE;
+	XnStatus status = xnOSOpenFile(
+		/* file name  = */ fileName,
+		/* open flags = */ XN_OS_FILE_WRITE | XN_OS_FILE_TRUNCATE,
+		/* out handle = */ &fileHandle);
+	if (XN_STATUS_OK != status)
+	{
+		return ONI_STATUS_ERROR;
+	}
+	xnOSCloseFile(&fileHandle);
 
-    m_assembler.initialize();   
-    
-    status = xnOSCreateThread(threadMain, this, &m_thread);
-    if (XN_STATUS_OK != status)
-    {
-        return ONI_STATUS_ERROR;
-    }
-    
-    send(Message::MESSAGE_INITIALIZE);
-    return ONI_STATUS_OK;
+	m_assembler.initialize();
+
+	status = xnOSCreateThread(threadMain, this, &m_thread);
+	if (XN_STATUS_OK != status)
+	{
+		return ONI_STATUS_ERROR;
+	}
+
+	send(Message::MESSAGE_INITIALIZE);
+	return ONI_STATUS_OK;
 }
 
 OniStatus FileRecorder::attachStream(VideoStream& stream, OniBool allowLossyCompression)
@@ -279,205 +279,193 @@ OniStatus FileRecorder::detachStream(VideoStream& stream)
 OniStatus FileRecorder::start()
 {
 	Recorder::start();
-    send(Message::MESSAGE_START);
-    return ONI_STATUS_OK;
+	send(Message::MESSAGE_START);
+	return ONI_STATUS_OK;
 }
 
 OniStatus FileRecorder::record(VideoStream& stream, OniFrame& aFrame)
 {
-    if (!m_started)
-    {
-        return ONI_STATUS_ERROR;
-    }
-    xnl::LockGuard< AttachedStreams > guard(m_streams);
-    VideoStream* pStream = &stream;
-    if (m_streams.Find(pStream) == m_streams.End())
-    {
-        return ONI_STATUS_BAD_PARAMETER;
-    }
-    OniFrame* pFrame = &aFrame;
-    m_frameManager.addRef(pFrame);
-    send(Message::MESSAGE_RECORD, pStream, pFrame);
-    return ONI_STATUS_OK;
+	if (!m_started)
+	{
+		return ONI_STATUS_ERROR;
+	}
+	xnl::LockGuard< AttachedStreams > guard(m_streams);
+	VideoStream* pStream = &stream;
+	if (m_streams.Find(pStream) == m_streams.End())
+	{
+		return ONI_STATUS_BAD_PARAMETER;
+	}
+	OniFrame* pFrame = &aFrame;
+	m_frameManager.addRef(pFrame);
+	send(Message::MESSAGE_RECORD, pStream, pFrame);
+	return ONI_STATUS_OK;
 }
 
 OniStatus FileRecorder::recordStreamProperty(
-            VideoStream&     stream,
-            int         propertyId,
-            const void* pData, 
-            int         dataSize)
+	VideoStream&     stream,
+	int         propertyId,
+	const void* pData,
+	int         dataSize)
 {
-    xnl::LockGuard< AttachedStreams > guard(m_streams);
-    VideoStream* pStream = &stream;
-    if (m_streams.Find(pStream) == m_streams.End())
-    {
-        return ONI_STATUS_BAD_PARAMETER;
-    }
-    // The original pData will not be valid after this function ends.
-    // Free this pointer when soon after handling the PropertyMessage!
-    void *newPtr = xnOSMalloc(dataSize);
-    xnOSMemCopy(newPtr, pData, dataSize);
-    send(Message::MESSAGE_RECORDPROPERTY, pStream, newPtr, propertyId, dataSize, m_propertyPriority);
-    return ONI_STATUS_OK;
+	xnl::LockGuard< AttachedStreams > guard(m_streams);
+	VideoStream* pStream = &stream;
+	if (m_streams.Find(pStream) == m_streams.End())
+	{
+		return ONI_STATUS_BAD_PARAMETER;
+	}
+	// The original pData will not be valid after this function ends.
+	// Free this pointer when soon after handling the PropertyMessage!
+	void *newPtr = xnOSMalloc(dataSize);
+	xnOSMemCopy(newPtr, pData, dataSize);
+	send(Message::MESSAGE_RECORDPROPERTY, pStream, newPtr, propertyId, dataSize, m_propertyPriority);
+	return ONI_STATUS_OK;
 }
 
 XN_THREAD_PROC FileRecorder::threadMain(XN_THREAD_PARAM pThreadParam)
 {
-    FileRecorder* pSelf = reinterpret_cast<FileRecorder*>(pThreadParam);
-    if (NULL != pSelf)
-    {
-        pSelf->m_running = TRUE;
-        while (pSelf->m_running)
-        {
-            pSelf->messagePump();
-        }
-    }
-    XN_THREAD_PROC_RETURN(XN_STATUS_OK);
+	FileRecorder* pSelf = reinterpret_cast<FileRecorder*>(pThreadParam);
+	if (NULL != pSelf)
+	{
+		pSelf->m_running = TRUE;
+		while (pSelf->m_running)
+		{
+			pSelf->messagePump();
+		}
+	}
+	XN_THREAD_PROC_RETURN(XN_STATUS_OK);
 }
 
 void FileRecorder::messagePump()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-    Message msg = { Message::MESSAGE_NO_OPERATION, 0, NULL, {NULL}, 0, 0 };
+	Message msg = { Message::MESSAGE_NO_OPERATION, 0, NULL, {NULL}, 0, 0 };
 
 	{
 		xnl::LockGuard<MessageQueue> guard(m_queue);
 		nRetVal = m_queue.Pop(msg);
 	}
 
-    if (XN_STATUS_OK == nRetVal)
-    {
-        switch (msg.type)
-        {
-            case Message::MESSAGE_INITIALIZE:
-                {
-                    onInitialize();
-                }
-                break;
-            case Message::MESSAGE_TERMINATE:
-                {
-                    onTerminate();
-                    m_running = FALSE;
-                }
-                break;
-            case Message::MESSAGE_ATTACH:
-                {
-                    xnl::LockGuard<AttachedStreams> streamsGuard(m_streams);
-                    AttachedStreams::Iterator i = m_streams.Find(msg.pStream);
-                    if (i != m_streams.End())
-                    {
-                        onAttach(i->Value().nodeId, msg.pStream);
-                    }
-                }
-                break;
-            case Message::MESSAGE_DETACH:
-                {
-                    xnl::LockGuard<AttachedStreams> streamsGuard(m_streams);
-                    AttachedStreams::Iterator i = m_streams.Find(msg.pStream);
-                    if (i != m_streams.End())
-                    {
-                        onDetach(i->Value().nodeId);
-                        XN_DELETE(m_streams[msg.pStream].pCodec);
-                        m_streams.Remove(msg.pStream);
-                    }
-                }
-                break;
-            case Message::MESSAGE_START:
-                {
-                    xnl::LockGuard<AttachedStreams> streamsGuard(m_streams);
-                    for (AttachedStreams::Iterator 
-                            i = m_streams.Begin(),
-                            e = m_streams.End();
-                        i != e; ++i)
-                    {
-                        onStart(i->Value().nodeId);
-                    }
-                    m_started = true;
-                }
-                break;
-            case Message::MESSAGE_RECORD:
-                {
-                    xnl::LockGuard<AttachedStreams> streamsGuard(m_streams);
-                    AttachedStreams::Iterator i = m_streams.Find(msg.pStream);
-                    if (i != m_streams.End())
-                    {
-                        XnCodecBase* pCodec = m_streams[msg.pStream].pCodec;
-                        XnUInt32 frameId    = ++m_frameIds[msg.pStream];
-						++m_streams[msg.pStream].frameId;
-                        XnUInt64 timestamp  = 0;
-                        if (frameId > 1)
-                        {
-                            timestamp = m_streams[msg.pStream].lastOutputTimestamp + (msg.pFrame->timestamp - m_streams[msg.pStream].lastInputTimestamp);
-                        }
-                        m_streams[msg.pStream].lastInputTimestamp = msg.pFrame->timestamp;
-                        m_streams[msg.pStream].lastOutputTimestamp = timestamp;
-                        onRecord(i->Value().nodeId, pCodec, msg.pFrame, frameId, timestamp);
-                        m_frameManager.release(msg.pFrame);
-                    }
-                }
-                break;
-            case Message::MESSAGE_RECORDPROPERTY:
-                {
-                    xnl::LockGuard<AttachedStreams> streamsGuard(m_streams);
-                    AttachedStreams::Iterator i = m_streams.Find(msg.pStream);
-                    if (i != m_streams.End())
-                    {
-                        onRecordProperty(
-                            i->Value().nodeId,
-                            msg.propertyId,
-                            msg.pData,
-                            msg.dataSize);
-                    }
-                    // free the temporary buffer allocated earlier
-                    xnOSFree((void*)msg.pData);
-                }
-                break;
-            default:
-                ;
-        }
-    }
+	if (XN_STATUS_OK != nRetVal)
+	{
+		return;
+	}
+	switch (msg.type)
+	{
+		case Message::MESSAGE_INITIALIZE:
+			{
+				onInitialize();
+			}
+			break;
+		case Message::MESSAGE_TERMINATE:
+			{
+				onTerminate();
+				m_running = FALSE;
+			}
+    			break;
+		case Message::MESSAGE_ATTACH:
+			{
+				xnl::LockGuard<AttachedStreams> streamsGuard(m_streams);
+				AttachedStreams::Iterator i = m_streams.Find(msg.pStream);
+				if (i != m_streams.End())
+				{
+					onAttach(i->Value().nodeId, msg.pStream);
+				}
+			}
+			break;
+		case Message::MESSAGE_DETACH:
+			{
+				xnl::LockGuard<AttachedStreams> streamsGuard(m_streams);
+				AttachedStreams::Iterator i = m_streams.Find(msg.pStream);
+				if (i != m_streams.End())
+				{
+					onDetach(i->Value().nodeId);
+					XN_DELETE(m_streams[msg.pStream].pCodec);
+					m_streams.Remove(msg.pStream);
+				}
+			}
+			break;
+		case Message::MESSAGE_START:
+			{
+				xnl::LockGuard<AttachedStreams> streamsGuard(m_streams);
+				for (AttachedStreams::Iterator
+					i = m_streams.Begin(),
+					e = m_streams.End();
+					i != e; ++i)
+				{
+					onStart(i->Value().nodeId);
+				}
+				m_started = true;
+			}
+			break;
+		case Message::MESSAGE_RECORD:
+			{
+				xnl::LockGuard<AttachedStreams> streamsGuard(m_streams);
+				AttachedStreams::Iterator i = m_streams.Find(msg.pStream);
+				if (i != m_streams.End())
+				{
+					XnCodecBase* pCodec = m_streams[msg.pStream].pCodec;
+					XnUInt32 frameId    = ++m_frameIds[msg.pStream];
+					++m_streams[msg.pStream].frameId;
+					XnUInt64 timestamp  = 0;
+					if (frameId > 1)
+					{
+						timestamp = m_streams[msg.pStream].lastOutputTimestamp + (msg.pFrame->timestamp - m_streams[msg.pStream].lastInputTimestamp);
+					}
+					m_streams[msg.pStream].lastInputTimestamp = msg.pFrame->timestamp;
+					m_streams[msg.pStream].lastOutputTimestamp = timestamp;
+					onRecord(i->Value().nodeId, pCodec, msg.pFrame, frameId, timestamp);
+					m_frameManager.release(msg.pFrame);
+				}
+			}
+			break;
+		case Message::MESSAGE_RECORDPROPERTY:
+			{
+				xnl::LockGuard<AttachedStreams> streamsGuard(m_streams);
+				AttachedStreams::Iterator i = m_streams.Find(msg.pStream);
+				if (i != m_streams.End())
+				{
+					onRecordProperty(i->Value().nodeId, msg.propertyId, msg.pData, msg.dataSize);
+				}
+				// free the temporary buffer allocated earlier
+				xnOSFree((void*)msg.pData);
+			}
+			break;
+		default:
+			;
+	}
 }
 
-void FileRecorder::send(
-            Message::Type type, 
-            VideoStream*     pStream, 
-            const void* pData,
-            XnUInt32    propertyId,
-            XnSizeT     dataSize,
-			int priority)
+void FileRecorder::send(Message::Type type, VideoStream* pStream, const void* pData, XnUInt32 propertyId, XnSizeT dataSize, int priority)
 {
-    Message msg = 
-    { 
-        type,
-        pStream != NULL ? m_streams[pStream].nodeId : 0,
-        pStream,
-        {pData},
-        propertyId,
-        dataSize
-    };
-    xnl::LockGuard<MessageQueue> guard(m_queue);
-    m_queue.Push(msg, priority);
+	Message msg =
+	{
+		type,
+		pStream != NULL ? m_streams[pStream].nodeId : 0,
+		pStream,
+		{pData},
+		propertyId,
+		dataSize
+	};
+	xnl::LockGuard<MessageQueue> guard(m_queue);
+	m_queue.Push(msg, priority);
 }
 
 void FileRecorder::onInitialize()
 {
-    XnStatus status = xnOSOpenFile(
-        /* file name  = */ m_fileName.Data(), 
-        /* open flags = */ XN_OS_FILE_WRITE | XN_OS_FILE_TRUNCATE, 
-        /* out handle = */ &m_file);
+	XnStatus status = xnOSOpenFile(m_fileName.Data(), XN_OS_FILE_WRITE | XN_OS_FILE_TRUNCATE, &m_file);
 
-    if (XN_STATUS_OK == status)
-    {
-        FileHeaderData fileHeader = 
-        {
-            /* identity     = */ { 'N', 'I', '1', '0' },
-            /* version      = */ {   1,   0,  1,   0  },
-            /* maxTimeStamp = */ XN_MAX_UINT64,
-            /* maxNodeId    = */ m_maxId,
-        };
-        m_fileHeader = fileHeader;
-        xnOSWriteFile(m_file, &m_fileHeader, sizeof(m_fileHeader));
-    }
+	if (XN_STATUS_OK == status)
+	{
+		FileHeaderData fileHeader =
+		{
+			/* identity     = */ { 'N', 'I', '1', '0' },
+			/* version      = */ {   1,   0,  1,   0  },
+			/* maxTimeStamp = */ XN_MAX_UINT64,
+			/* maxNodeId    = */ m_maxId,
+		};
+		m_fileHeader = fileHeader;
+		xnOSWriteFile(m_file, &m_fileHeader, sizeof(m_fileHeader));
+	}
 }
 
 // A handy macro, that makes code more readable.
@@ -589,15 +577,15 @@ XnPixelFormat toXnPixelFormat(OniPixelFormat oniFormat)
     case ONI_PIXEL_FORMAT_DEPTH_100_UM:	return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
     case ONI_PIXEL_FORMAT_SHIFT_9_2:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
     case ONI_PIXEL_FORMAT_SHIFT_9_3:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
-    
+
     // Color
     case ONI_PIXEL_FORMAT_RGB888:		return XN_PIXEL_FORMAT_RGB24;
     case ONI_PIXEL_FORMAT_YUV422:		return XN_PIXEL_FORMAT_YUV422;
     case ONI_PIXEL_FORMAT_GRAY8:		return XN_PIXEL_FORMAT_GRAYSCALE_8_BIT;
     case ONI_PIXEL_FORMAT_GRAY16:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
     case ONI_PIXEL_FORMAT_JPEG:		return XN_PIXEL_FORMAT_MJPEG;
-    
-    default: 
+
+    default:
 		//not supported by OpenNI 1.x
         return XnPixelFormat(0);
     }
@@ -618,7 +606,7 @@ void fillXnSupportedPixelFormats(XnSupportedPixelFormats &xnSPF, OniPixelFormat 
 
 void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
 {
-    if (nodeId == 0 || pStream == NULL) 
+    if (nodeId == 0 || pStream == NULL)
     {
         return;
     }
@@ -660,8 +648,8 @@ void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
             if (m_streams[pStream].allowLossyCompression)
             {
                 m_streams[pStream].pCodec = XN_NEW(
-                        XnJpegCodec, 
-                        /* bRGB = */ TRUE, 
+                        XnJpegCodec,
+                        /* bRGB = */ TRUE,
                         curVideoMode.resolutionX,
                         curVideoMode.resolutionY);
 
@@ -678,14 +666,14 @@ void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
         break;
     }
 
-    // If anything went wrong - fall back to uncompressed format. 
+    // If anything went wrong - fall back to uncompressed format.
     if (XN_STATUS_OK != m_streams[pStream].pCodec->Init())
     {
         XN_DELETE(m_streams[pStream].pCodec);
         m_streams[pStream].pCodec = NULL;
         codecId = ONI_CODEC_UNCOMPRESSED;
     }
-    
+
     Memento undoPoint(this);
     // save the position of this record so we can override it upon detaching
     m_streams[pStream].nodeAddedRecordPosition = undoPoint.GetPosition();
@@ -921,7 +909,7 @@ void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
 
 void FileRecorder::onDetach(XnUInt32 nodeId)
 {
-    if (nodeId == 0) 
+    if (nodeId == 0)
     {
         return;
     }
@@ -1000,7 +988,7 @@ void FileRecorder::onRecord(XnUInt32 nodeId, XnCodecBase* pCodec, const OniFrame
         XnUInt32 bufferSize_bytes32 = pFrame->dataSize * 2 + pCodec->GetOverheadSize();
         XnUInt8* buffer             = XN_NEW_ARR(XnUInt8, bufferSize_bytes32);
 
-        XnStatus status = pCodec->Compress(reinterpret_cast<const XnUChar*>(pFrame->data), 
+        XnStatus status = pCodec->Compress(reinterpret_cast<const XnUChar*>(pFrame->data),
                 pFrame->dataSize, buffer, &bufferSize_bytes32);
                 XnSizeT  bufferSize_bytes = bufferSize_bytes32;
         if (XN_STATUS_OK == status)
@@ -1029,7 +1017,7 @@ void FileRecorder::onRecord(XnUInt32 nodeId, XnCodecBase* pCodec, const OniFrame
     undoPoint.Release();
     // save this record's position as the last one
     pInfo->lastNewDataRecordPosition = undoPoint.GetPosition();
-    
+
     // write to seek table
     DataIndexEntry dataIndexEntry;
     dataIndexEntry.nTimestamp = timestamp;
@@ -1040,7 +1028,7 @@ void FileRecorder::onRecord(XnUInt32 nodeId, XnCodecBase* pCodec, const OniFrame
 }
 
 void FileRecorder::onRecordProperty(
-            XnUInt32    nodeId, 
+            XnUInt32    nodeId,
             XnUInt32    propertyId,
             const void* pData,
             XnSizeT     dataSize)
