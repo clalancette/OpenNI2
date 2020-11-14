@@ -227,6 +227,7 @@ int Sensor::getDefaultRequiredFrameSize()
 	OniVideoMode videoMode;
 	int size = sizeof(videoMode);
 	nRetVal = m_driverHandler.streamGetProperty(m_streamHandle, ONI_STREAM_PROPERTY_VIDEO_MODE, &videoMode, &size);
+	XN_REFERENCE_VARIABLE(nRetVal);
 	XN_ASSERT(nRetVal == ONI_STATUS_OK);
 
 	int stride;
