@@ -28,7 +28,6 @@
     <ClInclude Include="..\Include\XnArray.h" />
     <ClInclude Include="..\Include\XnBox3D.h" />
     <ClInclude Include="..\Include\XnCriticalSection.h" />
-    <ClInclude Include="..\Include\XnDataStructures.h" />
     <ClInclude Include="..\Include\XnHash.h" />
     <ClInclude Include="..\Include\XnList.h" />
     <ClInclude Include="..\Include\XnLockable.h" />

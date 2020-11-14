@@ -26,7 +26,5 @@
 #include "XnStatus.h"
 #include "XnStatusCodes.h"
 #include "XnOS.h"
-//#include "XnDataStructures.h"
-
 
 #endif // _XN_LIB_H_

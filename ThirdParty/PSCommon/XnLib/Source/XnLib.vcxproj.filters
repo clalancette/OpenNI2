@@ -93,9 +93,6 @@
     <ClInclude Include="..\Include\XnBox3D.h">
       <Filter>Header Files\DataContainers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\XnDataStructures.h">
-      <Filter>Header Files\DataContainers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\XnHash.h">
       <Filter>Header Files\DataContainers</Filter>
     </ClInclude>

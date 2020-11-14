@@ -27,9 +27,10 @@
 #include "XnShiftToDepth.h"
 #include <XnStatus.h>
 #include <XnLog.h>
-#include <XnDataStructures.h>
 #include <XnArray.h>
 #include <XnBitSet.h>
+#include <XnBox3D.h>
+#include <XnVector3D.h>
 #include <PSLink.h>
 
 #define XN_MASK_LINK "xnLink"
