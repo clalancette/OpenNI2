@@ -34,7 +34,7 @@ VERSION_BUILD = 15
 
 def getVersionString():
     return str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_MAINTENANCE) + "." + str(VERSION_BUILD)
-    
+
 def getVersionName():
     if VERSION_MAINTENANCE != 0:
         return str(VERSION_MAJOR) + "." + str(VERSION_MINOR) + "." + str(VERSION_MAINTENANCE)
@@ -68,9 +68,6 @@ def update():
     update_wix_project("Install/Install.wixproj")
     update_doxygen("../Source/Documentation/Doxyfile")
     update_release_notes("../ReleaseNotes.txt")
-    update_android_projects("../Wrappers/java")
-    update_android_projects("../Source/Tools")
-    update_android_projects("../Samples")
 
     print ("\n*** Done ***")
 
@@ -132,28 +129,18 @@ def update_release_notes (filePath):
 
     lines[0] = 'OpenNI ' + str(VERSION_MAJOR) + '.' + str(VERSION_MINOR) + '.' + str(VERSION_MAINTENANCE) + ' Build ' + str(VERSION_BUILD) + '\n'
     lines[1] = today.strftime('%B ') + str(today.day) + ' ' + str(today.year) + '\n'
-    
+
     for s in lines:
         output.write(s)
     output.close()
     os.remove(filePath)
-    os.rename(tempName,filePath)     
+    os.rename(tempName,filePath)
 
-def update_android_projects(path):
-    versionCode = VERSION_BUILD + VERSION_MAINTENANCE * 10000 + VERSION_MINOR * 1000000 + VERSION_MAJOR * 100000000
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            if file == 'AndroidManifest.xml' and not root.endswith('bin'):
-                print(( "Updating android project: " + root))
-                fileName = os.path.join(root, file)
-                regx_replace(r'android:versionCode=\"(.*)\"', 'android:versionCode="' + str(versionCode) + '"', fileName)
-                regx_replace(r'android:versionName=\"(.*)\"', 'android:versionName="' + getVersionName() + '"', fileName)
-    
 if __name__ == '__main__':
     if len(sys.argv) == 5:
         VERSION_MAJOR = int(sys.argv[1])
         VERSION_MINOR = int(sys.argv[2])
         VERSION_MAINTENANCE = int(sys.argv[3])
         VERSION_BUILD = int(sys.argv[4])
-        
+
     update()

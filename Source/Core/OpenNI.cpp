@@ -485,17 +485,6 @@ ONI_C_API OniStatus oniSetLogFileOutput(OniBool bFileOutput)
 	return ONI_STATUS_OK;
 }
 
-#if ONI_PLATFORM == ONI_PLATFORM_ANDROID_ARM
-ONI_C_API OniStatus oniSetLogAndroidOutput(OniBool bAndroidOutput)
-{
-	XnStatus rc = xnLogSetAndroidOutput((XnBool)bAndroidOutput);
-
-	if (rc != XN_STATUS_OK)
-		return ONI_STATUS_ERROR;
-
-	return ONI_STATUS_OK;
-}
-#endif
 ONI_C_API OniStatus oniCoordinateConverterDepthToWorld(OniStreamHandle depthStream, float depthX, float depthY, float depthZ, float* pWorldX, float* pWorldY, float* pWorldZ)
 {
 	g_Context.clearErrorLogger();

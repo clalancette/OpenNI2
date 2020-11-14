@@ -14,37 +14,7 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
 License for the specific language governing permissions and limitations under 
 the License.
 
-1. LibUSB, 1.0.9, under GNU Lesser General Public License, v 2.1 (or any 
-later version)
-
-OpenNI 2.X uses a modified version of libusb, which was modified by 
-PrimeSense on 2012. 
-
-The modified source code is distributed along with OpenNI 2.X source code and 
-can be found in the following path: 
-ThirdParty/PSCommon/XnLib/ThirdParty/libusb-1.0.9-Android
-
-
-Copyright (C) 2007-2008 Daniel Drake <dsd@gentoo.org>
-Copyright (c) 2001 Johannes Erdfelt <johannes@erdfelt.com>
-
-This library is free software; you can redistribute it and/or modify it under 
-the terms of the GNU Lesser General Public License as published by the Free 
-Software Foundation; either version 2.1 of the License, or (at your option) 
-any later version. 
-
-This library is distributed in the hope that it will be useful, but WITHOUT 
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more 
-details. 
-
-You should have received a copy of the GNU Lesser General Public License 
-along with this library; if not, write to the Free Software Foundation, Inc., 
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-Full text of the license is available below.
-
-2. GLUT 3.7.x 
+1. GLUT 3.7.x 
 
 Some of the samples arrive with GLUT binaries and headers for Windows. Those 
 are under the following copyright:

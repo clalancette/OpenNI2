@@ -37,14 +37,6 @@ Other than that, sensible and meaningful contributions are very welcome!
 
     Please make sure you download the version that matches your exact python version.
 
-- JDK 6.0
-
-    - Download and install from: http://www.oracle.com/technetwork/java/javase/downloads/jdk-6u32-downloads-1594644.html
-
-    You must also define an environment variable called `JAVA_HOME` that points to the JDK installation directory. For example:
-
-    	set JAVA_HOME=c:\Program Files (x86)\Java\jdk1.6.0_32
-
 - WIX 3.5
 
     - Download and install from: http://wix.codeplex.com/releases/view/60102
@@ -87,22 +79,6 @@ Other than that, sensible and meaningful contributions are very welcome!
 
 		sudo apt-get install libudev-dev
 
-- JDK 6.0
-
-    - Download and install from: http://www.oracle.com/technetwork/java/javase/downloads/jdk-6u32-downloads-1594644.html
-
-    - Or use `apt`:
-
-    	- On Ubuntu 10.x:
-
-				sudo add-apt-repository "deb http://archive.canonical.com/ lucid partner"
-				sudo apt-get update
-				sudo apt-get install sun-java6-jdk
-
-    	- On Ubuntu 12.x:
-
-				sudo apt-get install openjdk-6-jdk
-
 - FreeGLUT3
 
     - Download and install from: http://freeglut.sourceforge.net/index.php#download
@@ -126,21 +102,6 @@ Other than that, sensible and meaningful contributions are very welcome!
     - Or use `apt`:
 
     		sudo apt-get install graphviz
-
-### Android
-
-- Download and install the Android NDK from http://developer.android.com/tools/sdk/ndk/index.html#Downloads
-- You must also define an environment variable called "NDK_HOME" that points to the NDK installation directory.
-- Download and install the Android SDK from http://developer.android.com/sdk/index.html#download
-  - Currently requires installing SDK for API level 14 and 18 (via Android SDK Manager)
-- You must also define an environment variable called "ANDROID_HOME" that points to the SDK installation directory.
-- Download and install Ant:
-  - Ubuntu: sudo apt-get install ant
-  - Windows: https://code.google.com/p/winant
-- Download and install JDK 6.0
-  - Ubuntu: sudo apt-get install openjdk-6-jdk
-  - Windows: http://www.oracle.com/technetwork/java/javase/downloads/jdk-6u32-downloads-1594644.html
-  - You must also define an environment variable called "JAVA_HOME" that points to the JDK installation directory.
 
 ### macOS
 - Libusb 1.0
@@ -176,7 +137,7 @@ Then, run:
   - Go into the directory `Packaging`
   - Run:
 
-		ReleaseVersion.py [x86|x64|Arm|Android]
+		ReleaseVersion.py [x86|x64|Arm]
 
   - The installer will be placed in the `Final` directory
 
@@ -197,7 +158,7 @@ Then, run:
   - apt-get update
   - apt-get remove -y --force-yes udev
   - apt-get install -y build-essential python libusb-1.0-0-dev libudev-dev openjdk-6-jdk freeglut3-dev
-- Still inside docker, build the release package (note that, instead of running `ReleaseVersion.py` inside `Packaging`, you could just run `make HAS_JAVA=1 release` at the top level):
+- Still inside docker, build the release package
   - cd /tmp/OpenNI2/Packaging
   - ./ReleaseVersion.py Arm
 - If all goes well, there will be a file in the docker container called something like `/tmp/OpenNI2/Packaging/Final/OpenNI-Linux-Arm-2.3.tar.bz2`.  It's also in the corresponding place in the host filesystem, so it will survive exiting the container. That file contains the compiled libraries (importantly, `OpenNI-Linux-Arm-2.3/Redist/libOpenNI2.so`).

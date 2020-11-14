@@ -512,7 +512,7 @@ class RedistBase(object):
                 prj.close()
 
             elif os.path.exists(other_proj_name):
-                # some other type of project (java?)
+                # some other type of project
                 sample_data.project_file = other_proj_name
                 sample_data.is_other = True
                 sample_data.project_name = sample
@@ -555,7 +555,7 @@ class RedistBase(object):
             self.finish_script(1)
 
     def build_other_samples(self):
-        "Builds other samples (java?)"
+        "Builds other samples"
         all_samples = self.get_samples()
         for sample in list(all_samples.values()):
             if not sample.is_other:
@@ -588,12 +588,6 @@ class RedistBase(object):
         
         OUTFILESLN2010.write("Microsoft Visual Studio Solution File, Format Version 11.00\n")
         OUTFILESLN2010.write("# Visual Studio 2010\n")
-
-        # copy java build script
-        try:
-            shutil.copy(os.path.join("Build", "BuildJava.py"), os.path.join("Redist", "Samples", "Build"))
-        except:
-            pass
 
         # add projects
         for sample in list(all_samples.values()):

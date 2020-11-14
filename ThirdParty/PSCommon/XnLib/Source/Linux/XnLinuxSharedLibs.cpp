@@ -28,41 +28,6 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-static XnStatus FindLibrary(const XnChar* strLibName, XnChar* cpLibPath, const XnUInt32 nBufferSize)
-{
-	XnBool bExists;
-
-	// try application libraries
-	XnChar strAppLibDir[XN_FILE_MAX_PATH];
-	xnOSGetApplicationLibDir(strAppLibDir, sizeof(strAppLibDir));
-	snprintf(cpLibPath, nBufferSize, "%s/%s", strAppLibDir, strLibName);
-	xnOSDoesFileExist(cpLibPath, &bExists);
-	if (bExists)
-	{
-		return XN_STATUS_OK;
-	}
-
-	// otherwise, try current dir
-	snprintf(cpLibPath, nBufferSize, "./%s", strLibName);
-	xnOSDoesFileExist(cpLibPath, &bExists);
-	if (bExists)
-	{
-		return XN_STATUS_OK;
-	}
-
-	// otherwise, try system dir
-	snprintf(cpLibPath, nBufferSize, "/system/lib/%s", strLibName);
-	xnOSDoesFileExist(cpLibPath, &bExists);
-	if (bExists)
-	{
-		return XN_STATUS_OK;
-	}
-
-	return XN_STATUS_OS_FILE_NOT_FOUND;
-}
-#endif
-
 XN_C_API XnStatus xnOSLoadLibrary(const XnChar* cpFileName, XN_LIB_HANDLE* pLibHandle)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -70,14 +35,7 @@ XN_C_API XnStatus xnOSLoadLibrary(const XnChar* cpFileName, XN_LIB_HANDLE* pLibH
 	XN_VALIDATE_OUTPUT_PTR(pLibHandle);
 
 	XnChar strLibPath[XN_FILE_MAX_PATH];
-	
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-	XnStatus nRetVal = FindLibrary(cpFileName, strLibPath, sizeof(strLibPath));
-	if (nRetVal != XN_STATUS_OK)
-	{
-		return nRetVal;
-	}
-#else
+
 	// Resolve the file name to the absolute path. This is necessary because
 	// we need to get the absolute path of this library by dladdr() later.
 	// Note dladdr() seems to return the path specified to dlopen() "as it is".
@@ -87,7 +45,6 @@ XN_C_API XnStatus xnOSLoadLibrary(const XnChar* cpFileName, XN_LIB_HANDLE* pLibH
 		xnLogWarning(XN_MASK_OS, "Failed to get absolute path for lib: %s\n", cpFileName);
 		return XN_STATUS_OS_CANT_LOAD_LIB;
 	}
-#endif
 
 	// Load the requested shared library via the OS
 	*pLibHandle = dlopen(strLibPath, RTLD_NOW);

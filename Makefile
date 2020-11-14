@@ -9,17 +9,12 @@
 #
 # Default compiler is g++. for another one use:
 #   make CXX=<comp>
-#
-# Java-dependent build rules are disabled by default. To enable them, use:
-#   make HAS_JAVA=1
 
 #-------------------------------------------------------------------------------
 
 include ThirdParty/PSCommon/BuildSystem/CommonDefs.mak
 
 #-------------------------------------------------------------------------------
-
-# HAS_JAVA=0 # Uncomment this to force the value.
 
 export ALLOW_WARNINGS = 1
 
@@ -63,16 +58,6 @@ CXX_SAMPLES_SUBDIRS = \
 	Samples/MWClosestPointApp
 
 #-------------------------------------------------------------------------------
-# Java
-
-JAVA_MAIN_SUBDIRS = \
-	Wrappers/java \
-	Wrappers/java/jni
-
-JAVA_SAMPLES_SUBDIRS = \
-	Samples/SimpleViewer.java
-
-#-------------------------------------------------------------------------------
 # GLUT
 
 ifeq "$(GLUT_SUPPORTED)" "1"
@@ -92,26 +77,15 @@ ALL_CXX_SUBDIRS = \
 	$(CXX_MAIN_SUBDIRS) \
 	$(CXX_SAMPLES_SUBDIRS)
 
-ALL_JAVA_SUBDIRS = \
-	$(JAVA_MAIN_SUBDIRS) \
-	$(JAVA_SAMPLES_SUBDIRS)
-
 ALL_MAIN_SUBDIRS = \
 	$(CXX_MAIN_SUBDIRS) \
-	$(JAVA_MAIN_SUBDIRS)
 
 ALL_SAMPLES_SUBDIRS = \
 	$(CXX_SAMPLES_SUBDIRS) \
-	$(JAVA_SAMPLES_SUBDIRS)
 
 ALL_SUBDIRS = \
 	$(ALL_MAIN_SUBDIRS) \
 	$(ALL_SAMPLES_SUBDIRS)
-
-# Add an unconditional shorthand for java targets
-java: $(ALL_JAVA_SUBDIRS)
-
-.PHONY: java
 
 #-------------------------------------------------------------------------------
 # Recursive make machinery
@@ -151,9 +125,6 @@ $(FINAL_DIR):
 
 $(CORE): $(XNLIB)
 
-Wrappers/java:                        Wrappers/java/jni
-Wrappers/java/jni:                    $(CORE)
-
 Source/Drivers/DummyDevice:           $(CORE)
 Source/Drivers/RawDevice:             $(CORE)
 Source/Drivers/PS1080:                $(CORE) $(DEPTH_UTILS)
@@ -175,8 +146,6 @@ Samples/MultiDepthViewer:             $(CORE)
 Samples/MWClosestPointApp:            $(CORE) Samples/MWClosestPoint
 Samples/ClosestPointViewer:           $(CORE) Samples/MWClosestPoint
 
-Samples/SimpleViewer.java:            Wrappers/java
-
 #-------------------------------------------------------------------------------
 # Top-level targets
 
@@ -185,12 +154,6 @@ MAIN_SUBDIRS = \
 
 SAMPLES_SUBDIRS = \
 	$(CXX_SAMPLES_SUBDIRS)
-
-# Add java targets to the default build, depending on the HAS_JAVA variable.
-ifeq ($(HAS_JAVA), 1)
-	MAIN_SUBDIRS += $(JAVA_MAIN_SUBDIRS)
-	SAMPLES_SUBDIRS += $(JAVA_SAMPLES_SUBDIRS)
-endif
 
 all: main samples
 

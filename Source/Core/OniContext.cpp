@@ -107,26 +107,9 @@ XnStatus Context::resolveConfigurationFile(char* strOniConfigurationFile)
 	XnStatus rc = XN_STATUS_OK;
 	XnBool bExists;
 
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-	// support for applications
-	xnOSGetApplicationFilesDir(strOniConfigurationFile, XN_FILE_MAX_PATH);
-	rc = xnOSAppendFilePath(strOniConfigurationFile, ONI_CONFIGURATION_FILE, XN_FILE_MAX_PATH);
-	XN_IS_STATUS_OK(rc);
-
-	xnOSDoesFileExist(strOniConfigurationFile, &bExists);
-
-	if (!bExists)
-	{
-		// support for native use - search in current dir
-		rc = xnOSStrCopy(strOniConfigurationFile, ONI_CONFIGURATION_FILE, XN_FILE_MAX_PATH);
-		XN_IS_STATUS_OK(rc);
-	}
-
-#else
 	xnOSStrCopy(strOniConfigurationFile, m_pathToOpenNI, XN_FILE_MAX_PATH);
 	rc = xnOSAppendFilePath(strOniConfigurationFile, ONI_CONFIGURATION_FILE, XN_FILE_MAX_PATH);
 	XN_IS_STATUS_OK(rc);
-#endif
 
 	xnOSDoesFileExist(strOniConfigurationFile, &bExists);
 
@@ -141,7 +124,7 @@ XnStatus Context::resolveConfigurationFile(char* strOniConfigurationFile)
 XnStatus Context::configure()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XnChar strOniConfigurationFile[XN_FILE_MAX_PATH];
 	XnStatus rc = resolveConfigurationFile(strOniConfigurationFile);
 	if (rc != XN_STATUS_OK)
@@ -149,11 +132,6 @@ XnStatus Context::configure()
 		return OniStatusFromXnStatus(rc);
 	}
 
-#ifdef ONI_PLATFORM_ANDROID_OS
-	xnLogSetMaskMinSeverity(XN_LOG_MASK_ALL, (XnLogSeverity)0);
-	xnLogSetAndroidOutput(TRUE);
-#endif
-	
 	// First, we should process the log related configuration as early as possible.
 	rc = xnLogInitFromINIFile(strOniConfigurationFile, "Log");
 	if (XN_STATUS_OK != rc)
@@ -189,9 +167,7 @@ XnStatus Context::configure()
 	XnChar strRepo[XN_FILE_MAX_PATH];
 	strRepo[0] = '\0';
 
-#if XN_PLATFORM != XN_PLATFORM_ANDROID_ARM
 	xnOSStrCopy(strRepo, ONI_DEFAULT_DRIVERS_REPOSITORY, sizeof(strRepo));
-#endif
 
 	// check if repo was overridden
 	XnChar strTemp[XN_INI_MAX_LEN];
@@ -210,14 +186,6 @@ XnStatus Context::configure()
 		m_errorLogger.Append("The driver path gets too long");
 		return rc;
 	}
-
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-	m_driversList.AddLast("libOniFile.so");
-	m_driversList.AddLast("libPS1080.so");
-	m_driversList.AddLast("liborbbec.so");
-	m_driversList.AddLast("libPSLink.so");
-	m_driversList.AddLast("libSD.so");
-#endif
 
 	// check if driver list is overridden
 	XnChar strDriversList[2048];

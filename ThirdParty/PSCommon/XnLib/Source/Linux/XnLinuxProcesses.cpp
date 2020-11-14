@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include <XnOS.h>
 #include <errno.h>
-#if (XN_PLATFORM == XN_PLATFORM_MACOSX || XN_PLATFORM == XN_PLATFORM_ANDROID_ARM)
+#if (XN_PLATFORM == XN_PLATFORM_MACOSX)
 	#include <sys/wait.h>
 #else
 	#include <wait.h>
@@ -117,35 +117,3 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, XnUInt32 nArgs,
 	
 	return (XN_STATUS_OK);
 }
-
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-static void getApplicationName(XnChar* strAppName, const XnUInt32 nBufferSize)
-{
-	FILE *pFile;
-	size_t length;
-	
-	pFile = fopen("/proc/self/cmdline", "r");
-	length = fread(strAppName, 1, nBufferSize, pFile);
-	fclose(pFile);
-}
-
-XN_C_API XnStatus XN_C_DECL xnOSGetApplicationFilesDir(XnChar* cpDirName, const XnUInt32 nBufferSize)
-{
-	char strAppName[1024];
-
-	getApplicationName(strAppName, sizeof(strAppName));
-	snprintf(cpDirName, nBufferSize, "/data/data/%s/files/", strAppName);
-
-	return (XN_STATUS_OK);
-}
-
-XN_C_API XnStatus XN_C_DECL xnOSGetApplicationLibDir(XnChar* cpDirName, const XnUInt32 nBufferSize)
-{
-	char strAppName[1024];
-
-	getApplicationName(strAppName, sizeof(strAppName));
-	snprintf(cpDirName, nBufferSize, "/data/data/%s/lib/", strAppName);
-
-	return (XN_STATUS_OK);
-}
-#endif

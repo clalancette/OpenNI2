@@ -245,15 +245,4 @@ ONI_C_API OniStatus oniSetLogConsoleOutput(OniBool bConsoleOutput);
  */
 ONI_C_API OniStatus oniSetLogFileOutput(OniBool bFileOutput);
 
-#if ONI_PLATFORM == ONI_PLATFORM_ANDROID_ARM
-/** 
- * Configures if log entries will be printed to the Android log.
-
- * @param	OniBool bAndroidOutput	[in]	TRUE to print log entries to the Android log, FALSE otherwise.
- *
- * @retval ONI_STATUS_OK Upon successful completion.
- * @retval ONI_STATUS_ERROR Upon any kind of failure.
- */
-ONI_C_API OniStatus oniSetLogAndroidOutput(OniBool bAndroidOutput);
-#endif
 #endif // ONICAPI_H

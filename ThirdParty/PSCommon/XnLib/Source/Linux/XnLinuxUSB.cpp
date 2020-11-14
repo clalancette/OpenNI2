@@ -23,7 +23,7 @@
 //---------------------------------------------------------------------------
 #include <XnUSB.h>
 
-#if (XN_PLATFORM == XN_PLATFORM_ANDROID_ARM) || defined(XN_PLATFORM_MACOSX_XCODE) || defined(XN_PLATFORM_IOS)
+#if defined(XN_PLATFORM_MACOSX_XCODE) || defined(XN_PLATFORM_IOS)
 #include <libusb.h>
 #else
 #include <libusb-1.0/libusb.h>
@@ -1653,18 +1653,6 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 		pThreadData->bKillReadThread = TRUE;
 
 		// PATCH: we don't cancel the requests, because there is a bug causing segmentation fault.
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-		// cancel all pending requests
-		for (XnUInt32 i = 0; i < pThreadData->nNumBuffers; ++i)
-		{
-			if (pThreadData->pBuffersInfo[i].bIsQueued)
-			{
-				libusb_cancel_transfer(pThreadData->pBuffersInfo[i].transfer);
-				// NOTE: we don't check error code. In any case we still need to wait for all transfers to complete. If cancelling was succeeded, they will
-				// return immediately. If not, they will reach timeout and return
-			}
-		}
-#endif
 
 		// now wait for thread to exit (we wait the timeout of all buffers + an extra second)
 		XnStatus nRetVal = xnOSWaitForThreadExit(pThreadData->hReadThread, pThreadData->nTimeOut * pThreadData->nNumBuffers + 1000);

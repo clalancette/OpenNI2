@@ -198,23 +198,6 @@
   <PropertyGroup>
     <PostBuildEvent />
   </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent>echo "Building Java Wrappers..."
-call "$(SolutionDir)\Wrappers\java\Build.bat" $(PlatformName)
-if errorlevel 1 exit 1
-echo "Building SimpleViewer.java..."
-call "$(SolutionDir)\Samples\SimpleViewer.java\Build.bat" $(PlatformName)
-if errorlevel 1 exit 1
-echo "Building Documentation..."
-"$(SolutionDir)\Source\Documentation\Runme.py"
-if errorlevel 1 exit 1
-echo "Harvesting Files..."
-"$(ProjectDir)\..\Harvest.py" $(ProjectDir)\..\Output_$(PlatformName) $(PlatformName)
-if errorlevel 1 exit 1
-echo "Creating File List..."
-"$(WIX)\bin\heat" dir "$(ProjectDir)\..\Output_$(PlatformName)" -ag -scom -sfrag -srd -dr INSTALLLOCATION -cg RedistComponentGroup -var var.RedistDir -out "$(ProjectDir)\Fragments\RedistFragments.wxs" -sw5150
-if errorlevel 1 exit 1</PreBuildEvent>
-  </PropertyGroup>
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.
 	Other similar extension points exist, see Wix.targets.

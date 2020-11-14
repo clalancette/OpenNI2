@@ -22,18 +22,13 @@
 // Includes
 //---------------------------------------------------------------------------
 
-#ifndef ANDROID
-	// This define enables Large File Support (64bit version of I/O functions and data types).
-	// for more information - 'man 7 feature_test_macros'
-	// Moreover, it MUST be defined before ANY other include from this file.
-	#define _FILE_OFFSET_BITS	64
-	
-	#define OFF_T off_t
-	#define LSEEK lseek
-#else
-	#define OFF_T off64_t
-	#define LSEEK lseek64
-#endif
+// This define enables Large File Support (64bit version of I/O functions and data types).
+// for more information - 'man 7 feature_test_macros'
+// Moreover, it MUST be defined before ANY other include from this file.
+#define _FILE_OFFSET_BITS	64
+
+#define OFF_T off_t
+#define LSEEK lseek
 
 #include <XnOS.h>
 #include <libgen.h>

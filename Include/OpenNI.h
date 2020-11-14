@@ -2348,22 +2348,6 @@ public:
 		return (Status)oniSetLogFileOutput(bFileOutput);
 	}
 
-	#if ONI_PLATFORM == ONI_PLATFORM_ANDROID_ARM
-	/** 
-	 * Configures if log entries will be printed to the Android log.
-
-	 * @param	OniBool bAndroidOutput bAndroidOutput	[in]	TRUE to print log entries to the Android log, FALSE otherwise.
-	 *
-	 * @retval STATUS_OK Upon successful completion.
-	 * @retval STATUS_ERROR Upon any kind of failure.
-	 */
-	
-	static Status setLogAndroidOutput(bool bAndroidOutput)
-	{
-		return (Status)oniSetLogAndroidOutput(bAndroidOutput);
-	}
-	#endif
-	
 private:
 	OpenNI()
 	{

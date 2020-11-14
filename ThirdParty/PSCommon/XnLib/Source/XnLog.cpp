@@ -30,9 +30,6 @@
 
 #include "XnLogConsoleWriter.h"
 #include "XnLogFileWriter.h"
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-#include "XnLogAndroidWriter.h"
-#endif
 
 //---------------------------------------------------------------------------
 // Defines
@@ -108,9 +105,6 @@ public:
 	// Writers
 	XnLogConsoleWriter consoleWriter;
 	XnLogFileWriter fileWriter;
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-	XnLogAndroidWriter AndroidWriter;
-#endif
 
 private:
 	LogData()
@@ -431,15 +425,6 @@ XN_C_API XnStatus xnLogInitFromINIFile(const XnChar* cpINIFileName, const XnChar
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-	nRetVal = xnOSReadIntFromINI(cpINIFileName, cpSectionName, "LogToAndroidLog", &nTemp);
-	if (nRetVal == XN_STATUS_OK)
-	{
-		nRetVal = xnLogSetAndroidOutput(nTemp);
-		XN_IS_STATUS_OK(nRetVal);
-	}
-#endif
-
 	nRetVal = xnOSReadIntFromINI(cpINIFileName, cpSectionName, "LogLineInfo", &nTemp);
 	if (nRetVal == XN_STATUS_OK)
 	{
@@ -559,26 +544,6 @@ XN_C_API XnStatus xnLogSetFileOutput(XnBool bFileOutput)
 
 	return XN_STATUS_OK;
 }
-
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-XN_C_API XnStatus xnLogSetAndroidOutput(XnBool bAndroidOutput)
-{
-	XnStatus nRetVal = XN_STATUS_OK;
-
-	LogData& logData = LogData::GetInstance();
-	if (bAndroidOutput)
-	{
-		nRetVal = logData.AndroidWriter.Register();
-		XN_IS_STATUS_OK(nRetVal);
-	}
-	else
-	{
-		logData.AndroidWriter.Unregister();
-	}
-
-	return XN_STATUS_OK;
-}
-#endif
 
 XN_C_API XnStatus xnLogSetLineInfo(XnBool bLineInfo)
 {

@@ -35,7 +35,7 @@ import UpdateVersion
 from Harvest import Harvest
 
 if len(sys.argv) < 2 or sys.argv[1] in ('-h','--help'):
-    print("usage: " + sys.argv[0] + " <x86|x64|Arm|Arm64|Android> [UpdateVersion]")
+    print("usage: " + sys.argv[0] + " <x86|x64|Arm|Arm64> [UpdateVersion]")
     sys.exit(1)
 
 plat = sys.argv[1]
@@ -101,49 +101,6 @@ def calc_jobs_number():
 
     return str(cores * 2)
 
-def build_android_project(path, outputFile, target = 'release'):
-    if not 'NDK_HOME' in os.environ:
-        print('Please define NDK_HOME!')
-        sys.exit(2)
-
-    if not 'ANDROID_HOME' in os.environ:
-        print('Please define ANDROID_HOME!')
-        sys.exit(2)
-
-    sdkDir = os.environ['ANDROID_HOME']
-    check_call([os.path.join(sdkDir, 'tools', 'android'), 'update', 'project', '-p', path], outputFile)
-    check_call(['ant', '-f', os.path.join(path, 'build.xml'), target], outputFile)
-
-def build_android():
-    logFile = open('build.android.log', 'w')
-
-    libraries = ['Wrappers/java']
-    samples = ['Samples/SimpleRead.Android', 'Samples/SimpleViewer.Android']
-    tools = ['Source/Tools/NiViewer.Android']
-
-    # build all projects
-    android_projects = libraries + samples + tools
-    # clean all
-    print('Cleaning...')
-    for proj in android_projects:
-        logFile.write('**** Cleaning ' + proj + "...****\n")
-        build_android_project(os.path.join('..', proj), outputFile=logFile, target='clean')
-    # and build all
-    for proj in android_projects:
-        logFile.write('**** Building ' + proj + "...****\n")
-        print('Building ' + proj + '...', end=" ")
-        build_android_project(os.path.join('..', proj), outputFile=logFile)
-        print('OK')
-
-    # build documentation
-    print('Creating C++ documentation...', end=" ")
-    check_call([os.path.join('..', 'Source', 'Documentation', 'Runme.py')], outputFile=logFile)
-    print('OK')
-
-    print('Creating java documentation...', end=" ")
-    build_android_project('../Wrappers/java', outputFile=logFile, target='javadoc')
-    print('OK')
-
 # Create installer
 strVersion = UpdateVersion.getVersionName()
 print("Creating installer for OpenNI " + strVersion + " " + plat)
@@ -151,17 +108,7 @@ finalDir = "Final"
 if not os.path.isdir(finalDir):
     os.mkdir(finalDir)
 
-if plat == 'Android':
-    build_android()
-    outputDir = 'OpenNI-Android-' + strVersion
-    harvest = Harvest('..', outputDir, 'Arm', 'Android')
-    harvest.run()
-
-    finalFile = finalDir + '/' + outputDir + ".tar"
-    print('Creating archive ' + finalFile)
-    subprocess.check_call(['tar', '-cf', finalFile, outputDir])
-
-elif platform.system() == 'Windows':
+if platform.system() == 'Windows':
     import win32con,pywintypes,win32api,platform
 
     (bits,linkage) = platform.architecture()
@@ -195,11 +142,11 @@ elif platform.system() == 'Windows':
 elif platform.system() == 'Linux' or platform.system() == 'Darwin':
 
     devNull = open('/dev/null', 'w')
-    subprocess.check_call(['make', '-C', '../', '-j' + calc_jobs_number(), 'PLATFORM=' + plat, 'HAS_JAVA=1', 'clean'], stdout=devNull, stderr=devNull)
+    subprocess.check_call(['make', '-C', '../', '-j' + calc_jobs_number(), 'PLATFORM=' + plat, 'clean'], stdout=devNull, stderr=devNull)
     devNull.close()
 
     buildLog = open(origDir + '/build.release.' + plat + '.log', 'w')
-    subprocess.check_call(['make', '-C', '../', '-j' + calc_jobs_number(), 'PLATFORM=' + plat, 'HAS_JAVA=1', 'release'], stdout=buildLog, stderr=buildLog)
+    subprocess.check_call(['make', '-C', '../', '-j' + calc_jobs_number(), 'PLATFORM=' + plat, 'release'], stdout=buildLog, stderr=buildLog)
     buildLog.close()
 
     # everything OK, can remove build log

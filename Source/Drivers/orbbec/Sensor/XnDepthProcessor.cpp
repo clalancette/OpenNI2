@@ -270,25 +270,24 @@ void XnDepthProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 
 	pFrame->stride = pFrame->width * GetStream()->GetBytesPerPixel();
 
-    //softfilter
-    OniDepthPixel* pDepth = (OniDepthPixel*)pFrame->data;
-    xnOSMemCopy(DepthBuf,pDepth,pFrame->width*pFrame->height*sizeof(OniDepthPixel));
+	//softfilter
+	OniDepthPixel* pDepth = (OniDepthPixel*)pFrame->data;
+	xnOSMemCopy(DepthBuf,pDepth,pFrame->width*pFrame->height*sizeof(OniDepthPixel));
 
-#if (XN_PLATFORM == XN_PLATFORM_ANDROID_ARM)
-
-#elif (XN_PLATFORM == XN_PLATFORM_WIN32 || XN_PLATFORM == XN_PLATFORM_LINUX_X86 || XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
+#if (XN_PLATFORM == XN_PLATFORM_WIN32 || XN_PLATFORM == XN_PLATFORM_LINUX_X86 || XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
 
 #if (FILTER == 1)
-    Softfilter(_buf, (unsigned short*)(DepthBuf), pFrame->width, pFrame->height);
+	Softfilter(_buf, (unsigned short*)(DepthBuf), pFrame->width, pFrame->height);
+#endif
 #endif
 
-#endif
-
-    for(int i=0;i< pFrame->width*pFrame->height;i++){
-            pDepth[i]=m_pShiftToDepthTable[DepthBuf[i]];
-            if(pDepth[i]==5506 || pDepth[i]==288)
-                pDepth[i]=0;
-    }
+	for(int i=0;i< pFrame->width*pFrame->height;i++){
+		pDepth[i]=m_pShiftToDepthTable[DepthBuf[i]];
+		if(pDepth[i]==5506 || pDepth[i]==288)
+		{
+			pDepth[i]=0;
+		}
+	}
 	// call base
 	XnFrameStreamProcessor::OnEndOfFrame(pHeader);
 }

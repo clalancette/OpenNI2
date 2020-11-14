@@ -43,7 +43,7 @@
 //---------------------------------------------------------------------------
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 	#include "Win32/XnOSWin32.h"
-#elif (XN_PLATFORM == XN_PLATFORM_LINUX_X86 || XN_PLATFORM == XN_PLATFORM_LINUX_ARM || XN_PLATFORM == XN_PLATFORM_ANDROID_ARM)
+#elif (XN_PLATFORM == XN_PLATFORM_LINUX_X86 || XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
 	#include "Linux-x86/XnOSLinux-x86.h"
 #elif (XN_PLATFORM == XN_PLATFORM_MACOSX)
         #include "MacOSX/XnOSMacOSX.h"
@@ -463,10 +463,7 @@ XN_C_API XnStatus XN_C_DECL xnOSGetFileName(const XnChar* cpFilePath, XnChar* cp
 XN_C_API XnStatus XN_C_DECL xnOSGetFullPathName(const XnChar* strFilePath, XnChar* strFullPath, XnUInt32 nBufferSize);
 XN_C_API XnStatus XN_C_DECL xnOSGetCurrentDir(XnChar* cpDirName, const XnUInt32 nBufferSize);
 XN_C_API XnStatus XN_C_DECL xnOSSetCurrentDir(const XnChar* cpDirName);
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-XN_C_API XnStatus XN_C_DECL xnOSGetApplicationFilesDir(XnChar* cpDirName, const XnUInt32 nBufferSize);
-XN_C_API XnStatus XN_C_DECL xnOSGetApplicationLibDir(XnChar* cpDirName, const XnUInt32 nBufferSize);
-#endif
+
 /**
  * Strips the directory separator at the end of the specified path by directly modifying the given string.
  * Always returns XN_STATUS_OK.

@@ -37,14 +37,10 @@
 XnStatus XnDeviceSensorInit(XnDevicePrivateData* pDevicePrivateData)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = XnDeviceSensorAllocateBuffers(pDevicePrivateData);
 	XN_IS_STATUS_OK(nRetVal);
 
-#if XN_PLATFORM == XN_PLATFORM_ANDROID_ARM
-	nRetVal = xnOSCreateMutex(&pDevicePrivateData->hExecuteMutex);
-	XN_IS_STATUS_OK(nRetVal);
-#else
 	XnChar strMutexName[XN_FILE_MAX_PATH];
 	XnUInt32 nCharsWritten = 0;
 	nRetVal = xnOSStrFormat(strMutexName, XN_FILE_MAX_PATH, &nCharsWritten, "%s%s", XN_HOST_PROTOCOL_MUTEX_NAME_PREFIX, pDevicePrivateData->pSensor->GetUSBPath());
@@ -52,7 +48,6 @@ XnStatus XnDeviceSensorInit(XnDevicePrivateData* pDevicePrivateData)
 
 	nRetVal = xnOSCreateNamedMutex(&pDevicePrivateData->hExecuteMutex, strMutexName);
 	XN_IS_STATUS_OK(nRetVal);
-#endif
 
 	nRetVal = XnDeviceSensorConfigureVersion(pDevicePrivateData);
 	XN_IS_STATUS_OK(nRetVal);

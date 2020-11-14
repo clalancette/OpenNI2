@@ -52,22 +52,4 @@ create_page("../../ReleaseNotes.txt", "release_notes", "Release Notes")
 errfile = "Temp/doxygen_error"
 subprocess.check_call(["doxygen", "Doxyfile"], stdout=open(os.devnull,"w"), stderr=open(errfile,"w"))
 
-# create Java
-javaDocExe = ""
-if platform.system() == 'Windows':
-    javaDocExe = os.path.expandvars(os.path.join('$JAVA_HOME', 'bin', 'javadoc.exe'))
-else:
-    javaDocExe = 'javadoc'
-
-javaSrc = os.path.join('..', '..', 'Wrappers', 'java', 'src', 'org', 'openni')
-
-# workaround a strange linux behavior where you must pass the list of files
-cmd = [javaDocExe, '-d', 'java', '-Xdoclint:none']
-for root, dirs, files in os.walk(javaSrc):
-    for file in files:
-        cmd.append(os.path.join(root, file))
-
-errfile = "Temp/javadoc_error"
-subprocess.check_call(cmd, stdout=open(os.devnull,"w"), stderr=open(errfile,"w"))
-
 os.chdir(beforeDir)
