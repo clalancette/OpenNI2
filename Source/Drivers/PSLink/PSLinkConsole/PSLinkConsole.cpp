@@ -24,10 +24,11 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <list>
+
 #include <OpenNI.h>
 #include <PSLink.h>
 #include <XnStringsHash.h>
-#include <XnList.h>
 #include <XnArray.h>
 #include <XnBitSet.h>
 #include <stdlib.h>
@@ -91,7 +92,7 @@ typedef struct
 //---------------------------------------------------------------------------
 static Device g_device;
 static xnl::Array<VideoStream*> g_streams;
-static xnl::List<const XnChar*> g_commandsList;
+static std::list<const XnChar*> g_commandsList;
 static XnStringsHashT<Command> g_commands;
 static XnBool g_continue = TRUE;
 
@@ -368,7 +369,7 @@ void RegisterCommand(const XnChar* cmd, CommandHandler handler)
 	ToLower(commandName);
 	g_commands.Set(commandName, command);
 
-	g_commandsList.AddLast(cmd);
+	g_commandsList.push_back(cmd);
 }
 
 int RunScript(const XnChar* strFileName) 
@@ -409,7 +410,7 @@ int RunScript(const XnChar* strFileName)
 int Help(int /*argc*/, const char* /*argv*/[])
 {
 	printf("Supported commands:\n");
-	for (xnl::List<const XnChar*>::Iterator it = g_commandsList.Begin(); it != g_commandsList.End(); ++it)
+	for (std::list<const XnChar*>::iterator it = g_commandsList.begin(); it != g_commandsList.end(); ++it)
 	{
 		printf("\t%s\n", *it);
 	}
