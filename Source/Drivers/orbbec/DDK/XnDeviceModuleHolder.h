@@ -23,7 +23,6 @@
 
 #include "XnActualPropertiesHash.h"
 #include "XnDeviceModule.h"
-#include <XnList.h>
 
 class XnDeviceModuleHolder
 {
@@ -47,8 +46,5 @@ protected:
 private:
 	XnDeviceModule* m_pModule;
 };
-
-typedef xnl::List<XnDeviceModuleHolder*> XnDeviceModuleHolderList;
-
 
 #endif // XNDEVICEMODULEHOLDER_H

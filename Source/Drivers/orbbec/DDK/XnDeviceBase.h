@@ -24,6 +24,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <list>
+
 #include <XnStringsHash.h>
 #include <XnDevice.h>
 #include <DDK/XnDeviceModule.h>
@@ -175,9 +177,9 @@ protected:
 	* @param	pnModules	[out]	The number of modules.
 	*/
 	XnStatus GetModulesList(XnDeviceModuleHolder** apModules, XnUInt32* pnCount);
-	XnStatus GetModulesList(XnDeviceModuleHolderList& list);
+	XnStatus GetModulesList(std::list<XnDeviceModuleHolder*>& list);
 
-	XnStatus GetStreamsList(XnDeviceModuleHolderList& list);
+	XnStatus GetStreamsList(std::list<XnDeviceModuleHolder*>& list);
 
 	/**
 	* Raises the NewStreamData event.
@@ -219,8 +221,7 @@ private:
 		XnDeviceOnPropertyChangedEventHandler pHandler;
 		XnCallbackHandle hCallback;
 	};
-	typedef xnl::List<XnPropertyCallback*> PropertiesCallbacks;
-	PropertiesCallbacks m_PropertyCallbacks;
+	std::list<XnPropertyCallback*> m_PropertyCallbacks;
 
 	NewStreamDataEvent m_OnNewStreamDataEvent;
 

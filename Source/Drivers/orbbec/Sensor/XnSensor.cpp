@@ -21,6 +21,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <list>
+
 #include "XnSensor.h"
 
 #include "XnSensorDepthStream.h"
@@ -589,11 +591,11 @@ XnStatus XnSensor::LoadConfigFromFile(const XnChar* csINIFilePath, const XnChar*
 	XN_IS_STATUS_OK(nRetVal);
 
 	// and now configure the streams
-	XnDeviceModuleHolderList streams;
+        std::list<XnDeviceModuleHolder*> streams;
 	nRetVal = GetStreamsList(streams);
 	XN_IS_STATUS_OK(nRetVal);
 
-	for (XnDeviceModuleHolderList::Iterator it = streams.Begin(); it != streams.End(); ++it)
+	for (std::list<XnDeviceModuleHolder*>::iterator it = streams.begin(); it != streams.end(); ++it)
 	{
 		XnDeviceModuleHolder* pHolder = *it;
 		nRetVal = pHolder->GetModule()->LoadConfigFromFile(csINIFilePath);

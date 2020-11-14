@@ -21,6 +21,9 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <algorithm>
+#include <list>
+
 #include "XnDeviceBase.h"
 #include <XnOS.h>
 #include <XnLog.h>
@@ -653,7 +656,7 @@ XnStatus XnDeviceBase::RegisterToPropertyChange(const XnChar* Module, XnUInt32 p
 		return (nRetVal);
 	}
 
-	m_PropertyCallbacks.AddLast(pRealCookie);
+	m_PropertyCallbacks.push_back(pRealCookie);
 
 	hCallback = (XnCallbackHandle) pRealCookie;
 
@@ -677,10 +680,10 @@ XnStatus XnDeviceBase::UnregisterFromPropertyChange(const XnChar* Module, XnUInt
 	nRetVal = pModule->UnregisterFromOnPropertyValueChanged(propertyId, pRealCookie->hCallback);
 	XN_IS_STATUS_OK(nRetVal);
 
-	PropertiesCallbacks::Iterator it = m_PropertyCallbacks.Find(pRealCookie);
-	if (it != m_PropertyCallbacks.End())
+        std::list<XnPropertyCallback*>::iterator it = std::find(m_PropertyCallbacks.begin(), m_PropertyCallbacks.end(), pRealCookie);
+	if (it != m_PropertyCallbacks.end())
 	{
-		m_PropertyCallbacks.Remove(it);
+		m_PropertyCallbacks.erase(it);
 	}
 
 	// now free the memory
@@ -1002,16 +1005,16 @@ XnStatus XnDeviceBase::CreateStreamImpl(const XnChar* strType, const XnChar* str
 void XnDeviceBase::FreeModuleRegisteredProperties(const XnChar* strModule)
 {
 	// free memory of registered properties to this stream
-	PropertiesCallbacks::Iterator it = m_PropertyCallbacks.Begin();
-	while (it != m_PropertyCallbacks.End())
+	std::list<XnPropertyCallback*>::iterator it = m_PropertyCallbacks.begin();
+	while (it != m_PropertyCallbacks.end())
 	{
-		PropertiesCallbacks::Iterator cur = it;
+		std::list<XnPropertyCallback*>::iterator cur = it;
 		it++;
 
 		XnPropertyCallback* pRealCallback = *cur;
 		if (strcmp(pRealCallback->strModule, strModule) == 0)
 		{
-			m_PropertyCallbacks.Remove(cur);
+			m_PropertyCallbacks.erase(cur);
 			XN_DELETE(pRealCallback);
 		}
 	}
@@ -1074,28 +1077,28 @@ XnStatus XnDeviceBase::GetModulesList(XnDeviceModuleHolder** apModules, XnUInt32
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetModulesList(XnDeviceModuleHolderList& list)
+XnStatus XnDeviceBase::GetModulesList(std::list<XnDeviceModuleHolder*>& list)
 {
-	list.Clear();
+	list.clear();
 
 	for (ModuleHoldersHash::Iterator it = m_Modules.Begin(); it != m_Modules.End(); ++it)
 	{
-		list.AddLast(it->Value());
+		list.push_back(it->Value());
 	}
 
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetStreamsList(XnDeviceModuleHolderList& list)
+XnStatus XnDeviceBase::GetStreamsList(std::list<XnDeviceModuleHolder*>& list)
 {
-	list.Clear();
+	list.clear();
 
 	for (ModuleHoldersHash::Iterator it = m_Modules.Begin(); it != m_Modules.End(); ++it)
 	{
 		XnDeviceModuleHolder* pModuleHolder = it->Value();
 		if (IsStream(pModuleHolder->GetModule()))
 		{
-			list.AddLast(pModuleHolder);
+			list.push_back(pModuleHolder);
 		}
 	}
 
