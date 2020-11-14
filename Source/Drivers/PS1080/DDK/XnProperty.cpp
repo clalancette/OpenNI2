@@ -21,6 +21,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <list>
+
 #include "XnProperty.h"
 #include <XnDDKStatus.h>
 #include <XnOS.h>
@@ -180,7 +182,7 @@ XnStatus XnProperty::ChangeEvent::Raise(const XnProperty* pSender)
 	xnl::AutoCSLocker locker(m_hLock);
 	ApplyListChanges();
 
-	for (CallbackPtrList::ConstIterator it = m_callbacks.Begin(); it != m_callbacks.End(); ++it)
+	for (std::list<Callback*>::const_iterator it = m_callbacks.begin(); it != m_callbacks.end(); ++it)
 	{
 		Callback* pCallback = *it;
 		nRetVal = pCallback->pFunc(pSender, pCallback->pCookie);
