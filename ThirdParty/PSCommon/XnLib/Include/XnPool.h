@@ -21,7 +21,8 @@
 #ifndef _XN_POOL_H_
 #define _XN_POOL_H_
 
-#include "XnList.h"
+#include <list>
+
 #include <XnOSCpp.h>
 
 namespace xnl
@@ -53,7 +54,7 @@ public:
 			pResult = XN_NEW(TInPool);
 			pResult->refCount = 1;
 			pResult->pNextAvailable = NULL;
-			m_all.AddLast(pResult);
+			m_all.push_back(pResult);
 		}
 		else
 		{
@@ -95,10 +96,11 @@ public:
 	void Clear()
 	{
 		Lock();
-		while (m_all.Begin() != m_all.End())
+		while (m_all.begin() != m_all.end())
 		{
-			TInPool* pObject = *m_all.Begin();
-			m_all.Remove(m_all.Begin());
+			typename std::list<TInPool*>::iterator it = m_all.begin();
+			TInPool* pObject = *it;
+			m_all.Remove(it);
 			XN_DELETE(pObject);
 		}
 		Unlock();
@@ -124,7 +126,7 @@ protected:
 	};
 
 	VirtualLock<TThreadSafe> m_lock;
-	List<TInPool*> m_all;
+	std::list<TInPool*> m_all;
 	TInPool* m_pFirstAvailable;
 };
 
