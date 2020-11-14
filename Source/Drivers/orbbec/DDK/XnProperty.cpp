@@ -26,7 +26,6 @@
 #include "XnProperty.h"
 #include <XnDDKStatus.h>
 #include <XnOS.h>
-#include <XnCallback.h>
 #include <XnLog.h>
 
 //---------------------------------------------------------------------------
