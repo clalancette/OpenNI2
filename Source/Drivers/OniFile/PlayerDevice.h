@@ -25,9 +25,10 @@
 #ifndef PLAYERDEVICE_H
 #define PLAYERDEVICE_H
 
+#include <list>
+
 #include "Driver/OniDriverAPI.h"
 #include "XnString.h"
-#include "XnList.h"
 #include "XnOSCpp.h"
 #include "PlayerNode.h"
 #include "PlayerProperties.h"
@@ -175,12 +176,10 @@ private:
 	PlayerProperties m_properties;
 
 	// List of sources.
-	typedef xnl::List<PlayerSource*> SourceList;
-	SourceList m_sources;
+	std::list<PlayerSource*> m_sources;
 
 	// List of streams.
-	typedef xnl::List<PlayerStream*> StreamList;
-	StreamList m_streams;
+	std::list<PlayerStream*> m_streams;
 
 	// Internal event for stream ready for data.
 	xnl::OSEvent m_readyForDataInternalEvent;

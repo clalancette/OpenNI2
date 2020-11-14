@@ -22,6 +22,9 @@
 /// Contains the definition of Device class that implements a virtual OpenNI
 /// device, capable of reading data from a *.ONI file.
 
+#include <algorithm>
+#include <list>
+
 #include "PlayerDevice.h"
 #include "PlayerSource.h"
 #include "PlayerStream.h"
@@ -287,16 +290,16 @@ void PlayerDevice::close()
 
 	// Delete all the sources and streams.
 	xnl::AutoCSLocker lock(m_cs);
-	while (m_streams.Begin() != m_streams.End())
+	while (m_streams.begin() != m_streams.end())
 	{
-		PlayerStream* pStream = *m_streams.Begin();
-		m_streams.Remove(pStream);
+		std::list<PlayerStream*>::iterator pStream = m_streams.begin();
+		m_streams.erase(pStream);
 	}
-	while (m_sources.Begin() != m_sources.End())
+	while (m_sources.begin() != m_sources.end())
 	{
-		PlayerSource* pSource = *m_sources.Begin();
-		m_sources.Remove(pSource);
-		XN_DELETE(pSource);
+		std::list<PlayerSource*>::iterator pSource = m_sources.begin();
+		m_sources.erase(pSource);
+		XN_DELETE(*pSource);
 	}
 }
 
@@ -305,11 +308,11 @@ OniStatus PlayerDevice::getSensorInfoList(OniSensorInfo** pSources, int* numSour
 	xnl::AutoCSLocker lock(m_cs);
 
 	// Update source count.
-	*numSources = (int)m_sources.Size();
+	*numSources = (int)m_sources.size();
 	*pSources = XN_NEW_ARR(OniSensorInfo, *numSources);
 
 	// Copy sources.
-	SourceList::Iterator iter = m_sources.Begin();
+	std::list<PlayerSource*>::iterator iter = m_sources.begin();
 	for (int i = 0; i < *numSources; ++i, ++iter)
 	{
 		xnOSMemCopy(&(*pSources)[i],  (*iter)->GetInfo(), sizeof(OniSensorInfo));
@@ -325,7 +328,7 @@ driver::StreamBase* PlayerDevice::createStream(OniSensorType sensorType)
 
 	{
 		xnl::AutoCSLocker lock(m_cs);
-		for (SourceList::Iterator iter = m_sources.Begin(); iter != m_sources.End(); ++iter)
+		for (std::list<PlayerSource*>::iterator iter = m_sources.begin(); iter != m_sources.end(); ++iter)
 		{
 			if ((*iter)->GetInfo()->sensorType == sensorType)
 			{
@@ -357,12 +360,7 @@ driver::StreamBase* PlayerDevice::createStream(OniSensorType sensorType)
 	}
 
 	xnl::AutoCSLocker lock(m_cs);
-	XnStatus xnrc = m_streams.AddLast(pStream);
-	if (xnrc != XN_STATUS_OK)
-	{
-		XN_DELETE(pStream);
-		return NULL;
-	}
+	m_streams.push_back(pStream);
 
 	// Register to ready for data event.
 	// NOTE: handle is discarded, as device will always exist longer than stream, therefore device can never unregister.
@@ -370,7 +368,7 @@ driver::StreamBase* PlayerDevice::createStream(OniSensorType sensorType)
 	rc = pStream->RegisterReadyForDataEvent(ReadyForDataCallback, this, handle);
 	if (rc != ONI_STATUS_OK)
 	{
-		m_streams.Remove(pStream);
+		m_streams.pop_back();
 		XN_DELETE(pStream);
 		return NULL;
 	}
@@ -380,7 +378,7 @@ driver::StreamBase* PlayerDevice::createStream(OniSensorType sensorType)
 	rc = pStream->RegisterDestroyEvent(StreamDestroyCallback, this, handle);
 	if (rc != ONI_STATUS_OK)
 	{
-		m_streams.Remove(pStream);
+		m_streams.pop_back();
 		XN_DELETE(pStream);
 		return NULL;
 	}
@@ -391,7 +389,11 @@ driver::StreamBase* PlayerDevice::createStream(OniSensorType sensorType)
 void PlayerDevice::destroyStream(oni::driver::StreamBase* pStream)
 {
 	xnl::AutoCSLocker lock(m_cs);
-	m_streams.Remove((PlayerStream*)pStream);
+	std::list<PlayerStream*>::iterator it = std::find(m_streams.begin(), m_streams.end(), (PlayerStream*)pStream);
+	if (it != m_streams.end())
+	{
+		m_streams.erase(it);
+	}
 	XN_DELETE(pStream);
 }
 
@@ -545,7 +547,7 @@ PlayerSource* PlayerDevice::FindSource(const XnChar* strNodeName)
 	xnl::AutoCSLocker lock(m_cs);
 
 	// Find the relevant source.
-	for (SourceList::Iterator iter = m_sources.Begin(); iter != m_sources.End(); ++iter)
+	for (std::list<PlayerSource*>::iterator iter = m_sources.begin(); iter != m_sources.end(); ++iter)
 	{
 		if (strcmp((*iter)->GetNodeName(), strNodeName) == 0)
 		{
@@ -609,7 +611,7 @@ void PlayerDevice::MainLoop()
 	{
 		// Process data only when at least one of the streams within has started
 		bool waitForStreamStart = true;
-		for (StreamList::Iterator iter = m_streams.Begin(); iter != m_streams.End(); iter++)
+		for (std::list<PlayerStream*>::iterator iter = m_streams.begin(); iter != m_streams.end(); iter++)
 		{
 			PlayerStream* pStream = *iter;
 			if (pStream->isStreamStarted())
@@ -688,7 +690,11 @@ void ONI_CALLBACK_TYPE PlayerDevice::StreamDestroyCallback(const PlayerStream::D
 {
 	PlayerDevice* pThis = (PlayerDevice*)(pCookie);
 	xnl::AutoCSLocker lock(pThis->m_cs);
-	pThis->m_streams.Remove(destroyEventArgs.pStream);
+	std::list<PlayerStream*>::iterator it = std::find(pThis->m_streams.begin(), pThis->m_streams.end(), destroyEventArgs.pStream);
+	if (it != pThis->m_streams.end())
+	{
+		pThis->m_streams.erase(it);
+	}
 }
 
 XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeAdded(void* pCookie, const XnChar* strNodeName, XnProductionNodeType type, XnCodecID /*compression*/, XnUInt32 nNumberOfFrames)
@@ -724,7 +730,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeAdded(void* pCookie, const XnChar*
 
 				// Add the source.
 				xnl::AutoCSLocker lock(pThis->m_cs);
-				pThis->m_sources.AddLast(pSource);
+				pThis->m_sources.push_back(pSource);
 			}
 
 			break;
@@ -1046,7 +1052,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeNewData(void* pCookie, const XnCha
 			{
 				xnl::AutoCSLocker lock(pThis->m_cs);
 				hasStreams = FALSE;
-				for (StreamList::Iterator iter = pThis->m_streams.Begin(); iter != pThis->m_streams.End(); iter++)
+				for (std::list<PlayerStream*>::iterator iter = pThis->m_streams.begin(); iter != pThis->m_streams.end(); iter++)
 				{
 					PlayerStream* pStream = *iter;
 					if (pStream->GetSource() == pSource)
