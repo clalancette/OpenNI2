@@ -31,7 +31,6 @@
 #include <dbt.h>
 #include "devioctl.h"
 #include "usb.h"
-#include "XnList.h"
 
 //---------------------------------------------------------------------------
 // Types
@@ -43,8 +42,6 @@ typedef struct XnUSBEventCallback
 	XnChar strVidPid[50];
 } XnUSBEventCallback;
 
-typedef xnl::List<XnUSBEventCallback*> XnUSBEventCallbackList;
-
 //---------------------------------------------------------------------------
 // Global Vars
 //---------------------------------------------------------------------------
@@ -55,7 +52,7 @@ XN_THREAD_HANDLE g_xnUsbhPnThread = NULL;
 XnBool g_bUsbDevDetectShoudRun = FALSE;
 ATOM g_xnClass = 0;
 
-XnUSBEventCallbackList g_connectivityEvent;
+static std::list<XnUSBEventCallback*> g_connectivityEvent;
 
 //---------------------------------------------------------------------------
 // PNP Functions
@@ -121,7 +118,7 @@ LRESULT CALLBACK DevDetectWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							return 0;
 						}
 
-						for (XnUSBEventCallbackList::Iterator it = g_connectivityEvent.Begin(); it != g_connectivityEvent.End(); ++it)
+						for (std::list<XnUSBEventCallback*>::iterator it = g_connectivityEvent.begin(); it != g_connectivityEvent.end(); ++it)
 						{
 							XnUSBEventCallback* pCallback = *it;
 							if (strstr(args.strDevicePath, pCallback->strVidPid) != NULL)
@@ -1615,8 +1612,6 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 
 XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(XnUInt16 nVendorID, XnUInt16 nProductID, XnUSBDeviceCallbackFunctionPtr pFunc, void* pCookie, XnRegistrationHandle* phRegistration)
 {
-	XnStatus nRetVal = XN_STATUS_OK;
-
 	XN_VALIDATE_INPUT_PTR(pFunc);
 	XN_VALIDATE_OUTPUT_PTR(phRegistration);
 
@@ -1628,12 +1623,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(XnUInt16 nVendorID
 	pCallback->pCookie = pCookie;
 	xnOSStrFormat(pCallback->strVidPid, sizeof(pCallback->strVidPid), &nDummy, "vid_%04x&pid_%04x", nVendorID, nProductID);
 
-	nRetVal = g_connectivityEvent.AddLast(pCallback);
-	if (nRetVal != XN_STATUS_OK)
-	{
-		XN_DELETE(pCallback);
-		return (nRetVal);
-	}
+	g_connectivityEvent.push_back(pCallback);
 
 	*phRegistration = (XnRegistrationHandle)pCallback;
 
@@ -1643,10 +1633,10 @@ XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(XnUInt16 nVendorID
 XN_C_API void XN_C_DECL xnUSBUnregisterFromConnectivityEvents(XnRegistrationHandle hRegistration)
 {
 	XnUSBEventCallback* pCallback = reinterpret_cast<XnUSBEventCallback*>(hRegistration);
-	XnUSBEventCallbackList::Iterator it = g_connectivityEvent.Find(pCallback);
-	if (it != g_connectivityEvent.End())
+	std::list<XnUSBEventCallback*>::iterator it = std::find(g_connectivityEvent.begin(), g_connectivityEvent.end(), pCallback);
+	if (it != g_connectivityEvent.end())
 	{
-		g_connectivityEvent.Remove(it);
+		g_connectivityEvent.erase(it);
 		XN_DELETE(pCallback);
 	}
 }
