@@ -21,7 +21,8 @@
 #ifndef _XN_HASH_H_
 #define _XN_HASH_H_
 
-#include "XnList.h"
+#include <list>
+
 #include "XnMemory.h"
 #include "XnPair.h"
 
@@ -61,15 +62,12 @@ public:
 	}
 };
 
-template <class TKey,
-			class TValue,
-			class KeyManager = DefaultKeyManager<TKey>,
-			class TAlloc = LinkedNodeDefaultAllocator<KeyValuePair<TKey, TValue> > >
+template <class TKey, class TValue, class KeyManager = DefaultKeyManager<TKey>>
 class Hash
 {
 public:
 	typedef KeyValuePair<TKey, TValue> TPair;
-	typedef List<TPair, TAlloc> TPairList;
+	typedef std::list<TPair> TPairList;
 
 	enum
 	{
@@ -81,10 +79,10 @@ public:
 	{
 	public:
 		ConstIterator() : m_ppBins(NULL), m_currBin(0) {}
-		ConstIterator(TPairList* const* apBins, XnUInt32 currBin, typename TPairList::ConstIterator currIt) :
+		ConstIterator(TPairList* const* apBins, XnUInt32 currBin, typename TPairList::const_iterator currIt) :
 			m_ppBins(apBins), m_currBin(currBin), m_currIt(currIt)
 		{
-			if (currBin != LAST_BIN && m_currIt == m_ppBins[m_currBin]->End())
+			if (currBin != LAST_BIN && m_currIt == m_ppBins[m_currBin]->end())
 			{
 				++*this;
 			}
@@ -97,19 +95,19 @@ public:
 		{
 			XN_ASSERT(m_currBin != LAST_BIN);
 
-			if (m_currIt != m_ppBins[m_currBin]->End())
+			if (m_currIt != m_ppBins[m_currBin]->end())
 			{
 				++m_currIt;
 			}
 
-			if (m_currIt == m_ppBins[m_currBin]->End())
+			if (m_currIt == m_ppBins[m_currBin]->end())
 			{
 				do
 				{
 					++m_currBin;
-				} while (m_currBin < LAST_BIN && (m_ppBins[m_currBin] == NULL || m_ppBins[m_currBin]->IsEmpty()));
+				} while (m_currBin < LAST_BIN && (m_ppBins[m_currBin] == NULL || m_ppBins[m_currBin]->empty()));
 
-				m_currIt = m_ppBins[m_currBin]->Begin();
+				m_currIt = m_ppBins[m_currBin]->begin();
 			}
 			return *this;
 		}
@@ -120,6 +118,7 @@ public:
 			return retVal;
 		}
 
+#if 0
 		ConstIterator& operator--()
 		{
 			XN_ASSERT(m_currBin != LAST_BIN);
@@ -139,9 +138,9 @@ public:
 						break;
 					}
 					--m_currBin;
-				} while (m_ppBins[m_currBin] == NULL || m_ppBins[m_currBin]->IsEmpty());
+				} while (m_ppBins[m_currBin] == NULL || m_ppBins[m_currBin]->empty());
 
-				m_currIt = m_ppBins[m_currBin]->Begin();
+				m_currIt = m_ppBins[m_currBin]->begin();
 			}
 			return *this;
 		}
@@ -151,6 +150,7 @@ public:
 			--*this;
 			return retVal;
 		}
+#endif
 
 		inline bool operator==(const ConstIterator& other) const
 		{
@@ -174,7 +174,7 @@ public:
 
 		TPairList* const* m_ppBins;
 		XnUInt32 m_currBin;
-		typename TPairList::ConstIterator m_currIt;
+		typename TPairList::const_iterator m_currIt;
 	};
 
 	class Iterator : public ConstIterator
@@ -182,7 +182,7 @@ public:
 	public:
 		Iterator() : ConstIterator() {}
 
-		Iterator(TPairList** apBins, XnUInt32 currBin, typename TPairList::Iterator currIt) :
+		Iterator(TPairList** apBins, XnUInt32 currBin, typename TPairList::iterator currIt) :
 			ConstIterator(apBins, currBin, currIt)
 		{}
 		Iterator(const Iterator& other) : ConstIterator(other) {}
@@ -256,19 +256,19 @@ public:
 
 	Iterator Begin()
 	{
-		return Iterator(m_apBins, m_minBin, m_apBins[m_minBin]->Begin());
+		return Iterator(m_apBins, m_minBin, m_apBins[m_minBin]->begin());
 	}
 	ConstIterator Begin() const
 	{
-		return ConstIterator(m_apBins, m_minBin, m_apBins[m_minBin]->Begin());
+		return ConstIterator(m_apBins, m_minBin, m_apBins[m_minBin]->begin());
 	}
 	Iterator End()
 	{
-		return Iterator(m_apBins, LAST_BIN, m_apBins[LAST_BIN]->Begin());
+		return Iterator(m_apBins, LAST_BIN, m_apBins[LAST_BIN]->begin());
 	}
 	ConstIterator End() const
 	{
-		return ConstIterator(m_apBins, LAST_BIN, m_apBins[LAST_BIN]->Begin());
+		return ConstIterator(m_apBins, LAST_BIN, m_apBins[LAST_BIN]->begin());
 	}
 
 	XnStatus Set(const TKey& key, const TValue& value)
@@ -284,7 +284,7 @@ public:
 				m_minBin = hash;
 			}
 		}
-		for (typename TPairList::Iterator it = m_apBins[hash]->Begin(); it != m_apBins[hash]->End(); ++it)
+		for (typename TPairList::iterator it = m_apBins[hash]->begin(); it != m_apBins[hash]->end(); ++it)
 		{
 			if (KeyManager::Compare(it->Key(), key) == 0)
 			{
@@ -294,13 +294,14 @@ public:
 			}
 		}
 
-		return m_apBins[hash]->AddLast(TPair(key, value));
+		m_apBins[hash]->push_back(TPair(key, value));
+		return XN_STATUS_OK;
 	}
 
 	ConstIterator Find(const TKey& key) const
 	{
 		XnUInt32 bin = LAST_BIN;
-		typename TPairList::ConstIterator it;
+		typename TPairList::const_iterator it;
 		if (Find(key, bin, it))
 		{
 			return ConstIterator(m_apBins, bin, it);
@@ -310,7 +311,7 @@ public:
 	Iterator Find(const TKey& key)
 	{
 		XnUInt32 bin = LAST_BIN;
-		typename TPairList::Iterator it;
+		typename TPairList::iterator it;
 		if (Find(key, bin, it))
 		{
 			return Iterator(m_apBins, bin, it);
@@ -328,7 +329,7 @@ public:
 		return it == End() ? XN_STATUS_NO_MATCH : XN_STATUS_OK;
 	}
 
-	XnStatus Get(const TKey& key, TValue&  value) const
+	XnStatus Get(const TKey& key, TValue& value) const
 	{
 		ConstIterator it = Find(key);
 		if (it == End())
@@ -399,7 +400,8 @@ public:
  		XN_ASSERT(m_apBins == it.m_ppBins);
  		XN_ASSERT(m_apBins[it.m_currBin] != NULL);
 
-		return m_apBins[it.m_currBin]->Remove(it.m_currIt);
+		m_apBins[it.m_currBin]->erase(it.m_currIt);
+		return XN_STATUS_OK;
 	}
 
 	XnStatus Remove(const TKey& key)
@@ -437,13 +439,33 @@ public:
 		return size;
 	}
 private:
-	bool Find(const TKey& key, XnUInt32& bin, typename TPairList::ConstIterator& currIt) const
+	bool Find(const TKey& key, XnUInt32& bin, typename TPairList::const_iterator& currIt) const
 	{
 		xnl::HashCode hash = KeyManager::Hash(key);
 
 		if (m_apBins[hash] != NULL)
 		{
-			for (typename TPairList::ConstIterator it = m_apBins[hash]->Begin(); it != m_apBins[hash]->End(); ++it)
+			for (typename TPairList::const_iterator it = m_apBins[hash]->begin(); it != m_apBins[hash]->end(); ++it)
+			{
+				if (KeyManager::Compare(it->Key(), key) == 0)
+				{
+					bin = hash;
+					currIt = it;
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	bool Find(const TKey& key, XnUInt32& bin, typename TPairList::iterator& currIt) const
+	{
+		xnl::HashCode hash = KeyManager::Hash(key);
+
+		if (m_apBins[hash] != NULL)
+		{
+			for (typename TPairList::iterator it = m_apBins[hash]->begin(); it != m_apBins[hash]->end(); ++it)
 			{
 				if (KeyManager::Compare(it->Key(), key) == 0)
 				{

@@ -51,37 +51,9 @@ public:
 };
 
 template<class TValue>
-class XnStringsNodeAllocator
+class XnStringsHashT : public xnl::Hash<const XnChar*, TValue, XnStringsHashKeyManager>
 {
-public:
-	typedef xnl::KeyValuePair<const XnChar*, TValue> TPair;
-	typedef xnl::LinkedListNode<TPair> TLinkedNode;
-
-	static TLinkedNode* Allocate(TPair const& pair)
-	{
-		XnChar* pKeyCopy = xnOSStrDup(pair.Key());
-		if (pKeyCopy == NULL)
-		{
-			return NULL;
-		}
-
-		return XN_NEW(TLinkedNode, TPair(pKeyCopy, pair.Value()));
-	}
-
-	static void Deallocate(TLinkedNode* pNode)
-	{
-		XN_ASSERT(pNode != NULL);
-		XN_ASSERT(pNode->value.Key() != NULL);
-
-		xnOSFree(pNode->value.Key());
-		XN_DELETE(pNode);
-	}
-};
-
-template<class TValue>
-class XnStringsHashT : public xnl::Hash<const XnChar*, TValue, XnStringsHashKeyManager, XnStringsNodeAllocator<TValue> >
-{
-	typedef xnl::Hash<const XnChar*, TValue, XnStringsHashKeyManager, XnStringsNodeAllocator<TValue> > Base;
+	typedef xnl::Hash<const XnChar*, TValue, XnStringsHashKeyManager> Base;
 
 public:
 	XnStringsHashT() : Base() {}
