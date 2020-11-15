@@ -21,6 +21,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <vector>
+
 #include "XnDeviceSensorInit.h"
 #include "XnSensorImageStream.h"
 #include "XnSensor.h"
@@ -135,9 +137,9 @@ XnStatus XnSensorImageStream::Init()
 	XnUInt16 nValidInputFormat = XN_IMAGE_STREAM_DEFAULT_INPUT_FORMAT;
 	XnBool bModeFound = FALSE;
 
-	const xnl::Array<XnCmosPreset>& aSupportedModes = GetSupportedModes();
+	const std::vector<XnCmosPreset>& aSupportedModes = GetSupportedModes();
 
-	for (XnUInt32 i = 0; i < aSupportedModes.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < aSupportedModes.size(); ++i)
 	{
 		if (aSupportedModes[i].nResolution == XN_IMAGE_STREAM_DEFAULT_RESOLUTION &&
 			aSupportedModes[i].nFPS == XN_IMAGE_STREAM_DEFAULT_FPS)

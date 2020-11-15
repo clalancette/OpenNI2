@@ -21,6 +21,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <vector>
+
 #include "XnPixelStream.h"
 #include <XnLog.h>
 #include <Formats/XnFormats.h>
@@ -40,7 +42,7 @@ XnPixelStream::XnPixelStream(const XnChar* csType, const XnChar* csName, XnBool 
 	m_Cropping(XN_STREAM_PROPERTY_CROPPING, "Cropping", &m_CroppingData, sizeof(OniCropping), ReadCroppingFromFileCallback),
 	m_SupportedModesCount(XN_STREAM_PROPERTY_SUPPORT_MODES_COUNT, "SupportedModesCount", 0),
 	m_SupportedModes(XN_STREAM_PROPERTY_SUPPORT_MODES, "SupportedModes"),
-	m_supportedModesData(30),
+	m_supportedModesData(30, XnCmosPreset()),
 	m_bAllowCustomResolutions(bAllowCustomResolutions)
 {
 	xnOSMemSet(&m_CroppingData, 0, sizeof(OniCropping));
@@ -96,11 +98,13 @@ XnStatus XnPixelStream::AddSupportedModes(XnCmosPreset* aPresets, XnUInt32 nCoun
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_supportedModesData.AddLast(aPresets, nCount);
-	XN_IS_STATUS_OK(nRetVal);
+	for (XnUInt32 i = 0; i < nCount; ++i)
+	{
+		m_supportedModesData.push_back(*(aPresets + i));
+	}
 
 	// update our general property
-	XnUInt32 nAllPresetsCount = m_supportedModesData.GetSize();
+	XnUInt32 nAllPresetsCount = m_supportedModesData.size();
 
 	nRetVal = m_SupportedModesCount.UnsafeUpdateValue(nAllPresetsCount);
 	XN_IS_STATUS_OK(nRetVal);
@@ -110,7 +114,7 @@ XnStatus XnPixelStream::AddSupportedModes(XnCmosPreset* aPresets, XnUInt32 nCoun
 
 XnStatus XnPixelStream::ValidateSupportedMode(const XnCmosPreset& preset)
 {
-	for (XnUInt32 i = 0; i < m_supportedModesData.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < m_supportedModesData.size(); ++i)
 	{
 		if (preset.nFormat == m_supportedModesData[i].nFormat &&
 			preset.nResolution == m_supportedModesData[i].nResolution &&
@@ -125,12 +129,12 @@ XnStatus XnPixelStream::ValidateSupportedMode(const XnCmosPreset& preset)
 
 XnStatus XnPixelStream::GetSupportedModes(XnCmosPreset* aPresets, XnUInt32& nCount)
 {
-	if (nCount < m_supportedModesData.GetSize())
+	if (nCount < m_supportedModesData.size())
 	{
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 
-	xnOSMemCopy(aPresets, m_supportedModesData.GetData(), m_supportedModesData.GetSize() * sizeof(XnCmosPreset));
+	xnOSMemCopy(aPresets, m_supportedModesData.data(), m_supportedModesData.size() * sizeof(XnCmosPreset));
 	return XN_STATUS_OK;
 }
 
