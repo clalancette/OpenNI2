@@ -66,9 +66,6 @@
     <ClInclude Include="Win32\devioctl.h">
       <Filter>Source Files\Win32</Filter>
     </ClInclude>
-    <ClInclude Include="XnEnum.h">
-      <Filter>Header Files\Infrastructures</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\XnErrorLogger.h">
       <Filter>Header Files\Infrastructures</Filter>
     </ClInclude>

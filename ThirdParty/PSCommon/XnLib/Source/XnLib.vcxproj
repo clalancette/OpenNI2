@@ -59,7 +59,6 @@
     <ClInclude Include="Win32\usb200.h" />
     <ClInclude Include="Win32\XnWin32Internal.h" />
     <ClInclude Include="XnDumpFileWriter.h" />
-    <ClInclude Include="XnEnum.h" />
     <ClInclude Include="XnLogConsoleWriter.h" />
     <ClInclude Include="XnLogFileWriter.h" />
   </ItemGroup>
