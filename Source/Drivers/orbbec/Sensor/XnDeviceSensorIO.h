@@ -26,7 +26,6 @@
 //---------------------------------------------------------------------------
 #include <XnPlatform.h>
 #include <XnUSB.h>
-#include <XnArray.h>
 #include <XnStreamParams.h>
 #include <XnDevice.h>
 #include "XnFirmwareInfo.h"
