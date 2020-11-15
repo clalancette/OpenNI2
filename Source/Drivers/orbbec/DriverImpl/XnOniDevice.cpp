@@ -21,6 +21,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <vector>
+
 #include "XnOniDevice.h"
 #include "XnOniStream.h"
 #include "XnOniDriver.h"
@@ -499,15 +501,14 @@ void XnOniDevice::notifyAllProperties()
 OniStatus XnOniDevice::EnableFrameSync(XnOniStream** pStreams, int streamCount)
 {
 	// Translate the XnOniStream to XnDeviceStream.
-	xnl::Array<XnDeviceStream*> streams(streamCount);
-	streams.SetSize(streamCount);
+	std::vector<XnDeviceStream*> streams(streamCount, NULL);
 	for (int i = 0; i < streamCount; ++i)
 	{
 		streams[i] = pStreams[i]->GetDeviceStream();
 	}
 
 	// Set the frame sync group.
-	XnStatus rc = m_sensor.SetFrameSyncStreamGroup(streams.GetData(), streamCount);
+	XnStatus rc = m_sensor.SetFrameSyncStreamGroup(streams.data(), streamCount);
 	if (rc != XN_STATUS_OK)
 	{
 		m_driverServices.errorLoggerAppend("Error setting frame-sync group (rc=%d)\n", rc);
