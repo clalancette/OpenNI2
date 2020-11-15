@@ -27,7 +27,6 @@
 #include <XnLog.h>
 #include <XnStringsHash.h>
 #include <stdarg.h>
-#include <XnArray.h>
 #include <XnOSCpp.h>
 
 #include "XnLogConsoleWriter.h"
