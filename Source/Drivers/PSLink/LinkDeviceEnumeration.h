@@ -21,9 +21,10 @@
 #ifndef LINKDEVICEENUMERATION_H
 #define LINKDEVICEENUMERATION_H
 
+#include <vector>
+
 #include <XnStringsHash.h>
 #include <XnEvent.h>
-#include <XnArray.h>
 #include <OniCTypes.h>
 #include <XnUSB.h>
 
@@ -61,7 +62,7 @@ private:
 	static XnUsbId ms_supportedProducts[];
 	static XnUInt32 ms_supportedProductsCount;
 	static DevicesHash ms_devices;
-	static xnl::Array<XnRegistrationHandle> ms_aRegistrationHandles;
+	static std::vector<XnRegistrationHandle> ms_aRegistrationHandles;
 	static XN_CRITICAL_SECTION_HANDLE ms_lock;
 };
 

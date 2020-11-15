@@ -18,6 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <vector>
+
 #include "LinkDeviceEnumeration.h"
 #include "XnLinkProtoLibDefs.h"
 #include <XnUSB.h>
@@ -29,10 +31,10 @@ XnBool LinkDeviceEnumeration::ms_initialized = FALSE;
 LinkDeviceEnumeration::DeviceConnectivityEvent LinkDeviceEnumeration::ms_connectedEvent;
 LinkDeviceEnumeration::DeviceConnectivityEvent LinkDeviceEnumeration::ms_disconnectedEvent;
 LinkDeviceEnumeration::DevicesHash LinkDeviceEnumeration::ms_devices;
-xnl::Array<XnRegistrationHandle> LinkDeviceEnumeration::ms_aRegistrationHandles;
+std::vector<XnRegistrationHandle> LinkDeviceEnumeration::ms_aRegistrationHandles;
 XN_CRITICAL_SECTION_HANDLE LinkDeviceEnumeration::ms_lock;
 
-LinkDeviceEnumeration::XnUsbId LinkDeviceEnumeration::ms_supportedProducts[] = 
+LinkDeviceEnumeration::XnUsbId LinkDeviceEnumeration::ms_supportedProducts[] =
 {
 	{ 0x1D27, 0x1250 },
 	{ 0x1D27, 0x1260 },
@@ -73,8 +75,7 @@ XnStatus LinkDeviceEnumeration::Initialize()
 		nRetVal = xnUSBRegisterToConnectivityEvents(ms_supportedProducts[i].vendorID, ms_supportedProducts[i].productID, OnConnectivityEventCallback, &ms_supportedProducts[i], &hRegistration);
 		XN_IS_STATUS_OK(nRetVal);
 
-		nRetVal = ms_aRegistrationHandles.AddLast(hRegistration);
-		XN_IS_STATUS_OK(nRetVal);
+		ms_aRegistrationHandles.push_back(hRegistration);
 
 		// and enumerate for existing ones
 		nRetVal = xnUSBEnumerateDevices(ms_supportedProducts[i].vendorID, ms_supportedProducts[i].productID, &astrDevicePaths, &nCount);
@@ -97,11 +98,11 @@ void LinkDeviceEnumeration::Shutdown()
 {
 	if (ms_initialized)
 	{
-		for (XnUInt32 i = 0; i < ms_aRegistrationHandles.GetSize(); ++i)
+		for (XnUInt32 i = 0; i < ms_aRegistrationHandles.size(); ++i)
 		{
 			xnUSBUnregisterFromConnectivityEvents(ms_aRegistrationHandles[i]);
 		}
-		ms_aRegistrationHandles.Clear();
+		ms_aRegistrationHandles.clear();
 		ms_connectedEvent.Clear();
 		ms_disconnectedEvent.Clear();
 
