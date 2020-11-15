@@ -18,10 +18,11 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <vector>
+
 #include "OniDeviceDriver.h"
 #include "Driver/OniDriverTypes.h"
 #include "OniStream.h"
-#include "XnArray.h"
 #include "XnStringsHash.h"
 #include <XnLog.h>
 
@@ -161,14 +162,13 @@ void ONI_CALLBACK_TYPE DeviceDriver::driver_DeviceStateChanged(const OniDeviceIn
 void* DeviceDriver::enableFrameSync(VideoStream** pStreams, int streamCount)
 {
 	// Translate the Stream to driver's stream handle.
-	xnl::Array<void*> streams(streamCount);
-	streams.SetSize(streamCount);
+	std::vector<void*> streams(streamCount, NULL);
 	for (int i = 0; i < streamCount; ++i)
 	{
 		streams[i] = pStreams[i]->getHandle();
 	}
 
-	return m_driverHandler.enableFrameSync(streams.GetData(), streamCount);
+	return m_driverHandler.enableFrameSync(streams.data(), streamCount);
 }
 
 void DeviceDriver::disableFrameSync(void* frameSyncGroup)
