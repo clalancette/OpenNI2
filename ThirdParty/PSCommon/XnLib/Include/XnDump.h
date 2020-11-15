@@ -127,12 +127,6 @@ XN_C_API void XN_C_DECL _xnDumpFileClose(XnDumpFile* pFile);
 		{															\
 			_xnDumpFileWriteString(pFile, strFormat, ##__VA_ARGS__);\
 		}
-#elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_ARC_VAARGS_STYLE
-	#define xnDumpFileWriteString(pFile, strFormat, ...)			\
-		if ((pFile) != NULL)										\
-		{															\
-			_xnDumpFileWriteString(pFile, strFormat);				\
-		}
 #elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_NO_VAARGS
 	#define xnDumpFileWriteString(pFile, strFormat, arg)			\
 		if ((pFile) != NULL)										\
@@ -181,11 +175,6 @@ XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnD
 	#define xnDumpWriteString(dump, csFormat, ...)						\
 		if ((dump).hFile != XN_INVALID_FILE_HANDLE) {					\
 			xnDumpWriteStringImpl((dump), csFormat, ##__VA_ARGS__);		\
-		}
-#elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_ARC_VAARGS_STYLE
-	#define xnDumpWriteString(dump, csFormat...)						\
-		if ((dump).hFile != XN_INVALID_FILE_HANDLE) {					\
-			xnDumpWriteStringImpl((dump), csFormat);					\
 		}
 #elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_NO_VAARGS
 	#define xnDumpWriteString(dump, csFormat, arg)						\

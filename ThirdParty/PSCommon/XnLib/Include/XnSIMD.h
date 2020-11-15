@@ -22,7 +22,7 @@
 #ifndef _XN_SIMD_H_
 #define _XN_SIMD_H_
 
-#if !defined(XN_NEON) && !defined(XN_SSE) && !defined(_ARC)
+#if !defined(XN_NEON) && !defined(XN_SSE)
 // try to detect SSE by platform and compile flags
 	#if defined(__GNUC__)
 		#if (defined(__i386__) || defined(__x86_64__)) \

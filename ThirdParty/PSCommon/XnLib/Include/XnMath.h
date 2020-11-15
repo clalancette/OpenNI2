@@ -140,9 +140,6 @@ namespace xnl
 		{
 #if defined(_WIN32)
 			return _isnan(scalar)!=0;
-#elif defined(_ARC)
-			return (scalar != scalar);
-			//    return isnan(scalar);
 #else
 			return isnan(scalar);
 #endif

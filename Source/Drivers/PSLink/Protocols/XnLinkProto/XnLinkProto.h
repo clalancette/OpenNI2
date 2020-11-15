@@ -24,10 +24,7 @@
 #include <XnPlatform.h>
 #include "XnLinkDefs.h"
 
-#if XN_PLATFORM != XN_PLATFORM_ARC
 #pragma pack (push, 1)
-#endif
-
 
 //-----------------------------------------------------------------------
 // Packet Structure
@@ -94,14 +91,14 @@ typedef struct XnLinkLogFileParam
 //-----------------------------------------------------------------------
 typedef struct XnLinkVideoMode
 {
-	XnUInt16 m_nXRes;	
-	XnUInt16 m_nYRes;	
+	XnUInt16 m_nXRes;
+	XnUInt16 m_nYRes;
 	XnUInt16 m_nFPS;
 	XnUInt8 m_nPixelFormat; // from XnLinkPixelFormat
 	XnUInt8 m_nCompression; // from XnLinkCompressionType
 } XnLinkVideoMode;
 
-typedef struct 
+typedef struct
 {
 	XnUInt32 m_nNumModes;
 	XnLinkVideoMode m_supportedVideoModes[1];
@@ -488,7 +485,7 @@ typedef struct XnLinkTemperatureSensorsList{
  	XnLinkTemperatureSensor m_aSensors[XN_LINK_MAX_TEMPERATURE_SENSORS];
 }XnLinkTemperatureSensorsList;
 //-----------------------------------------------------------------------
-// Command Parameters 
+// Command Parameters
 //-----------------------------------------------------------------------
 typedef struct XnLinkDownloadFileParams
 {
@@ -620,7 +617,7 @@ typedef struct XnLinkGetDebugDataParams
 } XnLinkGetDebugDataParams;
 
 //-----------------------------------------------------------------------
-// Command Response Structures 
+// Command Response Structures
 //-----------------------------------------------------------------------
 typedef struct XnLinkTemperatureResponse
 {
@@ -819,29 +816,27 @@ typedef struct XnLinkGetFileListResponse
 
 typedef struct XnLinkDebugDataResponseHeader
 {
-    XnUInt16 m_nDataID;		//Values come from XnLinkInternalPropID
-    XnUInt16 m_nValueSize;
+	XnUInt16 m_nDataID;		//Values come from XnLinkInternalPropID
+	XnUInt16 m_nValueSize;
 } XnLinkDebugDataResponseHeader;
 
 typedef struct XnLinkDebugDataResponse
 {
-    XnLinkDebugDataResponseHeader m_header;
-    XnUInt8 m_data[1];
+	XnLinkDebugDataResponseHeader m_header;
+	XnUInt8 m_data[1];
 } XnLinkDebugDataResponse;
 
 typedef struct XnLinkBootStatus
 {
-    XnUInt8  m_nZone;		    //Values come from XnLinkBootZone
-    XnUInt8  m_nErrorCode;	    //Values come from XnLinkBootErrorCode
-    XnUInt16 m_nReserved;
+	XnUInt8  m_nZone;		    //Values come from XnLinkBootZone
+	XnUInt8  m_nErrorCode;	    //Values come from XnLinkBootErrorCode
+	XnUInt16 m_nReserved;
 } XnLinkBootStatus;
 
 //-----------------------------------------------------------------------
 // Device Notifications
 //-----------------------------------------------------------------------
 
-#if XN_PLATFORM != XN_PLATFORM_ARC
 #pragma pack (pop)
-#endif
 
 #endif // XNLINKPROTO_H

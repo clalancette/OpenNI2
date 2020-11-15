@@ -47,9 +47,6 @@
 	#include "Linux-x86/XnOSLinux-x86.h"
 #elif (XN_PLATFORM == XN_PLATFORM_MACOSX)
         #include "MacOSX/XnOSMacOSX.h"
-#elif defined(_ARC)
-	#include "ARC/XnOSARC.h"
-#else
 	#error OpenNI OS Abstraction Layer - Unsupported Platform!
 #endif
 
@@ -176,15 +173,6 @@ typedef enum {
 				return (XN_STATUS_ALLOC_FAILED);				\
 			}													\
 		}
-#elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_ARC_VAARGS_STYLE
-	#define XN_VALIDATE_NEW(ptr, type...)						\
-		{														\
-			(ptr) = XN_NEW(type);								\
-			if ((ptr) == NULL)									\
-			{													\
-				return (XN_STATUS_ALLOC_FAILED);				\
-			}													\
-		}
 #else
 	#define XN_VALIDATE_NEW(ptr, type)							\
 		{														\
@@ -212,17 +200,6 @@ typedef enum {
 	#define XN_VALIDATE_NEW_AND_INIT(ptr, type, ...)			\
 		{														\
 			XN_VALIDATE_NEW(ptr, type, ##__VA_ARGS__);			\
-			XnStatus rc = (ptr)->Init();						\
-			if (rc != XN_STATUS_OK)								\
-			{													\
-				XN_DELETE(ptr);									\
-				return (rc);									\
-			}													\
-		}
-#elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_ARC_VAARGS_STYLE
-	#define XN_VALIDATE_NEW_AND_INIT(ptr, type...)				\
-		{														\
-			XN_VALIDATE_NEW(ptr, type);							\
 			XnStatus rc = (ptr)->Init();						\
 			if (rc != XN_STATUS_OK)								\
 			{													\
@@ -317,8 +294,6 @@ XN_C_API XnStatus XN_C_DECL xnOSGetInfo(xnOSInfo* pOSInfo);
 	#define XN_NEW(type, ...)		new type(__VA_ARGS__)
 #elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_GCC_VAARGS_STYLE
 	#define XN_NEW(type, ...)		new type(__VA_ARGS__)
-#elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_ARC_VAARGS_STYLE
-	#define XN_NEW(type, arg...)	new type(arg)
 #else
 	#define XN_NEW(type, arg)		new type(arg)
 #endif

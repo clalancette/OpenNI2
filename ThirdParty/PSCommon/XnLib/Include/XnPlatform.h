@@ -22,11 +22,8 @@
 #define _XN_PLATFORM_H_
 
 #define XN_PLATFORM_WIN32 1
-#define XN_PLATFORM_XBOX360 2
-#define XN_PLATFORM_WII 4
 #define XN_PLATFORM_LINUX_X86 5
 #define XN_PLATFORM_FILES_ONLY 6
-#define XN_PLATFORM_ARC 6
 #define XN_PLATFORM_LINUX_ARM 7
 #define XN_PLATFORM_MACOSX 8
 
@@ -36,7 +33,6 @@
 #define XN_PLATFORM_USE_NO_VAARGS 1
 #define XN_PLATFORM_USE_WIN32_VAARGS_STYLE 2
 #define XN_PLATFORM_USE_GCC_VAARGS_STYLE   3
-#define XN_PLATFORM_USE_ARC_VAARGS_STYLE   4
 
 #if (defined _WIN32)
 #ifndef RC_INVOKED
@@ -49,8 +45,6 @@
 #include "Linux-x86/XnPlatformLinux-x86.h"
 #elif (__linux__ && (__arm__ || __aarch64__))
 #include "Linux-Arm/XnPlatformLinux-Arm.h"
-#elif _ARC
-#include "ARC/XnPlaformARC.h"
 #elif (__APPLE__)
 #include "MacOSX/XnPlatformMacOSX.h"
 #else

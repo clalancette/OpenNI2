@@ -307,33 +307,6 @@ XN_C_API void XN_C_DECL _xnLoggerClose(XnLogger* pLogger);
 	#define XN_RETURN_WITH_ERROR_LOG(pLogger, nRetVal, csFormat, ...)						\
 		XN_RETURN_WITH_LOG(pLogger, nRetVal, XN_LOG_ERROR, csFormat, ##__VA_ARGS__)
 
-#elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_ARC_VAARGS_STYLE
-	#define xnLoggerWriteHelper(pLogger, severity, csFormat...)									\
-		if (pLogger != NULL && severity >= pLogger->nMinSeverity)								\
-		{																						\
-			xnLoggerWrite(pLogger, severity, __FILE__, __LINE__, csFormat);						\
-		}
-
-	#define xnLoggerVerbose(pLogger, csFormat...) xnLoggerWriteHelper(pLogger, XN_LOG_VERBOSE, csFormat)
-	#define xnLoggerInfo(pLogger, csFormat...)    xnLoggerWriteHelper(pLogger, XN_LOG_INFO, csFormat)
-	#define xnLoggerWarning(pLogger, csFormat...) xnLoggerWriteHelper(pLogger, XN_LOG_WARNING, csFormat)
-	#define xnLoggerError(pLogger, csFormat...)   xnLoggerWriteHelper(pLogger, XN_LOG_ERROR, csFormat)
-
-	/* Writes to the log and returns nRetVal */
-	#define XN_RETURN_WITH_LOG(pLogger, nRetVal, severity, csFormat...)					\
-		{																				\
-			xnLoggerWriteHelper(pLogger, severity, csFormat);							\
-			return (nRetVal);															\
-		}
-
-	/* Logs a warning and returns nRetVal */
-	#define XN_RETURN_WITH_WARNING_LOG(pLogger, nRetVal, csFormat...)					\
-		XN_RETURN_WITH_LOG(pLogger, nRetVal, XN_LOG_WARNING, csFormat)
-
-	/* Logs an error and returns nRetVal */
-	#define XN_RETURN_WITH_ERROR_LOG(pLogger, nRetVal, csFormat...)						\
-		XN_RETURN_WITH_LOG(pLogger, nRetVal, XN_LOG_ERROR, csFormat)
-
 #elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_NO_VAARGS
 	#define xnLoggerWriteHelper(pLogger, severity, csFormat, arg)								\
 		if (pLogger != NULL && severity >= pLogger->nMinSeverity)								\
@@ -390,11 +363,7 @@ XN_C_API XnStatus XN_C_DECL xnLogCreateNewFile(const XnChar* strName, XnBool bSe
 
 #define XN_MASK_RETVAL_CHECKS "RetValChecks"
 
-#if XN_PLATFORM == XN_PLATFORM_ARC
-extern "C" XnLogger* XN_LOGGER_RETVAL_CHECKS;
-#else
 XN_C_API XnLogger* XN_LOGGER_RETVAL_CHECKS;
-#endif
 
 /** Validates return value and writes log message with appropriate status string **/
 #define XN_IS_STATUS_OK_LOG_ERROR(what, nRetVal)														\
@@ -466,42 +435,6 @@ XN_C_API XnStatus XN_API_DEPRECATED("Use xnLogCreateNewFile() instead") XN_C_DEC
 	/* Logs a warning and returns nRetVal */
 	#define XN_LOG_ERROR_RETURN(nRetVal, csLogMask, csFormat, ...)						\
 		XN_LOG_RETURN(nRetVal, XN_LOG_ERROR, csLogMask, csFormat, ##__VA_ARGS__)
-
-#elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_ARC_VAARGS_STYLE
-	#define xnLogVerbose(csLogMask, csFormat...)	xnLogWrite(csLogMask, XN_LOG_VERBOSE, __FILE__, __LINE__, csFormat)
-	#define xnLogInfo(csLogMask, csFormat...)		xnLogWrite(csLogMask, XN_LOG_INFO, __FILE__, __LINE__, csFormat)
-	#define xnLogWarning(csLogMask, csFormat...)	xnLogWrite(csLogMask, XN_LOG_WARNING, __FILE__, __LINE__, csFormat)
-	#define xnLogError(csLogMask, csFormat...)		xnLogWrite(csLogMask, XN_LOG_ERROR, __FILE__, __LINE__, csFormat)
-
-	/* Writes to the log and returns nRetVal */
-	#define XN_LOG_RETURN(nRetVal, nSeverity, csLogMask, csFormat...)					\
-	{																					\
-		xnLogWrite(csLogMask, nSeverity, __FILE__, __LINE__, csFormat);					\
-		return (nRetVal);																\
-	}
-
-	/* Logs a warning and returns nRetVal */
-	#define XN_LOG_WARNING_RETURN(nRetVal, csLogMask, csFormat...)						\
-		XN_LOG_RETURN(nRetVal, XN_LOG_WARNING, csLogMask, csFormat)
-
-	/* Logs a warning and returns nRetVal */
-	#define XN_LOG_ERROR_RETURN(nRetVal, csLogMask, csFormat...)						\
-		XN_LOG_RETURN(nRetVal, XN_LOG_ERROR, csLogMask, csFormat)
-
-	/* If nRetVal is not ok, writes to the log and returns nRetVal */
-	#define XN_IS_STATUS_OK_LOG(nRetVal, nSeverity, csLogMask, csFormat...)				\
-		if (nRetVal != XN_STATUS_OK)													\
-	{																					\
-		XN_LOG_RETURN(nRetVal, nSeverity, csLogMask, csFormat)							\
-	}
-
-	/* If nRetVal is not ok, logs a warning and returns nRetVal */
-	#define XN_IS_STATUS_OK_WARNING(nRetVal, csLogMask, csFormat...)					\
-		XN_IS_STATUS_OK_LOG(nRetVal, XN_LOG_WARNING, csLogMask, csFormat)
-
-	/* If nRetVal is not ok, logs an error and returns nRetVal */
-	#define XN_IS_STATUS_OK_ERROR(nRetVal, csLogMask, csFormat...)						\
-		XN_IS_STATUS_OK_LOG(nRetVal, XN_LOG_ERROR, csLogMask, csFormat)
 
 #elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_NO_VAARGS
 	#define xnLogVerbose(csLogMask, csFormat, args)	xnLogWrite(csLogMask, XN_LOG_VERBOSE, __FILE__, __LINE__, csFormat, args)

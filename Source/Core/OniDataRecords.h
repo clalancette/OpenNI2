@@ -29,9 +29,7 @@
 #include "OniCTypes.h"
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
-#if (ONI_PLATFORM != ONI_PLATFORM_ARC)
-#   pragma pack(push, 1)
-#endif
+#pragma pack(push, 1)
 
 #define ONI_CODEC_ID(c1, c2, c3, c4) XnUInt32((c4 << 24) | (c3 << 16) | (c2 << 8) | c1)
 
@@ -149,7 +147,7 @@ public:
 
     ///
     OniStatus emit_RECORD_NODE_ADDED_1_0_0_5(
-            XnUInt32 nodeType, 
+            XnUInt32 nodeType,
             XnUInt32 nodeId,
             XnUInt32 codecId,
             XnUInt32 numberOfFrames,
@@ -157,7 +155,7 @@ public:
             XnUInt64 maxTimeStamp);
     ///
     OniStatus emit_RECORD_NODE_ADDED(
-            XnUInt32 nodeType, 
+            XnUInt32 nodeType,
             XnUInt32 nodeId,
             XnUInt32 codecId,
             XnUInt32 numberOfFrames,
@@ -165,7 +163,7 @@ public:
             XnUInt64 maxTimeStamp,
             XnUInt64 seekTablePosition);
 
-    /// 
+    ///
     OniStatus emit_RECORD_NODE_STATE_READY(XnUInt32 nodeId);
 
     ///
@@ -173,8 +171,8 @@ public:
 
     ///
     OniStatus emit_RECORD_SEEK_TABLE(
-            XnUInt32 nodeId, 
-	    XnUInt32 numFrames, 
+            XnUInt32 nodeId,
+	    XnUInt32 numFrames,
 	    const std::list<DataIndexEntry>& dataIndexEntryList);
 
     ///
@@ -191,8 +189,8 @@ public:
             XnUInt32    nodeId,
             XnUInt64    undoRecordPos,
             XnUInt64    timeStamp,
-            XnUInt32    frameId, 
-            const void* data, 
+            XnUInt32    frameId,
+            const void* data,
             XnSizeT     dataSize_bytes);
 
     ///
@@ -227,7 +225,7 @@ private:
     OniStatus emit(const T& field, XnSizeT& totalFieldsSize_bytes);
 
     // Union of a buffer and a record header.
-    union 
+    union
     {
         XnUInt8*          m_pBuffer;
         RecordHeaderData* m_header;
@@ -238,9 +236,7 @@ private:
     XnUInt8* m_pEmitPtr;
 };
 
-#if (ONI_PLATFORM != ONI_PLATFORM_ARC)
-#   pragma pack(pop)
-#endif
+#pragma pack(pop)
 ONI_NAMESPACE_IMPLEMENTATION_END
 
 #endif // ONIDATARECORDS_H

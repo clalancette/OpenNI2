@@ -38,8 +38,6 @@
 #	include "Linux-x86/OniPlatformLinux-x86.h"
 #elif (__linux__ && (__arm__ || __aarch64__))
 #	include "Linux-Arm/OniPlatformLinux-Arm.h"
-#elif _ARC
-#	include "ARC/OniPlaformARC.h"
 #elif (__APPLE__)
 #	include "MacOSX/OniPlatformMacOSX.h"
 #else
