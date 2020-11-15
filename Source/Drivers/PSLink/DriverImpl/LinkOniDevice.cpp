@@ -78,10 +78,10 @@ XnStatus LinkOniDevice::readSupportedModesFromStream(XnFwStreamInfo &info, std::
 	return XN_STATUS_OK;
 }
 
-XnStatus AddVideoMode(xnl::Array<OniVideoMode>& modes, XnFwStreamVideoMode fwMode, OniPixelFormat pixelFormat)
+XnStatus AddVideoMode(std::vector<OniVideoMode>& modes, XnFwStreamVideoMode fwMode, OniPixelFormat pixelFormat)
 {
 	// make sure it's not in the list already
-	for (XnUInt32 i = 0; i < modes.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < modes.size(); ++i)
 	{
 		if (modes[i].resolutionX == (int)fwMode.m_nXRes &&
 			modes[i].resolutionY == (int)fwMode.m_nYRes &&
@@ -97,14 +97,15 @@ XnStatus AddVideoMode(xnl::Array<OniVideoMode>& modes, XnFwStreamVideoMode fwMod
 	mode.resolutionY = fwMode.m_nYRes;
 	mode.fps = fwMode.m_nFPS;
 	mode.pixelFormat = pixelFormat;
-	return modes.AddLast(mode);
+	modes.push_back(mode);
+	return XN_STATUS_OK;
 }
 
 XnStatus LinkOniDevice::FillSupportedVideoModes()
 {
 	std::vector<XnFwStreamVideoMode> aSupportedModes;
 	std::vector<XnFwStreamInfo> aEnumerated;
-	xnl::Array<OniVideoMode> aVideoModes;
+	std::vector<OniVideoMode> aVideoModes;
 
 	int s = -1;
 
@@ -125,14 +126,14 @@ XnStatus LinkOniDevice::FillSupportedVideoModes()
 	}
 	++s;
 	m_sensors[s].sensorType             = ONI_SENSOR_DEPTH;
-	m_sensors[s].pSupportedVideoModes   = XN_NEW_ARR(OniVideoMode, aVideoModes.GetSize());
+	m_sensors[s].pSupportedVideoModes   = XN_NEW_ARR(OniVideoMode, aVideoModes.size());
 	XN_VALIDATE_ALLOC_PTR(m_sensors[s].pSupportedVideoModes);
-	xnOSMemCopy(m_sensors[s].pSupportedVideoModes, aVideoModes.GetData(), aVideoModes.GetSize() * sizeof(OniVideoMode));
-	m_sensors[s].numSupportedVideoModes = aVideoModes.GetSize();
+	xnOSMemCopy(m_sensors[s].pSupportedVideoModes, aVideoModes.data(), aVideoModes.size() * sizeof(OniVideoMode));
+	m_sensors[s].numSupportedVideoModes = aVideoModes.size();
 
 	m_numSensors = s+1;
 	aEnumerated.clear();
-	aVideoModes.Clear();
+	aVideoModes.clear();
 
 	// IR
 	m_pSensor->EnumerateStreams((XnStreamType)XN_LINK_STREAM_TYPE_IR, aEnumerated);
@@ -149,14 +150,14 @@ XnStatus LinkOniDevice::FillSupportedVideoModes()
 	}
 	++s;
 	m_sensors[s].sensorType             = ONI_SENSOR_IR;
-	m_sensors[s].pSupportedVideoModes   = XN_NEW_ARR(OniVideoMode, aVideoModes.GetSize());
+	m_sensors[s].pSupportedVideoModes   = XN_NEW_ARR(OniVideoMode, aVideoModes.size());
 	XN_VALIDATE_ALLOC_PTR(m_sensors[s].pSupportedVideoModes);
-	xnOSMemCopy(m_sensors[s].pSupportedVideoModes, aVideoModes.GetData(), aVideoModes.GetSize() * sizeof(OniVideoMode));
-	m_sensors[s].numSupportedVideoModes = aVideoModes.GetSize();
+	xnOSMemCopy(m_sensors[s].pSupportedVideoModes, aVideoModes.data(), aVideoModes.size() * sizeof(OniVideoMode));
+	m_sensors[s].numSupportedVideoModes = aVideoModes.size();
 
 	m_numSensors = s+1;
 	aEnumerated.clear();
-	aVideoModes.Clear();
+	aVideoModes.clear();
 
 	return XN_STATUS_OK;
 }
