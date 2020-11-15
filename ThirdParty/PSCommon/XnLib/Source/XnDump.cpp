@@ -23,13 +23,13 @@
 //---------------------------------------------------------------------------
 #include <algorithm>
 #include <list>
+#include <vector>
 
 #include <XnDump.h>
 #include <XnDumpWriters.h>
 #include <XnStringsHash.h>
 #include <XnLogTypes.h>
 #include <XnLog.h>
-#include <XnArray.h>
 #include "XnDumpFileWriter.h"
 
 //---------------------------------------------------------------------------
@@ -80,7 +80,7 @@ typedef struct XnDumpWriterFile
 
 typedef struct XnDumpFile
 {
-	xnl::Array<XnDumpWriterFile> m_writersFiles;
+	std::vector<XnDumpWriterFile> m_writersFiles;
 } XnDumpFile;
 
 //---------------------------------------------------------------------------
@@ -191,13 +191,12 @@ XnDumpFile* xnDumpFileOpenImpl(const XnChar* strDumpName, XnBool bForce, XnBool 
 		XN_ASSERT(writerFile.hFile.pInternal != NULL);
 		if (writerFile.hFile.pInternal != NULL)
 		{
-			nRetVal = pFile->m_writersFiles.AddLast(writerFile);
-			XN_ASSERT(nRetVal == XN_STATUS_OK);
+			pFile->m_writersFiles.push_back(writerFile);
 		}
 	}
 
 	// check if any writer succeeded
-	if (pFile->m_writersFiles.IsEmpty())
+	if (pFile->m_writersFiles.empty())
 	{
 		// no file. Release memory
 		XN_DELETE(pFile);
@@ -248,7 +247,7 @@ XN_C_API void XN_C_DECL _xnDumpFileWriteBuffer(XnDumpFile* pFile, const void* pB
 	}
 
 	// write to each writer
-	for (XnUInt32 i = 0; i < pFile->m_writersFiles.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < pFile->m_writersFiles.size(); ++i)
 	{
 		XnDumpWriter* pWriter = pFile->m_writersFiles[i].pWriter;
 		XnDumpWriterFileHandle hWriterFile = pFile->m_writersFiles[i].hFile;
@@ -287,7 +286,7 @@ XN_C_API void XN_C_DECL _xnDumpFileClose(XnDumpFile* pFile)
 	}
 
 	// Notify each writer
-	for (XnUInt32 i = 0; i < pFile->m_writersFiles.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < pFile->m_writersFiles.size(); ++i)
 	{
 		XnDumpWriter* pWriter = pFile->m_writersFiles[i].pWriter;
 		XnDumpWriterFileHandle hWriterFile = pFile->m_writersFiles[i].hFile;
