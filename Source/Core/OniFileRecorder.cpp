@@ -452,7 +452,7 @@ void FileRecorder::send(Message::Type type, VideoStream* pStream, const void* pD
 
 void FileRecorder::onInitialize()
 {
-	XnStatus status = xnOSOpenFile(m_fileName.Data(), XN_OS_FILE_WRITE | XN_OS_FILE_TRUNCATE, &m_file);
+	XnStatus status = xnOSOpenFile(m_fileName.c_str(), XN_OS_FILE_WRITE | XN_OS_FILE_TRUNCATE, &m_file);
 
 	if (XN_STATUS_OK == status)
 	{

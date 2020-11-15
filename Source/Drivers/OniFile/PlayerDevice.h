@@ -26,9 +26,9 @@
 #define PLAYERDEVICE_H
 
 #include <list>
+#include <string>
 
 #include "Driver/OniDriverAPI.h"
-#include "XnString.h"
 #include "XnOSCpp.h"
 #include "PlayerNode.h"
 #include "PlayerProperties.h"
@@ -42,19 +42,20 @@ class PlayerSource;
 class PlayerDevice : public oni::driver::DeviceBase
 {
 public:
-    /// Constructs a device from the given file path.
-    /// @param[in] filePath The path to a *.ONI file.
-    PlayerDevice(const xnl::String& filePath);
+	/// Constructs a device from the given file path.
+	/// @param[in] filePath The path to a *.ONI file.
+	PlayerDevice(const std::string& filePath);
+
 	~PlayerDevice();
 
-    /// Initialize the device object.
-    OniStatus Initialize();
+	/// Initialize the device object.
+	OniStatus Initialize();
 
-    /// @copydoc OniDeviceBase::GetStreamSourceInfoList(OniSourceInfo**, int*)
-    virtual OniStatus getSensorInfoList(OniSensorInfo** pSources, int* numSources);
+	/// @copydoc OniDeviceBase::GetStreamSourceInfoList(OniSourceInfo**, int*)
+	virtual OniStatus getSensorInfoList(OniSensorInfo** pSources, int* numSources);
 
-    /// @copydoc OniDeviceBase::CreateStream(OniStreamSource)
-    virtual oni::driver::StreamBase* createStream(OniSensorType);
+	/// @copydoc OniDeviceBase::CreateStream(OniStreamSource)
+	virtual oni::driver::StreamBase* createStream(OniSensorType);
 
 	virtual void destroyStream(oni::driver::StreamBase* pStream);
 
@@ -76,12 +77,12 @@ public:
 	OniBool isPlayerEOF() { return m_player.IsEOF(); };
 
 	typedef void (XN_CALLBACK_TYPE *DriverEOFCallback)(void* pCookie, const char* uri);
-	void SetEOFEventCallback(DriverEOFCallback pFunc, void* pDriverCookie) 
+	void SetEOFEventCallback(DriverEOFCallback pFunc, void* pDriverCookie)
 	{
-		m_driverEOFCallback = pFunc; 
-		m_driverCookie      = pDriverCookie; 
+		m_driverEOFCallback = pFunc;
+		m_driverCookie      = pDriverCookie;
 	};
-	void TriggerDriverEOFCallback() { if(m_driverEOFCallback) (m_driverEOFCallback)(m_driverCookie, m_filePath.Data()); };
+	void TriggerDriverEOFCallback() { if(m_driverEOFCallback) (m_driverEOFCallback)(m_driverCookie, m_filePath.c_str()); };
 
 	const char* getOriginalDevice() {return m_originalDevice;}
 protected:
@@ -95,7 +96,7 @@ protected:
 private:
 	void close();
 
-	typedef struct 
+	typedef struct
 	{
 		int frameId;
 		PlayerStream* pStream;
@@ -131,14 +132,14 @@ private:
 
 	static XnStatus XN_CALLBACK_TYPE CodecCreate(void* pCookie, const char* strNodeName, XnCodecID nCodecId, XnCodec** ppCodec);
 	static void     XN_CALLBACK_TYPE CodecDestroy(void* pCookie, XnCodec* pCodec);
-	
+
 	static XnStatus ResolveGlobalConfigFileName(XnChar* strConfigFile, XnUInt32 nBufSize, const XnChar* strConfigDir);
 
 	// Name of the node (used for identifying the device in the callbacks).
-	xnl::String m_nodeName;
+	std::string m_nodeName;
 
 	// The path to a *.ONI file which is mounted by this device.
-    const xnl::String m_filePath;
+	const std::string m_filePath;
 
 	// Handle to the opened file.
 	XN_FILE_HANDLE m_fileHandle;
@@ -152,7 +153,7 @@ private:
 	// Seek frame.
 	Seek m_seek;
 	OniBool m_isSeeking;
-    OniBool m_seekingFailed;
+	OniBool m_seekingFailed;
 
 	// Speed of playback.
 	XnDouble m_dPlaybackSpeed;

@@ -23,6 +23,9 @@
 
 #include <queue>
 
+#include "XnStatus.h"
+#include "XnStatusCodes.h"
+
 namespace xnl
 {
 

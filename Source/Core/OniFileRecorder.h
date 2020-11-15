@@ -22,8 +22,8 @@
 #define ONIFILERECORDER_H 1
 
 #include <list>
+#include <string>
 
-#include "XnString.h"
 #include "XnPriorityQueue.h"
 
 // These come from OniFile/Formats
@@ -46,7 +46,7 @@ public:
 
     OniStatus attachStream(VideoStream& stream, OniBool allowLossyCompression);
     OniStatus detachStream(VideoStream& stream);
-	
+
     virtual OniStatus start();
 
     virtual OniStatus record(VideoStream& stream, OniFrame& aFrame);
@@ -54,9 +54,9 @@ public:
     virtual OniStatus recordStreamProperty(
             VideoStream&     stream,
             int         propertyId,
-            const void* pData, 
+            const void* pData,
             int         dataSize);
-    
+
 private:
     XN_DISABLE_COPY_AND_ASSIGN(FileRecorder)
 
@@ -87,7 +87,7 @@ private:
         };
         XnUInt32    propertyId;
         XnSizeT     dataSize;
-        
+
     };
 
     // Used for undo functionality.
@@ -103,8 +103,8 @@ private:
 
     // Sends a message to the threadMain.
     void send(
-            Message::Type type, 
-            VideoStream*     pStream    = NULL, 
+            Message::Type type,
+            VideoStream*     pStream    = NULL,
             const void* pData      = NULL,
             XnUInt32    propertyId = 0u,
             XnSizeT     dataSize   = 0u,
@@ -118,7 +118,7 @@ private:
     void onStart (XnUInt32 nodeId);
     void onRecord(XnUInt32 nodeId, XnCodecBase* pCodec, const OniFrame* pFrame, XnUInt32 frameId, XnUInt64 timestamp);
     void onRecordProperty(
-            XnUInt32    nodeId, 
+            XnUInt32    nodeId,
             XnUInt32    propertyId,
             const void* pData,
             XnSizeT     dataSize);
@@ -141,12 +141,12 @@ private:
 
         // needed for overriding the NODE_ADDED record when detaching the stream
         XnUInt64       nodeAddedRecordPosition;
-        XnUInt32       nodeType; 
+        XnUInt32       nodeType;
         XnUInt32       codecId;
 
         // needed for keeping track of undoRecordPos field
         XnUInt64       lastNewDataRecordPosition;
-        xnl::Hash<const char *, XnUInt64> 
+        xnl::Hash<const char *, XnUInt64>
                        lastPropertyRecordPosition;
 
         // needed for generating the SeekTable in the end
@@ -182,7 +182,7 @@ private:
 
     XN_THREAD_HANDLE m_thread;
     FileHeaderData   m_fileHeader;  //< Will be patched during termination.
-    xnl::String      m_fileName;
+    std::string      m_fileName;
     XN_FILE_HANDLE   m_file;
 };
 

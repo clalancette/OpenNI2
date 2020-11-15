@@ -25,11 +25,9 @@
 #ifndef PLAYERDRIVER_H
 #define PLAYERDRIVER_H
 
-#ifndef _ONIFILESPLAYER_DRIVER_H_
-#define  _ONIFILESPLAYER_DRIVER_H_ 1
+#include <string>
 
 #include "Driver/OniDriverAPI.h"
-#include "XnString.h"
 #include "XnOSCpp.h"
 
 namespace oni_file {
@@ -70,11 +68,9 @@ private:
 	XN_FILE_HANDLE m_fileHandle;
 
 	// Path to file.
-	xnl::String m_filePath;
+	std::string m_filePath;
 };
 
 } // namespace oni_files_player
-
-#endif // _ONIFILESPLAYER_DRIVER_H_
 
 #endif // PLAYERDRIVER_H

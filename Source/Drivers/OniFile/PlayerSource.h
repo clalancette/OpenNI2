@@ -25,10 +25,11 @@
 #ifndef PLAYERSOURCE_H
 #define PLAYERSOURCE_H
 
+#include <string>
+
 #include "PlayerProperties.h"
 #include "OniCProperties.h"
 #include "XnEvent.h"
-#include "XnString.h"
 
 enum
 {
@@ -92,7 +93,7 @@ protected:
 	XN_DISABLE_COPY_AND_ASSIGN(PlayerSource);
 
 	// Name of the node.
-	const xnl::String m_nodeName;
+	const std::string m_nodeName;
 
 	// Source information.
 	OniSensorInfo m_sourceInfo;

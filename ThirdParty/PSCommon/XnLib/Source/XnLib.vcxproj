@@ -50,7 +50,6 @@
     <ClInclude Include="..\Include\XnStatus.h" />
     <ClInclude Include="..\Include\XnStatusCodes.h" />
     <ClInclude Include="..\Include\XnStatusRegister.h" />
-    <ClInclude Include="..\Include\XnString.h" />
     <ClInclude Include="..\Include\XnUSB.h" />
     <ClInclude Include="..\Include\XnUSBDevice.h" />
     <ClInclude Include="..\Include\XnVector3D.h" />

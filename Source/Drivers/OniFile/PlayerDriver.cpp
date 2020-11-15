@@ -25,7 +25,6 @@
 
 #include "PlayerDriver.h"
 #include "XnLib.h"
-#include "XnString.h"
 #include "PlayerDevice.h"
 
 namespace oni_file {
@@ -35,8 +34,8 @@ namespace driver = oni::driver;
 namespace {
 
 // A string that stores device vendor name.
-const xnl::String kVendorString("PrimeSense, Ltd.");
-const xnl::String kDeviceName("oni File");
+const std::string kVendorString("PrimeSense, Ltd.");
+const std::string kDeviceName("oni File");
 
 } // namespace
 
@@ -52,7 +51,7 @@ driver::DeviceBase* PlayerDriver::deviceOpen(const char* strUri, const char* /*m
 	{
 		return NULL;
 	}
-	
+
 	pDevice->SetEOFEventCallback(EOFReached, this);
 
 	OniStatus rc = pDevice->Initialize();
@@ -76,7 +75,7 @@ void PlayerDriver::shutdown()
 
 OniStatus PlayerDriver::tryDevice(const char* strUri)
 {
-	static XnPlayerInputStreamInterface inputInterface = 
+	static XnPlayerInputStreamInterface inputInterface =
 	{
 		FileOpen,
 		FileRead,
@@ -96,8 +95,8 @@ OniStatus PlayerDriver::tryDevice(const char* strUri)
 		OniDeviceInfo* pInfo = XN_NEW(OniDeviceInfo);
 		xnOSMemSet(pInfo, 0, sizeof(*pInfo));
 		xnOSStrCopy(pInfo->uri,    strUri,               ONI_MAX_STR);
-		xnOSStrCopy(pInfo->vendor, kVendorString.Data(), ONI_MAX_STR);
-		xnOSStrCopy(pInfo->name,   kDeviceName.Data(),   ONI_MAX_STR);
+		xnOSStrCopy(pInfo->vendor, kVendorString.c_str(), ONI_MAX_STR);
+		xnOSStrCopy(pInfo->name,   kDeviceName.c_str(),   ONI_MAX_STR);
 		deviceConnected(pInfo);
 		return ONI_STATUS_OK;
 	}
@@ -108,7 +107,7 @@ OniStatus PlayerDriver::tryDevice(const char* strUri)
 XnStatus XN_CALLBACK_TYPE PlayerDriver::FileOpen(void* pCookie)
 {
 	PlayerDriver* pThis = (PlayerDriver*)pCookie;
-	return xnOSOpenFile(pThis->m_filePath.Data(), XN_OS_FILE_READ, &pThis->m_fileHandle);
+	return xnOSOpenFile(pThis->m_filePath.c_str(), XN_OS_FILE_READ, &pThis->m_fileHandle);
 }
 
 XnStatus XN_CALLBACK_TYPE PlayerDriver::FileRead(void* pCookie, void* pBuffer, XnUInt32 nSize, XnUInt32* pnBytesRead)
@@ -134,8 +133,8 @@ void XN_CALLBACK_TYPE PlayerDriver::EOFReached(void* pCookie, const char *strUri
 	OniDeviceInfo* pInfo = XN_NEW(OniDeviceInfo);
 	xnOSMemSet(pInfo, 0, sizeof(*pInfo));
 	xnOSStrCopy(pInfo->uri,    strUri,               ONI_MAX_STR);
-	xnOSStrCopy(pInfo->vendor, kVendorString.Data(), ONI_MAX_STR);
-	xnOSStrCopy(pInfo->name,   kDeviceName.Data(),   ONI_MAX_STR);
+	xnOSStrCopy(pInfo->vendor, kVendorString.c_str(), ONI_MAX_STR);
+	xnOSStrCopy(pInfo->name,   kDeviceName.c_str(),   ONI_MAX_STR);
 
 	pThis->deviceStateChanged(pInfo, ONI_DEVICE_STATE_EOF);
 }

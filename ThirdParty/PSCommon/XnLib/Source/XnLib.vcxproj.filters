@@ -114,9 +114,6 @@
     <ClInclude Include="..\Include\XnSmartPointer.h">
       <Filter>Header Files\DataContainers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\XnString.h">
-      <Filter>Header Files\DataContainers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\XnVector3D.h">
       <Filter>Header Files\DataContainers</Filter>
     </ClInclude>

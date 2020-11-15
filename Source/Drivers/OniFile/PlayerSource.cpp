@@ -50,7 +50,7 @@ OniSensorInfo* PlayerSource::GetInfo()
 
 const XnChar* PlayerSource::GetNodeName()
 {
-	return m_nodeName.Data();
+	return m_nodeName.c_str();
 }
 
 /// Get property.

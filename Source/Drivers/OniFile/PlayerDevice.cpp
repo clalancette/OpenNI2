@@ -24,6 +24,7 @@
 
 #include <algorithm>
 #include <list>
+#include <string>
 
 #include "PlayerDevice.h"
 #include "PlayerSource.h"
@@ -67,7 +68,7 @@ typedef struct
 
 } PropertyEntry;
 
-static PropertyEntry PS1080PropertyList[] = 
+static PropertyEntry PS1080PropertyList[] =
 {
 	{ XN_STREAM_PROPERTY_INPUT_FORMAT,				"InputFormat" },
 	{ XN_STREAM_PROPERTY_CROPPING_MODE,				"CroppingMode" },
@@ -163,13 +164,13 @@ void PlayerDevice::LoadConfigurationFromIniFile()
 
 }
 
-PlayerDevice::PlayerDevice(const xnl::String& filePath) : 
+PlayerDevice::PlayerDevice(const std::string& filePath) :
 	m_filePath(filePath), m_fileHandle(0), m_threadHandle(NULL), m_running(FALSE), m_isSeeking(FALSE), m_seekingFailed(FALSE),
-	m_dPlaybackSpeed(1.0), m_nStartTimestamp(0), m_nStartTime(0), m_bHasTimeReference(FALSE), 
-	m_bRepeat(TRUE), m_player(filePath.Data()), m_driverEOFCallback(NULL), m_driverCookie(NULL)
+	m_dPlaybackSpeed(1.0), m_nStartTimestamp(0), m_nStartTime(0), m_bHasTimeReference(FALSE),
+	m_bRepeat(TRUE), m_player(filePath.c_str()), m_driverEOFCallback(NULL), m_driverCookie(NULL)
 {
 	xnOSMemSet(m_originalDevice, 0, sizeof(m_originalDevice));
-	
+
 	// Create the events.
 	m_readyForDataInternalEvent.Create(FALSE);
 	m_manualTriggerInternalEvent.Create(FALSE);
@@ -183,7 +184,7 @@ PlayerDevice::~PlayerDevice()
 
 OniStatus PlayerDevice::Initialize()
 {
-	static XnNodeNotifications notifications = 
+	static XnNodeNotifications notifications =
 	{
 		OnNodeAdded,
 		OnNodeRemoved,
@@ -194,7 +195,7 @@ OniStatus PlayerDevice::Initialize()
 		OnNodeStateReady,
 		OnNodeNewData,
 	};
-	static XnPlayerInputStreamInterface inputInterface = 
+	static XnPlayerInputStreamInterface inputInterface =
 	{
 		FileOpen,
 		FileRead,
@@ -204,7 +205,7 @@ OniStatus PlayerDevice::Initialize()
 		FileSeek64,
 		FileTell64,
 	};
-	static PlayerNode::CodecFactory codecFactory = 
+	static PlayerNode::CodecFactory codecFactory =
 	{
 		CodecCreate,
 		CodecDestroy
@@ -525,7 +526,7 @@ OniStatus PlayerDevice::invoke(int commandId, void* data, int dataSize)
 
 		// Wait for seek to complete.
 		m_SeekCompleteInternalEvent.Wait(XN_WAIT_INFINITE);
-        
+
         if (m_seekingFailed)
             return ONI_STATUS_ERROR;
 	}
@@ -660,7 +661,7 @@ void PlayerDevice::MainLoop()
 
 			// Mark the seeking flag as false.
 			m_isSeeking = FALSE;
-			
+
 			// Raise the seek complete event.
 			m_SeekCompleteInternalEvent.Set();
 		}
@@ -719,7 +720,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeAdded(void* pCookie, const XnChar*
 			if (pSource == NULL)
 			{
 				// Create the new source.
-				OniSensorType sensorType = (type == XN_NODE_TYPE_DEPTH) ? ONI_SENSOR_DEPTH : 
+				OniSensorType sensorType = (type == XN_NODE_TYPE_DEPTH) ? ONI_SENSOR_DEPTH :
 					(type == XN_NODE_TYPE_IMAGE) ? ONI_SENSOR_COLOR : ONI_SENSOR_IR;
 				pSource = XN_NEW(PlayerSource, strNodeName, sensorType);
 				if (pSource == NULL)
@@ -1084,7 +1085,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeNewData(void* pCookie, const XnCha
 						}
 					}
 				}
-				else 
+				else
 				{
 					// Wait for streams to become ready.
 					pThis->m_readyForDataInternalEvent.Wait(DEVICE_READY_FOR_DATA_EVENT_SANITY_SLEEP);
@@ -1174,7 +1175,7 @@ XnStatus PlayerDevice::AddPrivateProperty_PS1080(PlayerSource* pSource, const Xn
 XnStatus XN_CALLBACK_TYPE PlayerDevice::FileOpen(void* pCookie)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
-	return xnOSOpenFile(pThis->m_filePath.Data(), XN_OS_FILE_READ, &pThis->m_fileHandle);
+	return xnOSOpenFile(pThis->m_filePath.c_str(), XN_OS_FILE_READ, &pThis->m_fileHandle);
 }
 
 XnStatus XN_CALLBACK_TYPE PlayerDevice::FileRead(void* pCookie, void* pBuffer, XnUInt32 nSize, XnUInt32* pnBytesRead)
