@@ -25,11 +25,11 @@
 // Includes
 //---------------------------------------------------------------------------
 #include <list>
+#include <vector>
 
 #include <OpenNI.h>
 #include <PSLink.h>
 #include <XnStringsHash.h>
-#include <XnArray.h>
 #include <XnBitSet.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -91,7 +91,6 @@ typedef struct
 // Globals
 //---------------------------------------------------------------------------
 static Device g_device;
-static xnl::Array<VideoStream*> g_streams;
 static std::list<const XnChar*> g_commandsList;
 static xnl::XnStringsHashT<Command> g_commands;
 static XnBool g_continue = TRUE;
@@ -864,11 +863,11 @@ int PrintMode(int argc, const char* argv[])
 	return 0;
 }
 
-xnl::Array<XnI2CDeviceInfo>& GetI2CDeviceList()
+std::vector<XnI2CDeviceInfo>& GetI2CDeviceList()
 {
-	static xnl::Array<XnI2CDeviceInfo> s_i2cDevices;
+	static std::vector<XnI2CDeviceInfo> s_i2cDevices;
 
-	if (s_i2cDevices.GetSize() == 0)
+	if (s_i2cDevices.size() == 0)
 	{
 		XnI2CDeviceInfo devices[20];
 
@@ -882,7 +881,7 @@ xnl::Array<XnI2CDeviceInfo>& GetI2CDeviceList()
 		}
 		else
 		{
-			s_i2cDevices.SetData(args.devices, args.count);
+			memcpy(&s_i2cDevices[0], args.devices, args.count);
 		}
 	}
 
@@ -892,11 +891,11 @@ xnl::Array<XnI2CDeviceInfo>& GetI2CDeviceList()
 XnStatus GetI2CDeviceIDFromName(const char* deviceName, uint32_t* result)
 {
 	XnStatus nRetVal = XN_STATUS_NO_MATCH;
-	
-	xnl::Array<XnI2CDeviceInfo>& devices = GetI2CDeviceList();
+
+	std::vector<XnI2CDeviceInfo>& devices = GetI2CDeviceList();
 
 	nRetVal = XN_STATUS_NO_MATCH;
-	for (XnUInt32 i = 0; i < devices.GetSize() && nRetVal==XN_STATUS_NO_MATCH; i++)
+	for (XnUInt32 i = 0; i < devices.size() && nRetVal == XN_STATUS_NO_MATCH; i++)
 	{
 		if(xnOSStrCaseCmp(devices[i].name, deviceName) == 0)
 		{
@@ -1226,11 +1225,12 @@ int PeriodicBist(int argc, const char* argv[])
 
 	return nRetVal;
 }
-xnl::Array<XnFwLogMask>& GetLogMaskList()
-{
-	static xnl::Array<XnFwLogMask> s_masks;
 
-	if (s_masks.GetSize() == 0)
+std::vector<XnFwLogMask>& GetLogMaskList()
+{
+	static std::vector<XnFwLogMask> s_masks;
+
+	if (s_masks.size() == 0)
 	{
 		XnFwLogMask masks[20];
 		XnCommandGetLogMaskList args;
@@ -1243,7 +1243,7 @@ xnl::Array<XnFwLogMask>& GetLogMaskList()
 		}
 		else
 		{
-			s_masks.SetData(args.masks, args.count);
+			memcpy(&s_masks[0], args.masks, args.count);
 		}
 	}
 
@@ -1254,10 +1254,10 @@ XnStatus GetLogIDFromName(const char* mask, uint32_t* result)
 {
 	XnStatus nRetVal = XN_STATUS_NO_MATCH;
 
-	xnl::Array<XnFwLogMask>& masks = GetLogMaskList();
+	std::vector<XnFwLogMask>& masks = GetLogMaskList();
 
 	nRetVal = XN_STATUS_NO_MATCH;
-	for (XnUInt32 i = 0; i < masks.GetSize() && nRetVal==XN_STATUS_NO_MATCH; i++)
+	for (XnUInt32 i = 0; i < masks.size() && nRetVal == XN_STATUS_NO_MATCH; i++)
 	{
 		if(xnOSStrCaseCmp(masks[i].name, mask) == 0)
 		{
@@ -1393,9 +1393,9 @@ int PrintBootStatus(int /*argc*/, const char* /*argv*/[])
 
 int PrintLogFilesList(int /*argc*/, const char* /*argv*/[])
 {
-	xnl::Array<XnFwLogMask>& masks = GetLogMaskList();
+	std::vector<XnFwLogMask>& masks = GetLogMaskList();
 
-	for (XnUInt32 i = 0; i < masks.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < masks.size(); ++i)
 	{
 		printf("%4u %s\n", masks[i].id, masks[i].name);
 	}
@@ -1407,14 +1407,14 @@ int PrintLogFilesList(int /*argc*/, const char* /*argv*/[])
 
 int PrintI2CList(int /*argc*/, const char* /*argv*/[])
 {
-	xnl::Array<XnI2CDeviceInfo>& deviceList = GetI2CDeviceList();
-    
-    printf("%2s %32s %9s %8s", "ID", "NAME", "MASTER-ID", "SLAVE-ID\n");
-    printf("%2s %32s %9s %8s", "==", "====", "=========", "========\n");
+	std::vector<XnI2CDeviceInfo>& deviceList = GetI2CDeviceList();
 
-	for (XnUInt32 i = 0; i < deviceList.GetSize(); ++i)
+	printf("%2s %32s %9s %8s", "ID", "NAME", "MASTER-ID", "SLAVE-ID\n");
+	printf("%2s %32s %9s %8s", "==", "====", "=========", "========\n");
+
+	for (XnUInt32 i = 0; i < deviceList.size(); ++i)
 	{
-        printf("%2u %32s %9u %8u\n", deviceList[i].id, deviceList[i].name, deviceList[i].masterId, deviceList[i].slaveId);
+		printf("%2u %32s %9u %8u\n", deviceList[i].id, deviceList[i].name, deviceList[i].masterId, deviceList[i].slaveId);
 	}
 
 	return 0;
