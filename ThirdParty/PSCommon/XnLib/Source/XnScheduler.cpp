@@ -79,7 +79,9 @@ void xnSchedulerAddTaskInternal(XnScheduler* pScheduler, XnScheduledTask* pTask)
 
 		// move until place is found
 		while (pAfter->pNextTask != NULL && pAfter->nNextTime < pTask->nNextTime)
+		{
 			pAfter = pAfter->pNextTask;
+		}
 
 		pTask->pNextTask = pAfter->pNextTask;
 		pAfter->pNextTask = pTask;
@@ -305,9 +307,13 @@ void XnSchedulerRemoveTaskInternal(XnScheduler* pScheduler, XnScheduledTask* pTa
 
 		// move until place is found
 		while (pBefore != NULL && pBefore->pNextTask != pTask)
+		{
 			pBefore = pBefore->pNextTask;
-
-		pBefore->pNextTask = pBefore->pNextTask->pNextTask;
+		}
+		if (pBefore != NULL && pBefore->pNextTask != NULL)
+		{
+			pBefore->pNextTask = pBefore->pNextTask->pNextTask;
+		}
 	}
 }
 

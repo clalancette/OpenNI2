@@ -56,7 +56,7 @@ XnStatus DepthUtilsImpl::Initialize(DepthUtilsSensorCalibrationInfo* pBlob)
 	XN_VALIDATE_ALIGNED_CALLOC(m_pRegistrationTable_VGA, XnUInt16, 640*480*2, XN_DEFAULT_MEM_ALIGN);
 
 	nRetVal = BuildRegistrationTable(m_pRegistrationTable_QQVGA, &m_blob.params1080.registrationInfo_QQVGA, &m_pDepthToShiftTable_QQVGA, 160, 120);
-	XN_IS_STATUS_OK(nRetVal);	
+	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = BuildRegistrationTable(m_pRegistrationTable_QVGA, &m_blob.params1080.registrationInfo_QVGA, &m_pDepthToShiftTable_QVGA, 320, 240);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = BuildRegistrationTable(m_pRegistrationTable_VGA, &m_blob.params1080.registrationInfo_VGA, &m_pDepthToShiftTable_VGA, 640, 480);
@@ -75,7 +75,7 @@ XnStatus DepthUtilsImpl::Free()
 	{
 		xnOSFreeAligned(m_pRegistrationTable_QQVGA);
 		m_pRegistrationTable_QQVGA = NULL;
-	}	
+	}
 	if (m_pRegistrationTable_QVGA != NULL)
 	{
 		xnOSFreeAligned(m_pRegistrationTable_QVGA);
@@ -94,7 +94,7 @@ XnStatus DepthUtilsImpl::Free()
 		{
 			xnOSFreeAligned(m_pDepthToShiftTable_QQVGA);
 			m_pDepthToShiftTable_QQVGA = NULL;
-		}	
+		}
 		if (m_pDepthToShiftTable_QVGA != NULL)
 		{
 			xnOSFreeAligned(m_pDepthToShiftTable_QVGA);
@@ -120,9 +120,8 @@ XnStatus DepthUtilsImpl::Apply(unsigned short* pOutput)
 	unsigned short* pInput = pTempBuffer;
 	memcpy(pInput, pOutput, m_depthResolution.x*m_depthResolution.y*2);
 
-
-	XnInt16* pRegTable = (XnInt16*)m_pRegTable;
-	XnInt16* pRGBRegDepthToShiftTable = (XnInt16*)m_pDepth2ShiftTable; 
+	XnInt16* pRegTable;
+	XnInt16* pRGBRegDepthToShiftTable = (XnInt16*)m_pDepth2ShiftTable;
 	unsigned short nValue = 0;
 	unsigned short nOutValue = 0;
 	XnUInt32 nNewX = 0;
@@ -197,7 +196,7 @@ XnStatus DepthUtilsImpl::SetDepthConfiguration(int xres, int yres, OniPixelForma
 		m_pRegTable = m_pRegistrationTable_QQVGA;
 		m_pDepth2ShiftTable = (XnUInt16*)m_pDepthToShiftTable_QQVGA;
 		m_pRegistrationInfo = &m_blob.params1080.registrationInfo_QQVGA;
-	}	
+	}
 	else if (xres == 320 && yres == 240)
 	{
 		m_pPadInfo = &m_blob.params1080.padInfo_QVGA;
@@ -246,7 +245,7 @@ XnStatus DepthUtilsImpl::TranslateSinglePixel(XnUInt32 x, XnUInt32 y, unsigned s
 	XnBool bMirror = m_isMirrored;
 	XnUInt32 nIndex = bMirror ? ((y+1)*nDepthXRes - x - 1) * 2 : (y*nDepthXRes + x) * 2;
 	XnInt16* pRegTable = (XnInt16*)&m_pRegTable[nIndex];
-	XnInt16* pRGBRegDepthToShiftTable = (XnInt16*)m_pDepth2ShiftTable; 
+	XnInt16* pRGBRegDepthToShiftTable = (XnInt16*)m_pDepth2ShiftTable;
 	XnUInt32 nNewX = 0;
 	XnUInt32 nNewY = 0;
 

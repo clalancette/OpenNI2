@@ -34,8 +34,11 @@ int main(int argc, char** argv)
 	}
 
 	rc = openni::OpenNI::initialize();
-
-	printf("After initialization:\n%s\n", openni::OpenNI::getExtendedError());
+	if (rc != openni::STATUS_OK)
+	{
+		printf("After initialization:\n%s\n", openni::OpenNI::getExtendedError());
+		return 1;
+	}
 
 	rc = device.open(deviceURI);
 	if (rc != openni::STATUS_OK)

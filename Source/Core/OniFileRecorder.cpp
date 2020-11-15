@@ -146,10 +146,13 @@ public:
 	{
 		m_needRollback = true;
 
-		XnStatus status = xnOSTellFile64(m_pRecorder->m_file, &m_offset);
-		if (status != XN_STATUS_OK)
+		if (m_pRecorder != NULL)
 		{
-			m_pRecorder = NULL;
+			XnStatus status = xnOSTellFile64(m_pRecorder->m_file, &m_offset);
+			if (status != XN_STATUS_OK)
+			{
+				m_pRecorder = NULL;
+			}
 		}
 	}
 
