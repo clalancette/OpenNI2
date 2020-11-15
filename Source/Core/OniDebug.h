@@ -21,6 +21,8 @@
 #ifndef ONIDEBUG_H
 #define ONIDEBUG_H
 
+#include <memory>
+
 namespace oni
 {
 namespace implementation
@@ -130,7 +132,7 @@ public:
 		OniUInt32 m_ttl;
 	};
 
-	typedef pscommon::List<pscommon::SmartPointer<TimedDebugObject> > DebugObjectList;
+	typedef pscommon::List<std::shared_ptr<TimedDebugObject> > DebugObjectList;
 
 	Debug()
 	{}
