@@ -21,6 +21,8 @@
 #ifndef XNLINKFRAMEINPUTSTREAM_H
 #define XNLINKFRAMEINPUTSTREAM_H
 
+#include <vector>
+
 #include "XnLinkMsgParser.h"
 #include "XnLinkInputStream.h"
 #include <XnEvent.h>
@@ -72,7 +74,7 @@ public:
 
 	virtual XnBool IsOutputFormatSupported(OniPixelFormat format) const;
 
-	virtual const xnl::Array<XnFwStreamVideoMode>& GetSupportedVideoModes() const;
+	virtual const std::vector<XnFwStreamVideoMode>& GetSupportedVideoModes() const;
 	virtual const XnFwStreamVideoMode& GetVideoMode() const;
 	virtual XnStatus SetVideoMode(const XnFwStreamVideoMode& videoMode);
 
@@ -134,7 +136,7 @@ private:
 	XnChar m_strDumpName[XN_FILE_MAX_PATH];
 	XnUInt32 m_nDumpFrameID;
 
-	xnl::Array<XnFwStreamVideoMode> m_supportedVideoModes;
+	std::vector<XnFwStreamVideoMode> m_supportedVideoModes;
 	XnFwStreamVideoMode m_videoMode;
 
 	int m_frameIndex;

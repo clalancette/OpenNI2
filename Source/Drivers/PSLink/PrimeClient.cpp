@@ -18,6 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <vector>
+
 #include "PrimeClient.h"
 #include "XnLinkInputStreamsMgr.h"
 #include <PSLink.h>
@@ -39,14 +41,14 @@ PrimeClient::PrimeClient()
 {
 	m_pConnectionFactory = NULL;
 	m_bInitialized = FALSE;
-    m_bConnected = FALSE;
+	m_bConnected = FALSE;
 
-    /* Global properties */
-    xnOSMemSet(&m_fwVersion, 0, sizeof(m_fwVersion));
-    xnOSMemSet(&m_protocolVersion, 0, sizeof(m_protocolVersion));
-    m_nHWVersion = 0;
-    xnOSMemSet(&m_strSerialNumber, 0, sizeof(m_strSerialNumber));
-    m_nFWLogStreamID = XN_LINK_STREAM_ID_NONE;
+	/* Global properties */
+	xnOSMemSet(&m_fwVersion, 0, sizeof(m_fwVersion));
+	xnOSMemSet(&m_protocolVersion, 0, sizeof(m_protocolVersion));
+	m_nHWVersion = 0;
+	xnOSMemSet(&m_strSerialNumber, 0, sizeof(m_strSerialNumber));
+	m_nFWLogStreamID = XN_LINK_STREAM_ID_NONE;
 }
 
 PrimeClient::~PrimeClient()
@@ -70,9 +72,8 @@ XnStatus PrimeClient::Init(const XnChar* strConnString, XnTransportType transpor
 	nRetVal = m_linkControlEndpoint.Init(MAX_COMMAND_SIZE, m_pConnectionFactory);
 	XN_IS_STATUS_OK_LOG_ERROR("Init link control endpoint", nRetVal);
 
-	nRetVal = m_inputDataEndpoints.SetSize(m_pConnectionFactory->GetNumInputDataConnections());
-	XN_IS_STATUS_OK_LOG_ERROR("Set size of input data endpoints array", nRetVal);
-	
+	m_inputDataEndpoints.resize(m_pConnectionFactory->GetNumInputDataConnections());
+
 	m_bInitialized = TRUE;
 	return XN_STATUS_OK;
 }
@@ -81,7 +82,7 @@ void PrimeClient::Shutdown()
 {
 	if (m_bInitialized)
 	{
-		for (XnUInt32 nEndpointID = 0; nEndpointID < m_inputDataEndpoints.GetSize(); nEndpointID++)
+		for (XnUInt32 nEndpointID = 0; nEndpointID < m_inputDataEndpoints.size(); nEndpointID++)
 		{
 			m_inputDataEndpoints[nEndpointID].Shutdown();
 		}
@@ -150,7 +151,7 @@ XnStatus PrimeClient::Connect()
 
 void PrimeClient::Disconnect()
 {
-	for (XnUInt16 i = 0; i < m_inputDataEndpoints.GetSize(); i++)
+	for (XnUInt16 i = 0; i < m_inputDataEndpoints.size(); i++)
 	{
 		m_inputDataEndpoints[i].Disconnect();
 	}
@@ -193,7 +194,7 @@ const XnChar* PrimeClient::GetSerialNumber() const
     return m_strSerialNumber;
 }
 
-const XnStatus PrimeClient::GetComponentsVersions(xnl::Array<XnComponentVersion>& componentVersions)
+const XnStatus PrimeClient::GetComponentsVersions(std::vector<XnComponentVersion>& componentVersions)
 {
 	return m_linkControlEndpoint.GetComponentsVersions(componentVersions);
 }
@@ -252,24 +253,24 @@ XnStatus PrimeClient::ReadAHB(XnUInt32 nAddress, XnUInt8 nBitOffset, XnUInt8 nBi
 	return m_linkControlEndpoint.ReadAHB(nAddress, nBitOffset, nBitWidth, nValue);
 }
 
-XnStatus PrimeClient::EnumerateStreams(xnl::Array<XnFwStreamInfo>& aStreamInfos)
+XnStatus PrimeClient::EnumerateStreams(std::vector<XnFwStreamInfo>& aStreamInfos)
 {
 	return m_linkControlEndpoint.EnumerateStreams(aStreamInfos);
 }
 
-XnStatus PrimeClient::EnumerateStreams(XnStreamType streamType, xnl::Array<XnFwStreamInfo>& aStreamInfos)
+XnStatus PrimeClient::EnumerateStreams(XnStreamType streamType, std::vector<XnFwStreamInfo>& aStreamInfos)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	xnl::Array<XnFwStreamInfo> aAll;
+	std::vector<XnFwStreamInfo> aAll;
 	nRetVal = m_linkControlEndpoint.EnumerateStreams(aAll);
 	XN_IS_STATUS_OK(nRetVal);
 
-	for (XnUInt32 i = 0; i < aAll.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < aAll.size(); ++i)
 	{
 		if ((XnUInt32)aAll[i].type == streamType)
 		{
-			aStreamInfos.AddLast(aAll[i]);
+			aStreamInfos.push_back(aAll[i]);
 		}
 	}
 
@@ -345,7 +346,7 @@ XnStatus PrimeClient::ConnectOutputDataEndpoint()
 	return XN_STATUS_OK;
 }
 
-XnStatus PrimeClient::GetFileList(xnl::Array<XnFwFileEntry>& files)
+XnStatus PrimeClient::GetFileList(std::vector<XnFwFileEntry>& files)
 {
 	return m_linkControlEndpoint.GetFileList(files);
 }
@@ -461,20 +462,20 @@ XnStatus PrimeClient::CloseFWLogFile(XnUInt8 logID)
 XnStatus PrimeClient::StartFWLog()
 {
     XnStatus nRetVal = XN_STATUS_OK;
-    xnl::Array<XnFwStreamInfo> fwLogStreamInfos;
+    std::vector<XnFwStreamInfo> fwLogStreamInfos;
     XnUInt16 nEndpointID = 0;
 
     //Enumerate log streams (there should be exactly one)
     nRetVal = EnumerateStreams(XN_LINK_STREAM_TYPE_LOG, fwLogStreamInfos);
     XN_IS_STATUS_OK_LOG_ERROR("Enumerate log streams", nRetVal);
-    if (fwLogStreamInfos.GetSize() == 0)
+    if (fwLogStreamInfos.size() == 0)
     {
         xnLogError(XN_MASK_PRIME_CLIENT, "No FW log stream exists in device");
         XN_ASSERT(FALSE);
         return XN_STATUS_ERROR;
     }
 
-    if (fwLogStreamInfos.GetSize() > 1)
+    if (fwLogStreamInfos.size() > 1)
     {
         xnLogError(XN_MASK_PRIME_CLIENT, "Only one FW log stream is supported");
         XN_ASSERT(FALSE);
@@ -534,7 +535,7 @@ XnStatus PrimeClient::CreateInputStreamImpl(XnLinkStreamType streamType, const X
     nRetVal = m_linkControlEndpoint.CreateInputStream(streamType, strCreationInfo, nStreamID, nEndpointID);
     XN_IS_STATUS_OK_LOG_ERROR("Create stream on device", nRetVal);
 
-    if (nEndpointID > m_inputDataEndpoints.GetSize())
+    if (nEndpointID > m_inputDataEndpoints.size())
     {
         xnLogError(XN_MASK_PRIME_CLIENT, "Stream %u was created on non-existing endpoint %u", nStreamID, nEndpointID);
         XN_ASSERT(FALSE);
@@ -675,11 +676,11 @@ XnStatus PrimeClient::RunPresetFile(const XnChar* strFileName)
 	return (XN_STATUS_OK);
 }
 
-XnStatus PrimeClient::GetSupportedBistTests(xnl::Array<XnBistInfo>& supportedTests)
+XnStatus PrimeClient::GetSupportedBistTests(std::vector<XnBistInfo>& supportedTests)
 {
 	return m_linkControlEndpoint.GetSupportedBistTests(supportedTests);
 }
-XnStatus PrimeClient::GetSupportedTempList(xnl::Array<XnTempInfo>& supportedTempList)
+XnStatus PrimeClient::GetSupportedTempList(std::vector<XnTempInfo>& supportedTempList)
 {
     return m_linkControlEndpoint.GetSupportedTempList(supportedTempList);
 }
@@ -687,12 +688,12 @@ XnStatus PrimeClient::GetTemperature(XnCommandTemperatureResponse& temp)
 {
     return m_linkControlEndpoint.GetTemperature(temp);
 }
-XnStatus PrimeClient::GetSupportedI2CDevices(xnl::Array<XnLinkI2CDevice>& supportedDevices)
+XnStatus PrimeClient::GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supportedDevices)
 {
 	return m_linkControlEndpoint.GetSupportedI2CDevices(supportedDevices);
 }
 
-XnStatus PrimeClient::GetSupportedLogFiles(xnl::Array<XnLinkLogFile>& supportedFiles)
+XnStatus PrimeClient::GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles)
 {
 	return m_linkControlEndpoint.GetSupportedLogFiles(supportedFiles);
 }
@@ -706,7 +707,7 @@ XnBool PrimeClient::IsPropertySupported(XnUInt16 propID)
 {
 	XnUInt32 nInterface = (propID >> 8);
 	XnUInt32 nProp = (propID & 0x0F);
-	return (nInterface < m_supportedProps.GetSize() && m_supportedProps[nInterface].IsSet(nProp));
+	return (nInterface < m_supportedProps.size() && m_supportedProps[nInterface].IsSet(nProp));
 }
 
 XnStatus PrimeClient::GetBootStatus(XnBootStatus& bootStatus)

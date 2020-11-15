@@ -18,6 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <vector>
+
 #include "XnLinkControlEndpoint.h"
 #include "XnLinkMsgEncoder.h"
 #include "XnLinkMsgParser.h"
@@ -76,11 +78,10 @@ XnStatus LinkControlEndpoint::Init(XnUInt32 nMaxOutMsgSize, IConnectionFactory* 
 		XN_IS_STATUS_OK_LOG_ERROR("Create named mutext", nRetVal);
 
 		/* Initialize supported msg types array with commands that must always be supported */
-		nRetVal = m_supportedMsgTypes.SetMinSize(XN_LINK_INTERFACE_PROPS + 1);
-		XN_IS_STATUS_OK_LOG_ERROR("Add to supported msg types", nRetVal);
+		m_supportedMsgTypes.resize(XN_LINK_INTERFACE_PROPS + 1);
 		nRetVal = m_supportedMsgTypes[XN_LINK_INTERFACE_PROPS].Set(XN_LINK_MSG_GET_PROP & 0xFF, TRUE);
 		XN_IS_STATUS_OK_LOG_ERROR("Add to supported msg types", nRetVal);
-		
+
 		m_bInitialized = TRUE;
 	}
 
@@ -231,7 +232,7 @@ XnBool LinkControlEndpoint::IsMsgTypeSupported(XnUInt16 nMsgType)
 {
 	XnUInt8 nMsgTypeHi = ((nMsgType >> 8) & 0xFF);
 	XnUInt8 nMsgTypeLo = (nMsgType & 0xFF);
-	return (nMsgTypeHi < m_supportedMsgTypes.GetSize()) && (m_supportedMsgTypes[nMsgTypeHi].IsSet(nMsgTypeLo));
+	return (nMsgTypeHi < m_supportedMsgTypes.size()) && (m_supportedMsgTypes[nMsgTypeHi].IsSet(nMsgTypeLo));
 }
 
 XnStatus LinkControlEndpoint::GetFWVersion(XnLinkDetailedVersion& version)
@@ -327,7 +328,7 @@ XnStatus LinkControlEndpoint::GetSerialNumber(XnChar* strSerialNumber, XnUInt32 
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetComponentsVersions(xnl::Array<XnComponentVersion>& components)
+XnStatus LinkControlEndpoint::GetComponentsVersions(std::vector<XnComponentVersion>& components)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -438,13 +439,13 @@ XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOver
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetFileList(xnl::Array<XnFwFileEntry>& files)
+XnStatus LinkControlEndpoint::GetFileList(std::vector<XnFwFileEntry>& files)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting file list...");
 
-	files.Clear();
+	files.clear();
 
 	XnLinkGetFileListResponse* pGetFileListResponse = reinterpret_cast<XnLinkGetFileListResponse*>(m_pIncomingResponse);
 	XnUInt32 nResponseSize = m_nMaxResponseSize;
@@ -466,8 +467,7 @@ XnStatus LinkControlEndpoint::GetFileList(xnl::Array<XnFwFileEntry>& files)
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
-	nRetVal = files.Reserve(nCount);
-	XN_IS_STATUS_OK(nRetVal);
+	files.reserve(nCount);
 
 	for (XnUInt32 i = 0; i < nCount; ++i)
 	{
@@ -484,8 +484,7 @@ XnStatus LinkControlEndpoint::GetFileList(xnl::Array<XnFwFileEntry>& files)
 		entry.zone = XN_PREPARE_VAR16_IN_BUFFER(pLinkEntry->m_nZone);
 		entry.flags = (XnFwFileFlags)pLinkEntry->m_nFlags;
 
-		nRetVal = files.AddLast(entry);
-		XN_IS_STATUS_OK(nRetVal);
+		files.push_back(entry);
 	}
 
 	return (XN_STATUS_OK);
@@ -862,7 +861,7 @@ XnStatus LinkControlEndpoint::ReadDebugData(XnCommandDebugData& commandDebugData
     return nRetVal;
 }
 
-XnStatus LinkControlEndpoint::GetSupportedI2CDevices(xnl::Array<XnLinkI2CDevice>& supportedDevices)
+XnStatus LinkControlEndpoint::GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supportedDevices)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -881,7 +880,7 @@ XnStatus LinkControlEndpoint::GetSupportedI2CDevices(xnl::Array<XnLinkI2CDevice>
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetSupportedLogFiles(xnl::Array<XnLinkLogFile>& supportedFiles)
+XnStatus LinkControlEndpoint::GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -901,7 +900,7 @@ XnStatus LinkControlEndpoint::GetSupportedLogFiles(xnl::Array<XnLinkLogFile>& su
 }
 
 
-XnStatus LinkControlEndpoint::GetSupportedBistTests(xnl::Array<XnBistInfo>& supportedTests)
+XnStatus LinkControlEndpoint::GetSupportedBistTests(std::vector<XnBistInfo>& supportedTests)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -920,7 +919,7 @@ XnStatus LinkControlEndpoint::GetSupportedBistTests(xnl::Array<XnBistInfo>& supp
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetSupportedTempList(xnl::Array<XnTempInfo>& supportedTempList)
+XnStatus LinkControlEndpoint::GetSupportedTempList(std::vector<XnTempInfo>& supportedTempList)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting supported Temperature list...");
@@ -1163,7 +1162,7 @@ XnStatus LinkControlEndpoint::GetVideoMode(XnUInt16 nStreamID, XnFwStreamVideoMo
 }
 
 XnStatus LinkControlEndpoint::GetSupportedVideoModes(XnUInt16 nStreamID, 
-														 xnl::Array<XnFwStreamVideoMode>& supportedVideoModes)
+														 std::vector<XnFwStreamVideoMode>& supportedVideoModes)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1187,8 +1186,7 @@ XnStatus LinkControlEndpoint::GetSupportedVideoModes(XnUInt16 nStreamID,
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
-	nRetVal = supportedVideoModes.SetSize(nModes);
-	XN_IS_STATUS_OK_LOG_ERROR("Set size of output supported map output modes array", nRetVal);
+	supportedVideoModes.resize(nModes);
 	for (XnUInt32 i = 0; i < nModes; i++)
 	{
 		xnLinkParseVideoMode(supportedVideoModes[i], pLinkSupportedMapOutputModes->m_supportedVideoModes[i]);
@@ -1198,7 +1196,7 @@ XnStatus LinkControlEndpoint::GetSupportedVideoModes(XnUInt16 nStreamID,
 }
 
 
-XnStatus LinkControlEndpoint::EnumerateStreams(xnl::Array<XnFwStreamInfo>& aStreamInfos)
+XnStatus LinkControlEndpoint::EnumerateStreams(std::vector<XnFwStreamInfo>& aStreamInfos)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1230,8 +1228,7 @@ XnStatus LinkControlEndpoint::EnumerateStreams(xnl::Array<XnFwStreamInfo>& aStre
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
-	nRetVal = aStreamInfos.SetSize(nNumNodes);
-	XN_IS_STATUS_OK_LOG_ERROR("Allocate node infos array", nRetVal);
+	aStreamInfos.resize(nNumNodes);
 	for (XnUInt32 i = 0; i < nNumNodes; i++)
 	{
 		aStreamInfos[i].type = (XnFwStreamType)XN_PREPARE_VAR32_IN_BUFFER(pEnumerateNodesResponse->m_streamInfos[i].m_nStreamType);
@@ -1600,7 +1597,7 @@ XnStatus LinkControlEndpoint::GetCropping(XnUInt16 nStreamID, OniCropping& cropp
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetSupportedMsgTypes(xnl::Array<xnl::BitSet>& supportedMsgTypes)
+XnStatus LinkControlEndpoint::GetSupportedMsgTypes(std::vector<xnl::BitSet>& supportedMsgTypes)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1615,7 +1612,7 @@ XnStatus LinkControlEndpoint::GetSupportedMsgTypes(xnl::Array<xnl::BitSet>& supp
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetSupportedProperties(xnl::Array<xnl::BitSet>& supportedProps)
+XnStatus LinkControlEndpoint::GetSupportedProperties(std::vector<xnl::BitSet>& supportedProps)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

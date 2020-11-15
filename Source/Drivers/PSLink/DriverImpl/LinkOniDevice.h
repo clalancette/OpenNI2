@@ -82,7 +82,7 @@ public:
 private:
 	XN_DISABLE_COPY_AND_ASSIGN(LinkOniDevice)
 
-	XnStatus readSupportedModesFromStream(XnFwStreamInfo &info, xnl::Array<XnFwStreamVideoMode> &aSupportedModes);
+	XnStatus readSupportedModesFromStream(XnFwStreamInfo &info, std::vector<XnFwStreamVideoMode> &aSupportedModes);
 	XnStatus FillSupportedVideoModes();
 
 	const char* m_configFile;

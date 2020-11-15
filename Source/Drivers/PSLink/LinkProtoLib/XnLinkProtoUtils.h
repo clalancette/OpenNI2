@@ -21,13 +21,14 @@
 #ifndef XNLINKPROTOUTILS_H
 #define XNLINKPROTOUTILS_H
 
+#include <vector>
+
 #include "XnLinkDefs.h"
 #include "XnLinkProto.h"
 #include "XnLinkStatusCodes.h"
 #include "XnShiftToDepth.h"
 #include <XnStatus.h>
 #include <XnLog.h>
-#include <XnArray.h>
 #include <XnBitSet.h>
 #include <XnBox3D.h>
 #include <XnVector3D.h>
@@ -86,7 +87,7 @@ XnFwCompressionType xnLinkCompressionFromName(const XnChar* name);
 
 const XnChar* xnLinkPoseTypeToName(XnUInt32 poseType);
 XnUInt32 xnLinkPoseNameToType(const XnChar* strPose);
-XnStatus xnLinkPosesToNames(XnUInt32 nPoses, xnl::Array<const XnChar*>& aPosesNames);
+XnStatus xnLinkPosesToNames(XnUInt32 nPoses, std::vector<const XnChar*>& aPosesNames);
 
 xnl::Point3D xnLinkPoint3DToPoint3D(const XnLinkPoint3D& point);
 XnLinkPoint3D XnPoint3DToLinkPoint3D(const xnl::Point3D& point);
@@ -97,15 +98,15 @@ xnl::Box3D xnLinkBoundingBox3DToBoundingBox3D(const XnLinkBoundingBox3D& box);
 XnStatus xnLinkGetStreamDumpName(XnUInt16 nStreamID, XnChar* strDumpName, XnUInt32 nDumpNameSize);
 XnStatus xnLinkGetEPDumpName(XnUInt16 nEPID, XnChar* strDumpName, XnUInt32 nDumpNameSize);
 
-XnStatus xnLinkParseIDSet(xnl::Array<xnl::BitSet>& idSet, const void* pIDSet, XnUInt32 nSize);
+XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pIDSet, XnUInt32 nSize);
 
 /*pnEncodedSize is max size on input, actual size on output. pIDs is an array of uint16 values that must be grouped by interface ID.*/
 XnStatus xnLinkEncodeIDSet(void* pIDSet, XnUInt32 *pnEncodedSize, const XnUInt16* pIDs, XnUInt32 nNumIDs);
 
-XnStatus xnLinkParseFrameSyncStreamIDs(xnl::Array<XnUInt16>& frameSyncStreamIDs, const void* pFrameSyncStreamIDs, XnUInt32 nBufferSize);
+XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<XnUInt16>& frameSyncStreamIDs, const void* pFrameSyncStreamIDs, XnUInt32 nBufferSize);
 //nBufferSize is max size on input, actual size on output
-XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, XnUInt32& nBufferSize, const xnl::Array<XnUInt16>& frameSyncStreamIDs);
-XnStatus xnLinkParseComponentVersionsList(xnl::Array<XnComponentVersion>& componentVersions, const XnLinkComponentVersionsList* pLinkList, XnUInt32 nBufferSize);
+XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, XnUInt32& nBufferSize, const std::vector<XnUInt16>& frameSyncStreamIDs);
+XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& componentVersions, const XnLinkComponentVersionsList* pLinkList, XnUInt32 nBufferSize);
 
 /*
 XnUInt8 xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName);
@@ -124,7 +125,7 @@ void xnLinkParseLeanVersion(XnLeanVersion& version, const XnLinkLeanVersion& lin
 void xnEncodeLeanVersion(XnLinkLeanVersion& linkVersion, const XnLeanVersion& version);
 
 /* nNumModes is max number of modes on input, actual number on output. */
-XnStatus xnLinkParseSupportedVideoModes(xnl::Array<XnFwStreamVideoMode>& aModes, 
+XnStatus xnLinkParseSupportedVideoModes(std::vector<XnFwStreamVideoMode>& aModes, 
                                                 const XnLinkSupportedVideoModes* pLinkSupportedModes,
                                                 XnUInt32 nBufferSize);
 XnStatus xnLinkParseBitSet(xnl::BitSet& bitSet, const XnLinkBitSet* pBitSet, XnUInt32 nBufferSize);
@@ -163,17 +164,17 @@ XnStatus xnLinkParseIntProp(XnLinkPropType propType, const void* pValue, XnUInt3
 }
 
 XnStatus xnLinkParseLeanVersionProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, XnLeanVersion& leanVersion);
-XnStatus xnLinkParseIDSetProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, xnl::Array<xnl::BitSet>& idSet);
+XnStatus xnLinkParseIDSetProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<xnl::BitSet>& idSet);
 XnStatus xnLinkParseBitSetProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, xnl::BitSet& bitSet);
-XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, xnl::Array<XnUInt16>& streamIDs);
-XnStatus xnLinkParseComponentVersionsListProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, xnl::Array<XnComponentVersion>& componentVersions);
+XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<XnUInt16>& streamIDs);
+XnStatus xnLinkParseComponentVersionsListProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<XnComponentVersion>& componentVersions);
 
-XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupportedTests, XnUInt32 nBufferSize, xnl::Array<XnBistInfo>& supportedTests);
-XnStatus xnLinkParseSupportedTempList(const XnLinkTemperatureSensorsList* pSupportedList, XnUInt32 nBufferSize, xnl::Array<XnTempInfo>& supportedTempList);
+XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupportedTests, XnUInt32 nBufferSize, std::vector<XnBistInfo>& supportedTests);
+XnStatus xnLinkParseSupportedTempList(const XnLinkTemperatureSensorsList* pSupportedList, XnUInt32 nBufferSize, std::vector<XnTempInfo>& supportedTempList);
 XnStatus xnLinkParseGetTemperature(const XnLinkTemperatureResponse* tempResponse, XnUInt32 nBufferSize, XnCommandTemperatureResponse& tempData);
 XnStatus xnLinkReadDebugData(XnCommandDebugData& commandDebugData, XnLinkDebugDataResponse* pDebugDataResponse);
-XnStatus xnLinkParseSupportedI2CDevices(const XnLinkSupportedI2CDevices* pSupportedTests, XnUInt32 nBufferSize, xnl::Array<XnLinkI2CDevice>& supportedDevices);
-XnStatus xnLinkParseSupportedLogFiles(const XnLinkSupportedLogFiles* pFilesList, XnUInt32 nBufferSize, xnl::Array<XnLinkLogFile>& supportedFiles);
+XnStatus xnLinkParseSupportedI2CDevices(const XnLinkSupportedI2CDevices* pSupportedTests, XnUInt32 nBufferSize, std::vector<XnLinkI2CDevice>& supportedDevices);
+XnStatus xnLinkParseSupportedLogFiles(const XnLinkSupportedLogFiles* pFilesList, XnUInt32 nBufferSize, std::vector<XnLinkLogFile>& supportedFiles);
 
 void xnLinkParseBootStatus(XnBootStatus& bootStatus, const XnLinkBootStatus& linkBootStatus);
 

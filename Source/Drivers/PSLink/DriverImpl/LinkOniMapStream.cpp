@@ -21,6 +21,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <vector>
+
 #include "LinkOniMapStream.h"
 //#include "LinkOniColorStream.h"
 #include <XnLog.h>
@@ -276,9 +278,9 @@ XnStatus LinkOniMapStream::SetVideoMode(OniVideoMode* pVideoMode)
 	}
 
 	// now look for the first mode that matches
-	const xnl::Array<XnFwStreamVideoMode>& supportedModes = m_pInputStream->GetSupportedVideoModes();
+	const std::vector<XnFwStreamVideoMode>& supportedModes = m_pInputStream->GetSupportedVideoModes();
 	XnInt32 selectedIndex = -1;
-	for (XnUInt32 i = 0; i < supportedModes.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < supportedModes.size(); ++i)
 	{
 		if (pVideoMode->resolutionX == (int)supportedModes[i].m_nXRes &&
 			pVideoMode->resolutionY == (int)supportedModes[i].m_nYRes &&
@@ -319,9 +321,9 @@ XnStatus LinkOniMapStream::SetVideoMode(OniVideoMode* pVideoMode)
 XnStatus LinkOniMapStream::FillSupportedVideoModes()
 {
 	int nCount;
-	const xnl::Array<XnFwStreamVideoMode> *pSupported;
+	const std::vector<XnFwStreamVideoMode> *pSupported;
 	pSupported = &m_pInputStream->GetSupportedVideoModes();
-	nCount = (int)pSupported->GetSize();
+	nCount = (int)pSupported->size();
 
 	m_aSupportedModes = XN_NEW_ARR(SupportedVideoMode, nCount);
 	XN_VALIDATE_ALLOC_PTR(m_aSupportedModes);
@@ -329,11 +331,11 @@ XnStatus LinkOniMapStream::FillSupportedVideoModes()
 
 	for (int i = 0; i < nCount; ++i)
 	{
-		m_aSupportedModes[i].nInputFormat			= pSupported->GetData()[i].m_nPixelFormat;
+		m_aSupportedModes[i].nInputFormat			= pSupported->data()[i].m_nPixelFormat;
 		
-		m_aSupportedModes[i].OutputMode.resolutionX	= pSupported->GetData()[i].m_nXRes;
-		m_aSupportedModes[i].OutputMode.resolutionY	= pSupported->GetData()[i].m_nYRes;;
-		m_aSupportedModes[i].OutputMode.fps			= pSupported->GetData()[i].m_nFPS;;
+		m_aSupportedModes[i].OutputMode.resolutionX	= pSupported->data()[i].m_nXRes;
+		m_aSupportedModes[i].OutputMode.resolutionY	= pSupported->data()[i].m_nYRes;;
+		m_aSupportedModes[i].OutputMode.fps			= pSupported->data()[i].m_nFPS;;
 		m_aSupportedModes[i].OutputMode.pixelFormat	= (OniPixelFormat)-1; // this field is not to be used here.;
 	}
 

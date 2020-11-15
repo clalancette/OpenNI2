@@ -18,6 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <vector>
+
 #include "XnLinkFrameInputStream.h"
 #include "XnLinkProtoUtils.h"
 #include "XnLinkControlEndpoint.h"
@@ -89,10 +91,10 @@ XnStatus LinkFrameInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 		Shutdown();
 	}
 
-    nRetVal = LinkInputStream::Init(pLinkControlEndpoint, streamType, nStreamID, pConnection);
-    XN_IS_STATUS_OK_LOG_ERROR("Init base link input stream", nRetVal);
-    //Now we have all the stream properties
-    m_nStreamID = nStreamID;
+	nRetVal = LinkInputStream::Init(pLinkControlEndpoint, streamType, nStreamID, pConnection);
+	XN_IS_STATUS_OK_LOG_ERROR("Init base link input stream", nRetVal);
+	//Now we have all the stream properties
+	m_nStreamID = nStreamID;
 
 	nRetVal = pLinkControlEndpoint->GetSupportedVideoModes(nStreamID, m_supportedVideoModes);
 	XN_IS_STATUS_OK_LOG_ERROR("Get supported video modes", nRetVal);
@@ -514,7 +516,7 @@ XnBool LinkFrameInputStream::IsOutputFormatSupported(OniPixelFormat format) cons
 	}
 }
 
-const xnl::Array<XnFwStreamVideoMode>& LinkFrameInputStream::GetSupportedVideoModes() const
+const std::vector<XnFwStreamVideoMode>& LinkFrameInputStream::GetSupportedVideoModes() const
 {
 	return m_supportedVideoModes;
 }
@@ -534,7 +536,7 @@ XnStatus LinkFrameInputStream::SetVideoMode(const XnFwStreamVideoMode& videoMode
 
 	xnLogVerbose(XN_MASK_LINK, "Stream %u - Setting video mode %s...", m_nStreamID, strVideoMode);
 
-	for (XnUInt32 i = 0; i < m_supportedVideoModes.GetSize() && !bModeSupported; i++)
+	for (XnUInt32 i = 0; i < m_supportedVideoModes.size() && !bModeSupported; i++)
 	{
 		if (xnOSMemCmp(&videoMode, &m_supportedVideoModes[i], sizeof(videoMode)) == 0)
 		{

@@ -21,6 +21,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <vector>
+
 #include "LinkOniDevice.h"
 #include "LinkOniDriver.h"
 
@@ -60,7 +62,7 @@ LinkOniDevice::~LinkOniDevice()
 	Destroy();
 }
 
-XnStatus LinkOniDevice::readSupportedModesFromStream(XnFwStreamInfo &info, xnl::Array<XnFwStreamVideoMode> &aSupportedModes)
+XnStatus LinkOniDevice::readSupportedModesFromStream(XnFwStreamInfo &info, std::vector<XnFwStreamVideoMode> &aSupportedModes)
 {
 	XnUInt16 streamId;
 	XnStatus nRetVal = m_pSensor->CreateInputStream(info.type, info.creationInfo, streamId);
@@ -70,7 +72,7 @@ XnStatus LinkOniDevice::readSupportedModesFromStream(XnFwStreamInfo &info, xnl::
 	xn::LinkFrameInputStream *pInputStream = (xn::LinkFrameInputStream *)m_pSensor->GetInputStream(streamId);
 	XN_VALIDATE_OUTPUT_PTR(pInputStream);
 
-	aSupportedModes.CopyFrom(pInputStream->GetSupportedVideoModes());
+	aSupportedModes = pInputStream->GetSupportedVideoModes();
 
 	m_pSensor->DestroyInputStream(streamId);
 	return XN_STATUS_OK;
@@ -100,20 +102,20 @@ XnStatus AddVideoMode(xnl::Array<OniVideoMode>& modes, XnFwStreamVideoMode fwMod
 
 XnStatus LinkOniDevice::FillSupportedVideoModes()
 {
-	xnl::Array<XnFwStreamVideoMode> aSupportedModes;
-	xnl::Array<XnFwStreamInfo> aEnumerated;
+	std::vector<XnFwStreamVideoMode> aSupportedModes;
+	std::vector<XnFwStreamInfo> aEnumerated;
 	xnl::Array<OniVideoMode> aVideoModes;
 
 	int s = -1;
 
 	// Depth
 	m_pSensor->EnumerateStreams((XnStreamType)XN_LINK_STREAM_TYPE_SHIFTS, aEnumerated);
-	for (int c = 0; c < (int)aEnumerated.GetSize(); ++c)
+	for (int c = 0; c < (int)aEnumerated.size(); ++c)
 	{
 		XnStatus nRetVal = readSupportedModesFromStream(aEnumerated[c], aSupportedModes);
 		XN_IS_STATUS_OK(nRetVal);
 
-		for (XnUInt32 i = 0; i < aSupportedModes.GetSize(); ++i)
+		for (XnUInt32 i = 0; i < aSupportedModes.size(); ++i)
 		{
 			nRetVal = AddVideoMode(aVideoModes, aSupportedModes[i], ONI_PIXEL_FORMAT_DEPTH_1_MM);
 			XN_IS_STATUS_OK(nRetVal);
@@ -129,17 +131,17 @@ XnStatus LinkOniDevice::FillSupportedVideoModes()
 	m_sensors[s].numSupportedVideoModes = aVideoModes.GetSize();
 
 	m_numSensors = s+1;
-	aEnumerated.Clear();
+	aEnumerated.clear();
 	aVideoModes.Clear();
 
 	// IR
 	m_pSensor->EnumerateStreams((XnStreamType)XN_LINK_STREAM_TYPE_IR, aEnumerated);
-	for (int c = 0; c < (int)aEnumerated.GetSize(); ++c)
+	for (int c = 0; c < (int)aEnumerated.size(); ++c)
 	{
 		XnStatus nRetVal = readSupportedModesFromStream(aEnumerated[c], aSupportedModes);
 		XN_IS_STATUS_OK(nRetVal);
 
-		for (XnUInt32 i = 0; i < aSupportedModes.GetSize(); ++i)
+		for (XnUInt32 i = 0; i < aSupportedModes.size(); ++i)
 		{
 			nRetVal = AddVideoMode(aVideoModes, aSupportedModes[i], ONI_PIXEL_FORMAT_GRAY16);
 			XN_IS_STATUS_OK(nRetVal);
@@ -153,7 +155,7 @@ XnStatus LinkOniDevice::FillSupportedVideoModes()
 	m_sensors[s].numSupportedVideoModes = aVideoModes.GetSize();
 
 	m_numSensors = s+1;
-	aEnumerated.Clear();
+	aEnumerated.clear();
 	aVideoModes.Clear();
 
 	return XN_STATUS_OK;
@@ -433,11 +435,11 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 	case LINK_PROP_VERSIONS_INFO_COUNT:
 		{
 			ENSURE_PROP_SIZE(*pDataSize, int);
-			xnl::Array<XnComponentVersion> versions;
+			std::vector<XnComponentVersion> versions;
 			nRetVal = m_pSensor->GetComponentsVersions(versions);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
-			ASSIGN_PROP_VALUE_INT(data, *pDataSize, versions.GetSize());
+			ASSIGN_PROP_VALUE_INT(data, *pDataSize, versions.size());
 			break;
 		}
 
@@ -447,11 +449,11 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 
 	case LINK_PROP_VERSIONS_INFO:
 		{
-			xnl::Array<XnComponentVersion> components;
+			std::vector<XnComponentVersion> components;
 			nRetVal = m_pSensor->GetComponentsVersions(components);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
-			XnUInt32 nExpectedSize = components.GetSize() * sizeof(XnComponentVersion);
+			XnUInt32 nExpectedSize = components.size() * sizeof(XnComponentVersion);
 			if (*pDataSize != (int)nExpectedSize)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", *pDataSize, nExpectedSize);
@@ -459,7 +461,7 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			xnOSMemCopy(data, components.GetData(), nExpectedSize);
+			xnOSMemCopy(data, components.data(), nExpectedSize);
 			break;
 		}
 
@@ -856,19 +858,19 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			xnl::Array<XnFwFileEntry> files;
+			std::vector<XnFwFileEntry> files;
 			nRetVal = m_pSensor->GetFileList(files);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Get file list", nRetVal, ONI_STATUS_ERROR);
 
-			if (pArgs->count < files.GetSize())
+			if (pArgs->count < files.size())
 			{
-				m_driverServices.errorLoggerAppend("Insufficient memory for files list. available: %d, required: %d\n", pArgs->count, files.GetSize());
+				m_driverServices.errorLoggerAppend("Insufficient memory for files list. available: %d, required: %d\n", pArgs->count, files.size());
 				XN_ASSERT(FALSE);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			xnOSMemCopy(pArgs->files, files.GetData(), files.GetSize() * sizeof(XnFwFileEntry));
-			pArgs->count = files.GetSize();
+			xnOSMemCopy(pArgs->files, files.data(), files.size() * sizeof(XnFwFileEntry));
+			pArgs->count = files.size();
 		}
 		break;
 
@@ -920,25 +922,25 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			xnl::Array<XnLinkI2CDevice> devices;
+			std::vector<XnLinkI2CDevice> devices;
 			nRetVal = m_pSensor->GetSupportedI2CDevices(devices);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Get i2c device list", nRetVal, ONI_STATUS_ERROR);
 
-			if (pArgs->count < devices.GetSize())
+			if (pArgs->count < devices.size())
 			{
-				m_driverServices.errorLoggerAppend("Insufficient memory for device list. available: %d, required: %d\n", pArgs->count, devices.GetSize());
+				m_driverServices.errorLoggerAppend("Insufficient memory for device list. available: %d, required: %d\n", pArgs->count, devices.size());
 				XN_ASSERT(FALSE);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			for (int i = 0; i < (int)devices.GetSize(); ++i)
+			for (int i = 0; i < (int)devices.size(); ++i)
 			{
-                pArgs->devices[i].masterId = devices[i].m_nMasterID;
-                pArgs->devices[i].slaveId = devices[i].m_nSlaveID;
+				pArgs->devices[i].masterId = devices[i].m_nMasterID;
+				pArgs->devices[i].slaveId = devices[i].m_nSlaveID;
 				pArgs->devices[i].id = devices[i].m_nID;
 				xnOSStrCopy(pArgs->devices[i].name, devices[i].m_strName, sizeof(pArgs->devices[i].name));
 			}
-			pArgs->count = devices.GetSize();
+			pArgs->count = devices.size();
 		}
 		break;
 
@@ -959,26 +961,26 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			xnl::Array<XnBistInfo> tests;
+			std::vector<XnBistInfo> tests;
 			nRetVal = m_pSensor->GetSupportedBistTests(tests);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Get bist list", nRetVal, ONI_STATUS_ERROR);
 
-			if (pArgs->count < tests.GetSize())
+			if (pArgs->count < tests.size())
 			{
-				m_driverServices.errorLoggerAppend("Insufficient memory for tests list. available: %d, required: %d\n", pArgs->count, tests.GetSize());
+				m_driverServices.errorLoggerAppend("Insufficient memory for tests list. available: %d, required: %d\n", pArgs->count, tests.size());
 				XN_ASSERT(FALSE);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			for (int i = 0; i < (int)tests.GetSize(); ++i)
+			for (int i = 0; i < (int)tests.size(); ++i)
 			{
 				pArgs->tests[i] = tests[i];
 			}
-			pArgs->count = tests.GetSize();
+			pArgs->count = tests.size();
 		}
 		break;
 
-    case PS_COMMAND_GET_TEMP_LIST:
+	case PS_COMMAND_GET_TEMP_LIST:
         {
             EXACT_PROP_SIZE_DO(dataSize, XnCommandGetTempList)
             {
@@ -995,22 +997,22 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
                 return ONI_STATUS_BAD_PARAMETER;
             }
 
-            xnl::Array<XnTempInfo> tempInfos;
+            std::vector<XnTempInfo> tempInfos;
             nRetVal = m_pSensor->GetSupportedTempList(tempInfos);
             XN_IS_STATUS_OK_LOG_ERROR_RET("Get Temp list", nRetVal, ONI_STATUS_ERROR);
 
-            if (pArgs->count < tempInfos.GetSize())
+            if (pArgs->count < tempInfos.size())
             {
-                m_driverServices.errorLoggerAppend("Insufficient memory for Temperature list. available: %d, required: %d\n", pArgs->pTempInfos, tempInfos.GetSize());
+                m_driverServices.errorLoggerAppend("Insufficient memory for Temperature list. available: %d, required: %d\n", pArgs->pTempInfos, tempInfos.size());
                 XN_ASSERT(FALSE);
                 return ONI_STATUS_BAD_PARAMETER;
             }
 
-            for (int i = 0; i < (int)tempInfos.GetSize(); ++i)
+            for (int i = 0; i < (int)tempInfos.size(); ++i)
             {
                 pArgs->pTempInfos[i] = tempInfos[i];
             }
-            pArgs->count = tempInfos.GetSize();
+            pArgs->count = tempInfos.size();
         }
         break;
     case PS_COMMAND_READ_TEMPERATURE:
@@ -1088,23 +1090,23 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			xnl::Array<XnLinkLogFile> masks;
+			std::vector<XnLinkLogFile> masks;
 			nRetVal = m_pSensor->GetSupportedLogFiles(masks);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Get log mask list", nRetVal, ONI_STATUS_ERROR);
 
-			if (pArgs->count < masks.GetSize())
+			if (pArgs->count < masks.size())
 			{
-				m_driverServices.errorLoggerAppend("Insufficient memory for masks list. available: %d, required: %d\n", pArgs->count, masks.GetSize());
+				m_driverServices.errorLoggerAppend("Insufficient memory for masks list. available: %d, required: %d\n", pArgs->count, masks.size());
 				XN_ASSERT(FALSE);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			for (int i = 0; i < (int)masks.GetSize(); ++i)
+			for (int i = 0; i < (int)masks.size(); ++i)
 			{
 				pArgs->masks[i].id = masks[i].m_nID;
 				xnOSStrCopy(pArgs->masks[i].name, masks[i].m_strName, sizeof(pArgs->masks[i].name));
 			}
-			pArgs->count = masks.GetSize();
+			pArgs->count = masks.size();
 		}
 		break;
 
@@ -1161,22 +1163,22 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			xnl::Array<XnFwStreamInfo> streams;
+			std::vector<XnFwStreamInfo> streams;
 			nRetVal = m_pSensor->EnumerateStreams(streams);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Get log mask list", nRetVal, ONI_STATUS_ERROR);
 
-			if (pArgs->count < streams.GetSize())
+			if (pArgs->count < streams.size())
 			{
-				m_driverServices.errorLoggerAppend("Insufficient memory for stream list. available: %d, required: %d\n", pArgs->count, streams.GetSize());
+				m_driverServices.errorLoggerAppend("Insufficient memory for stream list. available: %d, required: %d\n", pArgs->count, streams.size());
 				XN_ASSERT(FALSE);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			for (int i = 0; i < (int)streams.GetSize(); ++i)
+			for (int i = 0; i < (int)streams.size(); ++i)
 			{
 				pArgs->streams[i] = streams[i];
 			}
-			pArgs->count = streams.GetSize();
+			pArgs->count = streams.size();
 		}
 		break;
 
@@ -1291,19 +1293,19 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			xn::LinkFrameInputStream* pFrameInputStream = (xn::LinkFrameInputStream*)pInputStream;
-			xnl::Array<XnFwStreamVideoMode> videoModes = pFrameInputStream->GetSupportedVideoModes();
-			if (pArgs->count < videoModes.GetSize())
+			std::vector<XnFwStreamVideoMode> videoModes = pFrameInputStream->GetSupportedVideoModes();
+			if (pArgs->count < videoModes.size())
 			{
-				m_driverServices.errorLoggerAppend("Insufficient memory for stream list. available: %d, required: %d\n", pArgs->count, videoModes.GetSize());
+				m_driverServices.errorLoggerAppend("Insufficient memory for stream list. available: %d, required: %d\n", pArgs->count, videoModes.size());
 				XN_ASSERT(FALSE);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			for (int i = 0; i < (int)videoModes.GetSize(); ++i)
+			for (int i = 0; i < (int)videoModes.size(); ++i)
 			{
 				pArgs->videoModes[i] = videoModes[i];
 			}
-			pArgs->count = videoModes.GetSize();
+			pArgs->count = videoModes.size();
 		}
 		break;
 

@@ -21,6 +21,8 @@
 #ifndef PRIMECLIENT_H
 #define PRIMECLIENT_H
 
+#include <vector>
+
 #include "XnLinkProtoLibDefs.h"
 #include "XnLinkControlEndpoint.h"
 #include "XnLinkInputDataEndpoint.h"
@@ -32,7 +34,6 @@
 #include <PSLink.h>
 #include <XnPlatform.h>
 #include <XnStatus.h>
-#include <XnArray.h>
 
 namespace xn
 {
@@ -61,12 +62,12 @@ public:
     virtual const XnUInt32 GetHWVersion() const;
     virtual const XnLeanVersion& GetDeviceProtocolVersion() const;
     virtual const XnChar* GetSerialNumber() const;
-	virtual const XnStatus GetComponentsVersions(xnl::Array<XnComponentVersion>& componentVersions);
+	virtual const XnStatus GetComponentsVersions(std::vector<XnComponentVersion>& componentVersions);
 	const XnChar* GetConnectionString() const { return m_strConnectionString; }
 
     /* Global Device Commands */
 	virtual	XnStatus GetBootStatus(XnBootStatus& bootStatus);
-	virtual	XnStatus GetSupportedI2CDevices(xnl::Array<XnLinkI2CDevice>& supportedDevices);
+	virtual	XnStatus GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supportedDevices);
     virtual XnStatus WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32 nValue, XnUInt32 nMask);
     virtual XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32& nValue);
     virtual XnStatus WriteAHB(XnUInt32 nAddress, XnUInt32 nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth);
@@ -76,38 +77,38 @@ public:
     virtual XnStatus ReadDebugData(XnCommandDebugData& commandDebugData);
     virtual XnStatus SetProjectorActive(XnBool bActive);
     virtual XnStatus SetAccActive(XnBool bActive);
-    virtual XnStatus GetAccActive(XnBool& bActive); 
-    virtual XnStatus SetVDDActive(XnBool bActive);  
-    virtual XnStatus GetVDDActive(XnBool& bActive); 
-    virtual XnStatus SetPeriodicBistActive(XnBool bActive);  
-    virtual XnStatus GetPeriodicBistActive(XnBool& bActive);   
+    virtual XnStatus GetAccActive(XnBool& bActive);
+    virtual XnStatus SetVDDActive(XnBool bActive);
+    virtual XnStatus GetVDDActive(XnBool& bActive);
+    virtual XnStatus SetPeriodicBistActive(XnBool bActive);
+    virtual XnStatus GetPeriodicBistActive(XnBool& bActive);
     virtual XnStatus StartFWLog();
     virtual XnStatus StopFWLog();
 	virtual XnStatus OpenFWLogFile(XnUInt8 logID);
 	virtual	XnStatus CloseFWLogFile(XnUInt8 logID);
-	virtual XnStatus GetSupportedLogFiles(xnl::Array<XnLinkLogFile>& supportedFiles);
+	virtual XnStatus GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles);
 
 	virtual XnStatus RunPresetFile(const XnChar* strFileName);
-	virtual XnStatus GetSupportedBistTests(xnl::Array<XnBistInfo>& supportedTests);
-    virtual XnStatus GetSupportedTempList(xnl::Array<XnTempInfo>& supportedTempList);
+	virtual XnStatus GetSupportedBistTests(std::vector<XnBistInfo>& supportedTests);
+    virtual XnStatus GetSupportedTempList(std::vector<XnTempInfo>& supportedTempList);
     virtual XnStatus GetTemperature(XnCommandTemperatureResponse& temp);
 	virtual XnStatus ExecuteBist(XnUInt32 nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData);
 	virtual XnStatus FormatZone(XnUInt8 nZone);
     //TODO: Implement Get emitter active
 
     /* Stream Management */
-    virtual XnStatus EnumerateStreams(xnl::Array<XnFwStreamInfo>& aStreamInfos);
-    virtual XnStatus EnumerateStreams(XnStreamType streamType, xnl::Array<XnFwStreamInfo>& aStreamInfos);
+    virtual XnStatus EnumerateStreams(std::vector<XnFwStreamInfo>& aStreamInfos);
+    virtual XnStatus EnumerateStreams(XnStreamType streamType, std::vector<XnFwStreamInfo>& aStreamInfos);
     virtual XnStatus CreateInputStream(XnStreamType nodeType, const XnChar* strCreationInfo, XnUInt16& nStreamID);
 
     virtual XnStatus DestroyInputStream(XnUInt16 nStreamID);
     virtual LinkInputStream* GetInputStream(XnUInt16 nStreamID);
     virtual const LinkInputStream* GetInputStream(XnUInt16 nStreamID) const;
 
-    virtual XnStatus InitOutputStream(XnUInt16 nStreamID, 
-        XnUInt32 nMaxMsgSize, 
+    virtual XnStatus InitOutputStream(XnUInt16 nStreamID,
+        XnUInt32 nMaxMsgSize,
         XnUInt16 nMaxPacketSize,
-        XnLinkCompressionType compression, 
+        XnLinkCompressionType compression,
         XnStreamFragLevel streamFragLevel);
 
     virtual void ShutdownOutputStream(XnUInt16 nStreamID);
@@ -115,9 +116,9 @@ public:
 	virtual	XnStatus BeginUploadFileOnControlEP();
 	virtual	XnStatus EndUploadFileOnControlEP();
 	virtual XnStatus UploadFileOnControlEP(const XnChar* strFileName, XnBool bOverrideFactorySettings);
-	virtual XnStatus GetFileList(xnl::Array<XnFwFileEntry>& files);
+	virtual XnStatus GetFileList(std::vector<XnFwFileEntry>& files);
 	virtual XnStatus DownloadFile(XnUInt16 zone, const XnChar* strFirmwareFileName, const XnChar* strTargetFile);
-	
+
 	virtual XnStatus EnableProjectorPulse(XnFloat delay, XnFloat width, XnFloat cycle);
 	virtual XnStatus DisableProjectorPulse();
 	virtual XnStatus GetProjectorPulse(XnBool& enabled, XnFloat& delay, XnFloat& width, XnFloat& framesToskip);
@@ -144,12 +145,12 @@ private:
 	static const XnUInt32 CONT_STREAM_PREDEFINED_BUFFER_SIZE;
 
 	XnBool m_bInitialized;
-    volatile XnBool m_bConnected;
-	xnl::Array<LinkInputDataEndpoint> m_inputDataEndpoints;
-    XnUInt16 m_nFWLogStreamID;
+	volatile XnBool m_bConnected;
+	std::vector<LinkInputDataEndpoint> m_inputDataEndpoints;
+	XnUInt16 m_nFWLogStreamID;
 	XnChar m_strConnectionString[XN_FILE_MAX_PATH];
 
-	xnl::Array<xnl::BitSet> m_supportedProps;
+	std::vector<xnl::BitSet> m_supportedProps;
 	XnDetailedVersion m_fwVersion;
 	XnLeanVersion m_protocolVersion;
 	XnUInt32 m_nHWVersion;

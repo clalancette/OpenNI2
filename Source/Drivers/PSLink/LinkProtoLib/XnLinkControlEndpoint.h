@@ -21,10 +21,11 @@
 #ifndef XNLINKCONTROLENDPOINT_H
 #define XNLINKCONTROLENDPOINT_H
 
+#include <vector>
+
 #include "ISyncIOConnection.h"
 #include "XnLinkMsgEncoder.h"
 #include "XnLinkResponseMsgParser.h"
-#include "XnArray.h"
 #include "XnLinkDefs.h"
 #include "XnLinkProtoLibDefs.h"
 #include <XnBitSet.h>
@@ -71,26 +72,26 @@ public:
 	XnStatus GetProtocolVersion(XnLeanVersion& version);
 	XnStatus GetHardwareVersion(XnUInt32& version);
 	XnStatus GetSerialNumber(XnChar* strSerialNumber, XnUInt32 nSize);
-	XnStatus GetComponentsVersions(xnl::Array<XnComponentVersion>& components);
-	XnStatus GetSupportedMsgTypes(xnl::Array<xnl::BitSet>& supportedMsgTypes);
-	XnStatus GetSupportedProperties(xnl::Array<xnl::BitSet>& supportedProperties);
+	XnStatus GetComponentsVersions(std::vector<XnComponentVersion>& components);
+	XnStatus GetSupportedMsgTypes(std::vector<xnl::BitSet>& supportedMsgTypes);
+	XnStatus GetSupportedProperties(std::vector<xnl::BitSet>& supportedProperties);
 	XnStatus GetSupportedInterfaces(XnUInt16 nStreamID, xnl::BitSet& supportedInterfaces);
 	XnStatus GetBootStatus(XnBootStatus& bootStatus);
 	XnStatus UploadFile(const XnChar* strFileName, XnBool bOverrideFactorySettings);
-	XnStatus GetFileList(xnl::Array<XnFwFileEntry>& files);
+	XnStatus GetFileList(std::vector<XnFwFileEntry>& files);
 	XnStatus DownloadFile(XnUInt16 zone, const XnChar* fwFileName, const XnChar* targetFile);
 	XnStatus StartStreaming(XnUInt16 nStreamID);
 	XnStatus StopStreaming(XnUInt16 nStreamID);
 	XnStatus SoftReset();
 	XnStatus HardReset();
     XnStatus ReadDebugData(XnCommandDebugData& commandDebugData);
-	XnStatus GetSupportedBistTests(xnl::Array<XnBistInfo>& supportedTests);
-    XnStatus GetSupportedTempList(xnl::Array<XnTempInfo>& supportedTests);
+	XnStatus GetSupportedBistTests(std::vector<XnBistInfo>& supportedTests);
+    XnStatus GetSupportedTempList(std::vector<XnTempInfo>& supportedTests);
     XnStatus GetTemperature(XnCommandTemperatureResponse& temp);
 	XnStatus ExecuteBistTests(XnUInt32 nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData);
 	XnStatus StartUsbTest();
 	XnStatus StopUsbTest();
-	XnStatus GetSupportedI2CDevices(xnl::Array<XnLinkI2CDevice>& supporteddevices);
+	XnStatus GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supporteddevices);
 	XnStatus WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32 nValue, XnUInt32 nMask);
     XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32& nValue);
 	XnStatus WriteAHB(XnUInt32 nAddress, XnUInt32 nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth);
@@ -98,8 +99,8 @@ public:
 	XnStatus GetShiftToDepthConfig(XnUInt16 nStreamID, XnShiftToDepthConfig& shiftToDepthConfig);
 	XnStatus SetVideoMode(XnUInt16 nStreamID, const XnFwStreamVideoMode& videoMode);
 	XnStatus GetVideoMode(XnUInt16 nStreamID, XnFwStreamVideoMode& videoMode);
-	XnStatus GetSupportedVideoModes(XnUInt16 nStreamID, xnl::Array<XnFwStreamVideoMode>& supportedVideoModes);
-	XnStatus EnumerateStreams(xnl::Array<XnFwStreamInfo>& aStreamInfos);
+	XnStatus GetSupportedVideoModes(XnUInt16 nStreamID, std::vector<XnFwStreamVideoMode>& supportedVideoModes);
+	XnStatus EnumerateStreams(std::vector<XnFwStreamInfo>& aStreamInfos);
     XnStatus CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID, XnUInt16& nEndpointID);
 	XnStatus DestroyInputStream(XnUInt16 nStreamID);
 	XnStatus SetCropping(XnUInt16 nStreamID, const OniCropping& cropping);
@@ -111,7 +112,7 @@ public:
     XnStatus GetVDDActive(XnBool& bActive);
     XnStatus SetPeriodicBistActive(XnBool bActive);
     XnStatus GetPeriodicBistActive(XnBool& bActive);
-	XnStatus GetSupportedLogFiles(xnl::Array<XnLinkLogFile>& supportedFiles);
+	XnStatus GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles);
 	XnStatus OpenFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID);
 	XnStatus CloseFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID);
 	XnStatus SetProjectorPulse(XnBool enabled, XnFloat delay, XnFloat width, XnFloat cycle);
@@ -186,13 +187,13 @@ private:
 	LinkMsgEncoder m_msgEncoder;
 	LinkResponseMsgParser m_responseMsgParser;
 	XnUInt8* m_pIncomingResponse; //Holds complete parsed response (without link headers)
-    XnUInt32 m_nMaxResponseSize;
+	XnUInt32 m_nMaxResponseSize;
 	XnBool m_bInitialized;
 	XnBool m_bConnected;
 	XnUInt16 m_nPacketID;
 	XnUInt16 m_nMaxPacketSize;
 	XN_MUTEX_HANDLE m_hMutex;
-	xnl::Array<xnl::BitSet> m_supportedMsgTypes; //Array index is msgtype hi byte, position in bit set is msgtype lo byte.
+	std::vector<xnl::BitSet> m_supportedMsgTypes; //Array index is msgtype hi byte, position in bit set is msgtype lo byte.
 };
 
 }
