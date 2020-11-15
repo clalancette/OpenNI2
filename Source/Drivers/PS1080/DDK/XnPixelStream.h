@@ -24,9 +24,10 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <vector>
+
 #include <DDK/XnFrameStream.h>
 #include <DDK/XnActualGeneralProperty.h>
-#include <XnArray.h>
 
 //---------------------------------------------------------------------------
 // Types
@@ -52,7 +53,7 @@ public:
 	inline XnUInt32 GetYRes() const { return (XnUInt32)m_YRes.GetValue(); }
 	inline XnUInt32 GetBytesPerPixel() const { return (XnUInt32)m_BytesPerPixel.GetValue(); }
 	inline const OniCropping* GetCropping() const { return (OniCropping*)m_Cropping.GetValue().data; }
-	inline const xnl::Array<XnCmosPreset>& GetSupportedModes() const { return m_supportedModesData; }
+	inline const std::vector<XnCmosPreset>& GetSupportedModes() const { return m_supportedModesData; }
 
 protected:
 	XnStatus AddSupportedModes(XnCmosPreset* aPresets, XnUInt32 nCount);
@@ -131,7 +132,7 @@ private:
 	XnActualIntProperty m_SupportedModesCount;
 	XnGeneralProperty m_SupportedModes;
 
-	xnl::Array<XnCmosPreset> m_supportedModesData;
+	std::vector<XnCmosPreset> m_supportedModesData;
 	XnBool m_bAllowCustomResolutions;
 };
 
