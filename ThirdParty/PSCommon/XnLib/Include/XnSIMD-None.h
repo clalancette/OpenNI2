@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef __SSE_NONE_H__
-#define __SSE_NONE_H__
+#ifndef _XN_SIMD_NONE_H_
+#define _XN_SIMD_NONE_H_
 
 #include <XnPlatform.h>
 
@@ -50,7 +50,9 @@ INLINE XN_INT128 XnAdd16(XN_INT128 a, XN_INT128 b)
 	XN_INT128 result;
 
 	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i)
+	{
 		result.m_data[i] = a.m_data[i] + b.m_data[i];
+	}
 
 	return result;
 }
@@ -92,9 +94,13 @@ INLINE XN_INT128 XnAddUnsigned16AndSaturates(XN_INT128 a, XN_INT128 b)
 		XnUInt32 res = (XnUInt32)a.m_data[i] + (XnUInt32)b.m_data[i];
 
 		if (res > 0xFFFF)
+		{
 			result.m_udata[i] = 0xFFFF;
+		}
 		else
+		{
 			result.m_udata[i] = (XnUInt16)res;
+		}
 
 	}
 
@@ -112,19 +118,23 @@ INLINE XN_INT128 XnSub16(XN_INT128 a, XN_INT128 b)
 	XN_INT128 result;
 
 	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i)
+	{
 		result.m_data[i] = a.m_data[i] - b.m_data[i];
+	}
 
 	return result;
 }
 
 /* Sets the 128-bit value to zero.
  * r := 0x0 */
-INLINE XN_INT128 XnSetZero128 ()
+INLINE XN_INT128 XnSetZero128()
 {
 	XN_INT128 result;
 
 	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i)
+	{
 		result.m_data[i] = 0;
+	}
 
 	return result;
 
@@ -136,7 +146,7 @@ INLINE XN_INT128 XnSetZero128 ()
  *
  * NOTE: in SSE, elements are ordered 7,6,5,4,3,2,1,0. So, right shift is actually
  * left shift... */
-INLINE XN_INT128 XnShiftRight128 (XN_INT128 a, XnInt32 imm)
+INLINE XN_INT128 XnShiftRight128(XN_INT128 a, XnInt32 imm)
 {
 	XN_INT128 result = XnSetZero128();
 
@@ -144,7 +154,9 @@ INLINE XN_INT128 XnShiftRight128 (XN_INT128 a, XnInt32 imm)
 	XnUChar* pResult = (XnUChar*)&result.m_data;
 
 	for (int i = 0; (i+imm) < SSE_M128_NUM_OF_BYTES*sizeof(XnInt16); ++i)
+	{
 		pResult[i] = pA[i+imm];
+	}
 
 	return result;
 }
@@ -155,10 +167,10 @@ r1 := a1 >> count
 ...
 r7 := a7 >> count
 */
-INLINE XN_INT128 XnShiftRight16Sign (XN_INT128 ar, XnInt32 count)
+INLINE XN_INT128 XnShiftRight16Sign(XN_INT128 ar, XnInt32 count)
 {
 	XN_INT128 ret;
-	
+
 	XnInt16* r = (XnInt16*)&ret.m_data;
 	XnInt16* a = (XnInt16*)&ar.m_data;
 
@@ -166,7 +178,7 @@ INLINE XN_INT128 XnShiftRight16Sign (XN_INT128 ar, XnInt32 count)
 	r[2] = a[2] >> count; 	r[3] = a[3] >> count;
 	r[4] = a[4] >> count; 	r[5] = a[5] >> count;
 	r[6] = a[6] >> count; 	r[7] = a[7] >> count;
-	
+
 	return ret;
 }
 
@@ -176,7 +188,7 @@ INLINE XN_INT128 XnShiftRight16Sign (XN_INT128 ar, XnInt32 count)
  *
  * NOTE: in SSE, elements are ordered 7,6,5,4,3,2,1,0. So, left shift is actually
  * right shift... */
-INLINE XN_INT128 XnShiftLeft128 (XN_INT128 a, XnInt32 imm)
+INLINE XN_INT128 XnShiftLeft128(XN_INT128 a, XnInt32 imm)
 {
 	XN_INT128 result = XnSetZero128();
 
@@ -184,7 +196,9 @@ INLINE XN_INT128 XnShiftLeft128 (XN_INT128 a, XnInt32 imm)
 	XnUChar* pResult = (XnUChar*)&result.m_data;
 
 	for (int i = imm; i < SSE_M128_NUM_OF_BYTES*sizeof(XnInt16); ++i)
+	{
 		pResult[i] = pA[i-imm];
+	}
 
 	return result;
 }
@@ -195,12 +209,14 @@ INLINE XN_INT128 XnShiftLeft128 (XN_INT128 a, XnInt32 imm)
  * r1 := max(a1, b1)
  * ...
  * r7 := max(a7, b7) */
-INLINE XN_INT128 XnMax16 (XN_INT128 a, XN_INT128 b)
+INLINE XN_INT128 XnMax16(XN_INT128 a, XN_INT128 b)
 {
 	XN_INT128 result;
 
-	for (int i=0; i<SSE_M128_NUM_OF_BYTES; i++)
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; i++)
+	{
 		result.m_data[i] = XN_MAX(a.m_data[i], b.m_data[i]);
+	}
 
 	return result;
 }
@@ -208,12 +224,14 @@ INLINE XN_INT128 XnMax16 (XN_INT128 a, XN_INT128 b)
 /* Computes the bitwise AND of the 128-bit value in a and
  * the 128-bit value in b.
  * r := a & b */
-INLINE XN_INT128 XnAnd128 (XN_INT128 a, XN_INT128 b)
+INLINE XN_INT128 XnAnd128(XN_INT128 a, XN_INT128 b)
 {
 	XN_INT128 result;
 
-	for (int i=0; i<SSE_M128_NUM_OF_BYTES; i++)
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; i++)
+	{
 		result.m_data[i] = (a.m_data[i] & b.m_data[i]);
+	}
 
 	return result;
 }
@@ -221,12 +239,14 @@ INLINE XN_INT128 XnAnd128 (XN_INT128 a, XN_INT128 b)
 /* Computes the bitwise AND of the 128-bit value in b
  * and the bitwise NOT of the 128-bit value in a.
  * r := (~a) & b */
-INLINE XN_INT128 XnAndNot128 (XN_INT128 a, XN_INT128 b)
+INLINE XN_INT128 XnAndNot128(XN_INT128 a, XN_INT128 b)
 {
 	XN_INT128 result;
 
-	for (int i=0; i<SSE_M128_NUM_OF_BYTES; i++)
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; i++)
+	{
 		result.m_data[i] = ((~a.m_data[i]) & b.m_data[i]);
+	}
 
 	return result;
 }
@@ -236,12 +256,14 @@ INLINE XN_INT128 XnAndNot128 (XN_INT128 a, XN_INT128 b)
  * r1 := w
  * ...
  * r7 := w */
-INLINE XN_INT128 XnSetOne16 (XnInt16 w)
+INLINE XN_INT128 XnSetOne16(XnInt16 w)
 {
 	XN_INT128 result;
 
-	for (int i=0; i<SSE_M128_NUM_OF_BYTES; i++)
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; i++)
+	{
 		result.m_data[i] = w;
+	}
 
 	return result;
 }
@@ -251,7 +273,7 @@ INLINE XN_INT128 XnSetOne16 (XnInt16 w)
  * r1 := w1
  * ...
  * r7 := w7*/
-INLINE XN_INT128 XnSet16 (XnInt16 w7, XnInt16 w6, XnInt16 w5, XnInt16 w4, XnInt16 w3, XnInt16 w2, XnInt16 w1, XnInt16 w0)
+INLINE XN_INT128 XnSet16(XnInt16 w7, XnInt16 w6, XnInt16 w5, XnInt16 w4, XnInt16 w3, XnInt16 w2, XnInt16 w1, XnInt16 w0)
 {
 	XN_INT128 result;
 
@@ -270,12 +292,14 @@ INLINE XN_INT128 XnSet16 (XnInt16 w7, XnInt16 w6, XnInt16 w5, XnInt16 w4, XnInt1
 /* Computes the bitwise OR of the 128-bit value in a and
  * the 128-bit value in b.
  * r := a | b */
-INLINE XN_INT128 XnOr128 (XN_INT128 a, XN_INT128 b)
+INLINE XN_INT128 XnOr128(XN_INT128 a, XN_INT128 b)
 {
 	XN_INT128 result;
 
-	for (int i=0; i<SSE_M128_NUM_OF_BYTES; i++)
-		result.m_data[i] = (a.m_data[i] | b.m_data[i]);;
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; i++)
+	{
+		result.m_data[i] = (a.m_data[i] | b.m_data[i]);
+	}
 
 	return result;
 }
@@ -286,12 +310,14 @@ INLINE XN_INT128 XnOr128 (XN_INT128 a, XN_INT128 b)
  * r1 := min(a1, b1)
  * ...
  * r7 := min(a7, b7) */
-INLINE XN_INT128 XnMin16 (XN_INT128 a, XN_INT128 b)
+INLINE XN_INT128 XnMin16(XN_INT128 a, XN_INT128 b)
 {
 	XN_INT128 result;
 
-	for (int i=0; i<SSE_M128_NUM_OF_BYTES; i++)
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; i++)
+	{
 		result.m_data[i] = XN_MIN(a.m_data[i],b.m_data[i]);
+	}
 
 	return result;
 }
@@ -302,20 +328,26 @@ INLINE XN_INT128 XnMin16 (XN_INT128 a, XN_INT128 b)
  * r1 := SignedSaturate(a1 + b1)
  * ...
  * r7 := SignedSaturate(a7 + b7) */
-INLINE XN_INT128 XnAdd16AndSaturates (XN_INT128 a, XN_INT128 b)
+INLINE XN_INT128 XnAdd16AndSaturates(XN_INT128 a, XN_INT128 b)
 {
 	XN_INT128 result;
 
-	for (int i=0; i<SSE_M128_NUM_OF_BYTES; i++)
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; i++)
 	{
 		int res = (int)a.m_data[i] + (int)b.m_data[i];
 
 		if (res > 0x7FFF)
+		{
 			result.m_data[i] = 0x7FFF;
+		}
 		else if (res < (XnInt16)0x8000)
+		{
 			result.m_data[i] = (XnInt16)0x8000;
+		}
 		else
+		{
 			result.m_data[i] = res;
+		}
 	}
 
 	return result;
@@ -330,12 +362,16 @@ INLINE XN_INT128  XnCompareGreaterThan(XN_INT128 a, XN_INT128 b)
 {
 	XN_INT128 result;
 
-	for (int i=0; i<SSE_M128_NUM_OF_BYTES; i++)
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; i++)
 	{
-		if( a.m_data[i] > b.m_data[i] )
+		if (a.m_data[i] > b.m_data[i])
+		{
 			result.m_data[i] = (XnInt16)0xFFFF;
+		}
 		else
+		{
 			result.m_data[i] = 0;
+		}
 	}
 
 	return result;
@@ -350,12 +386,16 @@ INLINE XN_INT128  XnCompareLessThan(XN_INT128 a, XN_INT128 b)
 {
 	XN_INT128 result;
 
-	for (int i=0; i<SSE_M128_NUM_OF_BYTES; i++)
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; i++)
 	{
-		if( a.m_data[i] < b.m_data[i] )
+		if (a.m_data[i] < b.m_data[i])
+		{
 			result.m_data[i] = (XnInt16)0xFFFF;
+		}
 		else
+		{
 			result.m_data[i] = 0;
+		}
 	}
 
 	return result;
@@ -370,12 +410,16 @@ INLINE XN_INT128  XnCompareEqual(XN_INT128 a, XN_INT128 b)
 {
 	XN_INT128 result;
 
-	for (int i=0; i<SSE_M128_NUM_OF_BYTES; i++)
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; i++)
 	{
-		if( a.m_data[i] == b.m_data[i] )
+		if (a.m_data[i] == b.m_data[i])
+		{
 			result.m_data[i] = (XnInt16)0xFFFF;
+		}
 		else
+		{
 			result.m_data[i] = 0;
+		}
 	}
 
 	return result;
@@ -391,7 +435,9 @@ INLINE XN_INT128  XnAverageUnsigned16(XN_INT128 a, XN_INT128 b)
 	XN_INT128 result;
 
 	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i)
+	{
 		result.m_data[i] = ((XnUInt16)a.m_data[i] + (XnUInt16)b.m_data[i] + 1)/2;
+	}
 
 	return result;
 }
@@ -406,25 +452,29 @@ INLINE XN_INT128 XnSubSigned16(XN_INT128 a, XN_INT128 b)
 	XN_INT128 result;
 
 	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i)
+	{
 		result.m_data[i] = (XnUInt16)a.m_data[i] - (XnUInt16)b.m_data[i];
+	}
 
 	return result;
 }
 
-/* Shifts the 8 unsigned 16-bit integers in a right by count bits while shifting in zeroes. 
- * r0 := srl(a0, count) 
- * r1 := srl(a1, count) 
- * ... 
- * r7 := srl(a7, count) */ 
-INLINE XN_INT128  XnShiftRight16(XN_INT128 a, XnInt32 count) 
-{ 
-	XN_INT128 result; 
+/* Shifts the 8 unsigned 16-bit integers in a right by count bits while shifting in zeroes.
+ * r0 := srl(a0, count)
+ * r1 := srl(a1, count)
+ * ...
+ * r7 := srl(a7, count) */
+INLINE XN_INT128  XnShiftRight16(XN_INT128 a, XnInt32 count)
+{
+	XN_INT128 result;
 
-	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i ) 
-		result.m_udata[i] = a.m_udata[i] >> count; 
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i)
+	{
+		result.m_udata[i] = a.m_udata[i] >> count;
+	}
 
-	return result; 
-} 
+	return result;
+}
 
 
 /* Multiplies the 8 signed or unsigned 16-bit integers from a by the 8 signed or unsigned 16-bit integers from b.
@@ -436,8 +486,10 @@ INLINE XN_INT128  XnMult16(XN_INT128 a, XN_INT128 b)
 {
 	XN_INT128 result;
 
-	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i )
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i)
+	{
 		result.m_data[i] = (XnInt16)((a.m_data[i] * b.m_data[i]) & 0xFFFF);
+	}
 
 	return result;
 }
@@ -456,24 +508,36 @@ INLINE XN_INT128 XnPacksSigned16(XN_INT128 a, XN_INT128 b) // _mm_packs_epi16
 {
 	XN_INT128 result;
 
-	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i )
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i)
 	{
 		if (a.m_data[i] > 0x7F)
+		{
 			result.m_i8[i] = 0x7F;
+		}
 		else if (a.m_data[i] < (XnInt8)0x80)
+		{
 			result.m_i8[i] = (XnInt8)0x80;
+		}
 		else
+		{
 			result.m_i8[i] = (XnInt8)a.m_data[i];
+		}
 	}
 
-	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i )
+	for (int i = 0; i < SSE_M128_NUM_OF_BYTES; ++i)
 	{
 		if (b.m_data[i] > 0x7F)
+		{
 			result.m_i8[i + 8] = 0x7F;
+		}
 		else if (b.m_data[i] < (XnInt8)0x80)
+		{
 			result.m_i8[i + 8] = (XnInt8)0x80;
+		}
 		else
+		{
 			result.m_i8[i + 8] = (XnInt8)b.m_data[i];
+		}
 	}
 
 	return result;

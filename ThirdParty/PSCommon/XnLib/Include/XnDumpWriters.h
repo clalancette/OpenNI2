@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef __XN_DUMP_WRITERS_H__
-#define __XN_DUMP_WRITERS_H__ 
+#ifndef _XN_DUMP_WRITERS_H_
+#define _XN_DUMP_WRITERS_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -54,7 +54,6 @@ XN_C_API XnStatus XN_C_DECL xnDumpSetFilesOutput(XnBool bOn);
 //---------------------------------------------------------------------------
 // Helpers
 //---------------------------------------------------------------------------
-#ifdef __cplusplus
 
 class XnDumpWriterBase
 {
@@ -142,6 +141,4 @@ private:
 	XnBool m_bRegistered;
 };
 
-#endif
-
-#endif // __XN_DUMP_WRITERS_H__
+#endif // _XN_DUMP_WRITERS_H_

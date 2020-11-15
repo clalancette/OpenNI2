@@ -39,21 +39,21 @@
 XN_C_API const XnChar* XN_C_DECL xnGetStatusString(XnStatus status);
 
 /**
-* Gets the name of a Xiron Status as a string.
-*
-* @param	Status	[in]	The input Xiron Status.
-*
-* @return A string representation of the Xiron status name.
-*/
+ * Gets the name of a Xiron Status as a string.
+ *
+ * @param	Status	[in]	The input Xiron Status.
+ *
+ * @return A string representation of the Xiron status name.
+ */
 XN_C_API const XnChar* XN_C_DECL xnGetStatusName(XnStatus status);
 
 /**
-* Prints a user message with a description of the error.
-*
-* @param	Status			[in]	The input Xiron Status.
-* @param	csUserMessage	[in]	A user message.
-*
-*/
+ * Prints a user message with a description of the error.
+ *
+ * @param	Status			[in]	The input Xiron Status.
+ * @param	csUserMessage	[in]	A user message.
+ *
+ */
 XN_C_API void XN_C_DECL xnPrintError(XnStatus status, const XnChar* csUserMessage);
 
 //---------------------------------------------------------------------------
@@ -76,7 +76,7 @@ typedef enum XnErrorGroup
 /** Returns the code of the status. */
 #define XN_STATUS_CODE(status)			XnUInt16(status & 0x0000FFFF)
 
-/** Marks the beginning of a message map of a specific module. */ 
+/** Marks the beginning of a message map of a specific module. */
 #define XN_STATUS_MESSAGE_MAP_START_FROM(group, first)		\
 	enum _##group##first##Errors							\
 	{														\
@@ -85,7 +85,7 @@ typedef enum XnErrorGroup
 #define XN_STATUS_MESSAGE_MAP_START(group)					\
 	XN_STATUS_MESSAGE_MAP_START_FROM(group, 0)
 
-/** Adds an entry to the message map. */ 
+/** Adds an entry to the message map. */
 #define XN_STATUS_MESSAGE(csName, csMessage)	\
 		csName,
 
@@ -95,12 +95,5 @@ typedef enum XnErrorGroup
 
 #define XN_STATUS_MESSAGE_MAP_END(group)	\
 	XN_STATUS_MESSAGE_MAP_END_FROM(group, 0)
-
-//#endif // __XN_OPEN_NITE_STATUS_H__
-
-
-// XN_C_API bool XN_C_DECL xnRegisterStatusString(int errorNumber, const char* errorString);
-// XN_C_API const char* XN_C_DECL xnGetStatusString(int errorNumber);
-
 
 #endif // _XN_STATUS_H_

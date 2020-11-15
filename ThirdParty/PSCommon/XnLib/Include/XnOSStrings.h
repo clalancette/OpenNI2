@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef __XNOSSTRINGS_H__
-#define __XNOSSTRINGS_H__
+#ifndef _XN_OS_STRINGS_H_
+#define _XN_OS_STRINGS_H_
 
 #include "XnPlatform.h"
 #include <stdarg.h>
@@ -43,4 +43,4 @@ XN_C_API XnStatus XN_C_DECL xnOSGetEnvironmentVariable(const XnChar* strEnv, XnC
 XN_C_API XnStatus XN_C_DECL xnOSExpandEnvironmentStrings(const XnChar* strSrc, XnChar* strDest, XnUInt32 nDestSize);
 
 
-#endif // __XNOSSTRINGS_H__
+#endif // _XN_OS_STRINGS_H_

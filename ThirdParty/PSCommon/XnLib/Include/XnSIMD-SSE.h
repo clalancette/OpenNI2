@@ -76,7 +76,7 @@ XN_INT128 XnAdd16AndSaturates(XN_INT128 a, XN_INT128 b) // _mm_adds_epi16
 }
 
 static XN_FORCE_INLINE
-XN_INT128 XnAddUnsigned16AndSaturates(XN_INT128 a, XN_INT128 b) // _mm_adds_epu16 
+XN_INT128 XnAddUnsigned16AndSaturates(XN_INT128 a, XN_INT128 b) // _mm_adds_epu16
 {
 	return _mm_adds_epu16 (a, b);
 }
@@ -93,7 +93,7 @@ XN_INT128 XnSubSigned16(XN_INT128 a, XN_INT128 b) // _mm_subs_epu16
 }
 
 static XN_FORCE_INLINE
-XN_INT128 XnMult16(XN_INT128 a, XN_INT128 b) //_mm_mullo_epi16 
+XN_INT128 XnMult16(XN_INT128 a, XN_INT128 b) //_mm_mullo_epi16
 {
 	return _mm_mullo_epi16(a, b);
 }
@@ -123,10 +123,7 @@ XN_INT128 XnSetOne16(XN_INT16 a) //_mm_set1_epi16
 }
 
 static XN_FORCE_INLINE
-XN_INT128 XnSet16(XN_INT16 a7, XN_INT16 a6,    
-							   XN_INT16 a5, XN_INT16 a4,   
-							   XN_INT16 a3, XN_INT16 a2,   
-							   XN_INT16 a1, XN_INT16 a0) // _mm_set_epi16
+XN_INT128 XnSet16(XN_INT16 a7, XN_INT16 a6, XN_INT16 a5, XN_INT16 a4, XN_INT16 a3, XN_INT16 a2, XN_INT16 a1, XN_INT16 a0)
 {
 	return _mm_set_epi16(a7, a6, a5, a4, a3, a2, a1, a0);
 }

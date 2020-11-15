@@ -23,6 +23,7 @@
 
 #include "XnVector3D.h"
 #include "XnMath.h"
+
 namespace xnl
 {
 
@@ -42,6 +43,7 @@ public:
 		point.y = Math::Crop(point.y, m_topRightFar.y, m_bottomLeftNear.y);
 		point.z = Math::Crop(point.z, m_topRightFar.z, m_bottomLeftNear.z);
 	}
+
 	void EnlargeToInclude(const Point3D& point)
 	{
 		m_topRightFar.x = Math::Max(point.x, m_topRightFar.x);
@@ -51,14 +53,8 @@ public:
 		m_bottomLeftNear.x = Math::Min(point.x, m_bottomLeftNear.x);
 		m_bottomLeftNear.y = Math::Min(point.y, m_bottomLeftNear.y);
 		m_bottomLeftNear.z = Math::Min(point.z, m_bottomLeftNear.z);
-
-// 		if (point.x > m_topRightFar.x) m_topRightFar.x = point.x;
-// 		if (point.y > m_topRightFar.y) m_topRightFar.y = point.y;
-// 		if (point.z > m_topRightFar.z) m_topRightFar.z = point.z;
-// 		if (point.x < m_bottomLeftNear.x) m_bottomLeftNear.x = point.x;
-// 		if (point.y < m_bottomLeftNear.y) m_bottomLeftNear.y = point.y;
-// 		if (point.z < m_bottomLeftNear.z) m_bottomLeftNear.z = point.z;
 	}
+
 	bool IsIn(const Point3D& point)
 	{
 		return Math::IsBetween(point.x, m_topRightFar.x, m_bottomLeftNear.x) &&
@@ -70,8 +66,6 @@ public:
 	Point3D m_bottomLeftNear;
 };
 
-
 } // xnl
-
 
 #endif // _XN_BOX_3D_H_

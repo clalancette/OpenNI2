@@ -24,9 +24,9 @@
 
 #if !defined(XN_NEON) && !defined(XN_SSE) && !defined(_ARC)
 // try to detect SSE by platform and compile flags
-	#if defined(__GNUC__) 
+	#if defined(__GNUC__)
 		#if (defined(__i386__) || defined(__x86_64__)) \
-    		 && (defined(__SSE2__) || defined(__SSE3__) || defined(__SSSE3__)) 
+    		 && (defined(__SSE2__) || defined(__SSE3__) || defined(__SSSE3__))
 			#define XN_SSE
 		#endif
 	#else

@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef _XN_STRINGS_HASH_T_H_
-#define _XN_STRINGS_HASH_T_H_
+#ifndef _XN_STRINGS_HASH_H_
+#define _XN_STRINGS_HASH_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -101,4 +101,4 @@ public:
 
 }  // namespace xnl
 
-#endif // _XN_STRINGS_HASH_T_H_
+#endif // _XN_STRINGS_HASH_H_

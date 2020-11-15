@@ -33,21 +33,21 @@
 /** Returns the (x)th power of 2. */
 #define XN_SETBITMASK(x) (1 << x-1)
 
-/** Returns Y if X is NULL. */ 
+/** Returns Y if X is NULL. */
 #define XN_RET_IF_NULL(x, y)	\
 		if (x == NULL)			\
 		{						\
 			return (y);			\
 		}
 
-/** Returns Y if X isn't XN_STATUS_OK. */ 
+/** Returns Y if X isn't XN_STATUS_OK. */
 #define XN_IS_STATUS_OK_RET(x, y)	\
 		if (x != XN_STATUS_OK)		\
 		{							\
 			return (y);				\
 		}
 
-/** Jumps to the ErrorCleanUp label if X isn't XN_STATUS_OK and return Y. */ 
+/** Jumps to the ErrorCleanUp label if X isn't XN_STATUS_OK and return Y. */
 #define XN_IS_STATUS_OK_GOCLEANUP_RET(x, y)	\
 		if (x != XN_STATUS_OK)				\
 		{									\
@@ -55,7 +55,7 @@
 			goto ErrorCleanUp;				\
 		}
 
-/** Returns X if X isn't XN_STATUS_OK. */ 
+/** Returns X if X isn't XN_STATUS_OK. */
 #define XN_IS_STATUS_OK(x)			\
 		XN_IS_STATUS_OK_RET(x, x)
 
@@ -65,33 +65,33 @@
 		XN_ASSERT(FALSE);		\
 		return (x);				\
 	}
-		
 
-/** Jumps to the ErrorCleanUp label if X isn't XN_STATUS_OK. */ 
+
+/** Jumps to the ErrorCleanUp label if X isn't XN_STATUS_OK. */
 #define XN_IS_STATUS_OK_GOCLEANUP(x)	\
 		if (x != XN_STATUS_OK)			\
 		{								\
 			goto ErrorCleanUp;			\
 		}
 
-/** Returns Y if X isn't XN_STATUS_OK. */ 
+/** Returns Y if X isn't XN_STATUS_OK. */
 #define XN_IS_BOOL_OK_RET(x, y)		\
 		if (x != TRUE)				\
 		{							\
 			return (y);				\
 		}
 
-/** Jumps to the ErrorCleanUp label if X isn't XN_STATUS_OK and returns Y. */ 
+/** Jumps to the ErrorCleanUp label if X isn't XN_STATUS_OK and returns Y. */
 #define XN_IS_BOOL_OK_GOCLEANUP_RET(x, y)	\
 		if (x != TRUE)						\
 		{									\
 			goto ErrorCleanUp;				\
 		}
 
-/** Jumps to the ErrorCleanUp label if X isn't XN_STATUS_OK and returns Y. */ 
+/** Jumps to the ErrorCleanUp label if X isn't XN_STATUS_OK and returns Y. */
 #define XN_GOCLEANUP_RET(x, y)	\
 		x = y;					\
-		goto ErrorCleanUp;				
+		goto ErrorCleanUp;
 
 /** Returns Y if X is null. */
 #define XN_VALIDATE_PTR(x,y)	\

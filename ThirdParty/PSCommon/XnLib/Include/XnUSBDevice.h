@@ -76,7 +76,7 @@ typedef struct XnUSBStringDescriptor
 typedef struct XnUSBInterfaceDescriptorHolder
 {
 	XnUSBInterfaceDescriptor descriptor;
-	XnUSBEndpointDescriptor** aEndpoints;	
+	XnUSBEndpointDescriptor** aEndpoints;
 } XnUSBInterfaceDescriptorHolder;
 
 typedef struct XnUSBConfigDescriptorHolder

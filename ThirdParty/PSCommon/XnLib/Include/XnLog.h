@@ -33,46 +33,46 @@
 //---------------------------------------------------------------------------
 
 /**
-* This function initializes the log from an INI file.
-* 
-* @param	csINIFile		[in]	The name of the INI file.
-* @param	csSectionName	[in]	The name of the section to read values from.
-*/
+ * This function initializes the log from an INI file.
+ *
+ * @param	csINIFile		[in]	The name of the INI file.
+ * @param	csSectionName	[in]	The name of the section to read values from.
+ */
 XN_C_API XnStatus XN_C_DECL xnLogInitFromINIFile(const XnChar* csINIFile, const XnChar* csSectionName);
 
 /**
-* This function closes the log.
-*/
+ * This function closes the log.
+ */
 XN_C_API XnStatus XN_C_DECL xnLogClose();
 
 // @}
 
-/** 
+/**
  * @name Filtering Log Messages
  * Functions for managing filters on the log system.
  * @{
  */
 
 /**
-* Sets the minimum severity to be output from a specific mask (logger name).
-*
-* @param	strMask		[in]	Name of the logger.
-* @param	minSeverity	[in]	Minimum severity to be output. Use @ref XN_LOG_SEVERITY_NONE to output nothing.
-*/
+ * Sets the minimum severity to be output from a specific mask (logger name).
+ *
+ * @param	strMask		[in]	Name of the logger.
+ * @param	minSeverity	[in]	Minimum severity to be output. Use @ref XN_LOG_SEVERITY_NONE to output nothing.
+ */
 XN_C_API XnStatus XN_C_DECL xnLogSetMaskMinSeverity(const XnChar* strMask, XnLogSeverity minSeverity);
 
 /**
-* Gets the minimum severity to be output from a specific mask (logger name).
-*
-* @param	strMask		[in]	Name of the logger.
-*
-* @returns The minimum severity, or @ref XN_LOG_SEVERITY_NONE is mask will output nothing.
-*/
+ * Gets the minimum severity to be output from a specific mask (logger name).
+ *
+ * @param	strMask		[in]	Name of the logger.
+ *
+ * @returns The minimum severity, or @ref XN_LOG_SEVERITY_NONE is mask will output nothing.
+ */
 XN_C_API XnLogSeverity XN_C_DECL xnLogGetMaskMinSeverity(const XnChar* strMask);
 
 // @}
 
-/** 
+/**
  * @name Log Writers
  * Functions for managing which writers are active in the log system (i.e. which outputs
  * will be generated).
@@ -109,110 +109,110 @@ XN_C_API XnStatus XN_C_DECL xnLogSetFileOutput(XnBool bFileOutput);
 
 // @}
 
-/** 
+/**
  * @name File Output
  * Functions for configuring how files are created.
  * @{
  */
 
 /**
-* This function closes current log file, and starts a new one (if file writer is currently active)
-*/
+ * This function closes current log file, and starts a new one (if file writer is currently active)
+ */
 XN_C_API XnStatus XN_C_DECL xnLogStartNewFile();
 
 /**
-* Configures if log entries in file will include the file and line that caused them.
-*
-* @param	bLineInfo	[in]	TRUE to print file and line, FALSE otherwise
-*/
+ * Configures if log entries in file will include the file and line that caused them.
+ *
+ * @param	bLineInfo	[in]	TRUE to print file and line, FALSE otherwise
+ */
 XN_C_API XnStatus XN_C_DECL xnLogSetLineInfo(XnBool bLineInfo);
 
 /**
  * Configures the folder under which logs will be written.
- * 
+ *
  * @param	strOutputFolder	[in]	Folder to write to
- */ 
+ */
 XN_C_API XnStatus XN_C_DECL xnLogSetOutputFolder(const XnChar* strOutputFolder);
 
 /**
  * Gets current log file name
- * 
+ *
  * @param	strFileName		[in]	A buffer to be filled
  * @param	nBufferSize		[in]	The size of the buffer
- */ 
+ */
 XN_C_API XnStatus XN_C_DECL xnLogGetFileName(XnChar* strFileName, XnUInt32 nBufferSize);
 
 // @}
 
-/** 
+/**
  * @name Logger API
  * Functions for writing entries to the log (used mainly by middleware developers)
  * @{
  */
 
 /**
-* Opens a logger for writing.
-*
-* @param	strMask		[in]	Name of the logger to open.
-*/
+ * Opens a logger for writing.
+ *
+ * @param	strMask		[in]	Name of the logger to open.
+ */
 XN_C_API XnLogger* XN_C_DECL xnLoggerOpen(const XnChar* strMask);
 
 /**
-* Writes a single log entry.
-*
-* @param	pLogger		[in]	Logger to write to
-* @param	severity	[in]	Severity of the log entry
-* @param	strFile		[in]	Name of the source file
-* @param	nLine		[in]	Line in the source file
-* @param	strFormat	[in]	Format string
-*
-* It is advised to use one of the @ref xnLoggerVerbose, @ref xnLoggerInfo, @ref xnLoggerWarning or
-* @ref xnLoggerError macros instead of calling this method directly.
-*/
+ * Writes a single log entry.
+ *
+ * @param	pLogger		[in]	Logger to write to
+ * @param	severity	[in]	Severity of the log entry
+ * @param	strFile		[in]	Name of the source file
+ * @param	nLine		[in]	Line in the source file
+ * @param	strFormat	[in]	Format string
+ *
+ * It is advised to use one of the @ref xnLoggerVerbose, @ref xnLoggerInfo, @ref xnLoggerWarning or
+ * @ref xnLoggerError macros instead of calling this method directly.
+ */
 XN_C_API void XN_C_DECL xnLoggerWrite(XnLogger* pLogger, XnLogSeverity severity, const XnChar* strFile, XnUInt32 nLine, const XnChar* strFormat, ...);
 
 /**
-* Writes to a logger without an entry format (i.e. no timestamp, mask name, etc.)
-*
-* @param	pLogger		[in]	Logger to write to
-* @param	severity	[in]	Severity of the log entry
-* @param	strFormat	[in]	Format string
-*/
+ * Writes to a logger without an entry format (i.e. no timestamp, mask name, etc.)
+ *
+ * @param	pLogger		[in]	Logger to write to
+ * @param	severity	[in]	Severity of the log entry
+ * @param	strFormat	[in]	Format string
+ */
 XN_C_API void XN_C_DECL xnLoggerWriteNoEntry(XnLogger* pLogger, XnLogSeverity severity, const XnChar* strFormat, ...);
 
 /**
-* Writes binary data to a logger, formatting it to readable text.
-*
-* @param	pLogger		[in]	Logger to write to
-* @param	severity	[in]	Severity of the log entry
-* @param	strFile		[in]	Name of the source file
-* @param	nLine		[in]	Line in the source file
-* @param	pBinData	[in]	A pointer to the binary data to be written
-* @param	nDataSize	[in]	The number of bytes to write
-* @param	strFormat	[in]	Format string for the binary data header
-*/
+ * Writes binary data to a logger, formatting it to readable text.
+ *
+ * @param	pLogger		[in]	Logger to write to
+ * @param	severity	[in]	Severity of the log entry
+ * @param	strFile		[in]	Name of the source file
+ * @param	nLine		[in]	Line in the source file
+ * @param	pBinData	[in]	A pointer to the binary data to be written
+ * @param	nDataSize	[in]	The number of bytes to write
+ * @param	strFormat	[in]	Format string for the binary data header
+ */
 XN_C_API void XN_C_DECL xnLoggerWriteBinaryData(XnLogger* pLogger, XnLogSeverity severity, const XnChar* strFile, XnUInt32 nLine, XnUChar* pBinData, XnUInt32 nDataSize, const XnChar* strFormat, ...);
 
 /**
-* Checks if a specific severity is enabled for this logger.
-*
-* @param	pLogger		[in]	Logger to check
-* @param	severity	[in]	Severity to check.
-*/
+ * Checks if a specific severity is enabled for this logger.
+ *
+ * @param	pLogger		[in]	Logger to check
+ * @param	severity	[in]	Severity to check.
+ */
 XN_C_API XnBool XN_C_DECL xnLoggerIsEnabled(XnLogger* pLogger, XnLogSeverity severity);
 
 /**
-* Closes a logger previsouly opened using @ref xnLoggerOpen().
-*
-* @param	pLogger		[in]	The logger to be closed.
-*/
+ * Closes a logger previsouly opened using @ref xnLoggerOpen().
+ *
+ * @param	pLogger		[in]	The logger to be closed.
+ */
 XN_C_API void XN_C_DECL _xnLoggerClose(XnLogger* pLogger);
 
 /**
-* Closes a logger and NULLs the handle.
-*
-* @param	pLogger		[in]	The logger to be closed.
-*/
+ * Closes a logger and NULLs the handle.
+ *
+ * @param	pLogger		[in]	The logger to be closed.
+ */
 #define xnLoggerClose(pLogger)			\
 	{									\
 		_xnLoggerClose(pLogger);		\
@@ -367,7 +367,7 @@ XN_C_API void XN_C_DECL _xnLoggerClose(XnLogger* pLogger);
 
 // @}
 
-/** 
+/**
  * @name Misc.
  * Miscellaneous functions regarding the log system.
  * @{
@@ -493,7 +493,7 @@ XN_C_API XnStatus XN_API_DEPRECATED("Use xnLogCreateNewFile() instead") XN_C_DEC
 		if (nRetVal != XN_STATUS_OK)													\
 	{																					\
 		XN_LOG_RETURN(nRetVal, nSeverity, csLogMask, csFormat)							\
-	}																						
+	}
 
 	/* If nRetVal is not ok, logs a warning and returns nRetVal */
 	#define XN_IS_STATUS_OK_WARNING(nRetVal, csLogMask, csFormat...)					\
@@ -531,4 +531,3 @@ XN_C_API XnStatus XN_API_DEPRECATED("Use xnLogCreateNewFile() instead") XN_C_DEC
 #endif // ifndef __XN_NO_BC__
 
 #endif //_XN_LOG_H_
-

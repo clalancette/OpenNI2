@@ -86,7 +86,7 @@ public:
 	inline Vector3D operator+(const Vector3D& other) const;
 	inline Vector3D& operator+=(const Vector3D& other);
 	inline Vector3D& Add(const Vector3D& left, const Vector3D& right);
-	
+
 	inline Vector3D operator-(const Vector3D& other) const;
 	inline Vector3D& operator-=(const Vector3D& other);
 	inline Vector3D& Subtract(const Vector3D& left, const Vector3D& right);
@@ -303,7 +303,7 @@ inline Vector3D CrossProduct(const Vector3D &v1, const Vector3D &v2) {
 	return Vector3D(v1.y*v2.z-v1.z*v2.y, v1.z*v2.x-v1.x*v2.z, v1.x*v2.y-v1.y*v2.x);
 }
 
-inline void CrossProduct(const Vector3D &v1, const Vector3D &v2, Vector3D &v3) 
+inline void CrossProduct(const Vector3D &v1, const Vector3D &v2, Vector3D &v3)
 {
 	v3.Set(v1.y*v2.z-v1.z*v2.y, v1.z*v2.x-v1.x*v2.z, v1.x*v2.y-v1.y*v2.x);
 }

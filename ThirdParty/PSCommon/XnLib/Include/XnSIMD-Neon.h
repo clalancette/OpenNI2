@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef _XN_SIMD_SSE_H_
-#define _XN_SIMD_SSE_H_
+#ifndef _XN_SIMD_NEON_H_
+#define _XN_SIMD_NEON_H_
 
 #include "arm_neon.h"
 #include <XnOS.h>
@@ -32,10 +32,10 @@ typedef XnInt16 XN_INT16;
 typedef XnUInt64 XN_UINT64;
 typedef XnUInt16 XN_UINT16;
 
-static __inline__ __attribute__ ((__always_inline__)) 
+static __inline__ __attribute__ ((__always_inline__))
 int16x8_t XnPacksSigned16(int16x8_t a, int16x8_t b) // _mm_packs_epi16
 {
-		return vcombine_s8(vqmovn_s16(a), vqmovn_s16(b));
+	return vcombine_s8(vqmovn_s16(a), vqmovn_s16(b));
 }
 
 static __inline __attribute__ ((__always_inline__))

@@ -23,8 +23,6 @@
 
 #include "XnLib.h"
 
-
-
 XN_C_API void* XN_C_DECL xnOSMalloc(const XnSizeT nAllocSize);
 XN_C_API void* XN_C_DECL xnOSMallocAligned(const XnSizeT nAllocSize, const XnSizeT nAlignment);
 XN_C_API void* XN_C_DECL xnOSCalloc(const XnSizeT nAllocNum, const XnSizeT nAllocSize);

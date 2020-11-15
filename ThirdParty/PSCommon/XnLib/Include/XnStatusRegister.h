@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef __XN_STATUS_REGISTER_H__
-#define __XN_STATUS_REGISTER_H__
+#ifndef _XN_STATUS_REGISTER_H_
+#define _XN_STATUS_REGISTER_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -43,13 +43,13 @@ typedef struct XnErrorCodeData
 // Exported Function Declaration
 //---------------------------------------------------------------------------
 /**
-* This function registers error codes to the message map.
-* 
-* @param	nGroup			[in]	The group for which these errors belong to.
-* @param	nFirst			[in]	The first value.
-* @param	nCount			[in]	The number of status messages to register.
-* @param	pErrorCodeData	[in]	An array of status messages.
-*/
+ * This function registers error codes to the message map.
+ *
+ * @param	nGroup			[in]	The group for which these errors belong to.
+ * @param	nFirst			[in]	The first value.
+ * @param	nCount			[in]	The number of status messages to register.
+ * @param	pErrorCodeData	[in]	An array of status messages.
+ */
 XN_C_API XnStatus XN_C_DECL xnRegisterErrorCodeMessages(XnUInt16 nGroup, XnUInt16 nFirst, XnUInt16 nCount, XnErrorCodeData* pErrorCodeData);
 
 //---------------------------------------------------------------------------
@@ -66,7 +66,7 @@ XN_C_API XnStatus XN_C_DECL xnRegisterErrorCodeMessages(XnUInt16 nGroup, XnUInt1
 	{																	\
 		{ first, XN_STRINGIFY(group) "_OK", XN_STRINGIFY(group) " OK" },
 
-/** Adds an entry to the message map. */ 
+/** Adds an entry to the message map. */
 #define XN_STATUS_MESSAGE(csName, csMessage)		\
 		{ 0, XN_STRINGIFY(csName), csMessage },
 
@@ -77,4 +77,4 @@ XN_C_API XnStatus XN_C_DECL xnRegisterErrorCodeMessages(XnUInt16 nGroup, XnUInt1
 
 #define XN_STATUS_REGISTER
 
-#endif //__XN_STATUS_REGISTER_H__
+#endif // _XN_STATUS_REGISTER_H_

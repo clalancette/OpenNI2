@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef __XN_LOG_WRITER_BASE_H__
-#define __XN_LOG_WRITER_BASE_H__
+#ifndef _XN_LOG_WRITER_BASE_H_
+#define _XN_LOG_WRITER_BASE_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -50,7 +50,7 @@ public:
 	XnStatus Register()
 	{
 		XnStatus nRetVal = XN_STATUS_OK;
-		
+
 		if (!m_bRegistered)
 		{
 			OnRegister();
@@ -64,7 +64,7 @@ public:
 
 			m_bRegistered = TRUE;
 		}
-		
+
 		return (XN_STATUS_OK);
 	}
 
@@ -84,7 +84,7 @@ public:
 	virtual void WriteEntry(const XnLogEntry* pEntry) = 0;
 	virtual void WriteUnformatted(const XnChar* strMessage) = 0;
 	virtual void OnConfigurationChanged() {};
-	virtual void OnClosing() 
+	virtual void OnClosing()
 	{
 		Unregister();
 	};
@@ -124,4 +124,4 @@ private:
 	XnBool m_bRegistered;
 };
 
-#endif // __XN_LOG_WRITER_BASE_H__
+#endif // _XN_LOG_WRITER_BASE_H_

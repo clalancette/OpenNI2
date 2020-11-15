@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef __XN_OS_H__
-#define __XN_OS_H__
+#ifndef _XN_OS_H_
+#define _XN_OS_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -39,7 +39,7 @@
 //#define XN_MEM_PROFILING
 
 //---------------------------------------------------------------------------
-// OS Identifier 
+// OS Identifier
 //---------------------------------------------------------------------------
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 	#include "Win32/XnOSWin32.h"
@@ -63,34 +63,34 @@ typedef XnBool (XN_CALLBACK_TYPE* XnConditionFunc)(void* pConditionData);
 //---------------------------------------------------------------------------
 // Global Variables
 //---------------------------------------------------------------------------
-/** The time since Xiron Core was initialized */ 
+/** The time since Xiron Core was initialized */
 extern XnOSTimer g_xnOSHighResGlobalTimer;
 
 //---------------------------------------------------------------------------
 // Files
 //---------------------------------------------------------------------------
 // File open modes
-/** Open the file for reading. */ 
+/** Open the file for reading. */
 #define XN_OS_FILE_READ				0x01
-/** Open the file for writing. */ 
+/** Open the file for writing. */
 #define XN_OS_FILE_WRITE			0x02
-/** Create a new file (but only if it doesn't exist). */ 
+/** Create a new file (but only if it doesn't exist). */
 #define XN_OS_FILE_CREATE_NEW_ONLY	0x04
-/** Truncate the file if it already exists. */ 
+/** Truncate the file if it already exists. */
 #define XN_OS_FILE_TRUNCATE			0x08
-/** File be opened in append mode */ 
+/** File be opened in append mode */
 #define XN_OS_FILE_APPEND			0x10
-/** All writes will be immediately written to disk */ 
+/** All writes will be immediately written to disk */
 #define XN_OS_FILE_AUTO_FLUSH		0x20
 
 // Seek types
-/** The seek type enum list. */ 
+/** The seek type enum list. */
 typedef enum {
-	/** Absolute seek from the file beginning. */ 
+	/** Absolute seek from the file beginning. */
 	XN_OS_SEEK_SET = 0,
-	/** Relative seek from the current location. */ 
+	/** Relative seek from the current location. */
 	XN_OS_SEEK_CUR,
-	/** Absolute seek from the file ending. */ 
+	/** Absolute seek from the file ending. */
 	XN_OS_SEEK_END
 } XnOSSeekType;
 
@@ -98,11 +98,11 @@ typedef enum {
 // Network
 //---------------------------------------------------------------------------
 // Network socket type
-/** The network socket type. */ 
+/** The network socket type. */
 typedef enum {
-	/** UDP socket. */ 
+	/** UDP socket. */
 	XN_OS_UDP_SOCKET = 0,
-	/** TCP socket. */ 
+	/** TCP socket. */
 	XN_OS_TCP_SOCKET
 } XnOSSocketType;
 
@@ -112,42 +112,42 @@ typedef enum {
 // Macros
 //---------------------------------------------------------------------------
 // Memory
-/** Validate that the input pointer X is not NULL. */ 
+/** Validate that the input pointer X is not NULL. */
 #define XN_VALIDATE_INPUT_PTR(x) XN_VALIDATE_PTR(x, XN_STATUS_NULL_INPUT_PTR)
 
-/** Validate that the output pointer X is not NULL. */ 
+/** Validate that the output pointer X is not NULL. */
 #define XN_VALIDATE_OUTPUT_PTR(x) XN_VALIDATE_PTR(x, XN_STATUS_NULL_OUTPUT_PTR)
-/** Validate that a X pointer after a memory allocation call is not NULL. */ 
+/** Validate that a X pointer after a memory allocation call is not NULL. */
 #define XN_VALIDATE_ALLOC_PTR(x) XN_VALIDATE_PTR(x, XN_STATUS_ALLOC_FAILED)
 
-/** Allocate Y bytes into the X pointer and make sure NULL wasn't returned. */ 
+/** Allocate Y bytes into the X pointer and make sure NULL wasn't returned. */
 #define XN_VALIDATE_ALLOC(x,y)			\
 		x = (y*)xnOSMalloc(sizeof(y));	\
 		XN_VALIDATE_ALLOC_PTR(x);
 
-/** Allocate Z elements of Y type into the X pointer and make sure NULL wasn't returned. */ 
+/** Allocate Z elements of Y type into the X pointer and make sure NULL wasn't returned. */
 #define XN_VALIDATE_CALLOC(x,y,z)			\
 		x = (y*)xnOSCalloc(z, sizeof(y));	\
 		XN_VALIDATE_ALLOC_PTR(x);
 
-/** Allocate Y aligned bytes into the X pointer and make sure NULL wasn't returned. */ 
+/** Allocate Y aligned bytes into the X pointer and make sure NULL wasn't returned. */
 #define XN_VALIDATE_ALIGNED_ALLOC(x,y,w)			\
 		x = (y*)xnOSMallocAligned(sizeof(y), w);	\
 		XN_VALIDATE_ALLOC_PTR(x);
 
-/** Allocate Z aligned elements of Y type into the X pointer and make sure NULL wasn't returned. */ 
+/** Allocate Z aligned elements of Y type into the X pointer and make sure NULL wasn't returned. */
 #define XN_VALIDATE_ALIGNED_CALLOC(x,y,z,w)			\
 		x = (y*)xnOSCallocAligned(z, sizeof(y), w);	\
 		XN_VALIDATE_ALLOC_PTR(x);
 
-/** Validate that the memory free request succeeded and set X to NULL. */ 
+/** Validate that the memory free request succeeded and set X to NULL. */
 #define XN_FREE_AND_NULL(x)		\
 		if (x != NULL)			\
 		{						\
 			xnOSFree(x);		\
 			x = NULL;			\
 		}
-/** Validate that the aligned memory free request succeeded and set X to NULL. */ 
+/** Validate that the aligned memory free request succeeded and set X to NULL. */
 #define XN_ALIGNED_FREE_AND_NULL(x)		\
 		if (x != NULL)			\
 		{						\
@@ -175,7 +175,7 @@ typedef enum {
 			{													\
 				return (XN_STATUS_ALLOC_FAILED);				\
 			}													\
-		} 
+		}
 #elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_ARC_VAARGS_STYLE
 	#define XN_VALIDATE_NEW(ptr, type...)						\
 		{														\
@@ -184,7 +184,7 @@ typedef enum {
 			{													\
 				return (XN_STATUS_ALLOC_FAILED);				\
 			}													\
-		} 
+		}
 #else
 	#define XN_VALIDATE_NEW(ptr, type)							\
 		{														\
@@ -207,7 +207,7 @@ typedef enum {
 				XN_DELETE(ptr);									\
 				return (rc);									\
 			}													\
-		} 
+		}
 #elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_GCC_VAARGS_STYLE
 	#define XN_VALIDATE_NEW_AND_INIT(ptr, type, ...)			\
 		{														\
@@ -218,7 +218,7 @@ typedef enum {
 				XN_DELETE(ptr);									\
 				return (rc);									\
 			}													\
-		} 
+		}
 #elif XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_ARC_VAARGS_STYLE
 	#define XN_VALIDATE_NEW_AND_INIT(ptr, type...)				\
 		{														\
@@ -229,7 +229,7 @@ typedef enum {
 				XN_DELETE(ptr);									\
 				return (rc);									\
 			}													\
-		} 
+		}
 #else
 	#define XN_VALIDATE_NEW_AND_INIT(ptr, type)					\
 		{														\
@@ -240,16 +240,16 @@ typedef enum {
 				XN_DELETE(ptr);									\
 				return (rc);									\
 			}													\
-		} 
+		}
 #endif
 
 // Strings
-/** Append x into y (with z as the max size) and check the status via z. */ 
+/** Append x into y (with z as the max size) and check the status via z. */
 #define XN_VALIDATE_STR_APPEND(w,x,y,z)	\
 	z = xnOSStrAppend(w, x, y);			\
 	XN_IS_STATUS_OK(z);
 
-/** Prefix x into y (with z as the max size) and check the status via z. */ 
+/** Prefix x into y (with z as the max size) and check the status via z. */
 #define XN_VALIDATE_STR_PREFIX(w,x,y,z)	\
 	z = xnOSStrPrefix(w, x, y);			\
 	XN_IS_STATUS_OK(z);
@@ -263,39 +263,39 @@ typedef enum {
 	XN_IS_STATUS_OK(z);
 
 // INI
-/** Read a string from the INI file and check the status via z. */ 
+/** Read a string from the INI file and check the status via z. */
 #define XN_VALIDATE_READ_INI_STR(u,v,w,x,y,z)		\
 		z = xnOSReadStringFromINI(u, v, w, x, y);	\
 		XN_IS_STATUS_OK(z);
 
-/** Read an int from the INI file and check the status via z. */ 
+/** Read an int from the INI file and check the status via z. */
 #define XN_VALIDATE_READ_INI_INT(v,w,x,y,z)		\
 		z = xnOSReadIntFromINI(v, w, x, y);		\
 		XN_IS_STATUS_OK(z);
 
-/** Read a float from the INI file and check the status via z. */ 
+/** Read a float from the INI file and check the status via z. */
 #define XN_VALIDATE_READ_INI_FLOAT(v,w,x,y,z)	\
 		z = xnOSReadFloatFromINI(v, w, x, y);	\
 		XN_IS_STATUS_OK(z);
 
-/** Read a double from the INI file and check the status via z. */ 
+/** Read a double from the INI file and check the status via z. */
 #define XN_VALIDATE_READ_INI_DOUBLE(v,w,x,y,z)	\
 		z = xnOSReadDoubleFromINI(v, w, x, y);	\
 		XN_IS_STATUS_OK(z);
 
 // Mutex
-/** Lock the mutex x for a y period of time and check the status via z. */ 
+/** Lock the mutex x for a y period of time and check the status via z. */
 #define XN_VALIDATE_LOCK_MUTEX(x,y,z)	\
 		z = xnOSLockMutex(x, y);		\
 		XN_IS_STATUS_OK(z);
 
-/** UnLock the mutex x and check the status via z. */ 
+/** UnLock the mutex x and check the status via z. */
 #define XN_VALIDATE_UNLOCK_MUTEX(x,z)	\
 		z = xnOSUnLockMutex(x);			\
 		XN_IS_STATUS_OK(z);
 
 // Files
-/** Returns XN_STATUS_OS_FILE_NOT_FOUND if the file x doesn't exists. */ 
+/** Returns XN_STATUS_OS_FILE_NOT_FOUND if the file x doesn't exists. */
 #define XN_VALIDATE_FILE_EXISTS_RET(x,y,z,w)	\
 		y = xnOSDoesFileExist(x, &z);				\
 		XN_IS_STATUS_OK(y);						\
@@ -354,7 +354,7 @@ XN_C_API void XN_C_DECL xnOSWriteMemoryReport(const XnChar* csFileName);
 
 // for memory profiling, replace all malloc/calloc/free/new/delete calls
 #if (defined XN_MEM_PROFILING) && (!defined(XN_OS_IMPL))
-	#ifdef _MSC_VER 
+	#ifdef _MSC_VER
 		#pragma message("Compiling with Memory Profiling!")
 	#elif defined(__INTEL_COMPILER)
 		#warning "Compiling with Memory Profiling!"
@@ -441,10 +441,10 @@ XN_C_API XnStatus XN_C_DECL xnOSOpenFile(const XnChar* cpFileName, const XnUInt3
 XN_C_API XnStatus XN_C_DECL xnOSCloseFile(XN_FILE_HANDLE* pFile);
 XN_C_API XnStatus XN_C_DECL xnOSReadFile(const XN_FILE_HANDLE File, void* pBuffer, XnUInt32* pnBufferSize);
 XN_C_API XnStatus XN_C_DECL xnOSWriteFile(const XN_FILE_HANDLE File, const void* pBuffer, const XnUInt32 nBufferSize);
-XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSSeekFile64() instead") XN_C_DECL 
+XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSSeekFile64() instead") XN_C_DECL
 			    xnOSSeekFile  (const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const XnInt32 nOffset);
 XN_C_API XnStatus XN_C_DECL xnOSSeekFile64(const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const XnInt64 nOffset);
-XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSTellFile64() instead") XN_C_DECL 
+XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSTellFile64() instead") XN_C_DECL
 			    xnOSTellFile  (const XN_FILE_HANDLE File, XnUInt32* nFilePos);
 XN_C_API XnStatus XN_C_DECL xnOSTellFile64(const XN_FILE_HANDLE File, XnUInt64* nFilePos);
 XN_C_API XnStatus XN_C_DECL xnOSTruncateFile64(const XN_FILE_HANDLE File, XnUInt64 nFilePos);
@@ -454,7 +454,7 @@ XN_C_API XnStatus XN_C_DECL xnOSDoesDirectoryExist(const XnChar* cpDirName, XnBo
 XN_C_API XnStatus XN_C_DECL xnOSLoadFile(const XnChar* cpFileName, void* pBuffer, const XnUInt32 nBufferSize);
 XN_C_API XnStatus XN_C_DECL xnOSSaveFile(const XnChar* cpFileName, const void* pBuffer, const XnUInt32 nBufferSize);
 XN_C_API XnStatus XN_C_DECL xnOSAppendFile(const XnChar* cpFileName, const void* pBuffer, const XnUInt32 nBufferSize);
-XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSGetFileSize64() instead") XN_C_DECL 
+XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSGetFileSize64() instead") XN_C_DECL
 			    xnOSGetFileSize  (const XnChar* cpFileName, XnUInt32* pnFileSize);
 XN_C_API XnStatus XN_C_DECL xnOSGetFileSize64(const XnChar* cpFileName, XnUInt64* pnFileSize);
 XN_C_API XnStatus XN_C_DECL xnOSCreateDirectory(const XnChar* cpDirName);
@@ -515,7 +515,7 @@ XN_C_API XnStatus XN_C_DECL xnOSGetProcAddress(const XN_LIB_HANDLE LibHandle, co
 XN_C_API XnStatus XN_C_DECL xnOSGetModulePathForProcAddress(void* procAddr, XnChar *strModulePath);
 
 struct timespec;
-	
+
 // Time
 XN_C_API XnStatus XN_C_DECL xnOSGetEpochTime(XnUInt32* nEpochTime);
 XN_C_API XnStatus XN_C_DECL xnOSGetTimeStamp(XnUInt64* nTimeStamp);
@@ -583,7 +583,7 @@ XN_C_API XnStatus XN_C_DECL xnOSLockSemaphore(XN_SEMAPHORE_HANDLE hSemaphore, Xn
 XN_C_API XnStatus XN_C_DECL xnOSUnlockSemaphore(XN_SEMAPHORE_HANDLE hSemaphore);
 XN_C_API XnStatus XN_C_DECL xnOSCloseSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHandle);
 
-/** 
+/**
 * Waits for a condition to be met. The condition is evaluated every time an event is set.
 *
 * @param	EventHandle		[in]	The Event handle.
@@ -663,5 +663,4 @@ XN_C_API XnStatus XN_C_DECL xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnCha
 XN_C_API XnStatus XN_C_DECL xnOSPrintCurrentCallstack();
 
 
-#endif //__XN_OS_H__
-
+#endif // _XN_OS_H_

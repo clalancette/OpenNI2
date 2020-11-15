@@ -19,46 +19,37 @@
 *                                                                            *
 *****************************************************************************/
 #ifndef _XN_LOCK_GUARD_H_
-#define _XN_LOCK_GUARD_H_ 1
+#define _XN_LOCK_GUARD_H_
 
 #include "XnMacros.h"
 
 namespace xnl
 {
 
-/**
- *
- */
 template<typename T>
 class LockGuard
 {
 public:
-    /**
-     *
-     */
-    LockGuard(T& lockable);
+	LockGuard(T& lockable);
 
-    /**
-     *
-     */
-    ~LockGuard();
+	~LockGuard();
 
 private:
-    XN_DISABLE_COPY_AND_ASSIGN(LockGuard)
+	XN_DISABLE_COPY_AND_ASSIGN(LockGuard)
 
-    T& m_lockable;
+	T& m_lockable;
 };
 
 template<typename T>
 LockGuard<T>::LockGuard(T& lockable) : m_lockable(lockable)
 {
-    m_lockable.Lock();
+	m_lockable.Lock();
 }
 
 template<typename T>
 LockGuard<T>::~LockGuard()
 {
-    m_lockable.Unlock();
+	m_lockable.Unlock();
 }
 
 } // namespace xnl

@@ -43,9 +43,6 @@ public:
 	const TKey& Key() const {return first;}
 	const TValue& Value() const {return second;}
 	TValue& Value() {return second;}
-// private:
-// 	TKey key;
-// 	TValue value;
 };
 
 typedef XnUInt8 HashCode;
@@ -134,7 +131,7 @@ public:
 
 			if (m_currIt == m_ppBins[m_currBin]->ReverseEnd())
 			{
-				do 
+				do
 				{
 					if (m_currBin == 0)
 					{
@@ -231,7 +228,7 @@ public:
 		Init();
 		*this = other;
 	}
-	
+
 	Hash& operator=(const Hash& other)
 	{
 		Clear();

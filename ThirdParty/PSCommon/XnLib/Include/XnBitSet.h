@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef __XNBITSET_H__
-#define __XNBITSET_H__
+#ifndef _XN_BIT_SET_H_
+#define _XN_BIT_SET_H_
 
 #include <vector>
 
@@ -123,11 +123,11 @@ public:
 	{
 		return m_array.empty();
 	}
-	
+
 private:
 	std::vector<XnUInt8> m_array;
 	XnUInt32 m_nSize;
 };
 
 }
-#endif // __XNBITSET_H__
+#endif // _XN_BIT_SET_H_

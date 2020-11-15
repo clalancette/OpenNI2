@@ -74,7 +74,7 @@ typedef struct xnOSInfo
 #define XN_CPP_API_EXPORT XN_API_EXPORT
 #define XN_CPP_API_IMPORT XN_API_IMPORT
 #define XN_C_API extern "C"
-#define XN_CPP_API 
+#define XN_CPP_API
 #else // __cplusplus
 #define XN_C_API_EXPORT XN_API_EXPORT
 #define XN_C_API_IMPORT XN_API_IMPORT

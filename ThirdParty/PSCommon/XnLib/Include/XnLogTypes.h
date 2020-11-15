@@ -18,8 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
-#ifndef __XN_LOG_TYPES_H__
-#define __XN_LOG_TYPES_H__
+#ifndef _XN_LOG_TYPES_H_
+#define _XN_LOG_TYPES_H_
 
 //---------------------------------------------------------------------------
 // Includes
@@ -75,4 +75,4 @@ typedef struct XnLogWriter
 	void (XN_CALLBACK_TYPE* OnClosing)(void* pCookie);
 } XnLogWriter;
 
-#endif // __XN_LOG_TYPES_H__
+#endif // _XN_LOG_TYPES_H_

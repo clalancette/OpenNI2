@@ -19,87 +19,71 @@
 *                                                                            *
 *****************************************************************************/
 #ifndef _XN_LOCKABLE_H_
-#define _XN_LOCKABLE_H_ 1
+#define _XN_LOCKABLE_H_
 
 #include "XnMacros.h"
 
 namespace xnl
 {
 
-/**
- *
- */
 template<typename T>
 class Lockable : public T
 {
 public:
-    /**
-     *
-     */
-    Lockable();
+	Lockable();
 
-    /**
-     *
-     */
-    ~Lockable();
+	~Lockable();
 
-    /** Forwarding constructor */
-    /*@{*/
-    template<typename P00>
-    Lockable(P00 param00);
-    template<typename P00, typename P01>
-    Lockable(P00 param00, P01 param01);
-    template<typename P00, typename P01, typename P02>
-    Lockable(P00 param00, P01 param01, P02 param02);
-    template<typename P00, typename P01, typename P02, typename P03>
-    Lockable(P00 param00, P01 param01, P02 param02, P03 param03);
-    template<typename P00, typename P01, typename P02, typename P03, typename P04>
-    Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04);
-    template<typename P00, typename P01, typename P02, typename P03, typename P04,
-             typename P05>
-    Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04,
-             P05 param05);
-    template<typename P00, typename P01, typename P02, typename P03, typename P04,
-             typename P05, typename P06>
-    Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04,
-             P05 param05, P06 param06);
-    template<typename P00, typename P01, typename P02, typename P03, typename P04,
-             typename P05, typename P06, typename P07>
-    Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04,
-             P05 param05, P06 param06, P07 param07);
-    template<typename P00, typename P01, typename P02, typename P03, typename P04,
-             typename P05, typename P06, typename P07, typename P08>
-    Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04,
-             P05 param05, P06 param06, P07 param07, P08 param08);
-    template<typename P00, typename P01, typename P02, typename P03, typename P04,
-             typename P05, typename P06, typename P07, typename P08, typename P09>
-    Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04,
-             P05 param05, P06 param06, P07 param07, P08 param08, P09 param09);
-    /*@}*/
+	/** Forwarding constructor */
+	/*@{*/
+	template<typename P00>
+	Lockable(P00 param00);
 
-    /**
-     *
-     */
-    XnStatus Lock();
+	template<typename P00, typename P01>
+	Lockable(P00 param00, P01 param01);
 
-    /**
-     *
-     */
-    XnStatus Unlock();
+	template<typename P00, typename P01, typename P02>
+	Lockable(P00 param00, P01 param01, P02 param02);
+
+	template<typename P00, typename P01, typename P02, typename P03>
+	Lockable(P00 param00, P01 param01, P02 param02, P03 param03);
+
+	template<typename P00, typename P01, typename P02, typename P03, typename P04>
+	Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04);
+
+	template<typename P00, typename P01, typename P02, typename P03, typename P04, typename P05>
+	Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04, P05 param05);
+
+	template<typename P00, typename P01, typename P02, typename P03, typename P04, typename P05, typename P06>
+	Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04, P05 param05, P06 param06);
+
+	template<typename P00, typename P01, typename P02, typename P03, typename P04, typename P05, typename P06, typename P07>
+	Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04, P05 param05, P06 param06, P07 param07);
+
+	template<typename P00, typename P01, typename P02, typename P03, typename P04, typename P05, typename P06, typename P07, typename P08>
+	Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04, P05 param05, P06 param06, P07 param07, P08 param08);
+
+	template<typename P00, typename P01, typename P02, typename P03, typename P04, typename P05, typename P06, typename P07, typename P08, typename P09>
+	Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04, P05 param05, P06 param06, P07 param07, P08 param08, P09 param09);
+	/*@}*/
+
+	XnStatus Lock();
+
+	XnStatus Unlock();
 
 private:
-    XN_DISABLE_COPY_AND_ASSIGN(Lockable)
+	XN_DISABLE_COPY_AND_ASSIGN(Lockable)
 
-    void Initialize();
+	void Initialize();
 
-    XN_CRITICAL_SECTION_HANDLE m_criticalSection;
+	XN_CRITICAL_SECTION_HANDLE m_criticalSection;
 };
 
 template<typename T>
-Lockable<T>::Lockable() 
-        : m_criticalSection(NULL)
+Lockable<T>::Lockable()
+	: m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
@@ -111,133 +95,121 @@ Lockable<T>::~Lockable()
 template<typename T>
 template<typename P00>
 Lockable<T>::Lockable(P00 param00)
-        : T(param00),
-          m_criticalSection(NULL)
+	: T(param00),
+	  m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
 template<typename P00, typename P01>
-Lockable<T>::Lockable(P00 param00, P01 param01) 
-    : T(param00, param01),
-      m_criticalSection(NULL)
+Lockable<T>::Lockable(P00 param00, P01 param01)
+	: T(param00, param01),
+	  m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
 template<typename P00, typename P01, typename P02>
-Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02) 
-    : T(param00, param01, param02),
-      m_criticalSection(NULL)
+Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02)
+	: T(param00, param01, param02),
+	  m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
 template<typename P00, typename P01, typename P02, typename P03>
-Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03) 
-    : T(param00, param02, param03),
-      m_criticalSection(NULL)
+Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03)
+	: T(param00, param02, param03),
+	  m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
 template<typename P00, typename P01, typename P02, typename P03, typename P04>
-Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04) 
-    : T(param00, param01, param02, param03, param04),
-      m_criticalSection(NULL)
+Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04)
+	: T(param00, param01, param02, param03, param04),
+	  m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
-template<typename P00, typename P01, typename P02, typename P03, typename P04,
-         typename P05>
-Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04,
-                      P05 param05) 
-    : T(param00, param01, param02, param03, param04, param05),
-      m_criticalSection(NULL)
+template<typename P00, typename P01, typename P02, typename P03, typename P04, typename P05>
+Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04, P05 param05)
+	: T(param00, param01, param02, param03, param04, param05),
+	  m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
-template<typename P00, typename P01, typename P02, typename P03, typename P04,
-         typename P05, typename P06>
-Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04,
-                      P05 param05, P06 param06) 
-    : T(param00, param01, param02, param03, param04, param05, param06),
-      m_criticalSection(NULL)
+template<typename P00, typename P01, typename P02, typename P03, typename P04, typename P05, typename P06>
+Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04, P05 param05, P06 param06)
+	: T(param00, param01, param02, param03, param04, param05, param06),
+	  m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
-template<typename P00, typename P01, typename P02, typename P03, typename P04,
-         typename P05, typename P06, typename P07>
-Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04,
-                      P05 param05, P06 param06, P07 param07) 
-    : T(param00, param01, param02, param03, param04, param05, param06, param07),
-      m_criticalSection(NULL)
+template<typename P00, typename P01, typename P02, typename P03, typename P04, typename P05, typename P06, typename P07>
+Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04, P05 param05, P06 param06, P07 param07)
+	: T(param00, param01, param02, param03, param04, param05, param06, param07),
+	  m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
-template<typename P00, typename P01, typename P02, typename P03, typename P04,
-         typename P05, typename P06, typename P07, typename P08>
-Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04,
-                      P05 param05, P06 param06, P07 param07, P08 param08) 
-    : T(param00, param01, param02, param03, param04, param05, param06, param07,
-        param08),
-      m_criticalSection(NULL)
+template<typename P00, typename P01, typename P02, typename P03, typename P04, typename P05, typename P06, typename P07, typename P08>
+Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04, P05 param05, P06 param06, P07 param07, P08 param08)
+	: T(param00, param01, param02, param03, param04, param05, param06, param07, param08),
+	  m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
-template<typename P00, typename P01, typename P02, typename P03, typename P04,
-         typename P05, typename P06, typename P07, typename P08, typename P09>
-Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04,
-                      P05 param05, P06 param06, P07 param07, P08 param08, P09 param09) 
-    : T(param00, param01, param02, param03, param04, param05, param06, param07,
-        param08, param09),
-      m_criticalSection(NULL)
+template<typename P00, typename P01, typename P02, typename P03, typename P04, typename P05, typename P06, typename P07, typename P08, typename P09>
+Lockable<T>::Lockable(P00 param00, P01 param01, P02 param02, P03 param03, P04 param04, P05 param05, P06 param06, P07 param07, P08 param08, P09 param09)
+	: T(param00, param01, param02, param03, param04, param05, param06, param07, param08, param09),
+	  m_criticalSection(NULL)
 {
-    Initialize();
+	Initialize();
 }
 
 template<typename T>
 XnStatus Lockable<T>::Lock()
 {
-    if (m_criticalSection != NULL)
-    {
-        xnOSEnterCriticalSection(&m_criticalSection);
-    }
-    return XN_STATUS_OK;
+	if (m_criticalSection != NULL)
+	{
+		xnOSEnterCriticalSection(&m_criticalSection);
+	}
+	return XN_STATUS_OK;
 }
 
 template<typename T>
 XnStatus Lockable<T>::Unlock()
 {
-    if (m_criticalSection != NULL)
-    {
-        xnOSLeaveCriticalSection(&m_criticalSection);
-    }
-    return XN_STATUS_OK;
+	if (m_criticalSection != NULL)
+	{
+		xnOSLeaveCriticalSection(&m_criticalSection);
+	}
+	return XN_STATUS_OK;
 }
 
 template<typename T>
 void Lockable<T>::Initialize()
 {
-    XnStatus rc = xnOSCreateCriticalSection(&m_criticalSection);
-    if (rc != XN_STATUS_OK)
-    {
-        m_criticalSection = NULL;
-    }
+	XnStatus rc = xnOSCreateCriticalSection(&m_criticalSection);
+	if (rc != XN_STATUS_OK)
+	{
+		m_criticalSection = NULL;
+	}
 }
 
 } // namespace xnl
