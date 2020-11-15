@@ -21,10 +21,11 @@
 #ifndef ONISYNCEDSTREAMSFRAMEHOLDER_H
 #define ONISYNCEDSTREAMSFRAMEHOLDER_H
 
+#include <vector>
+
 #include "OniCommon.h"
 #include "OniFrameHolder.h"
 #include "OniStream.h"
-#include "XnArray.h"
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
@@ -61,22 +62,22 @@ public:
 
 private:
 
-	typedef struct 
+	typedef struct
 	{
 		// Pointer to stream.
-		VideoStream* pStream;
+		VideoStream* pStream = NULL;
 
 		// Flag indicating stream is enabled.
-		OniBool enabled;
+		OniBool enabled = false;
 
 		// Last received frame.
-		OniFrame* pLastFrame;
+		OniFrame* pLastFrame = NULL;
 
 		// 'Latched' frame.
-		OniFrame* pSyncedFrame;
+		OniFrame* pSyncedFrame = NULL;
 
-	} FameSyncedStream;
-	xnl::Array<FameSyncedStream> m_FrameSyncedStreams;
+	} FrameSyncedStream;
+	std::vector<FrameSyncedStream> m_FrameSyncedStreams;
 };
 
 ONI_NAMESPACE_IMPLEMENTATION_END

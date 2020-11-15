@@ -25,11 +25,8 @@ ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 	
 // Constructor.
 SyncedStreamsFrameHolder::SyncedStreamsFrameHolder(FrameManager& frameManager, VideoStream** ppStreams, int numStreams) : 
-	FrameHolder(frameManager), m_FrameSyncedStreams(numStreams)
+	FrameHolder(frameManager), m_FrameSyncedStreams(numStreams, FrameSyncedStream())
 {
-	m_FrameSyncedStreams.SetSize(numStreams);
-	m_FrameSyncedStreams.Zero();
-
 	lock();
 
 	// Set the frame sync group for all the streams and store their streams.
@@ -66,7 +63,7 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 	int minSyncedFrameId = -1;
 	XnUInt32 validFrameCount = 0;
 	OniBool syncedFramesExist = FALSE;
-	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.GetSize();
+	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.size();
 	for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
 	{
 		// Is this the stream frame was received on?
@@ -91,7 +88,7 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 				*pFrame = m_FrameSyncedStreams[i].pSyncedFrame;
 				m_FrameSyncedStreams[i].pSyncedFrame = NULL;
 			}
-			else // if (m_FameSyncedStreams[i].pLastFrame != NULL)
+			else // if (m_FrameSyncedStreams[i].pLastFrame != NULL)
 			{
 				// Copy frame and clear last frame.
 				*pFrame = m_FrameSyncedStreams[i].pLastFrame;
@@ -174,7 +171,7 @@ OniStatus SyncedStreamsFrameHolder::processNewFrame(VideoStream* pStream, OniFra
 	int frameId = pFrame->frameIndex;
 	XnUInt32 validFrameCount = 1;
 	XnUInt32 syncedFramesCount = 0;
-	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.GetSize();
+	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.size();
 	for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
 	{
 		// Is this the stream frame was received on?
@@ -255,7 +252,7 @@ OniFrame* SyncedStreamsFrameHolder::peekFrame(VideoStream* pStream)
 	lock();
 
 	// Parse all the streams.
-	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.GetSize();
+	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.size();
 	for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
 	{
 		// Is this the stream frame was received on?
@@ -277,7 +274,7 @@ void SyncedStreamsFrameHolder::clear()
 	lock();
 
 	// Release all the streams from the frame sync group and release the stored frames.
-	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.GetSize();
+	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.size();
 	for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
 	{
 		if (m_FrameSyncedStreams[i].pLastFrame != NULL)
@@ -302,7 +299,7 @@ void SyncedStreamsFrameHolder::setStreamEnabled(VideoStream* pStream, OniBool en
 
 	// Parse all the streams.
 	XnUInt32 numEnabled = 0;
-	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.GetSize();
+	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.size();
 	for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
 	{
 		// Is this the stream being updated?
@@ -347,7 +344,7 @@ void SyncedStreamsFrameHolder::getStreams(VideoStream** ppStreams, int* pNumStre
 	lock();
 
 	// Copy stream list.
-	int numFrameSyncStreams = m_FrameSyncedStreams.GetSize();
+	int numFrameSyncStreams = m_FrameSyncedStreams.size();
 	*pNumStreams = (*pNumStreams > numFrameSyncStreams) ? numFrameSyncStreams : *pNumStreams;
 	for (int i = 0; i < *pNumStreams; ++i)
 	{
@@ -360,7 +357,7 @@ void SyncedStreamsFrameHolder::getStreams(VideoStream** ppStreams, int* pNumStre
 // Return number of streams which are members of the stream group.
 int SyncedStreamsFrameHolder::getNumStreams()
 {
-	return m_FrameSyncedStreams.GetSize();
+	return m_FrameSyncedStreams.size();
 }
 
 ONI_NAMESPACE_IMPLEMENTATION_END

@@ -34,6 +34,7 @@
 #include "OniDriverHandler.h"
 #include "OniCommon.h"
 
+#include <XnArray.h>
 #include <XnHash.h>
 #include <XnEvent.h>
 
