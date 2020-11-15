@@ -26,6 +26,7 @@
 #include "XnLib.h"
 #include "XnHash.h"
 #include "XnEvent.h"
+#include "XnStringsHash.h"
 #include "OniDevice.h"
 #include "OniCommon.h"
 #include "OniDriverServices.h"
@@ -70,7 +71,7 @@ protected:
 	FrameManager& m_frameManager;
 
 	bool m_valid;
-	xnl::StringsHash<Device*> m_devices;
+	xnl::XnStringsHashT<Device*> m_devices;
 
 	xnl::Event1Arg<Device*> m_deviceConnectedEvent;
 	xnl::Event1Arg<Device*> m_deviceDisconnectedEvent;

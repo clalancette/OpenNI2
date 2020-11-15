@@ -42,7 +42,7 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-typedef XnStringsHashT<XnLogger> XnLogMasksHash;
+typedef xnl::XnStringsHashT<XnLogger> XnLogMasksHash;
 
 class XnBufferedLogEntry : public XnLogEntry
 {

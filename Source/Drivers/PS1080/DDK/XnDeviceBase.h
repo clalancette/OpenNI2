@@ -208,7 +208,7 @@ private:
 
 	static XnStatus XN_CALLBACK_TYPE StreamNewDataCallback(XnDeviceStream* pStream, void* pCookie);
 
-	typedef XnStringsHashT<XnDeviceModuleHolder*> ModuleHoldersHash;
+	typedef xnl::XnStringsHashT<XnDeviceModuleHolder*> ModuleHoldersHash;
 	ModuleHoldersHash m_Modules;
 
 	std::set<std::string> m_SupportedStreams;

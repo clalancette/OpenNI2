@@ -473,69 +473,6 @@ private:
 
 };
 
-// Specialization for string key
-class StringsHashKeyManager
-{
-public:
-	static xnl::HashCode Hash(const XnChar* const& key)
-	{
-		XnUInt32 crc = 0;
-		xnOSStrCRC32(key, &crc);
-
-		// convert from UInt32 to HashValue
-		return crc % (1 << (sizeof(HashCode)*8));
-	}
-	static XnInt32 Compare(const XnChar* const& key1, const XnChar* const& key2)
-	{
-		return xnOSStrCmp(key1, key2);
-	}
-};
-
-template <class TValue>
-class StringsNodeAllocator
-{
-public:
-	typedef KeyValuePair<const XnChar*, TValue> TPair;
-	typedef LinkedListNode<TPair> TLinkedNode;
-
-	static TLinkedNode* Allocate(TPair const& pair)
-	{
-		XnChar* keyCopy = xnOSStrDup(pair.Key());
-		if (keyCopy == NULL)
-			return NULL;
-
-		return XN_NEW(TLinkedNode, TPair(keyCopy, pair.Value()));
-	}
-	static void Deallocate(TLinkedNode* pNode)
-	{
-		XN_ASSERT(pNode != NULL);
-		XN_ASSERT(pNode->value.Key() != NULL);
-
-		xnOSFree(pNode->value.Key());
-		XN_DELETE(pNode);
-	}
-};
-
-template <class TValue>
-class StringsHash : public Hash<const XnChar*, TValue, StringsHashKeyManager, StringsNodeAllocator<TValue> >
-{
-	typedef Hash<const XnChar*, TValue, StringsHashKeyManager, StringsNodeAllocator<TValue> > Base;
-public:
-	StringsHash() : Base() {}
-
-	StringsHash(const StringsHash& other) : Base()
-	{
-		*this = other;
-	}
-
-	StringsHash& operator=(const StringsHash& other)
-	{
-		Base::operator =(other);
-		// no other members
-		return *this;
-	}
-};
-
 } // xnl
 
 #endif // _XN_HASH_H_

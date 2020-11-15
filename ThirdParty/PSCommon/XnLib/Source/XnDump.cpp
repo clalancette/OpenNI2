@@ -40,7 +40,7 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-typedef XnStringsHashT<XnBool> XnDumpsHash;
+typedef xnl::XnStringsHashT<XnBool> XnDumpsHash;
 
 class DumpData
 {

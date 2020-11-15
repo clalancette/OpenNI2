@@ -93,7 +93,7 @@ typedef struct
 static Device g_device;
 static xnl::Array<VideoStream*> g_streams;
 static std::list<const XnChar*> g_commandsList;
-static XnStringsHashT<Command> g_commands;
+static xnl::XnStringsHashT<Command> g_commands;
 static XnBool g_continue = TRUE;
 
 static FwStreamName g_fwStreamNames[] = {

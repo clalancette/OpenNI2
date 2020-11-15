@@ -49,7 +49,7 @@ private:
 		XnUInt16 productID;
 	} XnUsbId;
 
-	typedef xnl::StringsHash<OniDeviceInfo> DevicesHash;
+	typedef xnl::XnStringsHashT<OniDeviceInfo> DevicesHash;
 
 	static void XN_CALLBACK_TYPE OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* pCookie);
 	static void OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId);

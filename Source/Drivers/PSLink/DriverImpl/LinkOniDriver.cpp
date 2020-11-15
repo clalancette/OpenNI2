@@ -95,7 +95,7 @@ void LinkOniDriver::shutdown()
 	}
 
 	// Close all open devices and release the memory
-	for (xnl::StringsHash<LinkOniDevice*>::Iterator it = m_devices.Begin(); it != m_devices.End(); ++it)
+	for (xnl::XnStringsHashT<LinkOniDevice*>::Iterator it = m_devices.Begin(); it != m_devices.End(); ++it)
 	{
 		XN_DELETE(it->Value());
 	}
@@ -144,7 +144,7 @@ oni::driver::DeviceBase* LinkOniDriver::deviceOpen(const char* uri, const char* 
 
 void LinkOniDriver::deviceClose(oni::driver::DeviceBase* pDevice)
 {
-	for (xnl::StringsHash<LinkOniDevice*>::Iterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter)
+	for (xnl::XnStringsHashT<LinkOniDevice*>::Iterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter)
 	{
 		if (iter->Value() == pDevice)
 		{

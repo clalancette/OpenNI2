@@ -68,7 +68,7 @@ private:
 		XnDeviceStream* pOwner;
 	};
 
-	typedef XnStringsHashT<XnFirmwareStreamData> XnFirmwareStreamsHash;
+	typedef xnl::XnStringsHashT<XnFirmwareStreamData> XnFirmwareStreamsHash;
 
 	XnFirmwareStreamsHash m_FirmwareStreams;
 

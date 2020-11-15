@@ -23,8 +23,9 @@
 
 #include <XnPropertySet.h>
 #include "XnActualPropertiesHash.h"
+#include "XnStringsHash.h"
 
-typedef XnStringsHashT<XnActualPropertiesHash*> XnPropertySetDataInternal;
+typedef xnl::XnStringsHashT<XnActualPropertiesHash*> XnPropertySetDataInternal;
 
 class XnPropertySetData;
 

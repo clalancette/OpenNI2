@@ -28,6 +28,7 @@
 #include "../Sensor/XnSensor.h"
 #include "../Sensor/XnDeviceEnumeration.h"
 #include <XnLogWriterBase.h>
+#include <XnStringsHash.h>
 
 //---------------------------------------------------------------------------
 // XnOniDriver class
@@ -93,7 +94,7 @@ void XnOniDriver::shutdown()
 	}
 
 	// Close all open devices and release the memory
-	for (xnl::StringsHash<XnOniDevice*>::Iterator it = m_devices.Begin(); it != m_devices.End(); ++it)
+	for (xnl::XnStringsHashT<XnOniDevice*>::Iterator it = m_devices.Begin(); it != m_devices.End(); ++it)
 	{
 		XN_DELETE(it->Value());
 	}
@@ -140,7 +141,7 @@ oni::driver::DeviceBase* XnOniDriver::deviceOpen(const char* uri, const char* mo
 
 void XnOniDriver::deviceClose(oni::driver::DeviceBase* pDevice)
 {
-	for (xnl::StringsHash<XnOniDevice*>::Iterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter)
+	for (xnl::XnStringsHashT<XnOniDevice*>::Iterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter)
 	{
 		if (iter->Value() == pDevice)
 		{
@@ -210,7 +211,7 @@ void XnOniDriver::disableFrameSync(void* frameSyncGroup)
 	FrameSyncGroup* pFrameSyncGroup = (FrameSyncGroup*)frameSyncGroup;
 
 	// Find device in driver.
-	xnl::StringsHash<XnOniDevice*>::ConstIterator iter = m_devices.Begin();
+	xnl::XnStringsHashT<XnOniDevice*>::ConstIterator iter = m_devices.Begin();
 	while (iter != m_devices.End())
 	{
 		// Make sure device belongs to driver.

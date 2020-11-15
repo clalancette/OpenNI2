@@ -27,6 +27,7 @@
 #include "Formats/XnStreamFormats.h"
 #include "XnHash.h"
 #include "XnEvent.h"
+#include "XnStringsHash.h"
 
 class XnCodec;
 
@@ -82,7 +83,7 @@ private:
 		XnUInt64 nUndoRecordPos;
 	};
 
-	typedef xnl::StringsHash<RecordUndoInfo> RecordUndoInfoMap;
+	typedef xnl::XnStringsHashT<RecordUndoInfo> RecordUndoInfoMap;
 
 	struct PlayerNodeInfo
 	{

@@ -22,6 +22,7 @@
 #include "Driver/OniDriverTypes.h"
 #include "OniStream.h"
 #include "XnArray.h"
+#include "XnStringsHash.h"
 #include <XnLog.h>
 
 #define XN_MASK_ONI_DEVICE_DRIVER "OniDeviceDriver"
@@ -97,7 +98,7 @@ DeviceDriver::~DeviceDriver()
 
 bool DeviceDriver::tryDevice(const char* uri)
 {
-	for (xnl::StringsHash<Device*>::Iterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter)
+	for (xnl::XnStringsHashT<Device*>::Iterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter)
 	{
 		if (xnOSStrCmp(iter->Value()->getInfo()->uri, uri) == 0)
 			return true;

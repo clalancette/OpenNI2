@@ -57,7 +57,7 @@ protected:
 	static void XN_CALLBACK_TYPE OnDeviceDisconnected(const OniDeviceInfo& deviceInfo, void* pCookie);
 
 	//uri -> XnOniDevice map
-	xnl::StringsHash<XnOniDevice*> m_devices;
+	xnl::XnStringsHashT<XnOniDevice*> m_devices;
 
 private:
 	class XnOpenNILogWriter : public XnLogWriterBase
