@@ -28,13 +28,11 @@
 #include <XnOS.h>
 #include <XnStreamParams.h>
 
-using namespace std;
+typedef bool (*cbfunc)(openni::Device& Device, std::vector<std::string>& Command);
 
-typedef bool (*cbfunc)(openni::Device& Device, vector<string>& Command);
-
-map<string, cbfunc> cbs;
-map<string, cbfunc> mnemonics;
-map<string, string>  helps;
+std::map<std::string, cbfunc> cbs;
+std::map<std::string, cbfunc> mnemonics;
+std::map<std::string, std::string>  helps;
 
 XnVersions g_DeviceVersion;
 const char* g_openMode;
@@ -63,30 +61,40 @@ bool atoi2(const char* str, int* pOut)
 	{
 		output *= base;
 		if (str[i] >= '0' && str[i] <= '9')
+		{
 			output += str[i]-'0';
+		}
 		else if (base == 16 && str[i] >= 'a' && str[i] <= 'f')
+		{
 			output += 10+str[i]-'a';
+		}
 		else if (base == 16 && str[i] >= 'A' && str[i] <= 'F')
+		{
 			output += 10+str[i]-'A';
+		}
 		else
+		{
 			return false;
+		}
 	}
 	*pOut = output;
 	return true;
 }
 
 
-void mainloop(openni::Device& Device, istream& istr, bool prompt)
+void mainloop(openni::Device& Device, std::istream& istr, bool prompt)
 {
 	char buf[256];
-	string str;
+	std::string str;
 
-	vector<string> Command;
+	std::vector<std::string> Command;
 
 	while (istr.good())
 	{
 		if (prompt)
-			cout << "> ";
+		{
+			std::cout << "> ";
+		}
 		Command.clear();
 		istr.getline(buf, 256);
 		str = buf;
@@ -95,49 +103,61 @@ void mainloop(openni::Device& Device, istream& istr, bool prompt)
 		while (1)
 		{
 			next = str.find(' ', previous);
-			
+
 			if (next != previous && previous != str.size())
+			{
 				Command.push_back(str.substr(previous, next-previous));
+			}
 
 			if (next == str.npos)
+			{
 				break;
-			
+			}
+
 			previous = next+1;
 		}
 
 		if (Command.size() > 0)
 		{
 			if (Command[0][0] == ';')
+			{
 				continue;
+			}
 
-			for (unsigned int i = 0; i < Command[0].size(); i++)
+			for (size_t i = 0; i < Command[0].size(); i++)
+			{
 				Command[0][i] = (char)tolower(Command[0][i]);
+			}
 
 			if (cbs.find(Command[0]) != cbs.end())
 			{
 				if (!(*cbs[Command[0]])(Device, Command))
+				{
 					return;
+				}
 			}
 			else if (mnemonics.find(Command[0]) != mnemonics.end())
 			{
 				if (!(*mnemonics[Command[0]])(Device, Command))
+				{
 					return;
+				}
 			}
 			else
 			{
-				cout << "Unknown command \"" << Command[0] << "\"" << endl;
+				std::cout << "Unknown command \"" << Command[0] << "\"" << std::endl;
 			}
 		}
 	}
 }
 
-bool byebye(openni::Device& /*Device*/, vector<string>& /*Command*/)
+bool byebye(openni::Device& /*Device*/, std::vector<std::string>& /*Command*/)
 {
-	cout << "Bye bye" << endl;
+	std::cout << "Bye bye" << std::endl;
 	return false;
 }
 
-bool PrintVersion(openni::Device& Device, vector<string>& /*Command*/)
+bool PrintVersion(openni::Device& Device, std::vector<std::string>& /*Command*/)
 {
 	openni::Status rc = Device.getProperty(XN_MODULE_PROPERTY_VERSION, &g_DeviceVersion);
 	if (rc != openni::STATUS_OK)
@@ -260,7 +280,7 @@ bool PrintVersion(openni::Device& Device, vector<string>& /*Command*/)
 	else if (g_DeviceVersion.HWVer == XN_SENSOR_HW_VER_RD109)
 	{
 		printf ("RD109");
-	}	
+	}
 	else if (g_DeviceVersion.HWVer == XN_SENSOR_HW_VER_UNKNOWN)
 	{
 		printf ("Unknown");
@@ -289,7 +309,7 @@ bool PrintVersion(openni::Device& Device, vector<string>& /*Command*/)
 	return true;
 }
 
-bool DeleteFile(openni::Device& Device, vector<string>& Command)
+bool DeleteFile(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() != 2)
 	{
@@ -316,7 +336,7 @@ bool DeleteFile(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool Attrib(openni::Device& Device, vector<string>& Command)
+bool Attrib(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 2)
 	{
@@ -332,7 +352,7 @@ bool Attrib(openni::Device& Device, vector<string>& Command)
 	}
 
 	XnFlashFile Files[100];
-	
+
 	XnFlashFileList FileList;
 	FileList.pFiles = (XnFlashFile*)Files;
 	FileList.nFiles = 100;
@@ -371,7 +391,7 @@ bool Attrib(openni::Device& Device, vector<string>& Command)
 
 	XnUInt16 nNewAttributes = pEntry->nAttributes;
 
-	for (unsigned int i = 2; i < Command.size(); i++)
+	for (size_t i = 2; i < Command.size(); i++)
 	{
 		if (Command[i] == "+r")
 			nNewAttributes |= XnFileAttributeReadOnly;
@@ -413,7 +433,9 @@ bool Connect(openni::Device& Device)
 	{
 		rc = Device._openEx(NULL, g_openMode);
 		if (rc == openni::STATUS_OK || rc == openni::STATUS_NO_DEVICE)
+		{
 			break;
+		}
 
 		// wait and try again
 		xnOSSleep(1000);
@@ -428,7 +450,7 @@ bool Connect(openni::Device& Device)
 	return true;
 }
 
-bool Reconnect(openni::Device& Device, vector<string>& /*Command*/)
+bool Reconnect(openni::Device& Device, std::vector<std::string>& /*Command*/)
 {
 	Device.close();
 
@@ -438,11 +460,11 @@ bool Reconnect(openni::Device& Device, vector<string>& /*Command*/)
 	}
 
 	printf("Reconnected\n");
-	
+
 	return true;
 }
 
-bool Sleep(openni::Device& /*Device*/, vector<string>& Command)
+bool Sleep(openni::Device& /*Device*/, std::vector<std::string>& Command)
 {
 	if (Command.size() != 2)
 	{
@@ -462,12 +484,12 @@ bool Sleep(openni::Device& /*Device*/, vector<string>& Command)
 }
 
 #define NUM_OF_FILE_TYPES 31
-bool FileList(openni::Device& Device, vector<string>& /*Command*/)
+bool FileList(openni::Device& Device, std::vector<std::string>& /*Command*/)
 {
 	const char *FileTypes[NUM_OF_FILE_TYPES]= { "FILE_TABLE",
 												"SCRATCH_FILE",
 												"BOOT_SECTOR",
-												"BOOT_MANAGER", 
+												"BOOT_MANAGER",
 												"CODE_DOWNLOADER",
 												"MONITOR",
 												"APPLICATION",
@@ -499,7 +521,7 @@ bool FileList(openni::Device& Device, vector<string>& /*Command*/)
 
 	XnFlashFile Files[100];
 
-	
+
 	XnFlashFileList FileList;
 	FileList.pFiles = (XnFlashFile*)Files;
 	FileList.nFiles = 100;
@@ -516,7 +538,7 @@ bool FileList(openni::Device& Device, vector<string>& /*Command*/)
 	{
 		XnFlashFile *Entry = &FileList.pFiles[i];
 		const char *TypeCaption = "Unknown Type";
-		if ( Entry->nType < NUM_OF_FILE_TYPES ) 
+		if ( Entry->nType < NUM_OF_FILE_TYPES )
 			TypeCaption = FileTypes[Entry->nType];
 		printf("%-3d %-22s %2x.%02x.%04x  0x%-8X %-8d    0x%-8X", Entry->nId, TypeCaption, Entry->nVersion>>24, (Entry->nVersion>>16)&0xff, Entry->nVersion&0xffff, Entry->nOffset, Entry->nSize, Entry->nCrc);
 		if (Entry->nAttributes & 0x8000)
@@ -529,7 +551,7 @@ bool FileList(openni::Device& Device, vector<string>& /*Command*/)
 	return true;
 }
 
-bool Reset(openni::Device& Device, vector<string>& Command)
+bool Reset(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() != 2)
 	{
@@ -540,9 +562,13 @@ bool Reset(openni::Device& Device, vector<string>& Command)
 
 	XnParamResetType Type;
 	if (Command[1] == "power")
+	{
 		Type = XN_RESET_TYPE_POWER;
+	}
 	else if (Command[1] == "soft")
+	{
 		Type = XN_RESET_TYPE_SOFT;
+	}
 	else
 	{
 		printf("Unknown reset type (power|soft)\n");
@@ -558,7 +584,7 @@ bool Reset(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool Log(openni::Device& Device, vector<string>& /*Command*/)
+bool Log(openni::Device& Device, std::vector<std::string>& /*Command*/)
 {
 	XnUChar LogBuffer[XN_MAX_LOG_SIZE] = {0};
 	XnBool bAll = true;
@@ -588,28 +614,30 @@ bool Log(openni::Device& Device, vector<string>& /*Command*/)
 	return true;
 }
 
-bool Script(openni::Device& Device, vector<string>& Command)
+bool Script(openni::Device& Device, std::vector<std::string>& Command)
 {
 
 	if (Command.size() != 2)
 	{
-		cout << "Usage: " << Command[0] << " <file>" << endl;
+		std::cout << "Usage: " << Command[0] << " <file>" << std::endl;
 		return true;
 	}
-	string filename = "";
+	std::string filename = "";
 
 	for (unsigned int i = 1; i < Command.size(); i++)
 	{
 		if (i != 1)
+		{
 			filename += " ";
+		}
 		filename += Command[i];
 	}
 
-	ifstream ifs;
+	std::ifstream ifs;
 	ifs.open(filename.c_str());
 	if (!ifs.good())
 	{
-		cout << "Bad file" << endl;
+		std::cout << "Bad file" << std::endl;
 		return true;
 	}
 	mainloop(Device, ifs, false);
@@ -617,21 +645,21 @@ bool Script(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool Help(openni::Device& /*Device*/, vector<string>& /*Command*/)
+bool Help(openni::Device& /*Device*/, std::vector<std::string>& /*Command*/)
 {
-	for (map<string, cbfunc>::iterator iter = cbs.begin(); iter != cbs.end(); ++iter)
+	for (std::map<std::string, cbfunc>::iterator iter = cbs.begin(); iter != cbs.end(); ++iter)
 	{
-		cout << "\"" << iter->first << "\" - " << helps[iter->first] << endl;
+		std::cout << "\"" << iter->first << "\" - " << helps[iter->first] << std::endl;
 	}
 
 	return true;
 }
 
-bool SetGeneralParam(openni::Device& Device, vector<string>& Command)
+bool SetGeneralParam(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() != 3)
 	{
-		cout << "Usage: " << Command[0] << " <param> <value>" << endl;
+		std::cout << "Usage: " << Command[0] << " <param> <value>" << std::endl;
 		return true;
 	}
 
@@ -665,11 +693,11 @@ bool SetGeneralParam(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool GetGeneralParam(openni::Device& Device, vector<string>& Command)
+bool GetGeneralParam(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() != 2)
 	{
-		cout << "Usage: " << Command[0] << " <param>" << endl;
+		std::cout << "Usage: " << Command[0] << " <param>" << std::endl;
 		return true;
 	}
 
@@ -691,17 +719,17 @@ bool GetGeneralParam(openni::Device& Device, vector<string>& Command)
 	}
 	else
 	{
-		cout << "Param[" << Param.nParam << "] = " << Param.nValue << endl;
+		std::cout << "Param[" << Param.nParam << "] = " << Param.nValue << std::endl;
 	}
 
 	return true;
 }
 
-bool WriteI2C(openni::Device& Device, vector<string>& Command, XnControlProcessingData& I2C)
+bool WriteI2C(openni::Device& Device, std::vector<std::string>& Command, XnControlProcessingData& I2C)
 {
 	if (Command.size() != 5)
 	{
-		cout << "Usage: " << Command[0] << " " << Command[1] << " <cmos> <register> <value>" << endl;
+		std::cout << "Usage: " << Command[0] << " " << Command[1] << " <cmos> <register> <value>" << std::endl;
 		return true;
 	}
 
@@ -729,12 +757,16 @@ bool WriteI2C(openni::Device& Device, vector<string>& Command, XnControlProcessi
 	}
 
 	if (command == 1)
+	{
 		nParam = XN_MODULE_PROPERTY_DEPTH_CONTROL;
+	}
 	else if (command == 0)
+	{
 		nParam = XN_MODULE_PROPERTY_IMAGE_CONTROL;
+	}
 	else
 	{
-		cout << "cmos must be 0/1" << endl;
+		std::cout << "cmos must be 0/1" << std::endl;
 		return true;
 	}
 
@@ -747,11 +779,11 @@ bool WriteI2C(openni::Device& Device, vector<string>& Command, XnControlProcessi
 	return true;
 }
 
-bool ReadI2C(openni::Device& Device, vector<string>& Command, XnControlProcessingData& I2C)
+bool ReadI2C(openni::Device& Device, std::vector<std::string>& Command, XnControlProcessingData& I2C)
 {
 	if (Command.size() != 4)
 	{
-		cout << "Usage: " << Command[0] << " " << Command[1] << " <cmos> <register>" << endl;
+		std::cout << "Usage: " << Command[0] << " " << Command[1] << " <cmos> <register>" << std::endl;
 		return true;
 	}
 
@@ -768,7 +800,7 @@ bool ReadI2C(openni::Device& Device, vector<string>& Command, XnControlProcessin
 	int command;
 	if (!atoi2(Command[2].c_str(), &command))
 	{
-		cout << "cmos must be 0/1" << endl;
+		std::cout << "cmos must be 0/1" << std::endl;
 		return true;
 	}
 
@@ -778,26 +810,26 @@ bool ReadI2C(openni::Device& Device, vector<string>& Command, XnControlProcessin
 		nParam = XN_MODULE_PROPERTY_IMAGE_CONTROL;
 	else
 	{
-		cout << "cmos must be 0/1" << endl;
+		std::cout << "cmos must be 0/1" << std::endl;
 		return true;
 	}
 
 	if (Device.getProperty(nParam, &I2C) != openni::STATUS_OK)
 	{
-		cout << "GetParam failed!" << endl;
+		std::cout << "GetParam failed!" << std::endl;
 		return true;
 	}
 
-	cout << "I2C(" << command << ")[0x" << hex << I2C.nRegister << "] = 0x" << hex << I2C.nValue << endl;
+	std::cout << "I2C(" << command << ")[0x" << std::hex << I2C.nRegister << "] = 0x" << std::hex << I2C.nValue << std::endl;
 
 	return true;
 }
 
-bool GeneralI2C(openni::Device& Device, vector<string>& Command)
+bool GeneralI2C(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 2)
 	{
-		cout << "Usage: " << Command[0] << " <read/write> ..." << endl;
+		std::cout << "Usage: " << Command[0] << " <read/write> ..." << std::endl;
 		return true;
 	}
 	XnControlProcessingData I2C;
@@ -811,15 +843,15 @@ bool GeneralI2C(openni::Device& Device, vector<string>& Command)
 		return WriteI2C(Device, Command, I2C);
 	}
 
-	cout << "Usage: " << Command[0] << " <read/write> ..." << endl;
+	std::cout << "Usage: " << Command[0] << " <read/write> ..." << std::endl;
 	return true;
 }
 
-bool WriteAHB(openni::Device& Device, vector<string>& Command, XnAHBData& AHB)
+bool WriteAHB(openni::Device& Device, std::vector<std::string>& Command, XnAHBData& AHB)
 {
 	if (Command.size() != 5)
 	{
-		cout << "Usage: " << Command[0] << " " << Command[1] << " <register> <value> <mask>" << endl;
+		std::cout << "Usage: " << Command[0] << " " << Command[1] << " <register> <value> <mask>" << std::endl;
 		return true;
 	}
 
@@ -855,11 +887,11 @@ bool WriteAHB(openni::Device& Device, vector<string>& Command, XnAHBData& AHB)
 	return true;
 }
 
-bool ReadAHB(openni::Device& Device, vector<string>& Command, XnAHBData& AHB)
+bool ReadAHB(openni::Device& Device, std::vector<std::string>& Command, XnAHBData& AHB)
 {
 	if (Command.size() != 3)
 	{
-		cout << "Usage: " << Command[0] << " " << Command[1] << " <register>" << endl;
+		std::cout << "Usage: " << Command[0] << " " << Command[1] << " <register>" << std::endl;
 		return true;
 	}
 
@@ -880,17 +912,17 @@ bool ReadAHB(openni::Device& Device, vector<string>& Command, XnAHBData& AHB)
 	}
 	else
 	{
-		cout << "AHB[0x" << hex << AHB.nRegister << "] = 0x" << hex << AHB.nValue << endl;
+		std::cout << "AHB[0x" << std::hex << AHB.nRegister << "] = 0x" << std::hex << AHB.nValue << std::endl;
 	}
 
 	return true;
 }
 
-bool GeneralAHB(openni::Device& Device, vector<string>& Command)
+bool GeneralAHB(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 2)
 	{
-		cout << "Usage: " << Command[0] << " <read/write> ..." << endl;
+		std::cout << "Usage: " << Command[0] << " <read/write> ..." << std::endl;
 		return true;
 	}
 	XnAHBData AHB;
@@ -904,15 +936,15 @@ bool GeneralAHB(openni::Device& Device, vector<string>& Command)
 		return WriteAHB(Device, Command, AHB);
 	}
 
-	cout << "Usage: " << Command[0] << " <read/write> ..." << endl;
+	std::cout << "Usage: " << Command[0] << " <read/write> ..." << std::endl;
 	return true;
 }
 
-bool Upload(openni::Device& Device, vector<string>& Command)
+bool Upload(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 3)
 	{
-		cout << "Usage: " << Command[0] << " <offset> <file> [ro]" << endl;
+		std::cout << "Usage: " << Command[0] << " <offset> <file> [ro]" << std::endl;
 		return true;
 	}
 	int nOffset;
@@ -947,11 +979,11 @@ bool Upload(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool Download(openni::Device& Device, vector<string>& Command)
+bool Download(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 3)
 	{
-		cout << "Usage: " << Command[0] << " <id> <file>" << endl;
+		std::cout << "Usage: " << Command[0] << " <id> <file>" << std::endl;
 		return true;
 	}
 	int nId;
@@ -972,11 +1004,11 @@ bool Download(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool Filter(openni::Device& Device, vector<string>& Command)
+bool Filter(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 2)
 	{
-		cout << "Usage: " << Command[0] << " <get/set> ..." << endl;
+		std::cout << "Usage: " << Command[0] << " <get/set> ..." << std::endl;
 		return true;
 	}
 
@@ -1001,7 +1033,7 @@ bool Filter(openni::Device& Device, vector<string>& Command)
 	{
 		if (Command.size() < 3)
 		{
-			cout << "Usage: " << Command[0] << " set <filter>" << endl;
+			std::cout << "Usage: " << Command[0] << " set <filter>" << std::endl;
 			return true;
 		}
 		if (!atoi2(Command[2].c_str(), &nFilter))
@@ -1021,18 +1053,18 @@ bool Filter(openni::Device& Device, vector<string>& Command)
 	}
 	else
 	{
-		cout << "Usage: " << Command[0] << " <get/set> ..." << endl;
+		std::cout << "Usage: " << Command[0] << " <get/set> ..." << std::endl;
 	}
 
 	return true;
-	
+
 }
 
-bool Led(openni::Device& Device, vector<string>& Command)
+bool Led(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 3)
 	{
-		cout << "Usage: " << Command[0] << " <id> <on|off>" << endl;
+		std::cout << "Usage: " << Command[0] << " <id> <on|off>" << std::endl;
 		return true;
 	}
 
@@ -1045,9 +1077,13 @@ bool Led(openni::Device& Device, vector<string>& Command)
 
 	int nState;
 	if (Command[2] == "on")
+	{
 		nState = 1;
+	}
 	else if (Command[2] == "off")
+	{
 		nState = 0;
+	}
 	else
 	{
 		printf("State must be 'on' or 'off'!\n");
@@ -1070,7 +1106,7 @@ bool Led(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool ReadFixed(openni::Device& Device, vector<string>& Command)
+bool ReadFixed(openni::Device& Device, std::vector<std::string>& Command)
 {
 	int nParam = -1;
 	if (Command.size() > 1)
@@ -1099,18 +1135,18 @@ bool ReadFixed(openni::Device& Device, vector<string>& Command)
 		{
 			if (buffer.nDataSize < nParam * sizeof(XnUInt32))
 			{
-				cout << "Invalid index! Last index is " << buffer.nDataSize / sizeof(XnUInt32) - 1 << endl;
+				std::cout << "Invalid index! Last index is " << buffer.nDataSize / sizeof(XnUInt32) - 1 << std::endl;
 			}
 			else
 			{
-				cout << "Fixed Param [" << nParam << "] = " << anFixedParams[nParam] << endl;
+				std::cout << "Fixed Param [" << nParam << "] = " << anFixedParams[nParam] << std::endl;
 			}
 		}
 		else
 		{
 			for (XnUInt32 i = 0; i < buffer.nDataSize / sizeof(XnUInt32); ++i)
 			{
-				cout << "Fixed Param [" << i << "] = " << anFixedParams[i] << endl;
+				std::cout << "Fixed Param [" << i << "] = " << anFixedParams[i] << std::endl;
 			}
 		}
 	}
@@ -1118,28 +1154,36 @@ bool ReadFixed(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool Debug(openni::Device& /*Device*/, vector<string>& Command)
+bool Debug(openni::Device& /*Device*/, std::vector<std::string>& Command)
 {
-	for (unsigned int i = 0; i < Command.size(); i++)
-		cout << i << ". \"" << Command[i] << "\"" << endl;
+	for (size_t i = 0; i < Command.size(); i++)
+	{
+		std::cout << i << ". \"" << Command[i] << "\"" << std::endl;
+	}
 
 	return true;
 }
 
-void RegisterCB(string cmd, cbfunc func, const string& strHelp)
+void RegisterCB(std::string cmd, cbfunc func, const std::string& strHelp)
 {
-	for (unsigned int i = 0; i < cmd.size(); i++)
+	for (size_t i = 0; i < cmd.size(); i++)
+	{
 		cmd[i] = (char)tolower(cmd[i]);
+	}
 	cbs[cmd] = func;
 	helps[cmd] = strHelp;
 }
 
-void RegisterMnemonic(string strMnemonic, string strCommand)
+void RegisterMnemonic(std::string strMnemonic, std::string strCommand)
 {
-	for (unsigned int i = 0; i < strCommand.size(); i++)
+	for (size_t i = 0; i < strCommand.size(); i++)
+	{
 		strCommand[i] = (char)tolower(strCommand[i]);
-	for (unsigned int i = 0; i < strMnemonic.size(); i++)
+	}
+	for (size_t i = 0; i < strMnemonic.size(); i++)
+	{
 		strMnemonic[i] = (char)tolower(strMnemonic[i]);
+	}
 
 	if (cbs.find(strCommand) != cbs.end())
 	{
@@ -1147,11 +1191,11 @@ void RegisterMnemonic(string strMnemonic, string strCommand)
 	}
 }
 
-bool ReadFlash(openni::Device& Device, vector<string>& Command)
+bool ReadFlash(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 4)
 	{
-		cout << "Usage: " << Command[0] << " <offset> <size> <file>" << endl;
+		std::cout << "Usage: " << Command[0] << " <offset> <size> <file>" << std::endl;
 		return true;
 	}
 
@@ -1183,9 +1227,9 @@ bool ReadFlash(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool RunBIST(openni::Device& Device, vector<string>& Command)
+bool RunBIST(openni::Device& Device, std::vector<std::string>& Command)
 {
-	string sBistTests[] = 
+	std::string sBistTests[] =
 	{
 		"ImageCmos",
 		"IrCmos",
@@ -1198,9 +1242,9 @@ bool RunBIST(openni::Device& Device, vector<string>& Command)
 		"NESAUnlimited"
 	};
 
-	int nBistTests = sizeof(sBistTests) / sizeof(string);
+	int nBistTests = sizeof(sBistTests) / sizeof(std::string);
 
-	string sBistErrors[] = 
+	std::string sBistErrors[] =
 	{
 		"Ram",
 		"Ir Cmos Control Bus",
@@ -1231,7 +1275,7 @@ bool RunBIST(openni::Device& Device, vector<string>& Command)
 		"NESA",
 	};
 
-	int nBistErrors = sizeof(sBistErrors) / sizeof(string);
+	int nBistErrors = sizeof(sBistErrors) / sizeof(std::string);
 
 	XnBist bist;
 	bist.nTestsMask = 0;
@@ -1272,7 +1316,7 @@ bool RunBIST(openni::Device& Device, vector<string>& Command)
 				}
 				else
 				{
-					cout << "Unknown test: " << Command[i] << endl;
+					std::cout << "Unknown test: " << Command[i] << std::endl;
 					bShowUsage = true;
 					break;
 				}
@@ -1282,11 +1326,11 @@ bool RunBIST(openni::Device& Device, vector<string>& Command)
 
 	if (bShowUsage)
 	{
-		cout << "Usage: " << Command[0] << " [test_list]" << endl;
-		cout << "where test_list can be one or more of:" << endl;
+		std::cout << "Usage: " << Command[0] << " [test_list]" << std::endl;
+		std::cout << "where test_list can be one or more of:" << std::endl;
 		for (int i = 0; i < nBistTests; ++i)
 		{
-			cout << "\t" << sBistTests[i] << endl;
+			std::cout << "\t" << sBistTests[i] << std::endl;
 		}
 		return true;
 	}
@@ -1300,18 +1344,18 @@ bool RunBIST(openni::Device& Device, vector<string>& Command)
 
 	if (bist.nFailures == 0)
 	{
-		cout << "BIST passed." << endl;
+		std::cout << "BIST passed." << std::endl;
 	}
 	else
 	{
-		cout << "BIST failed. Returning code: " << bist.nFailures << endl;
-		cout << "The following tests have failed:" << endl;
+		std::cout << "BIST failed. Returning code: " << bist.nFailures << std::endl;
+		std::cout << "The following tests have failed:" << std::endl;
 		for (int i = 0; i < nBistErrors; ++i)
 		{
 			int nMask = 1 << i;
 			if ((bist.nFailures & nMask) != 0)
 			{
-				cout << "\t" << sBistErrors[i] << endl;
+				std::cout << "\t" << sBistErrors[i] << std::endl;
 			}
 		}
 	}
@@ -1319,11 +1363,11 @@ bool RunBIST(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool CalibrateTec(openni::Device& Device, vector<string>& Command)
+bool CalibrateTec(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 3)
 	{
-		cout << "Usage: " << Command[0] << " " << Command[1] << " <set point>" << endl;
+		std::cout << "Usage: " << Command[0] << " " << Command[1] << " <set point>" << std::endl;
 		return true;
 	}
 
@@ -1350,7 +1394,7 @@ bool CalibrateTec(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool GetTecData(openni::Device& Device, vector<string>& /*Command*/)
+bool GetTecData(openni::Device& Device, std::vector<std::string>& /*Command*/)
 {
 	XnTecData TecData;
 
@@ -1362,15 +1406,15 @@ bool GetTecData(openni::Device& Device, vector<string>& /*Command*/)
 	else
 	{
 		printf("SetPointVoltage: %hd\nCompensationVoltage: %hd\nDutyCycle: %hd\nHeatMode: %hd\nProportionalError: %d\nIntegralError: %d\nDeriativeError: %d\nScanMode: %hd\n",
-			TecData.m_SetPointVoltage, TecData.m_CompensationVoltage, TecData.m_TecDutyCycle, 
-			TecData.m_HeatMode, TecData.m_ProportionalError, TecData.m_IntegralError, 
+			TecData.m_SetPointVoltage, TecData.m_CompensationVoltage, TecData.m_TecDutyCycle,
+			TecData.m_HeatMode, TecData.m_ProportionalError, TecData.m_IntegralError,
 			TecData.m_DerivativeError, TecData.m_ScanMode);
 	}
 
 	return true;
 }
 
-bool GetTecFastConvergenceData(openni::Device& Device, vector<string>& /*Command*/)
+bool GetTecFastConvergenceData(openni::Device& Device, std::vector<std::string>& /*Command*/)
 {
 	XnTecFastConvergenceData TecData;
     XnFloat     SetPointTemperature;
@@ -1397,15 +1441,15 @@ bool GetTecFastConvergenceData(openni::Device& Device, vector<string>& /*Command
         ErrorTemperature = ErrorTemperature / 100;
 
         printf("SetPointTemperature: %f\nMeasuredTemperature: %f\nError: %f\nDutyCyclePercents: %hd\nHeatMode: %hd\nProportionalError: %d\nIntegralError: %d\nDeriativeError: %d\nScanMode: %hd\nTemperatureRange: %hd\n",
-			SetPointTemperature, MeasuredTemperature, ErrorTemperature, TecData.m_TecDutyCycle, 
-			TecData.m_HeatMode, TecData.m_ProportionalError, TecData.m_IntegralError, 
+			SetPointTemperature, MeasuredTemperature, ErrorTemperature, TecData.m_TecDutyCycle,
+			TecData.m_HeatMode, TecData.m_ProportionalError, TecData.m_IntegralError,
 			TecData.m_DerivativeError, TecData.m_ScanMode, TecData.m_TemperatureRange);
 	}
 
 	return true;
 }
 
-bool Tec(openni::Device& Device, vector<string>& Command)
+bool Tec(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() > 1)
 	{
@@ -1419,11 +1463,11 @@ bool Tec(openni::Device& Device, vector<string>& Command)
 		}
 	}
 
-	cout << "Usage: " << Command[0] << " <calib/get> ..." << endl;
+	std::cout << "Usage: " << Command[0] << " <calib/get> ..." << std::endl;
 	return true;
 }
 
-bool TecFC(openni::Device& Device, vector<string>& Command)
+bool TecFC(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() > 1)
 	{
@@ -1437,16 +1481,16 @@ bool TecFC(openni::Device& Device, vector<string>& Command)
 		}
 	}
 
-	cout << "Usage: " << Command[0] << " <calib/get> ..." << endl;
+	std::cout << "Usage: " << Command[0] << " <calib/get> ..." << std::endl;
 	return true;
 }
 
 
-bool CalibrateEmitter(openni::Device& Device, vector<string>& Command)
+bool CalibrateEmitter(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 3)
 	{
-		cout << "Usage: " << Command[0] << " " << Command[1] << " <set point>" << endl;
+		std::cout << "Usage: " << Command[0] << " " << Command[1] << " <set point>" << std::endl;
 		return true;
 	}
 
@@ -1473,7 +1517,7 @@ bool CalibrateEmitter(openni::Device& Device, vector<string>& Command)
 	return true;
 }
 
-bool GetEmitterData(openni::Device& Device, vector<string>& /*Command*/)
+bool GetEmitterData(openni::Device& Device, std::vector<std::string>& /*Command*/)
 {
 	XnEmitterData EmitterData;
 
@@ -1508,7 +1552,7 @@ bool GetEmitterData(openni::Device& Device, vector<string>& /*Command*/)
 	return true;
 }
 
-bool Emitter(openni::Device& Device, vector<string>& Command)
+bool Emitter(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() > 1)
 	{
@@ -1540,15 +1584,15 @@ bool Emitter(openni::Device& Device, vector<string>& Command)
 		}
 	}
 
-	cout << "Usage: " << Command[0] << " <calib|get|on|off> ..." << endl;
+	std::cout << "Usage: " << Command[0] << " <calib|get|on|off> ..." << std::endl;
 	return true;
 }
 
-bool ProjectorFault(openni::Device& Device, vector<string>& Command)
+bool ProjectorFault(openni::Device& Device, std::vector<std::string>& Command)
 {
 	if (Command.size() < 3)
 	{
-		cout << "Usage: " << Command[0] << " <min> <max>" << endl;
+		std::cout << "Usage: " << Command[0] << " <min> <max>" << std::endl;
 		return true;
 	}
 
@@ -1577,14 +1621,18 @@ bool ProjectorFault(openni::Device& Device, vector<string>& Command)
 	}
 
 	if (ProjectorFaultData.bProjectorFaultEvent)
+	{
 		printf("ProjectorFault event occurred!\n");
+	}
 	else
+	{
 		printf("ProjectorFault OK.\n");
+	}
 
 	return true;
 }
 
-bool StartReadData(openni::Device& Device, vector<string>& Command)
+bool StartReadData(openni::Device& Device, std::vector<std::string>& Command)
 {
 	XnSensorUsbInterface usbInterface = XN_SENSOR_USB_INTERFACE_DEFAULT;
 
@@ -1600,7 +1648,7 @@ bool StartReadData(openni::Device& Device, vector<string>& Command)
 		}
 		else
 		{
-			cout << "Usage: " << Command[0] << " [bulk/iso]" << endl;
+			std::cout << "Usage: " << Command[0] << " [bulk/iso]" << std::endl;
 			return true;
 		}
 	}
@@ -1681,7 +1729,7 @@ int main(int argc, char **argv)
 		return 2;
 	}
 
-	vector<string> DummyCommand;
+	std::vector<std::string> DummyCommand;
 	PrintVersion(Device, DummyCommand);
 
 	RegisterCB("exit", &byebye, "Exit interactive mode");
@@ -1742,11 +1790,11 @@ int main(int argc, char **argv)
 
 	if (argc == 1)
 	{
-		mainloop(Device, cin, true);
+		mainloop(Device, std::cin, true);
 	}
 	else
 	{
-		vector<string> Command;
+		std::vector<std::string> Command;
 		for (int i = 1; i < argc; i++)
 		{
 			Command.push_back(argv[i]);
@@ -1769,7 +1817,7 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			cout << "Unknown command \"" << Command[0] << "\"" << endl;
+			std::cout << "Unknown command \"" << Command[0] << "\"" << std::endl;
 		}
 	}
 
