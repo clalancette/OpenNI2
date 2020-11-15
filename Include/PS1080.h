@@ -23,13 +23,13 @@
 
 #include <OniCTypes.h>
 
-/** The maximum permitted Xiron device name string length. */ 
+/** The maximum permitted Xiron device name string length. */
 #define XN_DEVICE_MAX_STRING_LENGTH 200
 
-/* 
+/*
  * private properties of PS1080 devices.
  *
- * @remarks 
+ * @remarks
  * properties structure is 0x1080XXYY where XX is range and YY is code.
  * range values:
  * F0 - device properties
@@ -46,7 +46,7 @@ enum
 
 	/** unsigned long long (XnSensorUsbInterface) */
 	XN_MODULE_PROPERTY_USB_INTERFACE = 0x1080F001, // "UsbInterface"
-	/** Boolean */ 
+	/** Boolean */
 	XN_MODULE_PROPERTY_MIRROR = 0x1080F002, // "Mirror"
 	/** unsigned long long, get only */
 	XN_MODULE_PROPERTY_RESET_SENSOR_ON_STARTUP = 0x1080F004, // "ResetSensorOnStartup"
@@ -135,7 +135,7 @@ enum
 	/* Common stream properties                                        */
 	/*******************************************************************/
 
-	/** unsigned long long */ 
+	/** unsigned long long */
 	XN_STREAM_PROPERTY_INPUT_FORMAT = 0x10800001, // "InputFormat"
 	/** unsigned long long (XnCroppingMode) */
 	XN_STREAM_PROPERTY_CROPPING_MODE = 0x10800002, // "CroppingMode"
@@ -152,35 +152,35 @@ enum
 	XN_STREAM_PROPERTY_PIXEL_REGISTRATION = 0x10801001, // "PixelRegistration"
 	/** unsigned long long */
 	XN_STREAM_PROPERTY_WHITE_BALANCE_ENABLED = 0x10801002, // "WhiteBalancedEnabled"
-	/** unsigned long long */ 
+	/** unsigned long long */
 	XN_STREAM_PROPERTY_GAIN = 0x10801003, // "Gain"
-	/** unsigned long long */ 
+	/** unsigned long long */
 	XN_STREAM_PROPERTY_HOLE_FILTER = 0x10801004, // "HoleFilter"
-	/** unsigned long long (XnProcessingType) */ 
+	/** unsigned long long (XnProcessingType) */
 	XN_STREAM_PROPERTY_REGISTRATION_TYPE = 0x10801005, // "RegistrationType"
 	/** XnDepthAGCBin* */
 	XN_STREAM_PROPERTY_AGC_BIN = 0x10801006, // "AGCBin"
-	/** unsigned long long, get only */ 
+	/** unsigned long long, get only */
 	XN_STREAM_PROPERTY_CONST_SHIFT = 0x10801007, // "ConstShift"
-	/** unsigned long long, get only */ 
+	/** unsigned long long, get only */
 	XN_STREAM_PROPERTY_PIXEL_SIZE_FACTOR = 0x10801008, // "PixelSizeFactor"
-	/** unsigned long long, get only */ 
+	/** unsigned long long, get only */
 	XN_STREAM_PROPERTY_MAX_SHIFT = 0x10801009, // "MaxShift"
-	/** unsigned long long, get only */ 
+	/** unsigned long long, get only */
 	XN_STREAM_PROPERTY_PARAM_COEFF = 0x1080100A, // "ParamCoeff"
-	/** unsigned long long, get only */ 
+	/** unsigned long long, get only */
 	XN_STREAM_PROPERTY_SHIFT_SCALE = 0x1080100B, // "ShiftScale"
-	/** unsigned long long, get only */ 
+	/** unsigned long long, get only */
 	XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE = 0x1080100C, // "ZPD"
-	/** double, get only */ 
+	/** double, get only */
 	XN_STREAM_PROPERTY_ZERO_PLANE_PIXEL_SIZE = 0x1080100D, // "ZPPS"
-	/** double, get only */ 
+	/** double, get only */
 	XN_STREAM_PROPERTY_EMITTER_DCMOS_DISTANCE = 0x1080100E, // "LDDIS"
-	/** double, get only */ 
+	/** double, get only */
 	XN_STREAM_PROPERTY_DCMOS_RCMOS_DISTANCE = 0x1080100F, // "DCRCDIS"
-	/** OniDepthPixel[], get only */ 
+	/** OniDepthPixel[], get only */
 	XN_STREAM_PROPERTY_S2D_TABLE = 0x10801010, // "S2D"
-	/** unsigned short[], get only */ 
+	/** unsigned short[], get only */
 	XN_STREAM_PROPERTY_D2S_TABLE = 0x10801011, // "D2S"
 	/** get only */
 	XN_STREAM_PROPERTY_DEPTH_SENSOR_CALIBRATION_INFO = 0x10801012,
@@ -196,11 +196,11 @@ enum
 	/*******************************************************************/
 	/* Color stream properties                                         */
 	/*******************************************************************/
-	/** Integer */ 
+	/** Integer */
 	XN_STREAM_PROPERTY_FLICKER = 0x10802001, // "Flicker"
 };
 
-typedef enum 
+typedef enum
 {
 	XN_SENSOR_FW_VER_UNKNOWN = 0,
 	XN_SENSOR_FW_VER_0_17 = 1,
@@ -236,7 +236,7 @@ typedef enum {
 	XN_SENSOR_HW_VER_RD_5  = 4,
 	XN_SENSOR_HW_VER_RD1081  = 5,
 	XN_SENSOR_HW_VER_RD1082  = 6,
-	XN_SENSOR_HW_VER_RD109  = 7	
+	XN_SENSOR_HW_VER_RD109  = 7
 } XnHWVer;
 
 typedef enum {
@@ -471,7 +471,7 @@ typedef struct
 	unsigned short nValue;
 } XnInnerParamData;
 
-typedef struct XnDepthAGCBin 
+typedef struct XnDepthAGCBin
 {
 	unsigned short nBin;
 	unsigned short nMin;
@@ -614,7 +614,7 @@ typedef struct  {
 	uint16_t nReserve;
 } XnFlashFile;
 
-typedef struct  
+typedef struct
 {
 	XnFlashFile* pFiles;
 	uint16_t nFiles;

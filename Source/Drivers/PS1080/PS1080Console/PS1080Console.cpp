@@ -1612,6 +1612,7 @@ bool ProjectorFault(openni::Device& Device, std::vector<std::string>& Command)
 	XnProjectorFaultData ProjectorFaultData;
 	ProjectorFaultData.nMinThreshold = (uint16_t)nMin;
 	ProjectorFaultData.nMaxThreshold = (uint16_t)nMax;
+	ProjectorFaultData.bProjectorFaultEvent = 0;
 
 	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_PROJECTOR_FAULT, ProjectorFaultData);
 	if (rc != openni::STATUS_OK)
