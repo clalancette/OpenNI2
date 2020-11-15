@@ -18,6 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <vector>
+
 #include "XnDeviceEnumeration.h"
 #include <XnUSB.h>
 
@@ -28,7 +30,7 @@ XnBool XnDeviceEnumeration::ms_initialized = FALSE;
 XnDeviceEnumeration::DeviceConnectivityEvent XnDeviceEnumeration::ms_connectedEvent;
 XnDeviceEnumeration::DeviceConnectivityEvent XnDeviceEnumeration::ms_disconnectedEvent;
 XnDeviceEnumeration::DevicesHash XnDeviceEnumeration::ms_devices;
-xnl::Array<XnRegistrationHandle> XnDeviceEnumeration::ms_aRegistrationHandles;
+std::vector<XnRegistrationHandle> XnDeviceEnumeration::ms_aRegistrationHandles;
 XN_CRITICAL_SECTION_HANDLE XnDeviceEnumeration::ms_lock;
 
 XnDeviceEnumeration::XnUsbId XnDeviceEnumeration::ms_supportedProducts[] = 
@@ -70,8 +72,7 @@ XnStatus XnDeviceEnumeration::Initialize()
 		nRetVal = xnUSBRegisterToConnectivityEvents(ms_supportedProducts[i].vendorID, ms_supportedProducts[i].productID, OnConnectivityEventCallback, &ms_supportedProducts[i], &hRegistration);
 		XN_IS_STATUS_OK(nRetVal);
 
-		nRetVal = ms_aRegistrationHandles.AddLast(hRegistration);
-		XN_IS_STATUS_OK(nRetVal);
+		ms_aRegistrationHandles.push_back(hRegistration);
 
 		// and enumerate for existing ones
 		nRetVal = xnUSBEnumerateDevices(ms_supportedProducts[i].vendorID, ms_supportedProducts[i].productID, &astrDevicePaths, &nCount);
@@ -94,11 +95,11 @@ void XnDeviceEnumeration::Shutdown()
 {
 	if (ms_initialized)
 	{
-		for (XnUInt32 i = 0; i < ms_aRegistrationHandles.GetSize(); ++i)
+		for (XnUInt32 i = 0; i < ms_aRegistrationHandles.size(); ++i)
 		{
 			xnUSBUnregisterFromConnectivityEvents(ms_aRegistrationHandles[i]);
 		}
-		ms_aRegistrationHandles.Clear();
+		ms_aRegistrationHandles.clear();
 		ms_connectedEvent.Clear();
 		ms_disconnectedEvent.Clear();
 
