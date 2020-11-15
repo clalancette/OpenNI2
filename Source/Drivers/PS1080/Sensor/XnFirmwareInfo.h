@@ -24,8 +24,9 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <vector>
+
 #include <XnStreamParams.h>
-#include <XnArray.h>
 
 //---------------------------------------------------------------------------
 // Types
@@ -115,11 +116,11 @@ public:
 	XnBool bIncreasedFpsCropSupported;
 	XnBool bHasFilesystemLock;
 
-	xnl::Array<XnCmosPreset> depthModes;
-	xnl::Array<XnCmosPreset> _imageBulkModes;
-	xnl::Array<XnCmosPreset> _imageIsoModes;
-	xnl::Array<XnCmosPreset> imageModes;
-	xnl::Array<XnCmosPreset> irModes;
+	std::vector<XnCmosPreset> depthModes;
+	std::vector<XnCmosPreset> _imageBulkModes;
+	std::vector<XnCmosPreset> _imageIsoModes;
+	std::vector<XnCmosPreset> imageModes;
+	std::vector<XnCmosPreset> irModes;
 };
 
 #endif // XNFIRMWAREINFO_H
