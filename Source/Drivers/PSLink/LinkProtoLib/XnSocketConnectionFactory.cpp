@@ -18,6 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <vector>
+
 #include "XnSocketConnectionFactory.h"
 #include "XnSyncSocketConnection.h"
 #include "XnSocketInConnection.h"
@@ -41,9 +43,9 @@ const XnUInt16 SocketConnectionFactory::CONTROL_MAX_PACKET_SIZE = 65535;
 const XnUInt16 SocketConnectionFactory::NUM_SERVER_TO_CLIENT_DATA_CONNECTIONS = 1;
 const XnUInt16 SocketConnectionFactory::DATA_OUT_MAX_PACKET_SIZE = 65535;
 const XnUInt16 SocketConnectionFactory::DATA_IN_MAX_PACKET_SIZE = 65535;
-xnl::Array<SocketConnectionFactory::ConnectionStringStruct> SocketConnectionFactory::s_enumerationTargets;
+std::vector<SocketConnectionFactory::ConnectionStringStruct> SocketConnectionFactory::s_enumerationTargets;
 
-xnl::Array<SyncSocketConnection> SocketConnectionFactory::s_controlConnections;
+std::vector<SyncSocketConnection> SocketConnectionFactory::s_controlConnections;
 
 SocketConnectionFactory::SocketConnectionFactory(Type type)
 {
@@ -241,15 +243,14 @@ XnStatus SocketConnectionFactory::CreateInputDataConnection(XnUInt16 nID, IAsync
 XnStatus SocketConnectionFactory::AddEnumerationTarget(const XnChar* strConnString)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	nRetVal = s_enumerationTargets.SetSize(s_enumerationTargets.GetSize()+1);
-	XN_IS_STATUS_OK_LOG_ERROR("Add to enumeration targets", nRetVal);
-	nRetVal = xnOSStrCopy(s_enumerationTargets[s_enumerationTargets.GetSize()-1].m_strConn, 
+	s_enumerationTargets.resize(s_enumerationTargets.size() + 1);
+	nRetVal = xnOSStrCopy(s_enumerationTargets[s_enumerationTargets.size() - 1].m_strConn,
 		strConnString, sizeof(XnConnectionString));
 	XN_IS_STATUS_OK_LOG_ERROR("Copy connection string", nRetVal);
 	return XN_STATUS_OK;
 }
 
-XnStatus SocketConnectionFactory::TryAndAddEnumerationTarget(xnl::Array<ConnectionStringStruct>& result, const XnChar* strConnString)
+XnStatus SocketConnectionFactory::TryAndAddEnumerationTarget(std::vector<ConnectionStringStruct>& result, const XnChar* strConnString)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	SyncSocketConnection* pConnection = NULL;
@@ -266,10 +267,9 @@ XnStatus SocketConnectionFactory::TryAndAddEnumerationTarget(xnl::Array<Connecti
 	{
 		ConnectionStringStruct connString;
 		EncodeConnectionString(connString.m_strConn, sizeof(connString.m_strConn), strIP, nPort);
-		
+
 		// make sure we have space
-		nRetVal = result.AddLast(connString);
-		XN_IS_STATUS_OK(nRetVal);
+		result.push_back(connString);
 	}
 	else
 	{
@@ -279,7 +279,7 @@ XnStatus SocketConnectionFactory::TryAndAddEnumerationTarget(xnl::Array<Connecti
 	return (XN_STATUS_OK);
 }
 
-XnStatus SocketConnectionFactory::AddConfigFileTarget(xnl::Array<ConnectionStringStruct>& result, XnUInt16 nProductID)
+XnStatus SocketConnectionFactory::AddConfigFileTarget(std::vector<ConnectionStringStruct>& result, XnUInt16 nProductID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	
@@ -357,9 +357,9 @@ XnStatus SocketConnectionFactory::EnumerateConnStrings(XnUInt16 nProductID,
 	// Enumeration targets can be received from 2 sources:
 	// 1. via the AddEnumerationTarget() method.
 	// 2. from config file.
-	xnl::Array<ConnectionStringStruct> result;
+	std::vector<ConnectionStringStruct> result;
 
-	for (XnUInt32 i = 0; i < s_enumerationTargets.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < s_enumerationTargets.size(); ++i)
 	{
 		nRetVal = TryAndAddEnumerationTarget(result, s_enumerationTargets[i].m_strConn);
 		XN_IS_STATUS_OK(nRetVal);
@@ -369,16 +369,16 @@ XnStatus SocketConnectionFactory::EnumerateConnStrings(XnUInt16 nProductID,
 	nRetVal = AddConfigFileTarget(result, nProductID);
 	XN_IS_STATUS_OK(nRetVal);
 
-	astrConnStrings = (XnConnectionString*)xnOSCalloc(result.GetSize(), sizeof(astrConnStrings[0]));
+	astrConnStrings = (XnConnectionString*)xnOSCalloc(result.size(), sizeof(astrConnStrings[0]));
 	XN_VALIDATE_ALLOC_PTR(astrConnStrings);
 
-	for (XnUInt32 i = 0; i < result.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < result.size(); ++i)
 	{
 		nRetVal = xnOSStrCopy(astrConnStrings[i], result[i].m_strConn, sizeof(astrConnStrings[i]));
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
-	nCount = result.GetSize();
+	nCount = result.size();
 
 	return XN_STATUS_OK;
 }
@@ -396,7 +396,7 @@ XnStatus SocketConnectionFactory::GetControlConnectionImpl(const XnChar* strIP,
 	pControlConnection = NULL;
 	
 	//Try and find existing connection
-	for (XnUInt32 i = 0; i < s_controlConnections.GetSize(); i++)
+	for (XnUInt32 i = 0; i < s_controlConnections.size(); i++)
 	{
 		if ((xnOSStrCmp(s_controlConnections[i].GetIP(), strIP) == 0) && 
 			(s_controlConnections[i].GetPort() == nPort))
@@ -409,9 +409,8 @@ XnStatus SocketConnectionFactory::GetControlConnectionImpl(const XnChar* strIP,
 	if (pControlConnection == NULL)
 	{
 		//Control connection is not in array - add it
-		nRetVal = s_controlConnections.SetSize(s_controlConnections.GetSize() + 1);
-		XN_IS_STATUS_OK_LOG_ERROR("Add to control connections array", nRetVal);
-		pControlConnection = &s_controlConnections[s_controlConnections.GetSize() - 1];
+		s_controlConnections.resize(s_controlConnections.size() + 1);
+		pControlConnection = &s_controlConnections[s_controlConnections.size() - 1];
 	}
 
 	if (!pControlConnection->IsInitialized())

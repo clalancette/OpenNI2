@@ -21,11 +21,11 @@
 #ifndef XNSOCKETCONNECTIONFACTORY_H
 #define XNSOCKETCONNECTIONFACTORY_H
 
+#include <vector>
+
 #include "IConnectionFactory.h"
 #include "XnSyncSocketConnection.h"
 #include "XnSyncServerSocketConnection.h"
-
-#include <XnArray.h>
 
 namespace xn
 {
@@ -42,18 +42,18 @@ public:
 	virtual XnUInt16 GetNumInputDataConnections() const;
 	virtual XnUInt16 GetNumOutputDataConnections() const;
 
-	/** The pointer returned by GetControlConnection() belongs to the connection factory and 
+	/** The pointer returned by GetControlConnection() belongs to the connection factory and
 	    must not be deleted by caller. **/
-	virtual XnStatus GetControlConnection(ISyncIOConnection*& pConnection);	
+	virtual XnStatus GetControlConnection(ISyncIOConnection*& pConnection);
 
 	// nID is used for server, as the server has several output connections.
-	virtual XnStatus CreateOutputDataConnection(XnUInt16 nID, IOutputConnection*& pConnection);		
+	virtual XnStatus CreateOutputDataConnection(XnUInt16 nID, IOutputConnection*& pConnection);
 
 	// nID is used for client, as the client has several output connections.
-	virtual XnStatus CreateInputDataConnection(XnUInt16 nID, IAsyncInputConnection*& pConnection);	
+	virtual XnStatus CreateInputDataConnection(XnUInt16 nID, IAsyncInputConnection*& pConnection);
 
 	static XnStatus AddEnumerationTarget(const XnChar* strConnString);
-	
+
 	static XnStatus EnumerateConnStrings(XnUInt16 nProductID, XnConnectionString*& astrConnStrings, XnUInt32& nCount);
 	static void FreeConnStringsList(XnConnectionString* astrConnStrings);
 
@@ -73,12 +73,12 @@ private:
 	} ConnectionStringStruct;
 
 	static const XnUInt16 NUM_SERVER_TO_CLIENT_DATA_CONNECTIONS;
-	static xnl::Array<SyncSocketConnection> s_controlConnections;
+	static std::vector<SyncSocketConnection> s_controlConnections;
 	static XnStatus GetControlConnectionImpl(const XnChar* strIP, XnUInt16 nPort, SyncSocketConnection*& pControlConnection);
-	static XnStatus TryAndAddEnumerationTarget(xnl::Array<ConnectionStringStruct>& result, const XnChar* strConnString);
-	static XnStatus AddConfigFileTarget(xnl::Array<ConnectionStringStruct>& result, XnUInt16 nProductID);
-	
-	// The client implementation returns ISyncIOConnection object that could not be deleted (return from s_controlConnections), 
+	static XnStatus TryAndAddEnumerationTarget(std::vector<ConnectionStringStruct>& result, const XnChar* strConnString);
+	static XnStatus AddConfigFileTarget(std::vector<ConnectionStringStruct>& result, XnUInt16 nProductID);
+
+	// The client implementation returns ISyncIOConnection object that could not be deleted (return from s_controlConnections),
 	// I want the behavior to be consistent for both client and server.
 	SyncServerSocketListener m_serverListener;
 
@@ -89,7 +89,7 @@ private:
 	XnUInt16 m_nDataInBasePort;
 	XnBool m_bInitialized;
 
-	static xnl::Array<ConnectionStringStruct> s_enumerationTargets;
+	static std::vector<ConnectionStringStruct> s_enumerationTargets;
 };
 
 }
