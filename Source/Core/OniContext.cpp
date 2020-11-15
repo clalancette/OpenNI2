@@ -195,7 +195,7 @@ XnStatus Context::configure()
 	rc = xnOSReadStringFromINI(strOniConfigurationFile, "Drivers", "List", strDriversList, sizeof(strDriversList));
 	if (rc == XN_STATUS_OK)
 	{
-		m_driversList.Clear();
+		m_driversList.clear();
 
 		// parse list
 		std::string driver(XN_FILE_MAX_PATH, '\0');
@@ -206,8 +206,7 @@ XnStatus Context::configure()
 			if (*c == ',' || *c == '\0')
 			{
 				driver[driverLen++] = '\0';
-				rc = m_driversList.AddLast(driver);
-				XN_IS_STATUS_OK(rc);
+				m_driversList.push_back(driver);
 				driverLen = 0;
 
 				if (*c == '\0')
@@ -229,7 +228,7 @@ XnStatus Context::loadLibraries()
 
 	xnLogVerbose(XN_MASK_ONI_CONTEXT, "Using '%s' as driver path", m_driverRepo);
 
-	if (m_driversList.IsEmpty())
+	if (m_driversList.empty())
 	{
 		// search repo for drivers
 		XnInt32 nFileCount = 0;
@@ -252,8 +251,7 @@ XnStatus Context::loadLibraries()
 			return XN_STATUS_NO_MODULES_FOUND;
 		}
 
-		nRetVal = m_driversList.SetSize(nFileCount);
-		XN_IS_STATUS_OK(nRetVal);
+		m_driversList.resize(nFileCount);
 
 		typedef XnChar MyFileName[XN_FILE_MAX_PATH];
 		MyFileName* acsFileList = XN_NEW_ARR(MyFileName, nFileCount);
@@ -275,7 +273,7 @@ XnStatus Context::loadLibraries()
 	// Change directory
 	xnOSSetCurrentDir(m_driverRepo);
 
-	for (XnUInt32 i = 0; i < m_driversList.GetSize(); ++i)
+	for (XnUInt32 i = 0; i < m_driversList.size(); ++i)
 	{
 		xnLogVerbose(XN_MASK_ONI_CONTEXT, "Loading device driver '%s'...", m_driversList[i].c_str());
 		DeviceDriver* pDeviceDriver = XN_NEW(DeviceDriver, m_driversList[i].c_str(), m_frameManager, m_errorLogger);
@@ -368,7 +366,7 @@ void Context::shutdown()
 	m_overrideDevice[0] = '\0';
 	m_driverRepo[0] = '\0';
 	m_pathToOpenNI[0] = '\0';
-	m_driversList.Clear();
+	m_driversList.clear();
 
 	xnLogVerbose(XN_MASK_ONI_CONTEXT, "Shutdown: successful.");
 	xnLogClose();
@@ -657,9 +655,8 @@ OniStatus Context::streamDestroy(VideoStream* pStream)
 
 	// Get the frame holder's streams.
 	int numStreams = pFrameHolder->getNumStreams();
-	xnl::Array<VideoStream*> pStreamList(numStreams);
-	pStreamList.SetSize(numStreams);
-	pFrameHolder->getStreams(pStreamList.GetData(), &numStreams);
+	std::vector<VideoStream*> pStreamList(numStreams, NULL);
+	pFrameHolder->getStreams(pStreamList.data(), &numStreams);
 
 	// Change holder to all the streams (allocate new StreamFrameHolder).
 	for (int i = 0; i < numStreams; ++i)
@@ -841,16 +838,13 @@ OniStatus Context::enableFrameSync(OniStreamHandle* pStreams, int numStreams, On
 		return ONI_STATUS_BAD_PARAMETER;
 	}
 
-	xnl::Array<VideoStream*> pStreamList(numStreams);
+	std::vector<VideoStream*> pStreamList(numStreams, NULL);
 	DeviceDriver* pDeviceDriver = NULL;
-
-	// Set the size of the arrays, so they can be filled.
-	pStreamList.SetSize(numStreams);
 
 	// Check validity and fill the arrays.
 	for (int i = 0; i < numStreams; ++i)
 	{
-		// Make sure stream's device is valid and is same as device of other streams. 
+		// Make sure stream's device is valid and is same as device of other streams.
 		if (pDeviceDriver == NULL)
 		{
 			pDeviceDriver = pStreams[i]->pStream->getDevice().getDeviceDriver();
@@ -877,7 +871,7 @@ OniStatus Context::enableFrameSync(OniStreamHandle* pStreams, int numStreams, On
 		pStreamList[i] = pStreams[i]->pStream;
 	}
 
-	return enableFrameSyncEx(pStreamList.GetData(), numStreams, pDeviceDriver, pFrameSyncHandle);
+	return enableFrameSyncEx(pStreamList.data(), numStreams, pDeviceDriver, pFrameSyncHandle);
 }
 
 OniStatus Context::enableFrameSyncEx(VideoStream** pStreams, int numStreams, DeviceDriver* pDeviceDriver, OniFrameSyncHandle* pFrameSyncHandle)
@@ -949,9 +943,8 @@ void Context::disableFrameSync(OniFrameSyncHandle frameSyncHandle)
 
 	// Get the stream list from the holder.
 	int numStreams = frameSyncHandle->pSyncedStreamsFrameHolder->getNumStreams();
-	xnl::Array<VideoStream*> pStreamList(numStreams);
-	pStreamList.SetSize(numStreams);
-	frameSyncHandle->pSyncedStreamsFrameHolder->getStreams(pStreamList.GetData(), &numStreams);
+	std::vector<VideoStream*> pStreamList(numStreams, NULL);
+	frameSyncHandle->pSyncedStreamsFrameHolder->getStreams(pStreamList.data(), &numStreams);
 
 	// Change holder to all the streams (allocate new StreamFrameHolder).
 	for (int i = 0; i < numStreams; ++i)

@@ -34,7 +34,6 @@
 #include "OniDriverHandler.h"
 #include "OniCommon.h"
 
-#include <XnArray.h>
 #include <XnHash.h>
 #include <XnEvent.h>
 
@@ -152,7 +151,7 @@ private:
 	char m_pathToOpenNI[XN_FILE_MAX_PATH];
 	char m_overrideDevice[XN_FILE_MAX_PATH];
 	char m_driverRepo[XN_FILE_MAX_PATH];
-	xnl::Array<std::string> m_driversList;
+	std::vector<std::string> m_driversList;
 
 	int m_initializationCounter;
 	XnUInt64 m_lastFPSPrint;
