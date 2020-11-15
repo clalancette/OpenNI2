@@ -111,7 +111,7 @@ private:
 		// NOTE: as our log implementation returns a pointer directly into this hash, we can't
 		// free this memory in our dtor (static objects dtors are called in unknown order. modules
 		// might still access this memory after our dtor is called).
-		// As in any case, this is a static object which will only be destroyed when the process goes 
+		// As in any case, this is a static object which will only be destroyed when the process goes
 		// down - we can allow this.
 		this->pMasksHash = XN_NEW(XnLogMasksHash);
 		XN_ASSERT(this->pMasksHash != NULL);
@@ -239,7 +239,7 @@ XN_C_API XnStatus XN_C_DECL xnLogCreateNewFile(const XnChar* strName, XnBool bSe
 	{
 		time_t currtime;
 		time(&currtime);
-		strftime(logData.strSessionTimestamp, sizeof(logData.strSessionTimestamp)-1, "%Y_%m_%d__%H_%M_%S", localtime(&currtime)); 
+		strftime(logData.strSessionTimestamp, sizeof(logData.strSessionTimestamp)-1, "%Y_%m_%d__%H_%M_%S", localtime(&currtime));
 	}
 
 	XN_PROCESS_ID nProcID = 0;
@@ -261,7 +261,6 @@ XN_C_API XnStatus XN_C_DECL xnLogCreateNewFile(const XnChar* strName, XnBool bSe
 
 	nRetVal = xnOSStrFormat(csFullPath + nPathSize, nPathBufferSize - nPathSize, &nCharsWritten, "%s", strName);
 	XN_IS_STATUS_OK(nRetVal);
-	nPathSize += nCharsWritten;
 
 	// and open the file
 	nRetVal = xnOSOpenFile(csFullPath, XN_OS_FILE_WRITE | XN_OS_FILE_TRUNCATE, phFile);
@@ -274,7 +273,7 @@ static void xnLogCreateFilterChangedMessage(XnBufferedLogEntry* pEntry)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_REFERENCE_VARIABLE(nRetVal);
-	
+
 	LogData& logData = LogData::GetInstance();
 
 	XnChar strConfigMessage[XN_LOG_MAX_MESSAGE_LENGTH];
@@ -282,6 +281,7 @@ static void xnLogCreateFilterChangedMessage(XnBufferedLogEntry* pEntry)
 	XnUInt32 nMessageLength = 0;
 	nRetVal = xnOSStrFormat(strConfigMessage, XN_LOG_MAX_MESSAGE_LENGTH, &nCharsWritten, "--- Filter Info --- Minimum Severity: %s", xnLogGetSeverityString(logData.defaultMinSeverity));
 	XN_ASSERT(nRetVal == XN_STATUS_OK);
+	XN_REFERENCE_VARIABLE(nRetVal);
 	nMessageLength += nCharsWritten;
 
 	XnBool bOverrides = FALSE;
@@ -296,6 +296,7 @@ static void xnLogCreateFilterChangedMessage(XnBufferedLogEntry* pEntry)
 			{
 				nRetVal = xnOSStrFormat(strConfigMessage + nMessageLength, sizeof(strConfigMessage) - nMessageLength, &nCharsWritten, ". Overriding Masks - ");
 				XN_ASSERT(nRetVal == XN_STATUS_OK);
+				XN_REFERENCE_VARIABLE(nRetVal);
 				bOverrides = TRUE;
 				nMessageLength += nCharsWritten;
 			}
@@ -303,11 +304,13 @@ static void xnLogCreateFilterChangedMessage(XnBufferedLogEntry* pEntry)
 			{
 				nRetVal = xnOSStrFormat(strConfigMessage + nMessageLength, sizeof(strConfigMessage) - nMessageLength, &nCharsWritten, ", ");
 				XN_ASSERT(nRetVal == XN_STATUS_OK);
+				XN_REFERENCE_VARIABLE(nRetVal);
 				nMessageLength += nCharsWritten;
 			}
 
 			nRetVal = xnOSStrFormat(strConfigMessage + nMessageLength, sizeof(strConfigMessage) - nMessageLength, &nCharsWritten, "'%s': %s", it->Key(), xnLogGetSeverityString(maskSeverity));
 			XN_ASSERT(nRetVal == XN_STATUS_OK);
+			XN_REFERENCE_VARIABLE(nRetVal);
 			nMessageLength += nCharsWritten;
 		}
 	}
@@ -338,7 +341,7 @@ XN_C_API void xnLogWriteBanner(const XnLogWriter* pWriter)
 	time_t currtime;
 	time(&currtime);
 	XnChar strTime[200];
-	strftime(strTime, sizeof(strTime) - 1, "%Y-%m-%d %H:%M:%S", localtime(&currtime)); 
+	strftime(strTime, sizeof(strTime) - 1, "%Y-%m-%d %H:%M:%S", localtime(&currtime));
 	xnLogCreateEntry(&entry, XN_MASK_LOG, XN_LOG_INFO, __FILE__, __LINE__, "New log started on %s", strTime);
 	pWriter->WriteEntry(&entry, pWriter->pCookie);
 
@@ -393,7 +396,7 @@ XN_C_API XnStatus xnLogInitFromINIFile(const XnChar* cpINIFileName, const XnChar
 	xnLogReadMasksFromINI(cpINIFileName, cpSectionName, "LogMasks", xnLogBCSetMaskState);
 	xnLogReadMasksFromINI(cpINIFileName, cpSectionName, "DumpMasks", xnDumpSetMaskState);
 
-	//Test if log redirection is needed 
+	//Test if log redirection is needed
 	XnChar strLogPath[XN_FILE_MAX_PATH] = {0};
 	nRetVal = xnOSReadStringFromINI(cpINIFileName, cpSectionName, "LogPath", strLogPath, XN_FILE_MAX_PATH);
 	if (nRetVal == XN_STATUS_OK)
@@ -446,7 +449,7 @@ XN_C_API XnStatus xnLogRegisterLogWriter(XnLogWriter* pWriter)
 	logData.anyWriters = TRUE;
 
 	xnLogWriteBanner(pWriter);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -454,7 +457,7 @@ XN_C_API void xnLogUnregisterLogWriter(XnLogWriter* pWriter)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_REFERENCE_VARIABLE(nRetVal);
-	
+
 	LogData& logData = LogData::GetInstance();
 
 	xnl::AutoCSLocker locker(logData.hLock);
@@ -555,7 +558,7 @@ XN_C_API XnStatus xnLogSetLineInfo(XnBool bLineInfo)
 XN_C_API XnStatus xnLogSetOutputFolder(const XnChar* strOutputFolder)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// check if folder exists
 	XnBool bDirExists = FALSE;
 	nRetVal = xnOSDoesDirectoryExist(strOutputFolder, &bDirExists);
@@ -567,7 +570,7 @@ XN_C_API XnStatus xnLogSetOutputFolder(const XnChar* strOutputFolder)
 		nRetVal = xnOSCreateDirectory(strOutputFolder);
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	// place it in a temp buffer, just to make sure everything succeeds
 	XnChar strDirName[XN_FILE_MAX_PATH];
 	nRetVal = xnOSGetFullPathName(strOutputFolder, strDirName, XN_FILE_MAX_PATH);

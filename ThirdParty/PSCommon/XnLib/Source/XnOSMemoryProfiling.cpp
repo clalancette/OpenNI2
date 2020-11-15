@@ -266,7 +266,6 @@ XN_C_API void xnOSWriteMemoryReport(const XnChar* csFileName)
 	nReportLength += nChars;
 
 	xnOSWriteFile(FileHandle, csReportLine, nReportLength);
-	nReportLength = 0;
 
 	xnOSCloseFile(&FileHandle);
 }

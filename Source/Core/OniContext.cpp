@@ -126,8 +126,6 @@ XnStatus Context::resolveConfigurationFile(char* strOniConfigurationFile)
 
 XnStatus Context::configure()
 {
-	XnStatus nRetVal = XN_STATUS_OK;
-
 	XnChar strOniConfigurationFile[XN_FILE_MAX_PATH];
 	XnStatus rc = resolveConfigurationFile(strOniConfigurationFile);
 	if (rc != XN_STATUS_OK)
@@ -181,7 +179,7 @@ XnStatus Context::configure()
 	}
 
 	rc = xnOSStrCopy(m_driverRepo, m_pathToOpenNI, sizeof(m_driverRepo));
-	XN_IS_STATUS_OK(nRetVal);
+	XN_IS_STATUS_OK(rc);
 	rc = xnOSAppendFilePath(m_driverRepo, strRepo, sizeof(m_driverRepo));
 	if (rc != XN_STATUS_OK)
 	{

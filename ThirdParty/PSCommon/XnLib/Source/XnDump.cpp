@@ -47,7 +47,7 @@ class DumpData
 public:
 	static DumpData& GetInstance()
 	{
-		// NOTE: this instance will never be destroyed (because some static object destructor might write/close dumps, and 
+		// NOTE: this instance will never be destroyed (because some static object destructor might write/close dumps, and
 		// destruction order is not-deterministic).
 		static DumpData* pSingleton = XN_NEW(DumpData);
 		return *pSingleton;
@@ -260,7 +260,7 @@ XN_C_API void XN_C_DECL _xnDumpFileWriteString(XnDumpFile* pFile, const XnChar* 
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_REFERENCE_VARIABLE(nRetVal);
-	
+
 	if (pFile == NULL)
 	{
 		return;
@@ -273,6 +273,7 @@ XN_C_API void XN_C_DECL _xnDumpFileWriteString(XnDumpFile* pFile, const XnChar* 
 	va_start(args, strFormat);
 	nRetVal = xnOSStrFormatV(strBuffer, sizeof(strBuffer), &nCharsWritten, strFormat, args);
 	XN_ASSERT(nRetVal == XN_STATUS_OK);
+	XN_REFERENCE_VARIABLE(nRetVal);
 	va_end(args);
 
 	_xnDumpFileWriteBuffer(pFile, (const XnUInt8*)strBuffer, nCharsWritten);
@@ -362,7 +363,7 @@ XN_C_API void xnDumpClose(XnDump* pDump)
 
 XN_C_API void xnDumpWriteBufferImpl(XnDump dump, const void* pBuffer, XnUInt32 nBufferSize)
 {
-	if (dump.hFile != XN_INVALID_FILE_HANDLE) 
+	if (dump.hFile != XN_INVALID_FILE_HANDLE)
 	{
 		xnOSWriteFile(dump.hFile, pBuffer, nBufferSize);
 	}

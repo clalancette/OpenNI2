@@ -81,9 +81,9 @@ typedef enum
 	NUM_DRAW_MESSAGE_TYPES
 } DrawMessageType;
 
-typedef struct  
+typedef struct
 {
-	StreamsDrawConfig Streams; 
+	StreamsDrawConfig Streams;
 	bool bShowPointer;
 	bool bShowMessage;
 	DrawMessageType messageType;
@@ -137,7 +137,7 @@ typedef struct DrawUserInput
 
 DrawUserInput g_DrawUserInput;
 
-DrawConfigPreset g_Presets[PRESET_COUNT] = 
+DrawConfigPreset g_Presets[PRESET_COUNT] =
 {
 	// NAME,								    Depth_Type,               Transparency  Image_Type			  Arrangement
 	{ "Standard Deviation",					{ { STANDARD_DEVIATION,	      1 },        { COLOR_OFF },          OVERLAY } },			// Obsolete
@@ -213,7 +213,7 @@ void TextureMapInit(XnTextureMap* pTex, int nSizeX, int nSizeY, unsigned int nBy
 	pTex->CurSize.Y = nCurY;
 	pTex->pMap = new unsigned char[pTex->Size.X * pTex->Size.Y * nBytesPerPixel];
 	xnOSMemSet(pTex->pMap, 0, pTex->Size.X * pTex->Size.Y * nBytesPerPixel);
-	
+
 	if (!pTex->bInitialized)
 	{
 		glGenTextures(1, &pTex->nID);
@@ -387,8 +387,8 @@ void glPrintString(void *font, const char *str)
 void drawConfigChanged()
 {
 	// recalculate registration
-	bool bRegistration = 
-		(g_DrawConfig.Streams.ScreenArrangement == OVERLAY) && 
+	bool bRegistration =
+		(g_DrawConfig.Streams.ScreenArrangement == OVERLAY) &&
 		(g_DrawConfig.Streams.Color.Coloring != COLOR_OFF) &&
 		(g_DrawConfig.Streams.Depth.Coloring != DEPTH_OFF || g_DrawConfig.Streams.Color.Coloring == DEPTH_MASKED_COLOR);
 
@@ -683,7 +683,7 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, XnUInt32 nYUV
 		G =     Y - 0.39466 U - 0.58060 V
 		B =     Y + 2.03211 U
 
-		*/ 
+		*/
 
 		temp = _mm_mul_ps(plus113983, v);
 		r = _mm_add_ps(y, temp);
@@ -833,7 +833,7 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, XnUInt32 nYUVSi
 		G =     Y - 0.39466 U - 0.58060 V
 		B =     Y + 2.03211 U
 
-		*/ 
+		*/
 
 		temp = _mm_mul_ps(plus113983, v);
 		r = _mm_add_ps(y, temp);
@@ -1058,16 +1058,16 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
 					pTexture[0] = pColor[0];
 					pTexture[1] = pColor[1];
 					pTexture[2] = pColor[2];
-					pColor+=3; 
+					pColor+=3;
  					break;
 				case openni::PIXEL_FORMAT_GRAY8:
  					pTexture[0] = pTexture[1] = pTexture[2] = *pColor;
- 					pColor+=1; 
+ 					pColor+=1;
  					break;
 				case openni::PIXEL_FORMAT_GRAY16:
 					p16 = (XnUInt16*)pColor;
 					pTexture[0] = pTexture[1] = pTexture[2] = (XnUInt8)((*p16) * grayscale16Factor);
- 					pColor+=2; 
+ 					pColor+=2;
  					break;
 				default:
 					assert(0);
@@ -1114,7 +1114,7 @@ void drawDepth(IntRect* pLocation, IntPair* pPointer)
 
 		const openni::DepthPixel* pDepth = (openni::DepthPixel*)pDepthMD->getData();
 		XN_ASSERT(pDepth);
-		
+
 		int width = pDepthMD->getWidth();
 		int height = pDepthMD->getHeight();
 		int originX = pDepthMD->getCropOriginX();
@@ -1368,12 +1368,11 @@ void drawPointerMode(IntPair* pPointer)
 			xnOSStrFormat(sPointerValue, sizeof(sPointerValue), &chars, "-");
 		}
 
-		xnOSStrFormat(buf, sizeof(buf), &chars, "Pointer Value: %s (X:%d Y:%d) Cutoff: %llu-%llu.", 
+		xnOSStrFormat(buf, sizeof(buf), &chars, "Pointer Value: %s (X:%d Y:%d) Cutoff: %llu-%llu.",
 			sPointerValue, pPointer->X, pPointer->Y, nCutOffMin, nCutOffMax);
 
-		glRasterPos2i(10,nYLocation);
+		glRasterPos2i(10, nYLocation);
 		glPrintString(GLUT_BITMAP_HELVETICA_18, buf);
-		nYLocation -= 26;
 	}
 }
 
@@ -1387,9 +1386,9 @@ void drawCenteredMessage(void* font, int y, const char* message, float fRed, flo
 	XnUInt32 nLineLengthChars = 0;
 	XnInt32 nLineLengthPixels = 0;
 	XnInt32 nMaxLineLength = 0;
-	
+
 	aLines[0] = buf;
-	
+
 	// parse message to lines
 	const char* pChar = message;
 	for (;;)
@@ -1422,7 +1421,7 @@ void drawCenteredMessage(void* font, int y, const char* message, float fRed, flo
 		}
 		pChar++;
 	}
-	
+
 	XnUInt32 nHeight = 26;
 	int nXLocation = xnl::Math::Max(0, (g_NonFullWinSize.X - nMaxLineLength) / 2);
 	int nYLocation = y;
@@ -1452,7 +1451,7 @@ void drawCenteredMessage(void* font, int y, const char* message, float fRed, flo
 
 void drawUserMessage()
 {
-	const float fMessageTypeColors[NUM_DRAW_MESSAGE_TYPES][3] = 
+	const float fMessageTypeColors[NUM_DRAW_MESSAGE_TYPES][3] =
 	{
 		{ 0, 1, 0 }, /*NOTIFICATION_MESSAGE*/
 		{ 1, 1, 0 }, /*WARNING_MESSAGE*/
@@ -1472,13 +1471,13 @@ void drawUserMessage()
 		g_DrawConfig.bShowMessage = false;
 		xnOSGetTimeStamp(&nStartShowMessage);
 	}
-	
+
 	XnUInt64 nNow;
 	xnOSGetTimeStamp(&nNow);
 
 	if (nNow - nStartShowMessage < 3000)
 	{
-		drawCenteredMessage(GLUT_BITMAP_TIMES_ROMAN_24, g_NonFullWinSize.Y * 4 / 5, g_csUserMessage, 
+		drawCenteredMessage(GLUT_BITMAP_TIMES_ROMAN_24, g_NonFullWinSize.Y * 4 / 5, g_csUserMessage,
 							fMessageTypeColors[g_DrawConfig.messageType][0],
 							fMessageTypeColors[g_DrawConfig.messageType][1],
 							fMessageTypeColors[g_DrawConfig.messageType][2]);
@@ -1494,11 +1493,11 @@ void printRecordingInfo()
 		drawCenteredMessage(GLUT_BITMAP_TIMES_ROMAN_24, 30, csMessage, 1, 0, 0);
 
 	XnUInt32 nWritten;
-	xnOSStrFormat(csMessage, sizeof(csMessage), &nWritten, 
+	xnOSStrFormat(csMessage, sizeof(csMessage), &nWritten,
 		"Image registration is %s. Capture Formats - Depth: %s | Image: %s | IR: %s",
 		getDevice().getImageRegistrationMode() == openni::IMAGE_REGISTRATION_OFF ? "off " : "on",
-		captureGetDepthFormatName(), 
-		captureGetColorFormatName(), 
+		captureGetDepthFormatName(),
+		captureGetColorFormatName(),
 		captureGetIRFormatName());
 
 	drawCenteredMessage(GLUT_BITMAP_HELVETICA_12, g_NonFullWinSize.Y - 3, csMessage, 0, 1, 0);
@@ -1570,7 +1569,7 @@ void drawErrorState()
 {
 	// place a black rect on entire screen
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);		
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBegin(GL_QUADS);
 	glColor4f(0, 0, 0, 0.8);
 	glVertex2i(0, 0);
@@ -1595,7 +1594,7 @@ void drawHelpScreen()
 	int nYEndLocation = g_NonFullWinSize.Y*4/5;
 
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);		
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glBegin(GL_QUADS);
 	glColor4f(0, 0, 0, 0.8);
@@ -1667,7 +1666,7 @@ void drawUserInput(bool bCursor)
 	if (g_DrawUserInput.State == SELECTION_ACTIVE)
 	{
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);		
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glBegin(GL_QUADS);
 		glColor4f(1, 0, 0, 0.5);
@@ -1687,7 +1686,7 @@ void fixLocation(IntRect* pLocation, int xRes, int yRes)
 
 	double locationRatio = double(pLocation->uRight - pLocation->uLeft) / (pLocation->uTop - pLocation->uBottom);
 
-	if (locationRatio > resRatio) 
+	if (locationRatio > resRatio)
 	{
 		// location is wider. use height as reference.
 		double width = (pLocation->uTop - pLocation->uBottom) * resRatio;
@@ -1719,7 +1718,7 @@ void drawPlaybackSpeed()
 // 		int width = 0;
 // 		for (int i = 0; i < len; ++i)
 // 			width += glutBitmapWidth(GLUT_BITMAP_TIMES_ROMAN_24, strSpeed[i]);
-// 
+//
 // 		glColor3f(0, 1, 0);
 // 		glRasterPos2i(g_NonFullWinSize.X - width - 3, 30);
 // 		glPrintString(GLUT_BITMAP_TIMES_ROMAN_24, strSpeed);
@@ -1820,7 +1819,7 @@ void drawFrame()
 	glPushMatrix();
 	glLoadIdentity();
 	glOrtho(0,g_NonFullWinSize.X,g_NonFullWinSize.Y,0,-1.0,1.0);
-	glDisable(GL_DEPTH_TEST); 
+	glDisable(GL_DEPTH_TEST);
 
 	if (g_DrawConfig.Streams.Depth.Coloring == CYCLIC_RAINBOW_HISTOGRAM || g_DrawConfig.Streams.Depth.Coloring == LINEAR_HISTOGRAM || g_DrawConfig.bShowPointer)
 		calculateHistogram();
