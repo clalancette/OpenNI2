@@ -44,11 +44,11 @@ XnStatus LinkOutputStreamsMgr::Init()
 
 void LinkOutputStreamsMgr::Shutdown()
 {
-	for (XnUInt16 nStreamID = 0; nStreamID < m_outputStreams.GetSize(); nStreamID++)
+	for (XnUInt16 nStreamID = 0; nStreamID < m_outputStreams.size(); nStreamID++)
 	{
 		ShutdownOutputStream(nStreamID);
 	}
-	m_outputStreams.Clear();
+	m_outputStreams.clear();
 }
 
 XnStatus LinkOutputStreamsMgr::InitOutputStream(XnUInt16 nStreamID, 
@@ -60,7 +60,7 @@ XnStatus LinkOutputStreamsMgr::InitOutputStream(XnUInt16 nStreamID,
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	ILinkOutputStream* pLinkOutputStream = NULL;
-	if (nStreamID < m_outputStreams.GetSize())
+	if (nStreamID < m_outputStreams.size())
 	{
 		XN_DELETE(m_outputStreams[nStreamID]);
 		m_outputStreams[nStreamID] = NULL;
@@ -93,21 +93,18 @@ XnStatus LinkOutputStreamsMgr::InitOutputStream(XnUInt16 nStreamID,
 		return nRetVal;
 	}
 
-	nRetVal = m_outputStreams.Set(nStreamID, pLinkOutputStream, NULL);
-	if (nRetVal != XN_STATUS_OK)
+	if (nStreamID >= m_outputStreams.size())
 	{
-		XN_DELETE(pLinkOutputStream);
-		xnLogError(XN_MASK_LINK, "Failed to add to output streams array: %s", xnGetStatusString(nRetVal));
-		XN_ASSERT(FALSE);
-		return nRetVal;
+		m_outputStreams.resize(nStreamID + 1);
 	}
+	m_outputStreams[nStreamID] = pLinkOutputStream;
 
 	return XN_STATUS_OK;
 }
 
 void LinkOutputStreamsMgr::ShutdownOutputStream(XnUInt16 nStreamID)
 {
-	if (nStreamID > m_outputStreams.GetSize())
+	if (nStreamID > m_outputStreams.size())
 	{
 		xnLogWarning(XN_MASK_LINK, "Stream ID %u is not in array", nStreamID);
 		XN_ASSERT(FALSE);
@@ -130,7 +127,7 @@ XnStatus LinkOutputStreamsMgr::SendData(XnUInt16 nStreamID,
 										XnUInt32 nDataSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	if ((nStreamID >= m_outputStreams.GetSize()) || (m_outputStreams[nStreamID] == NULL) || 
+	if ((nStreamID >= m_outputStreams.size()) || (m_outputStreams[nStreamID] == NULL) || 
 		!m_outputStreams[nStreamID]->IsInitialized())
 	{
 		xnLogError(XN_MASK_LINK, "Stream %u is not initialized", nStreamID);
@@ -146,7 +143,7 @@ XnStatus LinkOutputStreamsMgr::SendData(XnUInt16 nStreamID,
 XnBool LinkOutputStreamsMgr::IsStreamInitialized( XnUInt16 nStreamID ) const
 {
 	return (
-		nStreamID < m_outputStreams.GetSize() &&
+		nStreamID < m_outputStreams.size() &&
 		m_outputStreams[nStreamID] != NULL &&
 		m_outputStreams[nStreamID]->IsInitialized());
 }

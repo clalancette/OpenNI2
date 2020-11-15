@@ -21,9 +21,10 @@
 #ifndef XNLINKOUTPUTSTREAMSMGR_H
 #define XNLINKOUTPUTSTREAMSMGR_H
 
+#include <vector>
+
 #include "XnLinkProtoLibDefs.h"
 #include "XnLinkProtoUtils.h"
-#include <XnArray.h>
 #include <XnStatus.h>
 #include <XnPlatform.h>
 
@@ -42,26 +43,26 @@ public:
 	XnStatus Init();
 	void Shutdown();
 
-	XnStatus InitOutputStream(XnUInt16 nStreamID, 
-							  XnUInt32 nMaxMsgSize, 
-							  XnUInt16 nMaxPacketSize,
-							  XnLinkCompressionType compression, 
-							  XnStreamFragLevel streamFragLevel, 
-							  LinkOutputDataEndpoint* pOutputDataEndpoint);
+	XnStatus InitOutputStream(XnUInt16 nStreamID,
+				  XnUInt32 nMaxMsgSize,
+				  XnUInt16 nMaxPacketSize,
+				  XnLinkCompressionType compression,
+				  XnStreamFragLevel streamFragLevel,
+				  LinkOutputDataEndpoint* pOutputDataEndpoint);
 
 	XnBool IsStreamInitialized(XnUInt16 nStreamID) const;
-	
+
 	void ShutdownOutputStream(XnUInt16 nStreamID);
-	XnStatus SendData(XnUInt16 nStreamID, 
-	                  XnUInt16 nMsgType, 
-					  XnUInt16 nCID, 
-					  XnLinkFragmentation fragmentation,
-					  const void* pData, 
-					  XnUInt32 nDataSize);
+	XnStatus SendData(XnUInt16 nStreamID,
+	                  XnUInt16 nMsgType,
+			  XnUInt16 nCID,
+			  XnLinkFragmentation fragmentation,
+			  const void* pData,
+			  XnUInt32 nDataSize);
 
 private:
 	static const XnUInt16 INITIAL_PACKET_ID;
-	xnl::Array<ILinkOutputStream*> m_outputStreams;
+	std::vector<ILinkOutputStream*> m_outputStreams;
 };
 
 }

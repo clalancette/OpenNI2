@@ -36,9 +36,6 @@
 
 #define XN_MASK_LINK "xnLink"
 
-template <typename T>
-class XnArray;
-
 namespace xn
 {
 

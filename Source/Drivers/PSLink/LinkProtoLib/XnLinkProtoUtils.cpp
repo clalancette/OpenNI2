@@ -27,7 +27,6 @@
 #include <XnBitSet.h>
 #include <XnOS.h>
 #include <XnLog.h>
-#include <XnArray.h>
 
 XnStatus xn::LinkPacketHeader::Validate(XnUInt32 nBytesToRead) const
 {
