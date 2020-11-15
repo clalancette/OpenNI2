@@ -163,8 +163,10 @@ XnStatus XnHostProtocolUpdateSupportedImageModes(XnDevicePrivateData* pDevicePri
 			return XN_STATUS_DEVICE_UNSUPPORTED_PARAMETER;
 		}
 
-		nRetVal = pDevicePrivateData->FWInfo.imageModes.SetData(aSupportedModes, nCount);
-		XN_IS_STATUS_OK(nRetVal);
+		for (XnUInt32 i = 0; i < nCount; ++i)
+		{
+			pDevicePrivateData->FWInfo.imageModes.push_back(aSupportedModes[i]);
+		}
 	}
 	else
 	{
@@ -172,12 +174,16 @@ XnStatus XnHostProtocolUpdateSupportedImageModes(XnDevicePrivateData* pDevicePri
 		switch (pDevicePrivateData->pSensor->GetCurrentUsbInterface())
 		{
 		case XN_SENSOR_USB_INTERFACE_BULK_ENDPOINTS:
-			nRetVal = pDevicePrivateData->FWInfo.imageModes.SetData(pDevicePrivateData->FWInfo._imageBulkModes.GetData(), pDevicePrivateData->FWInfo._imageBulkModes.GetSize());
-			XN_IS_STATUS_OK(nRetVal);
+			for (XnUInt32 i = 0; i < pDevicePrivateData->FWInfo._imageBulkModes.size(); ++i)
+			{
+				pDevicePrivateData->FWInfo.imageModes.push_back(pDevicePrivateData->FWInfo._imageBulkModes[i]);
+			}
 			break;
 		case XN_SENSOR_USB_INTERFACE_ISO_ENDPOINTS:
-			nRetVal = pDevicePrivateData->FWInfo.imageModes.SetData(pDevicePrivateData->FWInfo._imageIsoModes.GetData(), pDevicePrivateData->FWInfo._imageIsoModes.GetSize());
-			XN_IS_STATUS_OK(nRetVal);
+			for (XnUInt32 i = 0; i < pDevicePrivateData->FWInfo._imageIsoModes.size(); ++i)
+			{
+				pDevicePrivateData->FWInfo.imageModes.push_back(pDevicePrivateData->FWInfo._imageIsoModes[i]);
+			}
 			break;
 		default:
 			xnLogError(XN_MASK_DEVICE_SENSOR, "Unknown interface in old firmware (%d)", pDevicePrivateData->pSensor->GetCurrentUsbInterface());
@@ -269,7 +275,7 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 	pDevicePrivateData->FWInfo.nISOLowDepthAlternativeInterface = (XnUInt8)(-1);
 
 	// depth cmos modes
-	pDevicePrivateData->FWInfo.depthModes.Clear();
+	pDevicePrivateData->FWInfo.depthModes.clear();
 	XnCmosPreset depthModes[] =
 	{
 		{ XN_IO_DEPTH_FORMAT_COMPRESSED_PS, XN_RESOLUTION_QVGA, 30 },
@@ -285,12 +291,14 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 		{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_16_BIT, XN_RESOLUTION_QVGA, 60 },
 		{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_16_BIT, XN_RESOLUTION_VGA, 30 },
 	};
-	nRetVal = pDevicePrivateData->FWInfo.depthModes.AddLast(depthModes, sizeof(depthModes)/sizeof(depthModes[0]));
-	XN_IS_STATUS_OK(nRetVal);
+	for (XnUInt32 i = 0; i < sizeof(depthModes) / sizeof(depthModes[0]); ++i)
+	{
+		pDevicePrivateData->FWInfo.depthModes.push_back(depthModes[i]);
+	}
 
 	// image cmos modes
-	pDevicePrivateData->FWInfo._imageBulkModes.Clear();
-	pDevicePrivateData->FWInfo._imageIsoModes.Clear();
+	pDevicePrivateData->FWInfo._imageBulkModes.clear();
+	pDevicePrivateData->FWInfo._imageIsoModes.clear();
 
 	XnCmosPreset imageCommonModes[] =
 	{
@@ -298,10 +306,14 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 		{ XN_IO_IMAGE_FORMAT_YUV422, XN_RESOLUTION_QVGA, 60 },
 		{ XN_IO_IMAGE_FORMAT_YUV422, XN_RESOLUTION_VGA, 30 },
 	};
-	nRetVal = pDevicePrivateData->FWInfo._imageBulkModes.AddLast(imageCommonModes, sizeof(imageCommonModes)/sizeof(imageCommonModes[0]));
-	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = pDevicePrivateData->FWInfo._imageIsoModes.AddLast(imageCommonModes, sizeof(imageCommonModes)/sizeof(imageCommonModes[0]));
-	XN_IS_STATUS_OK(nRetVal);
+	for (XnUInt32 i = 0; i < sizeof(imageCommonModes) / sizeof(imageCommonModes[0]); ++i)
+	{
+		pDevicePrivateData->FWInfo._imageBulkModes.push_back(imageCommonModes[i]);
+	}
+	for (XnUInt32 i = 0; i < sizeof(imageCommonModes) / sizeof(imageCommonModes[0]); ++i)
+	{
+		pDevicePrivateData->FWInfo._imageIsoModes.push_back(imageCommonModes[i]);
+	}
 
 	XnCmosPreset imageIsoModes[] =
 	{
@@ -309,19 +321,23 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 		{ XN_IO_IMAGE_FORMAT_UNCOMPRESSED_YUV422, XN_RESOLUTION_QVGA, 60 },
 		{ XN_IO_IMAGE_FORMAT_UNCOMPRESSED_YUV422, XN_RESOLUTION_VGA, 30 },
 	};
-	nRetVal = pDevicePrivateData->FWInfo._imageIsoModes.AddLast(imageIsoModes, sizeof(imageIsoModes)/sizeof(imageIsoModes[0]));
-	XN_IS_STATUS_OK(nRetVal);
+	for (XnUInt32 i = 0; i < sizeof(imageIsoModes) / sizeof(imageIsoModes[0]); ++i)
+	{
+		pDevicePrivateData->FWInfo._imageIsoModes.push_back(imageIsoModes[i]);
+	}
 
 	// IR cmos modes
-	pDevicePrivateData->FWInfo.irModes.Clear();
+	pDevicePrivateData->FWInfo.irModes.clear();
 	XnCmosPreset irModes[] =
 	{
 		{ 0, XN_RESOLUTION_QVGA, 30 },
 		{ 0, XN_RESOLUTION_QVGA, 60 },
 		{ 0, XN_RESOLUTION_VGA, 30 },
 	};
-	nRetVal = pDevicePrivateData->FWInfo.irModes.AddLast(irModes, sizeof(irModes)/sizeof(irModes[0]));
-	XN_IS_STATUS_OK(nRetVal);
+	for (XnUInt32 i = 0; i < sizeof(irModes) / sizeof(irModes[0]); ++i)
+	{
+		pDevicePrivateData->FWInfo.irModes.push_back(irModes[i]);
+	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 1, 1, 0) >= 0)
 	{
@@ -476,8 +492,7 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 	{
 		// added high-res IR
 		XnCmosPreset irHighResMode = { 0, XN_RESOLUTION_SXGA, 30 };
-		nRetVal = pDevicePrivateData->FWInfo.irModes.AddLast(irHighResMode);
-		XN_IS_STATUS_OK(nRetVal);
+		pDevicePrivateData->FWInfo.irModes.push_back(irHighResMode);
 
 		// add SXGA depth modes
 		XnCmosPreset aSXGAmodes[] =
@@ -487,9 +502,10 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 			{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_12_BIT, XN_RESOLUTION_SXGA, 30 },
 			{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_16_BIT, XN_RESOLUTION_SXGA, 30 },
 		};
-		nRetVal = pDevicePrivateData->FWInfo.depthModes.AddLast(aSXGAmodes, sizeof(aSXGAmodes) / sizeof(aSXGAmodes[0]));
-		XN_IS_STATUS_OK(nRetVal)
-
+		for (XnUInt32 i = 0; i < sizeof(aSXGAmodes) / sizeof(aSXGAmodes[0]); ++i)
+		{
+			pDevicePrivateData->FWInfo.depthModes.push_back(aSXGAmodes[i]);
+		}
 
 		// opcode added
 		pDevicePrivateData->FWInfo.nOpcodeGetCmosBlanking = OPCODE_GET_CMOS_BLANKING;
@@ -509,34 +525,44 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 			{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_16_BIT, XN_RESOLUTION_QVGA, 25 },
 			{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_16_BIT, XN_RESOLUTION_VGA, 25 },
 		};
-		nRetVal = pDevicePrivateData->FWInfo.depthModes.AddLast(depthModes25FPS, sizeof(depthModes25FPS)/sizeof(depthModes25FPS[0]));
-		XN_IS_STATUS_OK(nRetVal);
+		for (XnUInt32 i = 0; i < sizeof(depthModes25FPS) / sizeof(depthModes25FPS[0]); ++i)
+		{
+			pDevicePrivateData->FWInfo.depthModes.push_back(depthModes25FPS[i]);
+		}
 
 		XnCmosPreset imageModes25FpsCommon[] =
 		{
 			{ XN_IO_IMAGE_FORMAT_YUV422, XN_RESOLUTION_QVGA, 25 },
 			{ XN_IO_IMAGE_FORMAT_YUV422, XN_RESOLUTION_VGA, 25 },
 		};
-		nRetVal = pDevicePrivateData->FWInfo._imageBulkModes.AddLast(imageModes25FpsCommon, sizeof(imageModes25FpsCommon)/sizeof(imageModes25FpsCommon[0]));
-		XN_IS_STATUS_OK(nRetVal);
-		nRetVal = pDevicePrivateData->FWInfo._imageIsoModes.AddLast(imageModes25FpsCommon, sizeof(imageModes25FpsCommon)/sizeof(imageModes25FpsCommon[0]));
-		XN_IS_STATUS_OK(nRetVal);
+		for (XnUInt32 i = 0; i < sizeof(imageModes25FpsCommon) / sizeof(imageModes25FpsCommon[0]); ++i)
+		{
+			pDevicePrivateData->FWInfo._imageBulkModes.push_back(imageModes25FpsCommon[i]);
+		}
+		for (XnUInt32 i = 0; i < sizeof(imageModes25FpsCommon) / sizeof(imageModes25FpsCommon[0]); ++i)
+		{
+			pDevicePrivateData->FWInfo._imageIsoModes.push_back(imageModes25FpsCommon[i]);
+		}
 
 		XnCmosPreset imageModes25FpsIso[] =
 		{
 			{ XN_IO_IMAGE_FORMAT_UNCOMPRESSED_YUV422, XN_RESOLUTION_QVGA, 25 },
 			{ XN_IO_IMAGE_FORMAT_UNCOMPRESSED_YUV422, XN_RESOLUTION_VGA, 25 },
 		};
-		nRetVal = pDevicePrivateData->FWInfo._imageIsoModes.AddLast(imageModes25FpsIso, sizeof(imageModes25FpsIso)/sizeof(imageModes25FpsIso[0]));
-		XN_IS_STATUS_OK(nRetVal);
+		for (XnUInt32 i = 0; i < sizeof(imageModes25FpsIso) / sizeof(imageModes25FpsIso[0]); ++i)
+		{
+			pDevicePrivateData->FWInfo._imageIsoModes.push_back(imageModes25FpsIso[i]);
+		}
 
 		XnCmosPreset irModes25Fps[] =
 		{
 			{ 0, XN_RESOLUTION_QVGA, 25 },
 			{ 0, XN_RESOLUTION_VGA, 25 },
 		};
-		nRetVal = pDevicePrivateData->FWInfo.irModes.AddLast(irModes25Fps, sizeof(irModes25Fps)/sizeof(irModes25Fps[0]));
-		XN_IS_STATUS_OK(nRetVal);
+		for (XnUInt32 i = 0; i < sizeof(irModes25Fps) / sizeof(irModes25Fps[0]); ++i)
+		{
+			pDevicePrivateData->FWInfo.irModes.push_back(irModes25Fps[i]);
+		}
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 2, 0) >= 0)
@@ -547,10 +573,8 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 		{
 			imageHighResBayerMode.nResolution = XN_RESOLUTION_SXGA;
 		}
-		nRetVal = pDevicePrivateData->FWInfo._imageBulkModes.AddLast(imageHighResBayerMode);
-		XN_IS_STATUS_OK(nRetVal);
-		nRetVal = pDevicePrivateData->FWInfo._imageIsoModes.AddLast(imageHighResBayerMode);
-		XN_IS_STATUS_OK(nRetVal);
+		pDevicePrivateData->FWInfo._imageBulkModes.push_back(imageHighResBayerMode);
+		pDevicePrivateData->FWInfo._imageIsoModes.push_back(imageHighResBayerMode);
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 3, 15) == 0)
@@ -584,14 +608,11 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 	{
 		// YUV is also supported in high-res
 		XnCmosPreset imageHighResYuvMode = { XN_IO_IMAGE_FORMAT_YUV422, XN_RESOLUTION_SXGA, 30 };
-		nRetVal = pDevicePrivateData->FWInfo._imageBulkModes.AddLast(imageHighResYuvMode);
-		XN_IS_STATUS_OK(nRetVal);
-		nRetVal = pDevicePrivateData->FWInfo._imageIsoModes.AddLast(imageHighResYuvMode);
-		XN_IS_STATUS_OK(nRetVal);
+		pDevicePrivateData->FWInfo._imageBulkModes.push_back(imageHighResYuvMode);
+		pDevicePrivateData->FWInfo._imageIsoModes.push_back(imageHighResYuvMode);
 
 		XnCmosPreset imageHighResYuvModeIso = { XN_IO_IMAGE_FORMAT_UNCOMPRESSED_YUV422, XN_RESOLUTION_SXGA, 30 };
-		nRetVal = pDevicePrivateData->FWInfo._imageIsoModes.AddLast(imageHighResYuvModeIso);
-		XN_IS_STATUS_OK(nRetVal);
+		pDevicePrivateData->FWInfo._imageIsoModes.push_back(imageHighResYuvModeIso);
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 3, 29) >= 0)
@@ -635,13 +656,10 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 			{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_12_BIT, XN_RESOLUTION_QQVGA, 30 },
 			{ XN_IO_DEPTH_FORMAT_UNCOMPRESSED_16_BIT, XN_RESOLUTION_QQVGA, 30 },
 		};
-		nRetVal = pDevicePrivateData->FWInfo.depthModes.AddLast(aQQmodes, sizeof(aQQmodes)/sizeof(aQQmodes[0]));
-		XN_IS_STATUS_OK(nRetVal);
-
-
-
-
-
+		for (XnUInt32 i = 0; i < sizeof(aQQmodes) / sizeof(aQQmodes[0]); ++i)
+		{
+			pDevicePrivateData->FWInfo.depthModes.push_back(aQQmodes[i]);
+		}
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 6, 9) >= 0)

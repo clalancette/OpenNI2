@@ -130,7 +130,7 @@ XnStatus XnSensorImageStream::Init()
 	XN_IS_STATUS_OK(nRetVal);
 
 	// register supported modes
-	nRetVal = AddSupportedModes(m_Helper.GetPrivateData()->FWInfo.imageModes.GetData(), m_Helper.GetPrivateData()->FWInfo.imageModes.GetSize());
+	nRetVal = AddSupportedModes(m_Helper.GetPrivateData()->FWInfo.imageModes.data(), m_Helper.GetPrivateData()->FWInfo.imageModes.size());
 	XN_IS_STATUS_OK(nRetVal);
 
 	// check if our current (default) configuration is valid

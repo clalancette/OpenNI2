@@ -55,8 +55,8 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 	int s = 0;
 
 	// Depth
-	nSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.depthModes.GetSize();
-	pSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.depthModes.GetData();
+	nSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.depthModes.size();
+	pSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.depthModes.data();
 
 	m_sensors[s].sensorType 	    = ONI_SENSOR_DEPTH;
 	m_sensors[s].pSupportedVideoModes   = XN_NEW_ARR(OniVideoMode, nSupportedModes);
@@ -110,8 +110,8 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 	if (nImageSupported)
 	{
 		++s;
-		nSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.imageModes.GetSize();
-		pSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.imageModes.GetData();
+		nSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.imageModes.size();
+		pSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.imageModes.data();
 
 		m_sensors[s].sensorType 	    = ONI_SENSOR_COLOR;
 		m_sensors[s].numSupportedVideoModes = 0; // to be changed later..
@@ -162,8 +162,8 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 
 	// IR
 	++s;
-	nSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.irModes.GetSize();
-	pSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.irModes.GetData();
+	nSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.irModes.size();
+	pSupportedModes = m_sensor.GetDevicePrivateData()->FWInfo.irModes.data();
 
 	m_sensors[s].sensorType 	    = ONI_SENSOR_IR;
 	m_sensors[s].pSupportedVideoModes   = XN_NEW_ARR(OniVideoMode, nSupportedModes*2);

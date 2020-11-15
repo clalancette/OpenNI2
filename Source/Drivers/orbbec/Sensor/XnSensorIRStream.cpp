@@ -80,8 +80,8 @@ XnStatus XnSensorIRStream::Init()
 	XN_IS_STATUS_OK(nRetVal);
 
 	// register supported modes
-	XnCmosPreset* pSupportedModes = m_Helper.GetPrivateData()->FWInfo.irModes.GetData();
-	XnUInt32 nSupportedModes = m_Helper.GetPrivateData()->FWInfo.irModes.GetSize();
+	XnCmosPreset* pSupportedModes = m_Helper.GetPrivateData()->FWInfo.irModes.data();
+	XnUInt32 nSupportedModes = m_Helper.GetPrivateData()->FWInfo.irModes.size();
 	nRetVal = AddSupportedModes(pSupportedModes, nSupportedModes);
 	XN_IS_STATUS_OK(nRetVal);
 
