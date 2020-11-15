@@ -22,6 +22,7 @@
 // Includes
 //---------------------------------------------------------------------------
 #include <list>
+#include <vector>
 
 #include "XnSensor.h"
 
@@ -1532,7 +1533,7 @@ void XnSensor::OnNewStreamData(XnDeviceStream* pStream, OniFrame* pFrame)
 	// Find the relevant stream in the frame-synced streams.
 	FrameSyncedStream* pFrameSyncedStream = NULL;
 	XnUInt32 nValidFrameCount = 0; // received frame
-	XnUInt32 nFrameSyncStreamCount = m_FrameSyncedStreams.GetSize();
+	XnUInt32 nFrameSyncStreamCount = m_FrameSyncedStreams.size();
 	int receivedFrameId = pFrame->frameIndex;
 	for (XnUInt32 i = 0; m_nFrameSyncEnabled && (i < nFrameSyncStreamCount); ++i)
 	{
@@ -1648,7 +1649,7 @@ XnStatus XnSensor::SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, XnUInt
 	}
 
 	// Clear all the streams from frame-sync list.
-	XnUInt32 nFrameSyncStreamCount = m_FrameSyncedStreams.GetSize();
+	XnUInt32 nFrameSyncStreamCount = m_FrameSyncedStreams.size();
 	for (XnUInt32 i = 0; i < nFrameSyncStreamCount; ++i)
 	{
 		// Release stored frame.
@@ -1666,8 +1667,8 @@ XnStatus XnSensor::SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, XnUInt
 	// Check if creating group.
 	if (numStreams > 0)
 	{
-		m_FrameSyncedStreams.SetSize(numStreams);
-		
+		m_FrameSyncedStreams.resize(numStreams);
+
 		// Add streams to frame-sync list.
 		for (XnUInt32 i = 0; i < numStreams; ++i)
 		{
@@ -1678,7 +1679,7 @@ XnStatus XnSensor::SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, XnUInt
 	else
 	{
 		// Zero the size of the frame sync group.
-		m_FrameSyncedStreams.SetSize(0);
+		m_FrameSyncedStreams.resize(0);
 	}
 
 	// Unlock critical section.
