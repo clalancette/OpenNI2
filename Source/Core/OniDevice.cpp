@@ -20,6 +20,7 @@
 *****************************************************************************/
 #include <algorithm>
 #include <list>
+#include <vector>
 
 #include "OniDevice.h"
 #include "OniStream.h"
@@ -269,8 +270,7 @@ OniStatus Device::enableDepthColorSync(Context* pContext)
 {
 	m_pContext = pContext;
 	m_syncEnabled = TRUE;
-	xnl::Array<VideoStream*> streamArray(m_streams.size());
-	streamArray.SetSize(m_streams.size());
+	std::vector<VideoStream*> streamArray(m_streams.size(), NULL);
 
 	int streamsUsed = 0;
 	for (std::list<VideoStream*>::iterator iter = m_streams.begin(); iter != m_streams.end(); ++iter)
@@ -286,7 +286,7 @@ OniStatus Device::enableDepthColorSync(Context* pContext)
 	{
 		return ONI_STATUS_OK;
 	}
-	return m_pContext->enableFrameSyncEx(streamArray.GetData(), streamsUsed, m_pDeviceDriver, &m_depthColorSyncHandle);
+	return m_pContext->enableFrameSyncEx(streamArray.data(), streamsUsed, m_pDeviceDriver, &m_depthColorSyncHandle);
 }
 void Device::disableDepthColorSync()
 {
