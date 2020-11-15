@@ -22,6 +22,7 @@
 #define ONICONTEXT_H
 
 #include <list>
+#include <string>
 
 #include "OniStream.h"
 #include "OniDevice.h"
@@ -33,7 +34,6 @@
 #include "OniDriverHandler.h"
 #include "OniCommon.h"
 
-#include <XnSimpleString.h>
 #include <XnHash.h>
 #include <XnEvent.h>
 
@@ -151,7 +151,7 @@ private:
 	char m_pathToOpenNI[XN_FILE_MAX_PATH];
 	char m_overrideDevice[XN_FILE_MAX_PATH];
 	char m_driverRepo[XN_FILE_MAX_PATH];
-	xnl::Array<xnl::FileName> m_driversList;
+	xnl::Array<std::string> m_driversList;
 
 	int m_initializationCounter;
 	XnUInt64 m_lastFPSPrint;

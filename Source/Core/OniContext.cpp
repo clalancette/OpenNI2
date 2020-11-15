@@ -198,7 +198,7 @@ XnStatus Context::configure()
 		m_driversList.Clear();
 
 		// parse list
-		xnl::FileName driver;
+		std::string driver(XN_FILE_MAX_PATH, '\0');
 		int driverLen = 0;
 
 		for (XnChar* c = strDriversList; ; ++c)
@@ -277,12 +277,12 @@ XnStatus Context::loadLibraries()
 
 	for (XnUInt32 i = 0; i < m_driversList.GetSize(); ++i)
 	{
-		xnLogVerbose(XN_MASK_ONI_CONTEXT, "Loading device driver '%s'...", m_driversList[i].getData());
-		DeviceDriver* pDeviceDriver = XN_NEW(DeviceDriver, m_driversList[i].getData(), m_frameManager, m_errorLogger);
+		xnLogVerbose(XN_MASK_ONI_CONTEXT, "Loading device driver '%s'...", m_driversList[i].c_str());
+		DeviceDriver* pDeviceDriver = XN_NEW(DeviceDriver, m_driversList[i].c_str(), m_frameManager, m_errorLogger);
 		if (pDeviceDriver == NULL || !pDeviceDriver->isValid())
 		{
-			xnLogWarning(XN_MASK_ONI_CONTEXT, "Couldn't use file '%s' as a device driver", m_driversList[i].getData());
-			m_errorLogger.Append("Couldn't understand file '%s' as a device driver", m_driversList[i].getData());
+			xnLogWarning(XN_MASK_ONI_CONTEXT, "Couldn't use file '%s' as a device driver", m_driversList[i].c_str());
+			m_errorLogger.Append("Couldn't understand file '%s' as a device driver", m_driversList[i].c_str());
 			XN_DELETE(pDeviceDriver);
 			continue;
 		}
@@ -292,8 +292,8 @@ XnStatus Context::loadLibraries()
 		pDeviceDriver->registerDeviceStateChangedCallback(deviceDriver_DeviceStateChanged, this, dummy);
 		if (!pDeviceDriver->initialize())
 		{
-			xnLogVerbose(XN_MASK_ONI_CONTEXT, "Couldn't use file '%s' as a device driver", m_driversList[i].getData());
-			m_errorLogger.Append("Couldn't initialize device driver from file '%s'", m_driversList[i].getData());
+			xnLogVerbose(XN_MASK_ONI_CONTEXT, "Couldn't use file '%s' as a device driver", m_driversList[i].c_str());
+			m_errorLogger.Append("Couldn't initialize device driver from file '%s'", m_driversList[i].c_str());
 			XN_DELETE(pDeviceDriver);
 			continue;
 		}
