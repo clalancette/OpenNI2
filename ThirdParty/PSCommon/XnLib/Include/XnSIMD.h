@@ -44,16 +44,4 @@
 	#include "XnSIMD-None.h"
 #endif
 
-#if 0
-// Use this for debugging
-inline const char *ToHexString(const XN_INT128 &val)
-{
-    static char buffer[33];
-    unsigned char *px = (unsigned char *)&val;
-    for(int i=0; i<16; i++) sprintf(&buffer[2*i],"%02x",(int)px[i]);
-    buffer[32] = '\0';
-    return buffer;
-}
-#endif
-
 #endif // _XN_SIMD_H_

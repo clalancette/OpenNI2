@@ -124,19 +124,6 @@ oni::driver::DeviceBase* LinkOniDriver::deviceOpen(const char* uri, const char* 
 		return NULL;
 	}
 
-/* TODO impl
-	// Register to error state property changed.
-	XnCallbackHandle handle;
-	nRetVal = pDevice->GetSensor()->RegisterToPropertyChange(XN_MODULE_NAME_DEVICE, 
-																XN_MODULE_PROPERTY_ERROR_STATE, 
-																OnDevicePropertyChanged, pDevice, handle);
-	if (nRetVal != XN_STATUS_OK)
-	{
-		XN_DELETE(pDevice);
-		return NULL;
-	}
-*/
-
 	// Add the device and return it.
 	m_devices[uri] = pDevice;
 	return pDevice;
@@ -158,124 +145,8 @@ void LinkOniDriver::deviceClose(oni::driver::DeviceBase* pDevice)
 	XN_ASSERT(FALSE);
 }
 
-/*
-void* LinkOniDriver::enableFrameSync(oni::driver::StreamBase** pStreams, int streamCount)
-{
-	// Make sure all the streams belong to same device.
-	LinkOniDevice* pDevice = NULL;
-	for (int i = 0; i < streamCount; ++i)
-	{
-		LinkOniStream* pStream = dynamic_cast<LinkOniStream*>(pStreams[i]);
-		if (pStreams == NULL)
-		{
-			// Not allowed.
-			return NULL;
-		}
-
-		// Check if device was not set before.
-		if (pDevice == NULL)
-		{
-			pDevice = pStream->GetDevice();
-		}
-		// Compare device to stream's device.
-		else if (pDevice != pStream->GetDevice())
-		{
-			// Streams from different devices are currently not allowed.
-			return NULL;
-		}
-	}
-
-	// Create the frame sync group handle.
-	FrameSyncGroup* pFrameSyncGroup = XN_NEW(FrameSyncGroup);
-	if (pFrameSyncGroup == NULL)
-	{
-		return NULL;
-	}
-	pFrameSyncGroup->pDevice = pDevice;
-
-	// Enable the frame sync.
-	OniStatus rc = pDevice->EnableFrameSync((LinkOniStream**)pStreams, streamCount);
-	if (rc != ONI_STATUS_OK)
-	{
-		XN_DELETE(pFrameSyncGroup);
-		return NULL;
-	}
-
-	// Return the created handle.
-	return pFrameSyncGroup;
-}
-
-void LinkOniDriver::disableFrameSync(void* frameSyncGroup)
-{
-	FrameSyncGroup* pFrameSyncGroup = (FrameSyncGroup*)frameSyncGroup;
-
-	// Find device in driver.
-	xnl::StringsHash<LinkOniDevice*>::ConstIterator iter = m_devices.Begin();
-	while (iter != m_devices.End())
-	{
-		// Make sure device belongs to driver.
-		if ((*iter).second == pFrameSyncGroup->pDevice)
-		{
-			// Disable frame sync in device.
-			pFrameSyncGroup->pDevice->DisableFrameSync();
-			return;
-		}
-		++iter;
-	}
-}
-*/
-
 void XN_CALLBACK_TYPE LinkOniDriver::OnDevicePropertyChanged(const XnChar* /*ModuleName*/, XnUInt32 /*nPropertyId*/, void* /*pCookie*/)
 {
-	//TODO impl!
-	/*
-	LinkOniDevice* pDevice = (LinkOniDevice*)pCookie;
-	LinkOniDriver* pThis = pDevice->GetDriver();
-
-	if (nPropertyId == XN_MODULE_PROPERTY_ERROR_STATE)
-	{
-		XnSensor* pSensor = (XnSensor*)pDevice->GetSensor();
-
-		// Get the property value.
-		XnUInt64 errorState = 0;
-		XnStatus nRetVal = pSensor->GetProperty(ModuleName, XN_MODULE_PROPERTY_ERROR_STATE, &errorState);
-		if (nRetVal == XN_STATUS_OK)
-		{
-			if (errorState == XN_STATUS_DEVICE_NOT_CONNECTED)
-			{
-				pThis->deviceDisconnected(pDevice->GetInfo());
-			}
-			else
-			{
-				int errorStateValue = XN_ERROR_STATE_OK;
-				switch (errorState)
-				{
-					case XN_STATUS_OK:
-					{
-						errorStateValue = XN_ERROR_STATE_OK;
-						break;
-					}
-					case XN_STATUS_DEVICE_PROJECTOR_FAULT:
-					{
-						errorStateValue = XN_ERROR_STATE_DEVICE_PROJECTOR_FAULT;
-						break;
-					}
-					case XN_STATUS_DEVICE_OVERHEAT:
-					{
-						errorStateValue = XN_ERROR_STATE_DEVICE_OVERHEAT;
-						break;
-					}
-					default:
-					{
-						// Invalid value.
-						XN_ASSERT(FALSE);
-					}
-				}
-				pThis->deviceStateChanged(pDevice->GetInfo(), errorStateValue);
-			}
-		}
-	}
-	*/
 }
 
 void XN_CALLBACK_TYPE LinkOniDriver::OnDeviceConnected(const OniDeviceInfo& deviceInfo, void* pCookie)
@@ -303,4 +174,3 @@ void LinkOniDriver::resolveConfigFilePath()
 
 	xnOSAppendFilePath(m_configFilePath, "PSLink.ini", sizeof(m_configFilePath));
 }
-
