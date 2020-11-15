@@ -24,6 +24,8 @@
 //---------------------------------------------------------------------------
 // Includes
 //---------------------------------------------------------------------------
+#include <vector>
+
 #include <DDK/XnDeviceBase.h>
 #include "XnDeviceSensorIO.h"
 #include "XnParams.h"
@@ -35,7 +37,6 @@
 #include "XnCmosInfo.h"
 #include "IXnSensorStream.h"
 #include <DDK/XnIntPropertySynchronizer.h>
-#include "XnArray.h"
 
 //---------------------------------------------------------------------------
 // XnSensor class
@@ -296,7 +297,7 @@ private:
 		XnDeviceStream* pStream;
 		OniFrame* pFrame;
 	} FrameSyncedStream;
-	xnl::Array<FrameSyncedStream> m_FrameSyncedStreams;
+	std::vector<FrameSyncedStream> m_FrameSyncedStreams;
 	int m_nFrameSyncLastFrameID;
 	xnl::CriticalSection m_frameSyncCs;
 
