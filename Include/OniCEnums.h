@@ -46,6 +46,8 @@ typedef enum
 /** All available formats of the output of a stream */
 typedef enum
 {
+	ONI_PIXEL_FORMAT_NONE = 0,
+
 	// Depth
 	ONI_PIXEL_FORMAT_DEPTH_1_MM = 100,
 	ONI_PIXEL_FORMAT_DEPTH_100_UM = 101,

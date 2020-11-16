@@ -58,10 +58,10 @@ typedef int OniHardwareVersion;
 /** Description of the output: format and resolution */
 typedef struct
 {
-	OniPixelFormat pixelFormat;
-	int resolutionX;
-	int resolutionY;
-	int fps;
+	OniPixelFormat pixelFormat = ONI_PIXEL_FORMAT_NONE;
+	int resolutionX = 0;
+	int resolutionY = 0;
+	int fps = 0;
 } OniVideoMode;
 
 /** List of supported video modes by a specific source */
