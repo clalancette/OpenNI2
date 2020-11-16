@@ -18,9 +18,9 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
- 
+
 //---------------------------------------------------------------------------
-// Includes 
+// Includes
 //---------------------------------------------------------------------------
 #include <XnOS.h>
 #include <XnLog.h>
@@ -44,7 +44,7 @@ typedef struct XnLibJpegErrorMgr
 	struct jpeg_error_mgr pub;
 
 	jmp_buf setjmpBuffer;
-} XnLibJpegErrorMgr; 
+} XnLibJpegErrorMgr;
 XN_PRAGMA_STOP_DISABLED_WARNING_SECTION;
 
 typedef struct XnStreamCompJPEGContext
@@ -81,9 +81,9 @@ void XnStreamJPEGDecompDummyFunction(struct jpeg_decompress_struct* /*pjDecompSt
 
 void XnStreamJPEGDummyErrorExit(j_common_ptr cinfo)
 {
-	XnLibJpegErrorMgr* errMgr = (XnLibJpegErrorMgr*)cinfo->err; 
+	XnLibJpegErrorMgr* errMgr = (XnLibJpegErrorMgr*)cinfo->err;
 
-	longjmp(errMgr->setjmpBuffer, 1); 
+	longjmp(errMgr->setjmpBuffer, 1);
 }
 
 void  XnStreamJPEGCompDummyFunction(struct jpeg_compress_struct* /*pjCompStruct*/)
@@ -100,16 +100,18 @@ boolean XnStreamJPEGCompDummyFailFunction(struct jpeg_compress_struct* /*pjCompS
 XnStatus XnStreamFreeCompressImageJ(XnStreamCompJPEGContext** ppStreamCompJPEGContext)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
-    XN_VALIDATE_INPUT_PTR(ppStreamCompJPEGContext);
+	XN_VALIDATE_INPUT_PTR(ppStreamCompJPEGContext);
 
-    if (NULL == *ppStreamCompJPEGContext)
-        return XN_STATUS_OK; // Already NULL. Nothing to do.
+	if (NULL == *ppStreamCompJPEGContext)
+	{
+		return XN_STATUS_OK; // Already NULL. Nothing to do.
+	}
 
-    jpeg_destroy_compress(&(*ppStreamCompJPEGContext)->jCompStruct);
+	jpeg_destroy_compress(&(*ppStreamCompJPEGContext)->jCompStruct);
 
-    XN_DELETE(*ppStreamCompJPEGContext);
+	XN_DELETE(*ppStreamCompJPEGContext);
 
-    *ppStreamCompJPEGContext = NULL;
+	*ppStreamCompJPEGContext = NULL;
 
 	// All is good...
 	return (XN_STATUS_OK);
@@ -120,16 +122,16 @@ XnStatus XnStreamCompressImage8J(XnStreamCompJPEGContext** ppStreamCompJPEGConte
 	// Local function variables
 	XnUInt8* pCurrScanline = (XnUInt8*)pInput;
 	XnUInt32 nYIndex = 0;
-	jpeg_compress_struct* pjCompStruct = NULL;	
+	jpeg_compress_struct* pjCompStruct = NULL;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
-    XN_VALIDATE_INPUT_PTR( ppStreamCompJPEGContext);
-    XN_VALIDATE_INPUT_PTR(*ppStreamCompJPEGContext);
+	XN_VALIDATE_INPUT_PTR(ppStreamCompJPEGContext);
+	XN_VALIDATE_INPUT_PTR(*ppStreamCompJPEGContext);
 	XN_VALIDATE_INPUT_PTR(pInput);
 	XN_VALIDATE_OUTPUT_PTR(pOutput);
 	XN_VALIDATE_OUTPUT_PTR(pnOutputSize);
 
-    pjCompStruct = &(*ppStreamCompJPEGContext)->jCompStruct;
+	pjCompStruct = &(*ppStreamCompJPEGContext)->jCompStruct;
 
 	pjCompStruct->in_color_space = JCS_GRAYSCALE;
 	jpeg_set_defaults(pjCompStruct);
@@ -168,16 +170,16 @@ XnStatus XnStreamCompressImage24J(XnStreamCompJPEGContext** ppStreamCompJPEGCont
 	XnUInt8* pCurrScanline = (XnUChar*)pInput;
 	XnUInt32 nYIndex = 0;
 	XnUInt32 nScanLineSize = 0;
-	jpeg_compress_struct* pjCompStruct = NULL;	
+	jpeg_compress_struct* pjCompStruct = NULL;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
-    XN_VALIDATE_INPUT_PTR( ppStreamCompJPEGContext);
-    XN_VALIDATE_INPUT_PTR(*ppStreamCompJPEGContext);
+	XN_VALIDATE_INPUT_PTR(ppStreamCompJPEGContext);
+	XN_VALIDATE_INPUT_PTR(*ppStreamCompJPEGContext);
 	XN_VALIDATE_INPUT_PTR(pInput);
 	XN_VALIDATE_OUTPUT_PTR(pOutput);
 	XN_VALIDATE_OUTPUT_PTR(pnOutputSize);
 
-    pjCompStruct = &(*ppStreamCompJPEGContext)->jCompStruct;
+	pjCompStruct = &(*ppStreamCompJPEGContext)->jCompStruct;
 
 	pjCompStruct->in_color_space = JCS_RGB;
 	jpeg_set_defaults(pjCompStruct);
@@ -245,27 +247,29 @@ void XnStreamJPEGOutputMessage(j_common_ptr cinfo)
 XnStatus XnStreamInitCompressImageJ(XnStreamCompJPEGContext** ppStreamCompJPEGContext)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
-    XN_VALIDATE_OUTPUT_PTR(ppStreamCompJPEGContext);
+	XN_VALIDATE_OUTPUT_PTR(ppStreamCompJPEGContext);
 
-    // Destroy the previous context if necessary.
-    XnStreamFreeCompressImageJ(ppStreamCompJPEGContext);
+	// Destroy the previous context if necessary.
+	XnStreamFreeCompressImageJ(ppStreamCompJPEGContext);
 
-    // Allocate the new context.
-    XnStreamCompJPEGContext* pStreamCompJPEGContext = XN_NEW(XnStreamCompJPEGContext);
+	// Allocate the new context.
+	XnStreamCompJPEGContext* pStreamCompJPEGContext = XN_NEW(XnStreamCompJPEGContext);
 
 	if (NULL == pStreamCompJPEGContext)
+	{
 		return XN_STATUS_ERROR;
- 
+	}
+
  	pStreamCompJPEGContext->jCompStruct.err = jpeg_std_error(&pStreamCompJPEGContext->jErrMgr);
- 
+
  	jpeg_create_compress(&pStreamCompJPEGContext->jCompStruct);
- 
+
 	pStreamCompJPEGContext->jCompStruct.dest = &pStreamCompJPEGContext->jDestMgr;
  	pStreamCompJPEGContext->jCompStruct.dest->init_destination = XnStreamJPEGCompDummyFunction;
  	pStreamCompJPEGContext->jCompStruct.dest->empty_output_buffer = XnStreamJPEGCompDummyFailFunction;
  	pStreamCompJPEGContext->jCompStruct.dest->term_destination = XnStreamJPEGCompDummyFunction;
 
-    // Update the output context pointer.
+	// Update the output context pointer.
 	*ppStreamCompJPEGContext = pStreamCompJPEGContext;
 
 	// All is good...
@@ -275,23 +279,25 @@ XnStatus XnStreamInitCompressImageJ(XnStreamCompJPEGContext** ppStreamCompJPEGCo
 XnStatus XnStreamInitUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncompJPEGContext)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
-    XN_VALIDATE_OUTPUT_PTR(ppStreamUncompJPEGContext);
+	XN_VALIDATE_OUTPUT_PTR(ppStreamUncompJPEGContext);
 
-    // Destroy the previous context if necessary.
-    XnStreamFreeUncompressImageJ(ppStreamUncompJPEGContext);
+	// Destroy the previous context if necessary.
+	XnStreamFreeUncompressImageJ(ppStreamUncompJPEGContext);
 
-    // Allocate the new context.
-    XnStreamUncompJPEGContext* pStreamUncompJPEGContext = XN_NEW(XnStreamUncompJPEGContext);
+	// Allocate the new context.
+	XnStreamUncompJPEGContext* pStreamUncompJPEGContext = XN_NEW(XnStreamUncompJPEGContext);
 
 	if (NULL == pStreamUncompJPEGContext)
+	{
 		return XN_STATUS_ERROR;
+	}
 
 	pStreamUncompJPEGContext->jDecompStruct.err = jpeg_std_error(&pStreamUncompJPEGContext->jErrMgr.pub);
 	pStreamUncompJPEGContext->jErrMgr.pub.output_message = XnStreamJPEGOutputMessage;
  	pStreamUncompJPEGContext->jErrMgr.pub.error_exit = XnStreamJPEGDummyErrorExit;
 
 	jpeg_create_decompress(&pStreamUncompJPEGContext->jDecompStruct);
- 
+
 	pStreamUncompJPEGContext->jDecompStruct.src = &pStreamUncompJPEGContext->jSrcMgr;
 	pStreamUncompJPEGContext->jDecompStruct.src->init_source = XnStreamJPEGDecompDummyFunction;
 	pStreamUncompJPEGContext->jDecompStruct.src->fill_input_buffer = XnStreamJPEGDecompDummyFailFunction;
@@ -299,7 +305,7 @@ XnStatus XnStreamInitUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncomp
 	pStreamUncompJPEGContext->jDecompStruct.src->resync_to_restart = jpeg_resync_to_restart;
 	pStreamUncompJPEGContext->jDecompStruct.src->term_source = XnStreamJPEGDecompDummyFunction;
 
-    // Update the output context pointer.
+	// Update the output context pointer.
 	*ppStreamUncompJPEGContext = pStreamUncompJPEGContext;
 
 	// All is good...
@@ -309,16 +315,18 @@ XnStatus XnStreamInitUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncomp
 XnStatus XnStreamFreeUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncompJPEGContext)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
-    XN_VALIDATE_INPUT_PTR(ppStreamUncompJPEGContext);
+	XN_VALIDATE_INPUT_PTR(ppStreamUncompJPEGContext);
 
-    if (NULL == *ppStreamUncompJPEGContext)
-        return XN_STATUS_OK; // Already NULL. Nothing to do.
+	if (NULL == *ppStreamUncompJPEGContext)
+	{
+		return XN_STATUS_OK; // Already NULL. Nothing to do.
+	}
 
-    jpeg_destroy_decompress(&(*ppStreamUncompJPEGContext)->jDecompStruct);
+	jpeg_destroy_decompress(&(*ppStreamUncompJPEGContext)->jDecompStruct);
 
-    XN_DELETE(*ppStreamUncompJPEGContext);
+	XN_DELETE(*ppStreamUncompJPEGContext);
 
-    ppStreamUncompJPEGContext = NULL;
+	*ppStreamUncompJPEGContext = NULL;
 
 	// All is good...
 	return (XN_STATUS_OK);
@@ -341,8 +349,8 @@ XnStatus XnStreamUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncompJPEG
 	jpeg_decompress_struct* pjDecompStruct = NULL;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
-    XN_VALIDATE_INPUT_PTR(ppStreamUncompJPEGContext);
-    XN_VALIDATE_INPUT_PTR(*ppStreamUncompJPEGContext);
+	XN_VALIDATE_INPUT_PTR(ppStreamUncompJPEGContext);
+	XN_VALIDATE_INPUT_PTR(*ppStreamUncompJPEGContext);
 	XN_VALIDATE_INPUT_PTR(pInput);
 	XN_VALIDATE_OUTPUT_PTR(pOutput);
 	XN_VALIDATE_OUTPUT_PTR(pnOutputSize);
@@ -355,21 +363,21 @@ XnStatus XnStreamUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncompJPEG
 
 	pOutputEnd = pOutput + *pnOutputSize;
 
-    pjDecompStruct = &(*ppStreamUncompJPEGContext)->jDecompStruct;
+	pjDecompStruct = &(*ppStreamUncompJPEGContext)->jDecompStruct;
 
 	pjDecompStruct->src->bytes_in_buffer = nInputSize;
 	pjDecompStruct->src->next_input_byte = pInput;
 
-    if (setjmp((*ppStreamUncompJPEGContext)->jErrMgr.setjmpBuffer))
+	if (setjmp((*ppStreamUncompJPEGContext)->jErrMgr.setjmpBuffer))
 	{
 		//If we get here, the JPEG code has signaled an error.
-        XnStreamFreeUncompressImageJ(ppStreamUncompJPEGContext);
-        XnStreamInitUncompressImageJ(ppStreamUncompJPEGContext);
+		XnStreamFreeUncompressImageJ(ppStreamUncompJPEGContext);
+		XnStreamInitUncompressImageJ(ppStreamUncompJPEGContext);
 
 		*pnOutputSize = 0;
 		xnLogError(XN_MASK_JPEG, "Xiron I/O decompression failed!");
 		return (XN_STATUS_ERROR);
-	} 
+	}
 
 	jpeg_read_header(pjDecompStruct, TRUE);
 
@@ -380,22 +388,22 @@ XnStatus XnStreamUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncompJPEG
 	nOutputSize = pjDecompStruct->output_height * nScanLineSize;
 	if (nOutputSize > *pnOutputSize)
 	{
-        XnStreamFreeUncompressImageJ(ppStreamUncompJPEGContext);
-        XnStreamInitUncompressImageJ(ppStreamUncompJPEGContext);
+		XnStreamFreeUncompressImageJ(ppStreamUncompJPEGContext);
+		XnStreamInitUncompressImageJ(ppStreamUncompJPEGContext);
 
 		*pnOutputSize = 0;
 
 		return (XN_STATUS_OUTPUT_BUFFER_OVERFLOW);
 	}
 
-    while ((*ppStreamUncompJPEGContext)->jDecompStruct.output_scanline < (*ppStreamUncompJPEGContext)->jDecompStruct.output_height)
+	while ((*ppStreamUncompJPEGContext)->jDecompStruct.output_scanline < (*ppStreamUncompJPEGContext)->jDecompStruct.output_height)
 	{
 		pNextScanline = pCurrScanline+nScanLineSize;
 
 		if (pNextScanline > pOutputEnd)
 		{
-            XnStreamFreeUncompressImageJ(ppStreamUncompJPEGContext);
-            XnStreamInitUncompressImageJ(ppStreamUncompJPEGContext);
+			XnStreamFreeUncompressImageJ(ppStreamUncompJPEGContext);
+			XnStreamInitUncompressImageJ(ppStreamUncompJPEGContext);
 
 			*pnOutputSize = 0;
 
