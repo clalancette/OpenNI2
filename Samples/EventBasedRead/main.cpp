@@ -150,6 +150,10 @@ int main()
 	depth.stop();
 	depth.destroy();
 	device.close();
+
+	OpenNI::removeDeviceStateChangedListener(&devicePrinter);
+	OpenNI::removeDeviceDisconnectedListener(&devicePrinter);
+	OpenNI::removeDeviceConnectedListener(&devicePrinter);
 	OpenNI::shutdown();
 
 	return 0;
