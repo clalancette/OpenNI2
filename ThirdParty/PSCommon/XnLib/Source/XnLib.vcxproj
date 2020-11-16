@@ -42,11 +42,6 @@
     <ClInclude Include="..\Include\XnPool.h" />
     <ClInclude Include="..\Include\XnPriorityQueue.h" />
     <ClInclude Include="..\Include\XnProperty.h" />
-    <ClInclude Include="..\Include\XnSIMD-Neon.h" />
-    <ClInclude Include="..\Include\XnSIMD-None.h" />
-    <ClInclude Include="..\Include\XnSIMD-SSE.h" />
-    <ClInclude Include="..\Include\XnSIMD.h" />
-    <ClInclude Include="..\Include\XnSmartPointer.h" />
     <ClInclude Include="..\Include\XnStatus.h" />
     <ClInclude Include="..\Include\XnStatusCodes.h" />
     <ClInclude Include="..\Include\XnStatusRegister.h" />

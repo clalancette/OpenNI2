@@ -108,9 +108,6 @@
     <ClInclude Include="..\Include\XnProperty.h">
       <Filter>Header Files\DataContainers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\XnSmartPointer.h">
-      <Filter>Header Files\DataContainers</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\XnVector3D.h">
       <Filter>Header Files\DataContainers</Filter>
     </ClInclude>
@@ -136,18 +133,6 @@
       <Filter>Header Files\OS</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\XnPlatform.h">
-      <Filter>Header Files\OS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\XnSIMD.h">
-      <Filter>Header Files\OS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\XnSIMD-Neon.h">
-      <Filter>Header Files\OS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\XnSIMD-None.h">
-      <Filter>Header Files\OS</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\XnSIMD-SSE.h">
       <Filter>Header Files\OS</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\XnStatusCodes.h">
