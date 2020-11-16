@@ -23,9 +23,6 @@
 //---------------------------------------------------------------------------
 #include "XnPacked12DepthProcessor.h"
 #include <XnProfiling.h>
-#ifdef XN_NEON
-#include <arm_neon.h>
-#endif
 
 //---------------------------------------------------------------------------
 // Defines
@@ -45,7 +42,7 @@
 #define XN_CREATE_MASK(count, offset)	(XN_ON_BITS(count) << offset)
 
 /* Takes the <count> bits in offset <offset> from <source>.
-*  For example: 
+*  For example:
 *  If we want 3 bits located in offset 2 from 0xF4:
 *  11110100
 *     ---
@@ -94,19 +91,10 @@ XnStatus XnPacked12DepthProcessor::Unpack12to16(const XnUInt8* pcInput, const Xn
 
 	XnUInt16* pnOutput = (XnUInt16*)pWriteBuffer->GetUnsafeWritePointer();
 	XnUInt16 shift[16];
-#ifdef XN_NEON
-	XnUInt16 depth[16];
-	uint8x8x3_t inD3;
-	uint8x8_t rshft4D, lshft4D;
-	uint16x8_t rshft4Q, lshft4Q;
-	uint16x8_t depthQ;
-	uint16x8x2_t shiftQ2;
-#endif
 
 	// Convert the 11bit packed data into 16bit shorts
 	for (XnUInt32 nElem = 0; nElem < nElements; ++nElem)
 	{
-#ifndef XN_NEON
 		// input:	0,  1,2,3,  4,5,6,  7,8,9, 10,11,12, 13,14,15, 16,17,18, 19,20,21, 22,23
 		//			-,---,-,-,---,-,-,---,-,-,---,--,--,---,--,--,---,--,--,---,--,--,---,--
 		// bits:	8,4,4,8,8,4,4,8,8,4,4,8,8,4,4, 8, 8,4,4, 8, 8,4,4, 8, 8,4,4, 8, 8,4,4, 8
@@ -163,91 +151,6 @@ XnStatus XnPacked12DepthProcessor::Unpack12to16(const XnUInt8* pcInput, const Xn
 		pnOutput[13] = GetOutput(shift[13]);
 		pnOutput[14] = GetOutput(shift[14]);
 		pnOutput[15] = GetOutput(shift[15]);
-
-#else
-		// input:	0,  1,2    (X8)
-		//			-,---,-
-		// bits:	8,4,4,8    (X8)
-		//			---,---
-		// output:	  0,  1    (X8)
-
-		// Split 24 bytes into 3 vectors (64 bit each)
-		inD3 = vld3_u8(pcInput);
-
-		// rshft4D0 contains 4 MSB of second vector (placed at offset 0)
-		rshft4D = vshr_n_u8(inD3.val[1], 4);
-		// lshft4D0 contains 4 LSB of second vector (placed at offset 4)
-		lshft4D = vshl_n_u8(inD3.val[1], 4);
-
-		// Expand 64 bit vectors to 128 bit (8 values of 16 bits)
-		shiftQ2.val[0] = vmovl_u8(inD3.val[0]);
-		shiftQ2.val[1] = vmovl_u8(inD3.val[2]);
-		rshft4Q = vmovl_u8(rshft4D);
-		lshft4Q = vmovl_u8(lshft4D);
-
-		// Even indexed shift = 8 bits from first vector + 4 MSB bits of second vector
-		shiftQ2.val[0] = vshlq_n_u16(shiftQ2.val[0], 4);
-		shiftQ2.val[0] = vorrq_u16(shiftQ2.val[0], rshft4Q);
-		
-		// Odd indexed shift = 4 LSB bits of second vector + 8 bits from third vector
-		lshft4Q = vshlq_n_u16(lshft4Q, 4);
-		shiftQ2.val[1] = vorrq_u16(shiftQ2.val[1], lshft4Q);
-		
-		// Interleave shift values to a single vector
-		vst2q_u16(shift, shiftQ2);
-
-		shift[0] = (((shift[0]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[0]) : 0);
-		shift[1] = (((shift[1]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[1]) : 0);
-		shift[2] = (((shift[2]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[2]) : 0);
-		shift[3] = (((shift[3]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[3]) : 0);
-		shift[4] = (((shift[4]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[4]) : 0);
-		shift[5] = (((shift[5]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[5]) : 0);
-		shift[6] = (((shift[6]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[6]) : 0);
-		shift[7] = (((shift[7]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[7]) : 0);
-		shift[8] = (((shift[8]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[8]) : 0);
-		shift[9] = (((shift[9]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[9]) : 0);
-		shift[10] = (((shift[10]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[10]) : 0);
-		shift[11] = (((shift[11]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[11]) : 0);
-		shift[12] = (((shift[12]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[12]) : 0);
-		shift[13] = (((shift[13]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[13]) : 0);
-		shift[14] = (((shift[14]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[14]) : 0);
-		shift[15] = (((shift[15]) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (shift[15]) : 0);
-
-		depth[0] = GetOutput(shift[0]);
-		depth[1] = GetOutput(shift[1]);
-
-		depth[2] = GetOutput(shift[2]);
-		depth[3] = GetOutput(shift[3]);
-
-		depth[4] = GetOutput(shift[4]);
-		depth[5] = GetOutput(shift[5]);
-
-		depth[6] = GetOutput(shift[6]);
-		depth[7] = GetOutput(shift[7]);
-
-		// Load
-		depthQ = vld1q_u16(depth);
-		//Store
-		vst1q_u16(pnOutput, depthQ);
-
-		depth[8] = GetOutput(shift[8]);
-		depth[9] = GetOutput(shift[9]);
-
-		depth[10] = GetOutput(shift[10]);
-		depth[11] = GetOutput(shift[11]);
-
-		depth[12] = GetOutput(shift[12]);
-		depth[13] = GetOutput(shift[13]);
-
-		depth[14] = GetOutput(shift[14]);
-		depth[15] = GetOutput(shift[15]);
-
-		// Load
-		depthQ = vld1q_u16(depth + 8);
-		// Store
-		vst1q_u16(pnOutput + 8, depthQ);
-
-#endif
 
 		pcInput += XN_INPUT_ELEMENT_SIZE;
 		pnOutput += 16;

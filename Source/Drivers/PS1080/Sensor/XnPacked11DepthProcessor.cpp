@@ -23,9 +23,6 @@
 //---------------------------------------------------------------------------
 #include "XnPacked11DepthProcessor.h"
 #include <XnProfiling.h>
-#ifdef XN_NEON
-#include <arm_neon.h>
-#endif
 
 //---------------------------------------------------------------------------
 // Defines
@@ -45,7 +42,7 @@
 #define XN_CREATE_MASK(count, offset)	(XN_ON_BITS(count) << offset)
 
 /* Takes the <count> bits in offset <offset> from <source>.
-*  For example: 
+*  For example:
 *  If we want 3 bits located in offset 2 from 0xF4:
 *  11110100
 *     ---
@@ -97,10 +94,6 @@ XnStatus XnPacked11DepthProcessor::Unpack11to16(const XnUInt8* pcInput, const Xn
 	XnUInt16* pnOutput = (XnUInt16*)pWriteBuffer->GetUnsafeWritePointer();
 
 	XnUInt16 a0,a1,a2,a3,a4,a5,a6,a7;
-#ifdef XN_NEON
-	XnUInt16 depth[8];
-	uint16x8_t Q0;
-#endif
 
 	// Convert the 11bit packed data into 16bit shorts
 	for (XnUInt32 nElem = 0; nElem < nElements; ++nElem)
@@ -121,21 +114,6 @@ XnStatus XnPacked11DepthProcessor::Unpack11to16(const XnUInt8* pcInput, const Xn
 		a7 = (XN_TAKE_BITS(pcInput[9],3,0) << 8) | XN_TAKE_BITS(pcInput[10],8,0);
 
 
-#ifdef XN_NEON
-		depth[0] = GetOutput(a0);
-		depth[1] = GetOutput(a1);
-		depth[2] = GetOutput(a2);
-		depth[3] = GetOutput(a3);
-		depth[4] = GetOutput(a4);
-		depth[5] = GetOutput(a5);
-		depth[6] = GetOutput(a6);
-		depth[7] = GetOutput(a7);
-
-		// Load
-		Q0 = vld1q_u16(depth);
-		// Store
-		vst1q_u16(pnOutput, Q0);
-#else
 		pnOutput[0] = GetOutput(a0);
 		pnOutput[1] = GetOutput(a1);
 		pnOutput[2] = GetOutput(a2);
@@ -144,7 +122,6 @@ XnStatus XnPacked11DepthProcessor::Unpack11to16(const XnUInt8* pcInput, const Xn
 		pnOutput[5] = GetOutput(a5);
 		pnOutput[6] = GetOutput(a6);
 		pnOutput[7] = GetOutput(a7);
-#endif
 
 		pcInput += XN_INPUT_ELEMENT_SIZE;
 		pnOutput += 8;
