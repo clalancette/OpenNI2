@@ -18,6 +18,8 @@
 *  limitations under the License.                                            *
 *                                                                            *
 *****************************************************************************/
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "XnDeviceEnumeration.h"
@@ -26,14 +28,21 @@
 //---------------------------------------------------------------------------
 // Globals
 //---------------------------------------------------------------------------
-XnBool XnDeviceEnumeration::ms_initialized = FALSE;
-XnDeviceEnumeration::DeviceConnectivityEvent XnDeviceEnumeration::ms_connectedEvent;
-XnDeviceEnumeration::DeviceConnectivityEvent XnDeviceEnumeration::ms_disconnectedEvent;
-XnDeviceEnumeration::DevicesHash XnDeviceEnumeration::ms_devices;
-std::vector<XnRegistrationHandle> XnDeviceEnumeration::ms_aRegistrationHandles;
-XN_CRITICAL_SECTION_HANDLE XnDeviceEnumeration::ms_lock;
+static XnBool ms_initialized = FALSE;
+static XnDeviceEnumeration::DeviceConnectivityEvent ms_connectedEvent;
+static XnDeviceEnumeration::DeviceConnectivityEvent ms_disconnectedEvent;
+static std::unordered_map<std::string, OniDeviceInfo> ms_devices;
+static std::vector<XnRegistrationHandle> ms_aRegistrationHandles;
+static XN_CRITICAL_SECTION_HANDLE ms_lock;
 
-XnDeviceEnumeration::XnUsbId XnDeviceEnumeration::ms_supportedProducts[] = 
+typedef struct XnUsbId
+{
+	XnUInt16 vendorID;
+	XnUInt16 productID;
+} XnUsbId;
+
+
+static XnUsbId ms_supportedProducts[] =
 {
 	{ 0x1D27, 0x0500 },
 	{ 0x1D27, 0x0600 },
@@ -41,7 +50,10 @@ XnDeviceEnumeration::XnUsbId XnDeviceEnumeration::ms_supportedProducts[] =
 	{ 0x1D27, 0x0609 },
 };
 
-XnUInt32 XnDeviceEnumeration::ms_supportedProductsCount = sizeof(XnDeviceEnumeration::ms_supportedProducts) / sizeof(XnDeviceEnumeration::ms_supportedProducts[0]);
+static XnUInt32 ms_supportedProductsCount = sizeof(ms_supportedProducts) / sizeof(ms_supportedProducts[0]);
+
+static void XN_CALLBACK_TYPE OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* pCookie);
+static void OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId);
 
 //---------------------------------------------------------------------------
 // Code
@@ -61,12 +73,12 @@ XnStatus XnDeviceEnumeration::Initialize()
 	nRetVal = xnOSCreateCriticalSection(&ms_lock);
 	XN_IS_STATUS_OK(nRetVal);
 
-	const XnUSBConnectionString* astrDevicePaths;
-	XnUInt32 nCount;
-
 	// check all products
 	for (XnUInt32 i = 0; i < ms_supportedProductsCount; ++i)
 	{
+		const XnUSBConnectionString* astrDevicePaths = NULL;
+		XnUInt32 nCount = 0;
+
 		// register for USB events
 		XnRegistrationHandle hRegistration = NULL;
 		nRetVal = xnUSBRegisterToConnectivityEvents(ms_supportedProducts[i].vendorID, ms_supportedProducts[i].productID, OnConnectivityEventCallback, &ms_supportedProducts[i], &hRegistration);
@@ -107,19 +119,29 @@ void XnDeviceEnumeration::Shutdown()
 
 		xnUSBShutdown();
 
-		ms_devices.Clear();
+		ms_devices.clear();
 
 		ms_initialized = FALSE;
 	}
 }
 
-void XnDeviceEnumeration::OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId)
+XnDeviceEnumeration::DeviceConnectivityEvent::Interface& XnDeviceEnumeration::ConnectedEvent()
+{
+	return ms_connectedEvent;
+}
+
+XnDeviceEnumeration::DeviceConnectivityEvent::Interface& XnDeviceEnumeration::DisconnectedEvent()
+{
+	return ms_disconnectedEvent;
+}
+
+static void OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId)
 {
 	xnl::AutoCSLocker lock(ms_lock);
 
 	if (eventType == XN_USB_EVENT_DEVICE_CONNECT)
 	{
-		if (ms_devices.Find(uri) == ms_devices.End())
+		if (ms_devices.find(uri) == ms_devices.end())
 		{
 			OniDeviceInfo deviceInfo;
 			deviceInfo.usbVendorId = usbId.vendorID;
@@ -129,7 +151,7 @@ void XnDeviceEnumeration::OnConnectivityEvent(const XnChar* uri, XnUSBEventType 
 			xnOSStrCopy(deviceInfo.name, "PS1080", sizeof(deviceInfo.name));
 
 			// add it to hash
-			ms_devices.Set(uri, deviceInfo);
+			ms_devices.insert({uri, deviceInfo});
 
 			// raise event
 			ms_connectedEvent.Raise(deviceInfo);
@@ -137,19 +159,16 @@ void XnDeviceEnumeration::OnConnectivityEvent(const XnChar* uri, XnUSBEventType 
 	}
 	else if (eventType == XN_USB_EVENT_DEVICE_DISCONNECT)
 	{
-		OniDeviceInfo deviceInfo;
-		if (XN_STATUS_OK == ms_devices.Get(uri, deviceInfo))
+		std::unordered_map<std::string, OniDeviceInfo>::iterator it = ms_devices.find(uri);
+		if (it != ms_devices.end())
 		{
-			// raise event
-			ms_disconnectedEvent.Raise(deviceInfo);
-
-			// remove it
-			ms_devices.Remove(uri);
+			ms_disconnectedEvent.Raise(it->second);
+			ms_devices.erase(it);
 		}
 	}
 }
 
-void XN_CALLBACK_TYPE XnDeviceEnumeration::OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* pCookie)
+void XN_CALLBACK_TYPE OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* pCookie)
 {
 	XnUsbId usbId = *(XnUsbId*)pCookie;
 	OnConnectivityEvent(pArgs->strDevicePath, pArgs->eventType, usbId);
@@ -185,12 +204,12 @@ XnStatus XnDeviceEnumeration::IsSensorLowBandwidth(const XnChar* uri, XnBool* pb
 
 OniDeviceInfo* XnDeviceEnumeration::GetDeviceInfo(const XnChar* uri)
 {
-	OniDeviceInfo* pInfo = NULL;
 	xnl::AutoCSLocker lock(ms_lock);
 
-	if (ms_devices.Get(uri, pInfo) == XN_STATUS_OK)
+	std::unordered_map<std::string, OniDeviceInfo>::iterator it = ms_devices.find(uri);
+	if (it != ms_devices.end())
 	{
-		return pInfo;
+		return &(it->second);
 	}
 	else
 	{

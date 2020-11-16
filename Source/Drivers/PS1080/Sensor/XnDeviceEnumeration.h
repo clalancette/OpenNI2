@@ -21,9 +21,6 @@
 #ifndef XNDEVICEENUMERATION_H
 #define XNDEVICEENUMERATION_H
 
-#include <vector>
-
-#include <XnStringsHash.h>
 #include <XnEvent.h>
 #include <OniCTypes.h>
 #include <XnUSB.h>
@@ -38,33 +35,11 @@ public:
 
 	static OniDeviceInfo* GetDeviceInfo(const XnChar* uri);
 
-	static DeviceConnectivityEvent::Interface& ConnectedEvent() { return ms_connectedEvent; }
-	static DeviceConnectivityEvent::Interface& DisconnectedEvent() { return ms_disconnectedEvent; }
+	static DeviceConnectivityEvent::Interface& ConnectedEvent();
+	static DeviceConnectivityEvent::Interface& DisconnectedEvent();
 
 	static XnStatus EnumerateSensors(OniDeviceInfo* aDevices, XnUInt32* pnCount);
 	static XnStatus IsSensorLowBandwidth(const XnChar* connectionString, XnBool* pbIsLowband);
-
-private:
-	typedef struct XnUsbId
-	{
-		XnUInt16 vendorID;
-		XnUInt16 productID;
-	} XnUsbId;
-
-	typedef xnl::XnStringsHashT<OniDeviceInfo> DevicesHash;
-
-	static void XN_CALLBACK_TYPE OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* pCookie);
-	static void OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId);
-
-	static XnBool ms_initialized;
-	static DeviceConnectivityEvent ms_connectedEvent;
-	static DeviceConnectivityEvent ms_disconnectedEvent;
-
-	static XnUsbId ms_supportedProducts[];
-	static XnUInt32 ms_supportedProductsCount;
-	static DevicesHash ms_devices;
-	static std::vector<XnRegistrationHandle> ms_aRegistrationHandles;
-	static XN_CRITICAL_SECTION_HANDLE ms_lock;
 };
 
 #endif // XNDEVICEENUMERATION_H
