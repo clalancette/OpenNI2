@@ -96,14 +96,14 @@ XN_C_API XnStatus xnOSStartTimer(XnOSTimer* pTimer)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pTimer);
-	
+
 	if (XN_STATUS_OK != xnOSGetMonoTime(&pTimer->tStartTime))
 	{
 		return XN_STATUS_OS_TIMER_QUERY_FAILED;
 	}
-	
+
 	pTimer->bHighRes = false;
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -112,10 +112,10 @@ XN_C_API XnStatus xnOSStartHighResTimer(XnOSTimer* pTimer)
 	// start a normal timer
 	XnStatus nRetVal = xnOSStartTimer(pTimer);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	// now make it high-res
 	pTimer->bHighRes = true;
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -136,18 +136,18 @@ XN_C_API XnStatus xnOSQueryTimer(XnOSTimer Timer, XnUInt64* pnTimeSinceStart)
 	XN_VALIDATE_OUTPUT_PTR(pnTimeSinceStart);
 
 	struct timespec now;
-	
+
 	if (XN_STATUS_OK != xnOSGetMonoTime(&now))
 	{
 		return XN_STATUS_OS_TIMER_QUERY_FAILED;
 	}
-	
+
 	*pnTimeSinceStart = ((now.tv_sec - Timer.tStartTime.tv_sec) * 1E6 + (now.tv_nsec - Timer.tStartTime.tv_nsec) / 1E3);
 	if (!Timer.bHighRes)
 	{
 		*pnTimeSinceStart /= 1000;
 	}
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -173,7 +173,7 @@ XN_C_API XnStatus xnOSGetMonoTime(struct timespec* pTime)
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
 	pTime->tv_sec = tv.tv_sec;
-	pTime->tv_nsec = tv.tv_usec * 1000;  
+	pTime->tv_nsec = tv.tv_usec * 1000;
 #endif
 	return (XN_STATUS_OK);
 }
@@ -190,7 +190,7 @@ XN_C_API XnStatus xnOSGetAbsTimeout(struct timespec* pTime, XnUInt32 nMillisecon
 {
 	XnStatus nRetVal = xnOSGetMonoTime(pTime);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	pTime->tv_sec += (nMilliseconds / 1000);
 	pTime->tv_nsec += ((nMilliseconds % 1000) * 1000000);
 
@@ -199,6 +199,6 @@ XN_C_API XnStatus xnOSGetAbsTimeout(struct timespec* pTime, XnUInt32 nMillisecon
 		pTime->tv_nsec -= 1000000000;
 		pTime->tv_sec++;
 	}
-	
+
 	return XN_STATUS_OK;
 }

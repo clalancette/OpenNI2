@@ -41,12 +41,11 @@ enum _XN_EVENT_SEM_TYPE
 //---------------------------------------------------------------------------
 #ifndef XN_PLATFORM_HAS_BUILTIN_SEMUN
 union semun {
-               int              val;    /* Value for SETVAL */
-               struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
-               unsigned short  *array;  /* Array for GETALL, SETALL */
-               struct seminfo  *__buf;  /* Buffer for IPC_INFO
-                                           (Linux-specific) */
-           };
+	int              val;    /* Value for SETVAL */
+	struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
+	unsigned short  *array;  /* Array for GETALL, SETALL */
+	struct seminfo  *__buf;  /* Buffer for IPC_INFO	(Linux-specific) */
+};
 #endif
 
 //---------------------------------------------------------------------------
@@ -150,7 +149,7 @@ XnStatus XnLinuxSysVNamedEvent::OpenNamed(const XnChar* strName)
 	semop(m_hSem, &op, 1);
 
 	m_bManualReset = semctl(m_hSem, XN_EVENT_SEM_MANUAL_RESET, GETVAL);
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -161,7 +160,7 @@ XnStatus XnLinuxSysVNamedEvent::Destroy()
 	op.sem_num = XN_EVENT_SEM_REF_COUNT;
 	op.sem_op = -1;
 	op.sem_flg = IPC_NOWAIT | SEM_UNDO;
-	semop(m_hSem, &op, 1); 
+	semop(m_hSem, &op, 1);
 
 	// check current ref count. If 0, destroy it
 	int val = semctl(m_hSem, 0, GETVAL);
@@ -241,7 +240,7 @@ XnStatus XnLinuxSysVNamedEvent::Wait(XnUInt32 nMilliseconds)
 #if _GNU_SOURCE
 		if (0 != semtimedop(m_hSem, op, nOpsCount, &time))
 #else
-		if (0 != semop(m_hSem, op, nOpsCount))	
+		if (0 != semop(m_hSem, op, nOpsCount))
 #endif
 		{
 			if(EAGAIN == errno)

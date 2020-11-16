@@ -175,7 +175,6 @@ Vector3D& Vector3D::Set(XnFloat x, XnFloat y, XnFloat z) {this->x = x; this->y =
 
 Vector3D& Vector3D::SetZero() {return Set(Zero());}
 XnBool Vector3D::IsZero() const {return *this==Zero();}
-//	{return (fabs(x) < m_tolerance && fabs(y) < m_tolerance && fabs(z) < m_tolerance);}
 
 XnBool Vector3D::operator==(const Vector3D& other) const {return (Math::Abs(x-other.x) < m_tolerance && Math::Abs(y-other.y) < m_tolerance && Math::Abs(z-other.z) < m_tolerance);}
 XnBool Vector3D::operator!=(const Vector3D& other) const {return !this->operator==(other);}
@@ -212,9 +211,13 @@ XnFloat Vector3D::Normalize()
 {
 	XnFloat length = Magnitude();
 	if (length > m_tolerance)
+	{
 		*this /= length;
+	}
 	else
-		Set(1,0,0);
+	{
+		Set(1, 0, 0);
+	}
 	return length;
 }
 
@@ -223,16 +226,29 @@ Vector3D Vector3D::OrthogonalVector() const
 	XnFloat absX = Math::Abs(x), absY = Math::Abs(y), absZ = Math::Abs(z);
 
 	if (absX < absY)
+	{
 		if (absX < absZ)
+		{
 			return Vector3D(0, z, -y);
+		}
 		else
+		{
 			return Vector3D(y, -x, 0);
+		}
+	}
 	else
+	{
 		if (absY < absZ)
+		{
 			return Vector3D(z, 0, x);
+		}
 		else
+		{
 			return Vector3D(y, -x, 0);
+		}
+	}
 }
+
 Vector3D Vector3D::UnitOrthogonalVector() const
 {
 	Vector3D vec = OrthogonalVector();
@@ -246,6 +262,7 @@ Vector3D Vector3D::operator^(const Vector3D& other)
 	result.CrossProduct(*this, other);
 	return result;
 }
+
 Vector3D& Vector3D::CrossProduct(const Vector3D& left, const Vector3D& right)
 {
 	return Set(left.y*right.z - left.z*right.y,
@@ -257,6 +274,7 @@ XnFloat Vector3D::operator|(const Vector3D& other)
 {
 	return DotProduct(*this, other);
 }
+
 XnFloat DotProduct(const Vector3D& left, const Vector3D& right)
 {
 	return left.x*right.x + left.y*right.y + left.z*right.z;
@@ -278,18 +296,26 @@ XnBool Vector3D::IsSameDirection(const Vector3D& other) const
 
 	XnFloat ratio = 0;
 	if (!Math::IsZero(x, m_tolerance) && !Math::IsZero(other.x, m_tolerance))
+	{
 		ratio = other.x/x;
+	}
 	else if (!Math::IsZero(y, m_tolerance) && !Math::IsZero(other.y, m_tolerance))
+	{
 		ratio = other.y/y;
+	}
 	else if (!Math::IsZero(z, m_tolerance) && !Math::IsZero(other.z, m_tolerance))
+	{
 		ratio = other.z/z;
+	}
 	else
 	{
 		return false;
 	}
 
 	if (other/ratio == *this)
+	{
 		return true;
+	}
 
 	return false;
 }

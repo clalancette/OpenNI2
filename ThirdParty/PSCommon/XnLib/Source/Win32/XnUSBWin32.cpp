@@ -89,17 +89,17 @@ DWORD __stdcall DevDetectThread(LPVOID Arg)
 
 LRESULT CALLBACK DevDetectWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
+	switch (msg)
 	{
 		case WM_DEVICECHANGE:
 			{
 				PDEV_BROADCAST_HDR pBroadcastHdr = (PDEV_BROADCAST_HDR)lParam;
 				PDEV_BROADCAST_DEVICEINTERFACE pDevIF = (PDEV_BROADCAST_DEVICEINTERFACE)pBroadcastHdr;
 
-				if(pBroadcastHdr)
+				if (pBroadcastHdr)
 				{
-					DWORD nEventType = (DWORD)wParam; 
-					if (pBroadcastHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE) 
+					DWORD nEventType = (DWORD)wParam;
+					if (pBroadcastHdr->dbch_devicetype == DBT_DEVTYP_DEVICEINTERFACE)
 					{
 						_strlwr(pDevIF->dbcc_name);
 
@@ -131,7 +131,7 @@ LRESULT CALLBACK DevDetectWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 			break;
 	default:
-		return DefWindowProc(hwnd, msg, wParam, lParam);	
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 
 	return 0;
@@ -455,7 +455,7 @@ XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID,
 			// Make sure we have the right VID/PID
 			cpUSBID[0] = 0;
 			sprintf_s (cpUSBID, "vid_%04x&pid_%04x", nVendorID, nProductID);
-			
+
 			cpUSBPathCmp[0] = 0;
 			StringCchCopy(cpUSBPathCmp, MAX_DEVICE_STR_LENGTH, pDevInterfaceDetailData->DevicePath);
 
@@ -642,7 +642,7 @@ XN_C_API XnStatus xnUSBCloseDevice(XN_USB_DEV_HANDLE pDevHandle)
 	xnOSFreeAligned(pDevHandle);
 
 	// All is good...
-	return (XN_STATUS_OK);	
+	return (XN_STATUS_OK);
 }
 
 XN_C_API XnStatus xnUSBGetDeviceSpeed(XN_USB_DEV_HANDLE pDevHandle, XnUSBDeviceSpeed* pDevSpeed)
@@ -695,7 +695,7 @@ XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8 /*nInt
 
 	pDevHandle->nAltInterface = nAltInterface;
 
-	return (XN_STATUS_OK);	
+	return (XN_STATUS_OK);
 }
 
 XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8* pnInterface, XnUInt8* pnAltInterface)
@@ -739,7 +739,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 	PUSB_CONFIGURATION_DESCRIPTOR pUSBConfigDesc = NULL;
 	PUSB_INTERFACE_DESCRIPTOR pUSBInterfaceDesc = NULL;
 	PUSB_ENDPOINT_DESCRIPTOR pUSBEndPointDesc = NULL;
-	XN_USB_EP_HANDLE pEPHandle = NULL;	
+	XN_USB_EP_HANDLE pEPHandle = NULL;
 	XnChar cpPipeID[3];
 
 	// Validate xnUSB
@@ -845,7 +845,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 					cpPipeID[0] = '0';
 					cpPipeID[1] = '0' + nEPIdx;
 					cpPipeID[2] = 0;
-			
+
 					StringCchCopy(pEPHandle->cpPipeName, MAX_DEVICE_STR_LENGTH, pDevHandle->cpDeviceName);
 					StringCchCat(pEPHandle->cpPipeName, MAX_DEVICE_STR_LENGTH, PSDRV_PIPE_PREFIX);
 					StringCchCat(pEPHandle->cpPipeName, MAX_DEVICE_STR_LENGTH, cpPipeID);
@@ -863,7 +863,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 					if (nRetVal != XN_STATUS_OK)
 					{
 						XN_ALIGNED_FREE_AND_NULL(pEPHandle);
-						return (XN_STATUS_USB_OPEN_ENDPOINT_FAILED);						
+						return (XN_STATUS_USB_OPEN_ENDPOINT_FAILED);
 					}
 
 					// Init the ThreadData variables
@@ -1034,7 +1034,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 		{
 			return (XN_STATUS_USB_TRANSFER_TIMEOUT);
 		}
-		
+
 		// Nope, return a generic error
 		return (XN_STATUS_USB_CONTROL_SEND_FAILED);
 	}
@@ -1230,7 +1230,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 		// Something failed... let's get the last error
 		DWORD nLastErr = GetLastError();
 
-		// Was it a timeout? 
+		// Was it a timeout?
 		if (nLastErr == ERROR_SEM_TIMEOUT)
 		{
 			return (XN_STATUS_USB_TRANSFER_TIMEOUT);
@@ -1310,7 +1310,7 @@ XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pB
 }
 
 XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUInt32* pnBytesReceived, XnUInt32 nTimeOut)
-{	
+{
 	// Local variables
 	XnBool bRetVal = TRUE;
 	DWORD nWaitRetVal = 0;
@@ -1322,7 +1322,7 @@ XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUInt32* 
 	// Validate the input/output pointers
 	XN_VALIDATE_OUTPUT_PTR(pnBytesReceived);
 
-	// Did the read command finish yet? if not, wait for it to complete or to timeout	
+	// Did the read command finish yet? if not, wait for it to complete or to timeout
 	nWaitRetVal = WaitForSingleObject(pEPHandle->ovlpIO.hEvent, nTimeOut);
 	if (nWaitRetVal != 0)
 	{
@@ -1391,24 +1391,13 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 	if (hCompletionPort == NULL)
 	{
 		//printf ("xnUSBReadThreadMain: CreateIoCompletionPort error!\n");
-		return (XN_STATUS_ERROR);	
+		return (XN_STATUS_ERROR);
 	}
 
 	// Queue the initial overlapped reads
 	for (nBufIdx=0; nBufIdx<pThreadData->nNumBuffers; nBufIdx++)
 	{
 		bResult = ReadFile(hEPOvlp, pBuffersInfo[nBufIdx].pBuffer, nBufferSize, (PULONG)&nBytesRead, &pOvlpIO[nBufIdx]);
-/*
-		if (bResult == FALSE)
-		{
-			nLastErr = GetLastError();
-			if (nLastErr != ERROR_IO_PENDING)
-			{
-				printf ("xnUSBReadThreadMain: pre-loop read error! (%d)\n", nLastErr);
-				//return (XN_STATUS_ERROR);
-			}
-		}
-*/
 	}
 
 	// Loop forever... (unless signaled to die)
@@ -1423,15 +1412,13 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 			}
 
 			return (XN_STATUS_OK);
-		}	
+		}
 
 		// Wait for any of our requests to complete
 		bResult = GetQueuedCompletionStatus(hCompletionPort, &nBytesRead, &nFinishedEP, &pFinishedOV, nTimeOut);
 		if (bResult == FALSE)
 		{
-//			printf ("xnUSBReadThreadMain: GetQueuedCompletionStatus error! (%d)\n", GetLastError());
-
-			// if the error is SEM_TIMEOUT, the overlapped I/O operation has ended with a timeout, 
+			// if the error is SEM_TIMEOUT, the overlapped I/O operation has ended with a timeout,
 			// and we still need to requeue it. Other errors does not return the Finished OV, and so
 			// we should just try again.
 			if (GetLastError() != ERROR_SEM_TIMEOUT)
@@ -1443,8 +1430,6 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 		// Calculate which request came back
 		nOVIdx = pFinishedOV - pOvlpIO;
 
-//		printf("GetQueuedCompletionStatus: Buffer:%d Bytes:%d EP:0x%x Status:%d\n", nOVIdx, nBytesRead, nFinishedEP, bResult);
-
 		// If the request was completed successfully, call the callback function
 		if (bResult == TRUE)
 		{
@@ -1454,17 +1439,6 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 
 		// Re-queue the request
 		bResult = ReadFile(hEPOvlp, pBuffersInfo[nOVIdx].pBuffer, nBufferSize, NULL, pFinishedOV);
-/*
-		if (bResult == FALSE)
-		{
-			nLastErr = GetLastError();
-			if (nLastErr != ERROR_IO_PENDING)
-			{
-				printf ("xnUSBReadThreadMain: loop read error! (%d)\n", nLastErr);
-				//return (XN_STATUS_ERROR);
-			}
-		}
-*/
 
 		XnUInt64 nNow;
 		xnOSGetHighResTimeStamp(&nNow);
@@ -1520,7 +1494,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, XnUInt32 nBuff
 		XN_IS_STATUS_OK(nRetVal);
 
 		pEPHandle->nTimeOut = nTimeOut;
-	}	
+	}
 
 	// Allocate the read buffers and create the overlapped I/O events
 	XN_VALIDATE_ALIGNED_CALLOC(pThreadData->pBuffersInfo, xnUSBBuffersInfo, nNumBuffers, XN_DEFAULT_MEM_ALIGN);
@@ -1569,7 +1543,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 	{
 		// Request for the read thread to die
 		pThreadData->bKillReadThread = TRUE;
-		
+
 		// close thread
 		xnOSWaitAndTerminateThread(&pThreadData->hReadThread, XN_USB_READ_THREAD_KILL_TIMEOUT);
 
@@ -1600,7 +1574,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 	nRetVal = xnUSBInitOvlp(pEPHandle);
 	if (nRetVal != XN_STATUS_OK)
 	{
-		return (XN_STATUS_USB_READTHREAD_SHUTDOWN_FAILED);						
+		return (XN_STATUS_USB_READTHREAD_SHUTDOWN_FAILED);
 	}
 
 	// Mark that this EP doesn't have a read thread anymore
@@ -1674,4 +1648,3 @@ XN_C_API XnStatus xnUSBSetCallbackHandler(XnUInt16 nVendorID, XnUInt16 nProductI
 
 	return XN_STATUS_OK;
 }
-

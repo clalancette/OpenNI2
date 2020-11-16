@@ -64,14 +64,18 @@ XnStatus xnFPSMarkFrame(XnFPSData* pFPS, XnUInt64 nNow /* = 0 */)
 	XnFPSDataImpl* pData = *pFPS;
 
 	if (nNow == 0)
+	{
 		xnOSGetHighResTimeStamp(&nNow);
+	}
 
 	// mark this time
 	pData->anTimes[pData->nCurrIndex] = nNow;
 
 	// increment array index
 	if (++pData->nCurrIndex == pData->nArraySize)
+	{
 		pData->nCurrIndex = 0;
+	}
 
 	return XN_STATUS_OK;
 }
@@ -82,7 +86,9 @@ XnDouble xnFPSCalc(XnFPSData* pFPS, XnUInt32 nAverageOver /* = 3000 */, XnUInt64
 	XnFPSDataImpl* pData = *pFPS;
 
 	if (nNow == 0)
+	{
 		xnOSGetHighResTimeStamp(&nNow);
+	}
 
 	XnUInt64 nSince = nNow - nAverageOver*1000;
 
@@ -92,18 +98,24 @@ XnDouble xnFPSCalc(XnFPSData* pFPS, XnUInt32 nAverageOver /* = 3000 */, XnUInt64
 
 	// no valid samples
 	if (pData->anTimes[nLast] < nSince)
+	{
 		return 0.0;
+	}
 
 	// move first to the first sample BEFORE time 'since'.
 	while (nFirst != nLast && pData->anTimes[nFirst] < nSince)
+	{
 		nFirst = (nFirst + 1) % pData->nArraySize;
+	}
 
 	// calculate frames per second
 	XnUInt32 nFrames = ((nLast - nFirst + pData->nArraySize) % pData->nArraySize) + 1;
 
 	// if have no statistics...
 	if (nFrames <= 1)
+	{
 		return 0;
+	}
 
 	// number of frames received divided by amount of time passed
 	return (nFrames * 1e6 / (nNow - pData->anTimes[nFirst]));

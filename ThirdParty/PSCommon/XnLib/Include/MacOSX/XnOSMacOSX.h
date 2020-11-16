@@ -26,5 +26,5 @@
 
 #undef XN_SHARED_LIBRARY_POSTFIX
 #define XN_SHARED_LIBRARY_POSTFIX "*.dylib"
- 
+
 #endif //_XN_OSMACOSX_H_

@@ -49,7 +49,7 @@ typedef struct XnUSBDeviceHandle
 {
 	XnBool bValid;
 
-	XnChar cpDeviceName[MAX_DEVICE_STR_LENGTH]; 
+	XnChar cpDeviceName[MAX_DEVICE_STR_LENGTH];
 	HANDLE hUSBDevHandle;
 
 	XnUInt8 nAltInterface;

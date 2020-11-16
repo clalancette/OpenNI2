@@ -35,17 +35,17 @@
 //---------------------------------------------------------------------------
 // Structs
 //---------------------------------------------------------------------------
-/** The Xiron OS network socket structure. */ 
+/** The Xiron OS network socket structure. */
 typedef struct xnOSSocket
 {
-	/** The OS socket handle. */ 
+	/** The OS socket handle. */
 	int Socket;
 
-	/** The OS socket address (IP and port). */ 
+	/** The OS socket address (IP and port). */
 	sockaddr_in SocketAddress;
 	socklen_t nSocketAddressLen;
 
-	/** The socket type enum (UDP, TDP, etc...) */ 
+	/** The socket type enum (UDP, TDP, etc...) */
 	XnUInt32 nSocketType;
 } xnOSSocket;
 
@@ -112,7 +112,7 @@ XN_C_API XnStatus xnOSCreateSocket(const XnOSSocketType SocketType, const XnChar
 	// Set the socket server address
 	Socket->SocketAddress.sin_family = AF_INET;
 
-	if (isalpha(cpIPAddress[0])) 
+	if (isalpha(cpIPAddress[0]))
 	{
 		HostEnt = gethostbyname(cpIPAddress);
 		if (HostEnt == NULL)
@@ -180,7 +180,7 @@ XN_C_API XnStatus xnOSBindSocket(XN_SOCKET_HANDLE Socket)
 
 	// Make sure the actual socket handle isn't NULL
 	XN_RET_IF_INVALID(Socket->Socket, XN_STATUS_OS_INVALID_SOCKET);
-	
+
 	// Workaround Linux annoying behavior. Linux keeps a port open in a TIME_WAIT state after it is close,
 	// and does not allow to bind it again. If socket is closed, you have to wait a couple of minutes before
 	// you can re-bind it. We disable this option
@@ -304,7 +304,7 @@ XN_C_API XnStatus xnOSConnectSocket(XN_SOCKET_HANDLE Socket, XnUInt32 nMillisecs
 	}
 
 	xnOSMemCopy(&SocketAddress, &Socket->SocketAddress, sizeof(SocketAddress));
-	
+
 	nFlags = fcntl(Socket->Socket, F_GETFL, 0);
 	// if timeout is XN_SOCKET_DEFAULT_TIMEOUT, leave the socket as a blocking one
 	if (nMillisecsTimeout != XN_SOCKET_DEFAULT_TIMEOUT)
@@ -409,8 +409,8 @@ XN_C_API XnStatus xnOSSendNetworkBuffer(XN_SOCKET_HANDLE Socket, const XnChar* c
 	// we'll get EPIPE.
 #if (XN_PLATFORM == XN_PLATFORM_MACOSX)
 	int on = 1;
-	setsockopt(Socket->Socket, SOL_SOCKET, SO_NOSIGPIPE, (char*)&on, sizeof(on));	
-	nRetVal = send(Socket->Socket, cpBuffer, nBufferSize, NULL); 
+	setsockopt(Socket->Socket, SOL_SOCKET, SO_NOSIGPIPE, (char*)&on, sizeof(on));
+	nRetVal = send(Socket->Socket, cpBuffer, nBufferSize, NULL);
 #else
 	nRetVal = send(Socket->Socket, cpBuffer, nBufferSize, MSG_NOSIGNAL);
 #endif
@@ -491,7 +491,7 @@ XN_C_API XnStatus xnOSReceiveNetworkBuffer(XN_SOCKET_HANDLE Socket, XnChar* cpBu
 XN_C_API XnStatus xnOSReceiveFromNetworkBuffer(XN_SOCKET_HANDLE Socket, XnChar* cpBuffer, XnUInt32* pnBufferSize, XN_SOCKET_HANDLE* SocketFrom)
 {
 	// Local function variables
-	socklen_t nLen = sizeof(sockaddr);	
+	socklen_t nLen = sizeof(sockaddr);
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(Socket);
@@ -512,4 +512,3 @@ XN_C_API XnStatus xnOSReceiveFromNetworkBuffer(XN_SOCKET_HANDLE Socket, XnChar* 
 	// All is good...
 	return (XN_STATUS_OK);
 }
-

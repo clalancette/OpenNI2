@@ -57,7 +57,7 @@ XN_C_API XnStatus xnOSLockSemaphore(XN_SEMAPHORE_HANDLE hSemaphore, XnUInt32 nMi
 			XN_ASSERT(FALSE);
 			return XN_STATUS_OS_SEMAPHORE_LOCK_FAILED;
 	}
-	
+
 	return XN_STATUS_OK;
 }
 

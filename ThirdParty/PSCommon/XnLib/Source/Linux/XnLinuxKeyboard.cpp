@@ -44,7 +44,7 @@ XN_C_API XnBool xnOSWasKeyboardHit()
 	newt.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &newt);
 	oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-	
+
 	// make it non-blocking (so we can check without waiting)
 	if (0 != fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK))
 	{
@@ -72,4 +72,3 @@ XN_C_API XnChar xnOSReadCharFromInput()
 {
 	return (XnChar)getchar();
 }
-

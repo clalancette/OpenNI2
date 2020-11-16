@@ -62,7 +62,7 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, XnUInt32 nArgs,
 		astrArgs[i+1] = const_cast<char*>(pstrArgs[i]);
 	}
 	astrArgs[nArgs+1] = NULL;
-	
+
 	pid_t child_pid = fork();
 	if (child_pid == -1) // fail
 	{
@@ -85,10 +85,10 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, XnUInt32 nArgs,
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
 			close(STDERR_FILENO);
-			
+
 			// detach it from current process (so it will keep running, even if process is terminated)
 			setsid();
-			
+
 			// load the executable
 			if (-1 == execv(strExecutable, astrArgs))
 			{
@@ -114,6 +114,6 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, XnUInt32 nArgs,
 		// we have no way to get the grandchild pid
 		*pProcID = 0;
 	}
-	
+
 	return (XN_STATUS_OK);
 }

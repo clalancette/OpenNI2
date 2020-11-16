@@ -29,7 +29,7 @@
 #endif
 #ifndef _WIN32_WINNT				// Allow use of features specific to Windows XP or later
 	#define _WIN32_WINNT 0x0501
-#endif						
+#endif
 #ifndef _WIN32_WINDOWS				// Allow use of features specific to Windows 98 or later
 	#define _WIN32_WINDOWS 0x0410
 #endif
@@ -39,7 +39,7 @@
 #define WIN32_LEAN_AND_MEAN			// Exclude rarely-used stuff from Windows headers
 
 // Undeprecate CRT functions
-#ifndef _CRT_SECURE_NO_DEPRECATE 
+#ifndef _CRT_SECURE_NO_DEPRECATE
 	#define _CRT_SECURE_NO_DEPRECATE 1
 #endif
 
@@ -81,82 +81,82 @@
 //---------------------------------------------------------------------------
 // Basic Types
 //---------------------------------------------------------------------------
-/** Boolean TRUE/FALSE type. */ 
+/** Boolean TRUE/FALSE type. */
 typedef	BOOL				XnBool;
 
-/** Signed character for strings. */ 
+/** Signed character for strings. */
 typedef	char				XnChar;
-/** Unsigned character for strings. */ 
+/** Unsigned character for strings. */
 typedef	unsigned char		XnUChar;
 
-/** Signed wide character for strings. */ 
+/** Signed wide character for strings. */
 typedef	wchar_t				XnWChar;
 
-/** 8-bit signed integer. */ 
+/** 8-bit signed integer. */
 typedef	signed char			XnInt8;
-/** 8-bit unsigned integer. */ 
+/** 8-bit unsigned integer. */
 typedef	unsigned char		XnUInt8;
 
-/** 16-bit signed integer. */ 
+/** 16-bit signed integer. */
 typedef	short				XnInt16;
-/** 16-bit unsigned integer. */ 
+/** 16-bit unsigned integer. */
 typedef	unsigned short		XnUInt16;
 
-/** 32-bit signed integer. */ 
+/** 32-bit signed integer. */
 typedef	int					XnInt32;
-/** 32-bit unsigned integer. */ 
+/** 32-bit unsigned integer. */
 typedef	unsigned int		XnUInt32;
 
-/** 64-bit signed integer. */ 
+/** 64-bit signed integer. */
 typedef	__int64				XnInt64;
-/** 64-bit unsigned integer. */ 
+/** 64-bit unsigned integer. */
 typedef	unsigned __int64	XnUInt64;
 
-/** natural signed integer. */ 
+/** natural signed integer. */
 typedef	int					XnInt;
-/** natural unsigned integer. */ 
+/** natural unsigned integer. */
 typedef	unsigned int		XnUInt;
 
-/** Float (32bit) */ 
+/** Float (32bit) */
 typedef	float				XnFloat;
-/** Double (64bit) */ 
+/** Double (64bit) */
 typedef	double				XnDouble;
 
-/** Far procedures type (for shared libraries functions). */ 
+/** Far procedures type (for shared libraries functions). */
 typedef FARPROC				XnFarProc;
 
-/** Size type. */ 
+/** Size type. */
 typedef size_t				XnSizeT;
 
-/** Max unsigned 8-bit value */ 
+/** Max unsigned 8-bit value */
 #define XN_MAX_UINT8 _UI8_MAX
-/** Max unsigned 16-bit value */ 
+/** Max unsigned 16-bit value */
 #define XN_MAX_UINT16 _UI16_MAX
-/** Max unsigned 32-bit value */ 
+/** Max unsigned 32-bit value */
 #define XN_MAX_UINT32 _UI32_MAX
-/** Max unsigned 64-bit value */ 
+/** Max unsigned 64-bit value */
 #define XN_MAX_UINT64 _UI64_MAX
 
-/** Min signed 8-bit value */ 
+/** Min signed 8-bit value */
 #define XN_MIN_INT8 _I8_MIN
-/** Min signed 16-bit value */ 
+/** Min signed 16-bit value */
 #define XN_MIN_INT16 _I16_MIN
-/** Min signed 32-bit value */ 
+/** Min signed 32-bit value */
 #define XN_MIN_INT32 _I32_MIN
-/** Min signed 64-bit value */ 
+/** Min signed 64-bit value */
 #define XN_MIN_INT64 _I64_MIN
 
-/** Max signed 8-bit value */ 
+/** Max signed 8-bit value */
 #define XN_MAX_INT8 _I8_MAX
-/** Max signed 16-bit value */ 
+/** Max signed 16-bit value */
 #define XN_MAX_INT16 _I16_MAX
-/** Max signed 32-bit value */ 
+/** Max signed 32-bit value */
 #define XN_MAX_INT32 _I32_MAX
-/** Max signed 64-bit value */ 
+/** Max signed 64-bit value */
 #define XN_MAX_INT64 _I64_MAX
 
 /** Min double value */
-#define XN_MIN_DOUBLE DBL_MIN 
+#define XN_MIN_DOUBLE DBL_MIN
 /** Max double value */
 #define XN_MAX_DOUBLE DBL_MAX
 
@@ -165,7 +165,7 @@ typedef	HMODULE	XN_LIB_HANDLE;
 //---------------------------------------------------------------------------
 // Memory
 //---------------------------------------------------------------------------
-/** The default memory alignment. */ 
+/** The default memory alignment. */
 #define XN_DEFAULT_MEM_ALIGN 16
 
 /** The thread static declarator (using TLS). */
@@ -174,16 +174,16 @@ typedef	HMODULE	XN_LIB_HANDLE;
 //---------------------------------------------------------------------------
 // Files
 //---------------------------------------------------------------------------
-/** The maximum allowed file path size (in bytes). */ 
+/** The maximum allowed file path size (in bytes). */
 #define XN_FILE_MAX_PATH MAX_PATH
 
 //---------------------------------------------------------------------------
 // Call backs
 //---------------------------------------------------------------------------
-/** The std call type. */ 
+/** The std call type. */
 #define XN_STDCALL __stdcall
 
-/** The call back calling convention. */ 
+/** The call back calling convention. */
 #define XN_CALLBACK_TYPE XN_STDCALL
 
 /** The C and C++ calling convension. */
@@ -192,10 +192,10 @@ typedef	HMODULE	XN_LIB_HANDLE;
 //---------------------------------------------------------------------------
 // Macros
 //---------------------------------------------------------------------------
-/** Returns the date and time at compile time. */ 
+/** Returns the date and time at compile time. */
 #define XN_TIMESTAMP __DATE__ " " __TIME__
 
-/** Converts n into a pre-processor string.  */ 
+/** Converts n into a pre-processor string.  */
 #define XN_STRINGIFY(n) XN_STRINGIFY_HELPER(n)
 #define XN_STRINGIFY_HELPER(n) #n
 
@@ -205,10 +205,10 @@ typedef	HMODULE	XN_LIB_HANDLE;
 //---------------------------------------------------------------------------
 // API Export/Import Macros
 //---------------------------------------------------------------------------
-/** Indicates an exported shared library function. */ 
+/** Indicates an exported shared library function. */
 #define XN_API_EXPORT __declspec(dllexport)
 
-/** Indicates an imported shared library function. */ 
+/** Indicates an imported shared library function. */
 #define XN_API_IMPORT __declspec(dllimport)
 
 /** Indicates a deprecated function */
@@ -221,13 +221,13 @@ typedef	HMODULE	XN_LIB_HANDLE;
 #ifdef __INTEL_COMPILER
 	#define XN_DEPRECATED_WARNING_IDS				1786
 	#define XN_HIDES_PARENT_METHOD_WARNING_ID		1125
-	#define XN_CONDITION_IS_CONST_WARNING_ID	
+	#define XN_CONDITION_IS_CONST_WARNING_ID
 	#define XN_INHERITS_VIA_DOMINANCE_WARNING_ID
 	#define XN_UNALIGNED_ADDRESS_WARNING_ID
 	#define XN_STRUCT_PADDED_WARNING_ID
 #else
 	#define XN_DEPRECATED_WARNING_IDS				4995 4996
-	#define XN_HIDES_PARENT_METHOD_WARNING_ID	
+	#define XN_HIDES_PARENT_METHOD_WARNING_ID
 	#define XN_CONDITION_IS_CONST_WARNING_ID		4127
 	#define XN_INHERITS_VIA_DOMINANCE_WARNING_ID	4250
 	#define XN_UNALIGNED_ADDRESS_WARNING_ID			4366
@@ -241,7 +241,7 @@ typedef	HMODULE	XN_LIB_HANDLE;
 #define XN_PRAGMA_STOP_DISABLED_WARNING_SECTION						\
 	__pragma(warning(pop))
 
-/** Declares a global shared library export function. */ 
+/** Declares a global shared library export function. */
 #define XN_API_EXPORT_INIT()															\
 	BOOL APIENTRY DllMain (HMODULE /*hModule*/, DWORD nReasonForCall, LPVOID /*lpReserved*/)	\
 	{																					\

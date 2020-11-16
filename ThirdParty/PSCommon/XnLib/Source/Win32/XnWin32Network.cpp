@@ -37,17 +37,17 @@ static XnBool g_xnOSNetworkWasInit = FALSE;
 //---------------------------------------------------------------------------
 // Structs
 //---------------------------------------------------------------------------
-/** The Xiron OS network socket structure. */ 
+/** The Xiron OS network socket structure. */
 typedef struct xnOSSocket
 {
-	/** The OS socket handle. */ 
+	/** The OS socket handle. */
 	SOCKET Socket;
 
-	/** The OS socket address (IP and port). */ 
+	/** The OS socket address (IP and port). */
 	SOCKADDR_IN SocketAddress;
 	XnInt32 nSocketAddressLen;
 
-	/** The socket type enum (UDP, TDP, etc...) */ 
+	/** The socket type enum (UDP, TDP, etc...) */
 	XnUInt32 nSocketType;
 } xnOSSocket;
 
@@ -133,7 +133,7 @@ XN_C_API XnStatus xnOSCreateSocket(const XnOSSocketType SocketType, const XnChar
 	// Set the socket server address
 	Socket->SocketAddress.sin_family = AF_INET;
 
-	if (isalpha(cpIPAddress[0])) 
+	if (isalpha(cpIPAddress[0]))
 	{
 		HostEnt = gethostbyname(cpIPAddress);
 		if (HostEnt == NULL)
@@ -498,7 +498,7 @@ XN_C_API XnStatus xnOSReceiveNetworkBuffer(XN_SOCKET_HANDLE Socket, XnChar* cpBu
 XN_C_API XnStatus xnOSReceiveFromNetworkBuffer(XN_SOCKET_HANDLE Socket, XnChar* cpBuffer, XnUInt32* pnBufferSize, XN_SOCKET_HANDLE* SocketFrom)
 {
 	// Local function variables
-	XnInt32 nLen = sizeof(SOCKADDR);	
+	XnInt32 nLen = sizeof(SOCKADDR);
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(Socket);

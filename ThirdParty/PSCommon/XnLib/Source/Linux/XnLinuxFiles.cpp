@@ -54,9 +54,9 @@ XN_C_API XnStatus xnOSCountFiles(const XnChar* cpSearchPattern, XnInt32* pnFound
 	// now call the OS glob function
 	glob_t tGlob;
 	glob(cpSearchPattern, 0, NULL, &tGlob);
-	
+
 	XnUInt32 nFoundFiles = tGlob.gl_pathc;
-	
+
 	// free memory allocated by OS
 	globfree(&tGlob);
 
@@ -80,7 +80,7 @@ XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* c
 	// now call the OS glob function
 	glob_t tGlob;
 	glob(cpSearchPattern, 0, NULL, &tGlob);
-	
+
 	XnUInt32 nFoundFiles = XN_MIN((XnInt32)tGlob.gl_pathc, nMaxFiles);
 	for (XnUInt32 i = 0; i < nFoundFiles; ++i)
 	{
@@ -92,10 +92,10 @@ XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* c
 			xnOSStrPrefix(cpPrefixPath, cpFileList[i], XN_FILE_MAX_PATH);
 		}
 	}
-	
+
 	// free memory allocated by OS
 	globfree(&tGlob);
-	
+
 	// Return a file not found error if no files were found...
 	if (nFoundFiles == 0)
 	{
@@ -129,11 +129,11 @@ XN_C_API XnStatus xnOSOpenFile(const XnChar* cpFileName, const XnUInt32 nFlags, 
 {
 	// Local function variables
 	XnUInt32 nOSOpenFlags = 0;
-	
+
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
 	XN_VALIDATE_OUTPUT_PTR(pFile);
-	
+
 	// Update the OS Open flags according the user request
 	if ((nFlags & XN_OS_FILE_READ) && (nFlags & XN_OS_FILE_WRITE))
 	{
@@ -147,24 +147,24 @@ XN_C_API XnStatus xnOSOpenFile(const XnChar* cpFileName, const XnUInt32 nFlags, 
 	{
 		nOSOpenFlags |= O_WRONLY | O_CREAT;
 	}
-	
+
 	if (nFlags & XN_OS_FILE_CREATE_NEW_ONLY)
 	{
 		// It's OK to create a new file, but fail if the file already exist
 		nOSOpenFlags |= O_EXCL;
 	}
-	
+
 	if (nFlags & XN_OS_FILE_TRUNCATE)
 	{
 		// If the file exists, we need to truncate it to zero
 		nOSOpenFlags |= O_TRUNC;
 	}
-	
+
 	if ((nFlags & XN_OS_FILE_WRITE) && (nFlags & XN_OS_FILE_AUTO_FLUSH))
 	{
 		nOSOpenFlags |= O_SYNC;
 	}
-	
+
 	if (nFlags & XN_OS_FILE_APPEND)
 	{
 		nOSOpenFlags |= O_APPEND;
@@ -195,22 +195,22 @@ XN_C_API XnStatus xnOSCloseFile(XN_FILE_HANDLE* pFile)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pFile);
-	
+
 	// make sure this is a valid file descriptor
 	if (*pFile == XN_INVALID_FILE_HANDLE)
 	{
 		return XN_STATUS_OS_INVALID_FILE;
 	}
-	
+
 	if (0 != close(*pFile))
 	{
 		// Something went wrong while trying to close the file...
 		return (XN_STATUS_OS_FILE_CLOSE_FAILED);
 	}
-	
+
 	// make the user file descriptor invalid
 	*pFile = XN_INVALID_FILE_HANDLE;
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -232,7 +232,7 @@ XN_C_API XnStatus xnOSReadFile(const XN_FILE_HANDLE File, void* pBuffer, XnUInt3
 	{
 		return XN_STATUS_OS_FILE_READ_FAILED;
 	}
-	
+
 	// update the number of bytes read
 	*pnBufferSize = nBytesRead;
 
@@ -253,13 +253,13 @@ XN_C_API XnStatus xnOSWriteFile(const XN_FILE_HANDLE File, const void* pBuffer, 
 
 	// Write a buffer to a file handle via the OS
 	ssize_t nBytesWritten = write(File, pBuffer, nBufferSize);
-	
+
 	// Make sure it succeeded (return value is not -1) and that the correct number of bytes were written
 	if ((nBytesWritten == -1) || (nBufferSize != (XnUInt32)nBytesWritten))
 	{
 		return XN_STATUS_OS_FILE_WRITE_FAILED;
 	}
-	
+
 	// All is good...
 	return (XN_STATUS_OK);
 }
@@ -319,7 +319,7 @@ XN_C_API XnStatus xnOSSeekFile64(const XN_FILE_HANDLE File, const XnOSSeekType S
 	{
 		return XN_STATUS_OS_INVALID_FILE;
 	}
-	
+
 	// Convert the Xiron seek type into OS seek type
 	switch (SeekType)
 	{
@@ -356,13 +356,13 @@ XN_C_API XnStatus xnOSTellFile(const XN_FILE_HANDLE File, XnUInt32* pnFilePos)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_OUTPUT_PTR(pnFilePos);
-	
+
 	// Make sure the actual file handle isn't invalid
 	if (File == XN_INVALID_FILE_HANDLE)
 	{
 		return XN_STATUS_OS_INVALID_FILE;
 	}
-	
+
 	// Seek a file handle by 0 bytes in order to read the file position
 	OFF_T nFilePos = LSEEK(File, 0, SEEK_CUR);
 
@@ -377,7 +377,7 @@ XN_C_API XnStatus xnOSTellFile(const XN_FILE_HANDLE File, XnUInt32* pnFilePos)
 	{
 		return XN_STATUS_INTERNAL_BUFFER_TOO_SMALL;
 	}
-	
+
 	*pnFilePos = (XnUInt32)nFilePos;
 
 	// All is good...
@@ -388,13 +388,13 @@ XN_C_API XnStatus xnOSTellFile64(const XN_FILE_HANDLE File, XnUInt64* pnFilePos)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_OUTPUT_PTR(pnFilePos);
-	
+
 	// Make sure the actual file handle isn't invalid
 	if (File == XN_INVALID_FILE_HANDLE)
 	{
 		return XN_STATUS_OS_INVALID_FILE;
 	}
-	
+
 	// Seek a file handle by 0 bytes in order to read the file position
 	OFF_T nFilePos = LSEEK(File, 0, SEEK_CUR);
 
@@ -403,7 +403,7 @@ XN_C_API XnStatus xnOSTellFile64(const XN_FILE_HANDLE File, XnUInt64* pnFilePos)
 	{
 		return (XN_STATUS_OS_FILE_TELL_FAILED);
 	}
-	
+
 	*pnFilePos = nFilePos;
 
 	// All is good...
@@ -425,7 +425,7 @@ XN_C_API XnStatus xnOSTruncateFile64(const XN_FILE_HANDLE File, XnUInt64 nFilePo
     {
         return status;
     }
-    
+
     // Seek to the needed file position.
     status = xnOSSeekFile64(File, XN_OS_SEEK_SET, nFilePos);
     if (XN_STATUS_OK != status)
@@ -452,13 +452,13 @@ XN_C_API XnStatus xnOSFlushFile(const XN_FILE_HANDLE File)
 	{
 		return XN_STATUS_OS_INVALID_FILE;
 	}
-	
+
 	// flush via the OS
 	if (-1 == fsync(File))
 	{
 		return XN_STATUS_OS_FILE_FLUSH_FAILED;
 	}
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -486,13 +486,13 @@ XN_C_API XnStatus xnOSGetFileSize(const XnChar* cpFileName, XnUInt32* pnFileSize
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
 	XN_VALIDATE_OUTPUT_PTR(pnFileSize);
-	
+
 	struct stat fileStat;
 	if (-1 == stat(cpFileName, &fileStat))
 	{
-		return (XN_STATUS_OS_FILE_GET_SIZE_FAILED);	
+		return (XN_STATUS_OS_FILE_GET_SIZE_FAILED);
 	}
-	
+
 	// Enforce uint32 limitation
 	if (fileStat.st_size >> 32)
 	{
@@ -500,7 +500,7 @@ XN_C_API XnStatus xnOSGetFileSize(const XnChar* cpFileName, XnUInt32* pnFileSize
 	}
 
 	*pnFileSize = (XnUInt32)fileStat.st_size;
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -509,15 +509,15 @@ XN_C_API XnStatus xnOSGetFileSize64(const XnChar* cpFileName, XnUInt64* pnFileSi
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
 	XN_VALIDATE_OUTPUT_PTR(pnFileSize);
-	
+
 	struct stat fileStat;
 	if (-1 == stat(cpFileName, &fileStat))
 	{
-		return (XN_STATUS_OS_FILE_GET_SIZE_FAILED);	
+		return (XN_STATUS_OS_FILE_GET_SIZE_FAILED);
 	}
-	
+
 	*pnFileSize = fileStat.st_size;
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -542,38 +542,38 @@ XN_C_API XnStatus xnOSCreateDirectory(const XnChar* cpDirName)
 XN_C_API XnStatus xnOSGetDirName(const XnChar* cpFilePath, XnChar* cpDirName, const XnUInt32 nBufferSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// first copy the string (OS may change the argument)
 	XnChar cpInput[XN_FILE_MAX_PATH];
 	nRetVal = xnOSStrCopy(cpInput, cpFilePath, XN_FILE_MAX_PATH);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	// now call the OS
 	XnChar* cpResult = dirname(cpInput);
-	
+
 	// copy result to user buffer
 	nRetVal = xnOSStrCopy(cpDirName, cpResult, nBufferSize);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
 XN_C_API XnStatus xnOSGetFileName(const XnChar* cpFilePath, XnChar* cpDirName, const XnUInt32 nBufferSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// first copy the string (OS may change the argument)
 	XnChar cpInput[XN_FILE_MAX_PATH];
 	nRetVal = xnOSStrCopy(cpInput, cpFilePath, XN_FILE_MAX_PATH);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	// now call the OS
 	XnChar* cpResult = basename(cpInput);
-	
+
 	// copy result to user buffer
 	nRetVal = xnOSStrCopy(cpDirName, cpResult, nBufferSize);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -609,7 +609,7 @@ XN_C_API XnStatus xnOSGetCurrentDir(XnChar* cpDirName, const XnUInt32 nBufferSiz
 		else
 			return (XN_STATUS_ERROR);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -632,7 +632,7 @@ XN_C_API XnStatus xnOSDeleteFile(const XnChar* cpFileName)
 	{
 		return (XN_STATUS_OS_FAILED_TO_DELETE_FILE);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 

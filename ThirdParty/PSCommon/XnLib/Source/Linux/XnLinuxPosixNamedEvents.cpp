@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnLinuxPosixNamedEvent::XnLinuxPosixNamedEvent(XnBool bManualReset, const XnChar* strName, XnBool bCreate) : 
+XnLinuxPosixNamedEvent::XnLinuxPosixNamedEvent(XnBool bManualReset, const XnChar* strName, XnBool bCreate) :
 	XnLinuxNamedEvent(bManualReset, strName, bCreate), m_pSem(NULL)
 {
 }

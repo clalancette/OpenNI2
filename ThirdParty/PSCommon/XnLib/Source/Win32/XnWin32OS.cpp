@@ -35,29 +35,53 @@
 static XnStatus GetOSName(xnOSInfo* pOSInfo)
 {
 	if (IsWindows8Point1OrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "Windows8Point1OrGreater\n");
+	}
 	else if (IsWindows8OrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "Windows8\n");
+	}
 	else if (IsWindows7SP1OrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "Windows7SP1\n");
+	}
 	else if (IsWindows7OrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "Windows7\n");
+	}
 	else if (IsWindowsVistaSP2OrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "VistaSP2\n");
+	}
 	else if (IsWindowsVistaSP1OrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "VistaSP1\n");
+	}
 	else if (IsWindowsVistaOrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "Vista\n");
+	}
 	else if (IsWindowsXPSP3OrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "XPSP3\n");
+	}
 	else if (IsWindowsXPSP2OrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "XPSP2\n");
+	}
 	else if (IsWindowsXPSP1OrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "XPSP1\n");
+	}
 	else if (IsWindowsXPOrGreater())
+	{
 		sprintf(pOSInfo->csOSName, "%s", "XP\n");
+	}
 	else
+	{
 		sprintf(pOSInfo->csOSName, "%s", "Unknown win version\n");
+	}
 
 	return (XN_STATUS_OK);
 }
@@ -90,11 +114,17 @@ static const XnChar* GetOSName(OSVERSIONINFOEX& osVersionInfo)
 		case VER_NT_SERVER:
 		case VER_NT_DOMAIN_CONTROLLER:
 			if ((osVersionInfo.wSuiteMask & VER_SUITE_DATACENTER) == VER_SUITE_DATACENTER)
+			{
 				return "Windows 2000 Datacenter Server";
+			}
 			else if ((osVersionInfo.wSuiteMask & VER_SUITE_ENTERPRISE) == VER_SUITE_ENTERPRISE)
+			{
 				return "Windows 2000 Advanced Server";
+			}
 			else
+			{
 				return "Windows 2000 Server";
+			}
 		default:
 			return "Unknown Windows 2000 version";
 		}
@@ -103,27 +133,45 @@ static const XnChar* GetOSName(OSVERSIONINFOEX& osVersionInfo)
 	{
 		// Windows XP.
 		if (0 != GetSystemMetrics(SM_TABLETPC))
+		{
 			return "Windows XP Tablet PC Edition";
+		}
 		else if (0 != GetSystemMetrics(SM_STARTER))
+		{
 			return "Windows XP Starter Edition";
+		}
 		else if (0 != GetSystemMetrics(SM_MEDIACENTER))
+		{
 			return "Windows XP Media Center Edition";
+		}
 		else if ((osVersionInfo.wSuiteMask & VER_SUITE_PERSONAL) == VER_SUITE_PERSONAL)
+		{
 			return "Windows XP Home Edition";
+		}
 		else
+		{
 			return "Windows XP Professional";
+		}
 	}
 	else if (osVersionInfo.dwMajorVersion == 5 && osVersionInfo.dwMinorVersion == 2)
 	{
 		// Windows Server 2003
-		if((osVersionInfo.wSuiteMask & VER_SUITE_DATACENTER) == VER_SUITE_DATACENTER)
+		if ((osVersionInfo.wSuiteMask & VER_SUITE_DATACENTER) == VER_SUITE_DATACENTER)
+		{
 			return "Windows Server 2003 Datacenter Edition";
-		else if((osVersionInfo.wSuiteMask & VER_SUITE_ENTERPRISE) == VER_SUITE_ENTERPRISE)
+		}
+		else if ((osVersionInfo.wSuiteMask & VER_SUITE_ENTERPRISE) == VER_SUITE_ENTERPRISE)
+		{
 			return "Windows Server 2003 Enterprise Edition";
-		else if((osVersionInfo.wSuiteMask & VER_SUITE_BLADE) == VER_SUITE_BLADE)
+		}
+		else if ((osVersionInfo.wSuiteMask & VER_SUITE_BLADE) == VER_SUITE_BLADE)
+		{
 			return "Windows Server 2003 Web Edition";
-		else 
+		}
+		else
+		{
 			return "Windows Server 2003 Standard Edition";
+		}
 	}
 	else if (osVersionInfo.dwMajorVersion == 6 && osVersionInfo.dwMinorVersion == 0)
 	{
@@ -208,23 +256,25 @@ static void GetCPUName(XnChar* csName)
 	if (nExIds >= 0x80000002)
 	{
 		__cpuid(CPUInfo, 0x80000002);
-		xnOSMemCopy(csName, CPUInfo, sizeof(CPUInfo));	
+		xnOSMemCopy(csName, CPUInfo, sizeof(CPUInfo));
 	}
 
 	if (nExIds >= 0x80000003)
 	{
 		__cpuid(CPUInfo, 0x80000003);
-		xnOSMemCopy(csName + 16, CPUInfo, sizeof(CPUInfo));	
+		xnOSMemCopy(csName + 16, CPUInfo, sizeof(CPUInfo));
 	}
 
 	if (nExIds >= 0x80000004)
 	{
 		__cpuid(CPUInfo, 0x80000004);
-		xnOSMemCopy(csName + 32, CPUInfo, sizeof(CPUInfo));	
+		xnOSMemCopy(csName + 32, CPUInfo, sizeof(CPUInfo));
 	}
 
 	if (nExIds > 0x80000002)
+	{
 		return;
+	}
 
 	// else, we need to build the name ourselves
 	xnOSMemSet(CPUInfo, 0xFF, sizeof(CPUInfo));
@@ -242,10 +292,6 @@ static void GetCPUName(XnChar* csName)
 		int nSteppingID = CPUInfo[0] & 0xf;
 		int nModel = (CPUInfo[0] >> 4) & 0xf;
 		int nFamily = (CPUInfo[0] >> 8) & 0xf;
-		//int nProcessorType = (CPUInfo[0] >> 12) & 0x3;
-		//int nExtendedmodel = (CPUInfo[0] >> 16) & 0xf;
-		//int nExtendedfamily = (CPUInfo[0] >> 20) & 0xff;
-		//int nBrandIndex = CPUInfo[1] & 0xff;
 
 		sprintf(csName+strlen(csName), " Model: %d Family: %d Stepping: %d", nModel, nFamily, nSteppingID);
 	}

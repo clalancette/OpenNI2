@@ -42,7 +42,7 @@ XN_C_API XnStatus xnOSGetCurrentProcessID(XN_PROCESS_ID* pProcID)
 XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, XnUInt32 nArgs, const XnChar** pstrArgs, XN_PROCESS_ID* pProcID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	STARTUPINFO si;
 	ZeroMemory(&si, sizeof(si));
 	PROCESS_INFORMATION pi;
@@ -72,6 +72,6 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, XnUInt32 nArgs,
 	}
 
 	*pProcID = pi.dwProcessId;
-	
+
 	return (XN_STATUS_OK);
 }

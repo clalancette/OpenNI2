@@ -98,7 +98,7 @@ static XnStatus OpenSharedMemoryImpl(const XnChar* strName, XnUInt32 nAccessFlag
 
 	XN_VALIDATE_INPUT_PTR(strName);
 	XN_VALIDATE_OUTPUT_PTR(phSharedMem);
-	
+
 	// if (nSize) is a number - create, otherwise - open
 	XnBool bCreate = (nSize != 0);
 
@@ -163,7 +163,7 @@ static XnStatus OpenSharedMemoryImpl(const XnChar* strName, XnUInt32 nAccessFlag
 		xnOSFree(pHandle);
 		XN_LOG_WARNING_RETURN(XN_STATUS_OS_FAILED_TO_CREATE_SHARED_MEMORY, XN_MASK_OS, "Could not create file mapping object (%d).", errno);
 	}
-	
+
 	close(fd);
 
 	*phSharedMem = pHandle;
@@ -203,7 +203,7 @@ XN_C_API XnStatus xnOSCloseSharedMemory(XN_SHARED_MEMORY_HANDLE hSharedMem)
 		// remove the file
 		shm_unlink(hSharedMem->strFileName);
 	}
-	
+
 	xnOSFree(hSharedMem);
 
 	return (XN_STATUS_OK);
@@ -230,9 +230,9 @@ XN_C_API XnStatus xnOSCreateSharedMemory(const XnChar* strName, XnUInt32 nSize, 
 {
 	void* pAddress = xnOSMallocAligned(nSize, XN_DEFAULT_MEM_ALIGN);
 	XN_VALIDATE_ALLOC_PTR(pAddress);
-	
+
 	*phSharedMem = (XN_SHARED_MEMORY_HANDLE)pAddress;
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -240,9 +240,9 @@ XN_C_API XnStatus xnOSCreateSharedMemoryEx(const XnChar* strName, XnUInt32 nSize
 {
 	void* pAddress = xnOSMallocAligned(nSize, XN_DEFAULT_MEM_ALIGN);
 	XN_VALIDATE_ALLOC_PTR(pAddress);
-	
+
 	*phSharedMem = (XN_SHARED_MEMORY_HANDLE)pAddress;
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -259,14 +259,14 @@ XN_C_API XnStatus xnOSOpenSharedMemoryEx(const XnChar* strName, XnUInt32 nAccess
 XN_C_API XnStatus xnOSCloseSharedMemory(XN_SHARED_MEMORY_HANDLE hSharedMem)
 {
 	xnOSFreeAligned(hSharedMem);
-	
+
 	return (XN_STATUS_OK);
 }
 
 XN_C_API XnStatus xnOSSharedMemoryGetAddress(XN_SHARED_MEMORY_HANDLE hSharedMem, void** ppAddress)
 {
 	*ppAddress = hSharedMem;
-	
+
 	return (XN_STATUS_OK);
 }
 

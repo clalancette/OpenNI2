@@ -36,33 +36,33 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFr
 	{
 		return XN_STATUS_OK;
 	}
-	
+
 	void* aFrames[256];
 	int nTotalFrames = backtrace(aFrames, *pnFrames + nFramesToSkip);
-	
+
 	if (nFramesToSkip >= nTotalFrames)
 	{
 		*pnFrames = 0;
         return (XN_STATUS_OK);
 	}
-	
+
 	// now resolve names
-    XnUInt32 nResolve = nTotalFrames - nFramesToSkip;
+	XnUInt32 nResolve = nTotalFrames - nFramesToSkip;
 	char** pstrFrames = backtrace_symbols(aFrames + nFramesToSkip, nResolve);
-    if (pstrFrames == NULL)
-    {
-        *pnFrames = 0;
-        return (XN_STATUS_OK);
-    }
-    
-    for (XnUInt i = 0; i < nResolve; ++i)
-    {
-        strncpy(astrFrames[i], pstrFrames[i], nMaxNameLength);
-    }
-    
-    free(pstrFrames);
-    
-    *pnFrames = nResolve;
+	if (pstrFrames == NULL)
+	{
+		*pnFrames = 0;
+		return (XN_STATUS_OK);
+	}
+
+	for (XnUInt i = 0; i < nResolve; ++i)
+	{
+		strncpy(astrFrames[i], pstrFrames[i], nMaxNameLength);
+	}
+
+	free(pstrFrames);
+
+	*pnFrames = nResolve;
 
 	return XN_STATUS_OK;
 }

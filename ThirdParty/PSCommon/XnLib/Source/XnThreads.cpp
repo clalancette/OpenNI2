@@ -43,4 +43,3 @@ XN_C_API XnStatus xnOSWaitAndTerminateThread(XN_THREAD_HANDLE* pThreadHandle, Xn
 
 	return (XN_STATUS_OK);
 }
-

@@ -145,4 +145,3 @@ XN_C_API void xnPrintError(const XnStatus Status, const XnChar* csUserMessage)
 {
 	printf("%s: %s\n", csUserMessage, xnGetStatusString(Status));
 }
-

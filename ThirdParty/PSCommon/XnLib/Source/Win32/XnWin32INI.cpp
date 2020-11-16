@@ -169,7 +169,7 @@ XN_C_API XnStatus xnOSWriteStringToINI(const XnChar* cpINIFile, const XnChar* cp
 
 	// Write the string to the INI file via the OS
 	bRetVal = WritePrivateProfileString (cpSection, cpKey, cpSrc, cpINIFile);
-	
+
 	// Make sure the value was written properly
 	if (bRetVal == FALSE)
 	{
@@ -261,7 +261,7 @@ XN_C_API XnStatus xnOSWriteIntToINI(const XnChar* cpINIFile, const XnChar* cpSec
 	XN_VALIDATE_FILE_EXISTS_RET(cpINIFile, nRetVal, bINIFileExists, XN_STATUS_OS_INI_FILE_NOT_FOUND);
 
 	// Convert the integer into a string
-	_itoa(nSrc, cpTempBuffer, 10); 
+	_itoa(nSrc, cpTempBuffer, 10);
 
 	// Write the string to the INI file via the OS
 	bRetVal = WritePrivateProfileString (cpSection, cpKey, cpTempBuffer, cpINIFile);

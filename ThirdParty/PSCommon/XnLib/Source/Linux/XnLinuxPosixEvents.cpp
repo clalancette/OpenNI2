@@ -84,7 +84,7 @@ XnStatus XnLinuxPosixEvent::Set()
 XnStatus XnLinuxPosixEvent::Reset()
 {
 	m_bSignaled = FALSE;
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -135,7 +135,7 @@ XnStatus XnLinuxPosixEvent::Wait(XnUInt32 nMilliseconds)
 	if (nRetVal != XN_STATUS_OK)
 	{
 		pthread_mutex_unlock(&m_mutex);
-		return nRetVal;	
+		return nRetVal;
 	}
 
 	if (!m_bManualReset)

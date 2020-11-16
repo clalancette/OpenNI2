@@ -34,26 +34,26 @@
 //---------------------------------------------------------------------------
 // Files
 //---------------------------------------------------------------------------
-/** A generic handle type. */ 
+/** A generic handle type. */
 typedef	void* XN_HANDLE;
 
-/** A file handle type. */ 
+/** A file handle type. */
 typedef XnInt XN_FILE_HANDLE;
 
 /** The value of an invalid file handle. */
 #define XN_INVALID_FILE_HANDLE -1
 
-/** A string that specifies the current directory. */ 
+/** A string that specifies the current directory. */
 #define XN_FILE_LOCAL_DIR "./"
 
-/** The file directory separator. */ 
+/** The file directory separator. */
 #define XN_FILE_DIR_SEP "/"
 #define XN_FILE_DIR_SEPS "/"
 
-/** The file extension separator. */ 
+/** The file extension separator. */
 #define XN_FILE_EXT_SEP "."
 
-/** The file "all" wildcard. */ 
+/** The file "all" wildcard. */
 #define XN_FILE_ALL_WILDCARD "*"
 
 /** The newline separation string. */
@@ -62,7 +62,7 @@ typedef XnInt XN_FILE_HANDLE;
 //---------------------------------------------------------------------------
 // INI Files
 //---------------------------------------------------------------------------
-/** A string that specifies the extension of INI files. */ 
+/** A string that specifies the extension of INI files. */
 #define XN_INI_FILE_EXT "ini"
 
 /** The maximum allowed INI string length (in bytes). */
@@ -72,22 +72,22 @@ typedef XnInt XN_FILE_HANDLE;
 //---------------------------------------------------------------------------
 // Shared Libraries
 //---------------------------------------------------------------------------
-/** A shared library handle type. */ 
+/** A shared library handle type. */
 typedef	void* XN_LIB_HANDLE;
 
-/** A string that specifies the prefix of shared library files. */ 
+/** A string that specifies the prefix of shared library files. */
 #define XN_SHARED_LIBRARY_PREFIX "lib"
 
-/** A string that specifies the postfix of shared library files. */ 
+/** A string that specifies the postfix of shared library files. */
 #define XN_SHARED_LIBRARY_POSTFIX ".so"
 
 //---------------------------------------------------------------------------
 // Threads
 //---------------------------------------------------------------------------
-/** A Xiron thread type. */ 
+/** A Xiron thread type. */
 typedef	pthread_t* XN_THREAD_HANDLE;
 
-/** A Xiron thread ID. */ 
+/** A Xiron thread ID. */
 typedef	pthread_t XN_THREAD_ID;
 
 /** A Xiron process ID. */
@@ -102,7 +102,7 @@ typedef void* (*XN_THREAD_PROC_PROTO)(void* arg);
 /** The thread return function. */
 #define	XN_THREAD_PROC_RETURN(ret) return(NULL)
 
-/** The thread passable data pointer type. */ 
+/** The thread passable data pointer type. */
 typedef	void* XN_THREAD_PARAM;
 
 //---------------------------------------------------------------------------
@@ -121,13 +121,13 @@ typedef	struct XnMutex* XN_MUTEX_HANDLE;
 //---------------------------------------------------------------------------
 // Critical Sections
 //---------------------------------------------------------------------------
-/** A Xiron critical sections type. */ 
+/** A Xiron critical sections type. */
 typedef	XN_MUTEX_HANDLE XN_CRITICAL_SECTION_HANDLE;
 
 //---------------------------------------------------------------------------
 // Events
 //---------------------------------------------------------------------------
-/** A Xiron event type. */ 
+/** A Xiron event type. */
 struct _XnEvent;
 typedef struct _XnEvent _XnEvent, *XN_EVENT_HANDLE ;
 
@@ -141,8 +141,8 @@ typedef struct _XnSemaphore *XN_SEMAPHORE_HANDLE;
 //---------------------------------------------------------------------------
 // Timer
 //---------------------------------------------------------------------------
-/** The Xiron OS timer structure. */ 
-typedef struct XnOSTimer 
+/** The Xiron OS timer structure. */
+typedef struct XnOSTimer
 {
 	struct timespec tStartTime;
 	XnBool bHighRes;
@@ -151,7 +151,7 @@ typedef struct XnOSTimer
 //---------------------------------------------------------------------------
 // Network
 //---------------------------------------------------------------------------
-/** The network host name and port separator. */ 
+/** The network host name and port separator. */
 #define XN_NETWORK_HOST_PORT_SEP ":"
 
 //---------------------------------------------------------------------------

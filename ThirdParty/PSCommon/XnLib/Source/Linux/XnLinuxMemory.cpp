@@ -43,14 +43,14 @@ XN_C_API void* xnOSMalloc(const XnSizeT nAllocSize)
 XN_C_API void* xnOSMallocAligned(const XnSizeT nAllocSize, const XnSizeT nAlignment)
 {
 	void* pResult = NULL;
-	
+
 #ifndef XN_PLATFORM_LINUX_NO_POSIX_MEMALIGN
 	if (0 != posix_memalign(&pResult, nAlignment, nAllocSize))
 		return NULL;
 #else
 	pResult = memalign(nAlignment, nAllocSize);
 #endif
-		
+
 	return pResult;
 }
 
@@ -143,7 +143,7 @@ XN_C_API XnUInt64  xnOSEndianSwapUINT64(XnUInt64 nValue)
 
 XN_C_API XnUInt32  xnOSEndianSwapUINT32(XnUInt32 nValue)
 {
-	return  (nValue>>24) | 
+	return  (nValue>>24) |
 			((nValue<<8) & 0x00FF0000) |
 			((nValue>>8) & 0x0000FF00) |
 			(nValue<<24);

@@ -89,7 +89,7 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemory(const XnChar* strName, XnUInt
 XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, XnUInt32 nSize, XnUInt32 nAccessFlags, XnBool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XN_VALIDATE_INPUT_PTR(strName);
 	XN_VALIDATE_OUTPUT_PTR(phSharedMem);
 
@@ -122,13 +122,13 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, XnUI
 	// create file mapping
 	pHandle->hMapFile = CreateFileMapping(
 		INVALID_HANDLE_VALUE,    // use paging file
-		pSecurityAttributes,     // security 
+		pSecurityAttributes,     // security
 		mapflags,		         // read/write access
-		0,                       // max. object size 
-		nSize,                   // buffer size  
+		0,                       // max. object size
+		nSize,                   // buffer size
 		strWinName);             // name of mapping object
 
-	if (pHandle->hMapFile == NULL) 
+	if (pHandle->hMapFile == NULL)
 	{
 		XN_LOG_ERROR_RETURN(XN_STATUS_OS_FAILED_TO_CREATE_SHARED_MEMORY, XN_MASK_OS, "Could not create file mapping object (%d).", GetLastError());
 	}
@@ -137,9 +137,9 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, XnUI
 	pHandle->pAddress = MapViewOfFile(
 		pHandle->hMapFile,  // handle to map object
 		viewflags,			// read/write permission
-		0,                   
-		0,                   
-		nSize);           
+		0,
+		0,
+		nSize);
 
 	if (pHandle->pAddress == NULL)
 	{
@@ -184,7 +184,7 @@ XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemoryEx(const XnChar* strName, XnUInt
 		FALSE,                   // do not inherit the name
 		strWinName);             // name of mapping object
 
-	if (pHandle->hMapFile == NULL) 
+	if (pHandle->hMapFile == NULL)
 	{
 		XN_LOG_ERROR_RETURN(XN_STATUS_OS_FAILED_TO_OPEN_SHARED_MEMORY, XN_MASK_OS, "Could not open file mapping object (%d).", GetLastError());
 	}
@@ -193,9 +193,9 @@ XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemoryEx(const XnChar* strName, XnUInt
 	pHandle->pAddress = MapViewOfFile(
 		pHandle->hMapFile,  // handle to map object
 		flags,				// read/write permission
-		0,                   
-		0,                   
-		0);           
+		0,
+		0,
+		0);
 
 	if (pHandle->pAddress == NULL)
 	{
@@ -222,7 +222,7 @@ XN_C_API XnStatus xnOSCloseSharedMemory(XN_SHARED_MEMORY_HANDLE hSharedMem)
 	}
 
 	xnOSFree(hSharedMem);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -232,7 +232,6 @@ XN_C_API XnStatus xnOSSharedMemoryGetAddress(XN_SHARED_MEMORY_HANDLE hSharedMem,
 	XN_VALIDATE_OUTPUT_PTR(ppAddress);
 
 	*ppAddress = hSharedMem->pAddress;
-	
+
 	return (XN_STATUS_OK);
 }
-

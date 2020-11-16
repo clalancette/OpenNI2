@@ -106,7 +106,7 @@ typedef enum _USB_CONTROLLER_FLAVOR {
     UHCI_Generic    = 200,
     UHCI_Piix4      = 201,
     UHCI_Piix3      = 202,
-    UHCI_Ich2       = 203,  
+    UHCI_Ich2       = 203,
     UHCI_Reserved204   = 204,  // was ich2_2
     UHCI_Ich1       = 205,
     UHCI_Ich3m      = 206,
@@ -114,7 +114,7 @@ typedef enum _USB_CONTROLLER_FLAVOR {
     UHCI_Ich5       = 208,
     UHCI_Ich6       = 209,
 
-    UHCI_Intel      = 249,        
+    UHCI_Intel      = 249,
 
     //these VIA revs require special handling in the uhci miniport
     UHCI_VIA          = 250,
@@ -200,7 +200,7 @@ typedef enum _USB_CONTROLLER_FLAVOR {
 #define URB_FUNCTION_GET_CONFIGURATION               0x0026
 #define URB_FUNCTION_GET_INTERFACE                   0x0027
 #define URB_FUNCTION_GET_DESCRIPTOR_FROM_INTERFACE   0x0028
-#define URB_FUNCTION_SET_DESCRIPTOR_TO_INTERFACE     0x0029 
+#define URB_FUNCTION_SET_DESCRIPTOR_TO_INTERFACE     0x0029
 
 // USB 2.0 calls start at 0x0030
 
@@ -868,7 +868,7 @@ struct _URB_CONTROL_GET_CONFIGURATION_REQUEST {
 };
 
 #if (_WIN32_WINNT >= 0x0501)
-   
+
 // Microsoft OS Descriptor APIs
 // supported in windows XP and later
 
@@ -1058,14 +1058,14 @@ typedef struct _URB {
             UrbGetCurrentFrameNumber;
         struct _URB_CONTROL_TRANSFER
             UrbControlTransfer;
-            
+
     #if (_WIN32_WINNT >= 0x0600)
-    
+
         struct _URB_CONTROL_TRANSFER_EX
             UrbControlTransferEx;
 
     #endif
-    
+
         struct _URB_BULK_OR_INTERRUPT_TRANSFER
             UrbBulkOrInterruptTransfer;
         struct _URB_ISOCH_TRANSFER
@@ -1084,13 +1084,13 @@ typedef struct _URB {
             UrbControlGetInterfaceRequest;
         struct _URB_CONTROL_GET_CONFIGURATION_REQUEST
             UrbControlGetConfigurationRequest;
-            
+
     #if (_WIN32_WINNT >= 0x0501)
-    
+
         struct _URB_OS_FEATURE_DESCRIPTOR_REQUEST
             UrbOSFeatureDescriptorRequest;
     #endif
-    
+
     };
 } URB, *PURB;
 
@@ -1100,4 +1100,3 @@ typedef struct _URB {
 
 
 #endif /*  __USB_H__ */
-

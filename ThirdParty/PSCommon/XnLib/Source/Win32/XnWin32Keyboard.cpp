@@ -33,4 +33,3 @@ XN_C_API XnChar xnOSReadCharFromInput()
 {
 	return (XnChar)_getch();
 }
-

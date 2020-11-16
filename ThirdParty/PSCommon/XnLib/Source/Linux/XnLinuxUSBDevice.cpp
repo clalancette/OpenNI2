@@ -159,14 +159,14 @@ static XnStatus buildGadgetFSInterfaceDescriptor(const XnUSBInterfaceDescriptorH
 {
 	// write interface descriptor
 	WRITE_OBJ_TO_BUF(buf, pInterface->descriptor);
-	
+
 	// now write each endpoint
 	for (__u8 iEP = 0; iEP < pInterface->descriptor.bNumEndpoints; ++iEP)
 	{
 		WRITE_TO_BUF(buf, pInterface->aEndpoints[iEP], USB_DT_ENDPOINT_SIZE);
 	}
-	
-	return XN_STATUS_OK;	
+
+	return XN_STATUS_OK;
 }
 
 static XnStatus buildGadgetFSConfigDescriptor(const XnUSBConfigDescriptorHolder* pConfig, XnChar*& buf)
@@ -175,7 +175,7 @@ static XnStatus buildGadgetFSConfigDescriptor(const XnUSBConfigDescriptorHolder*
 
 	// write configuration descriptor
 	WRITE_OBJ_TO_BUF(buf, pConfig->descriptor);
-	
+
 	// for now, gadget FS supports a single interface
 	if (pConfig->descriptor.bNumInterfaces > 1)
 	{
@@ -185,37 +185,37 @@ static XnStatus buildGadgetFSConfigDescriptor(const XnUSBConfigDescriptorHolder*
 
 	// now write the interface
 	buildGadgetFSInterfaceDescriptor(pConfig->aInterfaces[0], buf);
-	
+
 	pTarget->wTotalLength = buf - (XnChar*)pTarget;
-	
-	return XN_STATUS_OK;	
+
+	return XN_STATUS_OK;
 }
 
 static XnStatus buildGadgetFSDescriptors(const XnUSBDeviceDescriptorHolder* pDescriptors, XnChar*& buf)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// write format ID
 	XnUInt32 nFormatID = 0;
 	WRITE_OBJ_TO_BUF(buf, nFormatID);
-	
+
 	// for now, gadget FS supports a single configuration
 	if (pDescriptors->descriptor.bNumConfigurations > 1)
 	{
 		xnLogError(XN_MASK_OS, "GadgetFS does not support more than 1 configuration!");
 		return XN_STATUS_INVALID_OPERATION;
 	}
-	
+
 	XN_VALIDATE_INPUT_PTR(pDescriptors->aConfigurations);
 	XN_VALIDATE_INPUT_PTR(pDescriptors->aConfigurations[0]);
-	
+
 	// we first write the full-speed one (backwards compatibility) and then the high-speed one
 	buildGadgetFSConfigDescriptor(pDescriptors->aConfigurations[0], buf);
 	buildGadgetFSConfigDescriptor(pDescriptors->aConfigurations[0], buf);
-	
+
 	// write device
 	WRITE_OBJ_TO_BUF(buf, pDescriptors->descriptor);
-    
+
     return nRetVal;
 }
 
@@ -228,23 +228,23 @@ static int openEndpointFile(struct usb_endpoint_descriptor* pDesc)
 	XnChar fileName[255];
 	bool bIn = (pDesc->bEndpointAddress & 0x80) != 0;
 	sprintf(fileName, "%s%s%d%s", GADGET_DEVICE_DIR, "ep", pDesc->bEndpointAddress & 0xF, bIn ? "in" : "out");
-	
+
 	// open it
 	int fd = open(fileName, O_RDWR);
-	
+
 	// config it
 	XnUChar bufConfig[1024];
 	XnUChar* buf = bufConfig;
-	
+
 	XnUInt32 nFormatID = 1;
 	WRITE_OBJ_TO_BUF(buf, nFormatID);
-	
+
 	// now we should write the full-speed descriptor. Take high-speed one and reduce speed
 	WRITE_TO_BUF(buf, pDesc, USB_DT_ENDPOINT_SIZE);
-	
+
 	// now write the real one (high-speed)
 	WRITE_TO_BUF(buf, pDesc, USB_DT_ENDPOINT_SIZE);
-	
+
 	int status = write(fd, bufConfig, buf - bufConfig);
 	if (status < 0)
 	{
@@ -252,7 +252,7 @@ static int openEndpointFile(struct usb_endpoint_descriptor* pDesc)
 		close (fd);
 		return -1;
 	}
-	
+
 	return fd;
 }
 
@@ -272,7 +272,7 @@ static XnBool configureEndpoints(XnUSBDevice* pDevice, int nConfigID)
 			}
 		}
 	}
-	
+
 	if (nConfigID == 0)
 	{
 		// device is unconfigured
@@ -304,7 +304,7 @@ static XnBool configureEndpoints(XnUSBDevice* pDevice, int nConfigID)
 			}
 		}
 	}
-	
+
 	return TRUE;
 }
 
@@ -331,50 +331,67 @@ static int utf8_to_utf16le(const char *s, __u16 *cp, unsigned len)
 	 * BUT it currently rejects legit 4-byte UTF-8 code points,
 	 * which need surrogate pairs.  (Unicode 3.1 can use them.)
 	 */
-	while (len != 0 && (c = (__u8) *s++) != 0) {
-		if (c & 0x80) {
+	while (len != 0 && (c = (__u8) *s++) != 0)
+	{
+		if (c & 0x80)
+		{
 			// 2-byte sequence:
 			// 00000yyyyyxxxxxx = 110yyyyy 10xxxxxx
-			if ((c & 0xe0) == 0xc0) {
+			if ((c & 0xe0) == 0xc0)
+			{
 				uchar = (c & 0x1f) << 6;
 
 				c = (__u8) *s++;
 				if ((c & 0xc0) != 0xc0)
+				{
 					goto fail;
+				}
 				c &= 0x3f;
 				uchar |= c;
-
+			}
 			// 3-byte sequence (most CJKV characters):
 			// zzzzyyyyyyxxxxxx = 1110zzzz 10yyyyyy 10xxxxxx
-			} else if ((c & 0xf0) == 0xe0) {
+			else if ((c & 0xf0) == 0xe0)
+			{
 				uchar = (c & 0x0f) << 12;
 
 				c = (__u8) *s++;
 				if ((c & 0xc0) != 0xc0)
+				{
 					goto fail;
+				}
 				c &= 0x3f;
 				uchar |= c << 6;
 
 				c = (__u8) *s++;
 				if ((c & 0xc0) != 0xc0)
+				{
 					goto fail;
+				}
 				c &= 0x3f;
 				uchar |= c;
 
 				/* no bogus surrogates */
 				if (0xd800 <= uchar && uchar <= 0xdfff)
+				{
 					goto fail;
+				}
 
 			// 4-byte sequence (surrogate pairs, currently rare):
 			// 11101110wwwwzzzzyy + 110111yyyyxxxxxx
 			//     = 11110uuu 10uuzzzz 10yyyyyy 10xxxxxx
 			// (uuuuu = wwww + 1)
 			// FIXME accept the surrogate code points (only)
-
-			} else
+			}
+			else
+			{
 				goto fail;
-		} else
+			}
+		}
+		else
+		{
 			uchar = c;
+		}
 		put_unaligned_le16 (uchar, cp++);
 		count++;
 		len--;
@@ -390,9 +407,9 @@ static XnBool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, 
 	{
 		return FALSE;
 	}
-	
+
 	XnUChar buf[256];
-	
+
 	// descriptor 0 has the language id
 	if (nIndex == 0)
 	{
@@ -404,7 +421,7 @@ static XnBool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, 
 	{
 		// look for index
 		const XnChar* strString = NULL;
-		
+
 		for (__u8 i = 0; i < pDevice->pDescriptors->nStrings; ++i)
 		{
 			if (pDevice->pDescriptors->aStrings[i].nID == nIndex)
@@ -413,15 +430,15 @@ static XnBool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, 
 				break;
 			}
 		}
-		
+
 		if (strString == NULL)
 		{
 			return FALSE;
 		}
-		
+
 		int len = strlen(strString);
 		len = XN_MIN(len, 126);
-		
+
 		// zero all bytes
 		memset(buf+2, 0, 2*len);
 		len = utf8_to_utf16le(strString, (__u16 *)&buf[2], len);
@@ -432,15 +449,19 @@ static XnBool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, 
 		buf [0] = (len + 1) * 2;
 		buf [1] = USB_DT_STRING;
 	}
-	
+
 	XnUInt32 nReplySize = XN_MIN(buf[0], nMaxLength);
 	int status = write(pDevice->deviceFD, buf, nReplySize);
 	if (status < 0)
 	{
 		if (errno == EIDRM)
+		{
 			fprintf (stderr, "string timeout\n");
+		}
 		else
+		{
 			perror ("write string data");
+		}
 	}
 	else if (status != (int)nReplySize)
 	{
@@ -455,7 +476,7 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 	__u16 value = __le16_to_cpu(setup->wValue);
 	__u16 index = __le16_to_cpu(setup->wIndex);
 	__u16 length = __le16_to_cpu(setup->wLength);
-	
+
 	switch (setup->bRequest)
 	{
 	case USB_REQ_GET_DESCRIPTOR:
@@ -469,7 +490,7 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 			{
 				return FALSE;
 			}
-			
+
 			// index is language index and string index is last byte
 			return handleGetStringDescriptor(pDevice, length, index, value & 0xFF);
 		}
@@ -480,7 +501,7 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 			{
 				return FALSE;
 			}
-			
+
 			__u8 nConfigID = value;
 
 			// make sure this is the only supported configuration
@@ -491,15 +512,17 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 
 			if (!configureEndpoints(pDevice, value))
 			{
-				return FALSE;	
+				return FALSE;
 			}
-			
+
 			pDevice->nConfigID = value;
-			
+
 			// send ACK
 			int status = read (pDevice->deviceFD, &status, 0);
 			if (status)
+			{
 				perror ("ack SET_CONFIGURATION");
+			}
 		}
 		break;
 	case USB_REQ_GET_INTERFACE:
@@ -510,15 +533,19 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 			{
 				return FALSE;
 			}
-			
+
 			__u8 nAlt = pDevice->nAltInterfaceID;
 			int status = write(pDevice->deviceFD, &nAlt, 1);
 			if (status < 0)
 			{
 				if (errno == EIDRM)
+				{
 					fprintf (stderr, "GET_INTERFACE timeout\n");
+				}
 				else
+				{
 					perror ("write GET_INTERFACE data");
+				}
 			}
 			else if (status != length)
 			{
@@ -531,7 +558,7 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 		{
 			__u16 nInt = index;
 			__u16 nAlt = value;
-			
+
 			if (setup->bRequestType != USB_RECIP_INTERFACE)
 			{
 				return FALSE;
@@ -547,7 +574,7 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 	default:
 		return FALSE;
 	}
-	
+
 	return TRUE;
 }
 
@@ -573,7 +600,7 @@ XN_THREAD_PROC xnUSBDeviceEndPoint0Handler(XN_THREAD_PARAM pThreadParam)
 	struct pollfd ep0_poll;
 	ep0_poll.fd = pDevice->deviceFD;
 	ep0_poll.events = POLLIN | POLLOUT | POLLHUP;
-	
+
 	while (!pDevice->bShutdown)
 	{
 		status = poll(&ep0_poll, 1, -1);
@@ -583,7 +610,7 @@ XN_THREAD_PROC xnUSBDeviceEndPoint0Handler(XN_THREAD_PARAM pThreadParam)
 			sleep(1);
 			continue;
 		}
-		
+
 		struct usb_gadgetfs_event event;
 		status = read(pDevice->deviceFD, &event, sizeof(event));
 		if (status < 0)
@@ -598,11 +625,11 @@ XN_THREAD_PROC xnUSBDeviceEndPoint0Handler(XN_THREAD_PARAM pThreadParam)
 			{
 				xnLogError(XN_MASK_OS, "Failed reading from device file! (%d)", errno);
 			}
-			
+
 			sleep (1);
 			continue;
 		}
-		
+
 		switch (event.type)
 		{
 		case GADGETFS_NOP:
@@ -627,7 +654,7 @@ XN_THREAD_PROC xnUSBDeviceEndPoint0Handler(XN_THREAD_PARAM pThreadParam)
 					status = read (pDevice->deviceFD, &status, 0);
 				else
 					status = write (pDevice->deviceFD, &status, 0);
-					
+
 				if (status != -1)
 				{
 					//fprintf (stderr, "can't stall ep0 for %02x.%02x\n",
@@ -643,7 +670,7 @@ XN_THREAD_PROC xnUSBDeviceEndPoint0Handler(XN_THREAD_PARAM pThreadParam)
 			xnLogWarning(XN_MASK_OS, "Got unknown gadgetfs event: %d", event.type);
 		}
 	}
-	
+
 	XN_THREAD_PROC_RETURN(XN_STATUS_OK);
 }
 
@@ -653,10 +680,10 @@ XN_THREAD_PROC xnUSBDeviceEndPoint0Handler(XN_THREAD_PARAM pThreadParam)
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* pDescriptors, XnUInt32 nControlMessageMaxSize, XnUSBDevice** ppDevice)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XN_VALIDATE_INPUT_PTR(pDescriptors);
 	XN_VALIDATE_OUTPUT_PTR(ppDevice);
-	
+
 	// open device file
 	int device_fd = open (GADGET_DEVICE_FILE_PATH, O_RDWR);
 	if (device_fd < 0)
@@ -664,13 +691,13 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* p
 		xnLogWarning(XN_MASK_OS, "Failed opening %s (%d)", GADGET_DEVICE_FILE_PATH, errno);
 		return XN_STATUS_ERROR;
 	}
-	
+
 	// build descriptors buffer
 	XnChar bufDescriptors[4096];
 	XnChar* buf = bufDescriptors;
 	nRetVal = buildGadgetFSDescriptors(pDescriptors, buf);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	int status = write(device_fd, bufDescriptors, buf - bufDescriptors);
 	if (status < 0)
 	{
@@ -684,7 +711,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* p
 		close (device_fd);
 		return XN_STATUS_ERROR;
 	}
-	
+
 	XnUSBDevice* pDevice = (XnUSBDevice*)xnOSCalloc(1, sizeof(XnUSBDevice));
 	if (pDevice == NULL)
 	{
@@ -716,7 +743,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* p
 		xnUSBDeviceShutdown(pDevice);
 		return (nRetVal);
 	}
-	
+
 	nRetVal = xnOSCreateEvent(&pDevice->hReplyEvent, FALSE);
 	if (nRetVal != XN_STATUS_OK)
 	{
@@ -724,7 +751,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* p
 		xnUSBDeviceShutdown(pDevice);
 		return (nRetVal);
 	}
-	
+
 	nRetVal = xnOSCreateThread(xnUSBDeviceEndPoint0Handler, pDevice, &pDevice->hThread);
 	if (nRetVal != XN_STATUS_OK)
 	{
@@ -735,7 +762,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* p
 
 	pDevice->pDump = xnDumpFileOpen("Gadget", "gadget.csv");
 	xnDumpFileWriteString(pDevice->pDump, "Time,HostState,DeviceState,Event,NewHostState,NewDeviceState\n","");
-	
+
 	*ppDevice = pDevice;
 	return XN_STATUS_OK;
 }
@@ -743,9 +770,9 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* p
 XN_C_API void XN_C_DECL xnUSBDeviceShutdown(XnUSBDevice* pDevice)
 {
 	XN_ASSERT(pDevice != NULL);
-	
+
 	pDevice->bShutdown = TRUE;
-	
+
 	if (pDevice->hThread != NULL)
 	{
 		xnOSWaitAndTerminateThread(&pDevice->hThread, 10000);
@@ -769,7 +796,7 @@ XN_C_API void XN_C_DECL xnUSBDeviceShutdown(XnUSBDevice* pDevice)
 		xnOSFreeAligned(pDevice->pControlBuffer);
 		pDevice->pControlBuffer = NULL;
 	}
-	
+
 	if (pDevice->deviceFD != -1)
 	{
 		close(pDevice->deviceFD);
@@ -797,7 +824,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevic
 	XN_VALIDATE_INPUT_PTR(pDevice);
 	XN_VALIDATE_INPUT_PTR(pBuffer);
 	XN_VALIDATE_OUTPUT_PTR(pnRequestSize);
-	
+
 	xnl::AutoCSLocker locker(pDevice->hLock);
 
 	XnUInt64 nNow;
@@ -824,10 +851,10 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevic
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, const XnUChar* pBuffer, XnUInt32 nReplySize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XN_VALIDATE_INPUT_PTR(pDevice);
 	XN_VALIDATE_INPUT_PTR(pBuffer);
-	
+
 	xnl::AutoCSLocker locker(pDevice->hLock);
 
 	HostControlState prevHost = pDevice->eHostControlState;
@@ -835,7 +862,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, co
 
 	XnUInt64 nNow;
 	xnOSGetHighResTimeStamp(&nNow);
-	
+
 	if (pDevice->nControlSize != 0 || pDevice->eDeviceControlState != DEVICE_CONTROL_REPLY_READY)
 	{
 		if (pDevice->eDeviceControlState != DEVICE_CONTROL_REQUEST_READ)
@@ -845,7 +872,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, co
 			return XN_STATUS_USB_NO_REQUEST_PENDING;
 		}
 	}
-	
+
 	switch (pDevice->eHostControlState)
 	{
 	case HOST_CONTROL_WAITING_FOR_REPLY:
@@ -947,7 +974,7 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 				return FALSE;
 			}
 		}
-		
+
 		pDevice->nControlSize = length;
 		pDevice->eDeviceControlState = DEVICE_CONTROL_REQUEST_RECEIVED;
 		pDevice->eHostControlState = HOST_CONTROL_REQUEST_RECEIVED;
@@ -972,14 +999,14 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 
 		XnUInt64 nNow;
 		xnOSGetHighResTimeStamp(&nNow);
-		
+
 		if (pDevice->eHostControlState != HOST_CONTROL_REQUEST_RECEIVED)
 		{
 			xnDumpFileWriteString(pDevice->pDump, "%llu,%s,%s,HostIn,,,Host asks for reply, but no request was received!\n", nNow, GetHostStateName(prevHost), GetDeviceStateName(prevDevice));
 			xnLogError(XN_MASK_OS, "Host asks for reply, but no request was received!");
 			return FALSE;
 		}
-		
+
 		switch (pDevice->eDeviceControlState)
 		{
 		case DEVICE_CONTROL_REPLY_READY:
@@ -1039,24 +1066,24 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceSetNewControlRequestCallback(XnUSBDevice* pDevice, XnUSBDeviceNewControlRequestCallback pFunc, void* pCookie)
 {
 	XN_VALIDATE_INPUT_PTR(pDevice);
-	
+
 	xnl::AutoCSLocker locker(pDevice->hLock);
-	
+
 	pDevice->pNewControlRequestCallback = pFunc;
 	pDevice->pNewControlRequestCallbackCookie = pCookie;
-	
+
 	return XN_STATUS_OK;
 }
 
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceSetConnectivityChangedCallback(XnUSBDevice* pDevice, XnUSBDeviceConnectivityChangedCallback pFunc, void* pCookie)
 {
 	XN_VALIDATE_INPUT_PTR(pDevice);
-	
+
 	xnl::AutoCSLocker locker(pDevice->hLock);
-	
+
 	pDevice->pConnectivityChangedCallback = pFunc;
 	pDevice->pConnectivityChangedCallbackCookie = pCookie;
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -1068,7 +1095,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, XnUIn
 {
 	XN_VALIDATE_INPUT_PTR(pDevice);
 	XN_VALIDATE_INPUT_PTR(pData);
-	
+
 	if ((nEndpointID & 0x7F) >= XN_USB_DEVICE_ENDPOINT_MAX_COUNT)
 	{
 		xnLogError(XN_MASK_OS, "Got bad endpoint ID: 0x%X", nEndpointID);
@@ -1115,7 +1142,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, XnUIn
 	cb.aio_fildes = pDevice->endpoints[nIndex].fd;
 	cb.aio_buf = pDevice->endpoints[nIndex].txs[iTx].pBuffer;
 	cb.aio_nbytes = nDataSize;
-	
+
 	int status = aio_write(&cb);
 	if (status < 0)
 	{
@@ -1124,7 +1151,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, XnUIn
 	}
 
 	++pDevice->endpoints[nIndex].nQueued;
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -1144,7 +1171,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceResetEndpoint(XnUSBDevice* pDevice, XnUIn
 	aio_cancel(pDevice->endpoints[nIndex].fd, NULL);
 	pDevice->endpoints[nIndex].nQueued = 0;
 	pDevice->endpoints[nIndex].nFirst = 0;
-	
+
 	return XN_STATUS_OK;
 }
 

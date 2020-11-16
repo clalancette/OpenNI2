@@ -52,84 +52,84 @@
 //---------------------------------------------------------------------------
 // Basic Types
 //---------------------------------------------------------------------------
-/** Boolean TRUE/FALSE type. */ 
+/** Boolean TRUE/FALSE type. */
 typedef	int					XnBool;
 
-/** Signed character for strings. */ 
+/** Signed character for strings. */
 typedef	char				XnChar;
-/** Unsigned character for strings. */ 
+/** Unsigned character for strings. */
 typedef	unsigned char		XnUChar;
 
-/** Signed wide character for strings. */ 
+/** Signed wide character for strings. */
 typedef	wchar_t				XnWChar;
 
-/** 8-bit signed integer. */ 
+/** 8-bit signed integer. */
 typedef	signed char			XnInt8;
-/** 8-bit unsigned integer. */ 
+/** 8-bit unsigned integer. */
 typedef	unsigned char		XnUInt8;
 
-/** 16-bit signed integer. */ 
+/** 16-bit signed integer. */
 typedef	short				XnInt16;
-/** 16-bit unsigned integer. */ 
+/** 16-bit unsigned integer. */
 typedef	unsigned short		XnUInt16;
 
-/** 32-bit signed integer. */ 
+/** 32-bit signed integer. */
 typedef	int					XnInt32;
-/** 32-bit unsigned integer. */ 
+/** 32-bit unsigned integer. */
 typedef	unsigned int		XnUInt32;
 
-/** 64-bit signed integer. */ 
+/** 64-bit signed integer. */
 typedef	long long			XnInt64;
-/** 64-bit unsigned integer. */ 
+/** 64-bit unsigned integer. */
 typedef	unsigned long long	XnUInt64;
 
-/** natural signed integer. */ 
+/** natural signed integer. */
 typedef	int					XnInt;
-/** natural unsigned integer. */ 
+/** natural unsigned integer. */
 typedef	unsigned int		XnUInt;
 
-/** Float (32bit) */ 
+/** Float (32bit) */
 typedef	float				XnFloat;
-/** Double (64bit) */ 
+/** Double (64bit) */
 typedef	double				XnDouble;
 
-/** Far procedures type (for shared libraries functions). */ 
+/** Far procedures type (for shared libraries functions). */
 typedef void (*XnFarProc)(void *);
 
-/** Size type. */ 
+/** Size type. */
 typedef size_t				XnSizeT;
 
-/** Max unsigned 8-bit value */ 
+/** Max unsigned 8-bit value */
 #define XN_MAX_UINT8 UCHAR_MAX
-/** Max unsigned 16-bit value */ 
+/** Max unsigned 16-bit value */
 #define XN_MAX_UINT16 USHRT_MAX
-/** Max unsigned 32-bit value */ 
+/** Max unsigned 32-bit value */
 #define XN_MAX_UINT32 UINT_MAX
-/** Max unsigned 64-bit value */ 
+/** Max unsigned 64-bit value */
 #define XN_MAX_UINT64 ULLONG_MAX
 
-/** Min signed 8-bit value */ 
+/** Min signed 8-bit value */
 #define XN_MIN_INT8 SCHAR_MIN
-/** Min signed 16-bit value */ 
+/** Min signed 16-bit value */
 #define XN_MIN_INT16 SHRT_MIN
-/** Min signed 32-bit value */ 
+/** Min signed 32-bit value */
 #define XN_MIN_INT32 INT_MIN
-/** Min signed 64-bit value */ 
+/** Min signed 64-bit value */
 #define XN_MIN_INT64 LLONG_MIN
 
-/** Max signed 8-bit value */ 
+/** Max signed 8-bit value */
 #define XN_MAX_INT8 SCHAR_MAX
-/** Max signed 16-bit value */ 
+/** Max signed 16-bit value */
 #define XN_MAX_INT16 SHRT_MAX
-/** Max signed 32-bit value */ 
+/** Max signed 32-bit value */
 #define XN_MAX_INT32 INT_MAX
-/** Max signed 64-bit value */ 
+/** Max signed 64-bit value */
 #define XN_MAX_INT64 LLONG_MAX
 
 //---------------------------------------------------------------------------
 // Memory
 //---------------------------------------------------------------------------
-/** The default memory alignment. */ 
+/** The default memory alignment. */
 #define XN_DEFAULT_MEM_ALIGN 16
 
 /** The thread static declarator (using TLS). */
@@ -138,17 +138,17 @@ typedef size_t				XnSizeT;
 //---------------------------------------------------------------------------
 // Files
 //---------------------------------------------------------------------------
-/** The maximum allowed file path size (in bytes). */ 
+/** The maximum allowed file path size (in bytes). */
 #define XN_FILE_MAX_PATH PATH_MAX
 
 //---------------------------------------------------------------------------
 // Call back
 //---------------------------------------------------------------------------
-/** The std call type. */ 
+/** The std call type. */
 #define XN_STDCALL __stdcall
 
-/** The call back calling convention. */ 
-#define XN_CALLBACK_TYPE 
+/** The call back calling convention. */
+#define XN_CALLBACK_TYPE
 
 /** The C and C++ calling convension. */
 #define XN_C_DECL
@@ -156,10 +156,10 @@ typedef size_t				XnSizeT;
 //---------------------------------------------------------------------------
 // Macros
 //---------------------------------------------------------------------------
-/** Returns the date and time at compile time. */ 
+/** Returns the date and time at compile time. */
 #define XN_TIMESTAMP __DATE__ " " __TIME__
 
-/** Converts n into a pre-processor string.  */ 
+/** Converts n into a pre-processor string.  */
 #define XN_STRINGIFY(n) XN_STRINGIFY_HELPER(n)
 #define XN_STRINGIFY_HELPER(n) #n
 
@@ -169,11 +169,11 @@ typedef size_t				XnSizeT;
 //---------------------------------------------------------------------------
 // API Export/Import Macros
 //---------------------------------------------------------------------------
-/** Indicates an exported shared library function. */ 
+/** Indicates an exported shared library function. */
 #define XN_API_EXPORT __attribute__ ((visibility("default")))
-	
-/** Indicates an imported shared library function. */ 
-#define XN_API_IMPORT 
+
+/** Indicates an imported shared library function. */
+#define XN_API_IMPORT
 
 /** Indicates a deprecated function */
 #if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
@@ -182,8 +182,8 @@ typedef size_t				XnSizeT;
 	#define XN_API_DEPRECATED(msg) __attribute__((deprecated))
 #endif
 
-#define XN_DEPRECATED_WARNING_IDS			
-#define XN_HIDES_PARENT_METHOD_WARNING_ID	
+#define XN_DEPRECATED_WARNING_IDS
+#define XN_HIDES_PARENT_METHOD_WARNING_ID
 #define XN_CONDITION_IS_CONST_WARNING_ID
 #define XN_INHERITS_VIA_DOMINANCE_WARNING_ID
 #define XN_UNALIGNED_ADDRESS_WARNING_ID
@@ -192,8 +192,7 @@ typedef size_t				XnSizeT;
 #define XN_PRAGMA_START_DISABLED_WARNING_SECTION(warnings)
 #define XN_PRAGMA_STOP_DISABLED_WARNING_SECTION
 
-/** Declares a global shared library export function. */ 
+/** Declares a global shared library export function. */
 #define XN_API_EXPORT_INIT()
 
 #endif //_XN_PLATFORM_LINUX_X86_H_
-

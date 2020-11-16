@@ -56,16 +56,16 @@ XnStatus xnOSUnNamedMutexCreate(XnMutex* pMutex)
 
 	if (0 != pthread_mutexattr_init(&tAttributes))
 		return (XN_STATUS_OS_MUTEX_CREATION_FAILED);
-	
+
 	if (0 != pthread_mutexattr_settype(&tAttributes, PTHREAD_MUTEX_RECURSIVE))
 		return (XN_STATUS_OS_MUTEX_CREATION_FAILED);
-	
+
 	// Init the mutex
 	int rc = pthread_mutex_init(&pMutex->ThreadMutex, &tAttributes);
-	
+
 	// destroy the attributes object
 	pthread_mutexattr_destroy(&tAttributes);
-	
+
 	// check if init succeeded
 	if (0 != rc)
 	{
@@ -101,7 +101,7 @@ XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
 	// tanslate mutex name to key file name
 	XnUInt32 nBytesWritten;
 	xnOSStrFormat(pMutex->csSemFileName, XN_FILE_MAX_PATH, &nBytesWritten, "/tmp/XnCore.Mutex.%s.key", strMutexOSName);
-	
+
 	// open this file (we hold it open until mutex is closed. That way it cannot be deleted as long
 	// as any process is holding the mutex, and the mutex can be destroyed if the file can be deleted).
 	pMutex->hSemFile = open(pMutex->csSemFileName, O_CREAT | O_RDONLY, S_IRWXU | S_IRWXG | S_IRWXO);
@@ -109,13 +109,13 @@ XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
 	{
 		return XN_STATUS_OS_FILE_OPEN_FAILED;
 	}
-	
+
 	// create the key
 	key_t key = ftok(pMutex->csSemFileName, 1);
 
 	// first we try to create it. If we fail, we'll know it already existed
 	XnBool bCreated = TRUE;
-	
+
 	// we created a set of 2 sems - first is the lock, second counts processes
 	pMutex->NamedSem = semget(key, 2, IPC_CREAT | IPC_EXCL | 0666);
 	if (pMutex->NamedSem == -1 && errno == EEXIST)
@@ -127,13 +127,13 @@ XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
 			close(pMutex->hSemFile);
 			return (XN_STATUS_OS_MUTEX_CREATION_FAILED);
 		}
-		
+
 		bCreated = FALSE;
 	}
 
 	if (bCreated)
 	{
-		union semun 
+		union semun
 		{
 				   int              val;    /* Value for SETVAL */
 				   struct semid_ds *buf;    /* Buffer for IPC_STAT, IPC_SET */
@@ -141,7 +141,7 @@ XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
 				   struct seminfo  *__buf;  /* Buffer for IPC_INFO
 											   (Linux-specific) */
 		} init;
-		
+
 		// init lock semaphore to 1 (not locked)
 		init.val = 1;
 		rc = semctl(pMutex->NamedSem, 0, SETVAL, init);
@@ -166,7 +166,7 @@ XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
 	op.sem_num = 1;
 	op.sem_op = 1;
 	op.sem_flg = SEM_UNDO; // mark it to be decreased when process terminates
-	
+
 	rc = semop(pMutex->NamedSem, &op, 1);
 	if (rc != 0)
 	{
@@ -185,18 +185,18 @@ XN_C_API XnStatus xnOSCreateMutex(XN_MUTEX_HANDLE* pMutexHandle)
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_OUTPUT_PTR(pMutexHandle);
-	
+
 	XnMutex* pMutex;
 	XN_VALIDATE_CALLOC(pMutex, XnMutex, 1);
 	pMutex->bIsNamed = FALSE;
-	
+
 	nRetVal = xnOSUnNamedMutexCreate(pMutex);
 	if (nRetVal != XN_STATUS_OK)
 	{
 		xnOSFree(pMutex);
 		return (nRetVal);
 	}
-	
+
 	*pMutexHandle = pMutex;
 
 	// All is good...
@@ -215,18 +215,18 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_OUTPUT_PTR(pMutexHandle);
-	
+
 	XnMutex* pMutex;
 	XN_VALIDATE_CALLOC(pMutex, XnMutex, 1);
 	pMutex->bIsNamed = TRUE;
-	
+
 	nRetVal = xnOSNamedMutexCreate(pMutex, cpMutexName);
 	if (nRetVal != XN_STATUS_OK)
 	{
 		xnOSFree(pMutex);
 		return (nRetVal);
 	}
-	
+
 	*pMutexHandle = pMutex;
 
 	// All is good...
@@ -240,7 +240,7 @@ XN_C_API XnStatus xnOSCloseMutex(XN_MUTEX_HANDLE* pMutexHandle)
 
 	// Make sure the actual mutex handle isn't NULL
 	XN_RET_IF_NULL(*pMutexHandle, XN_STATUS_OS_INVALID_MUTEX);
-	
+
 	XnMutex* pMutex = *pMutexHandle;
 
 	// check the kind of mutex
@@ -253,12 +253,12 @@ XN_C_API XnStatus xnOSCloseMutex(XN_MUTEX_HANDLE* pMutexHandle)
 		op.sem_num = 1;
 		op.sem_op = -1;
 		op.sem_flg = SEM_UNDO;
-		
+
 		if (0 != semop(pMutex->NamedSem, &op, 1))
 		{
 			return (XN_STATUS_OS_MUTEX_CLOSE_FAILED);
 		}
-		
+
 		// check if sem reached 0 (if so, it can be deleted)
 		int val = semctl(pMutex->NamedSem, 1, GETVAL);
 		if (val == 0)
@@ -268,7 +268,7 @@ XN_C_API XnStatus xnOSCloseMutex(XN_MUTEX_HANDLE* pMutexHandle)
 			// and remove file
 			xnOSDeleteFile(pMutex->csSemFileName);
 		}
-		
+
 		// in any case, close the file
 		close(pMutex->hSemFile);
 #endif
@@ -281,10 +281,10 @@ XN_C_API XnStatus xnOSCloseMutex(XN_MUTEX_HANDLE* pMutexHandle)
 			return (XN_STATUS_OS_MUTEX_CLOSE_FAILED);
 		}
 	}
-	
+
 	// free the handle
 	XN_FREE_AND_NULL(*pMutexHandle);
-	
+
 	// All is good...
 	return (XN_STATUS_OK);
 }
@@ -326,7 +326,7 @@ XN_C_API XnStatus xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, XnUInt32 nMil
 	else
 	{
 		struct timespec time;
-		
+
 		// lock via the OS
 		if (MutexHandle->bIsNamed)
 		{
@@ -355,7 +355,7 @@ XN_C_API XnStatus xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, XnUInt32 nMil
 			{
 				return XN_STATUS_OS_MUTEX_LOCK_FAILED;
 			}
-			
+
 #ifndef XN_PLATFORM_HAS_NO_TIMED_OPS
 			rc = pthread_mutex_timedlock(&MutexHandle->ThreadMutex, &time);
 #else
@@ -363,7 +363,7 @@ XN_C_API XnStatus xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, XnUInt32 nMil
 #endif
 		}
 	}
-	
+
 	// check for failures
 	if (rc == ETIMEDOUT)
 	{
@@ -373,7 +373,7 @@ XN_C_API XnStatus xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, XnUInt32 nMil
 	{
 		return (XN_STATUS_OS_MUTEX_LOCK_FAILED);
 	}
-	
+
 	// All is good...
 	return (XN_STATUS_OK);
 }
@@ -385,7 +385,7 @@ XN_C_API XnStatus xnOSUnLockMutex(const XN_MUTEX_HANDLE MutexHandle)
 
 	// Make sure the actual mutex handle isn't NULL
 	XN_RET_IF_NULL(MutexHandle, XN_STATUS_OS_INVALID_MUTEX);
-	
+
 	// unlock via the OS
 	if (MutexHandle->bIsNamed)
 	{
@@ -394,7 +394,7 @@ XN_C_API XnStatus xnOSUnLockMutex(const XN_MUTEX_HANDLE MutexHandle)
 		op.sem_num = 0;
 		op.sem_op = 1; // increase by 1
 		op.sem_flg = SEM_UNDO;
-		
+
 		if (0 != semop(MutexHandle->NamedSem, &op, 1))
 		{
 			rc = errno;
@@ -405,7 +405,7 @@ XN_C_API XnStatus xnOSUnLockMutex(const XN_MUTEX_HANDLE MutexHandle)
 	{
 		rc = pthread_mutex_unlock(&MutexHandle->ThreadMutex);
 	}
-	
+
 	if (0 != rc)
 	{
 		return (XN_STATUS_OS_MUTEX_UNLOCK_FAILED);

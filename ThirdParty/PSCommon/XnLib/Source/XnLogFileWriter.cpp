@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnLogFileWriter::XnLogFileWriter() : 
+XnLogFileWriter::XnLogFileWriter() :
 	m_fLogFile(XN_INVALID_FILE_HANDLE),
 	m_bWriteLineInfo(TRUE)
 {

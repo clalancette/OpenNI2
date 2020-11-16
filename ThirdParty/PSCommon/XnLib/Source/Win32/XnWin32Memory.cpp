@@ -28,7 +28,7 @@ XN_C_API void* xnOSMalloc(const XnSizeT nAllocSize)
 
 XN_C_API void* xnOSMallocAligned(const XnSizeT nAllocSize, const XnSizeT nAlignment)
 {
-	// Return a pointer to the aligned requested allocation size 
+	// Return a pointer to the aligned requested allocation size
 	return (_aligned_malloc(nAllocSize, nAlignment));
 }
 
@@ -64,7 +64,7 @@ XN_C_API void* xnOSRealloc(void* pMemory, const XnSizeT nAllocSize)
 
 XN_C_API void* xnOSReallocAligned(void* pMemory, const XnSizeT nAllocSize, const XnSizeT nAlignment)
 {
-	// Return a pointer to the aligned requested allocation size 
+	// Return a pointer to the aligned requested allocation size
 	return (_aligned_realloc(pMemory, nAllocSize, nAlignment));
 }
 
@@ -120,7 +120,7 @@ XN_C_API XnUInt64  xnOSEndianSwapUINT64(XnUInt64 nValue)
 
 XN_C_API XnUInt32  xnOSEndianSwapUINT32(XnUInt32 nValue)
 {
-	return  (nValue>>24) | 
+	return  (nValue>>24) |
 		((nValue<<8) & 0x00FF0000) |
 		((nValue>>8) & 0x0000FF00) |
 		(nValue<<24);

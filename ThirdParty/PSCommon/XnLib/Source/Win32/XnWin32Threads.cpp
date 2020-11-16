@@ -35,6 +35,7 @@ XN_C_API XnStatus xnOSCreateThread(XN_THREAD_PROC_PROTO pThreadProc, const XN_TH
 	// All is good...
 	return (XN_STATUS_OK);
 }
+
 XN_C_API XnStatus xnOSTerminateThread(XN_THREAD_HANDLE* pThreadHandle)
 {
 	// Local function variables
@@ -62,7 +63,6 @@ XN_C_API XnStatus xnOSTerminateThread(XN_THREAD_HANDLE* pThreadHandle)
 
 	// All is good...
 	return (XN_STATUS_OK);
-
 }
 
 XN_C_API XnStatus xnOSCloseThread(XN_THREAD_HANDLE* pThreadHandle)
@@ -102,7 +102,7 @@ XN_C_API XnStatus xnOSWaitForThreadExit(XN_THREAD_HANDLE ThreadHandle, XnUInt32 
 
 	// Lock the mutex for a period if time (can be infinite)
 	nRetVal = WaitForSingleObject(ThreadHandle, nMilliseconds);
-	
+
 	// Check the return value (WAIT_OBJECT_0 is OK)
 	if (nRetVal != WAIT_OBJECT_0)
 	{
@@ -116,7 +116,7 @@ XN_C_API XnStatus xnOSWaitForThreadExit(XN_THREAD_HANDLE ThreadHandle, XnUInt32 
 			return (XN_STATUS_OS_THREAD_WAIT_FAILED);
 		}
 	}
-	
+
 	// All is good...
 	return (XN_STATUS_OK);
 

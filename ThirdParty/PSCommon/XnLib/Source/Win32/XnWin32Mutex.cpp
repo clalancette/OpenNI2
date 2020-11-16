@@ -92,7 +92,7 @@ XN_C_API XnStatus xnOSCloseMutex(XN_MUTEX_HANDLE* pMutexHandle)
 	XN_RET_IF_NULL(*pMutexHandle, XN_STATUS_OS_INVALID_MUTEX);
 
 	xnOSUnLockMutex(*pMutexHandle);
-	
+
 	// Close the mutex via the OS
 	bRetVal = CloseHandle(*pMutexHandle);
 
@@ -113,13 +113,13 @@ XN_C_API XnStatus xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, XnUInt32 nMil
 {
 	// Local function variables
 	XnInt32 nRetVal = 0;
-	
+
 	// Make sure the actual mutex handle isn't NULL
 	XN_RET_IF_NULL(MutexHandle, XN_STATUS_OS_INVALID_MUTEX);
 
 	// Wait for mutex to lock for a period of time (can be infinite)
 	nRetVal = WaitForSingleObject(MutexHandle, nMilliseconds);
-	
+
 	// Check the return value (WAIT_OBJECT_0 is OK)
 	if (nRetVal != WAIT_OBJECT_0)
 	{

@@ -178,13 +178,13 @@ XN_C_API XnStatus xnOSWaitEvent(const XN_EVENT_HANDLE EventHandle, XnUInt32 nMil
 {
 	// Local function variables
 	DWORD nRetVal = 0;
-	
+
 	// Make sure the actual event handle isn't NULL
 	XN_RET_IF_NULL(EventHandle, XN_STATUS_OS_INVALID_EVENT);
 
 	// Wait for the event for a period if time (can be infinite)
 	nRetVal = WaitForSingleObject(EventHandle, nMilliseconds);
-	
+
 	// Check the return value (WAIT_OBJECT_0 is OK)
 	if (nRetVal != WAIT_OBJECT_0)
 	{

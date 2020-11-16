@@ -75,7 +75,7 @@
 
 
 //
-// definitions for bits in the bmAttributes field of a 
+// definitions for bits in the bmAttributes field of a
 // configuration descriptor.
 //
 #define USB_CONFIG_POWERED_MASK                   0xc0
@@ -214,7 +214,7 @@ typedef struct _USB_COMMON_DESCRIPTOR {
 
 
 //
-// Standard USB HUB definitions 
+// Standard USB HUB definitions
 //
 // See Chapter 11 USB core specification
 //
@@ -228,7 +228,7 @@ typedef struct _USB_HUB_DESCRIPTOR {
     UCHAR        bHubControlCurrent;     // max current in mA
     //
     // room for 255 ports power control and removable bitmask
-    UCHAR        bRemoveAndPowerMask[64];       
+    UCHAR        bRemoveAndPowerMask[64];
 } USB_HUB_DESCRIPTOR, *PUSB_HUB_DESCRIPTOR;
 
 
@@ -258,9 +258,9 @@ typedef struct _USB_CONFIGURATION_POWER_DESCRIPTOR {
     UCHAR bBusPowerSavingD1;
     UCHAR bSelfPowerSavingD1;
     UCHAR bBusPowerSavingD2;
-    UCHAR bSelfPowerSavingD2; 
+    UCHAR bSelfPowerSavingD2;
     UCHAR bBusPowerSavingD3;
-    UCHAR bSelfPowerSavingD3; 
+    UCHAR bSelfPowerSavingD3;
     USHORT TransitionTimeFromD1;
     USHORT TransitionTimeFromD2;
     USHORT TransitionTimeFromD3;
@@ -274,9 +274,9 @@ typedef struct _USB_INTERFACE_POWER_DESCRIPTOR {
     UCHAR bBusPowerSavingD1;
     UCHAR bSelfPowerSavingD1;
     UCHAR bBusPowerSavingD2;
-    UCHAR bSelfPowerSavingD2; 
+    UCHAR bSelfPowerSavingD2;
     UCHAR bBusPowerSavingD3;
-    UCHAR bSelfPowerSavingD3; 
+    UCHAR bSelfPowerSavingD3;
     USHORT TransitionTimeFromD1;
     USHORT TransitionTimeFromD2;
     USHORT TransitionTimeFromD3;
@@ -287,4 +287,3 @@ typedef struct _USB_INTERFACE_POWER_DESCRIPTOR {
 
 
 #endif   /* __USB100_H__ */
-

@@ -58,7 +58,7 @@ XN_C_API XnStatus xnOSTerminateThread(XN_THREAD_HANDLE* pThreadHandle)
 
 	// Make sure the actual thread handle isn't NULL
 	XN_RET_IF_NULL(*pThreadHandle, XN_STATUS_OS_INVALID_THREAD);
-	
+
 	XN_THREAD_HANDLE handle = *pThreadHandle;
 
 #ifndef XN_PLATFORM_LINUX_NO_PTHREAD_CANCEL
@@ -70,7 +70,7 @@ XN_C_API XnStatus xnOSTerminateThread(XN_THREAD_HANDLE* pThreadHandle)
 	{
 		return (XN_STATUS_OS_THREAD_TERMINATION_FAILED);
 	}
-	
+
 	// Close the handle
 	XnStatus nRetVal = xnOSCloseThread(pThreadHandle);
 	XN_IS_STATUS_OK(nRetVal);
@@ -97,10 +97,10 @@ XN_C_API XnStatus xnOSCloseThread(XN_THREAD_HANDLE* pThreadHandle)
 XN_C_API XnStatus xnOSWaitForThreadExit(XN_THREAD_HANDLE ThreadHandle, XnUInt32 nMilliseconds)
 {
 	int rc = 0;
-	
+
 	// Make sure the actual thread handle isn't NULL
 	XN_RET_IF_NULL(ThreadHandle, XN_STATUS_OS_INVALID_THREAD);
-	
+
 	if (nMilliseconds == XN_WAIT_INFINITE)
 	{
 		// join via the OS
@@ -116,7 +116,7 @@ XN_C_API XnStatus xnOSWaitForThreadExit(XN_THREAD_HANDLE ThreadHandle, XnUInt32 
 		{
 			return XN_STATUS_OS_THREAD_TERMINATION_FAILED;
 		}
-		
+
 		// join via the OS
 		void* pReturnValue;
 #ifndef XN_PLATFORM_HAS_NO_TIMED_OPS
@@ -135,7 +135,7 @@ XN_C_API XnStatus xnOSWaitForThreadExit(XN_THREAD_HANDLE ThreadHandle, XnUInt32 
 	{
 		return (XN_STATUS_OS_THREAD_TERMINATION_FAILED);
 	}
-	
+
 	// All is good...
 	return (XN_STATUS_OK);
 }
@@ -148,11 +148,11 @@ XN_C_API XnStatus xnOSSetThreadPriority(XN_THREAD_HANDLE ThreadHandle, XnThreadP
 	int nPolicy = 0;
 	sched_param param;
 	int rc = 0;
-	
+
 	if (nPriority == XN_PRIORITY_CRITICAL)
 	{
 		memset(&param, 0, sizeof(param));
-	
+
 #ifndef XN_PLATFORM_HAS_NO_SCHED_PARAM
 		param.__sched_priority = 5;
 #endif
@@ -162,14 +162,14 @@ XN_C_API XnStatus xnOSSetThreadPriority(XN_THREAD_HANDLE ThreadHandle, XnThreadP
 	{
 		return (XN_STATUS_OS_THREAD_UNSUPPORTED_PRIORITY);
 	}
-	
+
 	rc = pthread_setschedparam(*ThreadHandle, nPolicy, &param);
 	if (rc != 0)
 	{
 		xnLogWarning(XN_MASK_OS, "Failed to set thread priority (%d)", errno);
 		return (XN_STATUS_OS_THREAD_SET_PRIORITY_FAILED);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 XN_C_API XnStatus xnOSGetCurrentThreadID(XN_THREAD_ID* pThreadID)
@@ -183,4 +183,3 @@ XN_C_API XnStatus xnOSGetCurrentThreadID(XN_THREAD_ID* pThreadID)
 	// All is good...
 	return (XN_STATUS_OK);
 }
-

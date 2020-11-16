@@ -92,7 +92,7 @@ static const XnUInt32 xnOSStrCRC32Table[0x100] =
 	0xBAD03605, 0xCDD70693, 0x54DE5729, 0x23D967BF,
 	0xB3667A2E, 0xC4614AB8, 0x5D681B02, 0x2A6F2B94,
 	0xB40BBE37, 0xC30C8EA1, 0x5A05DF1B, 0x2D02EF8D
-}; 
+};
 
 //---------------------------------------------------------------------------
 // Code
@@ -216,7 +216,7 @@ XN_C_API XnStatus xnOSStrCRC32(const XnChar* cpString, XnUInt32* nCRC32)
 		nTempCRC32 = (nTempCRC32 >> 8) ^ xnOSStrCRC32Table[(nTempCRC32 & 0xFF) ^ *cpString++];
 	}
 
-	*nCRC32 = nTempCRC32 ^ 0xffffffff; 
+	*nCRC32 = nTempCRC32 ^ 0xffffffff;
 
 	// All is good...
 	return (XN_STATUS_OK);
@@ -240,7 +240,7 @@ XN_C_API XnStatus xnOSStrNCRC32(XnUChar* cpBuffer, XnUInt32 nBufferSize, XnUInt3
 		nTempCRC32 = (nTempCRC32 >> 8) ^ xnOSStrCRC32Table[(nTempCRC32 & 0xFF) ^ *cpBuffer++];
 	}
 
-	*nCRC32 = nTempCRC32 ^ 0xffffffff; 
+	*nCRC32 = nTempCRC32 ^ 0xffffffff;
 
 	// All is good...
 	return (XN_STATUS_OK);
@@ -332,7 +332,7 @@ XN_C_API XnInt32 xnOSStrCaseCmp(const XnChar* cpFirstString, const XnChar* cpSec
 XN_C_API XnStatus XN_C_DECL xnOSGetEnvironmentVariable(const XnChar* strEnv, XnChar* strDest, XnUInt32 nDestSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XN_VALIDATE_INPUT_PTR(strEnv);
 	XN_VALIDATE_INPUT_PTR(strDest);
 
@@ -341,13 +341,9 @@ XN_C_API XnStatus XN_C_DECL xnOSGetEnvironmentVariable(const XnChar* strEnv, XnC
 	{
 		return (XN_STATUS_OS_ENV_VAR_NOT_FOUND);
 	}
-	
+
 	nRetVal = xnOSStrCopy(strDest, strRes, nDestSize);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
-
-
-
-

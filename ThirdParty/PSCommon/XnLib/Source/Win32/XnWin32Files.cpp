@@ -90,8 +90,8 @@ XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* c
 	hFind = FindFirstFile(cpSearchPattern, &FindFileData);
 
 	// Keep looking for files as long as we have enough space in the filelist and as long as we didnt reach the end (represented by Invalid Handle)
-	while ((hFind != INVALID_HANDLE_VALUE) && (nFoundFiles < nMaxFiles)) 
-    {
+	while ((hFind != INVALID_HANDLE_VALUE) && (nFoundFiles < nMaxFiles))
+	{
 		// Copy the file string into its place in the file list
 		xnOSStrCopy(cpFileList[nFoundFiles], FindFileData.cFileName, XN_FILE_MAX_PATH);
 
@@ -109,7 +109,7 @@ XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* c
 			FindClose(hFind);
 			hFind = INVALID_HANDLE_VALUE;
 		}
-    }
+	}
 
 	// Close the find file list
 	FindClose(hFind);
@@ -187,14 +187,14 @@ XN_C_API XnStatus xnOSOpenFile(const XnChar* cpFileName, const XnUInt32 nFlags, 
 		if ((nFlags & XN_OS_FILE_WRITE) && (nFlags & XN_OS_FILE_CREATE_NEW_ONLY))
 		{
 			// If the file was opened for write and a create new only flag was specified, this probably means the file already exist
-			return (XN_STATUS_OS_FILE_ALREDY_EXISTS);			
+			return (XN_STATUS_OS_FILE_ALREDY_EXISTS);
 		}
 		else if (nFlags & XN_OS_FILE_WRITE)
 		{
 			// If the file was opened for write but without the create only flag, return a generic file open failure
 			return (XN_STATUS_OS_FILE_OPEN_FAILED);
 		}
-		else if (nFlags & XN_OS_FILE_READ) 
+		else if (nFlags & XN_OS_FILE_READ)
 		{
 			// If the file was opened for read, this probably means the file doesn't exist
 			return (XN_STATUS_OS_FILE_NOT_FOUND);
@@ -274,7 +274,7 @@ XN_C_API XnStatus xnOSWriteFile(const XN_FILE_HANDLE File, const void* pBuffer, 
 {
 	// Local function variables
 	XnBool bRetVal = FALSE;
-    XnUInt32 nBytesToWrite = nBufferSize;
+	XnUInt32 nBytesToWrite = nBufferSize;
 	DWORD nBytesWritten = 0;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -442,35 +442,35 @@ XN_C_API XnStatus xnOSTellFile64(const XN_FILE_HANDLE File, XnUInt64* nFilePos)
 
 XN_C_API XnStatus XN_C_DECL xnOSTruncateFile64(const XN_FILE_HANDLE File, XnUInt64 nFilePos)
 {
-    // Make sure the actual file handle isn't NULL
-    XN_RET_IF_NULL(File, XN_STATUS_OS_INVALID_FILE);
+	// Make sure the actual file handle isn't NULL
+	XN_RET_IF_NULL(File, XN_STATUS_OS_INVALID_FILE);
 
-    // Obtain current file position.
-    XnUInt64 oldFilePos;
-    XnStatus status = xnOSTellFile64(File, &oldFilePos);
-    if (XN_STATUS_OK != status)
-    {
-        return status;
-    }
-    
-    // Seek to the needed file position.
-    status = xnOSSeekFile64(File, XN_OS_SEEK_SET, nFilePos);
-    if (XN_STATUS_OK != status)
-    {
-        goto failure;
-    }
+	// Obtain current file position.
+	XnUInt64 oldFilePos;
+	XnStatus status = xnOSTellFile64(File, &oldFilePos);
+	if (XN_STATUS_OK != status)
+	{
+		return status;
+	}
 
-    // Finally, truncate the physical size of the file.
-    BOOL retVal = SetEndOfFile(File);
-    if (FALSE == retVal)
-    {
-        goto failure;
-    }
-    return XN_STATUS_OK;
+	// Seek to the needed file position.
+	status = xnOSSeekFile64(File, XN_OS_SEEK_SET, nFilePos);
+	if (XN_STATUS_OK != status)
+	{
+		goto failure;
+	}
+
+	// Finally, truncate the physical size of the file.
+	BOOL retVal = SetEndOfFile(File);
+	if (FALSE == retVal)
+	{
+		goto failure;
+	}
+	return XN_STATUS_OK;
 
 failure:
-    xnOSSeekFile64(File, XN_OS_SEEK_SET, oldFilePos);
-    return status;
+	xnOSSeekFile64(File, XN_OS_SEEK_SET, oldFilePos);
+	return status;
 }
 
 XN_C_API XnStatus xnOSFlushFile(const XN_FILE_HANDLE File)
@@ -622,7 +622,7 @@ XN_C_API XnStatus xnOSCreateDirectory(const XnChar* cpDirName)
 XN_C_API XnStatus XN_C_DECL xnOSDeleteEmptyDirectory(const XnChar* strDirName)
 {
 	XN_VALIDATE_INPUT_PTR(strDirName);
-	
+
 	XnBool bRetVal = RemoveDirectory(strDirName);
 	if (!bRetVal)
 	{
@@ -635,7 +635,7 @@ XN_C_API XnStatus XN_C_DECL xnOSDeleteEmptyDirectory(const XnChar* strDirName)
 XN_C_API XnStatus XN_C_DECL xnOSDeleteDirectoryTree(const XnChar* strDirName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XN_VALIDATE_INPUT_PTR(strDirName);
 
 	// file name must be double-null terminated
@@ -669,11 +669,15 @@ XN_C_API XnStatus xnOSGetCurrentDir(XnChar* cpDirName, const XnUInt32 nBufferSiz
 	DWORD nNeededLength = GetCurrentDirectory(NULL, 0);
 
 	if (nNeededLength > nBufferSize)
+	{
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
+	}
 
 	// there is enough room, take it
 	if (0 == GetCurrentDirectory(nBufferSize, cpDirName))
+	{
 		return XN_STATUS_ERROR;
+	}
 
 	return (XN_STATUS_OK);
 }
