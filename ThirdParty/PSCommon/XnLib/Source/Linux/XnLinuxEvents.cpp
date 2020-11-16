@@ -50,7 +50,7 @@ XN_C_API XnStatus xnOSCreateEvent(XN_EVENT_HANDLE* pEventHandle, XnBool bManualR
 	}
 
 	*pEventHandle = pEvent;
-	
+
 	// All is good...
 	return (XN_STATUS_OK);
 }
@@ -108,7 +108,7 @@ XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEventEx(XN_EVENT_HANDLE* pEventHandle, 
 XN_C_API XnStatus xnOSCloseEvent(XN_EVENT_HANDLE* pEventHandle)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pEventHandle);
 

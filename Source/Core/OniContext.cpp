@@ -61,7 +61,7 @@ OniStatus Context::initialize()
 	{
 		return OniStatusFromXnStatus(rc);
 	}
-	
+
 	rc = configure();
 	if (rc != XN_STATUS_OK)
 	{
@@ -328,12 +328,12 @@ void Context::shutdown()
 
 	m_cs.Lock();
 
-    // Close all recorders.
-    while (m_recorders.begin() != m_recorders.end())
-    {
-        Recorder* pRecorder = *m_recorders.begin();
-        recorderClose(pRecorder);
-    }
+	// Close all recorders.
+	while (m_recorders.begin() != m_recorders.end())
+	{
+		Recorder* pRecorder = *m_recorders.begin();
+		recorderClose(pRecorder);
+	}
 
 	// Destroy all streams
 	while (m_streams.begin() != m_streams.end())
@@ -816,7 +816,7 @@ OniStatus Context::waitForStreams(OniStreamHandle* pStreams, int streamCount, in
 				timeToWait = 0;
 		}
 	} while (XN_STATUS_OK == xnOSWaitEvent(hEvent, timeToWait));
-	
+
 	xnOSStopTimer(&workTimer);
 
 	if (oldestIndex != -1)
@@ -881,7 +881,7 @@ OniStatus Context::enableFrameSyncEx(VideoStream** pStreams, int numStreams, Dev
 	}
 
 	// Create the new frame sync group (it will link all the streams).
-	SyncedStreamsFrameHolder* pSyncedStreamsFrameHolder = XN_NEW(SyncedStreamsFrameHolder, 
+	SyncedStreamsFrameHolder* pSyncedStreamsFrameHolder = XN_NEW(SyncedStreamsFrameHolder,
 																	m_frameManager, pStreams, numStreams);
 	XN_VALIDATE_PTR(pSyncedStreamsFrameHolder, ONI_STATUS_ERROR);
 
@@ -1002,100 +1002,102 @@ void ONI_CALLBACK_TYPE Context::deviceDriver_DeviceStateChanged(Device* pDevice,
 
 OniStatus Context::recorderOpen(const char* fileName, OniRecorderHandle* pRecorder)
 {
-    // Validate parameters.
-    if (NULL == pRecorder || NULL == fileName)
-    {
-        return ONI_STATUS_BAD_PARAMETER;
-    }
-    // Allocate the handle.
-    *pRecorder = XN_NEW(_OniRecorder);
-    if (NULL == *pRecorder)
-    {
-        return ONI_STATUS_ERROR;
-    }
-    // Create the recorder itself.
+	// Validate parameters.
+	if (NULL == pRecorder || NULL == fileName)
+	{
+		return ONI_STATUS_BAD_PARAMETER;
+	}
+	// Allocate the handle.
+	*pRecorder = XN_NEW(_OniRecorder);
+	if (NULL == *pRecorder)
+	{
+		return ONI_STATUS_ERROR;
+	}
+	// Create the recorder itself.
 	(*pRecorder)->pRecorder = XN_NEW(FileRecorder, m_frameManager, m_errorLogger, *pRecorder);
 
-    if (NULL == (*pRecorder)->pRecorder)
-    {
-        XN_DELETE(*pRecorder);
-        return ONI_STATUS_ERROR;
-    }
-    // Try to initialize the recorder, and add it to the list of known
-    // recorders upon successful initialization.
-    OniStatus status = (*pRecorder)->pRecorder->initialize(fileName);
-    if (ONI_STATUS_OK == status) 
-    {
-        m_recorders.push_back((*pRecorder)->pRecorder);
-    }
-    else
-    {
-        XN_DELETE((*pRecorder)->pRecorder);
-    }
-    return status;
+	if (NULL == (*pRecorder)->pRecorder)
+	{
+		XN_DELETE(*pRecorder);
+		return ONI_STATUS_ERROR;
+	}
+	// Try to initialize the recorder, and add it to the list of known
+	// recorders upon successful initialization.
+	OniStatus status = (*pRecorder)->pRecorder->initialize(fileName);
+	if (ONI_STATUS_OK == status)
+	{
+		m_recorders.push_back((*pRecorder)->pRecorder);
+	}
+	else
+	{
+		XN_DELETE((*pRecorder)->pRecorder);
+	}
+	return status;
 }
+
 OniStatus Context::recorderClose(OniRecorderHandle* pRecorder)
 {
-    // Validate parameters.
-    if (NULL == pRecorder)
-    {
-        return ONI_STATUS_BAD_PARAMETER;
-    }
+	// Validate parameters.
+	if (NULL == pRecorder)
+	{
+		return ONI_STATUS_BAD_PARAMETER;
+	}
 
-    // NOTE:
-    //  The way handles are related to Recorder instance can be depicted by such
-    //  a diagram:
-    //
-    //  +----------------------------+ points to 
-    //  | OniRecorderHandle handle_1 |-----------------+
-    //  +----------------------------+                 |
-    //  +----------------------------+ points to +-----v------------------+
-    //  | OniRecorderHandle handle_2 |---------->| _OniRecorder instance  |
-    //  +----------------------------+           |------------------------|
-    //                                           | Recorder* pRecorder    |
-    //  +-------------------+          points to +-----|------------------+
-    //  | Recorder instance |<-------------------------+
-    //  +-------------------+
-    //
-    // As you see, there might be two instances of OniRecorderHandle, which point
-    // to the same Recorder instance.
-    //
-    // Handles do not support any reference-counting, and thus whenever somebody
-    // destroys a Recorder instance, the instance becomes nonexistent for every
-    // handle out there in your program.
-    //
-    // Moreover, a Recorder instance might own a handle to itself, and whenever
-    // the Recorder instance is being destroyed, it NULL-fies the pRecorder
-    // field in _OniRecorder structure.
-    if (NULL != *pRecorder)
-    {
-        recorderClose((*pRecorder)->pRecorder);
-    }
+	// NOTE:
+	//  The way handles are related to Recorder instance can be depicted by such
+	//  a diagram:
+	//
+	//  +----------------------------+ points to
+	//  | OniRecorderHandle handle_1 |-----------------+
+	//  +----------------------------+                 |
+	//  +----------------------------+ points to +-----v------------------+
+	//  | OniRecorderHandle handle_2 |---------->| _OniRecorder instance  |
+	//  +----------------------------+           |------------------------|
+	//                                           | Recorder* pRecorder    |
+	//  +-------------------+          points to +-----|------------------+
+	//  | Recorder instance |<-------------------------+
+	//  +-------------------+
+	//
+	// As you see, there might be two instances of OniRecorderHandle, which point
+	// to the same Recorder instance.
+	//
+	// Handles do not support any reference-counting, and thus whenever somebody
+	// destroys a Recorder instance, the instance becomes nonexistent for every
+	// handle out there in your program.
+	//
+	// Moreover, a Recorder instance might own a handle to itself, and whenever
+	// the Recorder instance is being destroyed, it NULL-fies the pRecorder
+	// field in _OniRecorder structure.
+	if (NULL != *pRecorder)
+	{
+		recorderClose((*pRecorder)->pRecorder);
+	}
 
-    // Delete the _OniRecorder data structure.
-    XN_DELETE(*pRecorder);
+	// Delete the _OniRecorder data structure.
+	XN_DELETE(*pRecorder);
 
-    // Ensure, that the client no longer considers the handle being a valid one.
-    *pRecorder = NULL;
+	// Ensure, that the client no longer considers the handle being a valid one.
+	*pRecorder = NULL;
 
-    return ONI_STATUS_OK;
+	return ONI_STATUS_OK;
 }
+
 OniStatus Context::recorderClose(Recorder* pRecorder)
 {
-    // Validate parameters.
-    if (NULL == pRecorder)
-    {
-        return ONI_STATUS_BAD_PARAMETER;
-    }
-    pRecorder->stop();
-    pRecorder->detachAllStreams();
-    std::list<Recorder*>::iterator it = std::find(m_recorders.begin(), m_recorders.end(), pRecorder);
-    if (it != m_recorders.end())
-    {
-        m_recorders.erase(it);
-    }
-    XN_DELETE(pRecorder);
-    return ONI_STATUS_OK;
+	// Validate parameters.
+	if (NULL == pRecorder)
+	{
+		return ONI_STATUS_BAD_PARAMETER;
+	}
+	pRecorder->stop();
+	pRecorder->detachAllStreams();
+	std::list<Recorder*>::iterator it = std::find(m_recorders.begin(), m_recorders.end(), pRecorder);
+	if (it != m_recorders.end())
+	{
+		m_recorders.erase(it);
+	}
+	XN_DELETE(pRecorder);
+	return ONI_STATUS_OK;
 }
 
 void Context::clearErrorLogger()
@@ -1139,7 +1141,7 @@ void Context::onNewFrame()
 				break;
 			}
 
-			xnOSStrFormat(fpsInfo + written, sizeof(fpsInfo) - written, &writtenNow, "%s: %.2f ", 
+			xnOSStrFormat(fpsInfo + written, sizeof(fpsInfo) - written, &writtenNow, "%s: %.2f ",
 				pStream->getSensorName(), pStream->calcCurrentFPS());
 			written += writtenNow;
 		}
@@ -1163,7 +1165,7 @@ XN_EVENT_HANDLE Context::getThreadEvent()
 	xnOSGetCurrentThreadID(&tid);
 
 	m_cs.Lock();
-	
+
 	if (XN_STATUS_OK != m_waitingThreads.Get(tid, hEvent))
 	{
 		xnOSCreateEvent(&hEvent, FALSE);
