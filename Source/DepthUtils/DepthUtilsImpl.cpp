@@ -1,3 +1,24 @@
+/*****************************************************************************
+*                                                                            *
+*  OpenNI 2.x Alpha                                                          *
+*  Copyright (C) 2012 PrimeSense Ltd.                                        *
+*                                                                            *
+*  This file is part of OpenNI.                                              *
+*                                                                            *
+*  Licensed under the Apache License, Version 2.0 (the "License");           *
+*  you may not use this file except in compliance with the License.          *
+*  You may obtain a copy of the License at                                   *
+*                                                                            *
+*      http://www.apache.org/licenses/LICENSE-2.0                            *
+*                                                                            *
+*  Unless required by applicable law or agreed to in writing, software       *
+*  distributed under the License is distributed on an "AS IS" BASIS,         *
+*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  *
+*  See the License for the specific language governing permissions and       *
+*  limitations under the License.                                            *
+*                                                                            *
+*****************************************************************************/
+
 #include "DepthUtilsImpl.h"
 
 static XnInt32 GetFieldValueSigned(XnUInt32 regValue, XnInt32 fieldWidth, XnInt32 fieldOffset)
@@ -18,13 +39,11 @@ static void incrementalFitting50(XnInt64 dPrev, XnInt64 ddPrev, XnInt64 dddPrev,
 	betaCurr = betaPrev+dBeta;
 }
 
-
-
-
 DepthUtilsImpl::DepthUtilsImpl() : m_pDepthToShiftTable_QQVGA(NULL), m_pDepthToShiftTable_QVGA(NULL), m_pDepthToShiftTable_VGA(NULL),
 									m_pRegistrationTable_QQVGA(NULL), m_pRegistrationTable_QVGA(NULL), m_pRegistrationTable_VGA(NULL), m_bD2SAlloc(false), m_bInitialized(FALSE)
 {
 }
+
 DepthUtilsImpl::~DepthUtilsImpl()
 {
 	Free();
@@ -48,8 +67,6 @@ XnStatus DepthUtilsImpl::Initialize(DepthUtilsSensorCalibrationInfo* pBlob)
 
 	xnOSMemCopy(&m_blob, pBlob, sizeof(DepthUtilsSensorCalibrationInfo));
 
-	//		m_pDepthToShiftTable = pDepthToShiftTable;
-
 	// allocate table
 	XN_VALIDATE_ALIGNED_CALLOC(m_pRegistrationTable_QQVGA, XnUInt16, 160*120*2, XN_DEFAULT_MEM_ALIGN);
 	XN_VALIDATE_ALIGNED_CALLOC(m_pRegistrationTable_QVGA, XnUInt16, 320*240*2, XN_DEFAULT_MEM_ALIGN);
@@ -67,6 +84,7 @@ XnStatus DepthUtilsImpl::Initialize(DepthUtilsSensorCalibrationInfo* pBlob)
 	return XN_STATUS_OK;
 
 }
+
 XnStatus DepthUtilsImpl::Free()
 {
 	m_bInitialized = FALSE;
@@ -327,6 +345,7 @@ void DepthUtilsImpl::BuildDepthToShiftTable(XnUInt16* pRGBRegDepthToShiftTable, 
 		pRGBRegDepthToShiftTable[nIndex] = (XnInt16)(((dPelDCC * (dDepth - dPelDSR) / dDepth) + (m_blob.params1080.s2dConstOffset)) * m_blob.params1080.rgbRegXValScale);
 	}
 }
+
 XnStatus DepthUtilsImpl::BuildRegistrationTable(XnUInt16* pRegTable, RegistrationInfo* pRegInfo, XnUInt16** pDepthToShiftTable, int xres, int yres)
 {
 	// take needed parameters to perform registration
@@ -376,9 +395,9 @@ XnStatus DepthUtilsImpl::BuildRegistrationTable(XnUInt16* pRegTable, Registratio
 		);
 
 	// Pre-process the table, do sanity checks and convert it from double to ints (for better performance)
-	for (XnInt32 nY=0; nY<nDepthYRes; nY++)
+	for (XnInt32 nY = 0; nY < nDepthYRes; nY++)
 	{
-		for (XnInt32 nX=0; nX<nDepthXRes; nX++)
+		for (XnInt32 nX = 0; nX < nDepthXRes; nX++)
 		{
 			nNewX = (nX + *pRegXTable + m_blob.params1080.sensorWinOffsetX) * m_blob.params1080.rgbRegXValScale;
 			nNewY = (nY + *pRegYTable + m_blob.params1080.sensorWinOffsetY);
@@ -446,6 +465,7 @@ void DepthUtilsImpl::CreateDXDYTables (XnDouble* RegXTable, XnDouble* RegYTable,
 		deltaBetaY, dX0, dY0, dXdX0, dXdY0, dYdX0, dYdY0, dXdXdX0, dYdXdX0, dYdXdY0, dXdXdY0,
 		dYdYdX0, dYdYdY0, startingBetaX, startingBetaY);
 }
+
 void DepthUtilsImpl::CreateDXDYTablesInternal(XnDouble* RegXTable, XnDouble* RegYTable,
 	XnInt32 resX, XnInt32 resY,
 	XnInt64 AX6, XnInt64 BX6, XnInt64 CX2, XnInt64 DX2,
@@ -460,7 +480,7 @@ void DepthUtilsImpl::CreateDXDYTablesInternal(XnDouble* RegXTable, XnDouble* Reg
 {
 	XnInt32 tOffs = 0;
 
-	for(XnInt32 row = 0 ; row<resY ; row++)
+	for (XnInt32 row = 0; row < resY; row++)
 	{
 		incrementalFitting50(dXdXdX0, CX2, dXdXdX0);
 		incrementalFitting50(dXdX0, dYdXdX0, DX2, dXdX0, dYdXdX0);
@@ -478,7 +498,7 @@ void DepthUtilsImpl::CreateDXDYTablesInternal(XnDouble* RegXTable, XnDouble* Reg
 		XnInt64 coldXdXdY0 = dXdXdY0, coldXdY0 = dXdY0, coldY0 = dY0;
 		XnInt32 colBetaY = betaY;
 
-		for(XnInt32 col = 0 ; col<resX ; col++, tOffs++)
+		for (XnInt32 col = 0; col < resX; col++, tOffs++)
 		{
 			RegXTable[tOffs] = coldX0 * (1.0/(1<<17));
 			RegYTable[tOffs] = coldY0 * (1.0/(1<<17));

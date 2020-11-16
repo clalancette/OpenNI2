@@ -6,7 +6,6 @@ INC_DIRS = \
 	. \
 	../../Include \
 	../../ThirdParty/PSCommon/XnLib/Include
-	
 
 SRC_FILES = \
 	*.cpp \
@@ -25,7 +24,7 @@ endif
 
 SLIB_NAME = DepthUtils
 ifneq ("$(OSTYPE)","Darwin")
-	USED_LIBS += rt 
+	USED_LIBS += rt
 endif
 CFLAGS += -Wall
 
