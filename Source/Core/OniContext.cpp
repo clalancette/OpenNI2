@@ -208,7 +208,9 @@ XnStatus Context::configure()
 				driverLen = 0;
 
 				if (*c == '\0')
+				{
 					break;
+				}
 			}
 			else
 			{
@@ -468,10 +470,6 @@ OniStatus Context::deviceOpen(const char* uri, const char* mode, OniDeviceHandle
 						break;
 					}
 				}
-			}
-			else
-			{
-//					printf("Not yet\n");
 			}
 		}
 	}
@@ -782,7 +780,9 @@ OniStatus Context::waitForStreams(OniStreamHandle* pStreams, int streamCount, in
 		for (int i = 0; i < streamCount; ++i)
 		{
 			if (pStreams[i] == NULL)
+			{
 				continue;
+			}
 
 			VideoStream* pStream = ((_OniStream*)pStreams[i])->pStream;
 			pStream->lockFrame();
@@ -807,13 +807,17 @@ OniStatus Context::waitForStreams(OniStreamHandle* pStreams, int streamCount, in
 			deviceList[j]->tryManualTrigger();
 		}
 
-		if(timeout != ONI_TIMEOUT_FOREVER)
+		if (timeout != ONI_TIMEOUT_FOREVER)
 		{
 			xnOSQueryTimer(workTimer, &passedTime);
-			if((int)passedTime < timeout)
+			if ((int)passedTime < timeout)
+			{
 				timeToWait = timeout - (int)passedTime;
+			}
 			else
+			{
 				timeToWait = 0;
+			}
 		}
 	} while (XN_STATUS_OK == xnOSWaitEvent(hEvent, timeToWait));
 
@@ -980,6 +984,7 @@ void ONI_CALLBACK_TYPE Context::deviceDriver_DeviceConnected(Device* pDevice, vo
 
 	pContext->m_deviceConnectedEvent.Raise(pDevice->getInfo());
 }
+
 void ONI_CALLBACK_TYPE Context::deviceDriver_DeviceDisconnected(Device* pDevice, void* pCookie)
 {
 	Context* pContext = (Context*)pCookie;
@@ -994,6 +999,7 @@ void ONI_CALLBACK_TYPE Context::deviceDriver_DeviceDisconnected(Device* pDevice,
 
 	pContext->m_deviceDisconnectedEvent.Raise(pDevice->getInfo());
 }
+
 void ONI_CALLBACK_TYPE Context::deviceDriver_DeviceStateChanged(Device* pDevice, OniDeviceState deviceState, void* pCookie)
 {
 	Context* pContext = (Context*)pCookie;
