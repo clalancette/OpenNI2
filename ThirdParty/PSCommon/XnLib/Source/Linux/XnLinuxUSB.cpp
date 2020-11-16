@@ -95,7 +95,7 @@ XnBool g_bShouldRunUDEVThread = false;
 #define XN_VALIDATE_DEVICE_HANDLE(x)				\
 	if (x == NULL)									\
 		return (XN_STATUS_USB_DEVICE_NOT_VALID);
-		
+
 #define XN_VALIDATE_EP_HANDLE(x)					\
 	if (x == NULL)									\
 		return (XN_STATUS_USB_ENDPOINT_NOT_VALID);
@@ -144,7 +144,7 @@ void xnUSBDeviceConnected(struct udev_device *dev)
 	{
 		XnUSBEventCallback* pCallback = *it;
 
-		if(pCallback->nVendorID == pConnected->nVendorID && pCallback->nProductID == pConnected->nProductID)
+		if (pCallback->nVendorID == pConnected->nVendorID && pCallback->nProductID == pConnected->nProductID)
 		{
 			XnUSBEventArgs args;
 			args.strDevicePath = pConnected->strDevicePath;
@@ -167,7 +167,7 @@ void xnUSBDeviceDisconnected(struct udev_device *dev)
 		}
 	}
 
-	if(!pConnected)
+	if (!pConnected)
 	{
 		// got disconnection of an unknown device. not good.
 		xnLogWarning(XN_MASK_USB, "Got device disconnection event - for an unknown device!");
@@ -179,7 +179,7 @@ void xnUSBDeviceDisconnected(struct udev_device *dev)
 	{
 		XnUSBEventCallback* pCallback = *it;
 
-		if(pCallback->nVendorID == pConnected->nVendorID && pCallback->nProductID == pConnected->nProductID)
+		if (pCallback->nVendorID == pConnected->nVendorID && pCallback->nProductID == pConnected->nProductID)
 		{
 			XnUSBEventArgs args;
 			args.strDevicePath = pConnected->strDevicePath;
@@ -192,9 +192,9 @@ void xnUSBDeviceDisconnected(struct udev_device *dev)
 	std::list<XnUSBConnectedDevice*>::iterator it = std::find(g_connectedDevices.begin(), g_connectedDevices.end(), pConnected);
 	if (it != g_connectedDevices.end())
 	{
-		g_connectedDevices.erase(it);
+		//g_connectedDevices.erase(it);
 	}
-	XN_DELETE(pConnected);
+	//XN_DELETE(pConnected);
 }
 
 XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
@@ -203,10 +203,11 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
 	struct udev_device *dev;
    	struct udev_monitor *mon;
 	int fd;
-	
+
 	/* Create the udev object */
 	udev = udev_new();
-	if (!udev) {
+	if (!udev)
+	{
 		printf("Can't create udev\n");
 		exit(1);
 	}
@@ -214,19 +215,19 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
 	/* This section sets up a monitor which will report events when
 	   devices attached to the system change.  Events include "add",
 	   "remove", "change", "online", and "offline".
-	   
+
 	   This section sets up and starts the monitoring. Events are
 	   polled for (and delivered) later on.
-	   
+
 	   It is important that the monitor be set up before the call to
 	   udev_enumerate_scan_devices() so that events (and devices) are
 	   not missed.  For example, if enumeration happened first, there
 	   would be no event generated for a device which was attached after
 	   enumeration but before monitoring began.
-	   
+
 	   Note that a filter is added so that we only get events for
 	   "usb/usb_device" devices. */
-	
+
 	/* Set up a monitor to monitor "usb_device" devices */
 	mon = udev_monitor_new_from_netlink(udev, "udev");
 	udev_monitor_filter_add_match_subsystem_devtype(mon, "usb", "usb_device");
@@ -234,10 +235,10 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
 	/* Get the file descriptor (fd) for the monitor.
 	   This fd will get passed to select() */
 	fd = udev_monitor_get_fd(mon);
-	
+
 	//////////////////////////////////////////////////////////////////////////
 
-	/* Enumerate the currently connected devices and store them, 
+	/* Enumerate the currently connected devices and store them,
 	   so we can notify of their disconnection */
 
 	struct udev_enumerate *enumerate;
@@ -260,9 +261,10 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
 	   a loop. The loop will be executed for each member in
 	   devices, setting dev_list_entry to a list entry
 	   which contains the device's path in /sys. */
-	udev_list_entry_foreach(dev_list_entry, devices) {
+	udev_list_entry_foreach(dev_list_entry, devices)
+	{
 		const char *path;
-		
+
 		/* Get the filename of the /sys entry for the device
 		   and create a udev_device object (dev) representing it */
 		path = udev_list_entry_get_name(dev_list_entry);
@@ -272,7 +274,7 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
 		// note - it's better that connectivity events register AFTER this point,
 		//        so they don't get notified of already connected devices.
 		xnUSBDeviceConnected(dev);
-	
+
 		udev_device_unref(dev);
 	}
 	/* Free the enumerator object */
@@ -281,17 +283,17 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
 	//////////////////////////////////////////////////////////////////////////
 
 	/* Begin polling for udev events. Events occur when devices
-	   attached to the system are added, removed, or change state. 
+	   attached to the system are added, removed, or change state.
 	   udev_monitor_receive_device() will return a device
 	   object representing the device which changed and what type of
 	   change occured.
 
 	   The select() system call is used to ensure that the call to
 	   udev_monitor_receive_device() will not block.
-	   
+
 	   The monitor was set up earler in this file, and monitoring is
 	   already underway.
-	   
+
 	   This section will run continuously, calling usleep() at the end
 	   of each pass. This is to demonstrate how to use a udev_monitor
 	   in a non-blocking way. */
@@ -305,34 +307,22 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
 		fd_set fds;
 		struct timeval tv;
 		int ret;
-		
+
 		FD_ZERO(&fds);
 		FD_SET(fd, &fds);
 		tv.tv_sec = 0;
 		tv.tv_usec = 250 * 1000;
-		
+
 		ret = select(fd+1, &fds, NULL, NULL, &tv);
-		
+
 		/* Check if our file descriptor has received data. */
-		if (ret > 0 && FD_ISSET(fd, &fds)) {
+		if (ret > 0 && FD_ISSET(fd, &fds))
+		{
 			/* Make the call to receive the device.
 			   select() ensured that this will not block. */
 			dev = udev_monitor_receive_device(mon);
-			if (dev) {
-			/*
-				printf("   Node: %s\n", udev_device_get_devnode(dev));
-				printf("   Subsystem: %s\n", udev_device_get_subsystem(dev));
-				printf("   Devtype: %s\n", udev_device_get_devtype(dev));
-				printf("   Action: %s\n", udev_device_get_action(dev));
-
-				printf("  VID/PID: %s %s\n",
-						udev_device_get_sysattr_value(dev,"idVendor"),
-						udev_device_get_sysattr_value(dev,"idProduct"));
-				printf("  %s\n  %s\n",
-						udev_device_get_sysattr_value(dev,"manufacturer"),
-						udev_device_get_sysattr_value(dev,"product"));
-				fflush(stdout);
-			*/
+			if (dev)
+			{
 				const XnChar *action = udev_device_get_action(dev);
 
 				if (!xnOSStrCmp(action, "add"))
@@ -348,9 +338,10 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
 				// now release dev
 				udev_device_unref(dev);
 			}
-			else {
+			else
+			{
 				xnLogWarning(XN_MASK_USB, "No Device from udev_monitor_receive_device(). An error occured.");
-			}					
+			}
 		}
 	}
 	udev_monitor_unref(mon);
@@ -366,13 +357,13 @@ XN_THREAD_PROC xnUSBHandleEventsThread(XN_THREAD_PARAM pThreadParam)
 	struct timeval timeout;
 	timeout.tv_sec = XN_USB_HANDLE_EVENTS_TIMEOUT / 1000;
 	timeout.tv_usec = XN_USB_HANDLE_EVENTS_TIMEOUT % 1000;
-	
+
 	while (g_InitData.bShouldThreadRun)
 	{
 		// let libusb process its asynchronous events
 		libusb_handle_events_timeout(g_InitData.pContext, &timeout);
 	}
-	
+
 	XN_THREAD_PROC_RETURN(XN_STATUS_OK);
 }
 
@@ -389,7 +380,7 @@ XnStatus xnUSBPlatformSpecificInit()
 
 	XnStatus nRetVal = xnOSCreateCriticalSection(&g_InitData.hLock);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 #ifdef XN_USE_UDEV
 	// initialize the UDEV Events thread
 	g_bShouldRunUDEVThread = true;
@@ -404,10 +395,8 @@ XnStatus xnUSBPlatformSpecificInit()
 	}
 #endif
 
-	//libusb_set_debug(g_InitData.pContext, 3);
-
 	xnLogInfo(XN_MASK_USB, "USB is initialized.");
-	return (XN_STATUS_OK);	
+	return (XN_STATUS_OK);
 }
 
 XnStatus xnUSBAsynchThreadAddRef()
@@ -417,14 +406,14 @@ XnStatus xnUSBAsynchThreadAddRef()
 	xnl::AutoCSLocker locker(g_InitData.hLock);
 
 	++g_InitData.nOpenDevices;
-	
+
 	if (g_InitData.hThread == NULL)
 	{
 		xnLogVerbose(XN_MASK_USB, "Starting libusb asynch thread...");
-		
+
 		// mark thread should run
 		g_InitData.bShouldThreadRun = TRUE;
-		
+
 		// and start thread
 		nRetVal = xnOSCreateThread(xnUSBHandleEventsThread, NULL, &g_InitData.hThread);
 		if (nRetVal != XN_STATUS_OK)
@@ -442,8 +431,8 @@ XnStatus xnUSBAsynchThreadAddRef()
 			printf("Warning: USB events thread - failed to set priority. This might cause loss of data...\n");
 		}
 	}
-	
-	return (XN_STATUS_OK);	
+
+	return (XN_STATUS_OK);
 }
 
 void xnUSBAsynchThreadStop()
@@ -452,7 +441,7 @@ void xnUSBAsynchThreadStop()
 	{
 		// mark for thread to exit
 		g_InitData.bShouldThreadRun = FALSE;
-		
+
 		// wait for it to exit
 		xnLogVerbose(XN_MASK_USB, "Shutting down USB events thread...");
 		XnStatus nRetVal = xnOSWaitForThreadExit(g_InitData.hThread, XN_USB_HANDLE_EVENTS_TIMEOUT * 2);
@@ -465,7 +454,7 @@ void xnUSBAsynchThreadStop()
 		{
 			xnOSCloseThread(&g_InitData.hThread);
 		}
-		
+
 		g_InitData.hThread = NULL;
 	}
 }
@@ -496,14 +485,14 @@ XnStatus xnUSBPlatformSpecificShutdown()
 		xnOSCloseCriticalSection(&g_InitData.hLock);
 		g_InitData.hLock = NULL;
 	}
-	
+
 	if (g_InitData.pContext != NULL)
 	{
 		// close the library
 		libusb_exit(g_InitData.pContext);
 		g_InitData.pContext = NULL;
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -518,18 +507,18 @@ XnStatus FindDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* pExtraParam, 
 	// get device list
 	libusb_device** ppDevices;
 	ssize_t nDeviceCount = libusb_get_device_list(g_InitData.pContext, &ppDevices);
-	
+
 	// check for error
 	if (nDeviceCount < 0)
 	{
 		return (XN_STATUS_USB_ENUMERATE_FAILED);
 	}
-	
+
 	// enumerate over the devices
 	for (ssize_t i = 0; i < nDeviceCount; ++i)
 	{
 		libusb_device* pDevice = ppDevices[i];
-		
+
 		// get device descriptor
 		libusb_device_descriptor desc;
 		int rc = libusb_get_device_descriptor(pDevice, &desc);
@@ -537,7 +526,7 @@ XnStatus FindDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* pExtraParam, 
 		{
 			return (XN_STATUS_USB_ENUMERATE_FAILED);
 		}
-		
+
 		// check if this is the requested device
 		if (desc.idVendor == nVendorID && desc.idProduct == nProductID)
 		{
@@ -547,37 +536,37 @@ XnStatus FindDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* pExtraParam, 
 			break;
 		}
 	}
-	
+
 	// free the list (also dereference each device)
 	libusb_free_device_list(ppDevices, 1);
-	
+
 	return (XN_STATUS_OK);
 }
 
 XN_C_API XnStatus xnUSBIsDevicePresent(XnUInt16 nVendorID, XnUInt16 nProductID, void* pExtraParam, XnBool* pbDevicePresent)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// make sure library was initialized
 	XN_VALIDATE_USB_INIT();
-	
+
 	// Validate parameters
 	XN_VALIDATE_OUTPUT_PTR(pbDevicePresent);
 
 	*pbDevicePresent = FALSE;
-	
+
 	libusb_device* pDevice;
 	nRetVal = FindDevice(nVendorID, nProductID, pExtraParam, &pDevice);
 	XN_IS_STATUS_OK(nRetVal);
-		
+
 	if (pDevice != NULL)
 	{
 		*pbDevicePresent = TRUE;
-		
+
 		// unref device
 		libusb_unref_device(pDevice);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -586,14 +575,14 @@ XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID,
 	// get device list
 	libusb_device** ppDevices;
 	ssize_t nDeviceCount = libusb_get_device_list(g_InitData.pContext, &ppDevices);
-	
+
 	// first enumeration - count
 	XnUInt32 nCount = 0;
-	
+
 	for (ssize_t i = 0; i < nDeviceCount; ++i)
 	{
 		libusb_device* pDevice = ppDevices[i];
-		
+
 		// get device descriptor
 		libusb_device_descriptor desc;
 		int rc = libusb_get_device_descriptor(pDevice, &desc);
@@ -602,14 +591,14 @@ XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID,
 			libusb_free_device_list(ppDevices, 1);
 			return (XN_STATUS_USB_ENUMERATE_FAILED);
 		}
-		
+
 		// check if this is the requested device
 		if (desc.idVendor == nVendorID && desc.idProduct == nProductID)
 		{
 			++nCount;
 		}
 	}
-	
+
 	// allocate array
 	XnUSBConnectionString* aResult = (XnUSBConnectionString*)xnOSCalloc(nCount, sizeof(XnUSBConnectionString));
 	if (aResult == NULL)
@@ -617,22 +606,23 @@ XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID,
 		libusb_free_device_list(ppDevices, 1);
 		return XN_STATUS_ALLOC_FAILED;
 	}
-	
+
 	// second enumeration - fill
 	XnUInt32 nCurrent = 0;
 	for (ssize_t i = 0; i < nDeviceCount; ++i)
 	{
 		libusb_device* pDevice = ppDevices[i];
-		
+
 		// get device descriptor
 		libusb_device_descriptor desc;
 		int rc = libusb_get_device_descriptor(pDevice, &desc);
 		if (rc != 0)
 		{
+			xnOSFree(aResult);
 			libusb_free_device_list(ppDevices, 1);
 			return (XN_STATUS_USB_ENUMERATE_FAILED);
 		}
-		
+
 		// check if this is the requested device
 		if (desc.idVendor == nVendorID && desc.idProduct == nProductID)
 		{
@@ -640,13 +630,13 @@ XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID,
 			nCurrent++;
 		}
 	}
-	
+
 	*pastrDevicePaths = aResult;
 	*pnCount = nCount;
-		
+
 	// free the list (also dereference each device)
 	libusb_free_device_list(ppDevices, 1);
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -666,29 +656,20 @@ XN_C_API XnStatus xnUSBOpenDeviceImpl(libusb_device* pDevice, XN_USB_DEV_HANDLE*
 
 	// allocate device handle
 	libusb_device_handle* handle;
-	
+
 	// open device
 	int rc = libusb_open(pDevice, &handle);
-	
+
 	// in any case, unref the device (we don't need it anymore)
 	libusb_unref_device(pDevice);
 	pDevice = NULL;
-	
+
 	// now check if open failed
 	if (rc != 0)
 	{
 		return (XN_STATUS_USB_DEVICE_OPEN_FAILED);
 	}
-	
-/*	
-	// set for the first (and only) configuration (this will perform a light-weight reset)
-	rc = libusb_set_configuration(handle, 1);
-	if (rc != 0)
-	{
-		libusb_close(handle);
-		return (XN_STATUS_USB_SET_CONFIG_FAILED);
-	}
-*/	
+
 	// claim the interface (you cannot open any end point before claiming the interface)
 	rc = libusb_claim_interface(handle, 0);
 	if (rc != 0)
@@ -696,81 +677,72 @@ XN_C_API XnStatus xnUSBOpenDeviceImpl(libusb_device* pDevice, XN_USB_DEV_HANDLE*
 		libusb_close(handle);
 		return (XN_STATUS_USB_SET_INTERFACE_FAILED);
 	}
-	
-/*	
-	// set the alternate setting to default
-	rc = libusb_set_interface_alt_setting(handle, 0, 0);
-	if (rc != 0)
-	{
-		libusb_close(handle);
-		return (XN_STATUS_USB_SET_INTERFACE_FAILED);
-	}
-*/	
+
 	XN_VALIDATE_ALLOC(*pDevHandlePtr, XnUSBDeviceHandle);
 	XN_USB_DEV_HANDLE pDevHandle = *pDevHandlePtr;
 	pDevHandle->hDevice = handle;
 	pDevHandle->nInterface = 0;
 	pDevHandle->nAltSetting = 0;
-	
+
 	// mark the device is of high-speed
 	pDevHandle->nDevSpeed = XN_USB_DEVICE_HIGH_SPEED;
-	
+
 	nRetVal = xnUSBAsynchThreadAddRef();
 	if (nRetVal != XN_STATUS_OK)
 	{
 		xnOSFree(*pDevHandlePtr);
 		return (nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
 XN_C_API XnStatus xnUSBOpenDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* pExtraParam, void* pExtraParam2, XN_USB_DEV_HANDLE* pDevHandlePtr)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-		
+
 	// make sure library was initialized
 	XN_VALIDATE_USB_INIT();
-	
+
 	// Validate parameters
 	XN_VALIDATE_OUTPUT_PTR(pDevHandlePtr);
 
 	libusb_device* pDevice;
 	nRetVal = FindDevice(nVendorID, nProductID, pExtraParam, &pDevice);
 	XN_IS_STATUS_OK(nRetVal);
-		
+
 	nRetVal = xnUSBOpenDeviceImpl(pDevice, pDevHandlePtr);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
 XN_C_API XnStatus xnUSBOpenDeviceByPath(const XnUSBConnectionString strDevicePath, XN_USB_DEV_HANDLE* pDevHandlePtr)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// parse connection string
 	XnUInt16 nVendorID = 0;
 	XnUInt16 nProductID = 0;
 	XnUInt8 nBus = 0;
 	XnUInt8 nAddress = 0;
 	sscanf(strDevicePath, "%hx/%hx@%hhu/%hhu", &nVendorID, &nProductID, &nBus, &nAddress);
-	
+
 	if (nVendorID == 0 || nProductID == 0 || nBus == 0 || nAddress == 0)
 	{
 		XN_LOG_WARNING_RETURN(XN_STATUS_USB_DEVICE_OPEN_FAILED, "Invalid connection string: %s", strDevicePath);
 	}
 
-	// find device	
+	// find device
 	libusb_device** ppDevices;
 	ssize_t nDeviceCount = libusb_get_device_list(g_InitData.pContext, &ppDevices);
-	
+
 	libusb_device* pRequestedDevice = NULL;
-	
+
 	for (ssize_t i = 0; i < nDeviceCount; ++i)
 	{
 		libusb_device* pDevice = ppDevices[i];
-		
+
 		// get device descriptor
 		libusb_device_descriptor desc;
 		int rc = libusb_get_device_descriptor(pDevice, &desc);
@@ -779,22 +751,22 @@ XN_C_API XnStatus xnUSBOpenDeviceByPath(const XnUSBConnectionString strDevicePat
 			libusb_free_device_list(ppDevices, 1);
 			return (XN_STATUS_USB_ENUMERATE_FAILED);
 		}
-		
+
 		// check if this is the requested device
 		if (desc.idVendor == nVendorID && desc.idProduct == nProductID && libusb_get_bus_number(pDevice) == nBus && libusb_get_device_address(pDevice) == nAddress)
 		{
 			// add a reference to the device (so it won't be destroyed when list is freed)
 			libusb_ref_device(pDevice);
 			pRequestedDevice = pDevice;
-			break;	
+			break;
 		}
 	}
 
 	libusb_free_device_list(ppDevices, 1);
-	
+
 	nRetVal = xnUSBOpenDeviceImpl(pRequestedDevice, pDevHandlePtr);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -813,7 +785,7 @@ XN_C_API XnStatus xnUSBCloseDevice(XN_USB_DEV_HANDLE pDevHandle)
 	libusb_close(pDevHandle->hDevice);
 
 	XN_FREE_AND_NULL(pDevHandle);
-	
+
 	xnUSBAsynchThreadRelease();
 
 	return (XN_STATUS_OK);
@@ -846,23 +818,23 @@ XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8 nInter
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
 	XN_VALIDATE_DEVICE_HANDLE(pDevHandle);
-	
+
 	int rc = libusb_set_interface_alt_setting(pDevHandle->hDevice, nInterface, nAltInterface);
 	if (rc != 0)
 	{
 		return (XN_STATUS_USB_SET_INTERFACE_FAILED);
 	}
-	
+
 	pDevHandle->nInterface = nInterface;
 	pDevHandle->nAltSetting = nAltInterface;
-	
+
 	return (XN_STATUS_OK);
 }
 
 XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8* pnInterface, XnUInt8* pnAltInterface)
 {
 	XnUInt8 nAltInterface;
-	int rc = libusb_control_transfer(pDevHandle->hDevice, 
+	int rc = libusb_control_transfer(pDevHandle->hDevice,
 		LIBUSB_ENDPOINT_IN | LIBUSB_REQUEST_TYPE_STANDARD | LIBUSB_RECIPIENT_INTERFACE,
 		LIBUSB_REQUEST_GET_INTERFACE, 0, 0, &nAltInterface, 1, 1000);
 	if (rc != 1)
@@ -885,7 +857,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 
 	// get the device from the handle
 	libusb_device* pDevice = libusb_get_device(pDevHandle->hDevice);
-	
+
 	// get the configuration descriptor
 	libusb_config_descriptor* pConfig;
 	int rc = libusb_get_active_config_descriptor(pDevice, &pConfig);
@@ -893,30 +865,30 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 	{
 		return (XN_STATUS_USB_CONFIG_QUERY_FAILED);
 	}
-	
+
 	// make sure configuration contains the interface we need
 	if (pConfig->bNumInterfaces <= pDevHandle->nInterface)
 	{
 		libusb_free_config_descriptor(pConfig);
 		return (XN_STATUS_USB_INTERFACE_QUERY_FAILED);
 	}
-	
+
 	// take that interface
 	const libusb_interface* pInterface = &pConfig->interface[pDevHandle->nInterface];
-	
+
 	// make sure interface contains the alternate setting we work with
 	if (pInterface->num_altsetting <= pDevHandle->nAltSetting)
 	{
 		libusb_free_config_descriptor(pConfig);
 		return (XN_STATUS_USB_INTERFACE_QUERY_FAILED);
 	}
-	
+
 	// take that setting
 	const libusb_interface_descriptor* pInterfaceDesc = &pInterface->altsetting[pDevHandle->nAltSetting];
-	
+
 	// search for the requested endpoint
 	const libusb_endpoint_descriptor* pEndpointDesc = NULL;
-	
+
 	for (uint8_t i = 0; i < pInterfaceDesc->bNumEndpoints; ++i)
 	{
 		if (pInterfaceDesc->endpoint[i].bEndpointAddress == nEndPointID)
@@ -925,20 +897,20 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 			break;
 		}
 	}
-	
+
 	if (pEndpointDesc == NULL)
 	{
 		libusb_free_config_descriptor(pConfig);
 		return (XN_STATUS_USB_ENDPOINT_NOT_FOUND);
 	}
-	
+
 	libusb_transfer_type transfer_type = (libusb_transfer_type)(pEndpointDesc->bmAttributes & 0x3); // lower 2-bits
 
-    // calculate max packet size
+	// calculate max packet size
 	// NOTE: we do not use libusb functions (libusb_get_max_packet_size/libusb_get_max_iso_packet_size) because
-	// they hace a bug and does not consider alternative interface
-    XnUInt32 nMaxPacketSize = 0;
-	
+	// they have a bug and do not consider alternative interfaces
+	XnUInt32 nMaxPacketSize = 0;
+
 	if (transfer_type == LIBUSB_TRANSFER_TYPE_ISOCHRONOUS)
 	{
 		XnUInt32 wMaxPacketSize = pEndpointDesc->wMaxPacketSize;
@@ -955,7 +927,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 	// free the configuration descriptor. no need of it anymore
 	libusb_free_config_descriptor(pConfig);
 	pConfig = NULL;
-	
+
 	// Make sure the endpoint matches the required endpoint type
 	if (nEPType == XN_USB_EP_BULK)
 	{
@@ -1003,7 +975,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 	{
 		return (XN_STATUS_USB_UNKNOWN_ENDPOINT_DIRECTION);
 	}
-	
+
 	// allocate handle
 	XN_VALIDATE_ALIGNED_CALLOC(*pEPHandlePtr, XnUSBEPHandle, 1, XN_DEFAULT_MEM_ALIGN);
 	XN_USB_EP_HANDLE pHandle = *pEPHandlePtr;
@@ -1021,9 +993,9 @@ XN_C_API XnStatus xnUSBCloseEndPoint(XN_USB_EP_HANDLE pEPHandle)
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
 	XN_VALIDATE_EP_HANDLE(pEPHandle);
-	
+
 	XN_ALIGNED_FREE_AND_NULL(pEPHandle);
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -1063,14 +1035,14 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
 	XN_VALIDATE_DEVICE_HANDLE(pDevHandle);
-	
+
 	if (nBufferSize != 0)
 	{
 		XN_VALIDATE_INPUT_PTR(pBuffer);
 	}
-	
+
 	uint8_t bmRequestType;
-	
+
 	if (nType == XN_USB_CONTROL_TYPE_VENDOR )
 	{
 		bmRequestType = LIBUSB_REQUEST_TYPE_VENDOR;
@@ -1087,12 +1059,12 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 	{
 		return (XN_STATUS_USB_WRONG_CONTROL_TYPE);
 	}
-	
+
 	bmRequestType |= LIBUSB_ENDPOINT_OUT;
-	
-	// send	
+
+	// send
 	int nBytesSent = libusb_control_transfer(pDevHandle->hDevice, bmRequestType, nRequest, nValue, nIndex, pBuffer, nBufferSize, nTimeOut);
-	
+
 	// check everything went OK
 	if (nBytesSent == LIBUSB_ERROR_TIMEOUT)
 	{
@@ -1102,7 +1074,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 	{
 		return (XN_STATUS_USB_CONTROL_SEND_FAILED);
 	}
-	
+
 	if ((XnUInt32)nBytesSent != nBufferSize)
 	{
 		return (XN_STATUS_USB_GOT_UNEXPECTED_BYTES);
@@ -1118,16 +1090,16 @@ XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControl
 	XN_VALIDATE_DEVICE_HANDLE(pDevHandle);
 	XN_VALIDATE_OUTPUT_PTR(pBuffer);
 	XN_VALIDATE_OUTPUT_PTR(pnBytesReceived);
-	
+
 	if (nBufferSize == 0)
 	{
 		return (XN_STATUS_USB_BUFFER_TOO_SMALL);
 	}
-	
+
 	*pnBytesReceived = 0;
 
 	uint8_t bmRequestType;
-	
+
 	if (nType == XN_USB_CONTROL_TYPE_VENDOR )
 	{
 		bmRequestType = LIBUSB_REQUEST_TYPE_VENDOR;
@@ -1144,12 +1116,12 @@ XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControl
 	{
 		return (XN_STATUS_USB_WRONG_CONTROL_TYPE);
 	}
-	
+
 	bmRequestType |= LIBUSB_ENDPOINT_IN;
-	
-	// send	
+
+	// send
 	int nBytesReceived = libusb_control_transfer(pDevHandle->hDevice, bmRequestType, nRequest, nValue, nIndex, pBuffer, nBufferSize, nTimeOut);
-	
+
 	// check everything went OK
 	if (nBytesReceived == LIBUSB_ERROR_TIMEOUT)
 	{
@@ -1170,7 +1142,7 @@ XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControl
 		xnLogWarning(XN_MASK_USB, "Too many bytes!!!");
 		return (XN_STATUS_USB_TOO_MUCH_DATA);
 	}
-	
+
 	// return number of bytes received
 	*pnBytesReceived = nBytesReceived;
 
@@ -1188,7 +1160,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 	{
 		return (XN_STATUS_USB_WRONG_ENDPOINT_DIRECTION);
 	}
-	
+
 	if (nBufferSize == 0)
 	{
 		return (XN_STATUS_USB_BUFFER_TOO_SMALL);
@@ -1197,7 +1169,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 	// send (according to EP type)
 	int nBytesSent = 0;
 	int rc = 0;
-	
+
 	if (pEPHandle->nType == XN_USB_EP_BULK)
 	{
 		rc = libusb_bulk_transfer(pEPHandle->hDevice, pEPHandle->nAddress, pBuffer, nBufferSize, &nBytesSent, nTimeOut);
@@ -1210,7 +1182,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 	{
 		return (XN_STATUS_USB_UNSUPPORTED_ENDPOINT_TYPE);
 	}
-	
+
 	// check result
 	if (rc == LIBUSB_ERROR_TIMEOUT)
 	{
@@ -1220,12 +1192,12 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 	{
 		return (XN_STATUS_USB_ENDPOINT_WRITE_FAILED);
 	}
-	
+
 	if ((XnUInt32)nBytesSent != nBufferSize)
 	{
 		return (XN_STATUS_USB_GOT_UNEXPECTED_BYTES);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -1246,13 +1218,13 @@ XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer
 	{
 		return (XN_STATUS_USB_BUFFER_TOO_SMALL);
 	}
-	
+
 	// receive (according to EP type)
 	*pnBytesReceived = 0;
 
 	int nBytesReceived = 0;
 	int rc = 0;
-	
+
 	if (pEPHandle->nType == XN_USB_EP_BULK)
 	{
 		rc = libusb_bulk_transfer(pEPHandle->hDevice, pEPHandle->nAddress, pBuffer, nBufferSize, &nBytesReceived, nTimeOut);
@@ -1265,7 +1237,7 @@ XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer
 	{
 		return (XN_STATUS_USB_UNSUPPORTED_ENDPOINT_TYPE);
 	}
-	
+
 	// check result
 	if (rc == LIBUSB_ERROR_TIMEOUT)
 	{
@@ -1275,7 +1247,7 @@ XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer
 	{
 		return (XN_STATUS_USB_ENDPOINT_WRITE_FAILED);
 	}
-	
+
 	if (nBytesReceived == 0)
 	{
 		return (XN_STATUS_USB_NOT_ENOUGH_DATA);
@@ -1292,7 +1264,7 @@ XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pB
 }
 
 XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUInt32* pnBytesReceived, XnUInt32 nTimeOut)
-{	
+{
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
@@ -1308,7 +1280,7 @@ void xnCleanupThreadData(XnUSBReadThreadData* pThreadData)
 			xnOSCloseEvent(&pThreadData->pBuffersInfo[i].hEvent);
 		}
 	}
-	
+
 	XN_ALIGNED_FREE_AND_NULL(pThreadData->pBuffersInfo);
 }
 
@@ -1320,7 +1292,7 @@ XnBool xnIsAnyTransferQueued(XnUSBReadThreadData* pThreadData)
 		if (pThreadData->pBuffersInfo[i].bIsQueued)
 			return (TRUE);
 	}
-	
+
 	return (FALSE);
 }
 
@@ -1334,13 +1306,13 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 	{
 		xnLogWarning(XN_MASK_USB, "Failed to set thread priority to critical. This might cause loss of data...");
 	}
-	
+
 	// first of all, submit all transfers
 	for (XnUInt32 i = 0; i < pThreadData->nNumBuffers; ++i)
 	{
 		XnUSBBuffersInfo* pBufferInfo = &pThreadData->pBuffersInfo[i];
 		libusb_transfer* pTransfer = pBufferInfo->transfer;
-		
+
 		// submit request
 		pBufferInfo->bIsQueued = TRUE;
 		int rc = libusb_submit_transfer(pTransfer);
@@ -1349,9 +1321,9 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 			xnLogError(XN_MASK_USB, "Endpoint 0x%x, Buffer %d: Failed to submit asynch I/O transfer (err=%d)!", pTransfer->endpoint, pBufferInfo->nBufferID, rc);
 		}
 	}
-	
+
 	// now let libusb process asynchornous I/O
-	
+
 	while (TRUE)
 	{
 		for (XnUInt32 i = 0; i < pThreadData->nNumBuffers; ++i)
@@ -1370,7 +1342,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 			if (nRetVal == XN_STATUS_OS_EVENT_TIMEOUT)
 			{
 //				xnLogWarning(XN_MASK_USB, "Endpoint 0x%x, Buffer %d: timeout. cancelling transfer...", pTransfer->endpoint, pBufferInfo->nBufferID);
-				
+
 				// cancel it
 				int rc = libusb_cancel_transfer(pBufferInfo->transfer);
 				if (rc != 0)
@@ -1392,13 +1364,13 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 				// wait for it to cancel
 				nRetVal = xnOSWaitEvent(pBufferInfo->hEvent, pThreadData->nTimeOut);
 			}
-			
+
 			if (nRetVal != XN_STATUS_OK)
 			{
 				// not much we can do
 				xnLogWarning(XN_MASK_USB, "Endpoint 0x%x, Buffer %d: Failed waiting on asynch transfer event: %s", pTransfer->endpoint, pBufferInfo->nBufferID, xnGetStatusString(nRetVal));
 			}
-			
+
 			// check the result of the transfer
 			if (pBufferInfo->bIsQueued)
 			{
@@ -1496,7 +1468,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 			}
 		}
 	}
-	
+
 	XN_THREAD_PROC_RETURN(XN_STATUS_OK);
 
 disconnect:
@@ -1510,13 +1482,13 @@ disconnect:
 void xnTransferCallback(libusb_transfer *pTransfer)
 {
 	XnUSBBuffersInfo* pBufferInfo = (XnUSBBuffersInfo*)pTransfer->user_data;
-	
+
 	// mark that buffer is done
 	pBufferInfo->bIsQueued = FALSE;
-	
+
 	// keep the status (according to libusb documentation, this field is invalid outside the callback method)
 	pBufferInfo->nLastStatus = pTransfer->status;
-	
+
 	// notify endpoint thread this buffer is done
 	XnStatus nRetVal = xnOSSetEvent(pBufferInfo->hEvent);
 	if (nRetVal != XN_STATUS_OK)
@@ -1529,12 +1501,12 @@ void xnTransferCallback(libusb_transfer *pTransfer)
 XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, XnUInt32 nBufferSize, XnUInt32 nNumBuffers, XnUInt32 nTimeOut, XnUSBReadCallbackFunctionPtr pCallbackFunction, void* pCallbackData)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
 	XN_VALIDATE_EP_HANDLE(pEPHandle);
 	XN_VALIDATE_INPUT_PTR(pCallbackFunction);
-	
+
 	xnLogVerbose(XN_MASK_USB, "Starting a USB read thread...");
 
 	XnUSBReadThreadData* pThreadData = &pEPHandle->ThreadData;
@@ -1558,10 +1530,10 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, XnUInt32 nBuff
 		xnCleanupThreadData(pThreadData);
 		return XN_STATUS_ALLOC_FAILED;
 	}
-	
+
 	int nNumIsoPackets = 0;
 	int nMaxPacketSize = 0;
-	
+
 	if (pEPHandle->nType == XN_USB_EP_ISOCHRONOUS)
 	{
 		// calculate how many packets can be set in this buffer
@@ -1574,10 +1546,10 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, XnUInt32 nBuff
 		XnUSBBuffersInfo* pBufferInfo = &pThreadData->pBuffersInfo[i];
 		pBufferInfo->nBufferID = i;
 		pBufferInfo->pThreadData = pThreadData;
-		
+
 		// allocate transfer
 		pBufferInfo->transfer = libusb_alloc_transfer(nNumIsoPackets);
-		
+
 		libusb_transfer* pTransfer = pBufferInfo->transfer;
 
 		if (pTransfer == NULL)
@@ -1631,7 +1603,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, XnUInt32 nBuff
 	}
 
 	pThreadData->bIsRunning = TRUE;
-	
+
 	xnLogInfo(XN_MASK_USB, "USB read thread was started.");
 
 	return (XN_STATUS_OK);
@@ -1667,7 +1639,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 			xnOSCloseThread(&pThreadData->hReadThread);
 		}
 	}
-	
+
 	xnCleanupThreadData(pThreadData);
 
 	pThreadData->bIsRunning = FALSE;
