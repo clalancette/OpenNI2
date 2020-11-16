@@ -6,11 +6,6 @@ ifndef CFG
     CFG = Release
 endif
 
-ifndef FILTER
-    FILTER = On
-endif
-
-
 # find out the platform on which we're running
 MACHINE = $(shell uname -m)
 ifneq (,$(findstring x86_64,$(MACHINE)))
@@ -38,7 +33,7 @@ else
 		PLATFORM_UPPER = $(shell echo $(PLATFORM) | tr 'a-z' 'A-Z')
 		DUMMY:=$(eval CXX = $($(PLATFORM_UPPER)_CXX))
 		DUMMY:=$(eval TARGET_SYS_ROOT = $($(PLATFORM_UPPER)_STAGING))
-		
+
 		ifeq "$(and $(CXX), $(TARGET_SYS_ROOT))" ""
 			DUMMY:=$(error Cross-Compilation error. Can't find $(PLATFORM_UPPER)_CXX and $(PLATFORM_UPPER)_STAGING)
 		endif

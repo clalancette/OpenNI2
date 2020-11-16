@@ -25,9 +25,6 @@
 #include "XnSensor.h"
 #include <XnProfiling.h>
 #include <XnLog.h>
-#if (XN_PLATFORM == XN_PLATFORM_WIN32 || XN_PLATFORM == XN_PLATFORM_LINUX_X86 || XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
-#include <softlib.h>
-#endif
 #include <cstdlib>
 using namespace std;
 //---------------------------------------------------------------------------
@@ -274,18 +271,12 @@ void XnDepthProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 	OniDepthPixel* pDepth = (OniDepthPixel*)pFrame->data;
 	xnOSMemCopy(DepthBuf,pDepth,pFrame->width*pFrame->height*sizeof(OniDepthPixel));
 
-#if (XN_PLATFORM == XN_PLATFORM_WIN32 || XN_PLATFORM == XN_PLATFORM_LINUX_X86 || XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
-
-#if (FILTER == 1)
-	Softfilter(_buf, (unsigned short*)(DepthBuf), pFrame->width, pFrame->height);
-#endif
-#endif
-
-	for(int i=0;i< pFrame->width*pFrame->height;i++){
-		pDepth[i]=m_pShiftToDepthTable[DepthBuf[i]];
-		if(pDepth[i]==5506 || pDepth[i]==288)
+	for (int i = 0; i < pFrame->width*pFrame->height; i++)
+	{
+		pDepth[i] = m_pShiftToDepthTable[DepthBuf[i]];
+		if (pDepth[i] == 5506 || pDepth[i] == 288)
 		{
-			pDepth[i]=0;
+			pDepth[i] = 0;
 		}
 	}
 	// call base
@@ -306,9 +297,9 @@ void XnDepthProcessor::PadPixels(XnUInt32 nPixels)
 
 	// place the no-depth value
 	for (XnUInt32 i = 0; i < nPixels; ++i, ++pDepth)
-    {
+	{
 		*pDepth = m_noDepthValue;
-    }
+	}
 	pWriteBuffer->UnsafeUpdateSize(nPixels * sizeof(OniDepthPixel));
 }
 

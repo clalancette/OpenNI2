@@ -36,7 +36,7 @@ LIB_NAME = orbbec
 LIB_DIRS += ../../../ThirdParty/PSCommon/XnLib/Bin/$(PLATFORM)-$(CFG)
 LIB_DIRS += $(BIN_DIR)/$(PLATFORM)-$(CFG)
 LIB_DIRS += ../../../ThirdParty/Orbbec/filter/$(PLATFORM)-$(CFG)
-USED_LIBS = XnLib dl pthread DepthUtils SoftFilter jpeg
+USED_LIBS = XnLib dl pthread DepthUtils jpeg
 ifneq ("$(OSTYPE)","Darwin")
     USED_LIBS += rt usb-1.0 udev
 else
