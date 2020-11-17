@@ -82,7 +82,7 @@ public:
 	const XnUInt8* GetReadPos() const;
 	XnBool IsHeaderValid() const;
 	void ResetRead();
-	
+
 	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
 
 protected:
@@ -91,12 +91,12 @@ protected:
 	XnStatus Write(const void* pData, XnUInt32 nSize);
 	XnStatus WriteString(const XnChar* str);
 	XnStatus FinishWrite();
-	
+
 	XnStatus StartRead();
 
 	//Copies the data to the specified output buffer
 	XnStatus Read(void* pData, XnUInt32 nSize) const;
-	
+
 	//Gives a pointer to the string in the current position, and advances that position till after the string.
 	XnStatus ReadString(const XnChar*& strDest) const;
 	XnStatus FinishRead();

@@ -40,7 +40,7 @@ public:
 	/** Prototype for state change callback function. **/
 	typedef void (XN_CALLBACK_TYPE* EndOfFileReachedHandler)(void* pCookie);
 
-	typedef struct  
+	typedef struct
 	{
 		XnStatus (XN_CALLBACK_TYPE* Create)(void* pCookie, const char* strNodeName, XnCodecID nCodecId, XnCodec** ppCodec);
 		void     (XN_CALLBACK_TYPE* Destroy)(void* pCookie, XnCodec* pCodec);
@@ -177,7 +177,7 @@ private:
 	XnBool m_bRepeat;
 	XnBool m_bDataBegun;
 	XnBool m_bEOF;
-	
+
 	XnUInt64 m_nTimeStamp;
 	XnUInt64 m_nGlobalMaxTimeStamp;
 

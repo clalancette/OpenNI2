@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 /// @file
-/// Contains the declaration of Stream class that implements a stream from 
+/// Contains the declaration of Stream class that implements a stream from
 /// a virtual OpenNI device.
 
 #ifndef PLAYERSTREAM_H
@@ -41,7 +41,7 @@ class PlayerStream : public oni::driver::StreamBase
 public:
 
 	// General stream event.
-	typedef struct 
+	typedef struct
 	{
 		PlayerStream* pStream;
 	} StreamEventArgs;
@@ -60,30 +60,30 @@ public:
 
 public:
 	/// Constructor.
-    PlayerStream(PlayerDevice* pDevice, PlayerSource* pSource);
+	PlayerStream(PlayerDevice* pDevice, PlayerSource* pSource);
 
 	/// Destructor.
 	virtual ~PlayerStream();
 
-    /// Initialize the stream object.
-    OniStatus Initialize();
+	/// Initialize the stream object.
+	OniStatus Initialize();
 
 	virtual int getRequiredFrameSize();
-	
-    /// @copydoc OniStreamBase::start()
-    virtual OniStatus start();
+
+	/// @copydoc OniStreamBase::start()
+	virtual OniStatus start();
 
 	/// has start() been called on this stream already?
 	bool isStreamStarted() { return m_isStarted; }
 
-    /// @copydoc OniStreamBase::stop()
-    virtual void stop();
+	/// @copydoc OniStreamBase::stop()
+	virtual void stop();
 
 	// Return the player source the stream was created on.
 	PlayerSource* GetSource();
 
-    /// @copydoc OniStreamBase::getProperty(int,void*,int*)
-    virtual OniStatus getProperty(int propertyId, void* pData, int* pDataSize);
+	/// @copydoc OniStreamBase::getProperty(int,void*,int*)
+	virtual OniStatus getProperty(int propertyId, void* pData, int* pDataSize);
 
 	/// @copydoc OniStreamBase::setProperty(int,void*,int*)
 	virtual OniStatus setProperty(int propertyId, const void* pData, int dataSize);
@@ -104,7 +104,7 @@ public:
 private:
 	void destroy();
 
-    void MainLoop();
+	void MainLoop();
 	static XN_THREAD_PROC ThreadProc(XN_THREAD_PARAM pThreadParam);
 
 	// Callback to be called when new data is available.
@@ -117,7 +117,7 @@ private:
 	PlayerSource* m_pSource;
 
 	// Stream properties.
-    PlayerProperties m_properties;
+	PlayerProperties m_properties;
 
 	// Handle to new data callback.
 	OniCallbackHandle m_newDataHandle;

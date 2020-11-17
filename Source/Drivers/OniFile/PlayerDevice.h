@@ -197,7 +197,6 @@ private:
 	char m_originalDevice[ONI_MAX_STR];
 
 	char m_iniFilePath[XN_FILE_MAX_PATH];
-
 };
 
 } // namespace oni_files_player

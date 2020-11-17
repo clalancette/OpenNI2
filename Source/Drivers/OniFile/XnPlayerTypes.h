@@ -60,34 +60,34 @@ typedef enum XnPredefinedProductionNodeType
 
 	/** A device node **/
 	XN_NODE_TYPE_DEVICE = 1,
-	
+
 	/** A depth generator **/
 	XN_NODE_TYPE_DEPTH = 2,
-	
+
 	/** An image generator **/
 	XN_NODE_TYPE_IMAGE = 3,
 
 	/** An audio generator **/
 	XN_NODE_TYPE_AUDIO = 4,
-	
+
 	/** An IR generator **/
 	XN_NODE_TYPE_IR = 5,
 
 	/** A user generator **/
 	XN_NODE_TYPE_USER = 6,
-	
+
 	/** A recorder **/
 	XN_NODE_TYPE_RECORDER = 7,
-	
+
 	/** A player **/
 	XN_NODE_TYPE_PLAYER = 8,
-	
+
 	/** A gesture generator **/
 	XN_NODE_TYPE_GESTURE = 9,
-	
+
 	/** A scene analyzer **/
 	XN_NODE_TYPE_SCENE = 10,
-	
+
 	/** A hands generator **/
 	XN_NODE_TYPE_HANDS = 11,
 
@@ -104,8 +104,8 @@ typedef enum XnPredefinedProductionNodeType
 
 } XnPredefinedProductionNodeType;
 
-/** 
- * A Version. 
+/**
+ * A Version.
  */
 typedef struct XnVersion
 {
@@ -194,7 +194,7 @@ typedef XnUInt32 XnCodecID;
 /** Define a Codec ID by 4 characters, e.g. XN_CODEC_ID('J','P','E','G') **/
 #define XN_CODEC_ID(c1, c2, c3, c4) (XnCodecID)((c4 << 24) | (c3 << 16) | (c2 << 8) | c1)
 
-/** 
+/**
  * An interface used for communication between OpenNI and a player module. This interface is used by a player
  * module to receive recorded data from OpenNI, which knows where to get them according to one of the values of
  * @ref XnRecordMedium.
@@ -209,7 +209,7 @@ typedef struct XnPlayerInputStreamInterface
 	XnStatus (XN_CALLBACK_TYPE* Open)(void* pCookie);
 
 	/**
-	 * Reads data from the stream. May read less data than asked, if the stream is near its end. This is not 
+	 * Reads data from the stream. May read less data than asked, if the stream is near its end. This is not
 	 * considered an error.
 	 *
 	 * @param	pCookie		 [in]	A cookie that was received with this interface.
@@ -227,7 +227,7 @@ typedef struct XnPlayerInputStreamInterface
 	 * @param	nOffset		 [in]	Specifies how many bytes to move
 	 */
 	XnStatus (XN_CALLBACK_TYPE* Seek)(void* pCookie, XnOSSeekType seekType, const XnInt32 nOffset);
-	
+
 	/**
 	 * Tells the current stream position
 	 *
@@ -265,7 +265,7 @@ typedef struct XnPlayerInputStreamInterface
 
 } XnPlayerInputStreamInterface;
 
-/** 
+/**
  * An interface that is used for notifications about node events.
  **/
 typedef struct XnNodeNotifications
@@ -298,7 +298,7 @@ typedef struct XnNodeNotifications
 	 * @param	nValue		[in]	The new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeIntPropChanged)
-		(void* pCookie, const XnChar* strNodeName, 
+		(void* pCookie, const XnChar* strNodeName,
 		const XnChar* strPropName, XnUInt64 nValue);
 
 	/**
@@ -310,7 +310,7 @@ typedef struct XnNodeNotifications
 	 * @param	dValue		[in]	The new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeRealPropChanged)
-		(void* pCookie, const XnChar* strNodeName, 
+		(void* pCookie, const XnChar* strNodeName,
 		const XnChar* strPropName, XnDouble dValue);
 
 	/**
@@ -322,7 +322,7 @@ typedef struct XnNodeNotifications
 	 * @param	strValue	[in]	The new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeStringPropChanged)
-		(void* pCookie, const XnChar* strNodeName, 
+		(void* pCookie, const XnChar* strNodeName,
 		const XnChar* strPropName, const XnChar* strValue);
 
 	/**
@@ -335,12 +335,12 @@ typedef struct XnNodeNotifications
 	 * @param	pBuffer		[in]	The buffer that holds the new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeGeneralPropChanged)
-		(void* pCookie, const XnChar* strNodeName, 
+		(void* pCookie, const XnChar* strNodeName,
 		const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer);
 
 	/**
 	 * Notifies the object that a node has finished sending all the initial 'property changed' notifications.
-	 * 
+	 *
 	 * @param	pCookie		[in]	A cookie that was received with this interface.
 	 * @param	strNodeName	[in]	The name of the node whose state is ready.
 	 */

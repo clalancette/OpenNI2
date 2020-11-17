@@ -37,24 +37,24 @@ namespace oni_file {
 class PlayerDriver : public oni::driver::DriverBase
 {
 public:
-    /// @copydoc OniDriverBase::OniDriverBase(OniDriverServices*)
-    PlayerDriver(OniDriverServices* pDriverServices);
+	/// @copydoc OniDriverBase::OniDriverBase(OniDriverServices*)
+	PlayerDriver(OniDriverServices* pDriverServices);
 
-    /// @copydoc OniDriverBase::DeviceOpen(const char*)
-    /// @todo Document it.
-    oni::driver::DeviceBase* deviceOpen(const char* strUri, const char* mode);
+	/// @copydoc OniDriverBase::DeviceOpen(const char*)
+	/// @todo Document it.
+	oni::driver::DeviceBase* deviceOpen(const char* strUri, const char* mode);
 
 	void deviceClose(oni::driver::DeviceBase* pDevice);
 
-    /// @copydoc OniDriverBase::Shutdown()
-    virtual void shutdown();
+	/// @copydoc OniDriverBase::Shutdown()
+	virtual void shutdown();
 
-    /// Verifies that the given URI's scheme is known, and emits a message which
-    /// notifies OpenNI that a device has been connected.
-    /// @param[in] strUri The requested URI which points to a *.ONI file.
-    /// @returns ONI_STATUS_OK whenever the URI is supported, or ONI_STATUS_ERROR
-    /// when it's not.
-    virtual OniStatus tryDevice(const char* strUri);
+	/// Verifies that the given URI's scheme is known, and emits a message which
+	/// notifies OpenNI that a device has been connected.
+	/// @param[in] strUri The requested URI which points to a *.ONI file.
+	/// @returns ONI_STATUS_OK whenever the URI is supported, or ONI_STATUS_ERROR
+	/// when it's not.
+	virtual OniStatus tryDevice(const char* strUri);
 
 private:
 

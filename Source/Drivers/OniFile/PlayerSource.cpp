@@ -68,7 +68,7 @@ OniStatus PlayerSource::SetProperty(int propertyId, const void* data, int dataSi
 	{
 		if(m_sourceInfo.numSupportedVideoModes == 0)
 		{
-			// at first, we're gonna allocate and set. 
+			// at first, we're gonna allocate and set.
 			// next time we'll just update the values.
 			m_sourceInfo.numSupportedVideoModes = 1;
 			m_sourceInfo.pSupportedVideoModes = XN_NEW(OniVideoMode);

@@ -47,14 +47,11 @@ Record::Record(XnUInt8* pData, XnSizeT nMaxSize, XnBool bUseOld32Header) :
 {
 	XN_ASSERT(m_pData != NULL);
 	XN_ASSERT(m_nMaxSize >= HEADER_SIZE);
-    // NOTE(oleksii): We don't really want to nullify payload size and undo
-    // record position in the constructor, because the buffer might have valid
-    // prefetched data. If they want to nullify some fields during construction,
-    // I'd suggest to write a factory function like MakeNilRecord() or something
-    // like that.
-    //  SetNodeID(INVALID_NODE_ID);
-    //	SetPayloadSize(0);
-    //	SetUndoRecordPos(0);
+	// NOTE(oleksii): We don't really want to nullify payload size and undo
+	// record position in the constructor, because the buffer might have valid
+	// prefetched data. If they want to nullify some fields during construction,
+	// I'd suggest to write a factory function like MakeNilRecord() or something
+	// like that.
 }
 
 Record::Record(const Record &other) :
@@ -64,7 +61,7 @@ Record::Record(const Record &other) :
 	m_bUseOld32Header(other.m_bUseOld32Header),
 	HEADER_SIZE(other.HEADER_SIZE)
 {
-	//We don't set the header info here, cuz it was already set by the other record
+	// We don't set the header info here, cuz it was already set by the other record
 }
 
 RecordType Record::GetType() const
@@ -90,9 +87,13 @@ XnUInt32 Record::GetPayloadSize() const
 XnUInt64 Record::GetUndoRecordPos() const
 {
 	if (m_bUseOld32Header)
+	{
 		return ((Header_old32 *)m_pHeader)->m_nUndoRecordPos;
+	}
 	else
+	{
 		return m_pHeader->m_nUndoRecordPos;
+	}
 }
 
 void Record::SetNodeID(XnUInt32 nNodeID)
@@ -172,7 +173,7 @@ XnStatus Record::WriteString(const XnChar* str)
 
 XnStatus Record::FinishWrite()
 {
-	//Nothing to do here right now - we can add a tail if we like.
+	// Nothing to do here right now - we can add a tail if we like.
 	return XN_STATUS_OK;
 }
 
@@ -199,17 +200,17 @@ XnStatus Record::Read(void* pDest, XnUInt32 nSize) const
 XnStatus Record::ReadString(const XnChar* &strDest) const
 {
 	XnUInt32 nStrSize = 0;
-	//Get size
+	// Get size
 	XnStatus nRetVal = Read(&nStrSize, sizeof(nStrSize));
 	XN_IS_STATUS_OK(nRetVal);
-	//Check size is ok
+	// Check size is ok
 	if (m_nReadOffset + nStrSize > m_nMaxSize)
 	{
 		XN_LOG_ERROR_RETURN(XN_STATUS_INPUT_BUFFER_OVERFLOW, XN_MASK_OPEN_NI, "Record buffer too small");
 	}
-	//Point destination string to current position
+	// Point destination string to current position
 	strDest = (const XnChar*)(m_pData + m_nReadOffset);
-	//Skip string
+	// Skip string
 	m_nReadOffset += nStrSize;
 
 	return XN_STATUS_OK;
@@ -260,7 +261,7 @@ void Record::ResetRead()
 
 XnStatus Record::FinishRead()
 {
-	//Nothing to do here right now - if we add a tail we can read it here.
+	// Nothing to do here right now - if we add a tail we can read it here.
 	return XN_STATUS_OK;
 }
 
@@ -663,7 +664,7 @@ XnStatus GeneralPropRecord::Decode()
 	nRetVal = Read(&m_nPropDataSize, sizeof(m_nPropDataSize));
 	XN_IS_STATUS_OK(nRetVal);
 
-	//The property data is not copied but just pointed to
+	// The property data is not copied but just pointed to
 	XnUInt8* pData = const_cast<XnUInt8*>(GetReadPos());
 
 #if (XN_PLATFORM == XN_PLATFORM_LINUX_ARM)

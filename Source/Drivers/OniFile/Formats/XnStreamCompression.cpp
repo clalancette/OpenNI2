@@ -83,12 +83,8 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const XnUI
 	pInput++;
 	pOutput+=2;
 
-	// 	for (XnUInt32 i = 0; i < nEmbTableIdx; i++)
-	// 		nEmbTable[i] = XN_PREPARE_VAR16_IN_BUFFER(nEmbTable[i]);
-
-
 	while (pInput < pInputEnd)
-	{	
+	{
 		nCurrValue = nEmbTable[*pInput];
 
 		nDiffValue = (nLastValue - nCurrValue);
@@ -144,12 +140,12 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const XnUI
 				*pOutput = 0xE0 + cZeroCounter;
 				pOutput++;
 
-				cZeroCounter = 0;				
+				cZeroCounter = 0;
 			}
 
 			if (cOutStage == 0)
 			{
-				cOutChar = 0xFF;				
+				cOutChar = 0xFF;
 			}
 			else
 			{
@@ -158,7 +154,7 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const XnUI
 			}
 
 			*pOutput = cOutChar;
-			pOutput++;		
+			pOutput++;
 
 			if (nAbsDiffValue <= 63)
 			{
@@ -242,16 +238,16 @@ XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const XnU
 		cInput = *pInput;
 
 		if (cInput < 0xE0)
-		{		
+		{
 			cInData1 = cInput >> 4;
-			cInData2 = (cInput & 0x0f);		
+			cInData2 = (cInput & 0x0f);
 
 			nLastFullValue -= (cInData1 - 6);
 			XN_CHECK_OUTPUT_OVERFLOW(pOutput, pOutputEnd);
 			*pOutput =  pEmbTable[nLastFullValue];
 			pOutput++;
 
-			if (cInData2 != 0x0f) 
+			if (cInData2 != 0x0f)
 			{
 				if (cInData2 != 0x0d)
 				{
@@ -338,7 +334,7 @@ XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const XnU
 			}
 
 			pInput++;
-		}			
+		}
 	}
 
 	*pnOutputSize = (XnUInt32)((pOutput - pOrigOutput) * sizeof(XnUInt16));
@@ -380,7 +376,7 @@ XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const XnUInt32 nInputS
 	pOutput+=2;
 
 	while (pInput != pInputEnd)
-	{	
+	{
 		nCurrValue = *pInput;
 
 		nDiffValue = (nLastValue - nCurrValue);
@@ -436,12 +432,12 @@ XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const XnUInt32 nInputS
 				*pOutput = 0xE0 + cZeroCounter;
 				pOutput++;
 
-				cZeroCounter = 0;				
+				cZeroCounter = 0;
 			}
 
 			if (cOutStage == 0)
 			{
-				cOutChar = 0xFF;				
+				cOutChar = 0xFF;
 			}
 			else
 			{
@@ -450,7 +446,7 @@ XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const XnUInt32 nInputS
 			}
 
 			*pOutput = cOutChar;
-			pOutput++;		
+			pOutput++;
 
 			if (nAbsDiffValue <= 63)
 			{
@@ -525,16 +521,16 @@ XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const XnUInt32 nInput
 		cInput = *pInput;
 
 		if (cInput < 0xE0)
-		{		
+		{
 			cInData1 = cInput >> 4;
-			cInData2 = (cInput & 0x0f);		
+			cInData2 = (cInput & 0x0f);
 
 			nLastFullValue -= (cInData1 - 6);
 			XN_CHECK_OUTPUT_OVERFLOW(pOutput, pOutputEnd);
 			*pOutput = nLastFullValue;
 			pOutput++;
 
-			if (cInData2 != 0x0f) 
+			if (cInData2 != 0x0f)
 			{
 				if (cInData2 != 0x0d)
 				{
@@ -611,17 +607,17 @@ XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const XnUInt32 nInput
 			while (cZeroCounter != 0)
 			{
 				XN_CHECK_OUTPUT_OVERFLOW(pOutput+1, pOutputEnd);
-				*pOutput = nLastFullValue;						
+				*pOutput = nLastFullValue;
 				pOutput++;
 
-				*pOutput = nLastFullValue;						
+				*pOutput = nLastFullValue;
 				pOutput++;
 
 				cZeroCounter--;
 			}
 
 			pInput++;
-		}			
+		}
 	}
 
 	*pnOutputSize = (XnUInt32)((pOutput - pOrigOutput) * sizeof(XnUInt16));
@@ -658,7 +654,7 @@ XnStatus XnStreamCompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputSiz
 	pOutput++;
 
 	while (pInput != pInputEnd)
-	{	
+	{
 		nCurrValue = *pInput;
 
 		nDiffValue = (nLastValue - nCurrValue);
@@ -716,16 +712,16 @@ XnStatus XnStreamCompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputSiz
 				*pOutput = 0xE0 + cZeroCounter;
 				pOutput++;
 
-				cZeroCounter = 0;				
+				cZeroCounter = 0;
 			}
 
 			if (cOutStage == 0)
 			{
-				cOutChar = 0xF0;		
+				cOutChar = 0xF0;
 				cOutChar += nCurrValue >> 4;
 
 				*pOutput = cOutChar;
-				pOutput++;		
+				pOutput++;
 
 				cOutChar = (nCurrValue & 0xF) << 4;
 				cOutStage = 1;
@@ -738,7 +734,7 @@ XnStatus XnStreamCompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputSiz
 				cOutStage = 0;
 
 				*pOutput = cOutChar;
-				pOutput++;		
+				pOutput++;
 
 				*pOutput = nCurrValue;
 				pOutput++;
@@ -801,15 +797,15 @@ XnStatus XnStreamUncompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputS
 		cInput = *pInput;
 
 		if (cInput < 0xE0)
-		{		
+		{
 			cInData1 = cInput >> 4;
-			cInData2 = (cInput & 0x0f);		
+			cInData2 = (cInput & 0x0f);
 
 			nLastFullValue -= (cInData1 - 6);
 			*pOutput = nLastFullValue;
 			pOutput++;
 
-			if (cInData2 != 0x0f) 
+			if (cInData2 != 0x0f)
 			{
 				if (cInData2 != 0x0d)
 				{
@@ -830,19 +826,19 @@ XnStatus XnStreamUncompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputS
 		}
 		else if (cInput >= 0xF0)
 		{
-			cInData1 = cInput << 4;		
+			cInData1 = cInput << 4;
 
 			pInput++;
 			cInput = *pInput;
 
-			nLastFullValue = cInData1 + (cInput >> 4);	
+			nLastFullValue = cInData1 + (cInput >> 4);
 
 			*pOutput = nLastFullValue;
 			pOutput++;
 
 			cInData2 = cInput & 0xF;
 
-			if (cInData2 == 0x0F) 
+			if (cInData2 == 0x0F)
 			{
 				pInput++;
 				nLastFullValue = *pInput;
@@ -868,17 +864,17 @@ XnStatus XnStreamUncompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputS
 
 			while (cZeroCounter != 0)
 			{
-				*pOutput = nLastFullValue;						
+				*pOutput = nLastFullValue;
 				pOutput++;
 
-				*pOutput = nLastFullValue;						
+				*pOutput = nLastFullValue;
 				pOutput++;
 
 				cZeroCounter--;
 			}
 
 			pInput++;
-		}			
+		}
 	}
 
 	*pnOutputSize = (XnUInt32)(pOutput - pOrigOutput);
@@ -886,4 +882,3 @@ XnStatus XnStreamUncompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputS
 	// All is good...
 	return (XN_STATUS_OK);
 }
-

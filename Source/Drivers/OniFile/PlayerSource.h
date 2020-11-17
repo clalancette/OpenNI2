@@ -45,7 +45,7 @@ class PlayerSource
 {
 public:
 	// New data event.
-	typedef struct 
+	typedef struct
 	{
 		XnUInt64 nTimeStamp;
 		XnUInt32 nFrameId;
