@@ -123,7 +123,6 @@ private:
 		struct {int x, y;} center = {0,0};
 		while (m_running)
 		{
-//			printf("Tick");
 			OniFrame* pFrame = getServices().acquireFrame();
 
 			if (pFrame == NULL) {printf("Didn't get frame...\n"); continue;}
@@ -134,19 +133,31 @@ private:
 			OniDepthPixel* pDepth = (OniDepthPixel*)pFrame->data;
 
 			for (int y1 = XN_MAX(center.y-10, 0); y1 < XN_MIN(center.y+10, OZ_RESOLUTION_Y); ++y1)
+			{
 				for (int x1 = XN_MAX(center.x-10, 0); x1 < XN_MIN(center.x+10, OZ_RESOLUTION_X); ++x1)
+				{
 					if ((x1-center.x)*(x1-center.x)+(y1-center.y)*(y1-center.y) < 70)
+					{
 						pDepth[singleRes(x1, y1)] = OniDepthPixel(1000+(x1-y1)*3);
-
-//			pDepth[singleRes(center.x, center.y)] = 1000;
-
+					}
+				}
+			}
 			center.x += xdir;
 			center.y += ydir;
 
-			if (center.x < abs(xdir) || center.x > OZ_RESOLUTION_X-1-abs(xdir)) xdir*=-1;
-			if (center.y < abs(ydir) || center.y > OZ_RESOLUTION_Y-1-abs(ydir)) ydir*=-1;
+			if (center.x < abs(xdir) || center.x > OZ_RESOLUTION_X-1-abs(xdir))
+			{
+				xdir*=-1;
+			}
+			if (center.y < abs(ydir) || center.y > OZ_RESOLUTION_Y-1-abs(ydir))
+			{
+				ydir*=-1;
+			}
 
-			for (int i = 0; i < OZ_RESOLUTION_X; ++i) pDepth[i] = 2000;
+			for (int i = 0; i < OZ_RESOLUTION_X; ++i)
+			{
+				pDepth[i] = 2000;
+			}
 			pDepth[0] = 2000;
 
 			// Fill metadata
@@ -213,6 +224,7 @@ private:
 
 
 			for (int y = XN_MAX(center.y-10, 0); y < XN_MIN(center.y+10, OZ_RESOLUTION_Y); ++y)
+			{
 				for (int x = XN_MAX(center.x-10, 0); x < XN_MIN(center.x+10, OZ_RESOLUTION_X); ++x)
 					if ((x-center.x)*(x-center.x)+(y-center.y)*(y-center.y) < 70)
 				{
@@ -220,7 +232,7 @@ private:
 					pImage[singleRes(x, y)].g = (char)(255*(y/(double)OZ_RESOLUTION_Y));
 					pImage[singleRes(x, y)].b = (char)(255*((OZ_RESOLUTION_X-x)/(double)OZ_RESOLUTION_X));
 				}
-//			pImage[singleRes(center.x, center.y)].r = 255;
+			}
 
 			center.x += xdir;
 			center.y += ydir;
@@ -231,11 +243,6 @@ private:
 
 
 			pImage[0].b = (unsigned char)255;
-
-			// 			for (int y = 0; y < OZ_RESOLUTION_Y; ++y)
-			// 			{
-			// 				pDepth[y*OZ_RESOLUTION_X+(OZ_RESOLUTION_Y-y)] = pDepth[y*OZ_RESOLUTION_X+(y)] = 500+y;
-			// 			}
 
 			// Fill metadata
 			pFrame->frameIndex = frameId;
@@ -427,49 +434,6 @@ public:
 	void shutdown() {}
 
 protected:
-	/*
-	static XN_THREAD_PROC threadFunc(XN_THREAD_PARAM pThreadParam)
-	{
-		OzModule* pModule = (OzModule*)pThreadParam;
-
-		for (int i = 0; i < 10; ++i)
-		{
-			printf("%d\n", i);
-			Sleep(1000);
-		}
-
-		OzDevice* pDevice4 = new OzDevice;
-		xnOSStrCopy(pDevice4->GetInfo()->uri, "Oz4", 256);
-		pModule->m_deviceConnected.Raise(pDevice4, pDevice4->GetInfo());
-
-		for (int i = 0; i < 3; ++i)
-		{
-			printf("%d\n", i);
-			Sleep(1000);
-		}
-
-		OzDevice* pDevice2 = new OzDevice;
-		xnOSStrCopy(pDevice2->GetInfo()->uri, "Oz2", 256);
-		pModule->m_deviceConnected.Raise(pDevice2, pDevice2->GetInfo());
-
-		for (int i = 0; i < 5; ++i)
-		{
-			printf("%d\n", i);
-			Sleep(1000);
-		}
-
-		pModule->m_deviceDisconnected.Raise(pDevice2);
-		delete pDevice2;
-
-		OzDevice* pDevice3 = new OzDevice;
-		xnOSStrCopy(pDevice3->GetInfo()->uri, "Oz3", 256);
-		pModule->m_deviceConnected.Raise(pDevice3, pDevice3->GetInfo());
-
-
-		XN_THREAD_PROC_RETURN(XN_STATUS_OK);
-	}
-	*/
-
 	XN_THREAD_HANDLE m_threadHandle;
 
 	xnl::Hash<OniDeviceInfo*, oni::driver::DeviceBase*> m_devices;
