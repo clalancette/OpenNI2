@@ -26,7 +26,7 @@
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
-Sensor::Sensor(xnl::ErrorLogger& errorLogger, FrameManager& frameManager, const DriverHandler& driverHandler) : 
+Sensor::Sensor(xnl::ErrorLogger& errorLogger, FrameManager& frameManager, const DriverHandler& driverHandler) :
 	m_streamCount(0),
 	m_startedStreamCount(0),
 	m_errorLogger(errorLogger),

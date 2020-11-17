@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 #ifndef ONIRECORDER_H
-#define ONIRECORDER_H 1
+#define ONIRECORDER_H
 
 #include "OniStream.h"
 
@@ -30,64 +30,64 @@ class VideoStream;
 class Recorder
 {
 public:
-    /**
-     * Constructs a recorder, given an ErrorLogger and a handle.
-     * @note The newly constructed recorder becomes the owner of the handle.
-     * @note The handle might be NULL.
-     */
+	/**
+	 * Constructs a recorder, given an ErrorLogger and a handle.
+	 * @note The newly constructed recorder becomes the owner of the handle.
+	 * @note The handle might be NULL.
+	 */
 	Recorder(OniRecorderHandle handle = NULL);
 
-    /**
-     * Destroys the recorder and stops recording if needed.
-     */
+	/**
+	 * Destroys the recorder and stops recording if needed.
+	 */
 	virtual ~Recorder();
 
-    /**
-     * Initializes the recorder.
-     * @param fileName The file that will store the recording.
-     */
+	/**
+	 * Initializes the recorder.
+	 * @param fileName The file that will store the recording.
+	 */
 	virtual OniStatus initialize(const char* path);
 
-    /**
-     * Attaches a stream to the recorder. Can not be done if Start() has been
-     * called at least once.
-     */
+	/**
+	 * Attaches a stream to the recorder. Can not be done if Start() has been
+	 * called at least once.
+	 */
 	virtual OniStatus attachStream(VideoStream& stream, OniBool allowLossyCompression);
 
-    /**
-     * Detaches a stream from the recorder.
-     */
+	/**
+	 * Detaches a stream from the recorder.
+	 */
 	virtual OniStatus detachStream(VideoStream& stream);
 
-    /**
-     * Detaches all streams from the recorder.
-     */
-    OniStatus detachAllStreams();
+	/**
+	 * Detaches all streams from the recorder.
+	 */
+	OniStatus detachAllStreams();
 
-    /**
-     * Starts recording.
-     * @note There's a known side effect related to AttachStream(Stream&).
-     * @see AttachStream(Stream&)
-     */
+	/**
+	 * Starts recording.
+	 * @note There's a known side effect related to AttachStream(Stream&).
+	 * @see AttachStream(Stream&)
+	 */
 	virtual OniStatus start();
 
-    /**
-     * Stops recording.
-     */
+	/**
+	 * Stops recording.
+	 */
 	virtual void stop();
 
-    /**
-     * Records a frame into the given stream.
-     */
+	/**
+	 * Records a frame into the given stream.
+	 */
 	virtual OniStatus record(VideoStream& stream, OniFrame& aFrame) = 0;
 
-    /**
-     *
-     */
+	/**
+	 *
+	 */
 	virtual OniStatus recordStreamProperty(
 		VideoStream&     stream,
 		int         propertyId,
-		const void* pData, 
+		const void* pData,
 		int         dataSize) = 0;
 
 protected:

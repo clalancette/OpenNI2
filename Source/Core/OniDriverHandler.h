@@ -43,7 +43,7 @@ struct Funcs
 	// As Driver
 	void (ONI_C_DECL* oniDriverCreate)(OniDriverServices* driverServices);
 	void (ONI_C_DECL* oniDriverDestroy)();
-	OniStatus (ONI_C_DECL* oniDriverInitialize)(OniDriverDeviceConnected connectedCallback, OniDriverDeviceDisconnected disconnectedCallback, 
+	OniStatus (ONI_C_DECL* oniDriverInitialize)(OniDriverDeviceConnected connectedCallback, OniDriverDeviceDisconnected disconnectedCallback,
                                                 OniDriverDeviceStateChanged deviceStateChangedCallback, void* pCookie);
 	void (ONI_C_DECL* oniDriverRun)();
 
@@ -99,40 +99,40 @@ public:
 
 	bool isValid() const {return m_valid;}
 
-	void create(OniDriverServices* driverServices) const 
+	void create(OniDriverServices* driverServices) const
 	{
 		(*funcs.oniDriverCreate)(driverServices);
 	}
-	void destroy() const 
+	void destroy() const
 	{
 		(*funcs.oniDriverDestroy)();
 	}
-	OniStatus initialize(OniDriverDeviceConnected connectedCallback, OniDriverDeviceDisconnected disconnectedCallback, 
-					OniDriverDeviceStateChanged deviceStateChangedCallback, void* pCookie) const 
+	OniStatus initialize(OniDriverDeviceConnected connectedCallback, OniDriverDeviceDisconnected disconnectedCallback,
+					OniDriverDeviceStateChanged deviceStateChangedCallback, void* pCookie) const
 	{
 		return (*funcs.oniDriverInitialize)(connectedCallback, disconnectedCallback, deviceStateChangedCallback, pCookie);
 	}
 
-	OniStatus tryDevice(const char* uri) const 
+	OniStatus tryDevice(const char* uri) const
 	{
 		return (*funcs.oniDriverTryDevice)(uri);
 	}
 
-	void* deviceOpen(const char* uri, const char* mode) const 
+	void* deviceOpen(const char* uri, const char* mode) const
 	{
 		return (*funcs.oniDriverDeviceOpen)(uri, mode);
 	}
-	void deviceClose(void* deviceHandle) const 
+	void deviceClose(void* deviceHandle) const
 	{
 		(*funcs.oniDriverDeviceClose)(deviceHandle);
 	}
 
-	OniStatus deviceGetSensorInfoList(void* deviceHandle, OniSensorInfo** pSensors, int* numSensors) const 
+	OniStatus deviceGetSensorInfoList(void* deviceHandle, OniSensorInfo** pSensors, int* numSensors) const
 	{
 		return (*funcs.oniDriverDeviceGetSensorInfoList)(deviceHandle, pSensors, numSensors);
 	}
 
-	void* deviceCreateStream(void* deviceHandle, OniSensorType sensorType) const 
+	void* deviceCreateStream(void* deviceHandle, OniSensorType sensorType) const
 	{
 		return (*funcs.oniDriverDeviceCreateStream)(deviceHandle, sensorType); // return stream
 	}
@@ -142,15 +142,15 @@ public:
 		(*funcs.oniDriverDeviceDestroyStream)(deviceHandle, streamHandle);
 	}
 
-	OniStatus deviceSetProperty(void* deviceHandle, int propertyId, const void* data, int dataSize) const 
+	OniStatus deviceSetProperty(void* deviceHandle, int propertyId, const void* data, int dataSize) const
 	{
 		return (*funcs.oniDriverDeviceSetProperty)(deviceHandle, propertyId, data, dataSize);
 	}
-	OniStatus deviceGetProperty(void* deviceHandle, int propertyId, void* data, int* pDataSize) const 
+	OniStatus deviceGetProperty(void* deviceHandle, int propertyId, void* data, int* pDataSize) const
 	{
 		return (*funcs.oniDriverDeviceGetProperty)(deviceHandle, propertyId, data, pDataSize);
 	}
-	OniBool deviceIsPropertySupported(void* deviceHandle, int propertyId) const 
+	OniBool deviceIsPropertySupported(void* deviceHandle, int propertyId) const
 	{
 		return (*funcs.oniDriverDeviceIsPropertySupported)(deviceHandle, propertyId);
 	}
@@ -166,11 +166,11 @@ public:
 	{
 		return (*funcs.oniDriverDeviceInvoke)(deviceHandle, commandId, data, dataSize);
 	}
-	OniBool deviceIsCommandSupported(void* deviceHandle, int commandId) const 
+	OniBool deviceIsCommandSupported(void* deviceHandle, int commandId) const
 	{
 		return (*funcs.oniDriverDeviceIsCommandSupported)(deviceHandle, commandId);
 	}
-	OniBool deviceIsImageRegistrationModeSupported(void* deviceHandle, OniImageRegistrationMode mode) const 
+	OniBool deviceIsImageRegistrationModeSupported(void* deviceHandle, OniImageRegistrationMode mode) const
 	{
 		return (*funcs.oniDriverDeviceIsImageRegistrationModeSupported)(deviceHandle, mode);
 	}
@@ -217,7 +217,7 @@ public:
 	{
 		return (*funcs.oniDriverStreamStart)(streamHandle);
 	}
-	void streamStop(void* streamHandle) const 
+	void streamStop(void* streamHandle) const
 	{
 		(*funcs.oniDriverStreamStop)(streamHandle);
 	}
@@ -227,7 +227,7 @@ public:
 		return (*funcs.oniDriverStreamGetRequiredFrameSize)(streamHandle);
 	}
 
-	void streamSetNewFrameCallback(void* streamHandle, OniDriverNewFrame handler, void* pCookie) const 
+	void streamSetNewFrameCallback(void* streamHandle, OniDriverNewFrame handler, void* pCookie) const
 	{
 		(*funcs.oniDriverStreamSetNewFrameCallback)(streamHandle, handler, pCookie);
 	}
@@ -253,9 +253,6 @@ private:
 	bool m_valid;
 };
 
-
-
 ONI_NAMESPACE_IMPLEMENTATION_END
-
 
 #endif // ONIDRIVERHANDLER_H

@@ -53,7 +53,7 @@ public:
 	OniBool isStarted();
 
 	OniStatus readFrame(OniFrame** pFrame);
-	
+
 	OniFrame* peekFrame();
 	void lockFrame();
 	void unlockFrame();
@@ -81,8 +81,8 @@ public:
 	void raiseNewFrameEvent();
 	XnStatus waitForNewFrameEvent();
 
-    OniStatus addRecorder(Recorder& aRecorder);
-    OniStatus removeRecorder(Recorder& aRecorder);
+	OniStatus addRecorder(Recorder& aRecorder);
+	OniStatus removeRecorder(Recorder& aRecorder);
 
 	OniStatus setFrameBufferAllocator(OniFrameAllocBufferCallback alloc, OniFrameFreeBufferCallback free, void* pCookie);
 
@@ -132,10 +132,10 @@ private:
 
 	OniBool m_started;
 
-    // XnLib does not provide a set container. I decided to use this odd
-    // Recorder* -> Recorder* map to mimic a set.
-    typedef xnl::Lockable<xnl::Hash<Recorder*, Recorder*> > Recorders;
-    Recorders m_recorders;
+	// XnLib does not provide a set container. I decided to use this odd
+	// Recorder* -> Recorder* map to mimic a set.
+	typedef xnl::Lockable<xnl::Hash<Recorder*, Recorder*> > Recorders;
+	Recorders m_recorders;
 	XnFPSData m_FPS;
 	XnChar m_sensorName[80];
 

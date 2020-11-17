@@ -43,7 +43,7 @@ public:
 
 	// Process a newly received frame.
 	virtual OniStatus processNewFrame(VideoStream* pStream, OniFrame* pFrame);
-	
+
 	// Peek at next frame.
 	virtual OniFrame* peekFrame(VideoStream* pStream);
 

@@ -54,7 +54,7 @@ VideoStream::VideoStream(Sensor* pSensor, const OniSensorInfo* pSensorInfo, Devi
 
 	m_pSensor->newFrameEvent().Register(stream_NewFrame, this, m_hNewFrameEvent);
 
-    m_driverHandler.streamSetPropertyChangedCallback(m_pSensor->streamHandle(), stream_PropertyChanged, this);
+	m_driverHandler.streamSetPropertyChangedCallback(m_pSensor->streamHandle(), stream_PropertyChanged, this);
 
 	refreshWorldConversionCache();
 
@@ -83,13 +83,13 @@ VideoStream::~VideoStream()
 
 	m_device.clearStream(this);
 
-    // Detach all recorders from this stream.
-    xnl::LockGuard< Recorders > guard(m_recorders);
-    while (m_recorders.Begin() != m_recorders.End())
-    {
-        // NOTE: DetachStream has a side effect of modifying m_recorders.
-        m_recorders.Begin()->Value()->detachStream(*this);
-    }
+	// Detach all recorders from this stream.
+	xnl::LockGuard< Recorders > guard(m_recorders);
+	while (m_recorders.Begin() != m_recorders.End())
+	{
+		// NOTE: DetachStream has a side effect of modifying m_recorders.
+		m_recorders.Begin()->Value()->detachStream(*this);
+	}
 
 	// Try to close the thread properly, and forcibly terminate it if failed/timedout.
 	m_running = false;
@@ -178,10 +178,10 @@ void VideoStream::stop()
 
 	m_pFrameHolder->clear();
 }
-	
-OniBool VideoStream::isStarted() 
-{ 
-	return m_started; 
+
+OniBool VideoStream::isStarted()
+{
+	return m_started;
 }
 
 OniFrame* VideoStream::peekFrame()
@@ -224,6 +224,7 @@ OniStatus VideoStream::setProperty(int propertyId, const void* data, int dataSiz
 
 	return ONI_STATUS_OK;
 }
+
 OniStatus VideoStream::getProperty(int propertyId, void* data, int* pDataSize)
 {
 	OniStatus rc = m_driverHandler.streamGetProperty(m_pSensor->streamHandle(), propertyId, data, pDataSize);
@@ -233,10 +234,12 @@ OniStatus VideoStream::getProperty(int propertyId, void* data, int* pDataSize)
 	}
 	return rc;
 }
+
 OniBool VideoStream::isPropertySupported(int propertyId)
 {
 	return m_driverHandler.streamIsPropertySupported(m_pSensor->streamHandle(), propertyId);
 }
+
 void VideoStream::notifyAllProperties()
 {
 	m_driverHandler.streamNotifyAllProperties(m_pSensor->streamHandle());
@@ -246,6 +249,7 @@ OniStatus VideoStream::invoke(int commandId, void* data, int dataSize)
 {
 	return m_driverHandler.streamInvoke(m_pSensor->streamHandle(), commandId, data, dataSize);
 }
+
 OniBool VideoStream::isCommandSupported(int commandId)
 {
 	return m_driverHandler.streamIsCommandSupported(m_pSensor->streamHandle(), commandId);
@@ -294,16 +298,16 @@ void VideoStream::newFrameThreadMainloop()
 
 OniStatus VideoStream::addRecorder(Recorder& aRecorder)
 {
-    xnl::LockGuard<Recorders> guard(m_recorders);
-    m_recorders[&aRecorder] = &aRecorder;
-    return ONI_STATUS_OK;
+	xnl::LockGuard<Recorders> guard(m_recorders);
+	m_recorders[&aRecorder] = &aRecorder;
+	return ONI_STATUS_OK;
 }
 
 OniStatus VideoStream::removeRecorder(Recorder& aRecorder)
 {
-    xnl::LockGuard<Recorders> guard(m_recorders);
-    m_recorders.Remove(&aRecorder);
-    return ONI_STATUS_OK;
+	xnl::LockGuard<Recorders> guard(m_recorders);
+	m_recorders.Remove(&aRecorder);
+	return ONI_STATUS_OK;
 }
 
 XN_THREAD_PROC VideoStream::newFrameThread(XN_THREAD_PARAM pThreadParam)
@@ -316,16 +320,18 @@ XN_THREAD_PROC VideoStream::newFrameThread(XN_THREAD_PARAM pThreadParam)
 
 void ONI_CALLBACK_TYPE VideoStream::stream_NewFrame(OniFrame* pFrame, void* pCookie)
 {
-    // Validate parameters.
-    if (NULL == pCookie || NULL == pFrame)
-    {
-        return;
-    }
+	// Validate parameters.
+	if (NULL == pCookie || NULL == pFrame)
+	{
+		return;
+	}
 
-    VideoStream* pStream = (VideoStream*)pCookie;
+	VideoStream* pStream = (VideoStream*)pCookie;
 	// ignore frames if not started (this can happen if multiple streams exist for the same sensor).
 	if (!pStream->m_started)
+	{
 		return;
+	}
 
 	// Record the frame.
 	// NOTE: record operation must go before ProcessNewFrame, because
@@ -333,20 +339,17 @@ void ONI_CALLBACK_TYPE VideoStream::stream_NewFrame(OniFrame* pFrame, void* pCoo
 	// matter what. Or else we might loose frames or have other odd side
 	// effects.
 
-    {   
+	{
 		// NOTE: scoped for the guard.
-        xnl::LockGuard<Recorders> guard(pStream->m_recorders);
-        for (Recorders::Iterator 
-                i = pStream->m_recorders.Begin(), 
-                e = pStream->m_recorders.End();
-            i != e; ++i)
-        {
-            i->Key()->record(*pStream, *pFrame);
-        }
-    }
+		xnl::LockGuard<Recorders> guard(pStream->m_recorders);
+		for (Recorders::Iterator i = pStream->m_recorders.Begin(), e = pStream->m_recorders.End(); i != e; ++i)
+		{
+			i->Key()->record(*pStream, *pFrame);
+		}
+	}
 
-    // Process the frame.
-    pStream->m_pFrameHolder->processNewFrame(pStream, pFrame);
+	// Process the frame.
+	pStream->m_pFrameHolder->processNewFrame(pStream, pFrame);
 }
 
 void VideoStream::raiseNewFrameEvent()
@@ -367,7 +370,7 @@ Device& VideoStream::getDevice()
 	return m_device;
 }
 
-void* VideoStream::getHandle() const 
+void* VideoStream::getHandle() const
 {
 	return m_pSensor->streamHandle();
 }
@@ -385,18 +388,15 @@ FrameHolder* VideoStream::getFrameHolder()
 void ONI_CALLBACK_TYPE VideoStream::stream_PropertyChanged(void* /*streamHandle*/, int propertyId, const void* data, int dataSize, void* pCookie)
 {
 	VideoStream* pStream = (VideoStream*)pCookie;
-    if (NULL == pStream)
-    {
-        return;
-    }
-    xnl::LockGuard< VideoStream::Recorders > guard(pStream->m_recorders);
-    for (VideoStream::Recorders::Iterator
-            i = pStream->m_recorders.Begin(),
-            e = pStream->m_recorders.End();
-        i != e; ++i)
-    {
-        i->Value()->recordStreamProperty(*pStream, propertyId, data, dataSize);
-    }
+	if (NULL == pStream)
+	{
+		return;
+	}
+	xnl::LockGuard< VideoStream::Recorders > guard(pStream->m_recorders);
+	for (VideoStream::Recorders::Iterator i = pStream->m_recorders.Begin(), e = pStream->m_recorders.End(); i != e; ++i)
+	{
+		i->Value()->recordStreamProperty(*pStream, propertyId, data, dataSize);
+	}
 }
 
 OniStatus VideoStream::convertDepthToWorldCoordinates(float depthX, float depthY, float depthZ, float* pWorldX, float* pWorldY, float* pWorldZ)

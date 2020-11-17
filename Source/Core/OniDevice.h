@@ -72,7 +72,7 @@ public:
 	void refreshDepthColorSyncState();
 private:
 
-	typedef struct 
+	typedef struct
 	{
 		int frameId;
 		void* pStream;

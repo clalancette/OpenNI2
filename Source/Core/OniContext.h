@@ -53,7 +53,7 @@ struct _OniFrameSync
 };
 struct _OniRecorder
 {
-    oni::implementation::Recorder* pRecorder;
+	oni::implementation::Recorder* pRecorder;
 };
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN

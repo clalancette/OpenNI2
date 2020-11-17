@@ -45,7 +45,7 @@ public:
 
 	// Process a newly received frame.
 	virtual OniStatus processNewFrame(VideoStream* pStream, OniFrame* pFrame) = 0;
-	
+
 	// Peek at next frame.
 	virtual OniFrame* peekFrame(VideoStream* pStream) = 0;
 
@@ -78,7 +78,6 @@ protected:
 private:
 
 	xnl::CriticalSection m_cs;
-
 };
 
 ONI_NAMESPACE_IMPLEMENTATION_END

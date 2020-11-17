@@ -23,7 +23,7 @@
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
-StreamFrameHolder::StreamFrameHolder(FrameManager& frameManager, VideoStream* pStream) : 
+StreamFrameHolder::StreamFrameHolder(FrameManager& frameManager, VideoStream* pStream) :
 	FrameHolder(frameManager), m_pStream(pStream), m_pLastFrame(NULL)
 {
 }

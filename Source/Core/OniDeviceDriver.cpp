@@ -81,10 +81,14 @@ DeviceDriver::DeviceDriver(const char* strDriverFilename, FrameManager& frameMan
 bool DeviceDriver::initialize()
 {
 	if (!isValid())
+	{
 		return false;
+	}
 
 	if (ONI_STATUS_OK != m_driverHandler.initialize(driver_DeviceConnected, driver_DeviceDisconnected, driver_DeviceStateChanged, this))
+	{
 		return false;
+	}
 
 	return true;
 }

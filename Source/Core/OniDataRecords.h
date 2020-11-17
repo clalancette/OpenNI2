@@ -42,34 +42,34 @@ static const XnSizeT IDENTITY_SIZE = 4;
 /// The structure of ONI file's file header.
 struct FileHeaderData
 {
-    XnUInt8 identity[IDENTITY_SIZE];
-    struct Version
-    {
-        XnUInt8  major;
-        XnUInt8  minor;
-        XnUInt16 maintenance;
-        XnUInt32 build;
-    } version;
-    XnUInt64 maxTimeStamp;
-    XnUInt32 maxNodeId;
+	XnUInt8 identity[IDENTITY_SIZE];
+	struct Version
+	{
+		XnUInt8  major;
+		XnUInt8  minor;
+		XnUInt16 maintenance;
+		XnUInt32 build;
+	} version;
+	XnUInt64 maxTimeStamp;
+	XnUInt32 maxNodeId;
 };
 
 /// The structure of ONI file's record header.
 struct RecordHeaderData
 {
-    XnUInt32 magic;
-    XnUInt32 recordType;
-    XnUInt32 nodeId;
-    XnUInt32 fieldsSize;
-    XnUInt32 payloadSize;
-    XnUInt64 undoRecordPos;
+	XnUInt32 magic;
+	XnUInt32 recordType;
+	XnUInt32 nodeId;
+	XnUInt32 fieldsSize;
+	XnUInt32 payloadSize;
+	XnUInt64 undoRecordPos;
 };
 
 struct VideoModeData
 {
-    XnUInt32 width;
-    XnUInt32 height;
-    XnUInt32 fps;
+	XnUInt32 width;
+	XnUInt32 height;
+	XnUInt32 fps;
 };
 
 /// An entry for a frame in the SeekTable
@@ -83,130 +83,116 @@ typedef struct DataIndexEntry
 /// Enumerates known record types.
 enum RecordType
 {
-    RECORD_NODE_ADDED_1_0_0_4		= 0x02,
-    RECORD_INT_PROPERTY				= 0x03,
-    RECORD_REAL_PROPERTY			= 0x04,
-    RECORD_STRING_PROPERTY			= 0x05,
-    RECORD_GENERAL_PROPERTY			= 0x06,
-    RECORD_NODE_REMOVED				= 0x07,
-    RECORD_NODE_DATA_BEGIN			= 0x08,
-    RECORD_NODE_STATE_READY			= 0x09,
-    RECORD_NEW_DATA					= 0x0A,
-    RECORD_END						= 0x0B,
-    RECORD_NODE_ADDED_1_0_0_5		= 0x0C,
-    RECORD_NODE_ADDED				= 0x0D,
-    RECORD_SEEK_TABLE               = 0x0E,
+	RECORD_NODE_ADDED_1_0_0_4		= 0x02,
+	RECORD_INT_PROPERTY			= 0x03,
+	RECORD_REAL_PROPERTY			= 0x04,
+	RECORD_STRING_PROPERTY			= 0x05,
+	RECORD_GENERAL_PROPERTY			= 0x06,
+	RECORD_NODE_REMOVED			= 0x07,
+	RECORD_NODE_DATA_BEGIN			= 0x08,
+	RECORD_NODE_STATE_READY			= 0x09,
+	RECORD_NEW_DATA				= 0x0A,
+	RECORD_END				= 0x0B,
+	RECORD_NODE_ADDED_1_0_0_5		= 0x0C,
+	RECORD_NODE_ADDED			= 0x0D,
+	RECORD_SEEK_TABLE			= 0x0E,
 };
 
 /// Enumerates known node types.
 enum NodeType
 {
-    NODE_TYPE_INVALID = -1,
-    NODE_TYPE_DEVICE  =  1,
-    NODE_TYPE_DEPTH   =  2,
-    NODE_TYPE_IMAGE   =  3,
-    NODE_TYPE_IR      =  5,
+	NODE_TYPE_INVALID = -1,
+	NODE_TYPE_DEVICE  =  1,
+	NODE_TYPE_DEPTH   =  2,
+	NODE_TYPE_IMAGE   =  3,
+	NODE_TYPE_IR      =  5,
 };
 
 /// Return a NodeType that matches the given OniSourceType.
 static inline NodeType AsNodeType(OniSensorType sensorType)
 {
-    NodeType res = NODE_TYPE_INVALID;
-    switch (sensorType)
-    {
-    case ONI_SENSOR_COLOR:
-        res = NODE_TYPE_IMAGE;
-        break;
-    case ONI_SENSOR_DEPTH:
-        res = NODE_TYPE_DEPTH;
-        break;
-    case ONI_SENSOR_IR:
-        res = NODE_TYPE_IR;
-        break;
-    default:
-        ;
-    }
-    return res;
+	NodeType res = NODE_TYPE_INVALID;
+	switch (sensorType)
+	{
+	case ONI_SENSOR_COLOR:
+		res = NODE_TYPE_IMAGE;
+		break;
+	case ONI_SENSOR_DEPTH:
+		res = NODE_TYPE_DEPTH;
+		break;
+	case ONI_SENSOR_IR:
+		res = NODE_TYPE_IR;
+		break;
+	default:
+		;
+	}
+	return res;
 }
 
-///
 class RecordAssembler
 {
 public:
-    ///
-    RecordAssembler();
+	RecordAssembler();
 
-    ///
-    ~RecordAssembler();
+	~RecordAssembler();
 
-    ///
-    void initialize();
+	void initialize();
 
-    ///
-    OniStatus serialize(XN_FILE_HANDLE file);
+	OniStatus serialize(XN_FILE_HANDLE file);
 
-    ///
-    OniStatus emit_RECORD_NODE_ADDED_1_0_0_5(
-            XnUInt32 nodeType,
-            XnUInt32 nodeId,
-            XnUInt32 codecId,
-            XnUInt32 numberOfFrames,
-            XnUInt64 minTimeStamp,
-            XnUInt64 maxTimeStamp);
-    ///
-    OniStatus emit_RECORD_NODE_ADDED(
-            XnUInt32 nodeType,
-            XnUInt32 nodeId,
-            XnUInt32 codecId,
-            XnUInt32 numberOfFrames,
-            XnUInt64 minTimeStamp,
-            XnUInt64 maxTimeStamp,
-            XnUInt64 seekTablePosition);
+	OniStatus emit_RECORD_NODE_ADDED_1_0_0_5(
+		XnUInt32 nodeType,
+		XnUInt32 nodeId,
+		XnUInt32 codecId,
+		XnUInt32 numberOfFrames,
+		XnUInt64 minTimeStamp,
+		XnUInt64 maxTimeStamp);
 
-    ///
-    OniStatus emit_RECORD_NODE_STATE_READY(XnUInt32 nodeId);
+	OniStatus emit_RECORD_NODE_ADDED(
+		XnUInt32 nodeType,
+		XnUInt32 nodeId,
+		XnUInt32 codecId,
+		XnUInt32 numberOfFrames,
+		XnUInt64 minTimeStamp,
+		XnUInt64 maxTimeStamp,
+		XnUInt64 seekTablePosition);
 
-    ///
-    OniStatus emit_RECORD_NODE_REMOVED(XnUInt32 nodeId, XnUInt64 nodeAddedPos);
+	OniStatus emit_RECORD_NODE_STATE_READY(XnUInt32 nodeId);
 
-    ///
-    OniStatus emit_RECORD_SEEK_TABLE(
-            XnUInt32 nodeId,
-	    XnUInt32 numFrames,
-	    const std::list<DataIndexEntry>& dataIndexEntryList);
+	OniStatus emit_RECORD_NODE_REMOVED(XnUInt32 nodeId, XnUInt64 nodeAddedPos);
 
-    ///
-    OniStatus emit_RECORD_END();
+	OniStatus emit_RECORD_SEEK_TABLE(
+		XnUInt32 nodeId,
+		XnUInt32 numFrames,
+		const std::list<DataIndexEntry>& dataIndexEntryList);
 
-    ///
-    OniStatus emit_RECORD_NODE_DATA_BEGIN(
-            XnUInt32 nodeId,
-            XnUInt32 framesCount,
-            XnUInt64 maxTimeStamp);
+	OniStatus emit_RECORD_END();
 
-    ///
-    OniStatus emit_RECORD_NEW_DATA(
-            XnUInt32    nodeId,
-            XnUInt64    undoRecordPos,
-            XnUInt64    timeStamp,
-            XnUInt32    frameId,
-            const void* data,
-            XnSizeT     dataSize_bytes);
+	OniStatus emit_RECORD_NODE_DATA_BEGIN(
+		XnUInt32 nodeId,
+		XnUInt32 framesCount,
+		XnUInt64 maxTimeStamp);
 
-    ///
-    OniStatus emit_RECORD_GENERAL_PROPERTY(
-            XnUInt32    nodeId,
-            XnUInt64    undoRecordPos,
-            const char* propertyName,
-            const void* data,
-            XnSizeT     dataSize_bytes);
+	OniStatus emit_RECORD_NEW_DATA(
+		XnUInt32    nodeId,
+		XnUInt64    undoRecordPos,
+		XnUInt64    timeStamp,
+		XnUInt32    frameId,
+		const void* data,
+	XnSizeT     dataSize_bytes);
 
-    ///
-    OniStatus emit_RECORD_INT_PROPERTY(
-            XnUInt32    nodeId,
-            XnUInt64    undoRecordPos,
-            const char* propertyName,
-            XnUInt64    data);
+	OniStatus emit_RECORD_GENERAL_PROPERTY(
+		XnUInt32    nodeId,
+		XnUInt64    undoRecordPos,
+		const char* propertyName,
+		const void* data,
+		XnSizeT     dataSize_bytes);
+
+	OniStatus emit_RECORD_INT_PROPERTY(
+		XnUInt32    nodeId,
+		XnUInt64    undoRecordPos,
+		const char* propertyName,
+		XnUInt64    data);
 	OniStatus emit_RECORD_REAL_PROPERTY(
 		XnUInt32    nodeId,
 		XnUInt64    undoRecordPos,
@@ -214,26 +200,23 @@ public:
 		XnDouble    data);
 
 private:
-    //
-    void emitCommonHeader(XnUInt32 recordType, XnUInt32 nodeId, XnUInt64 undoRecordPos);
-    //
-    OniStatus emitString(const XnChar* pStr, XnSizeT& totalFieldsSize_bytes);
-    //
-    OniStatus emitData(const void* pData, XnSizeT dataSize_bytes);
-    //
-    template<typename T>
-    OniStatus emit(const T& field, XnSizeT& totalFieldsSize_bytes);
+	void emitCommonHeader(XnUInt32 recordType, XnUInt32 nodeId, XnUInt64 undoRecordPos);
+	OniStatus emitString(const XnChar* pStr, XnSizeT& totalFieldsSize_bytes);
+	OniStatus emitData(const void* pData, XnSizeT dataSize_bytes);
 
-    // Union of a buffer and a record header.
-    union
-    {
-        XnUInt8*          m_pBuffer;
-        RecordHeaderData* m_header;
-    };
-    // Size of the buffer in bytes.
-    XnSizeT m_bufferSize_bytes;
-    // Pointer into the buffer for emit operations.
-    XnUInt8* m_pEmitPtr;
+	template<typename T>
+	OniStatus emit(const T& field, XnSizeT& totalFieldsSize_bytes);
+
+	// Union of a buffer and a record header.
+	union
+	{
+		XnUInt8*          m_pBuffer;
+		RecordHeaderData* m_header;
+	};
+	// Size of the buffer in bytes.
+	XnSizeT m_bufferSize_bytes;
+	// Pointer into the buffer for emit operations.
+	XnUInt8* m_pEmitPtr;
 };
 
 #pragma pack(pop)

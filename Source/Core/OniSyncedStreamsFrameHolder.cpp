@@ -22,9 +22,9 @@
 #include "Driver/OniDriverTypes.h"
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
-	
+
 // Constructor.
-SyncedStreamsFrameHolder::SyncedStreamsFrameHolder(FrameManager& frameManager, VideoStream** ppStreams, int numStreams) : 
+SyncedStreamsFrameHolder::SyncedStreamsFrameHolder(FrameManager& frameManager, VideoStream** ppStreams, int numStreams) :
 	FrameHolder(frameManager), m_FrameSyncedStreams(numStreams, FrameSyncedStream())
 {
 	lock();
@@ -58,7 +58,7 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 	lock();
 
 	// Parse all the streams.
-	int frameId = (m_FrameSyncedStreams[0].pLastFrame != NULL) ? 
+	int frameId = (m_FrameSyncedStreams[0].pLastFrame != NULL) ?
 					m_FrameSyncedStreams[0].pLastFrame->frameIndex : -1;
 	int minSyncedFrameId = -1;
 	XnUInt32 validFrameCount = 0;
@@ -75,8 +75,8 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 			{
 				unlock();
 				pStream->waitForNewFrameEvent();
-					
-				// Algorithm needs to be restarted, so call function again 
+
+				// Algorithm needs to be restarted, so call function again
 				// NOTE: this is not a real recursion as next call will surely succeed (new frame event received).
 				return readFrame(pStream, pFrame);
 			}
@@ -109,7 +109,7 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 		}
 
 		// Check if stream has a last frame frame.
-		if ((m_FrameSyncedStreams[i].pLastFrame != NULL) && 
+		if ((m_FrameSyncedStreams[i].pLastFrame != NULL) &&
 			(m_FrameSyncedStreams[i].pLastFrame->frameIndex == frameId))
 		{
 			++validFrameCount;

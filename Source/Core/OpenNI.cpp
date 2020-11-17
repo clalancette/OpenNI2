@@ -353,7 +353,7 @@ ONI_C_API OniBool oniStreamIsCommandSupported(OniStreamHandle stream, int comman
 ONI_C_API OniStatus oniStreamSetFrameBuffersAllocator(OniStreamHandle stream, OniFrameAllocBufferCallback alloc, OniFrameFreeBufferCallback free, void* pCookie)
 {
 	g_Context.clearErrorLogger();
-	return stream->pStream->setFrameBufferAllocator(alloc, free, pCookie);	
+	return stream->pStream->setFrameBufferAllocator(alloc, free, pCookie);
 }
 
 ////
@@ -377,57 +377,56 @@ ONI_C_API void oniFrameAddRef(OniFrame* pFrame)
 //////////////////////////////////////////////////////////////////////////
 
 ONI_C_API OniStatus oniCreateRecorder(
-        const char* fileName, 
-        OniRecorderHandle* pRecorder)
+	const char* fileName,
+	OniRecorderHandle* pRecorder)
 {
 	g_Context.clearErrorLogger();
-    return g_Context.recorderOpen(fileName, pRecorder);
+	return g_Context.recorderOpen(fileName, pRecorder);
 }
 
 ONI_C_API OniStatus oniRecorderAttachStream(
-        OniRecorderHandle   recorder, 
-        OniStreamHandle     stream, 
+        OniRecorderHandle   recorder,
+        OniStreamHandle     stream,
         OniBool                allowLossyCompression)
 {
 	g_Context.clearErrorLogger();
 
 	// Validate parameters.
-    if (NULL == recorder || NULL == recorder->pRecorder ||
-        NULL == stream   || NULL == stream->pStream)
-    {
-        return ONI_STATUS_BAD_PARAMETER;
-    }
-    // Attach a stream to the recorder.
-    return recorder->pRecorder->attachStream(
-            *stream->pStream, allowLossyCompression);
+	if (NULL == recorder || NULL == recorder->pRecorder ||
+		NULL == stream   || NULL == stream->pStream)
+	{
+		return ONI_STATUS_BAD_PARAMETER;
+	}
+	// Attach a stream to the recorder.
+	return recorder->pRecorder->attachStream(*stream->pStream, allowLossyCompression);
 }
 
 ONI_C_API OniStatus oniRecorderStart(OniRecorderHandle recorder)
 {
 	g_Context.clearErrorLogger();
-    // Validate parameters.
-    if (NULL == recorder || NULL == recorder->pRecorder)
-    {
-        return ONI_STATUS_BAD_PARAMETER;
-    }
-    return recorder->pRecorder->start();
+	// Validate parameters.
+	if (NULL == recorder || NULL == recorder->pRecorder)
+	{
+		return ONI_STATUS_BAD_PARAMETER;
+	}
+	return recorder->pRecorder->start();
 }
 
 ONI_C_API void oniRecorderStop(OniRecorderHandle recorder)
 {
 	g_Context.clearErrorLogger();
-    // Validate parameters.
-    if (NULL == recorder || NULL == recorder->pRecorder)
-    {
-        return;
-    }
-    recorder->pRecorder->stop();
+	// Validate parameters.
+	if (NULL == recorder || NULL == recorder->pRecorder)
+	{
+		return;
+	}
+	recorder->pRecorder->stop();
 }
 
 ONI_C_API OniStatus oniRecorderDestroy(OniRecorderHandle* pRecorder)
 {
 	g_Context.clearErrorLogger();
-    return g_Context.recorderClose(pRecorder);
+	return g_Context.recorderClose(pRecorder);
 }
 
 ONI_C_API void oniWriteLogEntry(const char* mask, int severity, const char* message)
@@ -440,8 +439,10 @@ ONI_C_API OniStatus oniSetLogOutputFolder(const char* strOutputFolder)
 	XnStatus rc = xnLogSetOutputFolder((XnChar*)strOutputFolder);
 
 	if (rc != XN_STATUS_OK)
+	{
 		return ONI_STATUS_ERROR;
-	
+	}
+
 	return ONI_STATUS_OK;
 }
 
@@ -450,7 +451,9 @@ ONI_C_API OniStatus oniGetLogFileName(char* strFileName, int nBufferSize)
 	XnStatus rc = xnLogGetFileName((XnChar*)strFileName, (XnUInt32)nBufferSize);
 
 	if (rc != XN_STATUS_OK)
+	{
 		return ONI_STATUS_ERROR;
+	}
 
 	return ONI_STATUS_OK;
 }
@@ -460,7 +463,9 @@ ONI_C_API OniStatus oniSetLogMinSeverity(int nMinSeverity)
 	XnStatus rc = xnLogSetMaskMinSeverity(XN_LOG_MASK_ALL, (XnLogSeverity)nMinSeverity);
 
 	if (rc != XN_STATUS_OK)
+	{
 		return ONI_STATUS_ERROR;
+	}
 
 	return ONI_STATUS_OK;
 }
@@ -470,7 +475,9 @@ ONI_C_API OniStatus oniSetLogConsoleOutput(OniBool bConsoleOutput)
 	XnStatus rc = xnLogSetConsoleOutput(bConsoleOutput);
 
 	if (rc != XN_STATUS_OK)
+	{
 		return ONI_STATUS_ERROR;
+	}
 
 	return ONI_STATUS_OK;
 }
@@ -480,7 +487,9 @@ ONI_C_API OniStatus oniSetLogFileOutput(OniBool bFileOutput)
 	XnStatus rc = xnLogSetFileOutput(bFileOutput);
 
 	if (rc != XN_STATUS_OK)
+	{
 		return ONI_STATUS_ERROR;
+	}
 
 	return ONI_STATUS_OK;
 }

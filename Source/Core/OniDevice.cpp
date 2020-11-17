@@ -33,7 +33,7 @@
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
-Device::Device(DeviceDriver* pDeviceDriver, const DriverHandler& driverHandler, FrameManager& frameManager, const OniDeviceInfo* pDeviceInfo, xnl::ErrorLogger& errorLogger) : 
+Device::Device(DeviceDriver* pDeviceDriver, const DriverHandler& driverHandler, FrameManager& frameManager, const OniDeviceInfo* pDeviceInfo, xnl::ErrorLogger& errorLogger) :
 	m_driverHandler(driverHandler),
 	m_frameManager(frameManager),
 	m_errorLogger(errorLogger),
@@ -88,7 +88,7 @@ OniStatus Device::close()
 			pStream->stop();
 			m_streams.erase(it);
 		}
-		
+
 		for (int i = 0; i < MAX_SENSORS_PER_DEVICE; ++i)
 		{
 			if (m_sensors[i] != NULL)
@@ -291,7 +291,9 @@ OniStatus Device::enableDepthColorSync(Context* pContext)
 void Device::disableDepthColorSync()
 {
 	if (m_pContext == NULL || m_depthColorSyncHandle == NULL || !m_syncEnabled)
+	{
 		return;
+	}
 	m_pContext->disableFrameSync(m_depthColorSyncHandle);
 	m_depthColorSyncHandle = NULL;
 	m_pContext = NULL;

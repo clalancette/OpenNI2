@@ -486,211 +486,213 @@ void FileRecorder::onInitialize()
 //  to YourMethod execution.
 //
 #define EMIT(expr)                                              \
-    if (ONI_STATUS_OK == (m_assembler.emit_##expr))             \
-    {                                                           \
-        if (ONI_STATUS_OK != m_assembler.serialize(m_file))     \
-        {                                                       \
-            return;                                             \
-        }                                                       \
-    }                                                           \
-    else                                                        \
-    {                                                           \
-        return;                                                 \
-    }
+	if (ONI_STATUS_OK == (m_assembler.emit_##expr))             \
+	{                                                           \
+		if (ONI_STATUS_OK != m_assembler.serialize(m_file))     \
+		{                                                       \
+			return;                                             \
+		}                                                       \
+	}                                                           \
+	else                                                        \
+	{                                                           \
+		return;                                                 \
+	}
 
-#define FIND_ATTACHED_STREAM_INFO(nodeId) \
-    AttachedStreamInfo *pInfo = NULL; \
-    xnl::LockGuard<AttachedStreams> guard(m_streams); \
-    for (AttachedStreams::Iterator  \
-                i = m_streams.Begin(), e = m_streams.End(); \
-                i != e;  \
-                ++i) \
-    { \
-        if(i->Value().nodeId == nodeId)  \
-        { \
-            pInfo = &(i->Value()); \
-            break; \
-        } \
-    }
+FileRecorder::AttachedStreamInfo *FileRecorder::findAttachedStreamInfo(XnUInt32 nodeId)
+{
+	AttachedStreamInfo *pInfo = NULL;
+	for (AttachedStreams::Iterator i = m_streams.Begin(), e = m_streams.End(); i != e; ++i)
+	{
+		if (i->Value().nodeId == nodeId)
+		{
+			pInfo = &(i->Value());
+			break;
+		}
+	}
+
+	return pInfo;
+}
 
 XnUInt64 FileRecorder::getLastPropertyRecordPos(XnUInt32 nodeId, const char *propName, XnUInt64 newRecordPos)
 {
-    XnUInt64 pos = 0;
-    FIND_ATTACHED_STREAM_INFO(nodeId)
-    if (!pInfo) return 0;
+	XnUInt64 pos = 0;
+	xnl::LockGuard<AttachedStreams> guard(m_streams);
+	AttachedStreamInfo *pInfo = findAttachedStreamInfo(nodeId);
+	if (!pInfo)
+	{
+		return 0;
+	}
 
-    if (pInfo->lastPropertyRecordPosition.Find(propName) != pInfo->lastPropertyRecordPosition.End())
-    {
-        pos = pInfo->lastPropertyRecordPosition[propName];
-    }
-    pInfo->lastPropertyRecordPosition[propName] = newRecordPos;
-    return pos;
+	if (pInfo->lastPropertyRecordPosition.Find(propName) != pInfo->lastPropertyRecordPosition.End())
+	{
+		pos = pInfo->lastPropertyRecordPosition[propName];
+	}
+	pInfo->lastPropertyRecordPosition[propName] = newRecordPos;
+	return pos;
 }
 
 void FileRecorder::onTerminate()
 {
-    // Truncate the file to it's last offset, so that undone records
-    // will not be serialized.
-    XnUInt64 truncationOffset = XN_UINT64_C(0);
-    if (XN_STATUS_OK == xnOSTellFile64(m_file, &truncationOffset))
-    {
-        xnOSTruncateFile64(m_file, truncationOffset);
-    }
+	// Truncate the file to it's last offset, so that undone records
+	// will not be serialized.
+	XnUInt64 truncationOffset = XN_UINT64_C(0);
+	if (XN_STATUS_OK == xnOSTellFile64(m_file, &truncationOffset))
+	{
+		xnOSTruncateFile64(m_file, truncationOffset);
+	}
 
-    Memento undoPoint(this);
-    EMIT(RECORD_END())
-    undoPoint.Release();
+	Memento undoPoint(this);
+	EMIT(RECORD_END())
+	undoPoint.Release();
 
-    // The file header needs being patched, because its maxNodeId field has become
-    // irrelevant by now.
-    m_fileHeader.maxNodeId = m_maxId;
-    xnOSSeekFile64(m_file, XN_OS_SEEK_SET, XN_UINT64_C(0));
-    xnOSWriteFile(m_file, &m_fileHeader, sizeof(m_fileHeader));
+	// The file header needs being patched, because its maxNodeId field has become
+	// irrelevant by now.
+	m_fileHeader.maxNodeId = m_maxId;
+	xnOSSeekFile64(m_file, XN_OS_SEEK_SET, XN_UINT64_C(0));
+	xnOSWriteFile(m_file, &m_fileHeader, sizeof(m_fileHeader));
 
-    xnOSCloseFile(&m_file);
-    m_file = XN_INVALID_FILE_HANDLE;
+	xnOSCloseFile(&m_file);
+	m_file = XN_INVALID_FILE_HANDLE;
 }
 
 typedef enum XnPixelFormat
 {
-    XN_PIXEL_FORMAT_RGB24 = 1,
-    XN_PIXEL_FORMAT_YUV422 = 2,
-    XN_PIXEL_FORMAT_GRAYSCALE_8_BIT = 3,
-    XN_PIXEL_FORMAT_GRAYSCALE_16_BIT = 4,
-    XN_PIXEL_FORMAT_MJPEG = 5,
+	XN_PIXEL_FORMAT_RGB24 = 1,
+	XN_PIXEL_FORMAT_YUV422 = 2,
+	XN_PIXEL_FORMAT_GRAYSCALE_8_BIT = 3,
+	XN_PIXEL_FORMAT_GRAYSCALE_16_BIT = 4,
+	XN_PIXEL_FORMAT_MJPEG = 5,
 } XnPixelFormat;
 
 typedef struct XnSupportedPixelFormats
 {
-    XnBool m_bRGB24 : 1;
-    XnBool m_bYUV422 : 1;
-    XnBool m_bGrayscale8Bit : 1;
-    XnBool m_bGrayscale16Bit : 1;
-    XnBool m_bMJPEG : 1;
-    XnUInt m_nPadding : 3;
-    XnUInt m_nReserved : 24;
+	XnBool m_bRGB24 : 1;
+	XnBool m_bYUV422 : 1;
+	XnBool m_bGrayscale8Bit : 1;
+	XnBool m_bGrayscale16Bit : 1;
+	XnBool m_bMJPEG : 1;
+	XnUInt m_nPadding : 3;
+	XnUInt m_nReserved : 24;
 } XnSupportedPixelFormats;
 
 XnPixelFormat toXnPixelFormat(OniPixelFormat oniFormat)
 {
-    switch(oniFormat)
-    {
-    // Depth
-    case ONI_PIXEL_FORMAT_DEPTH_1_MM:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
-    case ONI_PIXEL_FORMAT_DEPTH_100_UM:	return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
-    case ONI_PIXEL_FORMAT_SHIFT_9_2:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
-    case ONI_PIXEL_FORMAT_SHIFT_9_3:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
+	switch(oniFormat)
+	{
+	// Depth
+	case ONI_PIXEL_FORMAT_DEPTH_1_MM:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
+	case ONI_PIXEL_FORMAT_DEPTH_100_UM:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
+	case ONI_PIXEL_FORMAT_SHIFT_9_2:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
+	case ONI_PIXEL_FORMAT_SHIFT_9_3:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
 
-    // Color
-    case ONI_PIXEL_FORMAT_RGB888:		return XN_PIXEL_FORMAT_RGB24;
-    case ONI_PIXEL_FORMAT_YUV422:		return XN_PIXEL_FORMAT_YUV422;
-    case ONI_PIXEL_FORMAT_GRAY8:		return XN_PIXEL_FORMAT_GRAYSCALE_8_BIT;
-    case ONI_PIXEL_FORMAT_GRAY16:		return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
-    case ONI_PIXEL_FORMAT_JPEG:		return XN_PIXEL_FORMAT_MJPEG;
+	// Color
+	case ONI_PIXEL_FORMAT_RGB888:			return XN_PIXEL_FORMAT_RGB24;
+	case ONI_PIXEL_FORMAT_YUV422:			return XN_PIXEL_FORMAT_YUV422;
+	case ONI_PIXEL_FORMAT_GRAY8:			return XN_PIXEL_FORMAT_GRAYSCALE_8_BIT;
+	case ONI_PIXEL_FORMAT_GRAY16:			return XN_PIXEL_FORMAT_GRAYSCALE_16_BIT;
+	case ONI_PIXEL_FORMAT_JPEG:			return XN_PIXEL_FORMAT_MJPEG;
 
-    default:
-		//not supported by OpenNI 1.x
-        return XnPixelFormat(0);
-    }
+	default:
+		//not supported by OpenNI
+		return XnPixelFormat(0);
+	}
 }
 
 void fillXnSupportedPixelFormats(XnSupportedPixelFormats &xnSPF, OniPixelFormat oniFormat)
 {
-    xnOSMemSet(&xnSPF, 0, sizeof(xnSPF));
-    switch(toXnPixelFormat(oniFormat))
-    {
-    case XN_PIXEL_FORMAT_RGB24:			xnSPF.m_bRGB24		= 1; break;
-    case XN_PIXEL_FORMAT_YUV422:		xnSPF.m_bYUV422		= 1; break;
-    case XN_PIXEL_FORMAT_GRAYSCALE_8_BIT:	xnSPF.m_bGrayscale8Bit	= 1; break;
-    case XN_PIXEL_FORMAT_GRAYSCALE_16_BIT:	xnSPF.m_bGrayscale16Bit	= 1; break;
-    case XN_PIXEL_FORMAT_MJPEG:			xnSPF.m_bMJPEG		= 1; break;
-    }
+	xnOSMemSet(&xnSPF, 0, sizeof(xnSPF));
+	switch(toXnPixelFormat(oniFormat))
+	{
+	case XN_PIXEL_FORMAT_RGB24:			xnSPF.m_bRGB24		= 1; break;
+	case XN_PIXEL_FORMAT_YUV422:		xnSPF.m_bYUV422		= 1; break;
+	case XN_PIXEL_FORMAT_GRAYSCALE_8_BIT:	xnSPF.m_bGrayscale8Bit	= 1; break;
+	case XN_PIXEL_FORMAT_GRAYSCALE_16_BIT:	xnSPF.m_bGrayscale16Bit	= 1; break;
+	case XN_PIXEL_FORMAT_MJPEG:			xnSPF.m_bMJPEG		= 1; break;
+	}
 }
 
 void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
 {
-    if (nodeId == 0 || pStream == NULL)
-    {
-        return;
-    }
-    const OniSensorInfo* pSensorInfo = pStream->getSensorInfo();
-    if (pSensorInfo == NULL)
-    {
-        return;
-    }
+	if (nodeId == 0 || pStream == NULL)
+	{
+		return;
+	}
+	const OniSensorInfo* pSensorInfo = pStream->getSensorInfo();
+	if (pSensorInfo == NULL)
+	{
+		return;
+	}
 
-    // Assume we'll be using uncompressed codec.
-    XnUInt32 codecId = ONI_CODEC_UNCOMPRESSED;
+	// Assume we'll be using uncompressed codec.
+	XnUInt32 codecId = ONI_CODEC_UNCOMPRESSED;
 
-    // Applicable for depth streams only.
-    int maxDepth = XN_MAX_UINT16;
+	// Applicable for depth streams only.
+	int maxDepth = XN_MAX_UINT16;
 
-    OniVideoMode curVideoMode;
-    int size = sizeof(OniVideoMode);
-    pStream->getProperty(ONI_STREAM_PROPERTY_VIDEO_MODE, &curVideoMode, &size);
+	OniVideoMode curVideoMode;
+	int size = sizeof(OniVideoMode);
+	pStream->getProperty(ONI_STREAM_PROPERTY_VIDEO_MODE, &curVideoMode, &size);
 
-    // Guess codec type from video mode format.
-    switch (curVideoMode.pixelFormat)
-    {
-    case ONI_PIXEL_FORMAT_DEPTH_100_UM:
-    case ONI_PIXEL_FORMAT_DEPTH_1_MM:
-        {
-            size = int(sizeof(maxDepth));
+	// Guess codec type from video mode format.
+	switch (curVideoMode.pixelFormat)
+	{
+	case ONI_PIXEL_FORMAT_DEPTH_100_UM:
+	case ONI_PIXEL_FORMAT_DEPTH_1_MM:
+		{
+			size = int(sizeof(maxDepth));
 
-            pStream->getProperty(
-                    ONI_STREAM_PROPERTY_MAX_VALUE, &maxDepth, &size);
+			pStream->getProperty(ONI_STREAM_PROPERTY_MAX_VALUE, &maxDepth, &size);
 
-            m_streams[pStream].pCodec = XN_NEW(
-                    Xn16zEmbTablesCodec, static_cast<XnUInt16>(maxDepth));
+			m_streams[pStream].pCodec = XN_NEW(Xn16zEmbTablesCodec, static_cast<XnUInt16>(maxDepth));
 
-            codecId = ONI_CODEC_16Z_EMB_TABLES;
-        }
-        break;
-    case ONI_PIXEL_FORMAT_RGB888:
-        {
-            if (m_streams[pStream].allowLossyCompression)
-            {
-                m_streams[pStream].pCodec = XN_NEW(
-                        XnJpegCodec,
-                        /* bRGB = */ TRUE,
-                        curVideoMode.resolutionX,
-                        curVideoMode.resolutionY);
+			codecId = ONI_CODEC_16Z_EMB_TABLES;
+		}
+		break;
+	case ONI_PIXEL_FORMAT_RGB888:
+		{
+			if (m_streams[pStream].allowLossyCompression)
+			{
+				m_streams[pStream].pCodec = XN_NEW(
+					XnJpegCodec,
+					/* bRGB = */ TRUE,
+					curVideoMode.resolutionX,
+					curVideoMode.resolutionY);
 
-                codecId = ONI_CODEC_JPEG;
-            }
-            else
-            {
-                m_streams[pStream].pCodec = XN_NEW(XnUncompressedCodec);
-            }
-        }
-        break;
-    default:
-        m_streams[pStream].pCodec = XN_NEW(XnUncompressedCodec);
-        break;
-    }
+				codecId = ONI_CODEC_JPEG;
+			}
+			else
+			{
+				m_streams[pStream].pCodec = XN_NEW(XnUncompressedCodec);
+			}
+		}
+		break;
+	default:
+		m_streams[pStream].pCodec = XN_NEW(XnUncompressedCodec);
+		break;
+	}
 
-    // If anything went wrong - fall back to uncompressed format.
-    if (XN_STATUS_OK != m_streams[pStream].pCodec->Init())
-    {
-        XN_DELETE(m_streams[pStream].pCodec);
-        m_streams[pStream].pCodec = NULL;
-        codecId = ONI_CODEC_UNCOMPRESSED;
-    }
+	// If anything went wrong - fall back to uncompressed format.
+	if (XN_STATUS_OK != m_streams[pStream].pCodec->Init())
+	{
+		XN_DELETE(m_streams[pStream].pCodec);
+		m_streams[pStream].pCodec = NULL;
+		codecId = ONI_CODEC_UNCOMPRESSED;
+	}
 
-    Memento undoPoint(this);
-    // save the position of this record so we can override it upon detaching
-    m_streams[pStream].nodeAddedRecordPosition = undoPoint.GetPosition();
+	Memento undoPoint(this);
+	// save the position of this record so we can override it upon detaching
+	m_streams[pStream].nodeAddedRecordPosition = undoPoint.GetPosition();
 
-    EMIT(RECORD_NODE_ADDED(
-            m_streams[pStream].nodeType = AsNodeType(pSensorInfo->sensorType),
-            nodeId,
-            m_streams[pStream].codecId = codecId,
-            /* numberOfFrames    = */ XN_MAX_UINT32,
-            /* minTimeStamp      = */ XN_UINT64_C(0),
-            /* maxTimeStamp      = */ XN_MAX_UINT64,
-            /* seekTablePosition = */ XN_UINT64_C(0)
-        ))
-    undoPoint.Reuse();
+	EMIT(RECORD_NODE_ADDED(
+		m_streams[pStream].nodeType = AsNodeType(pSensorInfo->sensorType),
+		nodeId,
+		m_streams[pStream].codecId = codecId,
+		/* numberOfFrames    = */ XN_MAX_UINT32,
+		/* minTimeStamp      = */ XN_UINT64_C(0),
+		/* maxTimeStamp      = */ XN_MAX_UINT64,
+		/* seekTablePosition = */ XN_UINT64_C(0)
+	))
+	undoPoint.Reuse();
 
 	EMIT(RECORD_GENERAL_PROPERTY(
 		nodeId,
@@ -719,61 +721,60 @@ void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
 		));
 	undoPoint.Reuse();
 
-    // xnDeviceMaxDepth
-    if (curVideoMode.pixelFormat == ONI_PIXEL_FORMAT_DEPTH_1_MM ||
-        curVideoMode.pixelFormat == ONI_PIXEL_FORMAT_DEPTH_100_UM)
-    {
-        EMIT(RECORD_INT_PROPERTY(
-                nodeId,
-                getLastPropertyRecordPos(nodeId, "xnDeviceMaxDepth", undoPoint.GetPosition()),
-                "xnDeviceMaxDepth",
-                maxDepth
-            ))
-    }
-    undoPoint.Reuse();
+	// xnDeviceMaxDepth
+	if (curVideoMode.pixelFormat == ONI_PIXEL_FORMAT_DEPTH_1_MM ||
+		curVideoMode.pixelFormat == ONI_PIXEL_FORMAT_DEPTH_100_UM)
+	{
+		EMIT(RECORD_INT_PROPERTY(
+			nodeId,
+			getLastPropertyRecordPos(nodeId, "xnDeviceMaxDepth", undoPoint.GetPosition()),
+			"xnDeviceMaxDepth",
+			maxDepth
+		))
+	}
+	undoPoint.Reuse();
 
-    // xnSupportedMapOutputModesCount
-    EMIT(RECORD_INT_PROPERTY(
-            nodeId,
-            getLastPropertyRecordPos(nodeId, "xnSupportedMapOutputModesCount", undoPoint.GetPosition()),
-            "xnSupportedMapOutputModesCount",
-            pSensorInfo->numSupportedVideoModes
-        ))
-    undoPoint.Reuse();
+	// xnSupportedMapOutputModesCount
+	EMIT(RECORD_INT_PROPERTY(
+		nodeId,
+		getLastPropertyRecordPos(nodeId, "xnSupportedMapOutputModesCount", undoPoint.GetPosition()),
+		"xnSupportedMapOutputModesCount",
+		pSensorInfo->numSupportedVideoModes
+	))
+	undoPoint.Reuse();
 
-    // xnSupportedMapOutputModes
-    VideoModeData* pVideoModes = XN_NEW_ARR(
-            VideoModeData, pSensorInfo->numSupportedVideoModes);
-    for (int i = 0; i < pSensorInfo->numSupportedVideoModes; ++i)
-    {
-        const OniVideoMode& videoMode = pSensorInfo->pSupportedVideoModes[i];
-        pVideoModes[i].width  = videoMode.resolutionX;
-        pVideoModes[i].height = videoMode.resolutionY;
-        pVideoModes[i].fps    = videoMode.fps;
-    }
+	// xnSupportedMapOutputModes
+	VideoModeData* pVideoModes = XN_NEW_ARR(VideoModeData, pSensorInfo->numSupportedVideoModes);
+	for (int i = 0; i < pSensorInfo->numSupportedVideoModes; ++i)
+	{
+		const OniVideoMode& videoMode = pSensorInfo->pSupportedVideoModes[i];
+		pVideoModes[i].width  = videoMode.resolutionX;
+		pVideoModes[i].height = videoMode.resolutionY;
+		pVideoModes[i].fps    = videoMode.fps;
+	}
 
-    EMIT(RECORD_GENERAL_PROPERTY(
-            nodeId,
-            getLastPropertyRecordPos(nodeId, "xnSupportedMapOutputModes", undoPoint.GetPosition()),
-            "xnSupportedMapOutputModes",
-            pVideoModes,
-            sizeof(*pVideoModes) * pSensorInfo->numSupportedVideoModes
-        ))
-    undoPoint.Reuse();
+	EMIT(RECORD_GENERAL_PROPERTY(
+		nodeId,
+		getLastPropertyRecordPos(nodeId, "xnSupportedMapOutputModes", undoPoint.GetPosition()),
+		"xnSupportedMapOutputModes",
+		pVideoModes,
+		sizeof(*pVideoModes) * pSensorInfo->numSupportedVideoModes
+	))
+	undoPoint.Reuse();
 
-    // xnMapOutputMode
-    VideoModeData curVMD;
-    curVMD.width  = curVideoMode.resolutionX;
-    curVMD.height = curVideoMode.resolutionY;
-    curVMD.fps    = curVideoMode.fps;
-    EMIT(RECORD_GENERAL_PROPERTY(
-            nodeId,
-            getLastPropertyRecordPos(nodeId, "xnMapOutputMode", undoPoint.GetPosition()),
-            "xnMapOutputMode",
-            &curVMD,
-            sizeof(curVMD)
-        ))
-    undoPoint.Reuse();
+	// xnMapOutputMode
+	VideoModeData curVMD;
+	curVMD.width  = curVideoMode.resolutionX;
+	curVMD.height = curVideoMode.resolutionY;
+	curVMD.fps    = curVideoMode.fps;
+	EMIT(RECORD_GENERAL_PROPERTY(
+		nodeId,
+		getLastPropertyRecordPos(nodeId, "xnMapOutputMode", undoPoint.GetPosition()),
+		"xnMapOutputMode",
+		&curVMD,
+		sizeof(curVMD)
+	))
+	undoPoint.Reuse();
 
 	XnPixelFormat pixelFormat = toXnPixelFormat(curVideoMode.pixelFormat);
 	if (pixelFormat != 0)
@@ -808,13 +809,13 @@ void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
 		))
 		undoPoint.Reuse();
 
-    XN_DELETE_ARR(pVideoModes);
+	XN_DELETE_ARR(pVideoModes);
 
-    size = sizeof(XnFloat);
+	size = sizeof(XnFloat);
 	float vdummy, hdummy;
-    if ( pStream->getProperty(ONI_STREAM_PROPERTY_HORIZONTAL_FOV, &hdummy, &size) == ONI_STATUS_OK &&
-         pStream->getProperty(ONI_STREAM_PROPERTY_VERTICAL_FOV,   &vdummy, &size) == ONI_STATUS_OK )
-    {
+	if (pStream->getProperty(ONI_STREAM_PROPERTY_HORIZONTAL_FOV, &hdummy, &size) == ONI_STATUS_OK &&
+		pStream->getProperty(ONI_STREAM_PROPERTY_VERTICAL_FOV,   &vdummy, &size) == ONI_STATUS_OK )
+	{
 		// xnFOV
 		struct XnFieldOfView
 		{
@@ -824,15 +825,15 @@ void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
 			XnDouble fVFOV;
 		} fov = {hdummy, vdummy};
 
-        EMIT(RECORD_GENERAL_PROPERTY(
-                nodeId,
-                getLastPropertyRecordPos(nodeId, "xnFOV", undoPoint.GetPosition()),
-                "xnFOV",
-                &fov,
-                sizeof(fov)
-            ))
-        undoPoint.Reuse();
-    }
+		EMIT(RECORD_GENERAL_PROPERTY(
+			nodeId,
+			getLastPropertyRecordPos(nodeId, "xnFOV", undoPoint.GetPosition()),
+			"xnFOV",
+			&fov,
+			sizeof(fov)
+		))
+		undoPoint.Reuse();
+	}
 
 	// xnCropping
 	struct XnCropping
@@ -905,146 +906,154 @@ void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
 	}
 
 	m_propertyPriority = ms_priorityHigh;
-    pStream->notifyAllProperties();
+	pStream->notifyAllProperties();
 	m_propertyPriority = ms_priorityNormal;
-    undoPoint.Release();
+	undoPoint.Release();
 }
 
 void FileRecorder::onDetach(XnUInt32 nodeId)
 {
-    if (nodeId == 0)
-    {
-        return;
-    }
+	if (nodeId == 0)
+	{
+		return;
+	}
 
-    FIND_ATTACHED_STREAM_INFO(nodeId)
-    if (!pInfo) return;
+	xnl::LockGuard<AttachedStreams> guard(m_streams);
+	AttachedStreamInfo *pInfo = findAttachedStreamInfo(nodeId);
+	if (!pInfo)
+	{
+		return;
+	}
 
-    Memento undoPoint(this);
-    EMIT(RECORD_NODE_REMOVED(
-            nodeId,
-            pInfo->nodeAddedRecordPosition
-        ))
-    undoPoint.Release();
+	Memento undoPoint(this);
+	EMIT(RECORD_NODE_REMOVED(
+		nodeId,
+		pInfo->nodeAddedRecordPosition
+	))
+	undoPoint.Release();
 
-    undoPoint.Reuse();
-    XnUInt64 nSeekTablePos = undoPoint.GetPosition();
-    // write the seek table
-    EMIT(RECORD_SEEK_TABLE(
-            nodeId,
-            pInfo->frameId,
-            pInfo->dataIndex
+	undoPoint.Reuse();
+	XnUInt64 nSeekTablePos = undoPoint.GetPosition();
+	// write the seek table
+	EMIT(RECORD_SEEK_TABLE(
+		nodeId,
+		pInfo->frameId,
+		pInfo->dataIndex
 	))
 
-    undoPoint.Release();
+	undoPoint.Release();
 
-    undoPoint.Reuse();
-    // Seek to position of node added record
-    undoPoint.SetPosition(pInfo->nodeAddedRecordPosition);
+	undoPoint.Reuse();
+	// Seek to position of node added record
+	undoPoint.SetPosition(pInfo->nodeAddedRecordPosition);
 
-    // re-write this record, this time with seek data
-    EMIT(RECORD_NODE_ADDED(
-            pInfo->nodeType,
-            nodeId,
-            pInfo->codecId,
-            /* numberOfFrames    = */ pInfo->frameId,
-            /* minTimeStamp      = */ XN_UINT64_C(0),
-            /* maxTimeStamp      = */ pInfo->lastOutputTimestamp,
-            /* seekTablePosition = */ nSeekTablePos
-        ))
-    undoPoint.Undo();
+	// re-write this record, this time with seek data
+	EMIT(RECORD_NODE_ADDED(
+		pInfo->nodeType,
+		nodeId,
+		pInfo->codecId,
+		/* numberOfFrames    = */ pInfo->frameId,
+		/* minTimeStamp      = */ XN_UINT64_C(0),
+		/* maxTimeStamp      = */ pInfo->lastOutputTimestamp,
+		/* seekTablePosition = */ nSeekTablePos
+	))
+	undoPoint.Undo();
 }
 
 void FileRecorder::onStart(XnUInt32 nodeId)
 {
-    if (0 == nodeId)
-    {
-        return;
-    }
-    Memento undoPoint(this);
-    EMIT(RECORD_NODE_STATE_READY(
-            nodeId
-        ))
+	if (0 == nodeId)
+	{
+		return;
+	}
+	Memento undoPoint(this);
+	EMIT(RECORD_NODE_STATE_READY(
+		nodeId
+	))
 
-    EMIT(RECORD_NODE_DATA_BEGIN(
-            nodeId,
-            /* framesCount  = */ XN_MAX_UINT32,
-            /* maxTimeStamp = */ XN_MAX_UINT64
-        ))
-    undoPoint.Release();
+	EMIT(RECORD_NODE_DATA_BEGIN(
+		nodeId,
+		/* framesCount  = */ XN_MAX_UINT32,
+		/* maxTimeStamp = */ XN_MAX_UINT64
+	))
+	undoPoint.Release();
 }
 
 void FileRecorder::onRecord(XnUInt32 nodeId, XnCodecBase* pCodec, const OniFrame* pFrame, XnUInt32 frameId, XnUInt64 timestamp)
 {
-    if (0 == nodeId || NULL == pFrame)
-    {
-        return;
-    }
+	if (0 == nodeId || NULL == pFrame)
+	{
+		return;
+	}
 
-    FIND_ATTACHED_STREAM_INFO(nodeId)
-    if (!pInfo) return;
+	xnl::LockGuard<AttachedStreams> guard(m_streams);
+	AttachedStreamInfo *pInfo = findAttachedStreamInfo(nodeId);
+	if (!pInfo)
+	{
+		 return;
+	}
 
-    Memento undoPoint(this);
+	Memento undoPoint(this);
 
-    if (NULL != pCodec)
-    {
-        XnUInt32 bufferSize_bytes32 = pFrame->dataSize * 2 + pCodec->GetOverheadSize();
-        XnUInt8* buffer             = XN_NEW_ARR(XnUInt8, bufferSize_bytes32);
+	if (NULL != pCodec)
+	{
+		XnUInt32 bufferSize_bytes32 = pFrame->dataSize * 2 + pCodec->GetOverheadSize();
+		XnUInt8* buffer             = XN_NEW_ARR(XnUInt8, bufferSize_bytes32);
 
-        XnStatus status = pCodec->Compress(reinterpret_cast<const XnUChar*>(pFrame->data),
-                pFrame->dataSize, buffer, &bufferSize_bytes32);
-                XnSizeT  bufferSize_bytes = bufferSize_bytes32;
-        if (XN_STATUS_OK == status)
-        {
-            EMIT(RECORD_NEW_DATA(
-                    nodeId,
-                    pInfo->lastNewDataRecordPosition,
-                    timestamp,
-                    frameId,
-                    buffer,
-                    bufferSize_bytes))
-        }
-        XN_DELETE_ARR(buffer);
-    }
-    else
-    {
-        EMIT(RECORD_NEW_DATA(
-                nodeId,
-                pInfo->lastNewDataRecordPosition,
-                pFrame->timestamp,
-                pFrame->frameIndex,
-                pFrame->data,
-                pFrame->dataSize
-            ))
-    }
-    undoPoint.Release();
-    // save this record's position as the last one
-    pInfo->lastNewDataRecordPosition = undoPoint.GetPosition();
+		XnStatus status = pCodec->Compress(reinterpret_cast<const XnUChar*>(pFrame->data),
+			pFrame->dataSize, buffer, &bufferSize_bytes32);
+		XnSizeT  bufferSize_bytes = bufferSize_bytes32;
+		if (XN_STATUS_OK == status)
+		{
+			EMIT(RECORD_NEW_DATA(
+				nodeId,
+				pInfo->lastNewDataRecordPosition,
+				timestamp,
+				frameId,
+				buffer,
+				bufferSize_bytes))
+		}
+		XN_DELETE_ARR(buffer);
+	}
+	else
+	{
+		EMIT(RECORD_NEW_DATA(
+			nodeId,
+			pInfo->lastNewDataRecordPosition,
+			pFrame->timestamp,
+			pFrame->frameIndex,
+			pFrame->data,
+			pFrame->dataSize
+		))
+	}
+	undoPoint.Release();
+	// save this record's position as the last one
+	pInfo->lastNewDataRecordPosition = undoPoint.GetPosition();
 
-    // write to seek table
-    DataIndexEntry dataIndexEntry;
-    dataIndexEntry.nTimestamp = timestamp;
-    dataIndexEntry.nConfigurationID = m_configurationId;
-    dataIndexEntry.nSeekPos = undoPoint.GetPosition();
+	// write to seek table
+	DataIndexEntry dataIndexEntry;
+	dataIndexEntry.nTimestamp = timestamp;
+	dataIndexEntry.nConfigurationID = m_configurationId;
+	dataIndexEntry.nSeekPos = undoPoint.GetPosition();
 
-    pInfo->dataIndex.push_back(dataIndexEntry);
+	pInfo->dataIndex.push_back(dataIndexEntry);
 }
 
 void FileRecorder::onRecordProperty(
-            XnUInt32    nodeId,
-            XnUInt32    propertyId,
-            const void* pData,
-            XnSizeT     dataSize)
+	XnUInt32    nodeId,
+	XnUInt32    propertyId,
+	const void* pData,
+	XnSizeT     dataSize)
 {
-    if (0 == nodeId || NULL == pData || 0 == dataSize)
-    {
-        return;
-    }
-    Memento undoPoint(this);
-    for (XnSizeT i = 0; i < propertyTableItemsCount; ++i)
-    {
-        if (propertyTable[i].propertyId == propertyId)
-        {
+	if (0 == nodeId || NULL == pData || 0 == dataSize)
+	{
+		return;
+	}
+	Memento undoPoint(this);
+	for (XnSizeT i = 0; i < propertyTableItemsCount; ++i)
+	{
+		if (propertyTable[i].propertyId == propertyId)
+		{
 			switch (propertyTable[i].propertyType)
 			{
 			case PROPERTY_TYPE_INTEGER:
@@ -1086,12 +1095,12 @@ void FileRecorder::onRecordProperty(
 						dataSize))
 				}
 			}
-        }
-    }
-    undoPoint.Release();
+		}
+	}
+	undoPoint.Release();
 
-    // update the global configurationId
-    ++m_configurationId;
+	// update the global configurationId
+	++m_configurationId;
 }
 
 ONI_NAMESPACE_IMPLEMENTATION_END
