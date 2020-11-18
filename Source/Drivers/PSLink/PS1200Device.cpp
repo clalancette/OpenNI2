@@ -20,7 +20,6 @@
 *****************************************************************************/
 #include "PS1200Device.h"
 #include "XnClientUSBConnectionFactory.h"
-#include "XnSocketConnectionFactory.h"
 #include <PSLink.h>
 #include <XnLog.h>
 
