@@ -172,4 +172,3 @@ OniDeviceInfo* LinkDeviceEnumeration::GetDeviceInfo(const XnChar* uri)
 		return NULL;
 	}
 }
-
