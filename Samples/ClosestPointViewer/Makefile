@@ -22,6 +22,6 @@ USED_LIBS += OpenNI2 MWClosestPoint
 
 EXE_NAME = ClosestPointViewer
 
-CFLAGS += -Wall
+CFLAGS += -Wall -Wextra
 
 include ../../ThirdParty/PSCommon/BuildSystem/CommonCppMakefile

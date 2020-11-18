@@ -211,7 +211,7 @@ XnStatus XnLinuxSysVNamedEvent::Wait(XnUInt32 nMilliseconds)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	struct timespec time = {0};
+	struct timespec time = {0, 0};
 	if (nMilliseconds != XN_WAIT_INFINITE)
 	{
 		nRetVal = xnOSGetTimeout(&time, nMilliseconds);

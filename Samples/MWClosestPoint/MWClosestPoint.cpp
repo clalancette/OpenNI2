@@ -55,7 +55,7 @@ class StreamListener : public VideoStream::NewFrameListener
 public:
 	StreamListener(ClosestPointInternal* pClosestPoint) : m_pClosestPoint(pClosestPoint)
 	{}
-	virtual void onNewFrame(VideoStream& stream)
+	virtual void onNewFrame(VideoStream& /*stream*/)
 	{
 		m_pClosestPoint->Raise();
 	}

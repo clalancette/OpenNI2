@@ -134,7 +134,7 @@ protected:
 
 Vector3D::Vector3D() : m_tolerance(1e-5f) {Set(0,0,0);}
 Vector3D::Vector3D(XnFloat x, XnFloat y, XnFloat z) : m_tolerance(1e-5f) {Set(x, y, z);}
-Vector3D::Vector3D(const Vector3D& other) {Set(other);}
+Vector3D::Vector3D(const Vector3D& other) : Point3D() {Set(other);}
 Vector3D::Vector3D(const Point3D& point) {Set(point);}
 
 Vector3D& Vector3D::operator=(const Vector3D& other) {m_tolerance = other.m_tolerance; return Set(other.x, other.y, other.z);}

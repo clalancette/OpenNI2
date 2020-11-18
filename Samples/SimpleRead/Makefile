@@ -12,6 +12,6 @@ USED_LIBS += OpenNI2
 
 EXE_NAME = SimpleRead
 
-CFLAGS += -Wall
+CFLAGS += -Wall -Wextra
 
 include ../../ThirdParty/PSCommon/BuildSystem/CommonCppMakefile

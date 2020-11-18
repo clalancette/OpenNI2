@@ -247,22 +247,22 @@ XN_C_API XnStatus xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSe
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSWriteStringToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnChar* cpSrc)
+XN_C_API XnStatus xnOSWriteStringToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const XnChar* /*cpSrc*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnOSWriteFloatToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnFloat fSrc)
+XN_C_API XnStatus xnOSWriteFloatToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const XnFloat /*fSrc*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnOSWriteDoubleToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnDouble fSrc)
+XN_C_API XnStatus xnOSWriteDoubleToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const XnDouble /*fSrc*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnOSWriteIntToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnInt32 nSrc)
+XN_C_API XnStatus xnOSWriteIntToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const XnInt32 /*nSrc*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }

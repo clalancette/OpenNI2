@@ -94,12 +94,12 @@ XN_C_API XnStatus xnRegisterErrorCodeMessages(XnUInt16 nGroup, XnUInt16 nFirst, 
 
 	for (XnUInt16 nIndex = 0; nIndex < nCount; ++nIndex)
 	{
-		XnErrorCodeData data = {0};
+		XnErrorCodeData data = {0, NULL, NULL};
 		data.nCode = nFirst + nIndex;
 		data.csMessage = xnOSStrDup(pErrorCodeData[nIndex].csMessage);
 		data.csName = xnOSStrDup(pErrorCodeData[nIndex].csName);
 
-		XnErrorCodeData prevData = {0};
+		XnErrorCodeData prevData = {0, NULL, NULL};
 		pStatusHash->Get((XnUInt16)data.nCode, prevData);
 
 		nRetVal = pStatusHash->Set((XnUInt16)data.nCode, data);

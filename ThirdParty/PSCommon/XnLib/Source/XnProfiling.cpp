@@ -62,7 +62,7 @@ typedef struct
 //---------------------------------------------------------------------------
 // Global Variables
 //---------------------------------------------------------------------------
-static XnProfilingData g_ProfilingData = {0};
+static XnProfilingData g_ProfilingData = {FALSE, NULL, 0, NULL, NULL, 0, 0, FALSE};
 static XN_THREAD_STATIC XnUInt32 gt_nStackDepth = 0;
 
 //---------------------------------------------------------------------------

@@ -197,7 +197,7 @@ void xnUSBDeviceDisconnected(struct udev_device *dev)
 	//XN_DELETE(pConnected);
 }
 
-XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
+XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM /*pThreadParam*/)
 {
 	struct udev *udev;
 	struct udev_device *dev;
@@ -351,7 +351,7 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM pThreadParam)
 }
 #endif
 
-XN_THREAD_PROC xnUSBHandleEventsThread(XN_THREAD_PARAM pThreadParam)
+XN_THREAD_PROC xnUSBHandleEventsThread(XN_THREAD_PARAM /*pThreadParam*/)
 {
 	// init timeout
 	struct timeval timeout;
@@ -500,7 +500,7 @@ XnStatus xnUSBPlatformSpecificShutdown()
 * Finds a USB device.
 * the returned device must be unreferenced when it is no longer needed using libusb_unref_device.
 */
-XnStatus FindDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* pExtraParam, libusb_device** ppDevice)
+XnStatus FindDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* /*pExtraParam*/, libusb_device** ppDevice)
 {
 	*ppDevice = NULL;
 
@@ -697,7 +697,7 @@ XN_C_API XnStatus xnUSBOpenDeviceImpl(libusb_device* pDevice, XN_USB_DEV_HANDLE*
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBOpenDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* pExtraParam, void* pExtraParam2, XN_USB_DEV_HANDLE* pDevHandlePtr)
+XN_C_API XnStatus xnUSBOpenDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* pExtraParam, void* /*pExtraParam2*/, XN_USB_DEV_HANDLE* pDevHandlePtr)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -803,12 +803,12 @@ XN_C_API XnStatus xnUSBGetDeviceSpeed(XN_USB_DEV_HANDLE pDevHandle, XnUSBDeviceS
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBSetConfig(XN_USB_DEV_HANDLE pDevHandle, XnUInt8 nConfig)
+XN_C_API XnStatus xnUSBSetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, XnUInt8 /*nConfig*/)
 {
 	return (XN_STATUS_OS_UNSUPPORTED_FUNCTION);
 }
 
-XN_C_API XnStatus xnUSBGetConfig(XN_USB_DEV_HANDLE pDevHandle, XnUInt8* pnConfig)
+XN_C_API XnStatus xnUSBGetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, XnUInt8* /*pnConfig*/)
 {
 	return (XN_STATUS_OS_UNSUPPORTED_FUNCTION);
 }
@@ -1015,17 +1015,17 @@ XN_C_API XnStatus xnUSBGetEndPointMaxPacketSize(XN_USB_EP_HANDLE pEPHandle, XnUI
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBAbortEndPoint(XN_USB_EP_HANDLE pEPHandle)
+XN_C_API XnStatus xnUSBAbortEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnUSBFlushEndPoint(XN_USB_EP_HANDLE pEPHandle)
+XN_C_API XnStatus xnUSBFlushEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE pEPHandle)
+XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
@@ -1258,12 +1258,12 @@ XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/, XnUChar* /*pBuffer*/, XnUInt32 /*nBufferSize*/, XnUInt32 /*nTimeOut*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUInt32* pnBytesReceived, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/, XnUInt32* /*pnBytesReceived*/, XnUInt32 /*nTimeOut*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
@@ -1647,7 +1647,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBSetCallbackHandler(XnUInt16 nVendorID, XnUInt16 /*nProductID*/, void* pExtraParam, XnUSBEventCallbackFunctionPtr pCallbackFunction, void* pCallbackData)
+XN_C_API XnStatus xnUSBSetCallbackHandler(XnUInt16 /*nVendorID*/, XnUInt16 /*nProductID*/, void* /*pExtraParam*/, XnUSBEventCallbackFunctionPtr /*pCallbackFunction*/, void* /*pCallbackData*/)
 {
 	return (XN_STATUS_OS_UNSUPPORTED_FUNCTION);
 }

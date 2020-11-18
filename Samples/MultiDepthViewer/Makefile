@@ -21,6 +21,6 @@ USED_LIBS += OpenNI2
 
 EXE_NAME = MultiDepthViewer
 
-CFLAGS += -Wall
+CFLAGS += -Wall -Wextra
 
 include ../../ThirdParty/PSCommon/BuildSystem/CommonCppMakefile

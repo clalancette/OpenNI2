@@ -90,7 +90,7 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEvent(XN_EVENT_HANDLE* pEventHandle, 
 	return xnOSCreateNamedEventEx(pEventHandle, cpEventName, bManualReset, FALSE);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, XnBool bManualReset, XnBool bAllowOtherUsers)
+XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, XnBool bManualReset, XnBool /*bAllowOtherUsers*/)
 {
 	return CreateNamedEventObject(pEventHandle, cpEventName, TRUE, bManualReset);
 }
@@ -100,7 +100,7 @@ XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEvent(XN_EVENT_HANDLE* pEventHandle, co
 	return xnOSOpenNamedEventEx(pEventHandle, cpEventName, FALSE);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, XnBool bAllowOtherUsers)
+XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, XnBool /*bAllowOtherUsers*/)
 {
 	return CreateNamedEventObject(pEventHandle, cpEventName, FALSE, FALSE);
 }

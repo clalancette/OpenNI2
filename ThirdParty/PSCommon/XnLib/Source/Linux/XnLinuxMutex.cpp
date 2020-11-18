@@ -208,7 +208,7 @@ XN_C_API XnStatus xnOSCreateNamedMutex(XN_MUTEX_HANDLE* pMutexHandle, const XnCh
 	return xnOSCreateNamedMutexEx(pMutexHandle, cpMutexName, FALSE);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName, XnBool bAllowOtherUsers)
+XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName, XnBool /*bAllowOtherUsers*/)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;

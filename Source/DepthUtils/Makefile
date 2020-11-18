@@ -26,6 +26,6 @@ SLIB_NAME = DepthUtils
 ifneq ("$(OSTYPE)","Darwin")
 	USED_LIBS += rt
 endif
-CFLAGS += -Wall
+CFLAGS += -Wall -Wextra
 
 include ../../ThirdParty/PSCommon/BuildSystem/CommonCppMakefile

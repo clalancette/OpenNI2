@@ -24,8 +24,8 @@ endif
 SLIB_NAME = XnLib
 USED_LIBS = usb-1.0 dl pthread udev
 ifneq ("$(OSTYPE)","Darwin")
-	USED_LIBS += rt 
+	USED_LIBS += rt
 endif
-CFLAGS += -Wall
+CFLAGS += -Wall -Wextra
 
 include ../../BuildSystem/CommonCppMakefile

@@ -11,6 +11,6 @@ USED_LIBS += OpenNI2
 
 LIB_NAME = MWClosestPoint
 
-CFLAGS += -Wall -D_CLOSEST_POINT
+CFLAGS += -Wall -D_CLOSEST_POINT -Wextra
 
 include ../../ThirdParty/PSCommon/BuildSystem/CommonCppMakefile
