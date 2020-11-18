@@ -33,10 +33,10 @@
 
 typedef XnChar XnConnectionString[XN_DEVICE_MAX_STRING_LENGTH];
 
-/** This structure defines the Xiron device configuration (when opening a new device). */ 
+/** This structure defines the Xiron device configuration (when opening a new device). */
 typedef struct XnDeviceConfig
 {
-	/** The connection string (depending on the device this could mean: file name, IP, sensor serial, etc...). */ 
+	/** The connection string (depending on the device this could mean: file name, IP, sensor serial, etc...). */
 	const XnChar* cpConnectionString;
 	/** Optional. A set of initial values to be used. */
 	const XnPropertySet* pInitialValues;

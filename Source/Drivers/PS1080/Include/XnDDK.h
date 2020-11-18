@@ -29,7 +29,7 @@
 #define XN_MASK_DDK	"DDK"
 
 /**
-* This function initializes the DDK library. 
+* This function initializes the DDK library.
 * This function must be called BEFORE calling any other method of a device.
 */
 XnStatus XnDDKInit(const XnChar* strDevicesDir);

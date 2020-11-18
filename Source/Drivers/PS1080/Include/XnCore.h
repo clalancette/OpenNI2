@@ -68,21 +68,21 @@ void XnGeneralBufferFree(OniGeneralBuffer* pDest);
 // Exported Function Declaration
 //---------------------------------------------------------------------------
 /**
- * This function initializes the core low-level SDK. 
+ * This function initializes the core low-level SDK.
  */
 XnStatus XnInit();
 
 /**
-* This function initializes the core low-level SDK from an INI file. 
+* This function initializes the core low-level SDK from an INI file.
 * Please refer to the low-level SDK overview/tutorial section for a complete list of INI entries.
 * Note: This function is not very useful on its own. You should use the I/O subsystem initializing instead.
-* 
+*
 * @param	cpINIFileName		[in]	A path to an INI file.
 */
 XnStatus XnInitFromINIFile(const XnChar* cpINIFileName);
 
 /**
-* This function shuts down the core low-level SDK. 
+* This function shuts down the core low-level SDK.
 * Note: This function is not very useful on its own. You should use the I/O subsystem shutdown instead.
 */
 XnStatus XnShutdown();

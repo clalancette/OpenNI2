@@ -29,26 +29,26 @@
 //---------------------------------------------------------------------------
 // Defines
 //---------------------------------------------------------------------------
-/** The Xiron I/O INI section name. */ 
+/** The Xiron I/O INI section name. */
 #define XN_CORE_INI_SECTION "Core"
 
 //---------------------------------------------------------------------------
 // Global Variables
 //---------------------------------------------------------------------------
-/** Was the Xiron Core subsystem successfully initialized? */ 
+/** Was the Xiron Core subsystem successfully initialized? */
 extern XnBool g_bXnCoreWasInit;
 
 //---------------------------------------------------------------------------
 // Macros
 //---------------------------------------------------------------------------
-/** Make sure the core subsystem was initialized. */ 
+/** Make sure the core subsystem was initialized. */
 #define XN_VALIDATE_CORE_INIT()		\
 	if (g_bXnCoreWasInit != TRUE)	\
 	{									\
 		return (XN_STATUS_NOT_INIT);	\
 	}
 
-/** Make sure the core subsystem was not initialized already. */ 
+/** Make sure the core subsystem was not initialized already. */
 #define XN_VALIDATE_CORE_NOT_INIT()		\
 	if (g_bXnCoreWasInit == TRUE)		\
 	{										\

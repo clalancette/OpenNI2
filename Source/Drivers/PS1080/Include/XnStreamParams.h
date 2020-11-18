@@ -57,25 +57,25 @@ enum
 	//---------------------------------------------------------------------------
 	// General Properties
 	//---------------------------------------------------------------------------
-	XN_STREAM_PROPERTY_TYPE									= 0x1080FF00, //	"Type"
+	XN_STREAM_PROPERTY_TYPE								= 0x1080FF00, // "Type"
 	XN_STREAM_PROPERTY_IS_STREAM							= 0x1080FF01, // "IsStream"
 	XN_STREAM_PROPERTY_IS_FRAME_BASED						= 0x1080FF02, // "IsFrameBased"
 	XN_STREAM_PROPERTY_IS_PIXEL_BASED						= 0x1080FF03, // "IsPixelBased"
 	XN_STREAM_PROPERTY_IS_STREAMING							= 0x1080FF04, // "IsStreaming"
 
 	/** Integer */
-	XN_MODULE_PROPERTY_LOCK									= 0x1080FF05, // "Lock"
+	XN_MODULE_PROPERTY_LOCK								= 0x1080FF05, // "Lock"
 
 	//---------------------------------------------------------------------------
 	// General Stream Properties
 	//---------------------------------------------------------------------------
 	/** Integer */
-	XN_STREAM_PROPERTY_STATE								= 0x1080FF10, // "State"
+	XN_STREAM_PROPERTY_STATE							= 0x1080FF10, // "State"
 	/** Integer */
-	XN_STREAM_PROPERTY_REQUIRED_DATA_SIZE					= 0x1080FF11, // "RequiredDataSize"
+	XN_STREAM_PROPERTY_REQUIRED_DATA_SIZE						= 0x1080FF11, // "RequiredDataSize"
 	/** Integer (OniFormat) */
 	XN_STREAM_PROPERTY_OUTPUT_FORMAT						= 0x1080FF12, // "OutputFormat"
-	/** Integer */ 
+	/** Integer */
 	XN_STREAM_PROPERTY_BUFFER_SIZE							= 0x1080FF13, // "BufferSize"
 	/** Boolean */
 	XN_STREAM_PROPERTY_ACTUAL_READ_DATA						= 0x1080FF14, // "ActualReadData"
@@ -83,50 +83,50 @@ enum
 	//---------------------------------------------------------------------------
 	// Frame-Based Stream Properties (Depth, Image, IR)
 	//---------------------------------------------------------------------------
-	/** Integer */ 
-	XN_STREAM_PROPERTY_FPS									= 0x1080FF20, // "FPS"
+	/** Integer */
+	XN_STREAM_PROPERTY_FPS								= 0x1080FF20, // "FPS"
 
 	//---------------------------------------------------------------------------
 	// Pixel-Based Stream Properties (Depth, Image, IR)
 	//---------------------------------------------------------------------------
 	/** XnResolutions */
 	XN_STREAM_PROPERTY_RESOLUTION							= 0x1080FF30, // "Resolution"
-	/** Integer */ 
-	XN_STREAM_PROPERTY_X_RES								= 0x1080FF31, // "XRes"
-	/** Integer */ 
-	XN_STREAM_PROPERTY_Y_RES								= 0x1080FF32, // "YRes"
-	/** Integer */ 
+	/** Integer */
+	XN_STREAM_PROPERTY_X_RES							= 0x1080FF31, // "XRes"
+	/** Integer */
+	XN_STREAM_PROPERTY_Y_RES							= 0x1080FF32, // "YRes"
+	/** Integer */
 	XN_STREAM_PROPERTY_BYTES_PER_PIXEL						= 0x1080FF33, // "BytesPerPixel"
 	/** Integer */
-	XN_STREAM_PROPERTY_SUPPORT_MODES_COUNT					= 0x1080FF34, // "SupportedModesCount"
+	XN_STREAM_PROPERTY_SUPPORT_MODES_COUNT						= 0x1080FF34, // "SupportedModesCount"
 	/** General (XnCmosPreset array) */
 	XN_STREAM_PROPERTY_SUPPORT_MODES						= 0x1080FF35, // "SupportedModes"
-	/** OniCropping */ 
-	XN_STREAM_PROPERTY_CROPPING								= 0x1080FF36, // "Cropping"
+	/** OniCropping */
+	XN_STREAM_PROPERTY_CROPPING							= 0x1080FF36, // "Cropping"
 
 	//---------------------------------------------------------------------------
 	// Depth Specific Properties
 	//---------------------------------------------------------------------------
-	/** unsigned long long */ 
+	/** unsigned long long */
 	XN_STREAM_PROPERTY_MIN_DEPTH							= 0x1080FF40, // "MinDepthValue"
-	/** unsigned long long */ 
+	/** unsigned long long */
 	XN_STREAM_PROPERTY_MAX_DEPTH							= 0x1080FF41, // "MaxDepthValue"
-	/** Boolean */ 
+	/** Boolean */
 	XN_STREAM_PROPERTY_REGISTRATION							= 0x1080FF42, // "Registration"
 	/** Integer */
 	XN_STREAM_PROPERTY_DEVICE_MAX_DEPTH						= 0x1080FF43, // "DeviceMaxDepth"
 
-    //---------------------------------------------------------------------------
-    // IR Specific Properties
-    //---------------------------------------------------------------------------
-    /** Integer */
-    XN_STREAM_PROPERTY_DEVICE_MAX_IR					= 0x1080FF48, // "DeviceMaxIR"
+	//---------------------------------------------------------------------------
+	// IR Specific Properties
+	//---------------------------------------------------------------------------
+	/** Integer */
+	XN_STREAM_PROPERTY_DEVICE_MAX_IR						= 0x1080FF48, // "DeviceMaxIR"
 
 	//---------------------------------------------------------------------------
 	// Image Specific Properties
 	//---------------------------------------------------------------------------
-	/** Integer */ 
-	XN_STREAM_PROPERTY_QUALITY								= 0x1080FF51, // "Quality"
+	/** Integer */
+	XN_STREAM_PROPERTY_QUALITY							= 0x1080FF51, // "Quality"
 
 	//---------------------------------------------------------------------------
 	// Audio Specific Properties
@@ -134,11 +134,11 @@ enum
 	/** XnSampleRate */
 	XN_STREAM_PROPERTY_SAMPLE_RATE							= 0x1080FF60, // "SampleRate"
 	/** Integer */
-	XN_STREAM_PROPERTY_LEFT_CHANNEL_VOLUME					= 0x1080FF61, // "LeftChannelVolume"
+	XN_STREAM_PROPERTY_LEFT_CHANNEL_VOLUME						= 0x1080FF61, // "LeftChannelVolume"
 	/** Integer */
-	XN_STREAM_PROPERTY_RIGHT_CHANNEL_VOLUME					= 0x1080FF62, // "RightChannelVolume"
+	XN_STREAM_PROPERTY_RIGHT_CHANNEL_VOLUME						= 0x1080FF62, // "RightChannelVolume"
 	/** Integer */
-	XN_STREAM_PROPERTY_NUMBER_OF_CHANNELS					= 0x1080FF63, // "NumOfChannels"
+	XN_STREAM_PROPERTY_NUMBER_OF_CHANNELS						= 0x1080FF63, // "NumOfChannels"
 	/** Boolean */
 	XN_STREAM_PROPERTY_IS_STEREO							= 0x1080FF64, // "IsStereo"
 	/** Integer */
@@ -152,7 +152,7 @@ enum
 	// DeviceParams Properties
 	//---------------------------------------------------------------------------
 	/** Integer */
-	XN_MODULE_PROPERTY_NUMBER_OF_BUFFERS					= 0x1080FF70, // "NumberOfBuffers"
+	XN_MODULE_PROPERTY_NUMBER_OF_BUFFERS						= 0x1080FF70, // "NumberOfBuffers"
 	/** Boolean */
 	XN_MODULE_PROPERTY_READ_DATA							= 0x1080FF71, // "ReadData"
 	/** Integer */

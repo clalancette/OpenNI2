@@ -55,28 +55,28 @@ typedef struct XnPropertySetEnumerator XnPropertySetEnumerator;
 
 /**
 * Creates a new property set.
-* 
+*
 * @param	ppSet			[out]		A pointer to the new set.
 */
 XnStatus XnPropertySetCreate(XnPropertySet** ppSet);
 
 /**
 * Destroys a previously created property set.
-* 
+*
 * @param	ppSet			[in/out]	A pointer to the set.
 */
 XnStatus XnPropertySetDestroy(XnPropertySet** ppSet);
 
 /**
 * Clears a property set from all the properties.
-* 
+*
 * @param	pSet			[in]		The property set.
 */
 XnStatus XnPropertySetClear(XnPropertySet* pSet);
 
 /**
 * Adds a module to the property set.
-* 
+*
 * @param	pSet			[in]		The property set.
 * @param	strModuleName	[in]		Name of the module to add.
 */
@@ -84,7 +84,7 @@ XnStatus XnPropertySetAddModule(XnPropertySet* pSet, const XnChar* strModuleName
 
 /**
 * Removes a module from the property set.
-* 
+*
 * @param	pSet			[in]		The property set.
 * @param	strModuleName	[in]		Name of the module to remove.
 */
@@ -92,7 +92,7 @@ XnStatus XnPropertySetRemoveModule(XnPropertySet* pSet, const XnChar* strModuleN
 
 /**
 * Adds an integer property to the property set.
-* 
+*
 * @param	pSet			[in]		The property set.
 * @param	strModuleName	[in]		Name of the module.
 * @param	strModuleName	[in]		Name of the property to add.
@@ -102,7 +102,7 @@ XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModul
 
 /**
 * Adds an real property to the property set.
-* 
+*
 * @param	pSet			[in]		The property set.
 * @param	strModuleName	[in]		Name of the module.
 * @param	strModuleName	[in]		Name of the property to add.
@@ -112,7 +112,7 @@ XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const XnChar* strModu
 
 /**
 * Adds an string property to the property set.
-* 
+*
 * @param	pSet			[in]		The property set.
 * @param	strModuleName	[in]		Name of the module.
 * @param	strModuleName	[in]		Name of the property to add.
@@ -122,7 +122,7 @@ XnStatus XnPropertySetAddStringProperty(XnPropertySet* pSet, const XnChar* strMo
 
 /**
 * Adds an general property to the property set.
-* 
+*
 * @param	pSet			[in]		The property set.
 * @param	strModuleName	[in]		Name of the module.
 * @param	strModuleName	[in]		Name of the property to add.
@@ -132,7 +132,7 @@ XnStatus XnPropertySetAddGeneralProperty(XnPropertySet* pSet, const XnChar* strM
 
 /**
 * Removes a property from the property set.
-* 
+*
 * @param	pSet			[in]		The property set.
 * @param	strModuleName	[in]		Name of the module.
 * @param	strModuleName	[in]		Name of the property to remove.
@@ -141,7 +141,7 @@ XnStatus XnPropertySetRemoveProperty(XnPropertySet* pSet, const XnChar* strModul
 
 /**
 * Gets a modules enumerator. This enumerator should be freed using XnPropertySetModuleEnumeratorFree.
-* 
+*
 * @param	pSet			[in]		The property set.
 * @param	ppEnumerator	[out]		The created enumerator.
 */
@@ -149,14 +149,14 @@ XnStatus XnPropertySetGetModuleEnumerator(const XnPropertySet* pSet, XnPropertyS
 
 /**
 * Frees a previously created module enumerator.
-* 
+*
 * @param	ppEnumerator	[in/out]	The enumerator.
 */
 XnStatus XnPropertySetModuleEnumeratorFree(XnPropertySetModuleEnumerator** ppEnumer);
 
 /**
 * Moves the enumerator to the next module. This function must be called *before* getting current.
-* 
+*
 * @param	pEnumerator		[in]		The enumerator.
 * @param	pbEnd			[out]		TRUE if the enumerator has reached the end of the collection.
 */
@@ -164,7 +164,7 @@ XnStatus XnPropertySetModuleEnumeratorMoveNext(XnPropertySetModuleEnumerator* pE
 
 /**
 * Gets the current module name from the enumerator.
-* 
+*
 * @param	pEnumerator		[in]		The enumerator.
 * @param	pstrModuleName	[out]		The name of the current module.
 */
@@ -172,7 +172,7 @@ XnStatus XnPropertySetModuleEnumeratorGetCurrent(const XnPropertySetModuleEnumer
 
 /**
 * Gets a property enumerator. This enumerator must be freed using XnPropertySetEnumeratorFree.
-* 
+*
 * @param	pSet			[in]			The property set.
 * @param	ppEnumerator	[in/out]		The enumerator.
 * @param	strModule		[in]			Optional. When provided, only properties of this module will be enumerated.
@@ -192,14 +192,14 @@ XnStatus XnPropertySetFindProperty(const XnPropertySet* pSet, const XnChar* strM
 
 /**
 * Frees a previously created properties enumerator.
-* 
+*
 * @param	ppEnumerator	[in/out]	The enumerator.
 */
 XnStatus XnPropertySetEnumeratorFree(XnPropertySetEnumerator** ppEnumerator);
 
 /**
 * Moves the enumerator to the next property. This function must be called *before* getting current.
-* 
+*
 * @param	pEnumerator		[in]		The enumerator.
 * @param	pbEnd			[out]		TRUE if the enumerator has reached the end of the collection.
 */
@@ -207,7 +207,7 @@ XnStatus XnPropertySetEnumeratorMoveNext(XnPropertySetEnumerator* pEnumerator, X
 
 /**
 * Gets information regarding the current property.
-* 
+*
 * @param	pEnumerator		[in]		The enumerator.
 * @param	pnType			[out]		The type of the current property.
 * @param	pstrModule		[out]		The module of the current property.

@@ -77,7 +77,7 @@ public:
 	XnStatus Write(const XnUChar* pData, XnUInt32 nDataSize);
 
 	/*
-	* Copies buffer data to another location. 
+	* Copies buffer data to another location.
 	*
 	* @param	dest	[in]	Location to write to.
 	*/

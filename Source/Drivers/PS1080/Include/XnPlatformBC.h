@@ -49,7 +49,7 @@ _XN_DEPRECATED_TYPE(XnWChar, XN_WCHAR)
 _XN_DEPRECATED_TYPE(XnInt, XN_LONG)
 _XN_DEPRECATED_TYPE(XnUInt, XN_ULONG)
 
-XN_API_DEPRECATED("Please use OniDepthPixel instead") typedef XnUInt16 XN_DEPTH_TYPE; 
-XN_API_DEPRECATED("Please use XnRGB24Pixel instead") typedef XnUChar XN_IMAGE_TYPE; 
+XN_API_DEPRECATED("Please use OniDepthPixel instead") typedef XnUInt16 XN_DEPTH_TYPE;
+XN_API_DEPRECATED("Please use XnRGB24Pixel instead") typedef XnUChar XN_IMAGE_TYPE;
 
 #endif // XNPLATFORMBC_H
