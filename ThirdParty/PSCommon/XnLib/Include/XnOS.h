@@ -568,26 +568,6 @@ XN_C_API XnStatus XN_C_DECL xnOSCloseSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHa
 */
 XN_C_API XnStatus XN_C_DECL xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, XnUInt32 nMilliseconds, XnConditionFunc pConditionFunc, void* pConditionData);
 
-// Network
-struct xnOSSocket;
-typedef struct xnOSSocket* XN_SOCKET_HANDLE;
-
-#define XN_SOCKET_DEFAULT_TIMEOUT 0xFFFEFFFE
-
-XN_C_API XnStatus XN_C_DECL xnOSInitNetwork();
-XN_C_API XnStatus XN_C_DECL xnOSShutdownNetwork();
-XN_C_API XnStatus XN_C_DECL xnOSCreateSocket(const XnOSSocketType SocketType, const XnChar* cpIPAddress, const XnUInt16 nPort, XN_SOCKET_HANDLE* SocketPtr);
-XN_C_API XnStatus XN_C_DECL xnOSCloseSocket(XN_SOCKET_HANDLE Socket);
-XN_C_API XnStatus XN_C_DECL xnOSBindSocket(XN_SOCKET_HANDLE Socket);
-XN_C_API XnStatus XN_C_DECL xnOSListenSocket(XN_SOCKET_HANDLE Socket);
-XN_C_API XnStatus XN_C_DECL xnOSAcceptSocket(XN_SOCKET_HANDLE ListenSocket, XN_SOCKET_HANDLE* AcceptSocketPtr, XnUInt32 nMillisecsTimeout);
-XN_C_API XnStatus XN_C_DECL xnOSConnectSocket(XN_SOCKET_HANDLE Socket, XnUInt32 nMillisecsTimeout);
-XN_C_API XnStatus XN_C_DECL xnOSSetSocketBufferSize(XN_SOCKET_HANDLE Socket, const XnUInt32 nSocketBufferSize);
-XN_C_API XnStatus XN_C_DECL xnOSSendNetworkBuffer(XN_SOCKET_HANDLE Socket, const XnChar* cpBuffer, const XnUInt32 nBufferSize);
-XN_C_API XnStatus XN_C_DECL xnOSSendToNetworkBuffer(XN_SOCKET_HANDLE Socket, const XnChar* cpBuffer, const XnUInt32 nBufferSize, XN_SOCKET_HANDLE SocketTo);
-XN_C_API XnStatus XN_C_DECL xnOSReceiveNetworkBuffer(XN_SOCKET_HANDLE Socket, XnChar* cpBuffer, XnUInt32* pnBufferSize, XnUInt32 nMillisecsTimeout);
-XN_C_API XnStatus XN_C_DECL xnOSReceiveFromNetworkBuffer(XN_SOCKET_HANDLE Socket, XnChar* cpBuffer, XnUInt32* pnBufferSize, XN_SOCKET_HANDLE* SocketFrom);
-
 // Shared Memory
 typedef struct XnOSSharedMemory XnOSSharedMemory, *XN_SHARED_MEMORY_HANDLE;
 
