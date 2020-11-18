@@ -82,7 +82,7 @@ OniStatus TestDriver::tryDevice(const char* uri)
 	return ONI_STATUS_OK;
 }
 
-void TestDriver::shutdown() 
+void TestDriver::shutdown()
 {}
 
 ONI_EXPORT_DRIVER(TestDriver);

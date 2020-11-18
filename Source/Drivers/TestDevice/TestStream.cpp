@@ -178,4 +178,3 @@ OniStatus TestStream::invoke(int commandId, void* data, int dataSize)
 
 	return ONI_STATUS_OK;
 }
-
