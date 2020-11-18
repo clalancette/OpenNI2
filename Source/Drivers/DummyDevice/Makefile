@@ -26,10 +26,10 @@ LIB_NAME = DummyDevice
 LIB_DIRS = ../../../ThirdParty/PSCommon/XnLib/Bin/$(PLATFORM)-$(CFG)
 USED_LIBS = XnLib dl pthread
 ifneq ("$(OSTYPE)","Darwin")
-        USED_LIBS += rt  
+        USED_LIBS += rt
 endif
 
-CFLAGS += -Wall
+CFLAGS += -Wall -Wextra
 
 OUT_DIR := $(OUT_DIR)/OpenNI2/Drivers
 
