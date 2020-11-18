@@ -118,40 +118,6 @@ public:
 			return retVal;
 		}
 
-#if 0
-		ConstIterator& operator--()
-		{
-			XN_ASSERT(m_currBin != LAST_BIN);
-
-			if (m_currIt != m_ppBins[m_currBin]->ReverseEnd())
-			{
-				--m_currIt;
-			}
-
-			if (m_currIt == m_ppBins[m_currBin]->ReverseEnd())
-			{
-				do
-				{
-					if (m_currBin == 0)
-					{
-						m_currBin = LAST_BIN;
-						break;
-					}
-					--m_currBin;
-				} while (m_ppBins[m_currBin] == NULL || m_ppBins[m_currBin]->empty());
-
-				m_currIt = m_ppBins[m_currBin]->begin();
-			}
-			return *this;
-		}
-		ConstIterator operator--(XnInt32)
-		{
-			ConstIterator retVal(*this);
-			--*this;
-			return retVal;
-		}
-#endif
-
 		inline bool operator==(const ConstIterator& other) const
 		{
 			return m_currIt == other.m_currIt;
