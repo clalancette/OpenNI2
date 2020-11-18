@@ -43,18 +43,18 @@
 // Code
 //---------------------------------------------------------------------------
 XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const XnUInt32 nInputSize,
-										  XnUInt8* pOutput, XnUInt32* pnOutputSize, XnUInt16 nLineSize,
-										  XnUInt32* pnActualRead, XnBool bLastPart)
+					  XnUInt8* pOutput, XnUInt32* pnOutputSize, XnUInt16 nLineSize,
+					  XnUInt32* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
 	const XnUInt8* pInputOrig = pInput;
 	const XnUInt8* pInputEnd = pInput + nInputSize;
 	XnUInt8* pOrigOutput = pOutput;
 	XnUInt8* pOutputEnd = pOutput + (*pnOutputSize);
-	XnUInt8 nLastFullValue[4] = {0};	
+	XnUInt8 nLastFullValue[4] = {0};
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
-	XnUInt32 nTempValue = 0;	
+	XnUInt32 nTempValue = 0;
 	XnUInt32 cInput = 0;
 	XnBool bReadByte = TRUE;
 
@@ -180,18 +180,18 @@ XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const XnUInt32 nInp
 }
 
 XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const XnUInt32 nInputSize,
-									XnUInt8* pOutput, XnUInt32* pnOutputSize, XnUInt16 nLineSize,
-									XnUInt32* pnActualRead, XnBool bLastPart)
+					XnUInt8* pOutput, XnUInt32* pnOutputSize, XnUInt16 nLineSize,
+					XnUInt32* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
 	const XnUInt8* pInputOrig = pInput;
 	const XnUInt8* pInputEnd = pInput + nInputSize;
 	XnUInt8* pOrigOutput = pOutput;
 	XnUInt8* pOutputEnd = pOutput + (*pnOutputSize);
-	XnUInt8 nLastFullValue[4] = {0};	
+	XnUInt8 nLastFullValue[4] = {0};
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
-	XnUInt32 nTempValue = 0;	
+	XnUInt32 nTempValue = 0;
 	XnUInt32 cInput = 0;
 	XnBool bReadByte = TRUE;
 

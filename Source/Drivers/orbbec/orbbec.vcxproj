@@ -65,7 +65,6 @@
     <ClCompile Include="Formats\XnFormatsStatus.cpp" />
     <ClCompile Include="Sensor\Bayer.cpp" />
     <ClCompile Include="Sensor\Uncomp.cpp" />
-    <ClCompile Include="Sensor\XnAudioProcessor.cpp" />
     <ClCompile Include="Sensor\XnBayerImageProcessor.cpp" />
     <ClCompile Include="Sensor\XnCmosInfo.cpp" />
     <ClCompile Include="Sensor\XnDataProcessor.cpp" />
@@ -92,7 +91,6 @@
     <ClCompile Include="Sensor\XnPSCompressedDepthProcessor.cpp" />
     <ClCompile Include="Sensor\XnPSCompressedImageProcessor.cpp" />
     <ClCompile Include="Sensor\XnSensor.cpp" />
-    <ClCompile Include="Sensor\XnSensorAudioStream.cpp" />
     <ClCompile Include="Sensor\XnSensorDepthStream.cpp" />
     <ClCompile Include="Sensor\XnSensorFirmware.cpp" />
     <ClCompile Include="Sensor\XnSensorFirmwareParams.cpp" />
@@ -155,7 +153,6 @@
     <ClInclude Include="Sensor\Bayer.h" />
     <ClInclude Include="Sensor\IXnSensorStream.h" />
     <ClInclude Include="Sensor\Uncomp.h" />
-    <ClInclude Include="Sensor\XnAudioProcessor.h" />
     <ClInclude Include="Sensor\XnBayerImageProcessor.h" />
     <ClInclude Include="Sensor\XnCmosInfo.h" />
     <ClInclude Include="Sensor\XnDataProcessor.h" />
@@ -185,7 +182,6 @@
     <ClInclude Include="Sensor\XnPSCompressedDepthProcessor.h" />
     <ClInclude Include="Sensor\XnPSCompressedImageProcessor.h" />
     <ClInclude Include="Sensor\XnSensor.h" />
-    <ClInclude Include="Sensor\XnSensorAudioStream.h" />
     <ClInclude Include="Sensor\XnSensorDepthStream.h" />
     <ClInclude Include="Sensor\XnSensorFirmware.h" />
     <ClInclude Include="Sensor\XnSensorFirmwareParams.h" />

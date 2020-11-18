@@ -183,9 +183,6 @@
     <ClCompile Include="Sensor\XnBayerImageProcessor.cpp">
       <Filter>Sensor\Data Processors</Filter>
     </ClCompile>
-    <ClCompile Include="Sensor\XnAudioProcessor.cpp">
-      <Filter>Sensor\Data Processors</Filter>
-    </ClCompile>
     <ClCompile Include="Sensor\XnDataProcessor.cpp">
       <Filter>Sensor\Data Processors</Filter>
     </ClCompile>
@@ -272,9 +269,6 @@
     </ClCompile>
     <ClCompile Include="Sensor\XnDepthProcessor.cpp">
       <Filter>Sensor\Data Processors</Filter>
-    </ClCompile>
-    <ClCompile Include="Sensor\XnSensorAudioStream.cpp">
-      <Filter>Sensor\Streams</Filter>
     </ClCompile>
     <ClCompile Include="Sensor\XnSensorDepthStream.cpp">
       <Filter>Sensor\Streams</Filter>
@@ -446,9 +440,6 @@
     <ClInclude Include="Include\XnStreamParams.h">
       <Filter>DDK</Filter>
     </ClInclude>
-    <ClInclude Include="Sensor\XnAudioProcessor.h">
-      <Filter>Sensor\Data Processors</Filter>
-    </ClInclude>
     <ClInclude Include="Sensor\XnBayerImageProcessor.h">
       <Filter>Sensor\Data Processors</Filter>
     </ClInclude>
@@ -544,9 +535,6 @@
     </ClInclude>
     <ClInclude Include="Sensor\XnDepthProcessor.h">
       <Filter>Sensor\Data Processors</Filter>
-    </ClInclude>
-    <ClInclude Include="Sensor\XnSensorAudioStream.h">
-      <Filter>Sensor\Streams</Filter>
     </ClInclude>
     <ClInclude Include="Sensor\XnSensorDepthStream.h">
       <Filter>Sensor\Streams</Filter>

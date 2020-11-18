@@ -28,7 +28,6 @@
 #include "XnSensorDepthStream.h"
 #include "XnSensorImageStream.h"
 #include "XnSensorIRStream.h"
-#include "XnSensorAudioStream.h"
 #include "XnDeviceSensor.h"
 #include "XnHostProtocol.h"
 #include "XnDeviceSensorInit.h"
@@ -453,21 +452,9 @@ XnStatus XnSensor::CreateStreamModule(const XnChar* StreamType, const XnChar* St
 	}
 	else if (strcmp(StreamType, XN_STREAM_TYPE_AUDIO) == 0)
 	{
-		// TODO: enable
 		XN_ASSERT(FALSE);
 		pStream = NULL;
 		pHelper = NULL;
-/*		if (!m_Firmware.GetInfo()->bAudioSupported)
-		{
-			XN_LOG_WARNING_RETURN(XN_STATUS_UNSUPPORTED_STREAM, XN_MASK_DEVICE_SENSOR, "Audio is not supported by this FW!");
-		}
-
-		// TODO: use the allow other users property when constructing the audio stream
-		XnSensorAudioStream* pAudioStream;
-		XN_VALIDATE_NEW(pAudioStream, XnSensorAudioStream, GetUSBPath(), StreamName, &m_Objects, FALSE);
-		pStream = pAudioStream;
-		pHelper = pAudioStream->GetHelper();
-*/
 	}
 	else
 	{
@@ -2003,4 +1990,3 @@ void XN_CALLBACK_TYPE XnSensor::OnDeviceDisconnected(const OniDeviceInfo& device
 		pThis->SetErrorState(XN_STATUS_DEVICE_NOT_CONNECTED);
 	}
 }
-
