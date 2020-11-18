@@ -55,7 +55,7 @@ public:
 
 	typedef XnStatus (*ConvertCallback)(XnUInt64 nSource, XnUInt64* pnDest);
 
-	/** 
+	/**
 	* Maps a stream property to a firmware property. Later on, such a property can be used
 	* in calls to ConfigureFirmware or SetStreamFirmwareParam.
 	*/
@@ -127,8 +127,8 @@ private:
 class XnSensorStreamHolder : public XnDeviceModuleHolder
 {
 public:
-	XnSensorStreamHolder(XnDeviceStream* pStream, XnSensorStreamHelper* pHelper) : 
-		XnDeviceModuleHolder(pStream), m_pHelper(pHelper) 
+	XnSensorStreamHolder(XnDeviceStream* pStream, XnSensorStreamHelper* pHelper) :
+		XnDeviceModuleHolder(pStream), m_pHelper(pHelper)
 	{}
 
 	inline XnDeviceStream* GetStream() { return (XnDeviceStream*)GetModule(); }

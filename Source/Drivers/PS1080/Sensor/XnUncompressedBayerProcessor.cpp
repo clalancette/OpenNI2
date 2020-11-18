@@ -74,7 +74,7 @@ void XnUncompressedBayerProcessor::ProcessFramePacketChunk(const XnSensorProtoco
 		WriteBufferOverflowed();
 	}
 	else
-	{		
+	{
 		pWriteBuffer->UnsafeWrite(pData, nDataSize);
 	}
 

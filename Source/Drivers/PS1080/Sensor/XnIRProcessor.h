@@ -65,7 +65,7 @@ private:
 	/* A buffer to store bytes till we have enough to unpack. */
 	XnBuffer m_ContinuousBuffer;
 	XnBuffer m_UnpackedBuffer;
-	XnUInt64 m_nRefTimestamp; // needed for firmware bug workaround 
+	XnUInt64 m_nRefTimestamp; // needed for firmware bug workaround
 	XnDepthCMOSType m_DepthCMOSType;
 };
 

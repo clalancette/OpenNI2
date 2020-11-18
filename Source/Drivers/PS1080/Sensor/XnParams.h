@@ -21,7 +21,7 @@
 #ifndef XNPARAMS_H
 #define XNPARAMS_H
 
-typedef enum 
+typedef enum
 {
 	//General,
 	PARAM_GENERAL_CURRENT_MODE = 0,

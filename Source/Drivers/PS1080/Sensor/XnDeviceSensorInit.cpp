@@ -197,7 +197,7 @@ XnStatus XnDeviceSensorFreeBuffers(XnDevicePrivateData* pDevicePrivateData)
 XnStatus XnDeviceSensorConfigureVersion(XnDevicePrivateData* pDevicePrivateData)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// GetVersion is exactly the same in all versions, except a change that was made in version 5.1.
 	// so, we'll start with that, and if doesn't work we'll try previous protocols
 	XnHostProtocolUsbCore usb = XN_USB_CORE_JANGO;
@@ -205,14 +205,14 @@ XnStatus XnDeviceSensorConfigureVersion(XnDevicePrivateData* pDevicePrivateData)
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = XnHostProtocolGetVersion(pDevicePrivateData, pDevicePrivateData->Version);
-	
+
 	// Strange bug: sometimes, when sending first command to device, no reply is received, so try again
 	if (nRetVal == XN_STATUS_USB_TRANSFER_TIMEOUT)
 	{
 		xnOSSleep(2000);
 		nRetVal = XnHostProtocolGetVersion(pDevicePrivateData, pDevicePrivateData->Version);
 	}
-	
+
 	// if command failed for any reason, try again with older protocol
 	if (nRetVal != XN_STATUS_OK)
 	{

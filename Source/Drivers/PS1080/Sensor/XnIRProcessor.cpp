@@ -93,7 +93,7 @@ XnStatus XnIRProcessor::Unpack10to16(const XnUInt8* pcInput, const XnUInt32 nInp
 
 	for (XnUInt32 nElem = 0; nElem < nElements; ++nElem)
 	{
-		//1a 
+		//1a
 		cInput = *pcInput;
 		*pnOutput = (cInput & 0xFF) << 2;
 
@@ -259,7 +259,7 @@ void XnIRProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader)
 		{
 			// there are additional 8 rows (this is how the CMOS is configured)
 			actualHeight += 8;
-		}	
+		}
 	}
 	else
 	{

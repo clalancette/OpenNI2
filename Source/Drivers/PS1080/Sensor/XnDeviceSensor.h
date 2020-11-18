@@ -273,7 +273,7 @@ typedef struct XnFixedParams
 	XnInt32 nFmifWriteAccessCycles;
 	XnInt32 nFmifWriteRecoverCycles;
 	XnInt32 nFmifWriteAssertionCycles;
-	
+
 	// Audio
 	XnInt32 nI2SLogicClockPolarity;
 
@@ -306,7 +306,7 @@ typedef struct XnFixedParams
 	XnInt32 nAdcClocDivider;
 	XnInt32 nI2CStandardSpeedHCount;
 	XnInt32 nI2CStandardSpeedLCount;
-	
+
 	XnInt32 nI2CHoldFixDelay;
 
 	XnInt32 nSensorType;

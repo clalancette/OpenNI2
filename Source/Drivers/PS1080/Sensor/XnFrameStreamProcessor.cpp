@@ -121,7 +121,7 @@ void XnFrameStreamProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* 
 
 		OniFrame* pFrame = m_pTripleBuffer->GetWriteFrame();
 		pFrame->timestamp = nTimestamp;
-		
+
 		XnUInt32 nFrameID;
 		m_pTripleBuffer->MarkWriteBufferAsStable(&nFrameID);
 
@@ -137,7 +137,7 @@ void XnFrameStreamProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* 
 	// log bandwidth
 	XnUInt64 nSysTime;
 	xnOSGetTimeStamp(&nSysTime);
-	xnDumpFileWriteString(m_pDevicePrivateData->BandwidthDump, "%llu,%s,%d,%d\n", 
+	xnDumpFileWriteString(m_pDevicePrivateData->BandwidthDump, "%llu,%s,%d,%d\n",
 		nSysTime, m_csName, GetCurrentFrameID(), m_nBytesReceived);
 
 	// re-init dumps

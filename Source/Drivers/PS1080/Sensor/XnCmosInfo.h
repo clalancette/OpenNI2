@@ -46,7 +46,7 @@ public:
 
 	XnStatus SetCmosConfig(XnCMOSType nCmos, XnResolutions nResolution, XnUInt32 nFPS);
 
-	inline const XnCmosBlankingCoefficients* GetBlankingCoefficients(XnCMOSType nCmos) const { return m_pCurrCmosBlankingInfo[nCmos]; } 
+	inline const XnCmosBlankingCoefficients* GetBlankingCoefficients(XnCMOSType nCmos) const { return m_pCurrCmosBlankingInfo[nCmos]; }
 
 private:
 	XnSensorFirmware* m_pFirmware;

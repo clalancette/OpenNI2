@@ -131,7 +131,7 @@ XnStatus XnFirmwareStreams::Init()
 XnStatus XnFirmwareStreams::CheckClaimStream(const XnChar* strType, XnResolutions nRes, XnUInt32 nFPS, XnDeviceStream* pOwner)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// first of all, make sure this stream isn't claimed already
 	XnFirmwareStreamData* pStreamData = NULL;
 	nRetVal = m_FirmwareStreams.Get(strType, pStreamData);
@@ -152,7 +152,7 @@ XnStatus XnFirmwareStreams::CheckClaimStream(const XnChar* strType, XnResolution
 		if (pIRStreamData->pOwner != NULL)
 		{
 			// check res
-			if (pIRStreamData->nRes != nRes && 
+			if (pIRStreamData->nRes != nRes &&
 				!(pIRStreamData->nRes == XN_RESOLUTION_SXGA && nRes == XN_RESOLUTION_VGA))
 			{
 				XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DEVICE_SENSOR, "Cannot set depth stream to resolution %d when IR is set to resolution %d!", nRes, pIRStreamData->nRes);
@@ -188,7 +188,7 @@ XnStatus XnFirmwareStreams::CheckClaimStream(const XnChar* strType, XnResolution
 			if (pDepthStreamData->nRes != nRes &&
 				!(nRes == XN_RESOLUTION_SXGA && pDepthStreamData->nRes == XN_RESOLUTION_VGA))
 			{
-				if (m_pDevicePrivateData->FWInfo.nFWVer < XN_SENSOR_FW_VER_5_6) 
+				if (m_pDevicePrivateData->FWInfo.nFWVer < XN_SENSOR_FW_VER_5_6)
 				{
 					XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DEVICE_SENSOR, "Cannot set IR stream to resolution %d when Depth is set to resolution %d!", nRes, pDepthStreamData->nRes);
 				}
@@ -213,7 +213,7 @@ XnStatus XnFirmwareStreams::CheckClaimStream(const XnChar* strType, XnResolution
 			XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DEVICE_SENSOR, "Cannot open Image stream when IR stream is on!");
 		}
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -236,7 +236,7 @@ XnStatus XnFirmwareStreams::ClaimStream(const XnChar* strType, XnResolutions nRe
 	pData->pOwner = pOwner;
 
 	xnLogVerbose(XN_MASK_DEVICE_SENSOR, "FW Stream %s was claimed by %s", strType, pOwner->GetName());
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -259,7 +259,7 @@ XnStatus XnFirmwareStreams::ReleaseStream(const XnChar* strType, XnDeviceStream*
 	pData->pProcessorHolder->Replace(NULL);
 
 	xnLogVerbose(XN_MASK_DEVICE_SENSOR, "Stream %s released FW Stream %s", pOwner->GetName(), strType);
-	
+
 	return (XN_STATUS_OK);
 }
 

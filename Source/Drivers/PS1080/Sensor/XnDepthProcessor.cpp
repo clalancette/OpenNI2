@@ -54,7 +54,7 @@ XnDepthProcessor::~XnDepthProcessor()
 XnStatus XnDepthProcessor::Init()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// init base
 	nRetVal = XnFrameStreamProcessor::Init();
 	XN_IS_STATUS_OK(nRetVal);
@@ -94,8 +94,8 @@ void XnDepthProcessor::OnStartOfFrame(const XnSensorProtocolResponseHeader* pHea
 	m_nExpectedFrameSize = CalculateExpectedSize();
 
 	m_applyRegistrationOnEnd = (
-		(GetStream()->GetOutputFormat() == ONI_PIXEL_FORMAT_DEPTH_1_MM || GetStream()->GetOutputFormat() == ONI_PIXEL_FORMAT_DEPTH_100_UM) && 
-		GetStream()->m_DepthRegistration.GetValue() == TRUE && 
+		(GetStream()->GetOutputFormat() == ONI_PIXEL_FORMAT_DEPTH_1_MM || GetStream()->GetOutputFormat() == ONI_PIXEL_FORMAT_DEPTH_100_UM) &&
+		GetStream()->m_DepthRegistration.GetValue() == TRUE &&
 		GetStream()->m_FirmwareRegistration.GetValue() == FALSE);
 
 	if (m_pDevicePrivateData->FWInfo.nFWVer >= XN_SENSOR_FW_VER_5_1 && pHeader->nTimeStamp != 0)
@@ -153,7 +153,7 @@ void XnDepthProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 	pFrame->videoMode.resolutionX = GetStream()->GetXRes();
 	pFrame->videoMode.resolutionY = GetStream()->GetYRes();
 	pFrame->videoMode.fps = GetStream()->GetFPS();
-	
+
 	if (GetStream()->m_FirmwareCropMode.GetValue() != XN_FIRMWARE_CROPPING_MODE_DISABLED)
 	{
 		pFrame->width = (int)GetStream()->m_FirmwareCropSizeX.GetValue();
@@ -191,9 +191,9 @@ void XnDepthProcessor::PadPixels(XnUInt32 nPixels)
 
 	// place the no-depth value
 	for (XnUInt32 i = 0; i < nPixels; ++i, ++pDepth)
-    {
+	{
 		*pDepth = m_noDepthValue;
-    }
+	}
 	pWriteBuffer->UnsafeUpdateSize(nPixels * sizeof(OniDepthPixel));
 }
 

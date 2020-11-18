@@ -41,7 +41,7 @@ public:
 // Methods
 //---------------------------------------------------------------------------
 public:
-	/** 
+	/**
 	* Initializes a Data Processor.
 	*
 	* @param	pDevicePrivateData	[in]	A pointer to the device.
@@ -49,7 +49,7 @@ public:
 	*/
 	virtual XnStatus Init();
 
-	/** 
+	/**
 	* Handles some data from this stream.
 	*
 	* @param	pHeader		[in]	A pointer to current packet header.
@@ -76,7 +76,7 @@ protected:
 	* Gets a calculated timestamp from the device timestamp.
 	*
 	* @param	nDeviceTimeStamp	[in]	The device TS to translate.
-	*/ 
+	*/
 	virtual XnUInt64 CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp);
 
 	XnUInt64 GetHostTimestamp();

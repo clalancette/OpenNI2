@@ -37,13 +37,13 @@ XnWholePacketProcessor::~XnWholePacketProcessor()
 XnStatus XnWholePacketProcessor::Init()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = XnDataProcessor::Init();
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = m_WholePacket.Allocate(m_nMaxPacketSize);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 

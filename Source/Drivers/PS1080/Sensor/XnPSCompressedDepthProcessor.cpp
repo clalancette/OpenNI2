@@ -57,19 +57,12 @@ XnPSCompressedDepthProcessor::~XnPSCompressedDepthProcessor()
 	if (z >= XN_DEVICE_SENSOR_MAX_SHIFT_VALUE)		\
 	{												\
 		z = XN_DEVICE_SENSOR_NO_DEPTH_VALUE;		\
-	}	
+	}
 
 #define XN_DEPTH_OUTPUT(pDepthOutput, pOutputEnd, nValue)					                \
 	XN_CHECK_UNC_DEPTH_OUTPUT(pDepthOutput, pOutputEnd, nValue)				                \
 	*pDepthOutput = GetOutput(nValue);										                \
 	++pDepthOutput;
-
-#define INIT_INPUT(pInput, nInputSize)					\
-	const XnUInt8* __pInputOrig = pInput;				\
-	const XnUInt8* __pCurrInput = pInput;				\
-	const XnUInt8* __pInputEnd = pInput + nInputSize;	\
-	XnBool __bShouldReadByte = TRUE;					\
-	XnUInt32 __nLastByte = 0;
 
 #define GET_NEXT_INPUT(nInput)								\
 	if (__bShouldReadByte)									\
@@ -93,11 +86,6 @@ XnPSCompressedDepthProcessor::~XnPSCompressedDepthProcessor()
 		__bShouldReadByte = TRUE;							\
 	}
 
-/** True if input is in a steady state (not in the middle of a byte) */
-#define CAN_INPUT_STOP_HERE __bShouldReadByte
-
-/** Gets a pointer to n elements before current input */
-#define GET_PREV_INPUT(n) __pCurrInput - n/2;
 
 #define GET_INPUT_READ_BYTES (__pCurrInput - __pInputOrig);
 
@@ -106,7 +94,12 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, 
 								   XnUInt32* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
-	INIT_INPUT(pInput, nInputSize);
+	const XnUInt8* __pInputOrig = pInput;
+	const XnUInt8* __pCurrInput = pInput;
+	const XnUInt8* __pInputEnd = pInput + nInputSize;
+	/** True if input is in a steady state (not in the middle of a byte) */
+	XnBool __bShouldReadByte = TRUE;
+	XnUInt32 __nLastByte = 0;
 
 	XnUInt16* pOutputEnd = pDepthOutput + (*pnOutputSize / sizeof(OniDepthPixel));
 	XnUInt16 nLastValue = 0;
@@ -124,7 +117,7 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, 
 
 	for (;;)
 	{
-		bCanStop = CAN_INPUT_STOP_HERE;
+		bCanStop = __bShouldReadByte;
 		GET_NEXT_INPUT(nInput);
 
 		switch (nInput)
@@ -167,7 +160,8 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, 
 				if (bCanStop)
 				{
 					// We can stop here. First input is a full value
-					pInputLastPossibleStop = GET_PREV_INPUT(2);
+					/** Gets a pointer to 1 element before current input */
+					pInputLastPossibleStop = __pCurrInput - 1;
 					pOutputLastPossibleStop = pDepthOutput;
 				}
 
@@ -246,7 +240,7 @@ void XnPSCompressedDepthProcessor::ProcessFramePacketChunk(const XnSensorProtoco
 	XnUInt32 nWrittenOutput = nOutputSize;
 	XnUInt32 nActualRead = 0;
 	XnBool bLastPart = pHeader->nType == XN_SENSOR_PROTOCOL_RESPONSE_DEPTH_END && (nDataOffset + nDataSize) == pHeader->nBufSize;
-	XnStatus nRetVal = UncompressDepthPS(pBuf, nBufSize, (XnUInt16*)pWriteBuffer->GetUnsafeWritePointer(), 
+	XnStatus nRetVal = UncompressDepthPS(pBuf, nBufSize, (XnUInt16*)pWriteBuffer->GetUnsafeWritePointer(),
 			&nWrittenOutput, &nActualRead, bLastPart);
 
 	if (nRetVal != XN_STATUS_OK)
@@ -258,7 +252,7 @@ void XnPSCompressedDepthProcessor::ProcessFramePacketChunk(const XnSensorProtoco
 		XnUInt64 nCurrTime;
 		xnOSGetTimeStamp(&nCurrTime);
 
-		if (nOutputSize != 0 || (nCurrTime - nLastPrinted) > 1000) 
+		if (nOutputSize != 0 || (nCurrTime - nLastPrinted) > 1000)
 		{
 			xnLogWarning(XN_MASK_SENSOR_PROTOCOL_DEPTH, "Uncompress depth failed: %s. Input Size: %u, Output Space: %u, Last Part: %d.", xnGetStatusString(nRetVal), nBufSize, nOutputSize, bLastPart);
 
@@ -292,4 +286,3 @@ void XnPSCompressedDepthProcessor::OnEndOfFrame(const XnSensorProtocolResponseHe
 	XnDepthProcessor::OnEndOfFrame(pHeader);
 	m_RawData.Reset();
 }
-

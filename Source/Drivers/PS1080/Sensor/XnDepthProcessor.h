@@ -32,8 +32,8 @@
 //---------------------------------------------------------------------------
 
 // Optimization: in order to save branches in the code itself, we create a shift-to-depth
-// map which will actually translate shift-to-shift. This optimization relies on the 
-// fact that both shifts and depths are 16-bit long. If this is not the case, 
+// map which will actually translate shift-to-shift. This optimization relies on the
+// fact that both shifts and depths are 16-bit long. If this is not the case,
 // this optimization should be re-written.
 // Then, any processor can always go through this LUT, no matter what the output format is.
 #if (OniDepthPixel != XnUInt16)

@@ -86,7 +86,7 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp)
 	XnUInt64 nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 
-	// we register the first TS calculated as time-zero. Every stream's TS data will be 
+	// we register the first TS calculated as time-zero. Every stream's TS data will be
 	// synchronized with it
 	if (m_pDevicePrivateData->nGlobalReferenceTS == 0)
 	{
@@ -107,8 +107,8 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp)
 
 	if (m_TimeStampData.bFirst)
 	{
-		/* 
-		This is a bit tricky, as we need to synchronize the first timestamp of different streams. 
+		/*
+		This is a bit tricky, as we need to synchronize the first timestamp of different streams.
 		We somehow need to translate 32-bit tick counts to 64-bit timestamps. The device timestamps
 		wrap-around every ~71.5 seconds (for PS1080 @ 60 MHz).
 		Lets assume the first packet of the first stream got timestamp X. Now we get the first packet of another
@@ -120,7 +120,7 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp)
 		3. Y is before X, in the same period (might happen due to race condition).
 		4. Y is before X, in a different period (this can happen if X is really small, and Y is almost at wraparound).
 
-		The following code tried to handle all those cases. It uses an OS timer to try and figure out how 
+		The following code tried to handle all those cases. It uses an OS timer to try and figure out how
 		many wraparounds occurred.
 		*/
 
@@ -134,7 +134,7 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp)
 		XnInt32 nWraps = (XnInt32)(nOSTime / fWrapAroundInMicroseconds);
 
 		// now fix the estimation by clipping TS to the correct wraparounds
-		XnInt64 nEstimatedTicks = 
+		XnInt64 nEstimatedTicks =
 			nWraps * nWrapPoint + // wraps time
 			nDeviceTimeStamp - m_pDevicePrivateData->nGlobalReferenceTS;
 
@@ -218,7 +218,7 @@ XnUInt64 XnDataProcessor::GetHostTimestamp()
 	XnUInt64 nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 
-	// we register the first TS calculated as time-zero. Every stream's TS data will be 
+	// we register the first TS calculated as time-zero. Every stream's TS data will be
 	// synchronized with it
 	if (m_pDevicePrivateData->nGlobalReferenceTS == 0)
 	{

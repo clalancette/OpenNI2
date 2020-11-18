@@ -42,10 +42,10 @@ XnDataProcessorHolder::~XnDataProcessorHolder()
 XnStatus XnDataProcessorHolder::Init()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = xnOSCreateCriticalSection(&m_hLock);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -90,4 +90,3 @@ void XnDataProcessorHolder::ProcessData(const XnSensorProtocolResponseHeader* pH
 
 	Unlock();
 }
-

@@ -85,7 +85,7 @@ void XnGMCDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeade
 
 		xnDumpFileWriteString(m_DumpTxt, "\nMode,%hd\nCoverage Pass:%d\n", pGMCLastPacketData->m_GMCMode,pGMCLastPacketData->m_CoveragePass);
 
-		xnDumpFileWriteString(m_DumpTxt, "Last Configuration:\nN,%hd\nRICC,%hu\nRICC IIR,%f\n\n", 
+		xnDumpFileWriteString(m_DumpTxt, "Last Configuration:\nN,%hd\nRICC,%hu\nRICC IIR,%f\n\n",
 			pGMCLastPacketData->m_LastConfData.nLast, pGMCLastPacketData->m_LastConfData.nRICCLast, pGMCLastPacketData->m_LastConfData.fRICC_IIR);
 
 		xnDumpFileWriteString(m_DumpTxt, "New Configuration:\nA,%f\nB,%f\nC,%f\nN,%hd\nRICC,%hu\nStartB,%u\nDeltaB,%u\n",
@@ -107,4 +107,3 @@ void XnGMCDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeade
 
 	XN_PROFILING_END_SECTION
 }
-

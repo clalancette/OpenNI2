@@ -29,7 +29,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnSensorStreamHelper::XnSensorStreamHelper(XnSensorObjects* pObjects) : 
+XnSensorStreamHelper::XnSensorStreamHelper(XnSensorObjects* pObjects) :
 	m_pSensorStream(NULL),
 	m_pStream(NULL),
 	m_pObjects(pObjects)
@@ -47,10 +47,10 @@ XnStatus XnSensorStreamHelper::Init(IXnSensorStream* pSensorStream, XnDeviceStre
 
 	m_pSensorStream = pSensorStream;
 	m_pStream = pStream;
-	
+
 	nRetVal = m_pSensorStream->MapPropertiesToFirmware();
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -69,7 +69,7 @@ XnStatus XnSensorStreamHelper::Free()
 XnStatus XnSensorStreamHelper::Configure()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XnResolutions nRes;
 	XnUInt32 nFPS;
 	m_pSensorStream->GetFirmwareStreamConfig(&nRes, &nFPS);
@@ -109,7 +109,7 @@ XnStatus XnSensorStreamHelper::Configure()
 XnStatus XnSensorStreamHelper::FinalOpen()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = m_pSensorStream->OpenStreamImpl();
 	if (nRetVal != XN_STATUS_OK)
 	{
@@ -145,7 +145,7 @@ XnStatus XnSensorStreamHelper::Open()
 XnStatus XnSensorStreamHelper::Close()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	if (GetFirmware()->GetStreams()->IsClaimed(m_pStream->GetType(), m_pStream))
 	{
 		nRetVal = m_pSensorStream->CloseStreamImpl();
@@ -153,7 +153,7 @@ XnStatus XnSensorStreamHelper::Close()
 
 		GetFirmware()->GetStreams()->ReleaseStream(m_pStream->GetType(), m_pStream);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -174,7 +174,7 @@ XnStatus XnSensorStreamHelper::RegisterDataProcessorProperty(XnActualIntProperty
 XnStatus XnSensorStreamHelper::MapFirmwareProperty(XnActualIntProperty& Property, XnActualIntProperty& FirmwareProperty, XnBool bAllowChangeWhileOpen, XnSensorStreamHelper::ConvertCallback pStreamToFirmwareFunc /* = 0 */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// init data
 	XnSensorStreamHelperCookie cookie(&Property, &FirmwareProperty, bAllowChangeWhileOpen, pStreamToFirmwareFunc);
 	cookie.CurrentTransaction.bShouldOpen = false;
@@ -190,7 +190,7 @@ XnStatus XnSensorStreamHelper::MapFirmwareProperty(XnActualIntProperty& Property
 XnStatus XnSensorStreamHelper::ConfigureFirmware(XnActualIntProperty& Property)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XnSensorStreamHelperCookie* pPropData = NULL;
 	nRetVal = m_FirmwareProperties.Get(&Property, pPropData);
 	XN_IS_STATUS_OK(nRetVal);
@@ -212,7 +212,7 @@ XnStatus XnSensorStreamHelper::ConfigureFirmware(XnActualIntProperty& Property)
 XnStatus XnSensorStreamHelper::BeforeSettingFirmwareParam(XnActualIntProperty& Property, XnUInt16 nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XnSensorStreamHelperCookie* pPropData = NULL;
 	nRetVal = m_FirmwareProperties.Get(&Property, pPropData);
 	XN_IS_STATUS_OK(nRetVal);
@@ -261,18 +261,18 @@ XnStatus XnSensorStreamHelper::BeforeSettingFirmwareParam(XnActualIntProperty& P
 			pPropData->CurrentTransaction.bShouldOpen = TRUE;
 		}
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
 XnStatus XnSensorStreamHelper::AfterSettingFirmwareParam(XnActualIntProperty& Property)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XnSensorStreamHelperCookie* pPropData = NULL;
 	nRetVal = m_FirmwareProperties.Get(&Property, pPropData);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	if (pPropData->CurrentTransaction.bShouldOpen)
 	{
 		nRetVal = m_pStream->Open();
@@ -291,14 +291,14 @@ XnStatus XnSensorStreamHelper::AfterSettingFirmwareParam(XnActualIntProperty& Pr
 		nRetVal = GetFirmware()->GetStreams()->UnlockStreamProcessor(m_pStream->GetType(), m_pStream);
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
 XnStatus XnSensorStreamHelper::SimpleSetFirmwareParam(XnActualIntProperty& Property, XnUInt16 nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = BeforeSettingFirmwareParam(Property, nValue);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -307,20 +307,20 @@ XnStatus XnSensorStreamHelper::SimpleSetFirmwareParam(XnActualIntProperty& Prope
 
 	nRetVal = AfterSettingFirmwareParam(Property);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
 XnStatus XnSensorStreamHelper::BeforeSettingDataProcessorProperty()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	if (m_pStream->IsOpen())
 	{
 		nRetVal = GetFirmware()->GetStreams()->LockStreamProcessor(m_pStream->GetType(), m_pStream);
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -348,14 +348,14 @@ XnStatus XnSensorStreamHelper::AfterSettingDataProcessorProperty()
 XnStatus XnSensorStreamHelper::UpdateFromFirmware(XnActualIntProperty& Property)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XnSensorStreamHelperCookie* pPropData = NULL;
 	nRetVal = m_FirmwareProperties.Get(&Property, pPropData);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = pPropData->pStreamProp->UnsafeUpdateValue(pPropData->pFirmwareProp->GetValue());
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -398,14 +398,16 @@ XnStatus XnSensorStreamHelper::BatchConfig(const XnActualPropertiesHash& props)
 		nRetVal = m_pStream->Open();
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
 XnFirmwareCroppingMode XnSensorStreamHelper::GetFirmwareCroppingMode(XnCroppingMode nValue, XnBool bEnabled)
 {
 	if (!bEnabled)
+	{
 		return XN_FIRMWARE_CROPPING_MODE_DISABLED;
+	}
 
 	switch (nValue)
 	{

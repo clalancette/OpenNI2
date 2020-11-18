@@ -35,7 +35,7 @@
 //---------------------------------------------------------------------------
 // XnSensorIRStream class
 //---------------------------------------------------------------------------
-XnSensorIRStream::XnSensorIRStream(const XnChar* StreamName, XnSensorObjects* pObjects) : 
+XnSensorIRStream::XnSensorIRStream(const XnChar* StreamName, XnSensorObjects* pObjects) :
 	XnIRStream(StreamName, FALSE, XN_DEVICE_SENSOR_MAX_IR),
 	m_InputFormat(XN_STREAM_PROPERTY_INPUT_FORMAT, "InputFormat", 0),
 	m_CroppingMode(XN_STREAM_PROPERTY_CROPPING_MODE, "CroppingMode", XN_CROPPING_MODE_NORMAL),
@@ -55,12 +55,9 @@ XnStatus XnSensorIRStream::Init()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-// 	nRetVal = SetBufferPool(&m_BufferPool);
-// 	XN_IS_STATUS_OK(nRetVal);
-
 	// init base
 	nRetVal = XnIRStream::Init();
-    XN_IS_STATUS_OK(nRetVal);
+	XN_IS_STATUS_OK(nRetVal);
 
 	// add properties
 	XN_VALIDATE_ADD_PROPERTIES(this, &m_InputFormat, &m_ActualRead, &m_CroppingMode);
@@ -214,9 +211,9 @@ XnStatus XnSensorIRStream::OpenStreamImpl()
 XnStatus XnSensorIRStream::FixFirmwareBug()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// Firmware bug ugly workaround: in v5.1, IR 1.3 would not turn off decimation, so image is
-	// corrupted. we need to turn it off ourselves. The problem is that the firmware does not 
+	// corrupted. we need to turn it off ourselves. The problem is that the firmware does not
 	// even provide a way to do so, so we need to directly change the register...
 	// the bug only happens when cropping is off
 	if (m_Helper.GetFirmware()->GetInfo()->nFWVer == XN_SENSOR_FW_VER_5_1 && GetResolution() == XN_RESOLUTION_SXGA && !GetCropping()->enabled)
@@ -251,13 +248,13 @@ XnStatus XnSensorIRStream::SetOutputFormat(OniPixelFormat nOutputFormat)
 	switch (nOutputFormat)
 	{
 	case ONI_PIXEL_FORMAT_RGB888:
-    case ONI_PIXEL_FORMAT_GRAY16:
-        nRetVal = DeviceMaxIRProperty().UnsafeUpdateValue(XN_DEVICE_SENSOR_MAX_IR);
-        break;
+	case ONI_PIXEL_FORMAT_GRAY16:
+		nRetVal = DeviceMaxIRProperty().UnsafeUpdateValue(XN_DEVICE_SENSOR_MAX_IR);
+		break;
 	default:
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DEVICE_SENSOR, "Unsupported IR output format: %d", nOutputFormat);
 	}
-    XN_IS_STATUS_OK(nRetVal);
+	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = m_Helper.BeforeSettingDataProcessorProperty();
 	XN_IS_STATUS_OK(nRetVal);
@@ -336,13 +333,19 @@ XnStatus XnSensorIRStream::SetCroppingImpl(const OniCropping* pCropping, XnCropp
 			nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropSizeX,       (XnUInt16) pCropping->width);
 
 			if (nRetVal == XN_STATUS_OK)
+			{
 				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropSizeY,   (XnUInt16) pCropping->height);
+			}
 
 			if (nRetVal == XN_STATUS_OK)
+			{
 				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropOffsetX, (XnUInt16) nXOffset);
+			}
 
 			if (nRetVal == XN_STATUS_OK)
+			{
 				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropOffsetY, (XnUInt16) pCropping->originY);
+			}
 		}
 
 		if (nRetVal == XN_STATUS_OK)
@@ -427,7 +430,7 @@ XnStatus XnSensorIRStream::CalcRequiredSize(XnUInt32* pnRequiredSize) const
 XnStatus XnSensorIRStream::CropImpl(OniFrame* pFrame, const OniCropping* pCropping)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// if firmware cropping is disabled, crop
 	if (m_FirmwareCropMode.GetValue() == XN_FIRMWARE_CROPPING_MODE_DISABLED)
 	{
@@ -439,7 +442,7 @@ XnStatus XnSensorIRStream::CropImpl(OniFrame* pFrame, const OniCropping* pCroppi
 		// mirror is done in software and cropping in chip, so we crop the other side (see SetCroppingImpl()).
 		pFrame->cropOriginX = GetXRes() - pFrame->cropOriginX - pFrame->width;
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -462,7 +465,7 @@ XnStatus XnSensorIRStream::CreateDataProcessor(XnDataProcessor** ppProcessor)
 XnStatus XnSensorIRStream::OnIsMirroredChanged()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// if cropping is on, we need to flip it
 	OniCropping cropping = *GetCropping();
 	if (cropping.enabled)
@@ -470,7 +473,7 @@ XnStatus XnSensorIRStream::OnIsMirroredChanged()
 		nRetVal = SetCropping(&cropping);
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -491,4 +494,3 @@ XnStatus XN_CALLBACK_TYPE XnSensorIRStream::SetCroppingModeCallback(XnActualIntP
 	XnSensorIRStream* pStream = (XnSensorIRStream*)pCookie;
 	return pStream->SetCroppingMode((XnCroppingMode)nValue);
 }
-

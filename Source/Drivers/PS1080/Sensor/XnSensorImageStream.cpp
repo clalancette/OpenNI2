@@ -41,7 +41,7 @@
 //---------------------------------------------------------------------------
 // XnSensorImageStream class
 //---------------------------------------------------------------------------
-XnSensorImageStream::XnSensorImageStream(const XnChar* StreamName, XnSensorObjects* pObjects) : 
+XnSensorImageStream::XnSensorImageStream(const XnChar* StreamName, XnSensorObjects* pObjects) :
 	XnImageStream(StreamName, FALSE),
 	m_Helper(pObjects),
 	m_InputFormat(XN_STREAM_PROPERTY_INPUT_FORMAT, "InputFormat", XN_IMAGE_STREAM_DEFAULT_INPUT_FORMAT),
@@ -72,9 +72,6 @@ XnStatus XnSensorImageStream::Init()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-// 	nRetVal = SetBufferPool(&m_BufferPool);
-// 	XN_IS_STATUS_OK(nRetVal);
-
 	// init base
 	nRetVal = XnImageStream::Init();
 	XN_IS_STATUS_OK(nRetVal);
@@ -88,10 +85,10 @@ XnStatus XnSensorImageStream::Init()
 	m_Gain.UpdateSetCallback(SetGainCallback, this);
 	m_FastZoomCrop.UpdateSetCallback(SetFastZoomCropCallback, this);
 	m_AutoWhiteBalance.UpdateSetCallback(SetAutoWhiteBalanceCallback, this);
-	m_ActualRead.UpdateSetCallback(SetActualReadCallback, this); 
+	m_ActualRead.UpdateSetCallback(SetActualReadCallback, this);
 
 	// add properties
-	XN_VALIDATE_ADD_PROPERTIES(this, &m_InputFormat, &m_AntiFlicker, &m_ImageQuality, 
+	XN_VALIDATE_ADD_PROPERTIES(this, &m_InputFormat, &m_AntiFlicker, &m_ImageQuality,
 		&m_CroppingMode, &m_ActualRead, &m_HorizontalFOV, &m_VerticalFOV, &m_AutoExposure, &m_AutoWhiteBalance, &m_Exposure, &m_Gain, &m_FastZoomCrop);
 
 	// set base properties default values
@@ -152,7 +149,7 @@ XnStatus XnSensorImageStream::Init()
 			if (aSupportedModes[i].nFormat == XN_IMAGE_STREAM_DEFAULT_INPUT_FORMAT)
 			{
 				nValidInputFormat = XN_IMAGE_STREAM_DEFAULT_INPUT_FORMAT;
-				break;					
+				break;
 			}
 		}
 	}
@@ -228,7 +225,7 @@ XnStatus XnSensorImageStream::MapPropertiesToFirmware()
 XnStatus XnSensorImageStream::ValidateMode()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// validity checks
 	XnIOImageFormats nInputFormat = (XnIOImageFormats)m_InputFormat.GetValue();
 	OniPixelFormat nOutputFormat = GetOutputFormat();
@@ -438,7 +435,7 @@ XnStatus XnSensorImageStream::SetOutputFormat(OniPixelFormat nOutputFormat)
 
 	nRetVal = m_Helper.AfterSettingDataProcessorProperty();
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -525,10 +522,10 @@ XnStatus XnSensorImageStream::SetInputFormat(XnIOImageFormats nInputFormat)
 XnStatus XnSensorImageStream::SetAntiFlicker(XnUInt32 nFrequency)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = m_Helper.SimpleSetFirmwareParam(m_AntiFlicker, (XnUInt16)nFrequency);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -539,7 +536,7 @@ XnStatus XnSensorImageStream::SetImageQuality(XnUInt32 /*nQuality*/)
 	{
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_UNSUPPORTED_PARAMETER, XN_MASK_DEVICE_SENSOR, "Image quality is only supported when input format is JPEG");
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -641,7 +638,7 @@ XnStatus XnSensorImageStream::SetCroppingMode(XnCroppingMode mode)
 XnStatus XnSensorImageStream::SetAutoExposureForOldFirmware(XnBool bAutoExposure)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt16 nCmosRegValue; 
+	XnUInt16 nCmosRegValue;
 
 	nRetVal = XnHostProtocolSetCMOSRegisterI2C(m_Helper.GetPrivateData(), (XnCMOSType)0, 0xf0, 1);
 	XN_IS_STATUS_OK(nRetVal);
@@ -651,12 +648,12 @@ XnStatus XnSensorImageStream::SetAutoExposureForOldFirmware(XnBool bAutoExposure
 
 	if (bAutoExposure)
 	{
-		nCmosRegValue |= 0x4000;	
+		nCmosRegValue |= 0x4000;
 	}
 	else
-	{		
+	{
 		nCmosRegValue &= ~0x4000;
-	}	
+	}
 
 	nRetVal = XnHostProtocolSetCMOSRegisterI2C(m_Helper.GetPrivateData(), (XnCMOSType)0, 0x6, nCmosRegValue);
 	XN_IS_STATUS_OK(nRetVal);
@@ -688,7 +685,7 @@ XnStatus XnSensorImageStream::SetAutoExposure(XnBool bAutoExposure)
 XnStatus XnSensorImageStream::SetAutoWhiteBalanceForOldFirmware(XnBool bAutoWhiteBalance)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt16 nCmosRegValue; 
+	XnUInt16 nCmosRegValue;
 
 	nRetVal = XnHostProtocolSetCMOSRegisterI2C(m_Helper.GetPrivateData(), (XnCMOSType)0, 0xf0, 1);
 	XN_IS_STATUS_OK(nRetVal);
@@ -698,12 +695,12 @@ XnStatus XnSensorImageStream::SetAutoWhiteBalanceForOldFirmware(XnBool bAutoWhit
 
 	if (bAutoWhiteBalance)
 	{
-		nCmosRegValue |= 0x2;	
+		nCmosRegValue |= 0x2;
 	}
 	else
-	{		
+	{
 		nCmosRegValue &= ~0x2;
-	}	
+	}
 
 	nRetVal = XnHostProtocolSetCMOSRegisterI2C(m_Helper.GetPrivateData(), (XnCMOSType)0, 0x6, nCmosRegValue);
 	XN_IS_STATUS_OK(nRetVal);

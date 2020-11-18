@@ -297,7 +297,7 @@ typedef struct XnWavelengthCorrectionDebugPacket
 	XnUInt32 nWaitPeriod;
 	XnUInt16 nIsWavelengthUnstable;
 	XnBestTecConf BestConf;
-	XnUInt16 nIsTotallyUnstable; //whole scan no stable point    
+	XnUInt16 nIsTotallyUnstable; //whole scan no stable point
 	XnUInt32 nConfiguredTecSetPoint; // 0 if not configured
 	XnInt32 nCurrentStep;
 } XnWavelengthCorrectionDebugPacket;

@@ -50,11 +50,10 @@ void XnWavelengthCorrectionDebugProcessor::ProcessWholePacket(const XnSensorProt
 	xnOSGetHighResTimeStamp(&nTimestamp);
 
 	xnDumpFileWriteString(m_DumpTxt, "%llu,%hu,%f,%f,%hu,%x,%hu,%hu,%u,%hu,%hu,%u,%d,%hu,%u,%d\n",
-		nTimestamp, pHeader->nPacketID, 
+		nTimestamp, pHeader->nPacketID,
 		pPacket->fBLast, pPacket->fBCurrent, pPacket->nIsHop, pPacket->nCurrentSlidingWindow,
 		pPacket->nCurrentHopsCount, pPacket->nIsTecCalibrated, pPacket->nWaitPeriod,
 		pPacket->nIsWavelengthUnstable, pPacket->BestConf.nBestHopsCount, pPacket->BestConf.nBestSetPoint,
 		pPacket->BestConf.nBestStep, pPacket->nIsTotallyUnstable, pPacket->nConfiguredTecSetPoint,
 		pPacket->nCurrentStep);
 }
-

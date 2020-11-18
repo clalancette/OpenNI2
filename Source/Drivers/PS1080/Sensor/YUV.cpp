@@ -110,7 +110,7 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVS
 		G =     Y - 0.39466 U - 0.58060 V
 		B =     Y + 2.03211 U
 
-		*/ 
+		*/
 
 		temp = _mm_mul_ps(plus113983, v);
 		r = _mm_add_ps(y, temp);
@@ -251,7 +251,7 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSiz
 		G =     Y - 0.39466 U - 0.58060 V
 		B =     Y + 2.03211 U
 
-		*/ 
+		*/
 
 		temp = _mm_mul_ps(plus113983, v);
 		r = _mm_add_ps(y, temp);

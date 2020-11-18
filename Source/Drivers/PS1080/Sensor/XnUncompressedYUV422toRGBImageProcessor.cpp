@@ -41,12 +41,12 @@ XnUncompressedYUV422toRGBImageProcessor::~XnUncompressedYUV422toRGBImageProcesso
 XnStatus XnUncompressedYUV422toRGBImageProcessor::Init()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = XnImageProcessor::Init();
 	XN_IS_STATUS_OK(nRetVal);
 
 	XN_VALIDATE_BUFFER_ALLOCATE(m_ContinuousBuffer, XN_YUV_TO_RGB_INPUT_ELEMENT_SIZE)
-	
+
 	return (XN_STATUS_OK);
 }
 

@@ -51,7 +51,7 @@ XnStatus XnImageProcessor::Init()
 
 	nRetVal = XnFrameStreamProcessor::Init();
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	nRetVal = GetStream()->XResProperty().OnChangeEvent().Register(ActualResChangedCallback, this, m_hXResCallback);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -158,4 +158,3 @@ XnStatus XnImageProcessor::ActualResChangedCallback(const XnProperty* /*pSender*
 	pThis->CalcActualRes();
 	return XN_STATUS_OK;
 }
-

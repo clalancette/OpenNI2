@@ -218,7 +218,7 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 		m_bMiscSupported = TRUE;
 
 		if (bIsISO)
-		{ 
+		{
 			xnLogVerbose(XN_MASK_DEVICE_IO, "Misc endpoint is isochronous.");
 		}
 		else

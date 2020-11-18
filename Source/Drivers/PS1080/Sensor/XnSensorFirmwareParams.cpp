@@ -173,7 +173,7 @@ XnStatus XnSensorFirmwareParams::Init()
 	nRetVal = AddFirmwareParam(		m_IRFormat,					PARAM_IR_FORMAT);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_IRResolution,				PARAM_IR_RESOLUTION);
-	XN_IS_STATUS_OK(nRetVal);								
+	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_IRFPS,					PARAM_IR_FPS);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_IRCropSizeX,				PARAM_IR_CROP_SIZE_X,						XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	0);
@@ -284,12 +284,12 @@ XnStatus XnSensorFirmwareParams::AddFirmwareParam(XnActualIntProperty& Property,
 XnStatus XnSensorFirmwareParams::AddFirmwareAudioParam(XnActualIntProperty& Property, XnUInt16 nFirmwareParam, XnFWVer nMinVer /* = XN_SENSOR_FW_VER_3_0 */, XnFWVer nMaxVer /* = XN_SENSOR_FW_VER_UNKNOWN */, XnUInt16 nValueIfNotSupported /* = 0 */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = AddFirmwareParam(Property, nFirmwareParam, nMinVer, nMaxVer, nValueIfNotSupported);
 	XN_IS_STATUS_OK(nRetVal);
 
 	Property.UpdateSetCallback(SetFirmwareAudioParamCallback, this);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -328,7 +328,7 @@ XnStatus XnSensorFirmwareParams::StartTransaction()
 XnStatus XnSensorFirmwareParams::CommitTransaction()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	if (!m_bInTransaction)
 	{
 		return XN_STATUS_ERROR;
@@ -351,7 +351,7 @@ XnStatus XnSensorFirmwareParams::CommitTransaction()
 
 	m_Transaction.Clear();
 	m_TransactionOrder.clear();
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -457,7 +457,7 @@ XnStatus XnSensorFirmwareParams::RollbackTransaction()
 XnStatus XnSensorFirmwareParams::UpdateProperty(XnFirmwareParam* pParam)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XnUInt16 nNewValue;
 
 	// check version
@@ -488,7 +488,7 @@ XnStatus XnSensorFirmwareParams::UpdateProperty(XnFirmwareParam* pParam)
 XnStatus XnSensorFirmwareParams::SetFirmwareParam(XnActualIntProperty* pProperty, XnUInt64 nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	if (m_bInTransaction)
 	{
 		nRetVal = m_Transaction.Set(pProperty, (XnUInt32)nValue);
@@ -501,7 +501,7 @@ XnStatus XnSensorFirmwareParams::SetFirmwareParam(XnActualIntProperty* pProperty
 		nRetVal = SetFirmwareParamImpl(pProperty, nValue);
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -517,7 +517,7 @@ XnStatus XnSensorFirmwareParams::SetFirmwareAudioParam(XnActualIntProperty* pPro
 
 	nRetVal = SetFirmwareParam(pProperty, nValue);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -525,7 +525,7 @@ XnStatus XnSensorFirmwareParams::SetImageFormat(XnUInt64 nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-/*	
+/*
 	if (nValue == XN_IO_IMAGE_FORMAT_UNCOMPRESSED_BAYER)
 	{
 		nValue = XN_IO_IMAGE_FORMAT_BAYER;
@@ -534,7 +534,7 @@ XnStatus XnSensorFirmwareParams::SetImageFormat(XnUInt64 nValue)
 
 	nRetVal = SetFirmwareParam(&m_ImageFormat, nValue);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -578,7 +578,7 @@ XnStatus XnSensorFirmwareParams::SetFirmwareParamImpl(XnActualIntProperty* pProp
 	if (pParam != NULL)
 	{
 		// update firmware
-		nRetVal = m_pCommands->SetFirmwareParam(pParam->nFirmwareParam, (XnUInt16)nValue); 
+		nRetVal = m_pCommands->SetFirmwareParam(pParam->nFirmwareParam, (XnUInt16)nValue);
 		XN_IS_STATUS_OK(nRetVal);
 
 		// update property
@@ -592,7 +592,7 @@ XnStatus XnSensorFirmwareParams::SetFirmwareParamImpl(XnActualIntProperty* pProp
 XnStatus XnSensorFirmwareParams::SetStreamMode(XnActualIntProperty* pProperty, XnUInt64 nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// we require that every change to mode will go through OFF
 	if (nValue != XN_VIDEO_STREAM_OFF && pProperty->GetValue() != XN_VIDEO_STREAM_OFF)
 	{
@@ -602,14 +602,14 @@ XnStatus XnSensorFirmwareParams::SetStreamMode(XnActualIntProperty* pProperty, X
 	// OK, set it
 	nRetVal = SetFirmwareParam(pProperty, nValue);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
 XnStatus XnSensorFirmwareParams::RecalculateReferenceResolution()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// by default, the 1.3 MP reference is used
 	XnResolutions nRes = XN_RESOLUTION_SXGA;
 

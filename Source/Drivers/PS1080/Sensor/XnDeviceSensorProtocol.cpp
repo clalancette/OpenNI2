@@ -97,7 +97,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, XnUInt32
 
 			while (pBuffer < pBufEnd)
 			{
-				if ((pBuffer + sizeof(XnUInt16) <= pBufEnd) && 
+				if ((pBuffer + sizeof(XnUInt16) <= pBufEnd) &&
 					nMagic == *(XnUInt16*)(pBuffer))
 				{
 					pCurrState->CurrHeader.nMagic = nMagic;
@@ -122,7 +122,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, XnUInt32
 
 		case XN_PACKET_HEADER:
 			nReadBytes = XN_MIN((XnUInt32)(pBufEnd - pBuffer), pCurrState->nMissingBytesInState);
-			xnOSMemCopy((XnUChar*)&pCurrState->CurrHeader + sizeof(XnSensorProtocolResponseHeader) - pCurrState->nMissingBytesInState, 
+			xnOSMemCopy((XnUChar*)&pCurrState->CurrHeader + sizeof(XnSensorProtocolResponseHeader) - pCurrState->nMissingBytesInState,
 				pBuffer, nReadBytes);
 			pCurrState->nMissingBytesInState -= nReadBytes;
 			pBuffer += nReadBytes;
@@ -166,7 +166,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, XnUInt32
 XnStatus XnDeviceSensorProtocolFindStreamOfType(XnDevicePrivateData* pDevicePrivateData, const XnChar* strType, const XnChar** ppStreamName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	const XnChar* strNames[100];
 	XnUInt32 nCount = 100;
 
@@ -192,15 +192,15 @@ XnStatus XnDeviceSensorProtocolFindStreamOfType(XnDevicePrivateData* pDevicePriv
 
 XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 {
-	// Local function variables	
+	// Local function variables
 	XnDevicePrivateData* pDevicePrivateData = (XnDevicePrivateData*)pThreadParam;
 	XnSensor* pSensor = pDevicePrivateData->pSensor;
-	
+
 	pDevicePrivateData->LogThread.bThreadAlive = TRUE;
 	pDevicePrivateData->LogThread.bKillThread = FALSE;
 
 	XnStatus rc = XN_STATUS_OK;
-	
+
 	XnUInt32 nVal;
 	XnUInt32 nLogEvery = 0;
 	XnStatus ret;
@@ -249,7 +249,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 				case 'V':
 					{
 						XnVersions Version;
-	
+
 						printf("* Requesting Version\n");
 						rc = XnHostProtocolGetVersion(pDevicePrivateData, Version);
 						if (rc == XN_STATUS_OK)
@@ -263,7 +263,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 						{
 							printf("** GetVersion failed\n");
 						}
-	
+
 						while (which != '\n' && *pFile != '\0')
 							which = *pFile++;
 						break;
@@ -323,7 +323,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 						{
 							rc = XnHostProtocolSetCMOSRegister(pDevicePrivateData, (XnCMOSType)nCMOS, (XnUInt16)address, (XnUInt16)value);
 						}
-		
+
 						if (rc != XN_STATUS_OK)
 						{
 							printf("** Set CMOS Register failed\n");
@@ -435,7 +435,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 
 					xnOSSleep(nVal);
 					break;
-				case 'N':				
+				case 'N':
 					// Generic I2C Read
 					sscanf(pFile, "%hx %hx %hx %hx%n", &D2.nBus, &D2.nSlaveAddress, &D2.nReadSize, &D2.nWriteSize, &nRead);
 					pFile += nRead;
@@ -459,7 +459,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					}
 
 					break;
-				case 'M':				
+				case 'M':
 					// Generic I2C Write
 					sscanf(pFile, "%hx %hx %hx%n", &D1.nBus, &D1.nSlaveAddress, &D1.nWriteSize, &nRead);
 					pFile += nRead;
@@ -475,7 +475,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					}
 
 					ret = XnHostProtocolWriteI2C(pDevicePrivateData, &D1);
-					printf ("** I2C Write Status: %u\n", ret);				
+					printf ("** I2C Write Status: %u\n", ret);
 
 					break;
 				case 'X':
@@ -570,4 +570,3 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 	pDevicePrivateData->LogThread.bThreadAlive = FALSE;
 	XN_THREAD_PROC_RETURN (XN_STATUS_OK);
 }
-

@@ -68,7 +68,7 @@ XnStatus XnSensorFixedParams::Init()
 		sprintf(m_strSensorSerial, "%d", FixedParams.nSerialNumber);
 	}
 	else
-	{	
+	{
 		nRetVal = XnHostProtocolGetSerialNumber(m_pDevicePrivateData, m_strSensorSerial);
 
 		if (nRetVal != XN_STATUS_OK)
@@ -89,11 +89,11 @@ XnStatus XnSensorFixedParams::Init()
 	m_nSensorDepthCMOSI2CSlaveAddress = (XnUInt16)FixedParams.nDepthCmosI2CAddress;
 	m_nSensorImageCMOSI2CBus = (XnUInt16)FixedParams.nImageCmosI2CBus;
 	m_nSensorImageCMOSI2CSlaveAddress = (XnUInt16)FixedParams.nImageCmosI2CAddress;
-	
+
 	m_nImageCmosType = (XnUInt32)FixedParams.nImageCmosType;
 	m_nDepthCmosType = (XnUInt32)FixedParams.nDepthCmosType;
 
-	nRetVal = XnHostProtocolAlgorithmParams(m_pDevicePrivateData, XN_HOST_PROTOCOL_ALGORITHM_DEVICE_INFO, 
+	nRetVal = XnHostProtocolAlgorithmParams(m_pDevicePrivateData, XN_HOST_PROTOCOL_ALGORITHM_DEVICE_INFO,
 		&m_deviceInfo, sizeof(m_deviceInfo), (XnResolutions)0, 0);
 	XN_IS_STATUS_OK(nRetVal);
 

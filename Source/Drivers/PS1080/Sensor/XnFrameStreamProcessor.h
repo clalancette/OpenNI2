@@ -47,7 +47,7 @@ public:
 	*/
 	XnFrameStreamProcessor(XnFrameStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager, XnUInt16 nTypeSOF, XnUInt16 nTypeEOF);
 
-	/** 
+	/**
 	* Destroys a frame-based stream processor
 	*/
 	virtual ~XnFrameStreamProcessor();
@@ -112,7 +112,7 @@ protected:
 		return GetStream()->GetRequiredDataSize();
 	}
 
-	/* 
+	/*
 	* Gets current write buffer.
 	*/
 	inline XnBuffer* GetWriteBuffer()
@@ -138,7 +138,7 @@ protected:
 	*/
 	void WriteBufferOverflowed();
 
-	/* 
+	/*
 	* Checks if write buffer has overflowed, if so, a log will be issued and buffer will reset.
 	*/
 	inline XnBool CheckWriteBufferForOverflow(XnUInt32 nWriteSize)
