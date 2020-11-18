@@ -43,7 +43,9 @@ XnStatus XnGeneralBufferCopy(OniGeneralBuffer* pDest, const OniGeneralBuffer* pS
 	XN_VALIDATE_INPUT_PTR(pSrc);
 
 	if (pSrc->dataSize > pDest->dataSize)
+	{
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
+	}
 
 	xnOSMemCopy(pDest->data, pSrc->data, pSrc->dataSize);
 	pDest->dataSize = pSrc->dataSize;

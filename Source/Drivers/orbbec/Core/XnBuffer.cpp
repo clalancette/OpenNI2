@@ -48,7 +48,9 @@ void XnBuffer::SetExternalBuffer(XnUChar* pBuffer, XnUInt32 nSize)
 XnStatus XnBuffer::Write(const XnUChar* pData, XnUInt32 nDataSize)
 {
 	if (GetFreeSpaceInBuffer() < nDataSize)
+	{
 		return XN_STATUS_INTERNAL_BUFFER_TOO_SMALL;
+	}
 
 	UnsafeWrite(pData, nDataSize);
 
