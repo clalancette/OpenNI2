@@ -36,7 +36,7 @@ typedef struct
 	double Y;
 } DoublePair;
 
-typedef struct 
+typedef struct
 {
 	double fBottom;
 	double fLeft;
@@ -44,7 +44,7 @@ typedef struct
 	double fRight;
 } DoubleRect;
 
-typedef struct  
+typedef struct
 {
 	int uBottom;
 	int uLeft;

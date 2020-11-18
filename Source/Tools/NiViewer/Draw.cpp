@@ -101,14 +101,14 @@ typedef struct
 
 typedef struct XnTextureMap
 {
-	IntPair Size;
-	IntPair OrigSize;
-	unsigned char* pMap;
-	unsigned int nBytesPerPixel;
-	GLuint nID;
-	GLenum nFormat;
-	bool bInitialized;
-	IntPair CurSize;
+	IntPair Size = {0, 0};
+	IntPair OrigSize = {0, 0};
+	unsigned char* pMap = NULL;
+	unsigned int nBytesPerPixel = 0;
+	GLuint nID = 0;
+	GLenum nFormat = 0;
+	bool bInitialized = false;
+	IntPair CurSize = {0, 0};
 } XnTextureMap;
 
 // --------------------------------
@@ -156,8 +156,8 @@ DrawConfigPreset g_Presets[PRESET_COUNT] =
 };
 
 /* Texture maps for depth and color */
-XnTextureMap g_texDepth      = {{0}};
-XnTextureMap g_texColor      = {{0}};
+XnTextureMap g_texDepth;
+XnTextureMap g_texColor;
 
 /* A user message to be displayed. */
 char g_csUserMessage[256];
@@ -1145,6 +1145,7 @@ void drawDepth(IntRect* pLocation, IntPair* pPointer)
 					break;
 				case PSYCHEDELIC_SHADES:
 					nAlpha *= (((XnFloat)(*pDepth % 10) / 20) + 0.5);
+					/* fallthrough */
 				case PSYCHEDELIC:
 
 					switch ((*pDepth/10) % 10)

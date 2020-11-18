@@ -30,6 +30,6 @@ USED_LIBS += OpenNI2 XnLib pthread
 
 EXE_NAME = NiViewer
 
-CFLAGS += -Wall
+CFLAGS += -Wall -Wextra
 
 include ../../../ThirdParty/PSCommon/BuildSystem/CommonCppMakefile
