@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 #define XN_MASK_LINK_STREAM "LinkDepthStream"
 
-LinkOniDepthStream::LinkOniDepthStream(const char* configFile, xn::PrimeClient* pSensor, LinkOniDevice* pDevice) : 
+LinkOniDepthStream::LinkOniDepthStream(const char* configFile, xn::PrimeClient* pSensor, LinkOniDevice* pDevice) :
 	LinkOniMapStream(configFile, "Depth", pSensor, ONI_SENSOR_DEPTH, pDevice)
 {
 }
@@ -57,7 +57,7 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 		ENSURE_PROP_SIZE(*pDataSize, int);
 		ASSIGN_PROP_VALUE_INT(data, *pDataSize, m_pInputStream->GetShiftToDepthConfig().nDeviceMaxShiftValue);
 		break;
-		
+
 	case LINK_PROP_ZERO_PLANE_DISTANCE:
 		ENSURE_PROP_SIZE(*pDataSize, OniDepthPixel);
 		ASSIGN_PROP_VALUE_INT(data, *pDataSize, m_pInputStream->GetShiftToDepthConfig().nZeroPlaneDistance);
@@ -96,7 +96,7 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 		ENSURE_PROP_SIZE(*pDataSize, XnFloat);
 		ASSIGN_PROP_VALUE_FLOAT(data, *pDataSize, m_pInputStream->GetShiftToDepthConfig().fZeroPlanePixelSize);
 		break;
-		
+
 	case LINK_PROP_ZERO_PLANE_OUTPUT_PIXEL_SIZE:
 		ENSURE_PROP_SIZE(*pDataSize, XnDouble);
 		ASSIGN_PROP_VALUE_FLOAT(data, *pDataSize, m_pInputStream->GetShiftToDepthConfig().nZeroPlaneDistance / m_pInputStream->GetCameraIntrinsics().m_fEffectiveFocalLengthInPixels);
@@ -126,7 +126,7 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 
 		xnOSMemCopy(data, pTables->pShiftToDepthTable, nTableSize);
 		break;
-	
+
 	case LINK_PROP_DEPTH_TO_SHIFT_TABLE:
 		nRetVal = m_pInputStream->GetShiftToDepthTables(pTables);
 		XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
@@ -180,7 +180,7 @@ OniBool LinkOniDepthStream::isPropertySupported(int propertyId)
 void LinkOniDepthStream::notifyAllProperties()
 {
 	LinkOniMapStream::notifyAllProperties();
-	
+
 	// int props
 	int nValue;
 	int size = sizeof(nValue);

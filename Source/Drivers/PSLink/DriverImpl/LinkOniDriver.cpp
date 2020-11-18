@@ -80,7 +80,7 @@ OniStatus LinkOniDriver::initialize(oni::driver::DeviceConnectedCallback deviceC
 	return ONI_STATUS_OK;
 }
 
-void LinkOniDriver::shutdown() 
+void LinkOniDriver::shutdown()
 {
 	if (m_connectedEventHandle != NULL)
 	{

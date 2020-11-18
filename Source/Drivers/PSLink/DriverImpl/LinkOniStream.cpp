@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 #define XN_MASK_LINK_STREAM "LinkStream"
 
-LinkOniStream::LinkOniStream(const char* configFile, const char* configSection, xn::PrimeClient* pSensor, OniSensorType sensorType, LinkOniDevice* pDevice) : 
+LinkOniStream::LinkOniStream(const char* configFile, const char* configSection, xn::PrimeClient* pSensor, OniSensorType sensorType, LinkOniDevice* pDevice) :
 	m_configFile(configFile),
 	m_configSection(configSection),
 	m_sensorType(sensorType),
@@ -52,8 +52,6 @@ XnStatus LinkOniStream::Init()
 	{
 	case ONI_SENSOR_DEPTH:
 		linkStreamType = XN_LINK_STREAM_TYPE_SHIFTS; break;
-	//case ONI_SENSOR_COLOR:
-	//	linkStreamType = XN_LINK_STREAM_TYPE_COLOR; break;
 	case ONI_SENSOR_IR:
 		linkStreamType = XN_LINK_STREAM_TYPE_IR; break;
 	default:
@@ -61,7 +59,7 @@ XnStatus LinkOniStream::Init()
 	}
 	nRetVal = m_pSensor->CreateInputStream(linkStreamType, NULL, m_streamId);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	// TODO: make sure this cast doesn't make us problems
 	m_pInputStream = (xn::LinkFrameInputStream *)m_pSensor->GetInputStream(m_streamId);
 	XN_VALIDATE_OUTPUT_PTR(m_pInputStream);

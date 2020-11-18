@@ -54,11 +54,11 @@ LinkOniDevice::LinkOniDevice(const char* configFile, const XnChar* uri, oni::dri
 LinkOniDevice::~LinkOniDevice()
 {
 	// free the allocated arrays
-	for(int i=0; i < m_numSensors; ++i)
+	for (int i = 0; i < m_numSensors; ++i)
 	{
 		XN_DELETE_ARR(m_sensors[i].pSupportedVideoModes);
 	}
-	
+
 	Destroy();
 }
 
@@ -191,22 +191,22 @@ XnStatus LinkOniDevice::Init(const char* mode)
 
 	XnStatus retVal = pPrimeClient->Init(m_info.uri, XN_TRANSPORT_TYPE_USB);
 	if (retVal != XN_STATUS_OK)
-    {
-        xnLogError(XN_MASK_LINK_DEVICE, "Failed to initialize prime client: %s", xnGetStatusString(retVal));
-        XN_ASSERT(FALSE);
-        XN_DELETE(pPrimeClient);
-        return retVal;
-    }
+	{
+		xnLogError(XN_MASK_LINK_DEVICE, "Failed to initialize prime client: %s", xnGetStatusString(retVal));
+		XN_ASSERT(FALSE);
+		XN_DELETE(pPrimeClient);
+		return retVal;
+	}
 
-    retVal = pPrimeClient->Connect();
-    if (retVal != XN_STATUS_OK)
-    {
-        xnLogError(XN_MASK_LINK_DEVICE, "Failed to connect to device: %s", xnGetStatusString(retVal));
-        XN_ASSERT(FALSE);
-        XN_DELETE(pPrimeClient);
-        return retVal;
-    }
-    
+	retVal = pPrimeClient->Connect();
+	if (retVal != XN_STATUS_OK)
+	{
+		xnLogError(XN_MASK_LINK_DEVICE, "Failed to connect to device: %s", xnGetStatusString(retVal));
+		XN_ASSERT(FALSE);
+		XN_DELETE(pPrimeClient);
+		return retVal;
+	}
+
 	if (performReset)
 	{
 		retVal = pPrimeClient->SoftReset();
@@ -276,9 +276,6 @@ void LinkOniDevice::Destroy()
 		return;
 	}
 
-	// TODO can we actually create more than one?
-	//m_createdDevices.Remove(pPrimeClient->GetConnectionString());
-
 	m_pSensor->Disconnect();
 	m_pSensor->Shutdown();
 	XN_DELETE(m_pSensor);
@@ -305,10 +302,6 @@ oni::driver::StreamBase* LinkOniDevice::createStream(OniSensorType sensorType)
 	{
 		pStream = XN_NEW(LinkOniIRStream, m_configFile, m_pSensor, this);
 	}
-	//else if (sensorType == ONI_SENSOR_COLOR)
-	//{
-	//	pStream = XN_NEW(LinkOniColorStream, &m_sensor, this);
-	//}
 	else
 	{
 		m_driverServices.errorLoggerAppend("LinkOniDevice: Can't create a stream of type %d", sensorType);
@@ -358,13 +351,13 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 			XN_ASSERT(FALSE);
 			return ONI_STATUS_BAD_PARAMETER;
 		}
-		ASSIGN_PROP_VALUE_INT(data, *pDataSize, m_pSensor->GetHWVersion());			
+		ASSIGN_PROP_VALUE_INT(data, *pDataSize, m_pSensor->GetHWVersion());
 		break;
-		
+
 	case ONI_DEVICE_PROPERTY_SERIAL_NUMBER:
 		{
 			const XnChar *serialNumber = m_pSensor->GetSerialNumber();
-			
+
 			if (xnOSStrCopy((XnChar*)data, serialNumber, *pDataSize) != XN_STATUS_OK)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", *pDataSize, xnOSStrLen(serialNumber));
@@ -388,39 +381,6 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 			version->build		 = XN_PS_BUILD_VERSION;
 			break;
 		}
-/*	case ONI_DEVICE_PROPERTY_IMAGE_REGISTRATION:
-		{
-			m_pSensor
-			if (*pDataSize == sizeof(OniImageRegistrationMode))
-			{
-				OniImageRegistrationMode* mode = (OniImageRegistrationMode*)data;
-
-				// Find the depth stream in the sensor.
-				XnDeviceStream* pDepth = NULL;
-				XnStatus xnrc = m_sensor.GetStream(XN_STREAM_NAME_DEPTH, &pDepth);
-				if (xnrc != XN_STATUS_OK)
-				{
-					return ONI_STATUS_BAD_PARAMETER;
-				}
-
-				// Set the mode in the depth stream.
-				XnUInt64 val;
-				xnrc = pDepth->GetProperty(XN_STREAM_PROPERTY_REGISTRATION, &val);
-				if (xnrc != XN_STATUS_OK)
-				{
-					return ONI_STATUS_ERROR;
-				}
-
-				// Update the return value.
-				*mode = (val == 1) ? ONI_IMAGE_REGISTRATION_DEPTH_TO_COLOR : ONI_IMAGE_REGISTRATION_OFF;
-			}
-			else
-			{
-				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", *pDataSize, sizeof(OniImageRegistrationMode));
-				return ONI_STATUS_ERROR;
-			}
-		}
-		break;*/
 
 	// Internal Link Properties
 	case LINK_PROP_FW_VERSION:
@@ -443,10 +403,6 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 			ASSIGN_PROP_VALUE_INT(data, *pDataSize, versions.size());
 			break;
 		}
-
-		//case :
-		//TODO: Implement Get emitter active
-		//break;
 
 	case LINK_PROP_VERSIONS_INFO:
 		{
@@ -497,42 +453,42 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 		}
 		break;
-    case LINK_PROP_ACC_ENABLED:
-        {
-            ENSURE_PROP_SIZE(*pDataSize, XnBool);
 
-            XnBool bActive;
-            nRetVal = m_pSensor->GetAccActive(bActive);
-            XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
+	case LINK_PROP_ACC_ENABLED:
+		{
+			ENSURE_PROP_SIZE(*pDataSize, XnBool);
 
-            ASSIGN_PROP_VALUE_INT(data, *pDataSize, bActive)
-        }
-        break;
+			XnBool bActive;
+			nRetVal = m_pSensor->GetAccActive(bActive);
+			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
-    case LINK_PROP_VDD_ENABLED:
-        {
-            ENSURE_PROP_SIZE(*pDataSize, XnBool);
+			ASSIGN_PROP_VALUE_INT(data, *pDataSize, bActive)
+		}
+		break;
 
-            XnBool bActive;
-            nRetVal = m_pSensor->GetVDDActive(bActive);
-            XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
+	case LINK_PROP_VDD_ENABLED:
+		{
+			ENSURE_PROP_SIZE(*pDataSize, XnBool);
 
-            ASSIGN_PROP_VALUE_INT(data, *pDataSize, bActive)
-        }
-        break;
+			XnBool bActive;
+			nRetVal = m_pSensor->GetVDDActive(bActive);
+			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
-    case LINK_PROP_PERIODIC_BIST_ENABLED:
-        {
-            ENSURE_PROP_SIZE(*pDataSize, XnBool);
+			ASSIGN_PROP_VALUE_INT(data, *pDataSize, bActive)
+		}
+		break;
 
-            XnBool bActive;
-            nRetVal = m_pSensor->GetPeriodicBistActive(bActive);
-            XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
+	case LINK_PROP_PERIODIC_BIST_ENABLED:
+		{
+			ENSURE_PROP_SIZE(*pDataSize, XnBool);
 
-            ASSIGN_PROP_VALUE_INT(data, *pDataSize, bActive)
-        }
-        break;
+			XnBool bActive;
+			nRetVal = m_pSensor->GetPeriodicBistActive(bActive);
+			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
+			ASSIGN_PROP_VALUE_INT(data, *pDataSize, bActive)
+		}
+		break;
 
 	case LINK_PROP_PROJECTOR_POWER:
 		{
@@ -559,37 +515,6 @@ OniStatus LinkOniDevice::setProperty(int propertyId, const void* data, int dataS
 
 	switch (propertyId)
 	{
-/*	case ONI_DEVICE_PROPERTY_IMAGE_REGISTRATION:
-		{
-			if (dataSize == sizeof(OniImageRegistrationMode))
-			{
-				OniImageRegistrationMode* mode = (OniImageRegistrationMode*)data;
-
-				// Find the depth stream in the sensor.
-				XnDeviceStream* pDepth = NULL;
-				XnStatus xnrc = m_sensor.GetStream(XN_STREAM_NAME_DEPTH, &pDepth);
-				if (xnrc != XN_STATUS_OK)
-				{
-					return ONI_STATUS_BAD_PARAMETER;
-				}
-
-				// Set the mode in the depth stream.
-				XnUInt64 val = (*mode == ONI_IMAGE_REGISTRATION_DEPTH_TO_COLOR) ? 1 : 0;
-				xnrc = pDepth->SetProperty(XN_STREAM_PROPERTY_REGISTRATION, val);
-				if (xnrc != XN_STATUS_OK)
-				{
-					return ONI_STATUS_ERROR;
-				}
-			}
-			else
-			{
-				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(OniImageRegistrationMode));
-				return ONI_STATUS_ERROR;
-			}
-		}
-		break;*/
-
-
 	// Internal Link Properties
 	// int props
 	case LINK_PROP_PROJECTOR_ACTIVE:
@@ -597,30 +522,28 @@ OniStatus LinkOniDevice::setProperty(int propertyId, const void* data, int dataS
 		XN_IS_STATUS_OK_LOG_ERROR_RET("Set Projector active", nRetVal, ONI_STATUS_ERROR);
 		break;
 
-    //controls if the firmware runs all its control loops (BIST)
-    case LINK_PROP_ACC_ENABLED:
-        nRetVal = m_pSensor->SetAccActive(*(XnBool*)data);
-        XN_IS_STATUS_OK_LOG_ERROR_RET("Set Acc active", nRetVal, ONI_STATUS_ERROR);
-        break;
+	// controls if the firmware runs all its control loops (BIST)
+	case LINK_PROP_ACC_ENABLED:
+		nRetVal = m_pSensor->SetAccActive(*(XnBool*)data);
+		XN_IS_STATUS_OK_LOG_ERROR_RET("Set Acc active", nRetVal, ONI_STATUS_ERROR);
+		break;
 
-        //
-    case LINK_PROP_VDD_ENABLED:
-        nRetVal = m_pSensor->SetVDDActive(*(XnBool*)data);
-        XN_IS_STATUS_OK_LOG_ERROR_RET("Set VDD active", nRetVal, ONI_STATUS_ERROR);
-        break;
+	case LINK_PROP_VDD_ENABLED:
+		nRetVal = m_pSensor->SetVDDActive(*(XnBool*)data);
+		XN_IS_STATUS_OK_LOG_ERROR_RET("Set VDD active", nRetVal, ONI_STATUS_ERROR);
+		break;
 
-        //
-    case LINK_PROP_PERIODIC_BIST_ENABLED:
-        nRetVal = m_pSensor->SetPeriodicBistActive(*(XnBool*)data);
-        XN_IS_STATUS_OK_LOG_ERROR_RET("Set PeriodicBist active", nRetVal, ONI_STATUS_ERROR);
-        break;
+	case LINK_PROP_PERIODIC_BIST_ENABLED:
+		nRetVal = m_pSensor->SetPeriodicBistActive(*(XnBool*)data);
+		XN_IS_STATUS_OK_LOG_ERROR_RET("Set PeriodicBist active", nRetVal, ONI_STATUS_ERROR);
+		break;
 
 		// string props
 	case LINK_PROP_PRESET_FILE:
 		nRetVal = m_pSensor->RunPresetFile((XnChar *)data);
 		XN_IS_STATUS_OK_LOG_ERROR_RET("RunPresetFile", nRetVal, ONI_STATUS_ERROR);
 		break;
-	
+
 	case PS_PROPERTY_USB_INTERFACE:
 		{
 			ENSURE_PROP_SIZE(dataSize, XnUInt8);
@@ -663,16 +586,15 @@ OniBool LinkOniDevice::isPropertySupported(int propertyId)
 	case ONI_DEVICE_PROPERTY_HARDWARE_VERSION:
 	case ONI_DEVICE_PROPERTY_SERIAL_NUMBER:
 	case ONI_DEVICE_PROPERTY_DRIVER_VERSION:
-	//case ONI_DEVICE_PROPERTY_IMAGE_REGISTRATION:
 
 	// Internal Link Properties
 	case LINK_PROP_FW_VERSION:
 	case LINK_PROP_VERSIONS_INFO_COUNT:
 	case LINK_PROP_VERSIONS_INFO:
 	case LINK_PROP_PROJECTOR_ACTIVE:
-    case LINK_PROP_ACC_ENABLED:
-    case LINK_PROP_VDD_ENABLED:
-    case LINK_PROP_PERIODIC_BIST_ENABLED:
+	case LINK_PROP_ACC_ENABLED:
+	case LINK_PROP_VDD_ENABLED:
+	case LINK_PROP_PERIODIC_BIST_ENABLED:
 	case LINK_PROP_PRESET_FILE:
 	case PS_PROPERTY_USB_INTERFACE:
 	case LINK_PROP_BOOT_STATUS:
@@ -689,7 +611,7 @@ void LinkOniDevice::notifyAllProperties()
 	int size = sizeof(version);
 	getProperty(LINK_PROP_FW_VERSION, &version, &size);
 	raisePropertyChanged(LINK_PROP_FW_VERSION, &version, size);
-	
+
 	XnUInt8 altusb;
 	size = sizeof(altusb);
 	getProperty(PS_PROPERTY_USB_INTERFACE, &altusb, &size);
@@ -712,9 +634,9 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandAHB* pPropReadAHB = reinterpret_cast<XnCommandAHB*>(data);
-			nRetVal = m_pSensor->ReadAHB(pPropReadAHB->address, 
-				static_cast<XnUInt8>(pPropReadAHB->offsetInBits), 
-				static_cast<XnUInt8>(pPropReadAHB->widthInBits), 
+			nRetVal = m_pSensor->ReadAHB(pPropReadAHB->address,
+				static_cast<XnUInt8>(pPropReadAHB->offsetInBits),
+				static_cast<XnUInt8>(pPropReadAHB->widthInBits),
 				pPropReadAHB->value);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Read AHB", nRetVal, ONI_STATUS_ERROR);
 			break;
@@ -730,9 +652,9 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandAHB* pPropWriteAHB = reinterpret_cast<XnCommandAHB*>(data);
-			nRetVal = m_pSensor->WriteAHB(pPropWriteAHB->address, 
-				pPropWriteAHB->value, 
-				static_cast<XnUInt8>(pPropWriteAHB->offsetInBits), 
+			nRetVal = m_pSensor->WriteAHB(pPropWriteAHB->address,
+				pPropWriteAHB->value,
+				static_cast<XnUInt8>(pPropWriteAHB->offsetInBits),
 				static_cast<XnUInt8>(pPropWriteAHB->widthInBits));
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Write AHB", nRetVal, ONI_STATUS_ERROR);
 			break;
@@ -749,9 +671,9 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 
 			XnCommandI2C* pPropReadI2C = reinterpret_cast<XnCommandI2C*>(data);
 			nRetVal = m_pSensor->ReadI2C(
-				static_cast<XnUInt8>(pPropReadI2C->deviceID),  
-				static_cast<XnUInt8>(pPropReadI2C->addressSize), 
-				pPropReadI2C->address, 
+				static_cast<XnUInt8>(pPropReadI2C->deviceID),
+				static_cast<XnUInt8>(pPropReadI2C->addressSize),
+				pPropReadI2C->address,
 				static_cast<XnUInt8>(pPropReadI2C->valueSize),
 				pPropReadI2C->value);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Read I2C", nRetVal, ONI_STATUS_ERROR);
@@ -768,9 +690,9 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandI2C* pPropWriteI2C = reinterpret_cast<XnCommandI2C*>(data);
-			nRetVal = m_pSensor->WriteI2C(static_cast<XnUInt8>(pPropWriteI2C->deviceID), 
-				static_cast<XnUInt8>(pPropWriteI2C->addressSize), 
-				pPropWriteI2C->address, 
+			nRetVal = m_pSensor->WriteI2C(static_cast<XnUInt8>(pPropWriteI2C->deviceID),
+				static_cast<XnUInt8>(pPropWriteI2C->addressSize),
+				pPropWriteI2C->address,
 				static_cast<XnUInt8>(pPropWriteI2C->valueSize),
 				pPropWriteI2C->value,
 				pPropWriteI2C->mask);
@@ -787,20 +709,20 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 		nRetVal = m_pSensor->HardReset();
 		XN_IS_STATUS_OK_LOG_ERROR_RET("Power reset", nRetVal, ONI_STATUS_ERROR);
 		break;
-    case PS_COMMAND_READ_DEBUG_DATA:
-        {
-            EXACT_PROP_SIZE_DO(dataSize, XnCommandDebugData)
-            {
-                m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandDebugData));
-                XN_ASSERT(FALSE);
-                return ONI_STATUS_BAD_PARAMETER;
-            }
+	case PS_COMMAND_READ_DEBUG_DATA:
+		{
+			EXACT_PROP_SIZE_DO(dataSize, XnCommandDebugData)
+			{
+				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandDebugData));
+				XN_ASSERT(FALSE);
+				return ONI_STATUS_BAD_PARAMETER;
+			}
 
-            XnCommandDebugData* pArgs = reinterpret_cast<XnCommandDebugData*>(data);
-            nRetVal = m_pSensor->ReadDebugData(*pArgs);
-            XN_IS_STATUS_OK_LOG_ERROR_RET("Reading Debug Data", nRetVal, ONI_STATUS_ERROR);
-        }
-        break;
+			XnCommandDebugData* pArgs = reinterpret_cast<XnCommandDebugData*>(data);
+			nRetVal = m_pSensor->ReadDebugData(*pArgs);
+			XN_IS_STATUS_OK_LOG_ERROR_RET("Reading Debug Data", nRetVal, ONI_STATUS_ERROR);
+		}
+		break;
 	case PS_COMMAND_BEGIN_FIRMWARE_UPDATE:
 		nRetVal = m_pSensor->BeginUploadFileOnControlEP();
 		XN_IS_STATUS_OK_LOG_ERROR_RET("Begin update", nRetVal, ONI_STATUS_ERROR);
@@ -836,7 +758,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandDownloadFile* pArgs = reinterpret_cast<XnCommandDownloadFile*>(data);
-			nRetVal = m_pSensor->DownloadFile(static_cast<XnUInt>(pArgs->zone),  
+			nRetVal = m_pSensor->DownloadFile(static_cast<XnUInt>(pArgs->zone),
 				pArgs->firmwareFileName, pArgs->targetPath);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Download File", nRetVal, ONI_STATUS_ERROR);
 		}
@@ -982,54 +904,56 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 		break;
 
 	case PS_COMMAND_GET_TEMP_LIST:
-        {
-            EXACT_PROP_SIZE_DO(dataSize, XnCommandGetTempList)
-            {
-                m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandGetTempList));
-                XN_ASSERT(FALSE);
-                return ONI_STATUS_BAD_PARAMETER;
-            }
+		{
+			EXACT_PROP_SIZE_DO(dataSize, XnCommandGetTempList)
+			{
+				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandGetTempList));
+				XN_ASSERT(FALSE);
+				return ONI_STATUS_BAD_PARAMETER;
+			}
 
-            XnCommandGetTempList* pArgs = reinterpret_cast<XnCommandGetTempList*>(data);
-            if (pArgs->pTempInfos == NULL)
-            {
-                m_driverServices.errorLoggerAppend("Temp array must point to valid memory: \n");
-                XN_ASSERT(FALSE);
-                return ONI_STATUS_BAD_PARAMETER;
-            }
+			XnCommandGetTempList* pArgs = reinterpret_cast<XnCommandGetTempList*>(data);
+			if (pArgs->pTempInfos == NULL)
+			{
+				m_driverServices.errorLoggerAppend("Temp array must point to valid memory: \n");
+				XN_ASSERT(FALSE);
+				return ONI_STATUS_BAD_PARAMETER;
+			}
 
-            std::vector<XnTempInfo> tempInfos;
-            nRetVal = m_pSensor->GetSupportedTempList(tempInfos);
-            XN_IS_STATUS_OK_LOG_ERROR_RET("Get Temp list", nRetVal, ONI_STATUS_ERROR);
+			std::vector<XnTempInfo> tempInfos;
+			nRetVal = m_pSensor->GetSupportedTempList(tempInfos);
+			XN_IS_STATUS_OK_LOG_ERROR_RET("Get Temp list", nRetVal, ONI_STATUS_ERROR);
 
-            if (pArgs->count < tempInfos.size())
-            {
-                m_driverServices.errorLoggerAppend("Insufficient memory for Temperature list. available: %d, required: %d\n", pArgs->pTempInfos, tempInfos.size());
-                XN_ASSERT(FALSE);
-                return ONI_STATUS_BAD_PARAMETER;
-            }
+			if (pArgs->count < tempInfos.size())
+			{
+				m_driverServices.errorLoggerAppend("Insufficient memory for Temperature list. available: %d, required: %d\n", pArgs->pTempInfos, tempInfos.size());
+				XN_ASSERT(FALSE);
+				return ONI_STATUS_BAD_PARAMETER;
+			}
 
-            for (int i = 0; i < (int)tempInfos.size(); ++i)
-            {
-                pArgs->pTempInfos[i] = tempInfos[i];
-            }
-            pArgs->count = tempInfos.size();
-        }
-        break;
-    case PS_COMMAND_READ_TEMPERATURE:
-        {
-            XnCommandTemperatureResponse* pArg;
-            EXACT_PROP_SIZE_DO(dataSize,XnCommandTemperatureResponse)
-            {
-                m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandTemperatureResponse));
-                XN_ASSERT(FALSE);
-                return ONI_STATUS_BAD_PARAMETER;
-            }
-            pArg = reinterpret_cast<XnCommandTemperatureResponse*>(data);
-            nRetVal = m_pSensor->GetTemperature(*pArg);
-            XN_IS_STATUS_OK_LOG_ERROR_RET("Get Temperature", nRetVal, ONI_STATUS_ERROR);
-        }
-        break;
+			for (int i = 0; i < (int)tempInfos.size(); ++i)
+			{
+				pArgs->pTempInfos[i] = tempInfos[i];
+			}
+			pArgs->count = tempInfos.size();
+		}
+		break;
+
+	case PS_COMMAND_READ_TEMPERATURE:
+		{
+			XnCommandTemperatureResponse* pArg;
+			EXACT_PROP_SIZE_DO(dataSize,XnCommandTemperatureResponse)
+			{
+				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandTemperatureResponse));
+				XN_ASSERT(FALSE);
+				return ONI_STATUS_BAD_PARAMETER;
+			}
+			pArg = reinterpret_cast<XnCommandTemperatureResponse*>(data);
+			nRetVal = m_pSensor->GetTemperature(*pArg);
+			XN_IS_STATUS_OK_LOG_ERROR_RET("Get Temperature", nRetVal, ONI_STATUS_ERROR);
+		}
+		break;
+
 	case PS_COMMAND_EXECUTE_BIST:
 		{
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandExecuteBist)
@@ -1412,7 +1336,7 @@ OniBool LinkOniDevice::isCommandSupported(int commandId)
 	case PS_COMMAND_I2C_WRITE:
 	case PS_COMMAND_SOFT_RESET:
 	case PS_COMMAND_POWER_RESET:
-    case PS_COMMAND_READ_DEBUG_DATA:
+	case PS_COMMAND_READ_DEBUG_DATA:
 	case PS_COMMAND_BEGIN_FIRMWARE_UPDATE:
 	case PS_COMMAND_END_FIRMWARE_UPDATE:
 	case PS_COMMAND_UPLOAD_FILE:
@@ -1422,8 +1346,8 @@ OniBool LinkOniDevice::isCommandSupported(int commandId)
 	case PS_COMMAND_DUMP_ENDPOINT:
 	case PS_COMMAND_GET_I2C_DEVICE_LIST:
 	case PS_COMMAND_GET_BIST_LIST:
-    case PS_COMMAND_GET_TEMP_LIST:
-    case PS_COMMAND_READ_TEMPERATURE:
+	case PS_COMMAND_GET_TEMP_LIST:
+	case PS_COMMAND_READ_TEMPERATURE:
 	case PS_COMMAND_EXECUTE_BIST:
 	case PS_COMMAND_USB_TEST:
 	case PS_COMMAND_GET_LOG_MASK_LIST:

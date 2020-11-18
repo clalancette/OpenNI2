@@ -28,5 +28,5 @@
 //---------------------------------------------------------------------------
 ONI_EXPORT_DRIVER(LinkOniDriver);
 
-// The following line is needed to be once in *ALL* of the high level shared library modules. DO NOT REMOVE!!! 
+// The following line is needed to be once in *ALL* of the high level shared library modules. DO NOT REMOVE!!!
 XN_API_EXPORT_INIT()

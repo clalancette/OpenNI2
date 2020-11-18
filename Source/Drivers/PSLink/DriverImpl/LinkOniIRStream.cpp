@@ -29,26 +29,26 @@
 // LinkOniIRStream class
 //---------------------------------------------------------------------------
 
-LinkOniIRStream::LinkOniIRStream(const char* configFile, xn::PrimeClient* pSensor, LinkOniDevice* pDevice) : 
+LinkOniIRStream::LinkOniIRStream(const char* configFile, xn::PrimeClient* pSensor, LinkOniDevice* pDevice) :
 	LinkOniMapStream(configFile, "IR", pSensor, ONI_SENSOR_IR, pDevice)
 {
 }
 
 OniStatus LinkOniIRStream::getProperty(int propertyId, void* data, int* pDataSize)
-{	
-    switch (propertyId)
-    {
-        // int props
-    case ONI_STREAM_PROPERTY_MAX_VALUE:
-        {
-            int value = LINK_MAX_IR_PIXEL_VALUE;
-            ENSURE_PROP_SIZE(*pDataSize, int);
-            ASSIGN_PROP_VALUE_INT(data, *pDataSize, value);
-        }
-        break;
-    default:
-        return LinkOniMapStream::getProperty(propertyId, data, pDataSize);
-    }
-        
-    return ONI_STATUS_OK;
+{
+	switch (propertyId)
+	{
+	// int props
+	case ONI_STREAM_PROPERTY_MAX_VALUE:
+		{
+			int value = LINK_MAX_IR_PIXEL_VALUE;
+			ENSURE_PROP_SIZE(*pDataSize, int);
+			ASSIGN_PROP_VALUE_INT(data, *pDataSize, value);
+		}
+		break;
+	default:
+		return LinkOniMapStream::getProperty(propertyId, data, pDataSize);
+	}
+
+	return ONI_STATUS_OK;
 }

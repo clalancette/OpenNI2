@@ -48,11 +48,6 @@ public:
 	virtual oni::driver::DeviceBase* deviceOpen(const char* uri, const char* mode);
 	virtual void deviceClose(oni::driver::DeviceBase* pDevice);
 
-	/*
-	virtual void* enableFrameSync(oni::driver::StreamBase** pStreams, int streamCount);
-	virtual void disableFrameSync(void* frameSyncGroup);
-	*/
-
 	void ClearDevice(const char* uri);
 
 protected:
@@ -75,7 +70,7 @@ private:
 		OniDriverServices* m_pDriverServices;
 	};
 
-	typedef struct 
+	typedef struct
 	{
 		LinkOniDevice* pDevice;
 	} FrameSyncGroup;

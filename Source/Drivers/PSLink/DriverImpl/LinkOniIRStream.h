@@ -34,7 +34,7 @@ class LinkOniIRStream :
 {
 public:
 	LinkOniIRStream(const char* configFile, xn::PrimeClient* pSensor, LinkOniDevice* pDevice);
-    OniStatus getProperty(int propertyId, void* data, int* pDataSize);
+	OniStatus getProperty(int propertyId, void* data, int* pDataSize);
 };
 
 #endif // LINKONIIRSTREAM_H

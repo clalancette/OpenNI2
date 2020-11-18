@@ -31,7 +31,7 @@
 // LinkOniMapStream class
 //---------------------------------------------------------------------------
 
-LinkOniMapStream::LinkOniMapStream(const char* configFile, const char* configSection, xn::PrimeClient* pSensor, OniSensorType sensorType, LinkOniDevice* pDevice) : 
+LinkOniMapStream::LinkOniMapStream(const char* configFile, const char* configSection, xn::PrimeClient* pSensor, OniSensorType sensorType, LinkOniDevice* pDevice) :
 	LinkOniStream(configFile, configSection, pSensor, sensorType, pDevice),
 	m_nSupportedModesCount(0),
 	m_aSupportedModes(NULL)
@@ -117,13 +117,13 @@ OniStatus LinkOniMapStream::getProperty(int propertyId, void* data, int* pDataSi
 			nRetVal = GetVideoMode((OniVideoMode*)data);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 			break;
-		
+
 		case ONI_STREAM_PROPERTY_MIRRORING:
 			EXACT_PROP_SIZE(*pDataSize, OniBool);
 			nRetVal = GetMirror((OniBool*)data);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 			break;
-		
+
 		case ONI_STREAM_PROPERTY_CROPPING:
 			EXACT_PROP_SIZE(*pDataSize, OniCropping);
 			nRetVal = GetCropping(*(OniCropping*)data);
@@ -134,7 +134,7 @@ OniStatus LinkOniMapStream::getProperty(int propertyId, void* data, int* pDataSi
 			ENSURE_PROP_SIZE(*pDataSize, XnLinkPixelFormat);
 			ASSIGN_PROP_VALUE_INT(data, *pDataSize, m_pInputStream->GetVideoMode().m_nPixelFormat);
 			break;
-			
+
 		case LINK_PROP_COMPRESSION:
 			ENSURE_PROP_SIZE(*pDataSize, XnLinkCompressionType);
 			ASSIGN_PROP_VALUE_INT(data, *pDataSize, m_pInputStream->GetVideoMode().m_nCompression);
@@ -170,13 +170,13 @@ OniStatus LinkOniMapStream::setProperty(int propertyId, const void* data, int da
 			nRetVal = SetVideoMode((OniVideoMode*)data);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 			break;
-		
+
 		case ONI_STREAM_PROPERTY_MIRRORING:
 			EXACT_PROP_SIZE(dataSize, OniBool);
 			nRetVal = SetMirror(*(OniBool*)data);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 			break;
-		
+
 		case ONI_STREAM_PROPERTY_CROPPING:
 			EXACT_PROP_SIZE(dataSize, OniCropping);
 			nRetVal = SetCropping(*(OniCropping*)data);
@@ -239,7 +239,7 @@ void LinkOniMapStream::notifyAllProperties()
 
 	int nValue;
 	int size = sizeof(int);
-	
+
 	getProperty(LINK_PROP_PIXEL_FORMAT, &nValue, &size);
 	raisePropertyChanged(LINK_PROP_PIXEL_FORMAT, &nValue, size);
 
@@ -255,10 +255,10 @@ XnStatus LinkOniMapStream::GetVideoMode(OniVideoMode* pVideoMode)
 	// resolution
 	pVideoMode->resolutionX = (int)m_pInputStream->GetVideoMode().m_nXRes;
 	pVideoMode->resolutionY = (int)m_pInputStream->GetVideoMode().m_nYRes;
-	
+
 	// fps
 	pVideoMode->fps = (int)m_pInputStream->GetVideoMode().m_nFPS;
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -296,13 +296,13 @@ XnStatus LinkOniMapStream::SetVideoMode(OniVideoMode* pVideoMode)
 			else if (selectedIndex == -1)
 			{
 				selectedIndex = i;
-			}		
+			}
 		}
 	}
 
 	if (selectedIndex == -1)
 	{
-		xnLogError(XN_MASK_LINK, "Tried to set unsupported mode: %ux%u@%u fps", 
+		xnLogError(XN_MASK_LINK, "Tried to set unsupported mode: %ux%u@%u fps",
 			pVideoMode->resolutionX, pVideoMode->resolutionY, pVideoMode->fps);
 		XN_ASSERT(FALSE);
 		return XN_STATUS_BAD_PARAM;
@@ -332,7 +332,7 @@ XnStatus LinkOniMapStream::FillSupportedVideoModes()
 	for (int i = 0; i < nCount; ++i)
 	{
 		m_aSupportedModes[i].nInputFormat			= pSupported->data()[i].m_nPixelFormat;
-		
+
 		m_aSupportedModes[i].OutputMode.resolutionX	= pSupported->data()[i].m_nXRes;
 		m_aSupportedModes[i].OutputMode.resolutionY	= pSupported->data()[i].m_nYRes;;
 		m_aSupportedModes[i].OutputMode.fps			= pSupported->data()[i].m_nFPS;;
@@ -369,4 +369,3 @@ XnStatus LinkOniMapStream::GetDefaultVideoMode( OniVideoMode* /*pVideoMode*/ )
 {
 	return XN_STATUS_IS_EMPTY;
 }
-

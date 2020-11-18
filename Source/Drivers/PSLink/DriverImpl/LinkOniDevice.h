@@ -28,7 +28,6 @@
 #include <XnLib.h>
 #include "LinkOniDepthStream.h"
 #include "LinkOniIRStream.h"
-//#include "LinkOniColorStream.h"
 
 #include <PS1200Device.h>
 
@@ -64,13 +63,8 @@ public:
 	virtual OniStatus invoke(int commandId, void* data, int dataSize);
 	virtual OniBool isCommandSupported(int commandId);
 
-	//virtual OniStatus EnableFrameSync(LinkOniStream** pStreams, int streamCount);
-	//virtual void DisableFrameSync();
-
-	//virtual OniBool isImageRegistrationModeSupported(OniImageRegistrationMode mode);
-
-	xn::PrimeClient* GetSensor() 
-	{ 
+	xn::PrimeClient* GetSensor()
+	{
 		return m_pSensor;
 	}
 
@@ -95,7 +89,7 @@ private:
 	OniSensorInfo m_sensors[10];
 
 	oni::driver::DriverServices& m_driverServices;
-	
+
 	LinkOniDriver* m_pDriver;
 };
 
