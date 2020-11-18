@@ -88,9 +88,9 @@ void PrimeClient::Shutdown()
 		}
 		m_outputDataEndpoint.Shutdown();
 
-        //First shutdown stream managers before control endpoint, because they might need to send a StopStreaming command
-        m_linkOutputStreamsMgr.Shutdown();
-        m_linkInputStreamsMgr.Shutdown();
+		//First shutdown stream managers before control endpoint, because they might need to send a StopStreaming command
+		m_linkOutputStreamsMgr.Shutdown();
+		m_linkInputStreamsMgr.Shutdown();
 		m_linkControlEndpoint.Shutdown();
 		xnOSSleep(200); //TODO: Get rid of this once we have a disconnection command
 		m_pConnectionFactory->Shutdown();
@@ -109,15 +109,15 @@ XnStatus PrimeClient::Connect()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-    if (!m_bConnected)
-    {
-        nRetVal = m_linkControlEndpoint.Connect();
-        XN_IS_STATUS_OK_LOG_ERROR("Connect link control endpoint", nRetVal);
+	if (!m_bConnected)
+	{
+		nRetVal = m_linkControlEndpoint.Connect();
+		XN_IS_STATUS_OK_LOG_ERROR("Connect link control endpoint", nRetVal);
 
-	    // Connect output data endpoint (if any)
-        //TODO: Connect output data endpoint only on the first time we send anything to device.
-	    nRetVal = ConnectOutputDataEndpoint();
-	    XN_IS_STATUS_OK_LOG_ERROR("Connect output data endpoint", nRetVal);
+		// Connect output data endpoint (if any)
+		//TODO: Connect output data endpoint only on the first time we send anything to device.
+		nRetVal = ConnectOutputDataEndpoint();
+		XN_IS_STATUS_OK_LOG_ERROR("Connect output data endpoint", nRetVal);
 
 		nRetVal = m_linkControlEndpoint.GetSupportedProperties(m_supportedProps);
 		XN_IS_STATUS_OK_LOG_ERROR("Get supported properties", nRetVal);
@@ -141,10 +141,10 @@ XnStatus PrimeClient::Connect()
 		nRetVal = m_linkControlEndpoint.GetSerialNumber(m_strSerialNumber, sizeof(m_strSerialNumber));
 		XN_IS_STATUS_OK_LOG_ERROR("Get serial number", nRetVal);
 
-        xnLogInfo(XN_MASK_PRIME_CLIENT, "Prime Client is now connected.");
-        LogVersions();
-        m_bConnected = TRUE;
-    }
+		xnLogInfo(XN_MASK_PRIME_CLIENT, "Prime Client is now connected.");
+		LogVersions();
+		m_bConnected = TRUE;
+	}
 
 	return XN_STATUS_OK;
 }
@@ -161,7 +161,7 @@ void PrimeClient::Disconnect()
 
 XnBool PrimeClient::IsConnected() const
 {
-    return m_bConnected;
+	return m_bConnected;
 }
 
 const LinkInputStream* PrimeClient::GetInputStream(XnUInt16 nStreamID) const
@@ -176,22 +176,22 @@ LinkInputStream* PrimeClient::GetInputStream(XnUInt16 nStreamID)
 
 const XnDetailedVersion& PrimeClient::GetFWVersion() const
 {
-    return m_fwVersion;
+	return m_fwVersion;
 }
 
 const XnUInt32 PrimeClient::GetHWVersion() const
 {
-    return m_nHWVersion; 
+	return m_nHWVersion;
 }
 
 const XnLeanVersion& PrimeClient::GetDeviceProtocolVersion() const
 {
-    return m_protocolVersion;
+	return m_protocolVersion;
 }
 
 const XnChar* PrimeClient::GetSerialNumber() const
 {
-    return m_strSerialNumber;
+	return m_strSerialNumber;
 }
 
 const XnStatus PrimeClient::GetComponentsVersions(std::vector<XnComponentVersion>& componentVersions)
@@ -199,13 +199,13 @@ const XnStatus PrimeClient::GetComponentsVersions(std::vector<XnComponentVersion
 	return m_linkControlEndpoint.GetComponentsVersions(componentVersions);
 }
 
-XnStatus PrimeClient::InitOutputStream(XnUInt16 nStreamID, 
-									   XnUInt32 nMaxMsgSize, 
-									   XnUInt16 nMaxPacketSize, 
-									   XnLinkCompressionType compression, 
+XnStatus PrimeClient::InitOutputStream(XnUInt16 nStreamID,
+									   XnUInt32 nMaxMsgSize,
+									   XnUInt16 nMaxPacketSize,
+									   XnLinkCompressionType compression,
 									   XnStreamFragLevel streamFragLevel)
 {
-	return m_linkOutputStreamsMgr.InitOutputStream(nStreamID, nMaxMsgSize, nMaxPacketSize, compression, 
+	return m_linkOutputStreamsMgr.InitOutputStream(nStreamID, nMaxMsgSize, nMaxPacketSize, compression,
 		streamFragLevel, &m_outputDataEndpoint);
 }
 
@@ -230,7 +230,7 @@ XnStatus PrimeClient::HardReset()
 
 XnStatus PrimeClient::ReadDebugData(XnCommandDebugData& commandDebugData)
 {
-    return m_linkControlEndpoint.ReadDebugData(commandDebugData);
+	return m_linkControlEndpoint.ReadDebugData(commandDebugData);
 }
 
 XnStatus PrimeClient::WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32 nValue, XnUInt32 nMask)
@@ -284,19 +284,19 @@ XnStatus PrimeClient::CreateInputStream(XnStreamType streamType, const XnChar* s
 		// No stream of this type exists. Create a new one
 		XnStatus nRetVal = XN_STATUS_OK;
 		XnUInt16 nEndpointID = 0;
-    
+
 		//Send create stream command
 		nRetVal = CreateInputStreamImpl((XnLinkStreamType)streamType, strCreationInfo, nStreamID, nEndpointID);
 		XN_IS_STATUS_OK_LOG_ERROR("Create stream", nRetVal);
 
-		xnLogInfo(XN_MASK_LINK, "Created input stream %u of type '%s' on endpoint %u", 
+		xnLogInfo(XN_MASK_LINK, "Created input stream %u of type '%s' on endpoint %u",
 			nStreamID, xnLinkStreamTypeToString(streamType), nEndpointID);
 	}
 
 	// now let the stream manager know that we have another "holder" of the stream
 	m_linkInputStreamsMgr.RegisterStreamOfType(streamType, strCreationInfo, nStreamID);
 
-    return XN_STATUS_OK;
+	return XN_STATUS_OK;
 }
 
 XnStatus PrimeClient::DestroyInputStream(XnUInt16 nStreamID)
@@ -310,7 +310,7 @@ XnStatus PrimeClient::DestroyInputStream(XnUInt16 nStreamID)
 		m_linkInputStreamsMgr.ShutdownInputStream(nStreamID);
 		xnLogInfo(XN_MASK_PRIME_CLIENT, "Input stream %u destroyed.", nStreamID);
 	}
-    return XN_STATUS_OK;
+	return XN_STATUS_OK;
 }
 
 XnStatus PrimeClient::BeginUploadFileOnControlEP()
@@ -342,7 +342,7 @@ XnStatus PrimeClient::ConnectOutputDataEndpoint()
 		nRetVal = m_outputDataEndpoint.Connect();
 		XN_IS_STATUS_OK_LOG_ERROR("Connect output data endpoint", nRetVal);
 	}
-		
+
 	return XN_STATUS_OK;
 }
 
@@ -358,58 +358,58 @@ XnStatus PrimeClient::DownloadFile(XnUInt16 zone, const XnChar* strFirmwareFileN
 
 XnStatus PrimeClient::SetProjectorActive(XnBool bActive)
 {
-    return m_linkControlEndpoint.SetProjectorActive(bActive);
+	return m_linkControlEndpoint.SetProjectorActive(bActive);
 }
 
 XnStatus PrimeClient::SetAccActive(XnBool bActive)
 {
-    return m_linkControlEndpoint.SetAccActive(bActive);
+	return m_linkControlEndpoint.SetAccActive(bActive);
 }
 
 XnStatus PrimeClient::GetAccActive(XnBool& bActive)
 {
-    return m_linkControlEndpoint.GetAccActive(bActive);
+	return m_linkControlEndpoint.GetAccActive(bActive);
 }
 
 XnStatus PrimeClient::SetVDDActive(XnBool bActive)
 {
-    return m_linkControlEndpoint.SetVDDActive(bActive);
+	return m_linkControlEndpoint.SetVDDActive(bActive);
 }
 
 XnStatus PrimeClient::GetVDDActive(XnBool& bActive)
 {
-    return m_linkControlEndpoint.GetVDDActive(bActive);
+	return m_linkControlEndpoint.GetVDDActive(bActive);
 }
 
 XnStatus PrimeClient::SetPeriodicBistActive(XnBool bActive)
 {
-    return m_linkControlEndpoint.SetPeriodicBistActive(bActive);
+	return m_linkControlEndpoint.SetPeriodicBistActive(bActive);
 }
 
 XnStatus PrimeClient::GetPeriodicBistActive(XnBool& bActive)
 {
-    return m_linkControlEndpoint.GetPeriodicBistActive(bActive);
+	return m_linkControlEndpoint.GetPeriodicBistActive(bActive);
 }
 void PrimeClient::LogVersions()
 {
-    static XnBool bVersionsLoggedOnce = FALSE;
-    
-    if (!bVersionsLoggedOnce)
-    {
-        xnLogVerbose(XN_MASK_PRIME_CLIENT, "Prime Client version:\t%s", XN_PS_BRIEF_VERSION_STRING);
-        xnLogVerbose(XN_MASK_PRIME_CLIENT, "Host protocol version:\t%u.%u", XN_LINK_PROTOCOL_MAJOR_VERSION, XN_LINK_PROTOCOL_MINOR_VERSION);
-        xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device Protocol version:\t%u.%u", m_protocolVersion.m_nMajor, m_protocolVersion.m_nMinor);
-        xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device FW version:\t\t%u.%u.%u.%u-%s", m_fwVersion.m_nMajor, m_fwVersion.m_nMinor, m_fwVersion.m_nMaintenance, m_fwVersion.m_nBuild, m_fwVersion.m_strModifier);
-        xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device HW version:\t\t0x%04X", m_nHWVersion);
-        xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device SerialNumber:\t%s", m_strSerialNumber);
-        bVersionsLoggedOnce = TRUE;
-    }
+	static XnBool bVersionsLoggedOnce = FALSE;
+
+	if (!bVersionsLoggedOnce)
+	{
+		xnLogVerbose(XN_MASK_PRIME_CLIENT, "Prime Client version:\t%s", XN_PS_BRIEF_VERSION_STRING);
+		xnLogVerbose(XN_MASK_PRIME_CLIENT, "Host protocol version:\t%u.%u", XN_LINK_PROTOCOL_MAJOR_VERSION, XN_LINK_PROTOCOL_MINOR_VERSION);
+		xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device Protocol version:\t%u.%u", m_protocolVersion.m_nMajor, m_protocolVersion.m_nMinor);
+		xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device FW version:\t\t%u.%u.%u.%u-%s", m_fwVersion.m_nMajor, m_fwVersion.m_nMinor, m_fwVersion.m_nMaintenance, m_fwVersion.m_nBuild, m_fwVersion.m_strModifier);
+		xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device HW version:\t\t0x%04X", m_nHWVersion);
+		xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device SerialNumber:\t%s", m_strSerialNumber);
+		bVersionsLoggedOnce = TRUE;
+	}
 }
 
 XnStatus PrimeClient::OpenFWLogFile(XnUInt8 logID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	//If no stream started, start it
 	if (m_nFWLogStreamID == XN_LINK_STREAM_ID_NONE)
 	{
@@ -425,7 +425,7 @@ XnStatus PrimeClient::OpenFWLogFile(XnUInt8 logID)
 		XN_ASSERT(FALSE);
 		return XN_STATUS_ERROR;
 	}
-	
+
 	//Open the log file
 	nRetVal = m_linkControlEndpoint.OpenFWLogFile(logID, pFWLogStream->GetStreamID());
 
@@ -461,101 +461,101 @@ XnStatus PrimeClient::CloseFWLogFile(XnUInt8 logID)
 
 XnStatus PrimeClient::StartFWLog()
 {
-    XnStatus nRetVal = XN_STATUS_OK;
-    std::vector<XnFwStreamInfo> fwLogStreamInfos;
-    XnUInt16 nEndpointID = 0;
+	XnStatus nRetVal = XN_STATUS_OK;
+	std::vector<XnFwStreamInfo> fwLogStreamInfos;
+	XnUInt16 nEndpointID = 0;
 
-    //Enumerate log streams (there should be exactly one)
-    nRetVal = EnumerateStreams(XN_LINK_STREAM_TYPE_LOG, fwLogStreamInfos);
-    XN_IS_STATUS_OK_LOG_ERROR("Enumerate log streams", nRetVal);
-    if (fwLogStreamInfos.size() == 0)
-    {
-        xnLogError(XN_MASK_PRIME_CLIENT, "No FW log stream exists in device");
-        XN_ASSERT(FALSE);
-        return XN_STATUS_ERROR;
-    }
+	//Enumerate log streams (there should be exactly one)
+	nRetVal = EnumerateStreams(XN_LINK_STREAM_TYPE_LOG, fwLogStreamInfos);
+	XN_IS_STATUS_OK_LOG_ERROR("Enumerate log streams", nRetVal);
+	if (fwLogStreamInfos.size() == 0)
+	{
+		xnLogError(XN_MASK_PRIME_CLIENT, "No FW log stream exists in device");
+		XN_ASSERT(FALSE);
+		return XN_STATUS_ERROR;
+	}
 
-    if (fwLogStreamInfos.size() > 1)
-    {
-        xnLogError(XN_MASK_PRIME_CLIENT, "Only one FW log stream is supported");
-        XN_ASSERT(FALSE);
-        return XN_STATUS_ERROR;
-    }
+	if (fwLogStreamInfos.size() > 1)
+	{
+		xnLogError(XN_MASK_PRIME_CLIENT, "Only one FW log stream is supported");
+		XN_ASSERT(FALSE);
+		return XN_STATUS_ERROR;
+	}
 
-    //Create log stream (from first enumeration result)
-    nRetVal = CreateInputStreamImpl(XN_LINK_STREAM_TYPE_LOG, fwLogStreamInfos[0].creationInfo, m_nFWLogStreamID, nEndpointID);
-    XN_IS_STATUS_OK_LOG_ERROR("Create log input stream", nRetVal);
-    LinkInputStream* pFWLogStream = GetInputStream(m_nFWLogStreamID);
-    if (pFWLogStream == NULL)
-    {
-        xnLogError(XN_MASK_PRIME_CLIENT, "FW log input stream is NULL?!");
-        XN_ASSERT(FALSE);
-        return XN_STATUS_ERROR;
-    }
+	//Create log stream (from first enumeration result)
+	nRetVal = CreateInputStreamImpl(XN_LINK_STREAM_TYPE_LOG, fwLogStreamInfos[0].creationInfo, m_nFWLogStreamID, nEndpointID);
+	XN_IS_STATUS_OK_LOG_ERROR("Create log input stream", nRetVal);
+	LinkInputStream* pFWLogStream = GetInputStream(m_nFWLogStreamID);
+	if (pFWLogStream == NULL)
+	{
+		xnLogError(XN_MASK_PRIME_CLIENT, "FW log input stream is NULL?!");
+		XN_ASSERT(FALSE);
+		return XN_STATUS_ERROR;
+	}
 
 	//Start the log stream
-    nRetVal = pFWLogStream->Start();
-    XN_IS_STATUS_OK_LOG_ERROR("Start FW Log Stream", nRetVal);
-    xnLogInfo(XN_MASK_PRIME_CLIENT, "FW Log started on stream %u, endpoint %u", m_nFWLogStreamID, nEndpointID);
-    
-    return XN_STATUS_OK;
+	nRetVal = pFWLogStream->Start();
+	XN_IS_STATUS_OK_LOG_ERROR("Start FW Log Stream", nRetVal);
+	xnLogInfo(XN_MASK_PRIME_CLIENT, "FW Log started on stream %u, endpoint %u", m_nFWLogStreamID, nEndpointID);
+
+	return XN_STATUS_OK;
 }
 
 XnStatus PrimeClient::StopFWLog()
 {
-    XnStatus nRetVal = XN_STATUS_OK;
-    if (m_nFWLogStreamID != XN_LINK_STREAM_ID_NONE)
-    {
-        //Get FW Log input stream
-        LinkInputStream* pFWLogStream = GetInputStream(m_nFWLogStreamID);
-        if (pFWLogStream == NULL)
-        {
-            xnLogError(XN_MASK_PRIME_CLIENT, "FW log input stream is NULL?!");
-            XN_ASSERT(FALSE);
-            return XN_STATUS_ERROR;
-        }
+	XnStatus nRetVal = XN_STATUS_OK;
+	if (m_nFWLogStreamID != XN_LINK_STREAM_ID_NONE)
+	{
+		//Get FW Log input stream
+		LinkInputStream* pFWLogStream = GetInputStream(m_nFWLogStreamID);
+		if (pFWLogStream == NULL)
+		{
+			xnLogError(XN_MASK_PRIME_CLIENT, "FW log input stream is NULL?!");
+			XN_ASSERT(FALSE);
+			return XN_STATUS_ERROR;
+		}
 
-        //Stop stream
-        nRetVal = pFWLogStream->Stop();           
-        XN_IS_STATUS_OK_LOG_ERROR("Stop FW log stream", nRetVal);
+		//Stop stream
+		nRetVal = pFWLogStream->Stop();
+		XN_IS_STATUS_OK_LOG_ERROR("Stop FW log stream", nRetVal);
 
-        //Destroy stream
-        nRetVal = DestroyInputStream(m_nFWLogStreamID);
-        XN_IS_STATUS_OK_LOG_ERROR("Destroy input stream", nRetVal);
-        //Mark stream as unused
-        m_nFWLogStreamID = XN_LINK_STREAM_ID_NONE;
-    }
-    return XN_STATUS_OK;
+		//Destroy stream
+		nRetVal = DestroyInputStream(m_nFWLogStreamID);
+		XN_IS_STATUS_OK_LOG_ERROR("Destroy input stream", nRetVal);
+		//Mark stream as unused
+		m_nFWLogStreamID = XN_LINK_STREAM_ID_NONE;
+	}
+	return XN_STATUS_OK;
 }
 
 XnStatus PrimeClient::CreateInputStreamImpl(XnLinkStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID, XnUInt16& nEndpointID)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
+	XnStatus nRetVal = XN_STATUS_OK;
 
-    nRetVal = m_linkControlEndpoint.CreateInputStream(streamType, strCreationInfo, nStreamID, nEndpointID);
-    XN_IS_STATUS_OK_LOG_ERROR("Create stream on device", nRetVal);
+	nRetVal = m_linkControlEndpoint.CreateInputStream(streamType, strCreationInfo, nStreamID, nEndpointID);
+	XN_IS_STATUS_OK_LOG_ERROR("Create stream on device", nRetVal);
 
-    if (nEndpointID > m_inputDataEndpoints.size())
-    {
-        xnLogError(XN_MASK_PRIME_CLIENT, "Stream %u was created on non-existing endpoint %u", nStreamID, nEndpointID);
-        XN_ASSERT(FALSE);
-        return XN_STATUS_ERROR;
-    }
+	if (nEndpointID > m_inputDataEndpoints.size())
+	{
+		xnLogError(XN_MASK_PRIME_CLIENT, "Stream %u was created on non-existing endpoint %u", nStreamID, nEndpointID);
+		XN_ASSERT(FALSE);
+		return XN_STATUS_ERROR;
+	}
 
 	if (!m_inputDataEndpoints[nEndpointID].IsInitialized())
 	{
 		xnLogVerbose(XN_MASK_PRIME_CLIENT, "Initializing input data endpoint 0x%X...", nEndpointID);
-		nRetVal = m_inputDataEndpoints[nEndpointID].Init(nEndpointID, 
-			m_pConnectionFactory, 
+		nRetVal = m_inputDataEndpoints[nEndpointID].Init(nEndpointID,
+			m_pConnectionFactory,
 			&m_linkInputStreamsMgr,
 			this);
 		XN_IS_STATUS_OK_LOG_ERROR("Init input data endpoint", nRetVal);
 	}
 
-    //Initialize input stream
-    nRetVal = m_linkInputStreamsMgr.InitInputStream(&m_linkControlEndpoint, streamType, nStreamID, &m_inputDataEndpoints[nEndpointID]);
-    XN_IS_STATUS_OK_LOG_ERROR("Init input stream", nRetVal);
-    return XN_STATUS_OK;
+	//Initialize input stream
+	nRetVal = m_linkInputStreamsMgr.InitInputStream(&m_linkControlEndpoint, streamType, nStreamID, &m_inputDataEndpoints[nEndpointID]);
+	XN_IS_STATUS_OK_LOG_ERROR("Init input stream", nRetVal);
+	return XN_STATUS_OK;
 }
 
 #define CHECK_TOKEN(pToken, strLine, pFile)																			\
@@ -615,18 +615,20 @@ XnStatus PrimeClient::RunPresetFile(const XnChar* strFileName)
 		{
 			continue;
 		}
-        // skip comments
-        int i;
-        int length = (int)strlen(strLine);
-        for(i = 0; i < length; i++) {
-            if(strLine[i] == ' ' || strLine[i] == '\t') {
-                continue;
-            }
-        }
-        if (i < length && strLine[i] == '#' ) 
-        {
-            continue;
-        }
+		// skip comments
+		int i;
+		int length = (int)strlen(strLine);
+		for (i = 0; i < length; i++)
+		{
+			if (strLine[i] == ' ' || strLine[i] == '\t')
+			{
+				continue;
+			}
+		}
+		if (i < length && strLine[i] == '#' )
+		{
+			continue;
+		}
 
 		// block name
 		XnChar* pToken = strtok(strLine, ",");
@@ -682,11 +684,11 @@ XnStatus PrimeClient::GetSupportedBistTests(std::vector<XnBistInfo>& supportedTe
 }
 XnStatus PrimeClient::GetSupportedTempList(std::vector<XnTempInfo>& supportedTempList)
 {
-    return m_linkControlEndpoint.GetSupportedTempList(supportedTempList);
+	return m_linkControlEndpoint.GetSupportedTempList(supportedTempList);
 }
 XnStatus PrimeClient::GetTemperature(XnCommandTemperatureResponse& temp)
 {
-    return m_linkControlEndpoint.GetTemperature(temp);
+	return m_linkControlEndpoint.GetTemperature(temp);
 }
 XnStatus PrimeClient::GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supportedDevices)
 {

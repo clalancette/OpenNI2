@@ -60,7 +60,7 @@ XnStatus PS1200Device::Init(const XnChar* strConnString, XnTransportType transpo
 	XN_IS_STATUS_OK_LOG_ERROR("Init EE Device", nRetVal);
 
 	m_bInitialized = TRUE;
-	return XN_STATUS_OK;	
+	return XN_STATUS_OK;
 }
 
 void PS1200Device::Shutdown()
@@ -82,9 +82,9 @@ IConnectionFactory* PS1200Device::CreateConnectionFactory(XnTransportType transp
 		return NULL;
 	}
 
-	return XN_NEW(ClientUSBConnectionFactory, 
-			        NUM_INPUT_CONNECTIONS, 
-					NUM_OUTPUT_CONNECTIONS, 
+	return XN_NEW(ClientUSBConnectionFactory,
+			        NUM_INPUT_CONNECTIONS,
+					NUM_OUTPUT_CONNECTIONS,
 					PRE_CONTROL_RECEIVE_SLEEP);
 }
 
@@ -158,7 +158,7 @@ private:
 XnStatus PS1200Device::UsbTest(XnUInt32 nSeconds, XnUInt32& endpointsCount, XnUsbTestEndpointResult* endpoints)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	xn::ClientUSBConnectionFactory* pConnFactory = GetConnectionFactory();
 
 	if (m_linkInputStreamsMgr.HasStreams())
@@ -218,7 +218,7 @@ XnStatus PS1200Device::UsbTest(XnUInt32 nSeconds, XnUInt32& endpointsCount, XnUs
 	for (int i = 0; i < nNumEndpoints; ++i)
 	{
 		XN_DELETE(aEndpoints[i]);
-		
+
 		endpoints[i].averageBytesPerSecond = aTesters[i].m_nTotalBytes / (XnDouble)nSeconds;
 		endpoints[i].lostPackets = aTesters[i].m_nLostPackets;
 	}

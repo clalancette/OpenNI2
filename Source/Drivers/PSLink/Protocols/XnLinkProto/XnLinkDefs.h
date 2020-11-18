@@ -100,7 +100,7 @@ typedef enum XnLinkMsgType
 {
 	XN_LINK_MSG_NONE							= 0x0000,
 
-//XN_LINK_INTERFACE_FW_MGMT - Firmware management messages - group 0x00
+	//XN_LINK_INTERFACE_FW_MGMT - Firmware management messages - group 0x00
 	XN_LINK_MSG_RESERVED_1						= 0x0001,
 	XN_LINK_MSG_UPLOAD_FILE         			= 0x0002,
 	XN_LINK_MSG_RESERVED_3			            = 0x0003,
@@ -111,12 +111,12 @@ typedef enum XnLinkMsgType
 	XN_LINK_MSG_END_UPLOAD						= 0x0008,
 	XN_LINK_MSG_GET_FILE_LIST					= 0x0009,
 	XN_LINK_MSG_DOWNLOAD_FILE					= 0x000A, // in: XnLinkDownloadFileParams, out: file data
-    XN_LINK_MSG_FORMAT_ZONE                     = 0x000B,
+	XN_LINK_MSG_FORMAT_ZONE                     = 0x000B,
 
-//XN_LINK_INTERFACE_LINK - Link messages - group 0x01
+	//XN_LINK_INTERFACE_LINK - Link messages - group 0x01
 	XN_LINK_MSG_CONTINUE_REPONSE				= 0x0101,
 
-//XN_LINK_INTERFACE_SYS_MGMT - System management messages - group 0x02
+	//XN_LINK_INTERFACE_SYS_MGMT - System management messages - group 0x02
 	XN_LINK_MSG_SOFT_RESET						= 0x0201,
 	XN_LINK_MSG_HARD_RESET						= 0x0202,
 	XN_LINK_MSG_WRITE_I2C						= 0x0203,
@@ -126,61 +126,61 @@ typedef enum XnLinkMsgType
 	XN_LINK_MSG_EXECUTE_BIST_TESTS				= 0x0207, // In: XnLinkExecuteBistParams Out: XnLinkExecuteBistResponse
 	XN_LINK_MSG_GET_ACC_CURENT_PARAM            = 0x0208,
 	XN_LINK_MSG_SET_PWM_DC                      = 0x0209,
-	XN_LINK_MSG_START_USB_TEST					= 0x020A, 
-	XN_LINK_MSG_STOP_USB_TEST					= 0x020B, 
+	XN_LINK_MSG_START_USB_TEST					= 0x020A,
+	XN_LINK_MSG_STOP_USB_TEST					= 0x020B,
 	XN_LINK_MSG_START_LOG_FILE					= 0x020C,
 	XN_LINK_MSG_STOP_LOG_FILE					= 0x020D,
 	XN_LINK_MSG_READ_TEMPERATURE				= 0x020E,
 
 
-//XN_LINK_INTERFACE_DATA_STREAMING - Data streaming messages - group 0x03
+	//XN_LINK_INTERFACE_DATA_STREAMING - Data streaming messages - group 0x03
 	XN_LINK_MSG_START_STREAMING					= 0x0300,
 	XN_LINK_MSG_DATA							= 0x0301,	//Sent on data endpoint, not control
 	XN_LINK_MSG_STOP_STREAMING					= 0x0302,
-    XN_LINK_MSG_START_STREAMING_MULTI           = 0x0303,
-    XN_LINK_MSG_STOP_STREAMING_MULTI            = 0x0304,
+	XN_LINK_MSG_START_STREAMING_MULTI           = 0x0303,
+	XN_LINK_MSG_STOP_STREAMING_MULTI            = 0x0304,
 
-//XN_LINK_INTERFACE_RESERVED1
+	//XN_LINK_INTERFACE_RESERVED1
 
-//XN_LINK_INTERFACE_MAP_GENERATOR - Map generator messages - group 0x05
+	//XN_LINK_INTERFACE_MAP_GENERATOR - Map generator messages - group 0x05
 	XN_LINK_MSG_GET_CAMERA_INTRINSICS 			= 0x0501, // Out: XnLinkCameraIntrinsics
 
-//XN_LINK_INTERFACE_STREAM_MGMT - Stream management messages - group 0x06
+	//XN_LINK_INTERFACE_STREAM_MGMT - Stream management messages - group 0x06
 	XN_LINK_MSG_ENUMERATE_STREAMS				= 0x0601,
 	XN_LINK_MSG_CREATE_STREAM					= 0x0602,
 	XN_LINK_MSG_DESTROY_STREAM					= 0x0603,
 
-//XN_LINK_INTERFACE_PROPS - Set/Get property messages - group 0x07
+	//XN_LINK_INTERFACE_PROPS - Set/Get property messages - group 0x07
 	XN_LINK_MSG_GET_PROP						= 0x0701,
 	XN_LINK_MSG_SET_PROP						= 0x0702,
 	XN_LINK_MSG_SET_MULTI_PROPS					= 0x0703,
 	XN_LINK_MSG_GET_DEBUG_DATA	                = 0x0704,
 
-//XN_LINK_INTERFACE_HANDS_GENERATOR - HandGenerator messages - group 0x09
+	//XN_LINK_INTERFACE_HANDS_GENERATOR - HandGenerator messages - group 0x09
 	XN_LINK_MSG_START_TARCKING_HAND				= 0x0901,
 	XN_LINK_MSG_STOP_TARCKING_HAND				= 0x0902,
 	XN_LINK_MSG_STOP_TARCKING_ALL_HANDS			= 0x0903,
 
-//XN_LINK_INTERFACE_S2D - Shift to depth messages - group 0x0A
+	//XN_LINK_INTERFACE_S2D - Shift to depth messages - group 0x0A
 	XN_LINK_MSG_GET_S2D_CONFIG					= 0x0A01,
 
-//XN_LINK_INTERFACE_GESTURE_GENERATOR - GestureGenerator messages - group 0x0B
+	//XN_LINK_INTERFACE_GESTURE_GENERATOR - GestureGenerator messages - group 0x0B
 	XN_LINK_MSG_ENUMERATE_AVAILABLE_GESTURES	= 0x0B01,
 	XN_LINK_MSG_ENUMERATE_ACTIVE_GESTURES		= 0x0B02,
 	XN_LINK_MSG_ACTIVATE_GESTURE				= 0x0B03,
 	XN_LINK_MSG_DEACTIVATE_GESTURE				= 0x0B04,
 
-//XN_LINK_INTERFACE_USER_GENERATOR - UserGenerator messages - group 0x0C
+	//XN_LINK_INTERFACE_USER_GENERATOR - UserGenerator messages - group 0x0C
 
-// XN_LINK_INTERFACE_MIRROR - Mirror messages - group 0x0E
+	// XN_LINK_INTERFACE_MIRROR - Mirror messages - group 0x0E
 
-// XN_LINK_INTERFACE_ALTERNATIVE_VIEW_POINT messages - group 0x0F
+	// XN_LINK_INTERFACE_ALTERNATIVE_VIEW_POINT messages - group 0x0F
 
-// XN_LINK_INTERFACE_CROPPING messages - group 0x10
+	// XN_LINK_INTERFACE_CROPPING messages - group 0x10
 
-// XN_LINK_INTERFACE_USER_POSITION messages - group 0x11
+	// XN_LINK_INTERFACE_USER_POSITION messages - group 0x11
 
-// XN_LINK_INTERFACE_SKELETON messages - group 0x12
+	// XN_LINK_INTERFACE_SKELETON messages - group 0x12
 	XN_LINK_MSG_SET_SKELETON_PROFILE			= 0x1201,
 	XN_LINK_MSG_SET_SKELETON_JOINT_STATE		= 0x1202,
 	XN_LINK_MSG_REQUEST_CALIBRATION				= 0x1203,
@@ -195,58 +195,58 @@ typedef enum XnLinkMsgType
 	XN_LINK_MSG_STOP_SKELETON_TRACKING			= 0x120C,
 	XN_LINK_MSG_RESET_SKELETON_TRACKING			= 0x120D,
 
-// XN_LINK_INTERFACE_POSE_DETECTION messages - group 0x13
+	// XN_LINK_INTERFACE_POSE_DETECTION messages - group 0x13
 	XN_LINK_MSG_START_POSE_DETECTION			= 0x130E,
 	XN_LINK_MSG_STOP_POSE_DETECTION				= 0X130F,
 
-// XN_LINK_INTERFACE_LOCK_AWARE messages - group 0x14
+	// XN_LINK_INTERFACE_LOCK_AWARE messages - group 0x14
 
-// XN_LINK_INTERFACE_ERROR_STATE messages - group 0x15
+	// XN_LINK_INTERFACE_ERROR_STATE messages - group 0x15
 
-// XN_LINK_INTERFACE_FRAME_SYNC messages - group 0x16
+	// XN_LINK_INTERFACE_FRAME_SYNC messages - group 0x16
 
-// XN_LINK_INTERFACE_DEVICE_IDENTIFICATION messages - group 0x17
+	// XN_LINK_INTERFACE_DEVICE_IDENTIFICATION messages - group 0x17
 
-// XN_LINK_INTERFACE_BRIGHTNESS messages - group 0x18
+	// XN_LINK_INTERFACE_BRIGHTNESS messages - group 0x18
 
-// XN_LINK_INTERFACE_CONTRAST messages - group 0x19
+	// XN_LINK_INTERFACE_CONTRAST messages - group 0x19
 
-// XN_LINK_INTERFACE_HUE messages - group 0x1A
+	// XN_LINK_INTERFACE_HUE messages - group 0x1A
 
-// XN_LINK_INTERFACE_SATURATION messages - group 0x1B
+	// XN_LINK_INTERFACE_SATURATION messages - group 0x1B
 
-// XN_LINK_INTERFACE_SHARPNESS messages - group 0x1C
+	// XN_LINK_INTERFACE_SHARPNESS messages - group 0x1C
 
-// XN_LINK_INTERFACE_GAMMA messages - group 0x1D
+	// XN_LINK_INTERFACE_GAMMA messages - group 0x1D
 
-// XN_LINK_INTERFACE_COLOR_TEMPERATURE messages - group 0x1E
+	// XN_LINK_INTERFACE_COLOR_TEMPERATURE messages - group 0x1E
 
-// XN_LINK_INTERFACE_BACKLIGHT_COMPENSATION messages - group 0x1F
+	// XN_LINK_INTERFACE_BACKLIGHT_COMPENSATION messages - group 0x1F
 
-// XN_LINK_INTERFACE_GAIN messages - group 0x20
+	// XN_LINK_INTERFACE_GAIN messages - group 0x20
 
-// XN_LINK_INTERFACE_PAN messages - group 0x21
+	// XN_LINK_INTERFACE_PAN messages - group 0x21
 
-// XN_LINK_INTERFACE_TILT messages - group 0x22
+	// XN_LINK_INTERFACE_TILT messages - group 0x22
 
-// XN_LINK_INTERFACE_ROLL messages - group 0x23
+	// XN_LINK_INTERFACE_ROLL messages - group 0x23
 
-// XN_LINK_INTERFACE_ZOOM messages - group 0x24
+	// XN_LINK_INTERFACE_ZOOM messages - group 0x24
 
-// XN_LINK_INTERFACE_EXPOSURE messages - group 0x25
+	// XN_LINK_INTERFACE_EXPOSURE messages - group 0x25
 
-// XN_LINK_INTERFACE_IRIS messages - group 0x26
+	// XN_LINK_INTERFACE_IRIS messages - group 0x26
 
-// XN_LINK_INTERFACE_FOCUS messages - group 0x27
+	// XN_LINK_INTERFACE_FOCUS messages - group 0x27
 
-// XN_LINK_INTERFACE_LOW_LIGHT_COMPENSATION messages - group 0x28
+	// XN_LINK_INTERFACE_LOW_LIGHT_COMPENSATION messages - group 0x28
 
-// XN_LINK_INTERFACE_ANTI_FLICKER messages - group 0x29
+	// XN_LINK_INTERFACE_ANTI_FLICKER messages - group 0x29
 
-// XN_LINK_INTERFACE_HAND_TOUCHING_FOV_EDGE messages - group 0x2A
+	// XN_LINK_INTERFACE_HAND_TOUCHING_FOV_EDGE messages - group 0x2A
 
-// XN_LINK_INTERFACE_PROJECTOR_MGMT messages - group 0x2B
-	
+	// XN_LINK_INTERFACE_PROJECTOR_MGMT messages - group 0x2B
+
 	XN_LINK_MSG_INVALID							= 0xFFFF,
 } XnLinkMsgType;
 
@@ -269,8 +269,8 @@ typedef enum XnLinkResponseCode
 	XN_LINK_RESPONSE_BAD_CMD_SIZE				= 5,  //The host has sent a command with the wrong size of parameters data.
 	XN_LINK_RESPONSE_BAD_PARAMETERS				= 6,  //The host send some bad parameters. A list of the offsets of the bad parameters will be returned.
 	XN_LINK_RESPONSE_CORRUPT_PACKET				= 7,  //The device has received a packet which does not conform to the protocol.
-	XN_LINK_RESPONSE_RESERVED1					= 8,  
-	XN_LINK_RESPONSE_RESERVED2					= 9, 
+	XN_LINK_RESPONSE_RESERVED1					= 8,
+	XN_LINK_RESPONSE_RESERVED2					= 9,
 	XN_LINK_RESPONSE_RESERVED3					= 10,
 	XN_LINK_RESPONSE_RESERVED4					= 11,
 	XN_LINK_RESPONSE_RESERVED5					= 12,
@@ -347,9 +347,9 @@ typedef enum XnLinkPropID
 	XN_LINK_PROP_ID_PROTOCOL_VERSION			= 0x0003, //General property, holds XnLinkLeanVersion (read only property)
 	XN_LINK_PROP_ID_SUPPORTED_MSG_TYPES			= 0x0004, //General property, holds XnLinkIDSet (read only property)
 	XN_LINK_PROP_ID_SUPPORTED_PROPS				= 0x0005, //General property, holds XnLinkIDSet (read only property)
-    XN_LINK_PROP_ID_HW_VERSION                  = 0x0006, //Int property (read only property)
-    XN_LINK_PROP_ID_SERIAL_NUMBER				= 0x0007, //General property, holds XnLinkSerialNumber (read only property)
-    XN_LINK_PROP_ID_RESERVED					= 0x0008,
+ 	XN_LINK_PROP_ID_HW_VERSION                  = 0x0006, //Int property (read only property)
+	XN_LINK_PROP_ID_SERIAL_NUMBER				= 0x0007, //General property, holds XnLinkSerialNumber (read only property)
+	XN_LINK_PROP_ID_RESERVED					= 0x0008,
 	XN_LINK_PROP_ID_COMPONENT_VERSIONS			= 0x0009, //General property, holds XnLinkComponentVersionsList (read only property)
 	XN_LINK_PROP_ID_BOOT_STATUS					= 0x000A, //General property, holds XnLinkBootStatus (read only property)
 	XN_LINK_PROP_ID_VDD_STATUS			    	= 0x000B,
@@ -361,7 +361,7 @@ typedef enum XnLinkPropID
 	//Map generator properties - group 0x05
 	XN_LINK_PROP_ID_SUPPORTED_VIDEO_MODES		= 0x0501, //General property, holds XnLinkSupportedVideoModes
 	XN_LINK_PROP_ID_VIDEO_MODE					= 0x0502, //General property, holds XnLinkVideoMode
-	
+
 	//Stream management properties - group 0x06
 	XN_LINK_PROP_ID_STREAM_SUPPORTED_INTERFACES	= 0x0601, //General property, holds XnLinkBitSet with values from XnLinkInterfaceID (read only property)
 	XN_LINK_PROP_ID_STREAM_FRAG_LEVEL			= 0x0602, //Int property, holds XnLinkStreamFragLevel
@@ -375,13 +375,13 @@ typedef enum XnLinkPropID
 	XN_LINK_PROP_ID_NEEDED_CALIBRATION_POSE		= 0x1203, //Int property, holds XnLinkPoseType
 	XN_LINK_PROP_ID_ACTIVE_JOINTS				= 0x1204, //General property, holds XnLinkBitSet of XnSkeletonJoint values
 	XN_LINK_PROP_ID_SKELETON_SMOOTHING			= 0x1205, //Real
-	
+
 	// POSE_DETECTION properties - group 0x13
 	XN_LINK_PROP_ID_SUPPORTED_POSES				= 0x1301, //Int property, holds a bit set of XnLinkPoseType
 
 	// Mirror properties - group 0x0E
 	XN_LINK_PROP_ID_MIRROR						= 0x0E01, //Int property, 0 = Mirror off, 1 = Mirror on
-	
+
 	// CROPPING properties - group 0x10
 	XN_LINK_PROP_ID_CROPPING					= 0x1001, //General property, holds XnLinkCropping
 
@@ -472,16 +472,16 @@ typedef enum XnLinkLogCommand
 //Boot status
 typedef enum XnLinkBootZone
 {
-    XN_LINK_BOOT_FACTORY_ZONE                   = 0x0000,
-    XN_LINK_BOOT_UPDATE_ZONE                    = 0x0001,
+	XN_LINK_BOOT_FACTORY_ZONE                   = 0x0000,
+	XN_LINK_BOOT_UPDATE_ZONE                    = 0x0001,
 } XnLinkBootZone;
 
 typedef enum XnLinkBootErrorCode
 {
-    XN_LINK_BOOT_OK                             = 0x0000,
-    XN_LINK_BOOT_BAD_CRC                        = 0x0001,
-    XN_LINK_BOOT_UPLOAD_IN_PROGRESS             = 0x0002,
-    XN_LINK_BOOT_FW_LOAD_FAILED                 = 0x0003,
+	XN_LINK_BOOT_OK                             = 0x0000,
+	XN_LINK_BOOT_BAD_CRC                        = 0x0001,
+	XN_LINK_BOOT_UPLOAD_IN_PROGRESS             = 0x0002,
+	XN_LINK_BOOT_FW_LOAD_FAILED                 = 0x0003,
 } XnLinkBootErrorCode;
 
 #endif // XNLINKDEFS_H
