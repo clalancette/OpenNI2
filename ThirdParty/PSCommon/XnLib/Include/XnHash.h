@@ -183,6 +183,7 @@ public:
 		{
 			return const_cast<TPair*>(this->m_currIt.operator->());
 		}
+		Iterator& operator=(const Iterator& other) = default;
 	};
 
 	Hash()

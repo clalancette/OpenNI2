@@ -993,7 +993,7 @@ bool Download(openni::Device& Device, std::vector<std::string>& Command)
 		printf("Can't understand %s as id\n", Command[1].c_str());
 		return true;
 	}
-	XnParamFileData ParamFile = { (uint32_t) nId, Command[2].c_str()};
+	XnParamFileData ParamFile = { (uint32_t) nId, Command[2].c_str(), 0};
 
 	openni::Status rc = Device.getProperty(XN_MODULE_PROPERTY_FILE, &ParamFile);
 	if (rc != openni::STATUS_OK)

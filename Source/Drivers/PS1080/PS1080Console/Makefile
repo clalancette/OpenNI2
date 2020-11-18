@@ -31,7 +31,7 @@ else
 	USED_LIBS += usb-1.0.0
 endif
 
-CFLAGS += -Wall
+CFLAGS += -Wall -Wextra
 
 EXE_NAME = PS1080Console
 

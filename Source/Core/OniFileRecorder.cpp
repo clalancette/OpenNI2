@@ -839,16 +839,16 @@ void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
 	struct XnCropping
 	{
 		/** TRUE if cropping is turned on, FALSE otherwise. */
-		XnBool bEnabled;
+		XnBool bEnabled = FALSE;
 		/** Offset in the X-axis, in pixels. */
-		XnUInt16 nXOffset;
+		XnUInt16 nXOffset = 0;
 		/** Offset in the Y-axis, in pixels. */
-		XnUInt16 nYOffset;
+		XnUInt16 nYOffset = 0;
 		/** Number of pixels in the X-axis. */
-		XnUInt16 nXSize;
+		XnUInt16 nXSize = 0;
 		/** Number of pixels in the Y-axis. */
-		XnUInt16 nYSize;
-	} xncropping = {0};
+		XnUInt16 nYSize = 0;
+	} xncropping;
 	OniCropping cropping;
 	size = sizeof(OniCropping);
 	if (pStream->getProperty(ONI_STREAM_PROPERTY_CROPPING, &cropping, &size) == ONI_STATUS_OK)

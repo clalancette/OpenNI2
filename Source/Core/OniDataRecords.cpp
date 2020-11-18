@@ -124,9 +124,9 @@ OniStatus RecordAssembler::emitString(const XnChar* pStr, XnSizeT& totalFieldsSi
 	// Initialize field's data.
 	struct
 	{
-		XnUInt32 dataSize;
+		XnUInt32 dataSize = 0;
 		XnChar   data[ONI_MAX_STR];
-	} field = { 0 };
+	} field;
 	xnOSStrCopy(field.data, pStr, sizeof(field.data));
 	field.dataSize = XN_MIN(xnOSStrLen(pStr) + 1, sizeof(field.data));
 	field.data[sizeof(field.data) - 1] = '\0';
