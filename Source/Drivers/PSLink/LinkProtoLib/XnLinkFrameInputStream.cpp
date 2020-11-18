@@ -729,6 +729,12 @@ LinkMsgParser* LinkFrameInputStream::CreateLinkMsgParser()
 				XN_ASSERT(FALSE);
 				return NULL;
 			}
+			else
+			{
+				xnLogError(XN_MASK_LINK, "Unsupported pixel format");
+				XN_ASSERT(FALSE);
+				return NULL;
+			}
 		}
 	case ONI_PIXEL_FORMAT_GRAY16:
 		switch (compression)

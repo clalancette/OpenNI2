@@ -155,8 +155,6 @@ typedef struct XnLinkStreamInfo
 {
 	XnUInt32 m_nStreamType;
 	XnChar m_strCreationInfo[XN_LINK_MAX_CREATION_INFO_LENGTH];
-	//XnUInt16 m_nStreamID;
-	//XnUInt16 m_nReserved;
 } XnLinkStreamInfo;
 
 typedef struct XnLinkHandData
@@ -322,8 +320,8 @@ typedef struct XnLinkCropping
 
 typedef struct XnLinkStreamIDsList
 {
-    XnUInt16 m_nNumStreamIDs;
-    XnUInt16 m_anStreamIDs[1];
+	XnUInt16 m_nNumStreamIDs;
+	XnUInt16 m_anStreamIDs[1];
 } XnLinkStreamIDsList;
 
 typedef struct XnLinkStreamIDsList XnLinkFrameSyncStreamIDs;
@@ -343,9 +341,9 @@ typedef struct XnLinkPropVal
 
 typedef struct XnLinkPropSet
 {
-    XnUInt32 m_nNumProps;
-    //Followed by a number of XnLinkPropVal's
-    XnUInt8 m_aData[1];
+	XnUInt32 m_nNumProps;
+	//Followed by a number of XnLinkPropVal's
+	XnUInt8 m_aData[1];
 } XnLinkPropSet;
 
 typedef struct XnLinkBistTest
@@ -483,14 +481,15 @@ typedef struct XnLinkTemperatureSensor
 typedef struct XnLinkTemperatureSensorsList{
  	XnUInt32 m_nCount;
  	XnLinkTemperatureSensor m_aSensors[XN_LINK_MAX_TEMPERATURE_SENSORS];
-}XnLinkTemperatureSensorsList;
+} XnLinkTemperatureSensorsList;
+
 //-----------------------------------------------------------------------
 // Command Parameters
 //-----------------------------------------------------------------------
 typedef struct XnLinkDownloadFileParams
 {
-	XnUInt16 m_nZone;
-	XnUInt16 m_nReserved1;
+	XnUInt16 m_nZone = 0;
+	XnUInt16 m_nReserved1 = 0;
 	XnChar m_strName[XN_LINK_MAX_FILE_NAME_LENGTH];
 } XnLinkDownloadFileParams;
 
@@ -505,9 +504,9 @@ typedef struct XnLinkWriteI2CParams
 	XnUInt8 m_nAddressSize;
 	XnUInt8 m_nValueSize;
 	XnUInt8 m_nReserved;
-    XnUInt32 m_nAddress;
-    XnUInt32 m_nValue;
-    XnUInt32 m_nMask;
+	XnUInt32 m_nAddress;
+	XnUInt32 m_nValue;
+	XnUInt32 m_nMask;
 } XnLinkWriteI2CParams;
 
 typedef struct XnLinkReadI2CParams
@@ -516,7 +515,7 @@ typedef struct XnLinkReadI2CParams
 	XnUInt8 m_nAddressSize;
 	XnUInt8 m_nValueSize;
 	XnUInt8 m_nReserved;
-    XnUInt32 m_nAddress;
+	XnUInt32 m_nAddress;
 } XnLinkReadI2CParams;
 
 typedef struct XnLinkWriteAHBParams
@@ -544,14 +543,9 @@ typedef struct XnLinkSetVideoModeParams
 	XnLinkVideoMode m_videoMode;
 } XnLinkSetVideoModeParams;
 
-//typedef struct XnLinkEnumerateStreamsParams
-//{
-//	XnUInt32 m_nStreamType;
-//} XnLinkEnumerateStreamsParams;
-
 typedef struct XnLinkCreateStreamParams
 {
-	XnUInt32 m_nStreamType;
+	XnUInt32 m_nStreamType = 0;
 	XnChar m_strCreationInfo[XN_LINK_MAX_CREATION_INFO_LENGTH];
 } XnLinkCreateStreamParams;
 
@@ -598,7 +592,7 @@ typedef struct XnLinkExecuteBistParams
 
 typedef struct XnLinkFormatZoneParams
 {
-    XnUInt32 m_nZone; //0 or 1
+	XnUInt32 m_nZone; //0 or 1
 } XnLinkFormatZoneParams;
 
 typedef struct XnLinkLogOpenCloseParams

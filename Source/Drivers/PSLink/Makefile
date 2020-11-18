@@ -36,7 +36,7 @@ else
 	USED_LIBS += usb-1.0.0
 endif
 
-CFLAGS += -Wall
+CFLAGS += -Wall -Wextra
 
 LIB_NAME = PSLink
 

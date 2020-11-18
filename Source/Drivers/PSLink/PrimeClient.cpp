@@ -179,7 +179,7 @@ const XnDetailedVersion& PrimeClient::GetFWVersion() const
 	return m_fwVersion;
 }
 
-const XnUInt32 PrimeClient::GetHWVersion() const
+XnUInt32 PrimeClient::GetHWVersion() const
 {
 	return m_nHWVersion;
 }
@@ -194,7 +194,7 @@ const XnChar* PrimeClient::GetSerialNumber() const
 	return m_strSerialNumber;
 }
 
-const XnStatus PrimeClient::GetComponentsVersions(std::vector<XnComponentVersion>& componentVersions)
+XnStatus PrimeClient::GetComponentsVersions(std::vector<XnComponentVersion>& componentVersions)
 {
 	return m_linkControlEndpoint.GetComponentsVersions(componentVersions);
 }

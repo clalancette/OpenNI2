@@ -59,10 +59,10 @@ public:
 
 	/* Global Properties */
 	virtual const XnDetailedVersion& GetFWVersion() const;
-	virtual const XnUInt32 GetHWVersion() const;
+	virtual XnUInt32 GetHWVersion() const;
 	virtual const XnLeanVersion& GetDeviceProtocolVersion() const;
 	virtual const XnChar* GetSerialNumber() const;
-	virtual const XnStatus GetComponentsVersions(std::vector<XnComponentVersion>& componentVersions);
+	virtual XnStatus GetComponentsVersions(std::vector<XnComponentVersion>& componentVersions);
 	const XnChar* GetConnectionString() const { return m_strConnectionString; }
 
 	/* Global Device Commands */

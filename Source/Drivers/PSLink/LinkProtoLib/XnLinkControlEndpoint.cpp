@@ -45,14 +45,14 @@ const XnUInt32 LinkControlEndpoint::MUTEX_TIMEOUT = 20000;
 
 LinkControlEndpoint::LinkControlEndpoint()
 {
-    m_pIncomingRawPacket = NULL;
-    m_nMaxOutMsgSize = 0;		
+	m_pIncomingRawPacket = NULL;
+	m_nMaxOutMsgSize = 0;
 	m_pConnection = NULL;
-    m_pIncomingResponse = NULL;
-    m_nMaxResponseSize = 0;
+	m_pIncomingResponse = NULL;
+	m_nMaxResponseSize = 0;
 	m_bInitialized = FALSE;
 	m_bConnected = FALSE;
-	m_nPacketID = BASE_PACKET_ID; 
+	m_nPacketID = BASE_PACKET_ID;
 	m_nMaxPacketSize = 0;
 	m_hMutex = NULL;
 }
@@ -122,7 +122,7 @@ XnStatus LinkControlEndpoint::Connect()
 		//First thing we must do - get logical max packet size - sending other commands depends on this.
 		nRetVal = GetLogicalMaxPacketSize(m_nMaxPacketSize);
 		XN_IS_STATUS_OK_LOG_ERROR("Get logical max packet size", nRetVal);
-		
+
 		//Now that we have the device's logical max packet size we can initialize the msg encoder and parser
 		nRetVal = m_msgEncoder.Init(m_nMaxOutMsgSize, m_nMaxPacketSize);
 		if (nRetVal != XN_STATUS_OK)
@@ -150,7 +150,7 @@ XnStatus LinkControlEndpoint::Connect()
 			Disconnect();
 			return XN_STATUS_ALLOC_FAILED;
 		}
-        m_nMaxResponseSize = MAX_RESPONSE_NUM_PACKETS * m_nMaxPacketSize;
+		m_nMaxResponseSize = MAX_RESPONSE_NUM_PACKETS * m_nMaxPacketSize;
 		m_pIncomingResponse = reinterpret_cast<XnUInt8*>(xnOSMallocAligned(m_nMaxResponseSize, XN_DEFAULT_MEM_ALIGN));
 		if (m_pIncomingResponse == NULL)
 		{
@@ -191,10 +191,10 @@ XnBool LinkControlEndpoint::IsConnected() const
 }
 
 XnStatus LinkControlEndpoint::ExecuteCommand(XnUInt16 nMsgType,
-											 XnUInt16 nStreamID, 											 
-											 const void* pCmdData, 
-											 XnUInt32 nCmdSize, 
-											 void* pResponseData, 
+											 XnUInt16 nStreamID,
+											 const void* pCmdData,
+											 XnUInt32 nCmdSize,
+											 void* pResponseData,
 											 XnUInt32& nResponseSize,
 											 XnBool* pIsLast /*= NULL*/)
 {
@@ -243,7 +243,7 @@ XnStatus LinkControlEndpoint::GetFWVersion(XnLinkDetailedVersion& version)
 
 	XnLinkDetailedVersion linkVersion;
 	XnUInt32 nPropSize = sizeof(linkVersion);
-    nRetVal = GetGeneralProperty(XN_LINK_PROP_ID_NONE, XN_LINK_PROP_ID_FW_VERSION, nPropSize, &linkVersion);
+	nRetVal = GetGeneralProperty(XN_LINK_PROP_ID_NONE, XN_LINK_PROP_ID_FW_VERSION, nPropSize, &linkVersion);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute get version command", nRetVal);
 
 	if (nPropSize != sizeof(linkVersion))
@@ -370,12 +370,12 @@ XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOver
 	nBytesToSend = nFileSize + sizeof(XnLinkUploadFileHeader);
 	pChunk = (XnUInt8*)xnOSMallocAligned(nCunkSize, XN_DEFAULT_MEM_ALIGN);
 	if (pChunk == NULL)
-    {
-        xnOSCloseFile(&hFile);
-        xnLogError(XN_MASK_LINK, "LINK: Failed to allocate buffer of %u bytes for loading file", nCunkSize);
-        XN_ASSERT(FALSE);
-        return XN_STATUS_ALLOC_FAILED;
-    }
+	{
+		xnOSCloseFile(&hFile);
+		xnLogError(XN_MASK_LINK, "LINK: Failed to allocate buffer of %u bytes for loading file", nCunkSize);
+		XN_ASSERT(FALSE);
+		return XN_STATUS_ALLOC_FAILED;
+	}
 
 	while (nBytesToSend > 0)
 	{
@@ -391,13 +391,13 @@ XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOver
 			nBytesRead -= sizeof(XnLinkUploadFileHeader);
 			nBytesInChunk += sizeof(XnLinkUploadFileHeader);
 		}
-		
+
 		nRetVal = xnOSReadFile(hFile, pChunk + nBytesInChunk, &nBytesRead);
 		if ((nRetVal != XN_STATUS_OK) || (nBytesRead == 0))
 		{
 			xnOSCloseFile(&hFile);
 			xnOSFreeAligned(pChunk);
-			xnLogError(XN_MASK_LINK, "LINK: Failed to read from file: %s", 
+			xnLogError(XN_MASK_LINK, "LINK: Failed to read from file: %s",
 				(nBytesRead == 0) ? "0 bytes read" : xnGetStatusString(nRetVal));
 			XN_ASSERT(FALSE);
 			return nRetVal;
@@ -425,7 +425,7 @@ XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOver
 			return nRetVal;
 		}
 
-		/*If we need to send another chunk, its default fragmentation is MIDDLE (if needed it'll change to 
+		/*If we need to send another chunk, its default fragmentation is MIDDLE (if needed it'll change to
 		  END before sending). */
 		fragmentation = XN_LINK_FRAG_MIDDLE;
 
@@ -493,10 +493,10 @@ XnStatus LinkControlEndpoint::GetFileList(std::vector<XnFwFileEntry>& files)
 XnStatus LinkControlEndpoint::DownloadFile(XnUInt16 zone, const XnChar* fwFileName, const XnChar* targetFile)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	xnLogVerbose(XN_MASK_LINK, "LINK: Downloading file %s from zone %u...", fwFileName, zone);
 
-	XnLinkDownloadFileParams downloadFileParams = {0};
+	XnLinkDownloadFileParams downloadFileParams;
 	nRetVal = xnOSStrCopy(downloadFileParams.m_strName, fwFileName, sizeof(downloadFileParams.m_strName));
 	XN_IS_STATUS_OK_LOG_ERROR("Bad file name", nRetVal);
 	downloadFileParams.m_nZone = XN_PREPARE_VAR16_IN_BUFFER(zone);
@@ -571,12 +571,12 @@ XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(XnUInt16& nMaxPacketSize)
 	XnUInt16 nResponseCode = 0;
 	xn::LinkPacketHeader* pCommandHeader = reinterpret_cast<xn::LinkPacketHeader*>(command);
 	XnLinkGetPropParams* pGetPropParams = reinterpret_cast<XnLinkGetPropParams*>(command + sizeof(xn::LinkPacketHeader));
-	
+
 	XnLinkResponseHeader* pResponseHeader = reinterpret_cast<XnLinkResponseHeader*>(response);
 	XnLinkGetPropResponse* pGetPropResponse = reinterpret_cast<XnLinkGetPropResponse*>(response + sizeof(XnLinkResponseHeader));
 	XnUInt64* pPropValue = reinterpret_cast<XnUInt64*>(response + sizeof(XnLinkResponseHeader) + sizeof(XnLinkPropValHeader));
 	XnUInt64 nTempPropValue = 0;
-	
+
 	xnLogVerbose(XN_MASK_LINK, "LINK: Link control endpoint - getting logical max packet size...");
 
 	//We encode this message ourselves, not with msg encoder, because we haven't yet initialized our message encoder
@@ -593,7 +593,7 @@ XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(XnUInt16& nMaxPacketSize)
 
 	nRetVal = m_pConnection->Send(command, pCommandHeader->GetSize());
 	XN_IS_STATUS_OK_LOG_ERROR("Get logical control max packet size ", nRetVal);
-	
+
 	nResponseSize = sizeof(response);
 	nRetVal = m_pConnection->Receive(response, nResponseSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Receive response for get logical control max packet size command", nRetVal);
@@ -644,12 +644,12 @@ XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(XnUInt16& nMaxPacketSize)
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::ExecuteImpl(XnUInt16 nMsgType, 
+XnStatus LinkControlEndpoint::ExecuteImpl(XnUInt16 nMsgType,
 										   XnUInt16 nStreamID,
-										   const void* pData, 
-										   XnUInt32 nSize, 
-										   XnLinkFragmentation fragmentation, 
-										   void* pResponseData, 
+										   const void* pData,
+										   XnUInt32 nSize,
+										   XnLinkFragmentation fragmentation,
+										   void* pResponseData,
 										   XnUInt32& nResponseSize,
 										   XnBool autoContinue,
 										   XnBool& isLast)
@@ -740,7 +740,7 @@ XnStatus LinkControlEndpoint::ExecuteImpl(XnUInt16 nMsgType,
 XnStatus LinkControlEndpoint::ContinueResponseImpl(XnUInt16 originalMsgType, XnUInt16 streamID, void* pResponseData, XnUInt32& nResponseSize, XnBool& outLastPacket)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	xnLogVerbose(XN_MASK_LINK, "LINK: Asking for additional data for response...");
 
 	XnLinkContinueReponseParams continueResponseParams;
@@ -816,7 +816,7 @@ XnStatus LinkControlEndpoint::SoftReset()
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Executing soft reset...");
 
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 	nRetVal = ExecuteCommand(XN_LINK_MSG_SOFT_RESET, XN_LINK_STREAM_ID_NONE, NULL, 0, m_pIncomingResponse, nResponseSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute soft reset", nRetVal);
 
@@ -842,23 +842,23 @@ XnStatus LinkControlEndpoint::HardReset()
 
 XnStatus LinkControlEndpoint::ReadDebugData(XnCommandDebugData& commandDebugData)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
+	XnStatus nRetVal = XN_STATUS_OK;
 
-    xnLogVerbose(XN_MASK_LINK, "LINK: Getting debug data with ID %d...", commandDebugData.dataID);
+	xnLogVerbose(XN_MASK_LINK, "LINK: Getting debug data with ID %d...", commandDebugData.dataID);
 
-    XnLinkGetDebugDataParams params;
-    params.m_nID = commandDebugData.dataID;
+	XnLinkGetDebugDataParams params;
+	params.m_nID = commandDebugData.dataID;
 
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 
-    XnLinkDebugDataResponse* pDebugDataRespondHeader = (XnLinkDebugDataResponse*)m_pIncomingResponse;
-    nRetVal = ExecuteCommand(XN_LINK_MSG_GET_DEBUG_DATA,XN_LINK_STREAM_ID_NONE, &params, sizeof(params), m_pIncomingResponse, nResponseSize);
-    XN_IS_STATUS_OK_LOG_ERROR("Execute get debug data command", nRetVal);
+	XnLinkDebugDataResponse* pDebugDataRespondHeader = (XnLinkDebugDataResponse*)m_pIncomingResponse;
+	nRetVal = ExecuteCommand(XN_LINK_MSG_GET_DEBUG_DATA,XN_LINK_STREAM_ID_NONE, &params, sizeof(params), m_pIncomingResponse, nResponseSize);
+	XN_IS_STATUS_OK_LOG_ERROR("Execute get debug data command", nRetVal);
 
-    nRetVal = xnLinkReadDebugData(commandDebugData, pDebugDataRespondHeader);
-    XN_IS_STATUS_OK(nRetVal);
+	nRetVal = xnLinkReadDebugData(commandDebugData, pDebugDataRespondHeader);
+	XN_IS_STATUS_OK(nRetVal);
 
-    return nRetVal;
+	return nRetVal;
 }
 
 XnStatus LinkControlEndpoint::GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supportedDevices)
@@ -867,7 +867,7 @@ XnStatus LinkControlEndpoint::GetSupportedI2CDevices(std::vector<XnLinkI2CDevice
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting I2C devices list...");
 
-	XnLinkSupportedI2CDevices* pSupportedI2CDevices = 
+	XnLinkSupportedI2CDevices* pSupportedI2CDevices =
 		reinterpret_cast<XnLinkSupportedI2CDevices*>(m_pIncomingResponse);
 	XnUInt32 nResponseSize = m_nMaxResponseSize;
 
@@ -886,7 +886,7 @@ XnStatus LinkControlEndpoint::GetSupportedLogFiles(std::vector<XnLinkLogFile>& s
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting supported log files list...");
 
-	XnLinkSupportedLogFiles* pSupportedLogFiles = 
+	XnLinkSupportedLogFiles* pSupportedLogFiles =
 		reinterpret_cast<XnLinkSupportedLogFiles*>(m_pIncomingResponse);
 	XnUInt32 nResponseSize = m_nMaxResponseSize;
 
@@ -906,9 +906,9 @@ XnStatus LinkControlEndpoint::GetSupportedBistTests(std::vector<XnBistInfo>& sup
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting supported BIST tests list...");
 
-	XnLinkSupportedBistTests* pSupportedBistTests = 
+	XnLinkSupportedBistTests* pSupportedBistTests =
 		reinterpret_cast<XnLinkSupportedBistTests*>(m_pIncomingResponse);
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 
 	nRetVal = GetGeneralProperty(XN_LINK_PROP_ID_NONE, XN_LINK_PROP_ID_SUPPORTED_BIST_TESTS, nResponseSize, pSupportedBistTests);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute get supported bist tests command", nRetVal);
@@ -924,9 +924,9 @@ XnStatus LinkControlEndpoint::GetSupportedTempList(std::vector<XnTempInfo>& supp
 	XnStatus nRetVal = XN_STATUS_OK;
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting supported Temperature list...");
 
-	XnLinkTemperatureSensorsList* pSupportedList = 
+	XnLinkTemperatureSensorsList* pSupportedList =
 		reinterpret_cast<XnLinkTemperatureSensorsList*>(m_pIncomingResponse);
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 
 	nRetVal = GetGeneralProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_TEMPERATURE_LIST, nResponseSize, pSupportedList);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute get supported Temperature list command", nRetVal);
@@ -936,14 +936,15 @@ XnStatus LinkControlEndpoint::GetSupportedTempList(std::vector<XnTempInfo>& supp
 
 	return XN_STATUS_OK;
 }
+
 XnStatus LinkControlEndpoint::GetTemperature(XnCommandTemperatureResponse& tempData)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting Temperature for id %d...",tempData.id);
 
-	XnLinkTemperatureResponse* pTemp = 
+	XnLinkTemperatureResponse* pTemp =
 		reinterpret_cast<XnLinkTemperatureResponse*>(m_pIncomingResponse);
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 
 	nRetVal = ExecuteCommand(XN_LINK_MSG_READ_TEMPERATURE, XN_LINK_STREAM_ID_NONE, &tempData,sizeof(XnCommandTemperatureResponse),pTemp, nResponseSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute Get Temperature command", nRetVal);
@@ -953,6 +954,7 @@ XnStatus LinkControlEndpoint::GetTemperature(XnCommandTemperatureResponse& tempD
 
 	return XN_STATUS_OK;
 }
+
 XnStatus LinkControlEndpoint::ExecuteBistTests(XnUInt32 nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -994,7 +996,7 @@ XnStatus LinkControlEndpoint::ExecuteBistTests(XnUInt32 nID, uint32_t& errorCode
 	xnOSMemCopy(extraData, pExecuteBistResponse->m_ExtraData, nExtraDataSize);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: BIST %u completed with error code %u", nID, errorCode);
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -1077,7 +1079,7 @@ XnStatus LinkControlEndpoint::ReadAHB(XnUInt32 nAddress, XnUInt8 nBitOffset, XnU
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Reading from AHB register...");
 
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 	XnLinkReadAHBParams readAHBParams;
 	XnLinkReadAHBResponse* pReadAHBResponse = reinterpret_cast<XnLinkReadAHBResponse*>(m_pIncomingResponse);
 	readAHBParams.m_nAddress = XN_PREPARE_VAR32_IN_BUFFER(nAddress);
@@ -1104,11 +1106,11 @@ XnStatus LinkControlEndpoint::GetShiftToDepthConfig(XnUInt16 nStreamID, XnShiftT
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting shift-to-depth configuration...");
 
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
-	XnLinkGetShiftToDepthConfigResponse* pGetS2DConfigResponse = 
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnLinkGetShiftToDepthConfigResponse* pGetS2DConfigResponse =
 		reinterpret_cast<XnLinkGetShiftToDepthConfigResponse*>(m_pIncomingResponse);
 	XnLinkShiftToDepthConfig* pLinkS2DConfig = &(pGetS2DConfigResponse->m_config);
-	nRetVal = ExecuteCommand(XN_LINK_MSG_GET_S2D_CONFIG, nStreamID, NULL, 0, 
+	nRetVal = ExecuteCommand(XN_LINK_MSG_GET_S2D_CONFIG, nStreamID, NULL, 0,
 		pGetS2DConfigResponse, nResponseSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute get s2d config command", nRetVal);
 
@@ -1139,12 +1141,12 @@ XnStatus LinkControlEndpoint::GetVideoMode(XnUInt16 nStreamID, XnFwStreamVideoMo
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting video mode for stream %u...", nStreamID);
 
-    XnLinkVideoMode linkVideoMode;
-    XnUInt32 nPropSize = sizeof(linkVideoMode);
+	XnLinkVideoMode linkVideoMode;
+	XnUInt32 nPropSize = sizeof(linkVideoMode);
 
-    nRetVal = GetGeneralProperty(nStreamID, XN_LINK_PROP_ID_VIDEO_MODE, nPropSize, &linkVideoMode);
-    XN_IS_STATUS_OK_LOG_ERROR("Get map output mode property", nRetVal);
-    
+	nRetVal = GetGeneralProperty(nStreamID, XN_LINK_PROP_ID_VIDEO_MODE, nPropSize, &linkVideoMode);
+	XN_IS_STATUS_OK_LOG_ERROR("Get map output mode property", nRetVal);
+
 	if (nPropSize != sizeof(linkVideoMode))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of link map output mode: %u instead of %u", nPropSize, sizeof(linkVideoMode));
@@ -1161,15 +1163,15 @@ XnStatus LinkControlEndpoint::GetVideoMode(XnUInt16 nStreamID, XnFwStreamVideoMo
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetSupportedVideoModes(XnUInt16 nStreamID, 
+XnStatus LinkControlEndpoint::GetSupportedVideoModes(XnUInt16 nStreamID,
 														 std::vector<XnFwStreamVideoMode>& supportedVideoModes)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting supported video modes for stream %u...", nStreamID);
 
-    XnUInt8 supportedMapOutputModesBuff[MAX_PROP_SIZE];
-    XnUInt32 nPropSize = sizeof(supportedMapOutputModesBuff);
+	XnUInt8 supportedMapOutputModesBuff[MAX_PROP_SIZE];
+	XnUInt32 nPropSize = sizeof(supportedMapOutputModesBuff);
 	XnLinkSupportedVideoModes* pLinkSupportedMapOutputModes = reinterpret_cast<XnLinkSupportedVideoModes*>(supportedMapOutputModesBuff);
 	XnUInt32 nModes = 0;
 	XnUInt32 nExpectedPropSize = 0;
@@ -1177,7 +1179,7 @@ XnStatus LinkControlEndpoint::GetSupportedVideoModes(XnUInt16 nStreamID,
 	nRetVal = GetGeneralProperty(nStreamID, XN_LINK_PROP_ID_SUPPORTED_VIDEO_MODES, nPropSize, pLinkSupportedMapOutputModes);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute Get Map Output Mode Command", nRetVal);
 	nModes = XN_PREPARE_VAR32_IN_BUFFER(pLinkSupportedMapOutputModes->m_nNumModes);
-	nExpectedPropSize = (sizeof(pLinkSupportedMapOutputModes->m_nNumModes) + 
+	nExpectedPropSize = (sizeof(pLinkSupportedMapOutputModes->m_nNumModes) +
         (sizeof(pLinkSupportedMapOutputModes->m_supportedVideoModes[0]) * nModes));
 	if (nPropSize != nExpectedPropSize)
 	{
@@ -1191,7 +1193,7 @@ XnStatus LinkControlEndpoint::GetSupportedVideoModes(XnUInt16 nStreamID,
 	{
 		xnLinkParseVideoMode(supportedVideoModes[i], pLinkSupportedMapOutputModes->m_supportedVideoModes[i]);
 	}
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -1202,9 +1204,9 @@ XnStatus LinkControlEndpoint::EnumerateStreams(std::vector<XnFwStreamInfo>& aStr
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting the list of supported streams...");
 
-	XnLinkEnumerateStreamsResponse* pEnumerateNodesResponse = 
+	XnLinkEnumerateStreamsResponse* pEnumerateNodesResponse =
 		reinterpret_cast<XnLinkEnumerateStreamsResponse*>(m_pIncomingResponse);
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 	XnUInt32 nExpectedResponseSize = 0;
 	XnUInt32 nNumNodes = 0;
 
@@ -1218,7 +1220,7 @@ XnStatus LinkControlEndpoint::EnumerateStreams(std::vector<XnFwStreamInfo>& aStr
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 	nNumNodes = XN_PREPARE_VAR32_IN_BUFFER(pEnumerateNodesResponse->m_nNumStreams);
-	nExpectedResponseSize = (sizeof(pEnumerateNodesResponse->m_nNumStreams) + 
+	nExpectedResponseSize = (sizeof(pEnumerateNodesResponse->m_nNumStreams) +
 		(nNumNodes * sizeof(pEnumerateNodesResponse->m_streamInfos[0])));
 	if (nResponseSize != nExpectedResponseSize)
 	{
@@ -1233,8 +1235,8 @@ XnStatus LinkControlEndpoint::EnumerateStreams(std::vector<XnFwStreamInfo>& aStr
 	{
 		aStreamInfos[i].type = (XnFwStreamType)XN_PREPARE_VAR32_IN_BUFFER(pEnumerateNodesResponse->m_streamInfos[i].m_nStreamType);
 		static_assert(sizeof(aStreamInfos[i].creationInfo) >= sizeof(pEnumerateNodesResponse->m_streamInfos[i].m_strCreationInfo));
-		xnOSStrCopy(aStreamInfos[i].creationInfo, 
-			pEnumerateNodesResponse->m_streamInfos[i].m_strCreationInfo, 
+		xnOSStrCopy(aStreamInfos[i].creationInfo,
+			pEnumerateNodesResponse->m_streamInfos[i].m_strCreationInfo,
 			sizeof(aStreamInfos[i].creationInfo));
 	}
 
@@ -1247,12 +1249,12 @@ XnStatus LinkControlEndpoint::CreateInputStream(XnStreamType streamType, const X
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Creating stream...");
 
-	XnLinkCreateStreamParams createStreamParams = {0};
+	XnLinkCreateStreamParams createStreamParams;
 	XnLinkCreateStreamResponse* pCreateStreamResponse = reinterpret_cast<XnLinkCreateStreamResponse*>(m_pIncomingResponse);
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 	createStreamParams.m_nStreamType = XN_PREPARE_VAR32_IN_BUFFER(streamType);
 	xnOSStrCopy(createStreamParams.m_strCreationInfo, strCreationInfo, sizeof(createStreamParams.m_strCreationInfo));
-	nRetVal = ExecuteCommand(XN_LINK_MSG_CREATE_STREAM, XN_LINK_STREAM_ID_NONE, &createStreamParams, sizeof(createStreamParams), 
+	nRetVal = ExecuteCommand(XN_LINK_MSG_CREATE_STREAM, XN_LINK_STREAM_ID_NONE, &createStreamParams, sizeof(createStreamParams),
 		pCreateStreamResponse, nResponseSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute create stream command", nRetVal);
 	if (nResponseSize != sizeof(*pCreateStreamResponse))
@@ -1264,7 +1266,7 @@ XnStatus LinkControlEndpoint::CreateInputStream(XnStreamType streamType, const X
 	}
 
 	nStreamID = XN_PREPARE_VAR16_IN_BUFFER(pCreateStreamResponse->m_nStreamID);
-    nEndpointID = XN_PREPARE_VAR16_IN_BUFFER(pCreateStreamResponse->m_nEndpointID);
+	nEndpointID = XN_PREPARE_VAR16_IN_BUFFER(pCreateStreamResponse->m_nEndpointID);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Stream %u created on endpoint %u", nStreamID, nEndpointID);
 
@@ -1277,7 +1279,7 @@ XnStatus LinkControlEndpoint::DestroyInputStream(XnUInt16 nStreamID)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Destroying stream %u...", nStreamID);
 
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 	nRetVal = ExecuteCommand(XN_LINK_MSG_DESTROY_STREAM, nStreamID, NULL, 0, m_pIncomingResponse, nResponseSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute destroy stream command", nRetVal);
 
@@ -1289,7 +1291,7 @@ XnStatus LinkControlEndpoint::DestroyInputStream(XnUInt16 nStreamID)
 XnStatus LinkControlEndpoint::SetProperty(XnUInt16 nStreamID, XnLinkPropType propType, XnLinkPropID propID, XnUInt32 nSize, const void* pSource)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 
 	const XnUInt32 nMaxSize = 500;
 	XN_ASSERT(nSize < nMaxSize);
@@ -1310,7 +1312,7 @@ XnStatus LinkControlEndpoint::SetProperty(XnUInt16 nStreamID, XnLinkPropType pro
 XnStatus LinkControlEndpoint::GetProperty(XnUInt16 nStreamID, XnLinkPropType propType, XnLinkPropID propID, XnUInt32& nSize, void* pDest)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 
 	XnLinkGetPropParams getPropParams;
 	getPropParams.m_nPropType = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)propType);
@@ -1345,7 +1347,7 @@ XnStatus LinkControlEndpoint::SetIntProperty(XnUInt16 nStreamID, XnLinkPropID pr
 XnStatus LinkControlEndpoint::GetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnUInt64& nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XnUInt64 nProtocolValue;
 	XnUInt32 nValueSize = sizeof(nProtocolValue);
 	nRetVal = GetProperty(nStreamID, XN_LINK_PROP_TYPE_INT, propID, nValueSize, &nProtocolValue);
@@ -1360,7 +1362,7 @@ XnStatus LinkControlEndpoint::GetIntProperty(XnUInt16 nStreamID, XnLinkPropID pr
 	}
 
 	nValue = XN_PREPARE_VAR64_IN_BUFFER(nProtocolValue);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -1415,7 +1417,7 @@ XnStatus LinkControlEndpoint::GetGeneralProperty(XnUInt16 nStreamID, XnLinkPropI
 XnStatus LinkControlEndpoint::GetBitSetProperty(XnUInt16 nStreamID, XnLinkPropID propID, xnl::BitSet& bitSet)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	static const XnUInt32 MAX_SIZE = 512;
 	XnChar strBuffer[MAX_SIZE];
 	XnUInt32 nSize = MAX_SIZE;
@@ -1444,7 +1446,7 @@ XnStatus LinkControlEndpoint::GetBitSetProperty(XnUInt16 nStreamID, XnLinkPropID
 
 	nRetVal = bitSet.SetData(pBitSet->m_aData, nBitSetSize);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -1471,10 +1473,10 @@ XnStatus LinkControlEndpoint::GetCameraIntrinsics(XnUInt16 nStreamID, XnLinkCame
 	cameraIntrinsics.m_nOpticalCenterY = XN_PREPARE_VAR16_IN_BUFFER(pLinkIntrinsics->m_nOpticalCenterY);
 	cameraIntrinsics.m_fEffectiveFocalLengthInPixels = XN_PREPARE_VAR_FLOAT_IN_BUFFER(pLinkIntrinsics->m_fEffectiveFocalLengthInPixels);
 
-	return XN_STATUS_OK;		
+	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::ValidateResponsePacket(const LinkPacketHeader* pPacketHeader, 
+XnStatus LinkControlEndpoint::ValidateResponsePacket(const LinkPacketHeader* pPacketHeader,
 													 XnUInt16 nExpectedMsgType,
 													 XnUInt16 nExpectedStreamID,
 													 XnUInt32 nBytesToRead)
@@ -1499,15 +1501,15 @@ XnStatus LinkControlEndpoint::ValidateResponsePacket(const LinkPacketHeader* pPa
 
 	if (pPacketHeader->GetPacketID() != m_nPacketID)
 	{
-		xnLogError(XN_MASK_LINK, "LINK: Expected packet ID of %u in response but got %u on stream %u", 
+		xnLogError(XN_MASK_LINK, "LINK: Expected packet ID of %u in response but got %u on stream %u",
 			m_nPacketID, pPacketHeader->GetPacketID(), pPacketHeader->GetStreamID());
 		XN_ASSERT(FALSE);
 		return XN_STATUS_LINK_PACKETS_LOST;
 	}
-	
+
 	if (pPacketHeader->GetSize() < sizeof(XnLinkResponseHeader))
 	{
-		xnLogError(XN_MASK_LINK, "LINK: Response packet size of %u is too small - min response packet size is %u", 
+		xnLogError(XN_MASK_LINK, "LINK: Response packet size of %u is too small - min response packet size is %u",
 			pPacketHeader->GetSize(), sizeof(XnLinkResponseHeader));
 		XN_ASSERT(FALSE);
 		return XN_STATUS_LINK_BAD_HEADER_SIZE;
@@ -1537,7 +1539,7 @@ XnStatus LinkControlEndpoint::EndUpload()
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Ending upload session...");
 
-    XnUInt32 nResponseSize = m_nMaxResponseSize;
+	XnUInt32 nResponseSize = m_nMaxResponseSize;
 	nRetVal = ExecuteCommand(XN_LINK_MSG_END_UPLOAD, XN_LINK_STREAM_ID_NONE, NULL, 0, m_pIncomingResponse, nResponseSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute end upload command", nRetVal);
 
@@ -1645,10 +1647,10 @@ XnStatus LinkControlEndpoint::GetSupportedInterfaces(XnUInt16 nStreamID, xnl::Bi
 XnStatus LinkControlEndpoint::SetProjectorActive(XnBool bActive)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	xnLogVerbose(XN_MASK_LINK, "LINK: Turning Projector %s...", bActive ? "on" : "off");
 
-    nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PROJECTOR_ENABLED, XnUInt64(bActive));
+	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PROJECTOR_ENABLED, XnUInt64(bActive));
 	XN_IS_STATUS_OK(nRetVal);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Projector was turned %s", bActive ? "on" : "off");
@@ -1660,10 +1662,10 @@ XnStatus LinkControlEndpoint::SetProjectorActive(XnBool bActive)
 XnStatus LinkControlEndpoint::SetAccActive(XnBool bActive)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	xnLogVerbose(XN_MASK_LINK, "LINK: Turning Acc %s...", bActive ? "on" : "off");
 
-    nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_ACC_ENABLED, XnUInt64(bActive));
+	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_ACC_ENABLED, XnUInt64(bActive));
 	XN_IS_STATUS_OK(nRetVal);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Acc was turned %s", bActive ? "on" : "off");
@@ -1673,97 +1675,98 @@ XnStatus LinkControlEndpoint::SetAccActive(XnBool bActive)
 
 XnStatus LinkControlEndpoint::GetAccActive(XnBool& bActive)
 {
-    XnUInt64 nValue;
+	XnUInt64 nValue;
 
-    xnLogVerbose(XN_MASK_LINK, "LINK: Getting Acc ...");
+	xnLogVerbose(XN_MASK_LINK, "LINK: Getting Acc ...");
 
-    XnStatus nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_ACC_ENABLED, nValue);
-    XN_IS_STATUS_OK(nRetVal);
+	XnStatus nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_ACC_ENABLED, nValue);
+	XN_IS_STATUS_OK(nRetVal);
 
-    bActive = (nValue == TRUE);
+	bActive = (nValue == TRUE);
 
-    xnLogInfo(XN_MASK_LINK, "LINK: Acc is %s", bActive ?  "on" : "off");
+	xnLogInfo(XN_MASK_LINK, "LINK: Acc is %s", bActive ?  "on" : "off");
 
-    return nRetVal;
+	return nRetVal;
 }
 
 // Enables/Disables the BIST
 XnStatus LinkControlEndpoint::SetVDDActive(XnBool bActive)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
+	XnStatus nRetVal = XN_STATUS_OK;
 
-    xnLogVerbose(XN_MASK_LINK, "LINK: Turning VDD %s...", bActive ? "on" : "off");
+	xnLogVerbose(XN_MASK_LINK, "LINK: Turning VDD %s...", bActive ? "on" : "off");
 
-    nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_VDD_ENABLED, XnUInt64(bActive));
-    XN_IS_STATUS_OK(nRetVal);
+	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_VDD_ENABLED, XnUInt64(bActive));
+	XN_IS_STATUS_OK(nRetVal);
 
-    xnLogInfo(XN_MASK_LINK, "LINK: VDD was turned %s", bActive ? "on" : "off");
+	xnLogInfo(XN_MASK_LINK, "LINK: VDD was turned %s", bActive ? "on" : "off");
 
-    return (XN_STATUS_OK);
+	return (XN_STATUS_OK);
 }
-// Enables/Disables the VDD - Valid Depth Detect (XN_LINK_PROP_ID_VDD_ENABLED) 
+
+// Enables/Disables the VDD - Valid Depth Detect (XN_LINK_PROP_ID_VDD_ENABLED)
 //on - Safety mechanism is on | off - reduce power
 XnStatus LinkControlEndpoint::GetVDDActive(XnBool& bActive)
 {
-    XnUInt64 nValue;
+	XnUInt64 nValue;
 
-    xnLogVerbose(XN_MASK_LINK, "LINK: Getting VDD ...");
-    
-    XnStatus nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_VDD_ENABLED, nValue);
-    XN_IS_STATUS_OK(nRetVal);
+	xnLogVerbose(XN_MASK_LINK, "LINK: Getting VDD ...");
 
-    bActive = (nValue == TRUE);
+	XnStatus nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_VDD_ENABLED, nValue);
+	XN_IS_STATUS_OK(nRetVal);
 
-    xnLogInfo(XN_MASK_LINK, "LINK: VDD is %s", bActive ?  "on" : "off");
+	bActive = (nValue == TRUE);
 
-    return nRetVal;
+	xnLogInfo(XN_MASK_LINK, "LINK: VDD is %s", bActive ?  "on" : "off");
+
+	return nRetVal;
 }
 
-
-// Enables/Disables the Periodic BIST - monitors the 
+// Enables/Disables the Periodic BIST - monitors the
 XnStatus LinkControlEndpoint::SetPeriodicBistActive(XnBool bActive)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
+	XnStatus nRetVal = XN_STATUS_OK;
 
-    xnLogVerbose(XN_MASK_LINK, "LINK: Turning Periodic BIST %s...", bActive ? "on" : "off");
+	xnLogVerbose(XN_MASK_LINK, "LINK: Turning Periodic BIST %s...", bActive ? "on" : "off");
 
-    nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PERIODIC_BIST_ENABLED, XnUInt64(bActive));
-    XN_IS_STATUS_OK(nRetVal);
+	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PERIODIC_BIST_ENABLED, XnUInt64(bActive));
+	XN_IS_STATUS_OK(nRetVal);
 
-    xnLogInfo(XN_MASK_LINK, "LINK: Periodic BIST was turned %s", bActive ? "on" : "off");
+	xnLogInfo(XN_MASK_LINK, "LINK: Periodic BIST was turned %s", bActive ? "on" : "off");
 
-    return (XN_STATUS_OK);
+	return (XN_STATUS_OK);
 }
 
 XnStatus LinkControlEndpoint::GetPeriodicBistActive(XnBool& bActive)
 {
-    XnUInt64 nValue;
+	XnUInt64 nValue;
 
-    xnLogVerbose(XN_MASK_LINK, "LINK: Getting Periodic BIST ...");
+	xnLogVerbose(XN_MASK_LINK, "LINK: Getting Periodic BIST ...");
 
-    XnStatus nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PERIODIC_BIST_ENABLED, nValue);
-    XN_IS_STATUS_OK(nRetVal);
+	XnStatus nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PERIODIC_BIST_ENABLED, nValue);
+	XN_IS_STATUS_OK(nRetVal);
 
-    bActive = (nValue == TRUE);
+	bActive = (nValue == TRUE);
 
-    xnLogInfo(XN_MASK_LINK, "LINK: Periodic BIST is %s", bActive ?  "on" : "off");
+	xnLogInfo(XN_MASK_LINK, "LINK: Periodic BIST is %s", bActive ?  "on" : "off");
 
-    return nRetVal;
+	return nRetVal;
 }
+
 XnStatus LinkControlEndpoint::GetStreamFragLevel(XnUInt16 nStreamID, XnStreamFragLevel& streamFragLevel)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
+	XnStatus nRetVal = XN_STATUS_OK;
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting stream %u fragmentation level...", nStreamID);
 
-    XnUInt64 nTempStreamFragLevel = 0;
-    nRetVal = GetIntProperty(nStreamID, XN_LINK_PROP_ID_STREAM_FRAG_LEVEL, nTempStreamFragLevel);
-    XN_IS_STATUS_OK_LOG_ERROR("Get int property", nRetVal);
-    streamFragLevel = XnStreamFragLevel(nTempStreamFragLevel);
+	XnUInt64 nTempStreamFragLevel = 0;
+	nRetVal = GetIntProperty(nStreamID, XN_LINK_PROP_ID_STREAM_FRAG_LEVEL, nTempStreamFragLevel);
+	XN_IS_STATUS_OK_LOG_ERROR("Get int property", nRetVal);
+	streamFragLevel = XnStreamFragLevel(nTempStreamFragLevel);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Stream %u fragmentation is %s", nStreamID, xnFragmentationFlagsToStr((XnLinkFragmentation)streamFragLevel));
 
-    return XN_STATUS_OK;
+	return XN_STATUS_OK;
 }
 
 XnStatus LinkControlEndpoint::GetMirror(XnUInt16 nStreamID, XnBool& bMirror)
@@ -1784,7 +1787,7 @@ XnStatus LinkControlEndpoint::GetMirror(XnUInt16 nStreamID, XnBool& bMirror)
 XnStatus LinkControlEndpoint::SetMirror(XnUInt16 nStreamID, XnBool bMirror)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	xnLogVerbose(XN_MASK_LINK, "LINK: Turning stream %u mirror %s...", nStreamID, bMirror ? "on" : "off");
 
 	nRetVal = SetIntProperty(nStreamID, XN_LINK_PROP_ID_MIRROR, static_cast<XnUInt64>(bMirror));
@@ -1846,7 +1849,7 @@ XnStatus LinkControlEndpoint::GetBootStatus(XnBootStatus& bootStatus)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting boot status...");
 
-	XnLinkBootStatus* pBootStatus = 
+	XnLinkBootStatus* pBootStatus =
 		reinterpret_cast<XnLinkBootStatus*>(m_pIncomingResponse);
 	XnUInt32 nResponseSize = m_nMaxResponseSize;
 
@@ -1854,7 +1857,7 @@ XnStatus LinkControlEndpoint::GetBootStatus(XnBootStatus& bootStatus)
 	XN_IS_STATUS_OK_LOG_ERROR("Execute get boot status command", nRetVal);
 
 	xnLinkParseBootStatus(bootStatus, *pBootStatus);
-	
+
 	return XN_STATUS_OK;
 }
 

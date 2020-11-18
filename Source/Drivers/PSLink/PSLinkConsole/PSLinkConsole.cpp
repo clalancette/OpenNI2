@@ -1072,7 +1072,7 @@ int HardReset(int /*argc*/, const char* /*argv*/[])
 int ReadDebugData(int argc, const char* argv[])
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnCommandDebugData commandDebugData = {0};
+	XnCommandDebugData commandDebugData = {0, 0, NULL};
 	if (argc < 2)
 	{
 		printf("\nUsage: %s <Command ID> \n\n", argv[0]);
