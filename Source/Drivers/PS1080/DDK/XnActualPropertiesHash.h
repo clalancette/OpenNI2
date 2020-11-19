@@ -27,7 +27,7 @@
 #include "XnActualStringProperty.h"
 #include "XnActualGeneralProperty.h"
 
-/** 
+/**
 * A hash table of actual properties. The user can safely assume that every property in this
 * hash is actual.
 */

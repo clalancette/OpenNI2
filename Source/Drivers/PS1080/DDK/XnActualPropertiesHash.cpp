@@ -153,7 +153,7 @@ XnStatus XnActualPropertiesHash::Add(XnUInt32 propertyId, const XnChar* strName,
 XnStatus XnActualPropertiesHash::Remove(XnUInt32 propertyId)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	ConstIterator it;
 	nRetVal = Find(propertyId, it);
 	XN_IS_STATUS_OK(nRetVal);

@@ -49,7 +49,7 @@
 //---------------------------------------------------------------------------
 // XnSensorDepthStream class
 //---------------------------------------------------------------------------
-XnSensorDepthStream::XnSensorDepthStream(const XnChar* strName, XnSensorObjects* pObjects) : 
+XnSensorDepthStream::XnSensorDepthStream(const XnChar* strName, XnSensorObjects* pObjects) :
 	XnDepthStream(strName, FALSE, XN_DEVICE_SENSOR_MAX_DEPTH_1_MM, XN_SHIFTS_MAX_SHIFT),
 	m_Helper(pObjects),
 	m_InputFormat(XN_STREAM_PROPERTY_INPUT_FORMAT, "InputFormat", XN_DEPTH_STREAM_DEFAULT_INPUT_FORMAT),
@@ -110,8 +110,8 @@ XnStatus XnSensorDepthStream::Init()
 	m_WavelengthCorrection.UpdateSetCallback(SetWavelengthCorrectionCallback, this);
 	m_WavelengthCorrectionDebug.UpdateSetCallback(SetWavelengthCorrectionDebugCallback, this);
 
-	XN_VALIDATE_ADD_PROPERTIES(this, &m_InputFormat, &m_DepthRegistration, &m_HoleFilter, 
-		&m_WhiteBalance, &m_Gain, &m_AGCBin, &m_ActualRead, &m_GMCMode, 
+	XN_VALIDATE_ADD_PROPERTIES(this, &m_InputFormat, &m_DepthRegistration, &m_HoleFilter,
+		&m_WhiteBalance, &m_Gain, &m_AGCBin, &m_ActualRead, &m_GMCMode,
 		&m_CloseRange, &m_CroppingMode, &m_RegistrationType, &m_PixelRegistration,
 		&m_HorizontalFOV, &m_VerticalFOV, &m_GMCDebug, &m_WavelengthCorrection, &m_WavelengthCorrectionDebug);
 
@@ -220,7 +220,7 @@ XnStatus XnSensorDepthStream::Init()
 	}
 
 	// registration
-	XnCallbackHandle hCallbackDummy;	
+	XnCallbackHandle hCallbackDummy;
 	nRetVal = ResolutionProperty().OnChangeEvent().Register(DecideFirmwareRegistrationCallback, this, hCallbackDummy);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -276,7 +276,7 @@ XnStatus XnSensorDepthStream::Free()
 XnStatus XnSensorDepthStream::MapPropertiesToFirmware()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = m_Helper.MapFirmwareProperty(m_InputFormat, GetFirmwareParams()->m_DepthFormat, FALSE);
 	XN_IS_STATUS_OK(nRetVal);;
 	nRetVal = m_Helper.MapFirmwareProperty(ResolutionProperty(), GetFirmwareParams()->m_DepthResolution, FALSE);
@@ -313,7 +313,7 @@ XnStatus XnSensorDepthStream::MapPropertiesToFirmware()
 	XN_IS_STATUS_OK(nRetVal);;
 	nRetVal = m_Helper.MapFirmwareProperty(m_WavelengthCorrectionDebug, GetFirmwareParams()->m_WavelengthCorrectionDebug, TRUE);
 	XN_IS_STATUS_OK(nRetVal);;
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -474,11 +474,11 @@ XnStatus XnSensorDepthStream::SetOutputFormat(OniPixelFormat nOutputFormat)
 	XN_IS_STATUS_OK(nRetVal);
 
 	if (m_depthUtilsHandle != NULL)
-	{	
+	{
 		nRetVal = DepthUtilsSetDepthConfiguration(m_depthUtilsHandle, GetXRes(), GetYRes(), GetOutputFormat(), IsMirrored());
 		XN_IS_STATUS_OK(nRetVal);
 	}
-		
+
 	return (XN_STATUS_OK);
 }
 
@@ -516,7 +516,7 @@ XnStatus XnSensorDepthStream::SetMirror(XnBool bIsMirrored)
 XnStatus XnSensorDepthStream::SetFPS(XnUInt32 nFPS)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = m_Helper.BeforeSettingFirmwareParam(FPSProperty(), (XnUInt16)nFPS);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -547,14 +547,14 @@ XnStatus XnSensorDepthStream::SetResolution(XnResolutions nResolution)
 		nRetVal = DepthUtilsSetDepthConfiguration(m_depthUtilsHandle, GetXRes(), GetYRes(), GetOutputFormat(), IsMirrored());
 		XN_IS_STATUS_OK(nRetVal);
 	}
-		
+
 	return (XN_STATUS_OK);
 }
 
 XnStatus XnSensorDepthStream::SetInputFormat(XnIODepthFormats nInputFormat)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	switch (nInputFormat)
 	{
 	case XN_IO_DEPTH_FORMAT_COMPRESSED_PS:
@@ -575,10 +575,10 @@ XnStatus XnSensorDepthStream::SetInputFormat(XnIODepthFormats nInputFormat)
 	default:
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DEVICE_SENSOR, "Unknown depth input format: %d", nInputFormat);
 	}
-	
+
 	nRetVal = m_Helper.SimpleSetFirmwareParam(m_InputFormat, (XnUInt16)nInputFormat);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -594,7 +594,7 @@ XnStatus XnSensorDepthStream::SetRegistration(XnBool bRegistration)
 		nRetVal = m_DepthRegistration.UnsafeUpdateValue(bRegistration);
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -658,7 +658,7 @@ XnStatus XnSensorDepthStream::SetCloseRange(XnBool bCloseRange)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-    if (m_Helper.GetFirmwareVersion() < XN_SENSOR_FW_VER_5_6)
+	if (m_Helper.GetFirmwareVersion() < XN_SENSOR_FW_VER_5_6)
 	{
 		CloseRangeControl(bCloseRange);
 
@@ -702,10 +702,10 @@ XnStatus XnSensorDepthStream::SetGMCDebug(XnBool bGMCDebug)
 XnStatus XnSensorDepthStream::SetWavelengthCorrection(XnBool bWavelengthCorrection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = m_Helper.SimpleSetFirmwareParam(m_WavelengthCorrection, (XnUInt16)bWavelengthCorrection);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -722,7 +722,7 @@ XnStatus XnSensorDepthStream::SetWavelengthCorrectionDebug(XnBool bWavelengthCor
 XnStatus XnSensorDepthStream::SetAGCBin(const XnDepthAGCBin* pBin)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = ValidateDepthValue(pBin->nMin);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = ValidateDepthValue(pBin->nMax);
@@ -741,14 +741,14 @@ XnStatus XnSensorDepthStream::SetAGCBin(const XnDepthAGCBin* pBin)
 	// update prop
 	nRetVal = m_AGCBin.UnsafeUpdateValue(XnGeneralBufferPack((void*)pBin, sizeof(XnDepthAGCBin)));
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
 XnStatus XnSensorDepthStream::GetAGCBin(XnDepthAGCBin* pBin)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// get from firmware
 	XnUInt16 nMinShift;
 	XnUInt16 nMaxShift;
@@ -846,27 +846,27 @@ XnStatus XnSensorDepthStream::CloseRangeControl(XnBool bEnabled)
 
 	if (bEnabled)
 	{
-		nRetVal = XnHostProtocolWriteAHB(m_Helper.GetPrivateData(), 0x2a0038d4, 0x0, 0xFFF); 	
-		XN_IS_STATUS_OK(nRetVal);  
+		nRetVal = XnHostProtocolWriteAHB(m_Helper.GetPrivateData(), 0x2a0038d4, 0x0, 0xFFF);
+		XN_IS_STATUS_OK(nRetVal);
 
-		nRetVal = XnHostProtocolWriteAHB(m_Helper.GetPrivateData(), 0x2a003820, 0x00001009, 0xFFFFFFFF); 	
-		XN_IS_STATUS_OK(nRetVal);  
+		nRetVal = XnHostProtocolWriteAHB(m_Helper.GetPrivateData(), 0x2a003820, 0x00001009, 0xFFFFFFFF);
+		XN_IS_STATUS_OK(nRetVal);
 
 		nRetVal = m_Helper.SimpleSetFirmwareParam(m_Gain, 1);
-		XN_IS_STATUS_OK(nRetVal); 
+		XN_IS_STATUS_OK(nRetVal);
 	}
 	else
 	{
 		if (m_CloseRange.GetValue() == TRUE)
 		{
-			nRetVal = XnHostProtocolWriteAHB(m_Helper.GetPrivateData(), 0x2a0038d4, 0x190, 0xFFF); 	
-			XN_IS_STATUS_OK(nRetVal);  
+			nRetVal = XnHostProtocolWriteAHB(m_Helper.GetPrivateData(), 0x2a0038d4, 0x190, 0xFFF);
+			XN_IS_STATUS_OK(nRetVal);
 
-			nRetVal = XnHostProtocolWriteAHB(m_Helper.GetPrivateData(), 0x2a003820, 0x00001051, 0xFFFFFFFF); 	
-			XN_IS_STATUS_OK(nRetVal);  
+			nRetVal = XnHostProtocolWriteAHB(m_Helper.GetPrivateData(), 0x2a003820, 0x00001051, 0xFFFFFFFF);
+			XN_IS_STATUS_OK(nRetVal);
 
 			nRetVal = m_Helper.SimpleSetFirmwareParam(m_Gain, 42);
-			XN_IS_STATUS_OK(nRetVal); 
+			XN_IS_STATUS_OK(nRetVal);
 		}
 	}
 
@@ -942,14 +942,14 @@ XnStatus XnSensorDepthStream::CreateDataProcessor(XnDataProcessor** ppProcessor)
 XnStatus XnSensorDepthStream::DecideFirmwareRegistration(XnBool bRegistration, XnProcessingType registrationType, XnResolutions nRes)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// start with request
 	XnBool bFirmwareRegistration = bRegistration;
 
 	if (bFirmwareRegistration)
 	{
 		// old chip (PS1000) does not support registration for VGA
-		XnBool bHardwareRegistrationSupported = 
+		XnBool bHardwareRegistrationSupported =
 			m_Helper.GetPrivateData()->ChipInfo.nChipVer != XN_SENSOR_CHIP_VER_PS1000 || nRes == XN_RESOLUTION_QVGA;
 
 		switch (registrationType)
@@ -984,7 +984,7 @@ XnStatus XnSensorDepthStream::DecideFirmwareRegistration(XnBool bRegistration, X
 XnStatus XnSensorDepthStream::DecidePixelSizeFactor()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XnUInt32 nPixelSizeFactor;
 	switch (GetFirmwareParams()->m_ReferenceResolution.GetValue())
 	{
@@ -997,7 +997,7 @@ XnStatus XnSensorDepthStream::DecidePixelSizeFactor()
 	default:
 		XN_LOG_WARNING_RETURN(XN_STATUS_ERROR, XN_MASK_DEVICE_SENSOR, "Can't resolve pixel size for reference resolution %llu", GetFirmwareParams()->m_ReferenceResolution.GetValue());
 	}
-	
+
 	if (m_Helper.GetFirmwareVersion() < XN_SENSOR_FW_VER_3_0)
 	{
 		// due to some weird bug (we don't know the reason), DevKits older than 3.0 uses
@@ -1011,14 +1011,14 @@ XnStatus XnSensorDepthStream::DecidePixelSizeFactor()
 	{
 		PixelSizeFactorProperty().UnsafeUpdateValue(nPixelSizeFactor);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
 XnStatus XnSensorDepthStream::GetImageCoordinatesOfDepthPixel(XnUInt32 x, XnUInt32 y, OniDepthPixel z, XnUInt32 imageXRes, XnUInt32 imageYRes, XnUInt32& imageX, XnUInt32& imageY)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = DepthUtilsSetColorResolution(m_depthUtilsHandle, imageXRes, imageYRes);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -1095,7 +1095,7 @@ XnStatus XnSensorDepthStream::PopulateSensorCalibrationInfo()
 	{
 		xnOSMemSet(&m_calibrationInfo.params1080.registrationInfo_QQVGA, 0, sizeof(m_calibrationInfo.params1080.registrationInfo_QQVGA));
 	}
-	
+
 	nRetVal = XnHostProtocolAlgorithmParams(m_Helper.GetPrivateData(), XN_HOST_PROTOCOL_ALGORITHM_REGISTRATION, &m_calibrationInfo.params1080.registrationInfo_QVGA, sizeof(m_calibrationInfo.params1080.registrationInfo_QVGA), XN_RESOLUTION_QVGA, 30);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = XnHostProtocolAlgorithmParams(m_Helper.GetPrivateData(), XN_HOST_PROTOCOL_ALGORITHM_REGISTRATION, &m_calibrationInfo.params1080.registrationInfo_VGA, sizeof(m_calibrationInfo.params1080.registrationInfo_VGA), XN_RESOLUTION_VGA, 30);
@@ -1103,10 +1103,10 @@ XnStatus XnSensorDepthStream::PopulateSensorCalibrationInfo()
 
 	nRetVal = XnHostProtocolAlgorithmParams(m_Helper.GetPrivateData(), XN_HOST_PROTOCOL_ALGORITHM_PADDING, &m_calibrationInfo.params1080.padInfo_QQVGA, sizeof(m_calibrationInfo.params1080.padInfo_QQVGA), XN_RESOLUTION_QQVGA, 30);
 	if (nRetVal != XN_STATUS_OK)
-	{	
+	{
 		xnOSMemSet(&m_calibrationInfo.params1080.padInfo_QQVGA, 0, sizeof(m_calibrationInfo.params1080.padInfo_QQVGA));
 	}
-	
+
 	xnOSMemSet(&m_calibrationInfo.params1080.padInfo_QVGA, 0, sizeof(m_calibrationInfo.params1080.padInfo_QVGA));
 	nRetVal = XnHostProtocolAlgorithmParams(m_Helper.GetPrivateData(), XN_HOST_PROTOCOL_ALGORITHM_PADDING, &m_calibrationInfo.params1080.padInfo_QVGA, sizeof(m_calibrationInfo.params1080.padInfo_QVGA), XN_RESOLUTION_QVGA, 30);
 	XN_IS_STATUS_OK(nRetVal);
@@ -1289,4 +1289,3 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::GetPixelRegistrationCallback(cons
 
 	return pThis->GetImageCoordinatesOfDepthPixel(pArgs->nDepthX, pArgs->nDepthY, pArgs->nDepthValue, pArgs->nImageXRes, pArgs->nImageYRes, pArgs->nImageX, pArgs->nImageY);
 }
-

@@ -44,7 +44,7 @@ public:
 	typedef xnl::EventInterface<OnValueChangedHandler> ChangeEventInterface;
 
 	/**
-	* Creates a new property. 
+	* Creates a new property.
 	*
 	* @param	Type			[in]	Type of the property.
 	* @param	pValueHolder	[in]	A pointer to the holder of the value.
@@ -119,7 +119,7 @@ private:
 	XnPropertyType m_Type; // property type
 
 	// Set callback
-	SetFuncPtr m_pSetCallback; 
+	SetFuncPtr m_pSetCallback;
 	void* m_pSetCallbackCookie;
 
 	// Get callback

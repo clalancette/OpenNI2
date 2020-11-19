@@ -90,7 +90,7 @@ const XnChar* XnDDKGetResolutionName(XnResolutions res)
 	case XN_RESOLUTION_240P:	return "240P";
 	case XN_RESOLUTION_CIF:		return "CIF";
 	case XN_RESOLUTION_WVGA:	return "WVGA";
-	case XN_RESOLUTION_480P:	return "480P";	
+	case XN_RESOLUTION_480P:	return "480P";
 	case XN_RESOLUTION_SVGA:	return "SVGA";
 	case XN_RESOLUTION_576P:	return "576P";
 	case XN_RESOLUTION_DV:		return "DV";
@@ -99,7 +99,7 @@ const XnChar* XnDDKGetResolutionName(XnResolutions res)
 	case XN_RESOLUTION_CUSTOM:	return "Custom";
 	case XN_RESOLUTION_800_448: return "800x448";
 	case XN_RESOLUTION_1280_960:return "1280x960";
-	default: 
+	default:
 		XN_ASSERT(FALSE);
 		return "Custom";
 	}

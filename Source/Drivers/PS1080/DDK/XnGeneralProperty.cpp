@@ -35,7 +35,7 @@ XnGeneralProperty::XnGeneralProperty(XnUInt32 propertyId, const XnChar* strName,
 {
 }
 
-XnStatus XnGeneralProperty::CopyValueImpl(void* pDest, const void* pSource) const 
+XnStatus XnGeneralProperty::CopyValueImpl(void* pDest, const void* pSource) const
 {
 	return XnGeneralBufferCopy((OniGeneralBuffer*)pDest, (const OniGeneralBuffer*)pSource);
 }
@@ -46,7 +46,9 @@ XnBool XnGeneralProperty::IsEqual(const void* pValue1, const void* pValue2) cons
 	const OniGeneralBuffer* pgb2 = (const OniGeneralBuffer*)pValue2;
 
 	if (pgb1->dataSize != pgb2->dataSize)
+	{
 		return FALSE;
+	}
 
 	return (memcmp(pgb1->data, pgb2->data, pgb1->dataSize) == 0);
 }
@@ -66,13 +68,13 @@ XnStatus XnGeneralProperty::CallGetCallback(XnProperty::GetFuncPtr pFunc, void* 
 XnStatus XnGeneralProperty::ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	if (m_pReadFromFileFunc != NULL)
 	{
 		nRetVal = m_pReadFromFileFunc(this, csINIFile, csSection);
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 

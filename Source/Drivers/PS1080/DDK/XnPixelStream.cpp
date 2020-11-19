@@ -62,7 +62,7 @@ XnStatus XnPixelStream::Init()
 	m_Cropping.UpdateSetCallback(SetCroppingCallback, this);
 
 	// add properties
-	XN_VALIDATE_ADD_PROPERTIES(this, &m_IsPixelStream, &m_Resolution, &m_XRes, &m_YRes, 
+	XN_VALIDATE_ADD_PROPERTIES(this, &m_IsPixelStream, &m_Resolution, &m_XRes, &m_YRes,
 		&m_BytesPerPixel, &m_Cropping, &m_SupportedModesCount, &m_SupportedModes);
 
 	// register required size properties
@@ -115,7 +115,7 @@ XnStatus XnPixelStream::ValidateSupportedMode(const XnCmosPreset& preset)
 	for (XnUInt32 i = 0; i < m_supportedModesData.size(); ++i)
 	{
 		if (preset.nFormat == m_supportedModesData[i].nFormat &&
-			preset.nResolution == m_supportedModesData[i].nResolution && 
+			preset.nResolution == m_supportedModesData[i].nResolution &&
 			preset.nFPS == m_supportedModesData[i].nFPS)
 		{
 			return (XN_STATUS_OK);
@@ -139,7 +139,7 @@ XnStatus XnPixelStream::GetSupportedModes(XnCmosPreset* aPresets, XnUInt32& nCou
 XnStatus XnPixelStream::SetResolution(XnResolutions nResolution)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = m_Resolution.UnsafeUpdateValue(nResolution);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -149,7 +149,7 @@ XnStatus XnPixelStream::SetResolution(XnResolutions nResolution)
 XnStatus XnPixelStream::SetXRes(XnUInt32 nXRes)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	XnResolutions res = XnDDKGetResolutionFromXY(nXRes, GetYRes());
 
 	// set resolution (this will also set X and Y resolution)
@@ -162,7 +162,7 @@ XnStatus XnPixelStream::SetXRes(XnUInt32 nXRes)
 		nRetVal = m_XRes.UnsafeUpdateValue(nXRes);
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -216,7 +216,7 @@ XnStatus XnPixelStream::ValidateCropping(const OniCropping* pCropping)
 			XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DDK, "Cannot set a cropping window of zero size!");
 		}
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -241,14 +241,14 @@ XnStatus XnPixelStream::OnResolutionChanged()
 		nRetVal = m_YRes.UnsafeUpdateValue(nYRes);
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
 XnStatus XnPixelStream::OnOutputFormatChanged()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// update the bytes-per-pixel value
 	XnUInt32 nBytesPerPixel;
 
@@ -285,16 +285,16 @@ XnStatus XnPixelStream::OnOutputFormatChanged()
 
 	nRetVal = m_BytesPerPixel.UnsafeUpdateValue(nBytesPerPixel);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
 XnStatus XnPixelStream::FixCropping()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	OniCropping cropping = *GetCropping();
-	if (cropping.originX > (int)GetXRes() || 
+	if (cropping.originX > (int)GetXRes() ||
 		cropping.originY > (int)GetYRes() ||
 		(cropping.originX + cropping.width) > (int)GetXRes() ||
 		(cropping.originY + cropping.height) > (int)GetYRes())
@@ -304,7 +304,7 @@ XnStatus XnPixelStream::FixCropping()
 		nRetVal = SetCropping(&cropping);
 		XN_IS_STATUS_OK(nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 

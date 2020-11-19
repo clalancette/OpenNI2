@@ -53,7 +53,7 @@ XnStatus XnAudioStream::Init()
 
 	XN_VALIDATE_ADD_PROPERTIES(this, &m_SampleRate, &m_NumberOfChannels);
 
-	// required size 
+	// required size
 	nRetVal = RegisterRequiredSizeProperty(&m_SampleRate);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -63,20 +63,20 @@ XnStatus XnAudioStream::Init()
 XnStatus XnAudioStream::SetSampleRate(XnSampleRate nSampleRate)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = m_SampleRate.UnsafeUpdateValue(nSampleRate);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
 XnStatus XnAudioStream::SetNumberOfChannels(XnUInt32 nNumberOfChannels)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	nRetVal = m_NumberOfChannels.UnsafeUpdateValue(nNumberOfChannels);
 	XN_IS_STATUS_OK(nRetVal);
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -86,7 +86,7 @@ XnStatus XnAudioStream::CalcRequiredSize(XnUInt32* pnRequiredSize) const
 	XnUInt32 nSamples = (XnUInt32)(GetSampleRate() * XN_AUDIO_STREAM_BUFFER_SIZE_IN_SECONDS);
 
 	*pnRequiredSize = nSamples * nSampleSize;
-	
+
 	return (XN_STATUS_OK);
 }
 
