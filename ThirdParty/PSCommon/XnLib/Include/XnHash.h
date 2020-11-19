@@ -91,6 +91,8 @@ public:
 			m_ppBins(other.m_ppBins), m_currBin(other.m_currBin), m_currIt(other.m_currIt)
 		{}
 
+		ConstIterator& operator=(const ConstIterator& other) = default;
+
 		ConstIterator& operator++()
 		{
 			XN_ASSERT(m_currBin != LAST_BIN);

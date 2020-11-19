@@ -197,6 +197,8 @@ XnStatus XnDeviceEnumeration::IsSensorLowBandwidth(const XnChar* uri, XnBool* pb
 			*pbIsLowBandwidth = TRUE;
 		}
 	}
+#else
+	XN_REFERENCE_VARIABLE(uri);
 #endif
 
 	return (XN_STATUS_OK);
