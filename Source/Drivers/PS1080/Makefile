@@ -14,7 +14,6 @@ SRC_FILES = \
 	DDK/*.cpp 	\
 	DriverImpl/*.cpp\
 	Formats/*.cpp	\
-	Include/*.cpp	\
 	Sensor/*.cpp	\
 
 
