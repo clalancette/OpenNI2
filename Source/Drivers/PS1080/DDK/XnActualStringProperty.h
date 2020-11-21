@@ -45,7 +45,7 @@ public:
 
 	inline void UpdateSetCallback(SetFuncPtr pFunc, void* pCookie)
 	{
-		XnProperty::UpdateSetCallback((XnProperty::SetFuncPtr)pFunc, pCookie);
+		XnStringProperty::UpdateSetCallback((XnStringProperty::SetFuncPtr)pFunc, pCookie);
 	}
 
 	inline void UpdateSetCallbackToDefault()
@@ -55,7 +55,7 @@ public:
 
 	inline void UpdateGetCallback(GetFuncPtr pFunc, void* pCookie)
 	{
-		XnProperty::UpdateGetCallback((XnProperty::GetFuncPtr)pFunc, pCookie);
+		XnStringProperty::UpdateGetCallback((XnStringProperty::GetFuncPtr)pFunc, pCookie);
 	}
 
 private:

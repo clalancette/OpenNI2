@@ -53,16 +53,22 @@ XnBool XnGeneralProperty::IsEqual(const void* pValue1, const void* pValue2) cons
 	return (memcmp(pgb1->data, pgb2->data, pgb1->dataSize) == 0);
 }
 
-XnStatus XnGeneralProperty::CallSetCallback(XnProperty::SetFuncPtr pFunc, const void* pValue, void* pCookie)
+XnStatus XnGeneralProperty::CallSetCallback(const void* pValue)
 {
-	SetFuncPtr pCallback = (SetFuncPtr)pFunc;
-	return pCallback(this, *(const OniGeneralBuffer*)pValue, pCookie);
+	if (m_pSetCallback == NULL)
+	{
+		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_PROPERTY_READ_ONLY, XN_MASK_DDK, "Property %s.%s is read only.", GetModule(), GetName());
+	}
+	return m_pSetCallback(this, *(const OniGeneralBuffer*)pValue, m_pSetCallbackCookie);
 }
 
-XnStatus XnGeneralProperty::CallGetCallback(XnProperty::GetFuncPtr pFunc, void* pValue, void* pCookie) const
+XnStatus XnGeneralProperty::CallGetCallback(void* pValue) const
 {
-	GetFuncPtr pCallback = (GetFuncPtr)pFunc;
-	return pCallback(this, *(const OniGeneralBuffer*)pValue, pCookie);
+	if (m_pGetCallback == NULL)
+	{
+		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_PROPERTY_WRITE_ONLY, XN_MASK_DDK, "Property %s.%s is write only.", GetModule(), GetName());
+	}
+	return m_pGetCallback(this, *(const OniGeneralBuffer*)pValue, m_pGetCallbackCookie);
 }
 
 XnStatus XnGeneralProperty::ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection)

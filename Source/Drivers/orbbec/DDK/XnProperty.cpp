@@ -34,10 +34,6 @@
 XnProperty::XnProperty(XnPropertyType Type, void* pValueHolder, XnUInt32 propertyId, const XnChar* strName, const XnChar* strModule) :
 	m_propertyId(propertyId),
 	m_Type(Type),
-	m_pSetCallback(NULL),
-	m_pSetCallbackCookie(NULL),
-	m_pGetCallback(NULL),
-	m_pGetCallbackCookie(NULL),
 	m_pValueHolder(pValueHolder),
 	m_LogSeverity(XN_LOG_INFO),
 	m_bAlwaysSet(FALSE)
@@ -61,11 +57,6 @@ void XnProperty::UpdateName(const XnChar* strModule, const XnChar* strName)
 
 XnStatus XnProperty::SetValue(const void* pValue)
 {
-	if (m_pSetCallback == NULL)
-	{
-		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_PROPERTY_READ_ONLY, XN_MASK_DDK, "Property %s.%s is read only.", GetModule(), GetName());
-	}
-
 	if (m_LogSeverity != -1)
 	{
 		XnChar strValue[XN_DEVICE_MAX_STRING_LENGTH];
@@ -85,7 +76,7 @@ XnStatus XnProperty::SetValue(const void* pValue)
 	}
 	else
 	{
-		XnStatus nRetVal = CallSetCallback(m_pSetCallback, pValue, m_pSetCallbackCookie);
+		XnStatus nRetVal = CallSetCallback(pValue);
 		if (nRetVal != XN_STATUS_OK)
 		{
 			if (m_LogSeverity != -1)
@@ -105,12 +96,7 @@ XnStatus XnProperty::SetValue(const void* pValue)
 
 XnStatus XnProperty::GetValue(void* pValue) const
 {
-	if (m_pGetCallback == NULL)
-	{
-		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_PROPERTY_WRITE_ONLY, XN_MASK_DDK, "Property %s.%s is write only.", GetModule(), GetName());
-	}
-
-	return CallGetCallback(m_pGetCallback, pValue, m_pGetCallbackCookie);
+	return CallGetCallback(pValue);
 }
 
 XnStatus XnProperty::UnsafeUpdateValue(const void* pValue /* = NULL */)
@@ -156,18 +142,6 @@ XnStatus XnProperty::UnsafeUpdateValue(const void* pValue /* = NULL */)
 	}
 
 	return XN_STATUS_OK;
-}
-
-void XnProperty::UpdateSetCallback(SetFuncPtr pFunc, void* pCookie)
-{
-	m_pSetCallback = pFunc;
-	m_pSetCallbackCookie = pCookie;
-}
-
-void XnProperty::UpdateGetCallback(GetFuncPtr pFunc, void* pCookie)
-{
-	m_pGetCallback = pFunc;
-	m_pGetCallbackCookie = pCookie;
 }
 
 XnBool XnProperty::ConvertValueToString(XnChar* /*csValue*/, const void* /*pValue*/) const

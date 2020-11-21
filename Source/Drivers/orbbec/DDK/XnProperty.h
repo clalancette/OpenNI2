@@ -58,7 +58,7 @@ public:
 	inline const XnChar* GetName() const { return m_strName; }
 	inline const XnChar* GetModule() const { return m_strModule; }
 	inline XnBool IsActual() const { return (m_pValueHolder != NULL); }
-	inline XnBool IsReadOnly() const { return (m_pGetCallback == NULL); }
+	virtual XnBool IsReadOnly() const = 0;
 	inline XnPropertyType GetType() const { return m_Type; }
 
 	inline ChangeEventInterface& OnChangeEvent() { return m_OnChangeEvent; }
@@ -79,10 +79,6 @@ public:
 	inline void SetAlwaysSet(XnBool bAlwaysSet) { m_bAlwaysSet = bAlwaysSet; }
 
 protected:
-
-	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnProperty* pSender, const void* pValue, void* pCookie);
-	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnProperty* pSender, void* pValue, void* pCookie);
-
 	/** Sets the property value. */
 	XnStatus SetValue(const void* pValue);
 
@@ -92,16 +88,10 @@ protected:
 	/** Updates the value of the property without any checks. */
 	XnStatus UnsafeUpdateValue(const void* pValue = NULL);
 
-	/** Updates the set callback. */
-	void UpdateSetCallback(SetFuncPtr pFunc, void* pCookie);
-
-	/** Updates the get callback. */
-	void UpdateGetCallback(GetFuncPtr pFunc, void* pCookie);
-
 	virtual XnStatus CopyValueImpl(void* pDest, const void* pSource) const = 0;
 	virtual XnBool IsEqual(const void* pValue1, const void* pValue2) const = 0;
-	virtual XnStatus CallSetCallback(SetFuncPtr pFunc, const void* pValue, void* pCookie) = 0;
-	virtual XnStatus CallGetCallback(GetFuncPtr pFunc, void* pValue, void* pCookie) const = 0;
+	virtual XnStatus CallSetCallback(const void* pValue) = 0;
+	virtual XnStatus CallGetCallback(void* pValue) const = 0;
 	virtual XnBool ConvertValueToString(XnChar* csValue, const void* pValue) const;
 
 	inline void* Value() const { return m_pValueHolder; }
@@ -117,14 +107,6 @@ private:
 	XnChar m_strName[XN_DEVICE_MAX_STRING_LENGTH]; // property name
 	XnUInt32 m_propertyId;
 	XnPropertyType m_Type; // property type
-
-	// Set callback
-	SetFuncPtr m_pSetCallback;
-	void* m_pSetCallbackCookie;
-
-	// Get callback
-	GetFuncPtr m_pGetCallback;
-	void* m_pGetCallbackCookie;
 
 	void* m_pValueHolder; // a pointer to the storage of the property
 

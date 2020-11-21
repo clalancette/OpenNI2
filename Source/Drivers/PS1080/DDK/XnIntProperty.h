@@ -59,13 +59,17 @@ public:
 
 	inline void UpdateSetCallback(SetFuncPtr pFunc, void* pCookie)
 	{
-		XnProperty::UpdateSetCallback((XnProperty::SetFuncPtr)pFunc, pCookie);
+		m_pSetCallback = pFunc;
+		m_pSetCallbackCookie = pCookie;
 	}
 
 	inline void UpdateGetCallback(GetFuncPtr pFunc, void* pCookie)
 	{
-		XnProperty::UpdateGetCallback((XnProperty::GetFuncPtr)pFunc, pCookie);
+		m_pGetCallback = pFunc;
+		m_pGetCallbackCookie = pCookie;
 	}
+
+	XnBool IsReadOnly() const { return (m_pGetCallback == NULL); }
 
 	virtual XnStatus ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection);
 
@@ -77,9 +81,18 @@ protected:
 	//---------------------------------------------------------------------------
 	virtual XnStatus CopyValueImpl(void* pDest, const void* pSource) const;
 	virtual XnBool IsEqual(const void* pValue1, const void* pValue2) const;
-	virtual XnStatus CallSetCallback(XnProperty::SetFuncPtr pFunc, const void* pValue, void* pCookie);
-	virtual XnStatus CallGetCallback(XnProperty::GetFuncPtr pFunc, void* pValue, void* pCookie) const;
+	virtual XnStatus CallSetCallback(const void* pValue);
+	virtual XnStatus CallGetCallback(void* pValue) const;
 	virtual XnBool ConvertValueToString(XnChar* csValue, const void* pValue) const;
+
+private:
+	// Set callback
+	SetFuncPtr m_pSetCallback = NULL;
+	void* m_pSetCallbackCookie = NULL;
+
+	// Get callback
+	GetFuncPtr m_pGetCallback = NULL;
+	void* m_pGetCallbackCookie = NULL;
 };
 
 #endif // XNINTPROPERTY_H
