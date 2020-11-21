@@ -36,10 +36,10 @@ Link6BitParser::~Link6BitParser()
 }
 
 XnStatus Link6BitParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
-											 const XnUInt8* pSrc, 
-											 const XnUInt8* pSrcEnd, 
-											 XnUInt8*& pDst, 
-											 const XnUInt8* pDstEnd)
+						const XnUInt8* pSrc,
+						const XnUInt8* pSrcEnd,
+						XnUInt8*& pDst,
+						const XnUInt8* pDstEnd)
 {
 	OniDepthPixel*& pDstPixel = reinterpret_cast<OniDepthPixel*&>(pDst);
 	const OniDepthPixel* pDstPixelEnd = reinterpret_cast<const OniDepthPixel*>(pDstEnd);
@@ -79,14 +79,14 @@ XnStatus Link6BitParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 				m_nState++;
 				break;
 			case 1:
-				*pDstPixel++ = 
+				*pDstPixel++ =
 					(*pSrc >> 6) | //last 2 bits from prev frame
 					((pSrc[1] & 0xf) << 2); //4 first bits put at the end of frame
 				pSrc++;
 				m_nState++;
 				break;
 			case 2:
-				*pDstPixel++ = 
+				*pDstPixel++ =
 					(*pSrc >> 4) | //last 4 bits, for start new frame
 					((pSrc[1] & 0x3f) << 2); //first 2 bits, put at the end of frame
 				pSrc++;

@@ -77,7 +77,7 @@ XnStatus ClientUSBOutDataEndpoint::Connect()
 		m_nMaxPacketSize = static_cast<XnUInt16>(nTempMaxPacketSize);
 		m_bConnected = TRUE;
 	}
-	return XN_STATUS_OK;	
+	return XN_STATUS_OK;
 }
 
 void ClientUSBOutDataEndpoint::Disconnect()
@@ -107,11 +107,7 @@ XnStatus ClientUSBOutDataEndpoint::Send(const void* pData, XnUInt32 nSize)
 	/* TEMP TEMP TEMP - Patch to bypass USB driver bug */
 
 	nRetVal = xnUSBWriteEndPoint(m_hEndpoint, (XnUChar*)pData, nSize, SEND_TIMEOUT);
-	
-	/* TEMP TEMP TEMP - Patch - prevent USB driver buffer from overflowing */
-	//xnOSSleep(2000);
-	/* TEMP TEMP TEMP - Patch - prevent USB driver buffer from overflowing */
-	
+
 	XN_IS_STATUS_OK_LOG_ERROR("Write to USB data endpoint", nRetVal);
 	return XN_STATUS_OK;
 }

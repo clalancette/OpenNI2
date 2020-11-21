@@ -161,7 +161,7 @@ XnBool XN_CALLBACK_TYPE ClientUSBInDataEndpoint::ReadThreadCallback(XnUChar* pBu
 			pDataDestination->IncomingData(pBuffer, nBufferSize);
 		}
 	}
-	
+
 	return TRUE;
 }
 

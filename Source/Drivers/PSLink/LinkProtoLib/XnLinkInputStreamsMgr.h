@@ -48,10 +48,10 @@ public:
 	XnBool UnregisterStream(XnUInt16 nStreamID); // returns true if the unregistered stream was the last one
 	XnBool HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID);
 
-	XnStatus InitInputStream(LinkControlEndpoint* pLinkControlEndpoint, 
-	                         XnStreamType streamType,
-                             XnUInt16 nStreamID, 
-                             IConnection* pConnection);
+	XnStatus InitInputStream(LinkControlEndpoint* pLinkControlEndpoint,
+					XnStreamType streamType,
+					XnUInt16 nStreamID,
+					IConnection* pConnection);
 
 	void ShutdownInputStream(XnUInt16 nStreamID);
 	XnStatus HandleData(const void* pData, XnUInt32 nSize);

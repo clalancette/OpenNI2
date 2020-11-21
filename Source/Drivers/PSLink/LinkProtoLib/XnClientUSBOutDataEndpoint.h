@@ -53,7 +53,7 @@ private:
 	XN_USB_DEV_HANDLE m_hUSBDevice;
 	static const XnUInt16 ENDPOINT_ID;
 	static const XnUInt32 SEND_TIMEOUT;
-	
+
 	XnUInt16 m_nMaxPacketSize;
 	XnBool m_bConnected;
 };

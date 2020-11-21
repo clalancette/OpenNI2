@@ -41,12 +41,12 @@ LinkOutputStream::~LinkOutputStream()
 
 }
 
-XnStatus LinkOutputStream::Init(XnUInt16 nStreamID, 
-								XnUInt32 nMaxMsgSize, 
-								XnUInt16 nMaxPacketSize, 
-								XnLinkCompressionType compression, 
-								XnUInt16 nInitialPacketID,
-								LinkOutputDataEndpoint* pOutputDataEndpoint)
+XnStatus LinkOutputStream::Init(XnUInt16 nStreamID,
+				XnUInt32 nMaxMsgSize,
+				XnUInt16 nMaxPacketSize,
+				XnLinkCompressionType compression,
+				XnUInt16 nInitialPacketID,
+				LinkOutputDataEndpoint* pOutputDataEndpoint)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_VALIDATE_INPUT_PTR(pOutputDataEndpoint);
@@ -86,21 +86,21 @@ void LinkOutputStream::Shutdown()
 
 XnLinkCompressionType LinkOutputStream::GetCompression() const
 {
-	return m_compression;	
+	return m_compression;
 }
 
-XnStatus LinkOutputStream::SendData(XnUInt16 nMsgType, 
-									XnUInt16 nCID, 
-									XnLinkFragmentation fragmentation,
-									const void* pData, 
-									XnUInt32 nDataSize) const
+XnStatus LinkOutputStream::SendData(XnUInt16 nMsgType,
+					XnUInt16 nCID,
+					XnLinkFragmentation fragmentation,
+					const void* pData,
+					XnUInt32 nDataSize) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	m_pLinkMsgEncoder->BeginEncoding(nMsgType, m_nPacketID, m_nStreamID, 
+	m_pLinkMsgEncoder->BeginEncoding(nMsgType, m_nPacketID, m_nStreamID,
 		XnLinkFragmentation(fragmentation & XN_LINK_FRAG_BEGIN), nCID);
 	m_pLinkMsgEncoder->EncodeData(pData, nDataSize);
 	m_pLinkMsgEncoder->EndEncoding(XnLinkFragmentation(fragmentation & XN_LINK_FRAG_END));
-	nRetVal = m_pOutputDataEndpoint->SendData(m_pLinkMsgEncoder->GetEncodedData(), 
+	nRetVal = m_pOutputDataEndpoint->SendData(m_pLinkMsgEncoder->GetEncodedData(),
 		m_pLinkMsgEncoder->GetEncodedSize());
 	XN_IS_STATUS_OK_LOG_ERROR("Send data in output data endpoint", nRetVal);
 

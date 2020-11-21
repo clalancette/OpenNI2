@@ -51,11 +51,15 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 
 	// check max shift wasn't changed (if so, memory should be re-allocated)
 	if (pConfig->nDeviceMaxShiftValue > pShiftToDepth->nShiftsCount)
+	{
 		return XN_STATUS_LINK_INVALID_MAX_SHIFT;
+	}
 
 	// check max depth wasn't changed (if so, memory should be re-allocated)
 	if (pConfig->nDeviceMaxDepthValue > pShiftToDepth->nDepthsCount)
+	{
 		return XN_STATUS_LINK_INVALID_MAX_DEPTH;
+	}
 
 	XnUInt16 nIndex = 0;
 	XnInt16  nShiftValue = 0;
@@ -106,14 +110,16 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	}
 
 	for (XnUInt32 i = nLastDepth; i <= pConfig->nDeviceMaxDepthValue; i++)
+	{
 		pDepthToShiftTable[i] = nLastIndex;
+	}
 
 	return XN_STATUS_OK;
 }
 
-XnStatus XnShiftToDepthConvert(const XnShiftToDepthTables* pShiftToDepth, 
-							   const XnUInt16* pInput, 
-							   XnUInt32 nInputSize, 
+XnStatus XnShiftToDepthConvert(const XnShiftToDepthTables* pShiftToDepth,
+							   const XnUInt16* pInput,
+							   XnUInt32 nInputSize,
 							   OniDepthPixel* pOutput)
 {
 	XN_VALIDATE_INPUT_PTR(pShiftToDepth);
@@ -153,4 +159,3 @@ XnStatus XnShiftToDepthFree(XnShiftToDepthTables* pShiftToDepth)
 
 	return XN_STATUS_OK;
 }
-

@@ -51,12 +51,12 @@ void LinkOutputStreamsMgr::Shutdown()
 	m_outputStreams.clear();
 }
 
-XnStatus LinkOutputStreamsMgr::InitOutputStream(XnUInt16 nStreamID, 
-												XnUInt32 nMaxMsgSize, 
-												XnUInt16 nMaxPacketSize,
-												XnLinkCompressionType compression, 
-												XnStreamFragLevel streamFragLevel, 
-												LinkOutputDataEndpoint* pOutputDataEndpoint)
+XnStatus LinkOutputStreamsMgr::InitOutputStream(XnUInt16 nStreamID,
+						XnUInt32 nMaxMsgSize,
+						XnUInt16 nMaxPacketSize,
+						XnLinkCompressionType compression,
+						XnStreamFragLevel streamFragLevel,
+						LinkOutputDataEndpoint* pOutputDataEndpoint)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	ILinkOutputStream* pLinkOutputStream = NULL;
@@ -65,7 +65,7 @@ XnStatus LinkOutputStreamsMgr::InitOutputStream(XnUInt16 nStreamID,
 		XN_DELETE(m_outputStreams[nStreamID]);
 		m_outputStreams[nStreamID] = NULL;
 	}
-	
+
 	switch (streamFragLevel)
 	{
 		case XN_LINK_STREAM_FRAG_LEVEL_FRAMES:
@@ -79,12 +79,12 @@ XnStatus LinkOutputStreamsMgr::InitOutputStream(XnUInt16 nStreamID,
 
 	XN_VALIDATE_ALLOC_PTR(pLinkOutputStream);
 
-	nRetVal = pLinkOutputStream->Init(nStreamID, 
-	                                  nMaxMsgSize, 
-									  nMaxPacketSize, 
-									  compression, 
-									  INITIAL_PACKET_ID,
-									  pOutputDataEndpoint);
+	nRetVal = pLinkOutputStream->Init(nStreamID,
+						nMaxMsgSize,
+						nMaxPacketSize,
+						compression,
+						INITIAL_PACKET_ID,
+						pOutputDataEndpoint);
 	if (nRetVal != XN_STATUS_OK)
 	{
 		XN_DELETE(pLinkOutputStream);
@@ -119,15 +119,15 @@ void LinkOutputStreamsMgr::ShutdownOutputStream(XnUInt16 nStreamID)
 	}
 }
 
-XnStatus LinkOutputStreamsMgr::SendData(XnUInt16 nStreamID, 
-										XnUInt16 nMsgType, 
-										XnUInt16 nCID, 
+XnStatus LinkOutputStreamsMgr::SendData(XnUInt16 nStreamID,
+										XnUInt16 nMsgType,
+										XnUInt16 nCID,
 										XnLinkFragmentation fragmentation,
-										const void* pData, 
+										const void* pData,
 										XnUInt32 nDataSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	if ((nStreamID >= m_outputStreams.size()) || (m_outputStreams[nStreamID] == NULL) || 
+	if ((nStreamID >= m_outputStreams.size()) || (m_outputStreams[nStreamID] == NULL) ||
 		!m_outputStreams[nStreamID]->IsInitialized())
 	{
 		xnLogError(XN_MASK_LINK, "Stream %u is not initialized", nStreamID);

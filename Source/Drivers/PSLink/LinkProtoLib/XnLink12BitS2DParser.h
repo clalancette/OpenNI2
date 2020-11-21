@@ -40,10 +40,10 @@ public:
 
 protected:
 	virtual XnStatus ParsePacketImpl(XnLinkFragmentation fragmentation,
-									 const XnUInt8* pSrc, 
-	                                 const XnUInt8* pSrcEnd, 
-									 XnUInt8*& pDst, 
-									 const XnUInt8* pDstEnd);
+						const XnUInt8* pSrc,
+						const XnUInt8* pSrcEnd,
+						XnUInt8*& pDst,
+						const XnUInt8* pDstEnd);
 
 private:
 	XnStatus Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest, const XnUInt32 nInputSize, XnUInt32* pnActualRead, XnUInt32* pnActualWritten);

@@ -43,7 +43,7 @@ LinkOutputDataEndpoint::~LinkOutputDataEndpoint()
 	Shutdown();
 }
 
-XnStatus LinkOutputDataEndpoint::Init(XnUInt16 nEndpointID, 
+XnStatus LinkOutputDataEndpoint::Init(XnUInt16 nEndpointID,
 									  IConnectionFactory* pConnectionFactory)
 {
 	XN_VALIDATE_INPUT_PTR(pConnectionFactory);
@@ -60,7 +60,7 @@ XnStatus LinkOutputDataEndpoint::Init(XnUInt16 nEndpointID,
 		//We are initialized :)
 		m_bInitialized = TRUE;
 	}
-	
+
 	return XN_STATUS_OK;
 }
 

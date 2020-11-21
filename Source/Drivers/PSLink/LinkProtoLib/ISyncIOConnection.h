@@ -30,12 +30,12 @@
 namespace xn
 {
 
-class ISyncIOConnection : virtual public ISyncInputConnection, 
+class ISyncIOConnection : virtual public ISyncInputConnection,
                           virtual public IOutputConnection
 {
 public:
 	virtual ~ISyncIOConnection() {}
-	
+
 	/**
 	 * Receives data from the stream.
 	 *
@@ -43,7 +43,7 @@ public:
 	 * @param	nSize		[in]	Size of data to receive.
 	 */
 	virtual XnStatus Receive(void* pData, XnUInt32& nSize) = 0;
-	
+
 	/**
 	 * Sends a buffer on the connection.
 	 *

@@ -32,7 +32,7 @@ namespace xn
 {
 
 const XnUInt16 ClientUSBConnectionFactory::NUM_INPUT_CONNECTIONS = 2;
-	
+
 ClientUSBConnectionFactory::ClientUSBConnectionFactory(XnUInt16 nInputConnections,
 													   XnUInt16 nOutputConnections,
 													   XnUInt32 nPreControlReceiveSleep) :
@@ -130,7 +130,7 @@ XnStatus ClientUSBConnectionFactory::CreateOutputDataConnection(XnUInt16 /*nID*/
 	nRetVal = pUSBOutDataEndpoint->Init(m_hUSBDevice);
 	if (nRetVal != XN_STATUS_OK)
 	{
-		xnLogError(XN_MASK_USB, "Failed to initialize output data endpoint: %s", 
+		xnLogError(XN_MASK_USB, "Failed to initialize output data endpoint: %s",
 			xnGetStatusString(nRetVal));
 		XN_ASSERT(FALSE);
 		XN_DELETE(pUSBOutDataEndpoint);
@@ -144,19 +144,19 @@ XnStatus ClientUSBConnectionFactory::CreateOutputDataConnection(XnUInt16 /*nID*/
 XnStatus ClientUSBConnectionFactory::CreateInputDataConnection(XnUInt16 nID, IAsyncInputConnection*& pConn)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	if (!m_bInitialized)
 	{
 		return XN_STATUS_NOT_INIT;
 	}
-	
+
 	ClientUSBInDataEndpoint* pUSBInDataEndpoint = XN_NEW(ClientUSBInDataEndpoint);
 	XN_VALIDATE_ALLOC_PTR(pUSBInDataEndpoint);
 	nRetVal = pUSBInDataEndpoint->Init(m_hUSBDevice, nID);
-	
+
 	if (nRetVal != XN_STATUS_OK)
 	{
-		xnLogError(XN_MASK_USB, "Failed to initialize input data endpoint %u: %s", 
+		xnLogError(XN_MASK_USB, "Failed to initialize input data endpoint %u: %s",
 			nID, xnGetStatusString(nRetVal));
 		XN_ASSERT(FALSE);
 		XN_DELETE(pUSBInDataEndpoint);
@@ -168,15 +168,17 @@ XnStatus ClientUSBConnectionFactory::CreateInputDataConnection(XnUInt16 nID, IAs
 	return XN_STATUS_OK;
 }
 
-XnStatus ClientUSBConnectionFactory::EnumerateConnStrings(XnUInt16 nProductID, 
-														  XnConnectionString*& astrConnStrings, 
-														  XnUInt32& nCount)
+XnStatus ClientUSBConnectionFactory::EnumerateConnStrings(XnUInt16 nProductID,
+								XnConnectionString*& astrConnStrings,
+								XnUInt32& nCount)
 {
 	XnStatus nRetVal = xnUSBInit();
 	if (nRetVal == XN_STATUS_USB_ALREADY_INIT)
+	{
 		nRetVal = XN_STATUS_OK;
+	}
 	XN_IS_STATUS_OK_LOG_ERROR("Init usb", nRetVal);
-	nRetVal = xnUSBEnumerateDevices(XN_VENDOR_ID, nProductID, 
+	nRetVal = xnUSBEnumerateDevices(XN_VENDOR_ID, nProductID,
 		const_cast<const XnUSBConnectionString**>(&astrConnStrings), &nCount);
 	xnUSBShutdown(); //decrease the inner ref-counter
 	return nRetVal;
@@ -190,7 +192,7 @@ void ClientUSBConnectionFactory::FreeConnStringsList(XnConnectionString* astrCon
 XnStatus ClientUSBConnectionFactory::SetUsbAltInterface(XnUInt8 interfaceNum)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	if (m_dataOpen)
 	{
 		xnLogWarning(XN_MASK_LINK, "Can't set interface once streaming started");

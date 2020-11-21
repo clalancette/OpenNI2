@@ -32,21 +32,23 @@ LinkLogParser::LinkLogParser() : m_copyDataToOutput(false)
 LinkLogParser::~LinkLogParser()
 {
 	//Close any open log files
-	for(xnl::Hash<XnUInt8, XnDumpFile*>::Iterator iter = m_activeLogs.Begin(); iter!=m_activeLogs.End(); ++iter)
+	for (xnl::Hash<XnUInt8, XnDumpFile*>::Iterator iter = m_activeLogs.Begin(); iter!=m_activeLogs.End(); ++iter)
+	{
 		xnDumpFileClose(iter->Value());
+	}
 	m_activeLogs.Clear();
 
 }
 
 XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
-	const XnUInt8* pSrc, 
-	const XnUInt8* pSrcEnd, 
-	XnUInt8*& pDst, 
+	const XnUInt8* pSrc,
+	const XnUInt8* pSrcEnd,
+	XnUInt8*& pDst,
 	const XnUInt8* pDstEnd)
 {
 	//Copy data to output buffer if needed (The log dumps data anyway, so most time we wont need it and save the memcopy
 	//Otherwise, we do not advance pDst, so Data size remains 0
-	if(m_copyDataToOutput)
+	if (m_copyDataToOutput)
 	{
 		XnSizeT nPacketDataSize = pSrcEnd - pSrc;
 		if (pDst + nPacketDataSize > pDstEnd)
@@ -76,13 +78,15 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 	actualDataSize -= sizeof(XnLinkLogParam);
 
 	//Parse file name
-	if(command == XN_LINK_LOG_COMMAND_OPEN || command == XN_LINK_LOG_COMMAND_OPEN_APPEND)
+	if (command == XN_LINK_LOG_COMMAND_OPEN || command == XN_LINK_LOG_COMMAND_OPEN_APPEND)
 	{
 		//Copy file name to our XnChar array
 		XnUInt8* inputFileName = ((XnLinkLogFileParam*)pSrc)->logFileName;
 		int i = 0;
 		for(; i < XN_LINK_MAX_LOG_FILE_NAME_LENGTH && *inputFileName != '\0'; ++i, ++inputFileName)
+		{
 			logFileName[i] = (XnChar)*inputFileName;
+		}
 		logFileName[i] = '\0';
 
 		pSrc += sizeof(XnLinkLogFileParam);
@@ -94,40 +98,40 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 	{
 	case XN_LINK_LOG_COMMAND_OPEN_APPEND:
 		nRetVal = XN_STATUS_NOT_IMPLEMENTED;
-		if (nRetVal != XN_STATUS_OK)                                                                                                                           
-		{                                                                                                                                                                          
-			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Append log file \'%s\': %s", logFileName, xnGetStatusString(nRetVal));       
-			XN_ASSERT(FALSE);                                                                                                                                      
-			return (nRetVal);                                                                                                                                      
+		if (nRetVal != XN_STATUS_OK)
+		{
+			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Append log file \'%s\': %s", logFileName, xnGetStatusString(nRetVal));
+			XN_ASSERT(FALSE);
+			return (nRetVal);
 		}
 		break;
 	case XN_LINK_LOG_COMMAND_OPEN:
 		xnLogVerbose("", "Received open command for file %s id %d\n", logFileName, fileID);
 		nRetVal = OpenLogFile(fileID, logFileName);
-		if (nRetVal != XN_STATUS_OK)                                                                                                                           
+		if (nRetVal != XN_STATUS_OK)
 		{
-			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Open log file \'%s\': %s", logFileName, xnGetStatusString(nRetVal));       
-			XN_ASSERT(FALSE);                                                                                                                                      
-			return (nRetVal);                                                                                                                                      
+			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Open log file \'%s\': %s", logFileName, xnGetStatusString(nRetVal));
+			XN_ASSERT(FALSE);
+			return (nRetVal);
 		}
 		break;
 	case XN_LINK_LOG_COMMAND_CLOSE:
 		xnLogVerbose("", "Received close command for file id %d\n", fileID);
 		nRetVal = CloseLogFile(fileID);
-		if (nRetVal != XN_STATUS_OK)                                                                                                                           
-		{                                                                                                                                                                          
-			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Close log file #%d: %s", fileID, xnGetStatusString(nRetVal));      
-			XN_ASSERT(FALSE);                                                                                                                                      
-			return (nRetVal);                                                                                                                                      
+		if (nRetVal != XN_STATUS_OK)
+		{
+			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Close log file #%d: %s", fileID, xnGetStatusString(nRetVal));
+			XN_ASSERT(FALSE);
+			return (nRetVal);
 		}
 		break;
 	case XN_LINK_LOG_COMMAND_WRITE:
 		nRetVal = WriteToLogFile(fileID, pSrc, actualDataSize);
-		if (nRetVal != XN_STATUS_OK)                                                                                                                           
-		{                                                                                                                                                                          
-			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Write log file #%d: %s", fileID, xnGetStatusString(nRetVal));      
-			XN_ASSERT(FALSE);                                                                                                                                      
-			return (nRetVal);                                                                                                                                      
+		if (nRetVal != XN_STATUS_OK)
+		{
+			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Write log file #%d: %s", fileID, xnGetStatusString(nRetVal));
+			XN_ASSERT(FALSE);
+			return (nRetVal);
 		}
 		break;
 	default:
@@ -147,7 +151,7 @@ XnStatus LinkLogParser::OpenLogFile( XnUInt8 fileID, const XnChar* fileName )
 	XnDumpFile* pTargetFile;
 
 	//We should not have a file with this ID
-	if(m_activeLogs.Find(fileID) != m_activeLogs.End())
+	if (m_activeLogs.Find(fileID) != m_activeLogs.End())
 	{
 		xnLogWarning(XN_MASK_LINK, "Attempting to open existing log file. ID: %d, name: %s", (int)fileID, fileName);
 		XN_ASSERT(FALSE);
@@ -158,16 +162,20 @@ XnStatus LinkLogParser::OpenLogFile( XnUInt8 fileID, const XnChar* fileName )
 	XnChar filenameWithTimestamp[XN_LINK_MAX_LOG_FILE_NAME_LENGTH + 25 + 1];
 	time_t currtime;
 	time(&currtime);
-	strftime(filenameWithTimestamp, sizeof(filenameWithTimestamp)-1, "%Y_%m_%d__%H_%M_%S.", localtime(&currtime)); 
+	strftime(filenameWithTimestamp, sizeof(filenameWithTimestamp)-1, "%Y_%m_%d__%H_%M_%S.", localtime(&currtime));
 	xnOSStrAppend(filenameWithTimestamp, fileName, sizeof(filenameWithTimestamp)-1);
 
 	//Open file and add to collection
 	pTargetFile = xnDumpFileOpenEx("", true, false, filenameWithTimestamp);
-	if(pTargetFile == NULL)
+	if (pTargetFile == NULL)
+	{
 		nRetVal = XN_STATUS_ERROR;
+	}
 
-	if(nRetVal == XN_STATUS_OK)
+	if (nRetVal == XN_STATUS_OK)
+	{
 		m_activeLogs[fileID] = pTargetFile;
+	}
 
 	return nRetVal;
 }
@@ -179,7 +187,7 @@ XnStatus LinkLogParser::CloseLogFile( XnUInt8 fileID )
 	//We should have a file with this ID
 	xnl::Hash<XnUInt8, XnDumpFile*>::Iterator fileRecord = m_activeLogs.Find(fileID);
 
-	if(fileRecord == m_activeLogs.End())
+	if (fileRecord == m_activeLogs.End())
 	{
 		xnLogWarning(XN_MASK_LINK, "Attempting to close non existing log file. ID: %d", (int)fileID);
 		XN_ASSERT(FALSE);
@@ -201,7 +209,7 @@ XnStatus LinkLogParser::WriteToLogFile( XnUInt8 fileID, const void* pData, XnUIn
 	//We should have a file with this ID
 	xnl::Hash<XnUInt8, XnDumpFile*>::Iterator fileRecord = m_activeLogs.Find(fileID);
 
-	if(fileRecord == m_activeLogs.End())
+	if (fileRecord == m_activeLogs.End())
 	{
 		xnLogWarning(XN_MASK_LINK, "Attempting to write to non existing log file. ID: %d", (int)fileID);
 		XN_ASSERT(FALSE);
@@ -216,6 +224,5 @@ void LinkLogParser::GenerateOutputBuffer(bool toCreate)
 {
 	m_copyDataToOutput = toCreate;
 }
-
 
 }

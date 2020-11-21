@@ -29,7 +29,7 @@ namespace xn
 {
 
 
-/*USB control endpoints' REAL max packet size is always 64 bytes. We group a few of these together, so we 
+/*USB control endpoints' REAL max packet size is always 64 bytes. We group a few of these together, so we
   treat the packet size as a different (larger) number.*/
 const XnUInt32 ClientUSBControlEndpoint::USB_LOW_LEVEL_MAX_PACKET_SIZE = 64;
 const XnUInt32 ClientUSBControlEndpoint::SEND_TIMEOUT = 5000;
@@ -50,7 +50,7 @@ XnStatus ClientUSBControlEndpoint::Init(XN_USB_DEV_HANDLE hUSBDevice)
 {
 	XN_VALIDATE_INPUT_PTR(hUSBDevice);
 	m_hUSBDevice = hUSBDevice;
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -87,11 +87,11 @@ XnStatus ClientUSBControlEndpoint::Receive(void* pData, XnUInt32& nSize)
 	// otherwise, device stalls.
 	xnOSSleep(m_nPreControlReceiveSleep);
 
-	nRetVal = xnUSBReceiveControl(m_hUSBDevice, XN_USB_CONTROL_TYPE_VENDOR, 0, 0, 0, 
+	nRetVal = xnUSBReceiveControl(m_hUSBDevice, XN_USB_CONTROL_TYPE_VENDOR, 0, 0, 0,
 		reinterpret_cast<XnUChar*>(pData), nBufferSize, &nSize, RECEIVE_TIMEOUT);
 	XN_IS_STATUS_OK_LOG_ERROR("Receive buffer from USB", nRetVal);
 
-	return XN_STATUS_OK;	
+	return XN_STATUS_OK;
 }
 
 XnStatus ClientUSBControlEndpoint::Send(const void* pData, XnUInt32 nSize)

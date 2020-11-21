@@ -41,7 +41,7 @@ public:
 	virtual XnUInt16 GetNumInputDataConnections() const = 0;
 	virtual XnUInt16 GetNumOutputDataConnections() const = 0;
 
-	/** The pointer returned by GetControlConnection() belongs to the connection factory and 
+	/** The pointer returned by GetControlConnection() belongs to the connection factory and
 	    must not be deleted by caller. **/
 	virtual XnStatus GetControlConnection(ISyncIOConnection*& pConnection) = 0;
 

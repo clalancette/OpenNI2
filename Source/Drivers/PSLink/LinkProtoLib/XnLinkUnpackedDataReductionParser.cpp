@@ -42,10 +42,10 @@ LinkUnpackedDataReductionParser::~LinkUnpackedDataReductionParser()
 }
 
 XnStatus LinkUnpackedDataReductionParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
-														  const XnUInt8* pSrc, 
-														  const XnUInt8* pSrcEnd, 
-														  XnUInt8*& pDst, 
-														  const XnUInt8* pDstEnd)
+								const XnUInt8* pSrc,
+								const XnUInt8* pSrcEnd,
+								XnUInt8*& pDst,
+								const XnUInt8* pDstEnd)
 {
 	XnSizeT nPacketDataSize = pSrcEnd - pSrc;
 

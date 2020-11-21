@@ -84,16 +84,16 @@ public:
 	XnStatus StopStreaming(XnUInt16 nStreamID);
 	XnStatus SoftReset();
 	XnStatus HardReset();
-    XnStatus ReadDebugData(XnCommandDebugData& commandDebugData);
+	XnStatus ReadDebugData(XnCommandDebugData& commandDebugData);
 	XnStatus GetSupportedBistTests(std::vector<XnBistInfo>& supportedTests);
-    XnStatus GetSupportedTempList(std::vector<XnTempInfo>& supportedTests);
-    XnStatus GetTemperature(XnCommandTemperatureResponse& temp);
+	XnStatus GetSupportedTempList(std::vector<XnTempInfo>& supportedTests);
+	XnStatus GetTemperature(XnCommandTemperatureResponse& temp);
 	XnStatus ExecuteBistTests(XnUInt32 nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData);
 	XnStatus StartUsbTest();
 	XnStatus StopUsbTest();
 	XnStatus GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supporteddevices);
 	XnStatus WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32 nValue, XnUInt32 nMask);
-    XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32& nValue);
+	XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32& nValue);
 	XnStatus WriteAHB(XnUInt32 nAddress, XnUInt32 nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth);
 	XnStatus ReadAHB(XnUInt32 nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, XnUInt32& nValue);
 	XnStatus GetShiftToDepthConfig(XnUInt16 nStreamID, XnShiftToDepthConfig& shiftToDepthConfig);
@@ -101,17 +101,17 @@ public:
 	XnStatus GetVideoMode(XnUInt16 nStreamID, XnFwStreamVideoMode& videoMode);
 	XnStatus GetSupportedVideoModes(XnUInt16 nStreamID, std::vector<XnFwStreamVideoMode>& supportedVideoModes);
 	XnStatus EnumerateStreams(std::vector<XnFwStreamInfo>& aStreamInfos);
-    XnStatus CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID, XnUInt16& nEndpointID);
+	XnStatus CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID, XnUInt16& nEndpointID);
 	XnStatus DestroyInputStream(XnUInt16 nStreamID);
 	XnStatus SetCropping(XnUInt16 nStreamID, const OniCropping& cropping);
 	XnStatus GetCropping(XnUInt16 nStreamID, OniCropping& cropping);
-    XnStatus SetProjectorActive(XnBool bActive);
-    XnStatus SetAccActive(XnBool bActive);
-    XnStatus GetAccActive(XnBool& bActive);
-    XnStatus SetVDDActive(XnBool bActive);
-    XnStatus GetVDDActive(XnBool& bActive);
-    XnStatus SetPeriodicBistActive(XnBool bActive);
-    XnStatus GetPeriodicBistActive(XnBool& bActive);
+	XnStatus SetProjectorActive(XnBool bActive);
+	XnStatus SetAccActive(XnBool bActive);
+	XnStatus GetAccActive(XnBool& bActive);
+	XnStatus SetVDDActive(XnBool bActive);
+	XnStatus GetVDDActive(XnBool& bActive);
+	XnStatus SetPeriodicBistActive(XnBool bActive);
+	XnStatus GetPeriodicBistActive(XnBool& bActive);
 	XnStatus GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles);
 	XnStatus OpenFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID);
 	XnStatus CloseFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID);
@@ -123,10 +123,10 @@ public:
 	XnStatus GetGain(XnUInt16 streamID, XnUInt16& gain);
 	//TODO: Implement Get emitter active
 
-    XnStatus GetStreamFragLevel(XnUInt16 nStreamID, XnStreamFragLevel& streamFragLevel);
+	XnStatus GetStreamFragLevel(XnUInt16 nStreamID, XnStreamFragLevel& streamFragLevel);
 	XnStatus GetMirror(XnUInt16 nStreamID, XnBool& bMirror);
-    XnStatus SetMirror(XnUInt16 nStreamID, XnBool bMirror);
-    
+	XnStatus SetMirror(XnUInt16 nStreamID, XnBool bMirror);
+
 	XnStatus BeginUpload();
 	XnStatus EndUpload();
 	XnStatus FormatZone(XnUInt8 nZone);
@@ -140,27 +140,27 @@ private:
 	static const XnChar MUTEX_NAME[];
 
 	XnStatus GetLogicalMaxPacketSize(XnUInt16& nMaxPacketSize);
-	
-	/** The fragmentation parameter in this function indicates the fragmentation of the whole data BLOCK, 
-	    not an individual packet. So if it's BEGIN, it means this block of data (one or more packets) begins 
-		the message. If it's MIDDLE, it's the middle of the message, and if it's END, this block ends the 
+
+	/** The fragmentation parameter in this function indicates the fragmentation of the whole data BLOCK,
+	    not an individual packet. So if it's BEGIN, it means this block of data (one or more packets) begins
+		the message. If it's MIDDLE, it's the middle of the message, and if it's END, this block ends the
 		message.**/
-	XnStatus ExecuteImpl(XnUInt16 nMsgType, 
-	                      XnUInt16 nStreamID,
-	                      const void* pData, 
-						  XnUInt32 nSize, 
-						  XnLinkFragmentation fragmentation,
-						  void* pResponseData, 
-						  XnUInt32& nResponseSize,
-						  XnBool autoContinue,
-						  XnBool& isLast);
+	XnStatus ExecuteImpl(XnUInt16 nMsgType,
+				XnUInt16 nStreamID,
+				const void* pData,
+				XnUInt32 nSize,
+				XnLinkFragmentation fragmentation,
+				void* pResponseData,
+				XnUInt32& nResponseSize,
+				XnBool autoContinue,
+				XnBool& isLast);
 
 	XnStatus ContinueResponseImpl(XnUInt16 originalMsgType, XnUInt16 streamID, void* pResponseData, XnUInt32& nResponseSize, XnBool& outLastPacket);
 
-	XnStatus ValidateResponsePacket(const LinkPacketHeader* pResponsePacket, 
-	                                XnUInt16 nExpectedMsgType,
-									XnUInt16 nExpectedStreamID,
-									XnUInt32 nBytesToRead);
+	XnStatus ValidateResponsePacket(const LinkPacketHeader* pResponsePacket,
+					XnUInt16 nExpectedMsgType,
+					XnUInt16 nExpectedStreamID,
+					XnUInt32 nBytesToRead);
 
 	/* Properties */
 	XnStatus SetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnUInt64 nValue);

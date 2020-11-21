@@ -36,10 +36,10 @@ LinkUnpackedS2DParser::~LinkUnpackedS2DParser()
 }
 
 XnStatus LinkUnpackedS2DParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
-												const XnUInt8* pSrc, 
-												const XnUInt8* pSrcEnd, 
-												XnUInt8*& pDst, 
-												const XnUInt8* pDstEnd)
+						const XnUInt8* pSrc,
+						const XnUInt8* pSrcEnd,
+						XnUInt8*& pDst,
+						const XnUInt8* pDstEnd)
 {
 	XN_ASSERT(m_shiftToDepthTables.bIsInitialized);
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -52,7 +52,7 @@ XnStatus LinkUnpackedS2DParser::ParsePacketImpl(XnLinkFragmentation /*fragmentat
 	}
 
 	////////////////////////////////////////////
-	nRetVal = XnShiftToDepthConvert(&m_shiftToDepthTables, 
+	nRetVal = XnShiftToDepthConvert(&m_shiftToDepthTables,
 		reinterpret_cast<const XnUInt16*>(pSrc),
 		XnUInt32(nPacketDataSize / 2),
 		reinterpret_cast<OniDepthPixel*>(pDst));

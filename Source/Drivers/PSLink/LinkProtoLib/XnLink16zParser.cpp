@@ -59,10 +59,10 @@ inline OniDepthPixel Link16zParser<false>::TranslatePixel(XnUInt32 nShift)
 
 template<bool TS2D>
 XnStatus Link16zParser<TS2D>::ParsePacketImpl(XnLinkFragmentation fragmentation,
-										const XnUInt8* pSrc, 
-										const XnUInt8* pSrcEnd, 
-										XnUInt8*& pDst, 
-										const XnUInt8* pDstEnd)
+						const XnUInt8* pSrc,
+						const XnUInt8* pSrcEnd,
+						XnUInt8*& pDst,
+						const XnUInt8* pDstEnd)
 {
 	OniDepthPixel*& pDstPixel = reinterpret_cast<OniDepthPixel*&>(pDst); //Reference to pointer - moving pDstPixel affects pDst also.
 	const OniDepthPixel* pDstPixelEnd = reinterpret_cast<const OniDepthPixel*>(pDstEnd);
@@ -73,7 +73,7 @@ XnStatus Link16zParser<TS2D>::ParsePacketImpl(XnLinkFragmentation fragmentation,
 	if ((fragmentation & XN_LINK_FRAG_BEGIN) != 0)
 	{
 		//We purposely give m_nShift a value that will mess up diff calculations if it's in the beginning by mistake
-		m_nShift = (m_nMaxShift + BIG_DIFF_OFFSET + 1); 
+		m_nShift = (m_nMaxShift + BIG_DIFF_OFFSET + 1);
 		m_nBigDiff = 0;
 		m_nState = STATE_OPCODE;
 		bReadHigh = TRUE;
@@ -83,18 +83,18 @@ XnStatus Link16zParser<TS2D>::ParsePacketImpl(XnLinkFragmentation fragmentation,
 	while ((pSrc < pSrcEnd) && (pDstPixel < pDstPixelEnd))
 	{
 		//Read next nibble
-		if (bReadHigh) 
-		{ 
+		if (bReadHigh)
+		{
 			//Read high nibble of this byte
-			nNibble = (*pSrc >> 4); 
+			nNibble = (*pSrc >> 4);
 			bReadHigh = FALSE;
-		} 
-		else 
-		{ 
+		}
+		else
+		{
 			//Read low nibble of this byte and skip to next byte
-			nNibble = (*pSrc & 0x0F); 
-			pSrc++; 
-			bReadHigh = TRUE; 
+			nNibble = (*pSrc & 0x0F);
+			pSrc++;
+			bReadHigh = TRUE;
 		}
 
 		switch (m_nState)
@@ -118,7 +118,7 @@ XnStatus Link16zParser<TS2D>::ParsePacketImpl(XnLinkFragmentation fragmentation,
 					m_nState = State(nNibble); //Next state is determined by opcode nibble
 				}
 				break;
-			case STATE_RLE:				
+			case STATE_RLE:
 				if (m_nShift > m_nMaxShift)
 				{
 //					XN_ASSERT(FALSE);
@@ -145,19 +145,19 @@ XnStatus Link16zParser<TS2D>::ParsePacketImpl(XnLinkFragmentation fragmentation,
 				else
 				{
 					//Take 3 lower bits from nibble, make room for 12 bits more
-					//m_nShift = (nNibble & 0x07) << 12;					
+					//m_nShift = (nNibble & 0x07) << 12;
 					//There's no point doing this since max shift is 12 bits
 					m_nState = State(m_nState + 1); //To STATE_FULL_ENC2
 				}
 				break;
-			case STATE_FULL_ENC2:		
+			case STATE_FULL_ENC2:
 				//Take 4 bits from nibble, make room for 8 more
 				//m_nShift |= (nNibble << 8);
 				//There's no point saving anything from the previous shift value since max shift is 12 bits
 				m_nShift = (nNibble << 8);
 				m_nState = State(m_nState + 1); //To STATE_FULL_ENC3
 				break;
-			case STATE_FULL_ENC3:			
+			case STATE_FULL_ENC3:
 				//Take 4 bits from nibble, make room for 4 more
 				m_nShift |= (nNibble << 4);
 				m_nState = State(m_nState + 1); //To STATE_FULL_ENC4
@@ -179,7 +179,6 @@ XnStatus Link16zParser<TS2D>::ParsePacketImpl(XnLinkFragmentation fragmentation,
 				m_nShift += (m_nBigDiff - BIG_DIFF_OFFSET);
 				if (m_nShift > m_nMaxShift)
 				{
-//					XN_ASSERT(FALSE);
 					m_nState = STATE_BAD_FRAME;
 					return XN_STATUS_LINK_BAD_PACKET_FORMAT;
 				}
@@ -194,15 +193,6 @@ XnStatus Link16zParser<TS2D>::ParsePacketImpl(XnLinkFragmentation fragmentation,
 				return XN_STATUS_ERROR;
 		} //switch
 	} //while
-	////////////////////////////////////////////
-
-/*	if (pSrc < pSrcEnd)
-	{
-		//We had more bytes in input but not enough space in output to write them
-		XN_ASSERT(FALSE);
-		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
-	}
-*/
 
 	return XN_STATUS_OK;
 }

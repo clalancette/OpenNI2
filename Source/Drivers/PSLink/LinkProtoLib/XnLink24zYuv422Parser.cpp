@@ -26,7 +26,7 @@
 namespace xn
 {
 
-Link24zYuv422Parser::Link24zYuv422Parser(XnUInt32 xRes, XnUInt32 yRes, XnBool transformToRGB) : 
+Link24zYuv422Parser::Link24zYuv422Parser(XnUInt32 xRes, XnUInt32 yRes, XnBool transformToRGB) :
 	m_dataFromPrevPacket(NULL),
 	m_dataFromPrevPacketBytes(0),
 	m_lineWidthBytes(xRes * LinkYuvToRgb::YUV_422_BYTES_PER_PIXEL), // 4 bytes for every 2 pixels
@@ -61,7 +61,7 @@ XnStatus Link24zYuv422Parser::Init()
 XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation, const XnUInt8* pSrc, const XnUInt8* pSrcEnd, XnUInt8*& pDst, const XnUInt8* pDstEnd)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	if ((fragmentation & XN_LINK_FRAG_BEGIN) != 0)
 	{
 		m_dataFromPrevPacketBytes = 0;
@@ -94,7 +94,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 		pOutput = m_tempYuvImage + m_tempYuvImageBytes;
 		outputSize = m_rgbFrameSize - m_tempYuvImageBytes;
 	}
-	
+
 	XnSizeT actualRead;
 	nRetVal = Uncompress24z(pInput, inputSize, pOutput, &outputSize, m_lineWidthBytes, &actualRead, (fragmentation | XN_LINK_FRAG_END) == XN_LINK_FRAG_END);
 	XN_IS_STATUS_OK(nRetVal);
@@ -114,7 +114,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 		LinkYuvToRgb::Yuv422ToRgb888(m_tempYuvImage, m_tempYuvImageBytes, pDst, outputSize);
 		pDst += outputSize;
 	}
-	
+
 	return (XN_STATUS_OK);
 }
 
@@ -127,10 +127,10 @@ XnStatus Link24zYuv422Parser::Uncompress24z(const XnUInt8* pInput, XnSizeT nInpu
 	const XnUInt8* pInputEnd = pInput + nInputSize;
 	XnUInt8* pOrigOutput = pOutput;
 	XnUInt8* pOutputEnd = pOutput + (*pnOutputSize);
-	XnUInt8 nLastFullValue[4] = {0};	
+	XnUInt8 nLastFullValue[4] = {0};
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
-	XnUInt32 nTempValue = 0;	
+	XnUInt32 nTempValue = 0;
 	XnUInt32 cInput = 0;
 	XnBool bReadByte = TRUE;
 

@@ -50,9 +50,9 @@ public:
 	LinkFrameInputStream();
 	virtual ~LinkFrameInputStream();
 	virtual XnStatus Init(LinkControlEndpoint* pLinkControlEndpoint,
-                          XnStreamType streamType,
-                          XnUInt16 nStreamID, 
-                          IConnection* pConnection);
+				XnStreamType streamType,
+				XnUInt16 nStreamID,
+				IConnection* pConnection);
 
 	virtual void SetStreamServices(oni::driver::StreamServices* pServices) { m_pServices = pServices; }
 
@@ -63,10 +63,10 @@ public:
 	virtual XnBool IsInitialized() const;
 	virtual void Shutdown();
 	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const XnUInt8* pData, XnBool& bPacketLoss);
-	
+
 	virtual void SetDumpName(const XnChar* strDumpName);
-    virtual void SetDumpOn(XnBool bDumpOn);
-    
+	virtual void SetDumpOn(XnBool bDumpOn);
+
 	virtual XnStreamFragLevel GetStreamFragLevel() const { return XN_LINK_STREAM_FRAG_LEVEL_FRAMES; }
 
 	typedef void (XN_CALLBACK_TYPE* NewFrameEventHandler)(const NewFrameEventArgs& args, void* pCookie);
@@ -113,7 +113,7 @@ private:
 
 	static void Swap(XnUInt32& nVal1, XnUInt32& nVal2);
 	XnUInt32 GetOutputBytesPerPixel() const;
-    virtual XnUInt32 CalcBufferSize() const;
+	virtual XnUInt32 CalcBufferSize() const;
 	XnUInt32 CalcExpectedSize() const;
 	XnStatus UpdateCameraIntrinsics();
 
@@ -148,7 +148,7 @@ private:
 	XnLinkCameraIntrinsics m_cameraIntrinsics;
 
 	// Field of View
-	XnFloat m_fHFOV; 
+	XnFloat m_fHFOV;
 	XnFloat m_fVFOV;
 };
 

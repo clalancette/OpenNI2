@@ -34,11 +34,11 @@ namespace xn
 
 /* FRAG_FLAGS_ALLOWED_CHANGES[y][x] is 1 if a change from fragmentation flag y to x is allowed, 0 otherwise. */
 const XnUInt32 LinkInputStreamsMgr::FRAG_FLAGS_ALLOWED_CHANGES[4][4] = {
-/*                                        M, B, E, S */
-/* Allowed state changes from MIDDLE: */ {1, 0, 1, 0}, 
-/* Allowed state changes from BEGIN:  */ {1, 0, 1, 0}, 
-/* Allowed state changes from END:    */ {0, 1, 0, 1}, 
-/* Allowed state changes from SINGLE: */ {0, 1, 0, 1}, 
+	/*                                        M, B, E, S */
+	/* Allowed state changes from MIDDLE: */ {1, 0, 1, 0},
+	/* Allowed state changes from BEGIN:  */ {1, 0, 1, 0},
+	/* Allowed state changes from END:    */ {0, 1, 0, 1},
+	/* Allowed state changes from SINGLE: */ {0, 1, 0, 1},
 };
 const XnUInt16 LinkInputStreamsMgr::INITIAL_PACKET_ID = 1;
 
@@ -67,7 +67,7 @@ void LinkInputStreamsMgr::Shutdown()
 
 void LinkInputStreamsMgr::RegisterStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16 nStreamID)
 {
-	if (m_streamInfos[nStreamID].pInputStream == NULL || 
+	if (m_streamInfos[nStreamID].pInputStream == NULL ||
 		(m_streamInfos[nStreamID].refCount > 0 && nStreamID != FindStreamByType(streamType,strCreationInfo)))
 	{
 		xnLogWarning(XN_MASK_LINK, "Trying to register a non existing Input stream %u", nStreamID);
@@ -89,7 +89,7 @@ void LinkInputStreamsMgr::RegisterStreamOfType(XnStreamType streamType, const Xn
 XnBool LinkInputStreamsMgr::UnregisterStream(XnUInt16 nStreamID)
 {
 	XnBool wasLast = false;
-	
+
 	if (m_streamInfos[nStreamID].pInputStream == NULL || m_streamInfos[nStreamID].refCount <= 0)
 	{
 		xnLogWarning(XN_MASK_LINK, "Trying to unregister a non existing Input stream %u", nStreamID);
@@ -98,12 +98,12 @@ XnBool LinkInputStreamsMgr::UnregisterStream(XnUInt16 nStreamID)
 	}
 
 	//decrease refcounter
-	if (--m_streamInfos[nStreamID].refCount == 0) 
+	if (--m_streamInfos[nStreamID].refCount == 0)
 	{
 		wasLast = true;
 	}
 	xnLogVerbose(XN_MASK_LINK, "Input stream %u decref. refcount is %d", nStreamID, m_streamInfos[nStreamID].refCount);
-	
+
 	return wasLast;
 }
 
@@ -122,8 +122,8 @@ int LinkInputStreamsMgr::FindStreamByType(XnStreamType streamType, const XnChar*
 {
 	for (int i = 0; i < XN_LINK_MAX_STREAMS; ++i)
 	{
-		if (m_streamInfos[i].refCount > 0 && 
-			streamType == m_streamInfos[i].streamType && 
+		if (m_streamInfos[i].refCount > 0 &&
+			streamType == m_streamInfos[i].streamType &&
 			((m_streamInfos[i].strCreationInfo == NULL && strCreationInfo == NULL) || xnOSStrCmp(strCreationInfo, m_streamInfos[i].strCreationInfo) == 0))
 		{
 			return i;
@@ -132,13 +132,13 @@ int LinkInputStreamsMgr::FindStreamByType(XnStreamType streamType, const XnChar*
 	return -1;
 }
 
-XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlEndpoint, 
-                                              XnStreamType streamType,
-                                              XnUInt16 nStreamID, 
-                                              IConnection* pConnection)
+XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlEndpoint,
+						XnStreamType streamType,
+						XnUInt16 nStreamID,
+						IConnection* pConnection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-    XnStreamFragLevel streamFragLevel = XN_LINK_STREAM_FRAG_LEVEL_NONE;
+	XnStreamFragLevel streamFragLevel = XN_LINK_STREAM_FRAG_LEVEL_NONE;
 	if (nStreamID > XN_LINK_MAX_STREAMS)
 	{
 		xnLogError(XN_MASK_LINK, "Cannot initialize stream of id %u - max stream id is %u",
@@ -147,8 +147,8 @@ XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlE
 		return XN_STATUS_LINK_BAD_STREAM_ID;
 	}
 
-    nRetVal = pLinkControlEndpoint->GetStreamFragLevel(nStreamID, streamFragLevel);
-    XN_IS_STATUS_OK_LOG_ERROR("Get stream frag level", nRetVal);
+	nRetVal = pLinkControlEndpoint->GetStreamFragLevel(nStreamID, streamFragLevel);
+	XN_IS_STATUS_OK_LOG_ERROR("Get stream frag level", nRetVal);
 
 	if (m_streamInfos[nStreamID].pInputStream == NULL)
 	{
@@ -168,7 +168,7 @@ XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlE
 				return XN_STATUS_ERROR;
 		}
 	}
-	
+
 	XN_VALIDATE_ALLOC_PTR(m_streamInfos[nStreamID].pInputStream);
 
 	StreamInfo& streamInfo = m_streamInfos[nStreamID];
@@ -176,7 +176,7 @@ XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlE
 	{
 		XN_DELETE(m_streamInfos[nStreamID].pInputStream);
 		m_streamInfos[nStreamID].pInputStream = NULL;
-		xnLogError(XN_MASK_LINK, 
+		xnLogError(XN_MASK_LINK,
 			"Stream %u was already initialized with stream type %u, but now tried to initialize it with stream type %u :(",
 			nStreamID, streamInfo.streamFragLevel, streamFragLevel);
 		/*Streams may only be re-initialized with the same stream type. This means a frame stream must always
@@ -205,7 +205,7 @@ XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlE
 
 void LinkInputStreamsMgr::ShutdownInputStream(XnUInt16 nStreamID)
 {
-    LinkInputStream* pLinkInputStream = GetInputStream(nStreamID);
+	LinkInputStream* pLinkInputStream = GetInputStream(nStreamID);
 	if (pLinkInputStream != NULL)
 	{
 		pLinkInputStream->Shutdown();
@@ -231,7 +231,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	XnUInt16 nPacketID = pLinkPacketHeader->GetPacketID();
 	if (nPacketID != pStreamInfo->nNextPacketID)
 	{
-		xnLogWarning(XN_MASK_LINK, "Expected packet id of %u but got %u on stream %u.", 
+		xnLogWarning(XN_MASK_LINK, "Expected packet id of %u but got %u on stream %u.",
 			pStreamInfo->nNextPacketID, nPacketID, nStreamID);
 		pStreamInfo->packetLoss = TRUE;
 	}
@@ -246,7 +246,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	{
 		//The transition between the previous fragmentation flags and the current fragmentation flags is not allowed
 		xnLogWarning(XN_MASK_LINK, "Packet %u in stream %u has fragmentation flags of %s, but previous packet in this stream was %s",
-			nPacketID, nStreamID, 
+			nPacketID, nStreamID,
 			xnFragmentationFlagsToStr(fragmentation),
 			xnFragmentationFlagsToStr(pStreamInfo->prevFragmentation));
 		pStreamInfo->packetLoss = TRUE;
@@ -258,7 +258,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	{
 		//Set message type for new frame
 		pStreamInfo->nMsgType = nMsgType;
-	} 
+	}
 	else
 	{
 		//Validate that message type is consistent with first packet in frame.
@@ -283,7 +283,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	XnStatus nRetVal = pStreamInfo->pInputStream->HandlePacket(*pLinkPacketHeader, pPacketData, pStreamInfo->packetLoss);
 	if (nRetVal != XN_STATUS_OK)
 	{
-		xnLogWarning(XN_MASK_LINK, "Failed to handle packet of %u bytes in stream %u: %s", 
+		xnLogWarning(XN_MASK_LINK, "Failed to handle packet of %u bytes in stream %u: %s",
 			pLinkPacketHeader->GetDataSize(), nStreamID, xnGetStatusString(nRetVal));
 		return;
 	}

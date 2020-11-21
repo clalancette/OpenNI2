@@ -45,7 +45,7 @@ From YUV to RGB:
 R =     Y + 1.13983 V
 G =     Y - 0.39466 U - 0.58060 V
 B =     Y + 2.03211 U
-*/ 
+*/
 XnStatus LinkYuvToRgb::Yuv422ToRgb888(const XnUInt8* pSrc, XnSizeT srcSize, XnUInt8* pDst, XnSizeT& dstSize)
 {
 	if (dstSize < srcSize * RGB_888_BYTES_PER_PIXEL / YUV_422_BYTES_PER_PIXEL)

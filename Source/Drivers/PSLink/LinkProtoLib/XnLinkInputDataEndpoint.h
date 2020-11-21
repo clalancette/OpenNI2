@@ -45,11 +45,11 @@ class LinkInputDataEndpoint : public IDataDestination, public IConnection
 public:
 	LinkInputDataEndpoint();
 	virtual ~LinkInputDataEndpoint();
-	XnStatus Init(XnUInt16 nEndpointID, 
-				  IConnectionFactory* pConnectionFactory,
-				  LinkInputStreamsMgr* pLinkInputStreamsMgr,
-				  ILinkDataEndpointNotifications* pNotifications);
-    XnBool IsInitialized() const;
+	XnStatus Init(XnUInt16 nEndpointID,
+				IConnectionFactory* pConnectionFactory,
+				LinkInputStreamsMgr* pLinkInputStreamsMgr,
+				ILinkDataEndpointNotifications* pNotifications);
+	XnBool IsInitialized() const;
 
 	void Shutdown();
 	XnStatus Connect();
@@ -62,14 +62,14 @@ public:
 	virtual void HandleDisconnection();
 
 private:
-    XnUInt16 m_nEndpointID;
-    LinkInputStreamsMgr* m_pLinkInputStreamsMgr;
-    ILinkDataEndpointNotifications* m_pNotifications;
+	XnUInt16 m_nEndpointID;
+	LinkInputStreamsMgr* m_pLinkInputStreamsMgr;
+	ILinkDataEndpointNotifications* m_pNotifications;
 	IAsyncInputConnection* m_pConnection;
 	IConnectionFactory* m_pConnectionFactory;
 	XnBool m_bInitialized;
 	volatile XnUInt32 m_nConnected;
-    XN_CRITICAL_SECTION_HANDLE m_hCriticalSection;
+	XN_CRITICAL_SECTION_HANDLE m_hCriticalSection;
 	XnDumpFile* m_pDumpFile;
 };
 

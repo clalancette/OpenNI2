@@ -38,11 +38,11 @@ public:
 	//nMaxMsgSize includes all message headers (not link layer headers). nPacketSize is total link layer packet size, including link layer header.
 	virtual XnStatus Init(XnUInt32 nMaxMsgSize, XnUInt16 nPacketSize);
 	virtual void Shutdown();
-	virtual void BeginEncoding(XnUInt16 nMsgType, 
-	                           XnUInt16 nBasePacketID, 
-							   XnUInt16 nStreamID, 
-							   XnLinkFragmentation firstPacketFrag = XN_LINK_FRAG_BEGIN,
-							   XnUInt16 nCID = 0);
+	virtual void BeginEncoding(XnUInt16 nMsgType,
+					XnUInt16 nBasePacketID,
+					XnUInt16 nStreamID,
+					XnLinkFragmentation firstPacketFrag = XN_LINK_FRAG_BEGIN,
+					XnUInt16 nCID = 0);
 
 	virtual void EncodeData(const void* pSourceData, XnUInt32 nSize);
 	virtual void EndEncoding(XnLinkFragmentation lastPacketFrag = XN_LINK_FRAG_END);
@@ -78,6 +78,5 @@ private:
 };
 
 }
-
 
 #endif // XNLINKMSGENCODER_H

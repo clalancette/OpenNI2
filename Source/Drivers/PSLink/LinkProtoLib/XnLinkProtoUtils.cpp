@@ -49,7 +49,6 @@ XnStatus xn::LinkPacketHeader::Validate(XnUInt32 nBytesToRead) const
 			xnOSStrAppend(strData, s, sizeof(strData));
 		}
 		xnLogError(XN_MASK_LINK, "Got bad packet magic. size: %u. Beginning of packet data was: %s", nBytesToRead, strData);
-//		XN_ASSERT(FALSE);
 		return XN_STATUS_LINK_BAD_MAGIC;
 	}
 
@@ -57,7 +56,6 @@ XnStatus xn::LinkPacketHeader::Validate(XnUInt32 nBytesToRead) const
 	if (nBytesToRead < GetSize())
 	{
 		xnLogError(XN_MASK_LINK, "Got partial packet - only %u bytes remaining", nBytesToRead);
-//		XN_ASSERT(FALSE);
 		return XN_STATUS_LINK_PARTIAL_PACKET;
 	}
 
@@ -228,7 +226,7 @@ XnUInt32 xnLinkGestureNameToType(const XnChar* strGesture)
 		return XN_LINK_GESTURE_MOVING_HAND;
 
 	xnLogError(XN_MASK_LINK, "Unknown gesture: %s", strGesture);
-	XN_ASSERT(FALSE); 
+	XN_ASSERT(FALSE);
 	return XN_PREPARE_VAR32_IN_BUFFER(XN_LINK_GESTURE_NONE);
 }
 
@@ -257,7 +255,7 @@ XnUInt32 xnLinkPoseNameToType(const XnChar* strPose)
 		return XN_LINK_POSE_TYPE_PSI;
 
 	xnLogError(XN_MASK_LINK, "Unknown pose: %s", strPose);
-	XN_ASSERT(FALSE); 
+	XN_ASSERT(FALSE);
 	return XN_LINK_GESTURE_NONE;
 }
 
@@ -330,8 +328,8 @@ XnStatus xnLinkGetStreamDumpName(XnUInt16 nStreamID, XnChar* strDumpName, XnUInt
 
 XnStatus xnLinkGetEPDumpName(XnUInt16 nEPID, XnChar* strDumpName, XnUInt32 nDumpNameSize)
 {
-    XnUInt32 nCharsWritten = 0;
-    return xnOSStrFormat(strDumpName, nDumpNameSize, &nCharsWritten, "EP.%05u.In", nEPID);
+	XnUInt32 nCharsWritten = 0;
+	return xnOSStrFormat(strDumpName, nDumpNameSize, &nCharsWritten, "EP.%05u.In", nEPID);
 }
 
 XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pLinkIDSet, XnUInt32 nSize)
@@ -473,10 +471,10 @@ XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<XnUInt16>& frameSyncStreamIDs
 XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, XnUInt32& nBufferSize, const std::vector<XnUInt16>& frameSyncStreamIDs)
 {
 	XnLinkFrameSyncStreamIDs* pLinkFrameSyncStreamIDs = reinterpret_cast<XnLinkFrameSyncStreamIDs*>(pFrameSyncStreamIDs);
-	
+
 	if (nBufferSize < (sizeof(pLinkFrameSyncStreamIDs->m_anStreamIDs) + (sizeof(pLinkFrameSyncStreamIDs->m_anStreamIDs[0]) * frameSyncStreamIDs.size())))
 	{
-		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;		
+		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 
 	pLinkFrameSyncStreamIDs->m_nNumStreamIDs = XN_PREPARE_VAR16_IN_BUFFER(XnUInt16(frameSyncStreamIDs.size()));
@@ -485,7 +483,7 @@ XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, XnUInt32& nBu
 	{
 		pLinkFrameSyncStreamIDs->m_anStreamIDs[i] = XN_PREPARE_VAR16_IN_BUFFER(frameSyncStreamIDs[i]);
 	}
-	
+
 	return XN_STATUS_OK;
 }
 
@@ -495,15 +493,15 @@ XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& compo
 
 	if (nBufferSize < sizeof(pLinkList->m_nCount))
 	{
-		xnLogError(XN_MASK_LINK, "Components versions list size should be at least %u bytes, but got %u bytes.", 
+		xnLogError(XN_MASK_LINK, "Components versions list size should be at least %u bytes, but got %u bytes.",
 			sizeof(pLinkList->m_nCount), nBufferSize);
 		return XN_STATUS_LINK_BAD_PROP_SIZE;
 	}
 
 	XnUInt32 nCount = XN_PREPARE_VAR32_IN_BUFFER(pLinkList->m_nCount);
-	
-	XnUInt32 nExpectedSize = 
-		sizeof(pLinkList->m_nCount) + 
+
+	XnUInt32 nExpectedSize =
+		sizeof(pLinkList->m_nCount) +
 		(sizeof(pLinkList->m_components[0]) * nCount);
 
 	if (nBufferSize != nExpectedSize)
@@ -525,7 +523,7 @@ XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& compo
 	return XN_STATUS_OK;
 }
 
-/*static struct 
+/*static struct
 {
 	const XnChar* m_strCapabilityName;
 	XnUInt8 m_nInterfaceID;
@@ -590,7 +588,7 @@ const XnChar* xnLinkInterfaceIDToNICapability(XnUInt8 nInterfaceID)
 
 const XnChar* xnLinkPropTypeToStr(XnLinkPropType propType)
 {
-	static const XnChar* PROP_TYPE_STRS[] = 
+	static const XnChar* PROP_TYPE_STRS[] =
 	{
 		"None",		//0x0000
 		"Int",		//0x0001
@@ -642,7 +640,7 @@ XnLinkStreamType xnLinkNINodeTypeToStreamType(XnProductionNodeType nodeType)
 		case XN_NODE_TYPE_USER:
 			return XN_LINK_STREAM_TYPE_USER;
 		case XN_NODE_TYPE_HANDS:
-			return XN_LINK_STREAM_TYPE_HANDS;		
+			return XN_LINK_STREAM_TYPE_HANDS;
 		case XN_NODE_TYPE_GESTURE:
 			return XN_LINK_STREAM_TYPE_GESTURES;
 		case XN_NODE_TYPE_INVALID:
@@ -654,9 +652,9 @@ XnLinkStreamType xnLinkNINodeTypeToStreamType(XnProductionNodeType nodeType)
 void xnLinkParseDetailedVersion(XnLinkDetailedVersion& version, const XnLinkDetailedVersion& linkVersion)
 {
 	version.m_nMajor = linkVersion.m_nMajor;
-    version.m_nMinor = linkVersion.m_nMinor;
-    version.m_nMaintenance = XN_PREPARE_VAR16_IN_BUFFER(linkVersion.m_nMaintenance);
-    version.m_nBuild = XN_PREPARE_VAR32_IN_BUFFER(linkVersion.m_nBuild);
+	version.m_nMinor = linkVersion.m_nMinor;
+	version.m_nMaintenance = XN_PREPARE_VAR16_IN_BUFFER(linkVersion.m_nMaintenance);
+	version.m_nBuild = XN_PREPARE_VAR32_IN_BUFFER(linkVersion.m_nBuild);
 	xnOSMemCopy(version.m_strModifier, linkVersion.m_strModifier, sizeof(version.m_strModifier));
 }
 
@@ -690,69 +688,69 @@ void xnLinkEncodeVideoMode(XnLinkVideoMode& linkVideoMode, const XnFwStreamVideo
 	linkVideoMode.m_nCompression = (XnUInt8)videoMode.m_nCompression;
 }
 
-XnStatus xnLinkParseSupportedVideoModes(std::vector<XnFwStreamVideoMode>& aModes, 
-                                                const XnLinkSupportedVideoModes* pLinkSupportedModes, 
-                                                XnUInt32 nBufferSize)
+XnStatus xnLinkParseSupportedVideoModes(std::vector<XnFwStreamVideoMode>& aModes,
+												const XnLinkSupportedVideoModes* pLinkSupportedModes,
+												XnUInt32 nBufferSize)
 {
-    XnUInt32 nModes = 0;
-    XnUInt32 nExpectedSize = 0;
+	XnUInt32 nModes = 0;
+	XnUInt32 nExpectedSize = 0;
 
-    XN_VALIDATE_INPUT_PTR(pLinkSupportedModes);
+	XN_VALIDATE_INPUT_PTR(pLinkSupportedModes);
 
-    if (nBufferSize < sizeof(pLinkSupportedModes->m_nNumModes))
-    {
-        xnLogError(XN_MASK_LINK, "Size of link video modes was only %u bytes, must be at least %u.", nBufferSize, 
-            sizeof(pLinkSupportedModes->m_nNumModes));
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_PROP_SIZE;
-    }
+	if (nBufferSize < sizeof(pLinkSupportedModes->m_nNumModes))
+	{
+		xnLogError(XN_MASK_LINK, "Size of link video modes was only %u bytes, must be at least %u.", nBufferSize,
+			sizeof(pLinkSupportedModes->m_nNumModes));
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_PROP_SIZE;
+	}
 
-    nModes = XN_PREPARE_VAR32_IN_BUFFER(pLinkSupportedModes->m_nNumModes);
-    nExpectedSize = (sizeof(pLinkSupportedModes->m_nNumModes) + 
-        (sizeof(pLinkSupportedModes->m_supportedVideoModes[0]) * nModes));
-    if (nBufferSize != nExpectedSize)
-    {
-        xnLogError(XN_MASK_LINK, "Got bad size of 'supported video modes' property: %u instead of %u", nBufferSize, nExpectedSize);
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
-    }
+	nModes = XN_PREPARE_VAR32_IN_BUFFER(pLinkSupportedModes->m_nNumModes);
+	nExpectedSize = (sizeof(pLinkSupportedModes->m_nNumModes) +
+		(sizeof(pLinkSupportedModes->m_supportedVideoModes[0]) * nModes));
+	if (nBufferSize != nExpectedSize)
+	{
+		xnLogError(XN_MASK_LINK, "Got bad size of 'supported video modes' property: %u instead of %u", nBufferSize, nExpectedSize);
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
+	}
 
-    aModes.resize(nModes);
-    for (XnUInt32 i = 0; i < nModes; i++)
-    {
-        xnLinkParseVideoMode(aModes[i], pLinkSupportedModes->m_supportedVideoModes[i]);
-    }
+	aModes.resize(nModes);
+	for (XnUInt32 i = 0; i < nModes; i++)
+	{
+		xnLinkParseVideoMode(aModes[i], pLinkSupportedModes->m_supportedVideoModes[i]);
+	}
 
-    return XN_STATUS_OK;
+	return XN_STATUS_OK;
 }
 
 XnStatus xnLinkParseBitSet(xnl::BitSet& bitSet, const XnLinkBitSet* pLinkBitSet, XnUInt32 nBufferSize)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
-    XnUInt32 nExpectedSize = 0;
-    XnUInt32 nBitSetSize = 0;
-    XN_VALIDATE_INPUT_PTR(pLinkBitSet);
+	XnStatus nRetVal = XN_STATUS_OK;
+	XnUInt32 nExpectedSize = 0;
+	XnUInt32 nBitSetSize = 0;
+	XN_VALIDATE_INPUT_PTR(pLinkBitSet);
 
-    if (nBufferSize < sizeof(pLinkBitSet->m_nSize))
-    {
-        xnLogError(XN_MASK_LINK, "Size of link bit set was only %u bytes, must be at least %u", nBufferSize,
-            sizeof(pLinkBitSet->m_nSize));
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_PROP_SIZE;        
-    }
-    
-    nBitSetSize = XN_PREPARE_VAR32_IN_BUFFER(pLinkBitSet->m_nSize);
-    nExpectedSize = sizeof(pLinkBitSet->m_aData[0]) * nBitSetSize;
-    if (nExpectedSize != nBitSetSize)
-    {
-        xnLogError(XN_MASK_LINK, "Expected size of bitset to be %u bytes, but got %u", nExpectedSize, nBitSetSize);
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_PROP_SIZE;
-    }
+	if (nBufferSize < sizeof(pLinkBitSet->m_nSize))
+	{
+		xnLogError(XN_MASK_LINK, "Size of link bit set was only %u bytes, must be at least %u", nBufferSize,
+			sizeof(pLinkBitSet->m_nSize));
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_PROP_SIZE;
+	}
 
-    nRetVal = bitSet.SetData(pLinkBitSet->m_aData, nBitSetSize);
-    XN_IS_STATUS_OK_LOG_ERROR("Set data bytes in bit set", nRetVal);
-    return XN_STATUS_OK;
+	nBitSetSize = XN_PREPARE_VAR32_IN_BUFFER(pLinkBitSet->m_nSize);
+	nExpectedSize = sizeof(pLinkBitSet->m_aData[0]) * nBitSetSize;
+	if (nExpectedSize != nBitSetSize)
+	{
+		xnLogError(XN_MASK_LINK, "Expected size of bitset to be %u bytes, but got %u", nExpectedSize, nBitSetSize);
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_PROP_SIZE;
+	}
+
+	nRetVal = bitSet.SetData(pLinkBitSet->m_aData, nBitSetSize);
+	XN_IS_STATUS_OK_LOG_ERROR("Set data bytes in bit set", nRetVal);
+	return XN_STATUS_OK;
 }
 
 XnStatus xnLinkEncodeBitSet(XnLinkBitSet& linkBitSet, XnUInt32& nBufferSize, const xnl::BitSet& bitSet)
@@ -765,136 +763,136 @@ XnStatus xnLinkEncodeBitSet(XnLinkBitSet& linkBitSet, XnUInt32& nBufferSize, con
 	if (nBufferSize < nRequiredBufferSize)
 	{
 		XN_ASSERT(FALSE);
-		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;        
+		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 
 	linkBitSet.m_nSize = XN_PREPARE_VAR32_IN_BUFFER(nDataSize);
 	xnOSMemCopy(linkBitSet.m_aData, bitSet.GetData(), nDataSize);
 	nBufferSize = nRequiredBufferSize;
-	
+
 	return (XN_STATUS_OK);
 }
 
 void xnLinkParseShiftToDepthConfig(XnShiftToDepthConfig& shiftToDepthConfig, const XnLinkShiftToDepthConfig& linkShiftToDepthConfig)
 {
-    shiftToDepthConfig.nZeroPlaneDistance = XN_PREPARE_VAR16_IN_BUFFER(linkShiftToDepthConfig.nZeroPlaneDistance);
+	shiftToDepthConfig.nZeroPlaneDistance = XN_PREPARE_VAR16_IN_BUFFER(linkShiftToDepthConfig.nZeroPlaneDistance);
 	shiftToDepthConfig.fZeroPlanePixelSize = XN_PREPARE_VAR_FLOAT_IN_BUFFER(linkShiftToDepthConfig.fZeroPlanePixelSize);
-    shiftToDepthConfig.fEmitterDCmosDistance = XN_PREPARE_VAR_FLOAT_IN_BUFFER(linkShiftToDepthConfig.fEmitterDCmosDistance);
-    shiftToDepthConfig.nDeviceMaxShiftValue = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nDeviceMaxShiftValue);
-    shiftToDepthConfig.nDeviceMaxDepthValue = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nDeviceMaxDepthValue);
-    shiftToDepthConfig.nConstShift = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nConstShift);
-    shiftToDepthConfig.nPixelSizeFactor = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nPixelSizeFactor);
-    shiftToDepthConfig.nParamCoeff = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nParamCoeff);
-    shiftToDepthConfig.nShiftScale = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nShiftScale);
-    shiftToDepthConfig.nDepthMinCutOff = XN_PREPARE_VAR16_IN_BUFFER(linkShiftToDepthConfig.nDepthMinCutOff);
-    shiftToDepthConfig.nDepthMaxCutOff = XN_PREPARE_VAR16_IN_BUFFER(linkShiftToDepthConfig.nDepthMaxCutOff);
+	shiftToDepthConfig.fEmitterDCmosDistance = XN_PREPARE_VAR_FLOAT_IN_BUFFER(linkShiftToDepthConfig.fEmitterDCmosDistance);
+	shiftToDepthConfig.nDeviceMaxShiftValue = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nDeviceMaxShiftValue);
+	shiftToDepthConfig.nDeviceMaxDepthValue = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nDeviceMaxDepthValue);
+	shiftToDepthConfig.nConstShift = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nConstShift);
+	shiftToDepthConfig.nPixelSizeFactor = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nPixelSizeFactor);
+	shiftToDepthConfig.nParamCoeff = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nParamCoeff);
+	shiftToDepthConfig.nShiftScale = XN_PREPARE_VAR32_IN_BUFFER(linkShiftToDepthConfig.nShiftScale);
+	shiftToDepthConfig.nDepthMinCutOff = XN_PREPARE_VAR16_IN_BUFFER(linkShiftToDepthConfig.nDepthMinCutOff);
+	shiftToDepthConfig.nDepthMaxCutOff = XN_PREPARE_VAR16_IN_BUFFER(linkShiftToDepthConfig.nDepthMaxCutOff);
 	shiftToDepthConfig.dDepthScale = 1.0; // not controlled by FW
 }
 
 void xnLinkParseCropping(OniCropping& cropping, const XnLinkCropping& linkCropping)
 {
-    cropping.enabled = linkCropping.m_bEnabled;
+	cropping.enabled = linkCropping.m_bEnabled;
 	cropping.originX = XN_PREPARE_VAR16_IN_BUFFER(linkCropping.m_nXOffset);
 	cropping.originY = XN_PREPARE_VAR16_IN_BUFFER(linkCropping.m_nYOffset);
-    cropping.width   = XN_PREPARE_VAR16_IN_BUFFER(linkCropping.m_nXSize);
-    cropping.height  = XN_PREPARE_VAR16_IN_BUFFER(linkCropping.m_nYSize);
+	cropping.width   = XN_PREPARE_VAR16_IN_BUFFER(linkCropping.m_nXSize);
+	cropping.height  = XN_PREPARE_VAR16_IN_BUFFER(linkCropping.m_nYSize);
 }
 
 void xnLinkEncodeCropping(XnLinkCropping& linkCropping, const OniCropping& cropping)
 {
-    linkCropping.m_bEnabled = XnUInt8(cropping.enabled);
-    linkCropping.m_nReserved1 = 0;
-    linkCropping.m_nReserved2 = 0;
-    linkCropping.m_nReserved3 = 0;
+	linkCropping.m_bEnabled = XnUInt8(cropping.enabled);
+	linkCropping.m_nReserved1 = 0;
+	linkCropping.m_nReserved2 = 0;
+	linkCropping.m_nReserved3 = 0;
 	linkCropping.m_nXOffset   = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.originX);
 	linkCropping.m_nYOffset   = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.originY);
-    linkCropping.m_nXSize     = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.width);
-    linkCropping.m_nYSize     = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.height);
+	linkCropping.m_nXSize	 = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.width);
+	linkCropping.m_nYSize	 = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.height);
 }
 
 const XnChar* xnLinkGetPropName(XnLinkPropID propID)
 {
-    /* To build this switch, paste the contents of the XnLinkPropID enum here, and then use 
-       visual studio's search & replace with regex, and replace this:
-            {XN_LINK_PROP_ID_{:i}}:b*=.*
-       Into this:
-            case \1:\n\t\t\t\treturn "\2";
-       
-       Or just code it by hand if it relaxes you.
-    */
+	/* To build this switch, paste the contents of the XnLinkPropID enum here, and then use
+	   visual studio's search & replace with regex, and replace this:
+			{XN_LINK_PROP_ID_{:i}}:b*=.*
+	   Into this:
+			case \1:\n\t\t\t\treturn "\2";
 
-    switch (propID)
-    {
-        case XN_LINK_PROP_ID_NONE:
-            return "NONE";
-        case XN_LINK_PROP_ID_CONTROL_MAX_PACKET_SIZE:
-            return "CONTROL_MAX_PACKET_SIZE";
-        case XN_LINK_PROP_ID_FW_VERSION:
-            return "FW_VERSION";
-        case XN_LINK_PROP_ID_PROTOCOL_VERSION:
+	   Or just code it by hand if it relaxes you.
+	*/
+
+	switch (propID)
+	{
+		case XN_LINK_PROP_ID_NONE:
+			return "NONE";
+		case XN_LINK_PROP_ID_CONTROL_MAX_PACKET_SIZE:
+			return "CONTROL_MAX_PACKET_SIZE";
+		case XN_LINK_PROP_ID_FW_VERSION:
+			return "FW_VERSION";
+		case XN_LINK_PROP_ID_PROTOCOL_VERSION:
 			return "PROTOCOL_VERSION";
-        case XN_LINK_PROP_ID_SUPPORTED_MSG_TYPES:
-    		return "SUPPORTED_MSG_TYPES";
-        case XN_LINK_PROP_ID_SUPPORTED_PROPS:
+		case XN_LINK_PROP_ID_SUPPORTED_MSG_TYPES:
+			return "SUPPORTED_MSG_TYPES";
+		case XN_LINK_PROP_ID_SUPPORTED_PROPS:
 			return "SUPPORTED_PROPS";
-        case XN_LINK_PROP_ID_HW_VERSION:
+		case XN_LINK_PROP_ID_HW_VERSION:
 			return "HW_VERSION";
-        case XN_LINK_PROP_ID_SERIAL_NUMBER:
+		case XN_LINK_PROP_ID_SERIAL_NUMBER:
 			return "SERIAL_NUMBER";
 		case XN_LINK_PROP_ID_SUPPORTED_BIST_TESTS:
 			return "SUPPORTED_BIST_TESTS";
-        case XN_LINK_PROP_ID_SUPPORTED_VIDEO_MODES:
+		case XN_LINK_PROP_ID_SUPPORTED_VIDEO_MODES:
 			return "SUPPORTED_VIDEO_MODES";
-        case XN_LINK_PROP_ID_VIDEO_MODE:
+		case XN_LINK_PROP_ID_VIDEO_MODE:
 			return "VIDEO_MODE";
-        case XN_LINK_PROP_ID_STREAM_SUPPORTED_INTERFACES:
+		case XN_LINK_PROP_ID_STREAM_SUPPORTED_INTERFACES:
 			return "STREAM_SUPPORTED_INTERFACES";
-        case XN_LINK_PROP_ID_STREAM_FRAG_LEVEL:
+		case XN_LINK_PROP_ID_STREAM_FRAG_LEVEL:
 			return "STREAM_FRAG_LEVEL";
-        case XN_LINK_PROP_ID_HAND_SMOOTHING:
+		case XN_LINK_PROP_ID_HAND_SMOOTHING:
 			return "HAND_SMOOTHING";
-        case XN_LINK_PROP_ID_SUPPORTED_SKELETON_JOINTS:
+		case XN_LINK_PROP_ID_SUPPORTED_SKELETON_JOINTS:
 			return "SUPPORTED_SKELETON_JOINTS";
-        case XN_LINK_PROP_ID_SUPPORTED_SKELETON_PROFILES:
+		case XN_LINK_PROP_ID_SUPPORTED_SKELETON_PROFILES:
 			return "SUPPORTED_SKELETON_PROFILES";
-        case XN_LINK_PROP_ID_NEEDED_CALIBRATION_POSE:
+		case XN_LINK_PROP_ID_NEEDED_CALIBRATION_POSE:
 			return "NEEDED_CALIBRATION_POSE";
-        case XN_LINK_PROP_ID_ACTIVE_JOINTS:
+		case XN_LINK_PROP_ID_ACTIVE_JOINTS:
 			return "ACTIVE_JOINTS";
-        case XN_LINK_PROP_ID_SKELETON_SMOOTHING:
+		case XN_LINK_PROP_ID_SKELETON_SMOOTHING:
 			return "SKELETON_SMOOTHING";
-        case XN_LINK_PROP_ID_SUPPORTED_POSES:
+		case XN_LINK_PROP_ID_SUPPORTED_POSES:
 			return "SUPPORTED_POSES";
-        case XN_LINK_PROP_ID_MIRROR:
+		case XN_LINK_PROP_ID_MIRROR:
 			return "MIRROR";
-        case XN_LINK_PROP_ID_CROPPING:
+		case XN_LINK_PROP_ID_CROPPING:
 			return "CROPPING";
-        case XN_LINK_PROP_ID_INVALID:
+		case XN_LINK_PROP_ID_INVALID:
 			return "INVALID";
-        default:
-            return "UNKNOWN";
-    }
+		default:
+			return "UNKNOWN";
+	}
 }
 
 
 
 XnStatus xnLinkValidateGeneralProp(XnLinkPropType propType, XnUInt32 nValueSize, XnUInt32 nMinSize)
 {
-    if (propType != XN_LINK_PROP_TYPE_GENERAL)
-    {
-        xnLogError(XN_MASK_LINK, "Property type should be %s, but got type %s", xnLinkPropTypeToStr(XN_LINK_PROP_TYPE_GENERAL), xnLinkPropTypeToStr(propType));
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_PROP_TYPE;
-    }
+	if (propType != XN_LINK_PROP_TYPE_GENERAL)
+	{
+		xnLogError(XN_MASK_LINK, "Property type should be %s, but got type %s", xnLinkPropTypeToStr(XN_LINK_PROP_TYPE_GENERAL), xnLinkPropTypeToStr(propType));
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_PROP_TYPE;
+	}
 
-    if (nValueSize < nMinSize)
-    {
-        xnLogError(XN_MASK_LINK, "Property value size should be at least %u bytes, but got %u bytes.", 
-            nMinSize, nValueSize);
-        return XN_STATUS_LINK_BAD_PROP_SIZE;
-    }
+	if (nValueSize < nMinSize)
+	{
+		xnLogError(XN_MASK_LINK, "Property value size should be at least %u bytes, but got %u bytes.",
+			nMinSize, nValueSize);
+		return XN_STATUS_LINK_BAD_PROP_SIZE;
+	}
 
-    return XN_STATUS_OK;
+	return XN_STATUS_OK;
 }
 
 XnStatus xnLinkParseLeanVersionProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, XnLeanVersion& leanVersion)
@@ -907,29 +905,29 @@ XnStatus xnLinkParseLeanVersionProp(XnLinkPropType propType, const void* pValue,
 
 XnStatus xnLinkParseIDSetProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<xnl::BitSet>& idSet)
 {
-    XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnLinkIDSetHeader));
-    XN_IS_STATUS_OK_LOG_ERROR("Validate id set property", nRetVal);
-    nRetVal = xnLinkParseIDSet(idSet, pValue, nValueSize);
-    XN_IS_STATUS_OK_LOG_ERROR("Parse id set", nRetVal);
-    return XN_STATUS_OK;
+	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnLinkIDSetHeader));
+	XN_IS_STATUS_OK_LOG_ERROR("Validate id set property", nRetVal);
+	nRetVal = xnLinkParseIDSet(idSet, pValue, nValueSize);
+	XN_IS_STATUS_OK_LOG_ERROR("Parse id set", nRetVal);
+	return XN_STATUS_OK;
 }
 
 XnStatus xnLinkParseBitSetProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, xnl::BitSet& bitSet)
 {
-    XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnUInt32)); //min size of of m_nSize
-    XN_IS_STATUS_OK_LOG_ERROR("Validate id set property", nRetVal);
-    nRetVal = xnLinkParseBitSet(bitSet, reinterpret_cast<const XnLinkBitSet*>(pValue), nValueSize);
-    XN_IS_STATUS_OK_LOG_ERROR("Parse bit set", nRetVal);
-    return XN_STATUS_OK;
+	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnUInt32)); //min size of of m_nSize
+	XN_IS_STATUS_OK_LOG_ERROR("Validate id set property", nRetVal);
+	nRetVal = xnLinkParseBitSet(bitSet, reinterpret_cast<const XnLinkBitSet*>(pValue), nValueSize);
+	XN_IS_STATUS_OK_LOG_ERROR("Parse bit set", nRetVal);
+	return XN_STATUS_OK;
 }
 
 XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<XnUInt16>& streamIDs)
 {
-    XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnUInt16)); //Min size is of m_nNumStreamIDs
-    XN_IS_STATUS_OK_LOG_ERROR("Validate frame sync stream IDs property", nRetVal);
-    nRetVal = xnLinkParseFrameSyncStreamIDs(streamIDs, pValue, nValueSize);
-    XN_IS_STATUS_OK_LOG_ERROR("Parse frame sync stream IDs", nRetVal);
-    return XN_STATUS_OK;
+	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnUInt16)); //Min size is of m_nNumStreamIDs
+	XN_IS_STATUS_OK_LOG_ERROR("Validate frame sync stream IDs property", nRetVal);
+	nRetVal = xnLinkParseFrameSyncStreamIDs(streamIDs, pValue, nValueSize);
+	XN_IS_STATUS_OK_LOG_ERROR("Parse frame sync stream IDs", nRetVal);
+	return XN_STATUS_OK;
 }
 
 XnStatus xnLinkParseComponentVersionsListProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<XnComponentVersion>& componentVersions)
@@ -944,39 +942,39 @@ XnStatus xnLinkParseComponentVersionsListProp(XnLinkPropType propType, const voi
 
 XnUInt32 xnLinkGetPixelSizeByStreamType(XnLinkStreamType streamType)
 {
-    switch (streamType)
-    {
-    case XN_LINK_STREAM_TYPE_SHIFTS:
-        return sizeof(OniDepthPixel);
-    case XN_LINK_STREAM_TYPE_IR:
-        return sizeof(OniGrayscale16Pixel);
-    case XN_LINK_STREAM_TYPE_COLOR:
-        return sizeof(OniYUV422DoublePixel)/2; //TODO: different pixel formats
+	switch (streamType)
+	{
+	case XN_LINK_STREAM_TYPE_SHIFTS:
+		return sizeof(OniDepthPixel);
+	case XN_LINK_STREAM_TYPE_IR:
+		return sizeof(OniGrayscale16Pixel);
+	case XN_LINK_STREAM_TYPE_COLOR:
+		return sizeof(OniYUV422DoublePixel)/2; //TODO: different pixel formats
 	case XN_LINK_STREAM_TYPE_DY:
 		return sizeof(XnUInt16);
-    default:
-        xnLogError(XN_MASK_LINK, "Bad stream type: %u", streamType);
-        XN_ASSERT(FALSE);
-        return 0;
-    }
+	default:
+		xnLogError(XN_MASK_LINK, "Bad stream type: %u", streamType);
+		XN_ASSERT(FALSE);
+		return 0;
+	}
 }
 XnStatus xnLinkReadDebugData(XnCommandDebugData& commandDebugData, XnLinkDebugDataResponse* pDebugDataResponse)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
+	XnStatus nRetVal = XN_STATUS_OK;
 
-    if(commandDebugData.dataSize < pDebugDataResponse->m_header.m_nValueSize)
-    {
-        xnLogError(XN_MASK_LINK, "Size of retrieved data was larger than requested: %u bytes, must be at least %u.", pDebugDataResponse->m_header.m_nValueSize, 
-            commandDebugData.dataSize);
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_PROP_SIZE;
-    }
-    commandDebugData.dataSize = pDebugDataResponse->m_header.m_nValueSize; //if the sized received is smaller than expected
-    for(int i = 0; i < commandDebugData.dataSize; i++)
-    {
-        commandDebugData.data[i] = pDebugDataResponse->m_data[i];
-    }
-    return nRetVal;
+	if(commandDebugData.dataSize < pDebugDataResponse->m_header.m_nValueSize)
+	{
+		xnLogError(XN_MASK_LINK, "Size of retrieved data was larger than requested: %u bytes, must be at least %u.", pDebugDataResponse->m_header.m_nValueSize,
+			commandDebugData.dataSize);
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_PROP_SIZE;
+	}
+	commandDebugData.dataSize = pDebugDataResponse->m_header.m_nValueSize; //if the sized received is smaller than expected
+	for(int i = 0; i < commandDebugData.dataSize; i++)
+	{
+		commandDebugData.data[i] = pDebugDataResponse->m_data[i];
+	}
+	return nRetVal;
 }
 
 XnStatus xnLinkParseSupportedI2CDevices(const XnLinkSupportedI2CDevices* pDevicesList, XnUInt32 nBufferSize, std::vector<XnLinkI2CDevice>& supportedDevices)
@@ -989,14 +987,14 @@ XnStatus xnLinkParseSupportedI2CDevices(const XnLinkSupportedI2CDevices* pDevice
 
 	if (nBufferSize < sizeof(pDevicesList->m_nCount))
 	{
-		xnLogError(XN_MASK_LINK, "Size of link supported devices list was only %u bytes, must be at least %u.", nBufferSize, 
+		xnLogError(XN_MASK_LINK, "Size of link supported devices list was only %u bytes, must be at least %u.", nBufferSize,
 			sizeof(pDevicesList->m_nCount));
 		XN_ASSERT(FALSE);
 		return XN_STATUS_LINK_BAD_PROP_SIZE;
 	}
 
 	nDevices = XN_PREPARE_VAR32_IN_BUFFER(pDevicesList->m_nCount);
-	nExpectedSize = (sizeof(pDevicesList->m_nCount) + 
+	nExpectedSize = (sizeof(pDevicesList->m_nCount) +
 		(sizeof(pDevicesList->m_aI2CDevices[0]) * nDevices));
 	if (nBufferSize != nExpectedSize)
 	{
@@ -1029,14 +1027,14 @@ XnStatus xnLinkParseSupportedLogFiles(const XnLinkSupportedLogFiles* pFilesList,
 
 	if (nBufferSize < sizeof(pFilesList->m_nCount))
 	{
-		xnLogError(XN_MASK_LINK, "Size of link supported files list was only %u bytes, must be at least %u.", nBufferSize, 
+		xnLogError(XN_MASK_LINK, "Size of link supported files list was only %u bytes, must be at least %u.", nBufferSize,
 			sizeof(pFilesList->m_nCount));
 		XN_ASSERT(FALSE);
 		return XN_STATUS_LINK_BAD_PROP_SIZE;
 	}
 
 	nLogFiles = XN_PREPARE_VAR32_IN_BUFFER(pFilesList->m_nCount);
-	nExpectedSize = (sizeof(pFilesList->m_nCount) + 
+	nExpectedSize = (sizeof(pFilesList->m_nCount) +
 		(sizeof(pFilesList->m_aLogFiles[0]) * nLogFiles));
 	if (nBufferSize != nExpectedSize)
 	{
@@ -1067,14 +1065,14 @@ XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupporte
 
 	if (nBufferSize < sizeof(pSupportedTests->m_nCount))
 	{
-		xnLogError(XN_MASK_LINK, "Size of link supported BIST tests was only %u bytes, must be at least %u.", nBufferSize, 
+		xnLogError(XN_MASK_LINK, "Size of link supported BIST tests was only %u bytes, must be at least %u.", nBufferSize,
 			sizeof(pSupportedTests->m_nCount));
 		XN_ASSERT(FALSE);
 		return XN_STATUS_LINK_BAD_PROP_SIZE;
 	}
 
 	nTests = XN_PREPARE_VAR32_IN_BUFFER(pSupportedTests->m_nCount);
-	nExpectedSize = (sizeof(pSupportedTests->m_nCount) + 
+	nExpectedSize = (sizeof(pSupportedTests->m_nCount) +
 		(sizeof(pSupportedTests->m_aTests[0]) * nTests));
 	if (nBufferSize != nExpectedSize)
 	{
@@ -1097,69 +1095,69 @@ XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupporte
 
 XnStatus xnLinkParseSupportedTempList(const XnLinkTemperatureSensorsList* pSupportedList, XnUInt32 nBufferSize, std::vector<XnTempInfo>& supportedTempList)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
-    XnUInt32 nTemp = 0;
-    XnUInt32 nExpectedSize = 0;
+	XnStatus nRetVal = XN_STATUS_OK;
+	XnUInt32 nTemp = 0;
+	XnUInt32 nExpectedSize = 0;
 
-    XN_VALIDATE_INPUT_PTR(pSupportedList);
+	XN_VALIDATE_INPUT_PTR(pSupportedList);
 
-    if (nBufferSize < sizeof(pSupportedList->m_nCount))
-    {
-        xnLogError(XN_MASK_LINK, "Size of link supported Temperature list was only %u bytes, must be at least %u.", nBufferSize, 
-            sizeof(pSupportedList->m_nCount));
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_PROP_SIZE;
-    }
+	if (nBufferSize < sizeof(pSupportedList->m_nCount))
+	{
+		xnLogError(XN_MASK_LINK, "Size of link supported Temperature list was only %u bytes, must be at least %u.", nBufferSize,
+			sizeof(pSupportedList->m_nCount));
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_PROP_SIZE;
+	}
 
-    nTemp = XN_PREPARE_VAR32_IN_BUFFER(pSupportedList->m_nCount);
-    nExpectedSize = (sizeof(pSupportedList->m_nCount) + 
-        (sizeof(pSupportedList->m_aSensors[0]) * nTemp));
-    if (nBufferSize != nExpectedSize)
-    {
-        xnLogError(XN_MASK_LINK, "Got bad size of 'supported Temperature list' property: %u instead of %u", nBufferSize, nExpectedSize);
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
-    }
+	nTemp = XN_PREPARE_VAR32_IN_BUFFER(pSupportedList->m_nCount);
+	nExpectedSize = (sizeof(pSupportedList->m_nCount) +
+		(sizeof(pSupportedList->m_aSensors[0]) * nTemp));
+	if (nBufferSize != nExpectedSize)
+	{
+		xnLogError(XN_MASK_LINK, "Got bad size of 'supported Temperature list' property: %u instead of %u", nBufferSize, nExpectedSize);
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
+	}
 
-    supportedTempList.resize(nTemp);
+	supportedTempList.resize(nTemp);
 
-    for (XnUInt32 i = 0; i < nTemp; i++)
-    {
-        supportedTempList[i].id = XN_PREPARE_VAR32_IN_BUFFER(pSupportedList->m_aSensors[i].m_nID);
-        nRetVal = xnOSStrCopy(supportedTempList[i].name, (const XnChar*) pSupportedList->m_aSensors[i].m_strName, sizeof(supportedTempList[i].name));
-        XN_IS_STATUS_OK_LOG_ERROR("Copy Temperature list name", nRetVal);
-    }
+	for (XnUInt32 i = 0; i < nTemp; i++)
+	{
+		supportedTempList[i].id = XN_PREPARE_VAR32_IN_BUFFER(pSupportedList->m_aSensors[i].m_nID);
+		nRetVal = xnOSStrCopy(supportedTempList[i].name, (const XnChar*) pSupportedList->m_aSensors[i].m_strName, sizeof(supportedTempList[i].name));
+		XN_IS_STATUS_OK_LOG_ERROR("Copy Temperature list name", nRetVal);
+	}
 
-    return XN_STATUS_OK;
+	return XN_STATUS_OK;
 }
 
 XnStatus xnLinkParseGetTemperature(const XnLinkTemperatureResponse* tempResponse, XnUInt32 nBufferSize, XnCommandTemperatureResponse& tempData)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
-    XnUInt32 nExpectedSize = 0;
+	XnStatus nRetVal = XN_STATUS_OK;
+	XnUInt32 nExpectedSize = 0;
 
-    XN_VALIDATE_INPUT_PTR(tempResponse);
+	XN_VALIDATE_INPUT_PTR(tempResponse);
 
-    if (nBufferSize < sizeof(tempData.temperature))
-    {
-        xnLogError(XN_MASK_LINK, "Size of link Get Temperature was only %u bytes, must be at least %u.", nBufferSize, 
-            sizeof(tempData.temperature));
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_PROP_SIZE;
-    }
+	if (nBufferSize < sizeof(tempData.temperature))
+	{
+		xnLogError(XN_MASK_LINK, "Size of link Get Temperature was only %u bytes, must be at least %u.", nBufferSize,
+			sizeof(tempData.temperature));
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_PROP_SIZE;
+	}
 
-    nExpectedSize = (sizeof(tempResponse));
-    if (nBufferSize != nExpectedSize)
-    {
-        xnLogError(XN_MASK_LINK, "Got bad size of 'Temperature struct' property: %u instead of %u", nBufferSize, nExpectedSize);
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
-    }
-    tempData.id = XN_PREPARE_VAR32_IN_BUFFER(tempResponse->m_nID);
-    tempData.temperature = XN_PREPARE_VAR_FLOAT_IN_BUFFER(tempResponse->value);
-    XN_IS_STATUS_OK_LOG_ERROR("Copy Temperature value", nRetVal);
+	nExpectedSize = (sizeof(tempResponse));
+	if (nBufferSize != nExpectedSize)
+	{
+		xnLogError(XN_MASK_LINK, "Got bad size of 'Temperature struct' property: %u instead of %u", nBufferSize, nExpectedSize);
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
+	}
+	tempData.id = XN_PREPARE_VAR32_IN_BUFFER(tempResponse->m_nID);
+	tempData.temperature = XN_PREPARE_VAR_FLOAT_IN_BUFFER(tempResponse->value);
+	XN_IS_STATUS_OK_LOG_ERROR("Copy Temperature value", nRetVal);
 
-    return XN_STATUS_OK;
+	return XN_STATUS_OK;
 }
 const XnChar* xnLinkPixelFormatToName(XnFwPixelFormat pixelFormat)
 {
@@ -1182,13 +1180,21 @@ const XnChar* xnLinkPixelFormatToName(XnFwPixelFormat pixelFormat)
 XnFwPixelFormat xnLinkPixelFormatFromName(const XnChar* name)
 {
 	if (xnOSStrCmp(name, "Shifts9.3") == 0)
+	{
 		return XN_FW_PIXEL_FORMAT_SHIFTS_9_3;
+	}
 	else if (xnOSStrCmp(name, "Grayscale16") == 0)
+	{
 		return XN_FW_PIXEL_FORMAT_GRAYSCALE16;
+	}
 	else if (xnOSStrCmp(name, "YUV422") == 0)
+	{
 		return XN_FW_PIXEL_FORMAT_YUV422;
+	}
 	else if (xnOSStrCmp(name, "BAYER8") == 0)
+	{
 		return XN_FW_PIXEL_FORMAT_BAYER8;
+	}
 	else
 	{
 		XN_ASSERT(FALSE);
@@ -1225,21 +1231,37 @@ const XnChar* xnLinkCompressionToName(XnFwCompressionType compression)
 XnFwCompressionType xnLinkCompressionFromName(const XnChar* name)
 {
 	if (xnOSStrCmp(name, "None") == 0)
+	{
 		return XN_FW_COMPRESSION_NONE;
+	}
 	else if (xnOSStrCmp(name, "8z") == 0)
+	{
 		return XN_FW_COMPRESSION_8Z;
+	}
 	else if (xnOSStrCmp(name, "16z") == 0)
+	{
 		return XN_FW_COMPRESSION_16Z;
+	}
 	else if (xnOSStrCmp(name, "24z") == 0)
+	{
 		return XN_FW_COMPRESSION_24Z;
+	}
 	else if (xnOSStrCmp(name, "6bit") == 0)
+	{
 		return XN_FW_COMPRESSION_6_BIT_PACKED;
+	}
 	else if (xnOSStrCmp(name, "10bit") == 0)
+	{
 		return XN_FW_COMPRESSION_10_BIT_PACKED;
+	}
 	else if (xnOSStrCmp(name, "11bit") == 0)
+	{
 		return XN_FW_COMPRESSION_11_BIT_PACKED;
+	}
 	else if (xnOSStrCmp(name, "12bit") == 0)
+	{
 		return XN_FW_COMPRESSION_12_BIT_PACKED;
+	}
 	else
 	{
 		XN_ASSERT(FALSE);
@@ -1250,8 +1272,8 @@ XnFwCompressionType xnLinkCompressionFromName(const XnChar* name)
 void xnLinkVideoModeToString(XnFwStreamVideoMode videoMode, XnChar* buffer, XnUInt32 bufferSize)
 {
 	XnUInt32 charsWritten = 0;
-	xnOSStrFormat(buffer, bufferSize, &charsWritten, "%ux%u@%u (%s, %s)", 
-		videoMode.m_nXRes, videoMode.m_nYRes, videoMode.m_nFPS, 
+	xnOSStrFormat(buffer, bufferSize, &charsWritten, "%ux%u@%u (%s, %s)",
+		videoMode.m_nXRes, videoMode.m_nYRes, videoMode.m_nFPS,
 		xnLinkPixelFormatToName(videoMode.m_nPixelFormat),
 		xnLinkCompressionToName(videoMode.m_nCompression));
 }

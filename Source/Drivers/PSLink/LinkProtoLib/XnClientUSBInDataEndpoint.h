@@ -66,7 +66,7 @@ private:
 	XN_USB_EP_HANDLE m_hEndpoint;
 	XN_USB_DEV_HANDLE m_hUSBDevice;
 	XnUInt16 m_nEndpointID;
-	XnUInt16 m_nMaxPacketSize;	
+	XnUInt16 m_nMaxPacketSize;
 	IDataDestination* m_pDataDestination;
 	XnBool m_bConnected;
 

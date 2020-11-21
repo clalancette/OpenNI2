@@ -62,7 +62,7 @@ private:
 			if (nY == nHeight)
 			{
 				// Move to next column start
-				nY = 0;				
+				nY = 0;
 				nX++;
 				nCurrIndex = nX;
 			}
@@ -78,7 +78,7 @@ private:
 
 public:
 
-	// We processing the map up down first, because people are more likely to stand next to each other than on top of each other. 
+	// We processing the map up down first, because people are more likely to stand next to each other than on top of each other.
 	XnStatus MapToSequenceList(const PixelType* pMap, XnUInt32 nHeight, XnUInt32 nWidth, XnUChar* pSeqBuffer, XnUInt32& nSeqSize)
 	{
 		const PixelType NA_PIXEL		= (PixelType)-1;
@@ -86,7 +86,7 @@ public:
 
 		// Current sequence related data
 		XnUInt16		nOffsetCount		= 0;
-		PixelType		sequncePixel		= NA_PIXEL;	
+		PixelType		sequncePixel		= NA_PIXEL;
 
 		// Value related data
 		ValueHeader*	pCurrValueHeader	= NULL;
@@ -99,7 +99,7 @@ public:
 		const PixelType*	pColumn = pMap;
 		for (XnUInt32 x = 0; x < nWidth; x++)
 		{
-			const PixelType* pCurr = pColumn;		
+			const PixelType* pCurr = pColumn;
 
 			for (XnUInt32 y = 0; y < nHeight; y++)
 			{
@@ -120,7 +120,7 @@ public:
 				else if (*pCurr == sequncePixel)
 				{
 					XN_ASSERT(pCurrSeq);
-					pCurrSeq->nSequenceCount++;					
+					pCurrSeq->nSequenceCount++;
 				}
 				// New sequnce start
 				else
@@ -130,9 +130,9 @@ public:
 					{
 						// New value in front of us, add value header
 						nCurrOutputSize += sizeof(ValueHeader);
-						if (nCurrOutputSize > nSeqSize) 
+						if (nCurrOutputSize > nSeqSize)
 							return XN_STATUS_INVALID_BUFFER_SIZE;
-						
+
 						pCurrValueHeader = (ValueHeader*)pCurrOutput;
 						pCurrOutput		+= sizeof(ValueHeader);
 
@@ -143,16 +143,16 @@ public:
 					{
 						pCurrValueHeader->nSequences++;
 					}
-					
-					
+
+
 					// Store new sequence pixel
 					sequncePixel = *pCurr;
 
 					// Add sequence data
 					nCurrOutputSize += sizeof(Sequence);
-					if (nCurrOutputSize > nSeqSize) 
+					if (nCurrOutputSize > nSeqSize)
 						return XN_STATUS_INVALID_BUFFER_SIZE;
-				
+
 					pCurrSeq					= (Sequence*)pCurrOutput;
 					pCurrSeq->nOffset			= nOffsetCount;
 					pCurrSeq->nSequenceCount	= 1;
@@ -165,7 +165,7 @@ public:
 				pCurr += nWidth;
 			}
 			pColumn++;
-		}		
+		}
 
 		nSeqSize = nCurrOutputSize;
 		return XN_STATUS_OK;
@@ -185,8 +185,10 @@ public:
 		while (nCurrProcessed != nSeqSize)
 		{
 			nCurrProcessed += sizeof(ValueHeader);
-			if (nCurrProcessed > nSeqSize) 
+			if (nCurrProcessed > nSeqSize)
+			{
 				return XN_STATUS_INVALID_BUFFER_SIZE;
+			}
 
 			// Get the value header
 			ValueHeader* pCurrValue = (ValueHeader*)pCurr;
@@ -196,18 +198,18 @@ public:
 			for (XnUInt16 nSeq = 0; nSeq < pCurrValue->nSequences; nSeq++ )
 			{
 				nCurrProcessed += sizeof(Sequence);
-				if (nCurrProcessed > nSeqSize) 
+				if (nCurrProcessed > nSeqSize)
 					return XN_STATUS_INVALID_BUFFER_SIZE;
 				Sequence* pSeq = (Sequence*)pCurr;
 				pCurr += sizeof(Sequence);
-				
+
 				// Add offset to x,y
 				XnUInt nNaiveY = nY +  pSeq->nOffset;
 				nX += nNaiveY / nHeight;
-				if (nX	>= nWidth) 
+				if (nX	>= nWidth)
 					return XN_STATUS_BAD_PARAM;
 				nY = nNaiveY % nHeight;
-				
+
 				// Fill value
 				XnStatus rc = FillMapTopDown(pMap, nHeight, nWidth, nX, nY, pSeq->nSequenceCount, (PixelType)pCurrValue->nValue);
 				XN_IS_STATUS_OK(rc);
@@ -215,7 +217,7 @@ public:
 
 			}
 		}
-		
+
 		return XN_STATUS_OK;
 	}
 };

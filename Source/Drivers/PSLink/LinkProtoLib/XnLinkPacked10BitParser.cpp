@@ -36,17 +36,17 @@ LinkPacked10BitParser::~LinkPacked10BitParser()
 }
 
 XnStatus LinkPacked10BitParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
-												const XnUInt8* pSrc, 
-												const XnUInt8* pSrcEnd, 
-												XnUInt8*& pDst, 
-												const XnUInt8* pDstEnd)
+						const XnUInt8* pSrc,
+						const XnUInt8* pSrcEnd,
+						XnUInt8*& pDst,
+						const XnUInt8* pDstEnd)
 {
 	//pDstWord always points to same address as pDst.
 	XnUInt16*& pDstWord = reinterpret_cast<XnUInt16*&>(pDst);
 	const XnUInt16* pDstWordEnd = reinterpret_cast<const XnUInt16*>(pDstEnd);
 	XnSizeT nPacketBits = 0;
 	XnSizeT nPacketDstWords = 0;
-	
+
 	XnSizeT nPacketDataSize = pSrcEnd - pSrc;
 
 	if ((fragmentation & XN_LINK_FRAG_BEGIN) != 0)
@@ -78,7 +78,7 @@ XnStatus LinkPacked10BitParser::ParsePacketImpl(XnLinkFragmentation fragmentatio
 				m_nState++;
 				break;
 			case 1:
-				*pDstWord++ |= ((*pSrc >> 6) & 0x03); //2 more bits - got 1 whole word 
+				*pDstWord++ |= ((*pSrc >> 6) & 0x03); //2 more bits - got 1 whole word
 				*pDstWord = ((*pSrc & 0x3F) << 4); //6 first bits, make room for 4 more
 				m_nState++;
 				break;

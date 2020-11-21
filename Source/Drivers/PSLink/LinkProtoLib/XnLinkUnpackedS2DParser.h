@@ -34,10 +34,10 @@ public:
 	virtual ~LinkUnpackedS2DParser();
 
 	virtual XnStatus ParsePacketImpl(XnLinkFragmentation fragmentation,
-									 const XnUInt8* pSrc, 
-	                                 const XnUInt8* pSrcEnd, 
-									 XnUInt8*& pDst, 
-									 const XnUInt8* pDstEnd);
+					const XnUInt8* pSrc,
+	                                const XnUInt8* pSrcEnd,
+					XnUInt8*& pDst,
+					const XnUInt8* pDstEnd);
 private:
 	LinkUnpackedS2DParser& operator=(const LinkUnpackedS2DParser&);
 	const XnShiftToDepthTables& m_shiftToDepthTables;

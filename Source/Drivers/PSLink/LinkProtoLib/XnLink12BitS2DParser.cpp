@@ -55,10 +55,10 @@ Link12BitS2DParser::~Link12BitS2DParser()
 }
 
 XnStatus Link12BitS2DParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
-											 const XnUInt8* pSrc,
-											 const XnUInt8* pSrcEnd,
-											 XnUInt8*& pDst,
-											 const XnUInt8* pDstEnd)
+						 const XnUInt8* pSrc,
+						 const XnUInt8* pSrcEnd,
+						 XnUInt8*& pDst,
+						 const XnUInt8* pDstEnd)
 {
 	XN_ASSERT(m_pShiftToDepth != NULL);
 	OniDepthPixel*& pDstPixel = reinterpret_cast<OniDepthPixel*&>(pDst);
@@ -140,7 +140,6 @@ XnStatus Link12BitS2DParser::Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest,
 	const XnUInt8* pOrigInput = (XnUInt8*)pcInput;
 
 	XnUInt32 nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored
-	//XnUInt32 nNeededOutput = nElements * XN_OUTPUT_ELEMENT_SIZE;
 
 	*pnActualRead = 0;
 

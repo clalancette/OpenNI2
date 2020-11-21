@@ -37,8 +37,8 @@ class ClientUSBConnectionFactory : public IConnectionFactory
 {
 public:
 	ClientUSBConnectionFactory(XnUInt16 nInputConnections,
-	                           XnUInt16 nOutputConnections,
-							   XnUInt32 nPreControlReceiveSleep);
+					XnUInt16 nOutputConnections,
+					XnUInt32 nPreControlReceiveSleep);
 
 	virtual ~ClientUSBConnectionFactory();
 	virtual XnStatus Init(const XnChar* strConnString);
@@ -54,7 +54,7 @@ public:
 	virtual XnStatus GetControlConnection(ISyncIOConnection*& pConn);
 	virtual XnStatus CreateOutputDataConnection(XnUInt16 nID, IOutputConnection*& pConn);
 	virtual XnStatus CreateInputDataConnection(XnUInt16 nID, IAsyncInputConnection*& pConn);
-	
+
 	static XnStatus EnumerateConnStrings(XnUInt16 nProductID, XnConnectionString*& astrConnStrings, XnUInt32& nCount);
 	static void FreeConnStringsList(XnConnectionString* astrConnStrings);
 

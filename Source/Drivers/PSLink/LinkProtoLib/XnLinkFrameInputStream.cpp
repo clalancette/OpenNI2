@@ -48,7 +48,7 @@ LinkFrameInputStream::LinkFrameInputStream()
 	m_bInitialized = FALSE;
 	m_defaultServices.setStream(this);
 	m_pServices = &m_defaultServices;
-    m_bStreaming = FALSE;
+	m_bStreaming = FALSE;
 	m_pCurrFrame = NULL;
 	m_nDumpFrameID = 0;
 
@@ -66,16 +66,16 @@ LinkFrameInputStream::LinkFrameInputStream()
 
 LinkFrameInputStream::~LinkFrameInputStream()
 {
-    Shutdown();
+	Shutdown();
 	xnOSCloseCriticalSection(&m_hCriticalSection);
 }
 
 XnStatus LinkFrameInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
                                     XnStreamType streamType,
-									XnUInt16 nStreamID, 
+									XnUInt16 nStreamID,
                                     IConnection* pConnection)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
+	XnStatus nRetVal = XN_STATUS_OK;
 	if (m_hCriticalSection == NULL)
 	{
 		xnLogError(XN_MASK_INPUT_STREAM, "Cannot initialize - critical section was not created successfully");
@@ -159,7 +159,7 @@ void LinkFrameInputStream::Shutdown()
 		return;
 
 	xnOSEnterCriticalSection(&m_hCriticalSection);
-    Stop();
+	Stop();
 
 	if (m_pCurrFrame != NULL)
 	{
@@ -170,8 +170,8 @@ void LinkFrameInputStream::Shutdown()
 	XnShiftToDepthFree(&m_shiftToDepthTables);
 
 	xnDumpFileClose(m_pDumpFile);
-    LinkInputStream::Shutdown();
-    m_bInitialized = FALSE;
+	LinkInputStream::Shutdown();
+	m_bInitialized = FALSE;
 	xnOSLeaveCriticalSection(&m_hCriticalSection);
 }
 
@@ -190,8 +190,8 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
     {
 		bPacketLoss = FALSE;
 
-        xnDumpFileClose(m_pDumpFile); //In case we didn't get an END packet before
-        m_pDumpFile = xnDumpFileOpen(m_strDumpName, "%s.%05u.raw", m_strDumpName, m_nDumpFrameID++);
+		xnDumpFileClose(m_pDumpFile); //In case we didn't get an END packet before
+		m_pDumpFile = xnDumpFileOpen(m_strDumpName, "%s.%05u.raw", m_strDumpName, m_nDumpFrameID++);
 		m_currentFrameCorrupt = FALSE;
 
 		// acquire a frame
@@ -217,14 +217,14 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 		pData += sizeof(XnUInt64);
 		header.SetSize(header.GetSize() - sizeof(XnUInt64));
 
-        // TEMP: inject the host's timestamp. Firmware can't produce timestamps yet
+		// TEMP: inject the host's timestamp. Firmware can't produce timestamps yet
 		XnUInt64 nTimestamp;
-        nRetVal = xnOSGetHighResTimeStamp(&nTimestamp);
-        if (nRetVal != XN_STATUS_OK)
-        {
-            xnLogWarning(XN_MASK_LINK, "Failed to get timestamp from os: %s", xnGetStatusString(nRetVal));
-            XN_ASSERT(FALSE);
-        }
+		nRetVal = xnOSGetHighResTimeStamp(&nTimestamp);
+		if (nRetVal != XN_STATUS_OK)
+		{
+			xnLogWarning(XN_MASK_LINK, "Failed to get timestamp from os: %s", xnGetStatusString(nRetVal));
+			XN_ASSERT(FALSE);
+		}
 		m_pCurrFrame->timestamp = nTimestamp;
 
 		// begin parsing frame
@@ -250,8 +250,8 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 		}
 
 		//Write new data to dump (if it's on)
-		xnDumpFileWriteBuffer(m_pDumpFile, 
-			reinterpret_cast<const XnUInt8*>(m_pLinkMsgParser->GetParsedData()) + nPrevSize, 
+		xnDumpFileWriteBuffer(m_pDumpFile,
+			reinterpret_cast<const XnUInt8*>(m_pLinkMsgParser->GetParsedData()) + nPrevSize,
 			m_pLinkMsgParser->GetParsedSize() - nPrevSize);
 	}
 
@@ -278,7 +278,9 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 				m_pCurrFrame->height            = m_cropping.height;
 				m_pCurrFrame->cropOriginX       = m_cropping.originX;
 				m_pCurrFrame->cropOriginY       = m_cropping.originY;
-			} else {
+			}
+			else
+			{
 				m_pCurrFrame->width             = m_videoMode.m_nXRes;
 				m_pCurrFrame->height            = m_videoMode.m_nYRes;
 				m_pCurrFrame->cropOriginX       = 0;
@@ -311,105 +313,105 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 
 XnStatus LinkFrameInputStream::StartImpl()
 {
-    XnStatus nRetVal = XN_STATUS_OK;
+	XnStatus nRetVal = XN_STATUS_OK;
 
-    if (m_bStreaming)
-    {
-        //Already streaming
-        return XN_STATUS_OK;
-    }
+	if (m_bStreaming)
+	{
+		//Already streaming
+		return XN_STATUS_OK;
+	}
 
-    //Allocate buffers
-    m_nBufferSize = CalcBufferSize();
-    if (m_nBufferSize == 0)
-    {
-        xnLogError(XN_MASK_LINK, "Failed to calculate buffer size for stream of type %u", m_streamType);
-        XN_ASSERT(FALSE);
-        return XN_STATUS_ERROR;
-    }
-    xnLogVerbose(XN_MASK_LINK, "Stream %u calculated buffer size: %u", m_nStreamID, m_nBufferSize);
+	//Allocate buffers
+	m_nBufferSize = CalcBufferSize();
+	if (m_nBufferSize == 0)
+	{
+		xnLogError(XN_MASK_LINK, "Failed to calculate buffer size for stream of type %u", m_streamType);
+		XN_ASSERT(FALSE);
+		return XN_STATUS_ERROR;
+	}
+	xnLogVerbose(XN_MASK_LINK, "Stream %u calculated buffer size: %u", m_nStreamID, m_nBufferSize);
 
-    //Prepare parser
+	//Prepare parser
 	m_pLinkMsgParser = CreateLinkMsgParser();
 	XN_VALIDATE_ALLOC_PTR(m_pLinkMsgParser);
-    nRetVal = m_pLinkMsgParser->Init();
-    XN_IS_STATUS_OK_LOG_ERROR("Init link msg parser", nRetVal);
-    //TODO: Delete LinkMsgParser and buffers on each of these errors
-    
-    //We must set the streaming flag first cuz the data handler checks it
-    m_bStreaming = TRUE;
-    //Connect to input connection
-    nRetVal = m_pConnection->Connect();
-    if (nRetVal != XN_STATUS_OK)
-    {
-        m_bStreaming = FALSE;
-        xnLogError(XN_MASK_LINK, "Failed to connect stream's input connection: %s", xnGetStatusString(nRetVal));
-        XN_ASSERT(FALSE);
-        return nRetVal;       
-    }
+	nRetVal = m_pLinkMsgParser->Init();
+	XN_IS_STATUS_OK_LOG_ERROR("Init link msg parser", nRetVal);
+	//TODO: Delete LinkMsgParser and buffers on each of these errors
 
-    //Now send command to device
-    nRetVal = m_pLinkControlEndpoint->StartStreaming(m_nStreamID);
-    XN_IS_STATUS_OK_LOG_ERROR("Connect stream's input connection", nRetVal);
-    if (nRetVal != XN_STATUS_OK)
-    {
-        m_bStreaming = FALSE;
-        xnLogError(XN_MASK_LINK, "Failed to start streaming: %s", xnGetStatusString(nRetVal));
-        XN_ASSERT(FALSE);
-        return nRetVal;       
-    }
+	//We must set the streaming flag first cuz the data handler checks it
+	m_bStreaming = TRUE;
+	//Connect to input connection
+	nRetVal = m_pConnection->Connect();
+	if (nRetVal != XN_STATUS_OK)
+	{
+		m_bStreaming = FALSE;
+		xnLogError(XN_MASK_LINK, "Failed to connect stream's input connection: %s", xnGetStatusString(nRetVal));
+		XN_ASSERT(FALSE);
+		return nRetVal;
+	}
 
-    return XN_STATUS_OK;
+	//Now send command to device
+	nRetVal = m_pLinkControlEndpoint->StartStreaming(m_nStreamID);
+	XN_IS_STATUS_OK_LOG_ERROR("Connect stream's input connection", nRetVal);
+	if (nRetVal != XN_STATUS_OK)
+	{
+		m_bStreaming = FALSE;
+		xnLogError(XN_MASK_LINK, "Failed to start streaming: %s", xnGetStatusString(nRetVal));
+		XN_ASSERT(FALSE);
+		return nRetVal;
+	}
+
+	return XN_STATUS_OK;
 }
 
 XnStatus LinkFrameInputStream::StopImpl()
 {
-    XnStatus nRetVal = XN_STATUS_OK;
-    if (!m_bStreaming)
-    {
-        return XN_STATUS_OK;
-    }
+	XnStatus nRetVal = XN_STATUS_OK;
+	if (!m_bStreaming)
+	{
+		return XN_STATUS_OK;
+	}
 
-    m_pLinkControlEndpoint->StopStreaming(m_nStreamID);
-    XN_IS_STATUS_OK_LOG_ERROR("Stop streaming", nRetVal);
-    m_pConnection->Disconnect();
+	m_pLinkControlEndpoint->StopStreaming(m_nStreamID);
+	XN_IS_STATUS_OK_LOG_ERROR("Stop streaming", nRetVal);
+	m_pConnection->Disconnect();
 
-    if (m_pLinkMsgParser != NULL)
-    {
-        m_pLinkMsgParser->Shutdown();
-        XN_DELETE(m_pLinkMsgParser);
-        m_pLinkMsgParser = NULL;
-    }
+	if (m_pLinkMsgParser != NULL)
+	{
+		m_pLinkMsgParser->Shutdown();
+		XN_DELETE(m_pLinkMsgParser);
+		m_pLinkMsgParser = NULL;
+	}
 
-    //Free curr buffer if we still hold it
+	//Free curr buffer if we still hold it
 	if (m_pCurrFrame != NULL)
 	{
 		m_pServices->releaseFrame(m_pCurrFrame);
 		m_pCurrFrame = NULL;
 	}
-        
-    m_bStreaming = FALSE;
 
-    return XN_STATUS_OK;
+	m_bStreaming = FALSE;
+
+	return XN_STATUS_OK;
 }
 
 void LinkFrameInputStream::SetDumpName(const XnChar* /*strDumpName*/)
 {
-    //Not implemented for frame input stream
-    XN_ASSERT(FALSE);
+	//Not implemented for frame input stream
+	XN_ASSERT(FALSE);
 }
 
 void LinkFrameInputStream::SetDumpOn(XnBool bDumpOn)
 {
-    XnStatus nRetVal = XN_STATUS_OK;
-    (void)nRetVal;
+	XnStatus nRetVal = XN_STATUS_OK;
+	(void)nRetVal;
 
-    nRetVal = xnDumpSetMaskState(m_strDumpName, bDumpOn);
-    if (nRetVal != XN_STATUS_OK)
-    {
-        xnLogWarning(XN_MASK_INPUT_STREAM, "Failed to set dump state: %s", xnGetStatusString(nRetVal));
-        XN_ASSERT(FALSE);
-    }
+	nRetVal = xnDumpSetMaskState(m_strDumpName, bDumpOn);
+	if (nRetVal != XN_STATUS_OK)
+	{
+		xnLogWarning(XN_MASK_INPUT_STREAM, "Failed to set dump state: %s", xnGetStatusString(nRetVal));
+		XN_ASSERT(FALSE);
+	}
 }
 
 void LinkFrameInputStream::Swap(XnUInt32& nVal1, XnUInt32& nVal2)
@@ -559,12 +561,12 @@ XnStatus LinkFrameInputStream::SetVideoMode(const XnFwStreamVideoMode& videoMode
 
 	nRetVal = UpdateCameraIntrinsics();
 	XN_IS_STATUS_OK_LOG_ERROR("Update Camera Intrinsics", nRetVal);
-	
+
 	// if needed, build shift-to-depth tables
 	if (m_streamType == XN_LINK_STREAM_TYPE_SHIFTS)
 	{
 		nRetVal = m_pLinkControlEndpoint->GetShiftToDepthConfig(m_nStreamID, m_shiftToDepthConfig);
-		
+
 		if (m_outputFormat == ONI_PIXEL_FORMAT_DEPTH_100_UM)
 		{
 			m_shiftToDepthConfig.nDeviceMaxDepthValue = XN_MIN(m_shiftToDepthConfig.nDeviceMaxDepthValue * 10, XN_MAX_UINT16);
@@ -613,7 +615,7 @@ XnStatus LinkFrameInputStream::SetCropping(OniCropping cropping)
 	// validate
 	if (cropping.enabled)
 	{
-		if ((XnUInt32(cropping.originX + cropping.width)  > m_videoMode.m_nXRes) || 
+		if ((XnUInt32(cropping.originX + cropping.width)  > m_videoMode.m_nXRes) ||
 			(XnUInt32(cropping.originY + cropping.height) > m_videoMode.m_nYRes))
 		{
 			xnLogWarning(XN_MASK_LINK, "cropping window is out of full resolution");
@@ -770,7 +772,7 @@ XnStatus LinkFrameInputStream::UpdateCameraIntrinsics()
 		m_cameraIntrinsics.m_fEffectiveFocalLengthInPixels,
 		m_cameraIntrinsics.m_nOpticalCenterX,
 		m_cameraIntrinsics.m_nOpticalCenterY,
-		m_fHFOV*180/M_PI, 
+		m_fHFOV*180/M_PI,
 		m_fVFOV*180/M_PI);
 
 	return (XN_STATUS_OK);
@@ -834,4 +836,3 @@ void ONI_CALLBACK_TYPE LinkFrameInputStream::DefaultStreamServices::releaseFrame
 }
 
 }
-

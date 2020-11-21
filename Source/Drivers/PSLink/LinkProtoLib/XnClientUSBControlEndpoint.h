@@ -44,15 +44,15 @@ public:
 	virtual void Disconnect();
 	virtual XnBool IsConnected() const;
 	virtual XnUInt16 GetMaxPacketSize() const;
-	
+
 	//nSize is max size on input, actual size on output
 	virtual XnStatus Receive(void* pData, XnUInt32& nSize);
 	virtual XnStatus Send(const void* pData, XnUInt32 nSize);
 
 private:
 	//Low level usb packet size - not to be confused with our "logical" packet size which is bigger
-	static const XnUInt32 USB_LOW_LEVEL_MAX_PACKET_SIZE; 
-	
+	static const XnUInt32 USB_LOW_LEVEL_MAX_PACKET_SIZE;
+
 	static const XnUInt32 SEND_TIMEOUT;
 	static const XnUInt32 RECEIVE_TIMEOUT;
 

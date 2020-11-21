@@ -122,9 +122,9 @@ void xnLinkParseLeanVersion(XnLeanVersion& version, const XnLinkLeanVersion& lin
 void xnEncodeLeanVersion(XnLinkLeanVersion& linkVersion, const XnLeanVersion& version);
 
 /* nNumModes is max number of modes on input, actual number on output. */
-XnStatus xnLinkParseSupportedVideoModes(std::vector<XnFwStreamVideoMode>& aModes, 
-                                                const XnLinkSupportedVideoModes* pLinkSupportedModes,
-                                                XnUInt32 nBufferSize);
+XnStatus xnLinkParseSupportedVideoModes(std::vector<XnFwStreamVideoMode>& aModes,
+												const XnLinkSupportedVideoModes* pLinkSupportedModes,
+												XnUInt32 nBufferSize);
 XnStatus xnLinkParseBitSet(xnl::BitSet& bitSet, const XnLinkBitSet* pBitSet, XnUInt32 nBufferSize);
 XnStatus xnLinkEncodeBitSet(XnLinkBitSet& linkBitSet, XnUInt32& nBufferSize, const xnl::BitSet& bitSet);
 
@@ -140,24 +140,24 @@ XnStatus xnLinkValidateGeneralProp(XnLinkPropType propType, XnUInt32 nValueSize,
 template <typename T>
 XnStatus xnLinkParseIntProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, T& nParsedVal)
 {
-    if (nValueSize < sizeof(T))
-    {
-        xnLogError(XN_MASK_LINK, "Property value size should be at least %u bytes, but got only %u bytes.", 
-            sizeof(T), nValueSize);
-        return XN_STATUS_LINK_BAD_PROP_SIZE;
-    }
+	if (nValueSize < sizeof(T))
+	{
+		xnLogError(XN_MASK_LINK, "Property value size should be at least %u bytes, but got only %u bytes.",
+			sizeof(T), nValueSize);
+		return XN_STATUS_LINK_BAD_PROP_SIZE;
+	}
 
-    if (propType != XN_LINK_PROP_TYPE_INT)
-    {
-        xnLogError(XN_MASK_LINK, "Property type should be %s, but got type %s", 
-            xnLinkPropTypeToStr(XN_LINK_PROP_TYPE_INT), 
-            xnLinkPropTypeToStr(propType));
-        XN_ASSERT(FALSE);
-        return XN_STATUS_LINK_BAD_PROP_TYPE;
-    }
+	if (propType != XN_LINK_PROP_TYPE_INT)
+	{
+		xnLogError(XN_MASK_LINK, "Property type should be %s, but got type %s",
+			xnLinkPropTypeToStr(XN_LINK_PROP_TYPE_INT),
+			xnLinkPropTypeToStr(propType));
+		XN_ASSERT(FALSE);
+		return XN_STATUS_LINK_BAD_PROP_TYPE;
+	}
 
-    nParsedVal = static_cast<T>(XN_PREPARE_VAR64_IN_BUFFER(*reinterpret_cast<const XnUInt64*>(pValue)));
-    return XN_STATUS_OK;
+	nParsedVal = static_cast<T>(XN_PREPARE_VAR64_IN_BUFFER(*reinterpret_cast<const XnUInt64*>(pValue)));
+	return XN_STATUS_OK;
 }
 
 XnStatus xnLinkParseLeanVersionProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, XnLeanVersion& leanVersion);
@@ -178,4 +178,5 @@ void xnLinkParseBootStatus(XnBootStatus& bootStatus, const XnLinkBootStatus& lin
 XnUInt32 xnLinkGetPixelSizeByStreamType(XnLinkStreamType streamType);
 
 void xnLinkVideoModeToString(XnFwStreamVideoMode videoMode, XnChar* buffer, XnUInt32 bufferSize);
+
 #endif // XNLINKPROTOUTILS_H

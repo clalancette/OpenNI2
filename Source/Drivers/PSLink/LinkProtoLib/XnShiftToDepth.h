@@ -71,15 +71,15 @@ typedef struct XnShiftToDepthTables
 //---------------------------------------------------------------------------
 // Functions Declaration
 //---------------------------------------------------------------------------
-XnStatus XnShiftToDepthInit(XnShiftToDepthTables* pShiftToDepth, 
+XnStatus XnShiftToDepthInit(XnShiftToDepthTables* pShiftToDepth,
 							const XnShiftToDepthConfig* pConfig);
 
-XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, 
+XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth,
 							  const XnShiftToDepthConfig* pConfig);
 
-XnStatus XnShiftToDepthConvert(const XnShiftToDepthTables* pShiftToDepth, 
-							   const XnUInt16* pInput, 
-							   XnUInt32 nInputSize, 
+XnStatus XnShiftToDepthConvert(const XnShiftToDepthTables* pShiftToDepth,
+							   const XnUInt16* pInput,
+							   XnUInt32 nInputSize,
 							   OniDepthPixel* pOutput);
 
 XnStatus XnShiftToDepthFree(XnShiftToDepthTables* pShiftToDepth);

@@ -31,13 +31,13 @@ class LinkOutputStreamsMgr;
 class IConnectionFactory;
 class IOutputConnection;
 
-class LinkOutputDataEndpoint 
+class LinkOutputDataEndpoint
 {
 public:
 	LinkOutputDataEndpoint();
 	virtual ~LinkOutputDataEndpoint();
 
-	XnStatus Init(XnUInt16 nEndpointID, 
+	XnStatus Init(XnUInt16 nEndpointID,
 	              IConnectionFactory* pConnectionFactory);
 	XnBool IsInitialized() const;
 	void Shutdown();

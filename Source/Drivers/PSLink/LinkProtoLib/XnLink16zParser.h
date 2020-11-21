@@ -37,17 +37,17 @@ public:
 
 protected:
 	virtual XnStatus ParsePacketImpl(XnLinkFragmentation fragmentation,
-									 const XnUInt8* pSrc, 
-	                                 const XnUInt8* pSrcEnd, 
-									 XnUInt8*& pDst, 
-									 const XnUInt8* pDstEnd);
+						const XnUInt8* pSrc,
+						const XnUInt8* pSrcEnd,
+						XnUInt8*& pDst,
+						const XnUInt8* pDstEnd);
 private:
 	inline OniDepthPixel TranslatePixel(XnUInt32 nShift);
 
 	const OniDepthPixel* m_pShiftToDepth;
 	XnUInt32 m_nShift;
 
-	enum State 
+	enum State
 	{
 		STATE_OPCODE			= 0x0D,
 		STATE_RLE				= 0x0E,

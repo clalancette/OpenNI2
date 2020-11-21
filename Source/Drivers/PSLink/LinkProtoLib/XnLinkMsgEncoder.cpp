@@ -80,11 +80,11 @@ void LinkMsgEncoder::Shutdown()
 	m_nMaxMsgSize = 0;
 }
 
-void LinkMsgEncoder::BeginEncoding(XnUInt16 nMsgType, 
-								   XnUInt16 nBasePacketID, 
-								   XnUInt16 nStreamID, 
-								   XnLinkFragmentation firstPacketFrag /*= XN_LINK_FRAG_BEGIN*/,
-								   XnUInt16 nCID /*= 0*/)
+void LinkMsgEncoder::BeginEncoding(XnUInt16 nMsgType,
+				XnUInt16 nBasePacketID,
+				XnUInt16 nStreamID,
+				XnLinkFragmentation firstPacketFrag /*= XN_LINK_FRAG_BEGIN*/,
+				XnUInt16 nCID /*= 0*/)
 {
 	//Initialize m_packetHeader values for all packets in this message.
 	m_packetHeader.SetMsgType(nMsgType);
@@ -137,10 +137,10 @@ void LinkMsgEncoder::EncodeData(const void* pSourceData, XnUInt32 nSize)
 		nPacketRemainingSpace = m_nMaxPacketSize - m_pCurrPacket->GetSize();
 		//Calculate how many bytes we're copying to the current packet
 		nPacketBytesToCopy = static_cast<XnUInt16>(XN_MIN(nPacketRemainingSpace, nBytesLeftToCopy));
-		
+
 		/************ Copy data to current packet ********************/
-		xnOSMemCopy(m_pCurrPacketBuffer + m_pCurrPacket->GetSize(), 
-		            pCurrData,
+		xnOSMemCopy(m_pCurrPacketBuffer + m_pCurrPacket->GetSize(),
+					pCurrData,
 					nPacketBytesToCopy);
 		/*************************************************************/
 
@@ -159,7 +159,7 @@ void LinkMsgEncoder::EndEncoding(XnLinkFragmentation lastPacketFrag /*= XN_LINK_
 {
 	//Add END flag to fragmentation flags if it's set
 	m_pCurrPacket->SetFragmentationFlags(
-		XnLinkFragmentation(m_pCurrPacket->GetFragmentationFlags() | (lastPacketFrag & XN_LINK_FRAG_END)));
+	XnLinkFragmentation(m_pCurrPacket->GetFragmentationFlags() | (lastPacketFrag & XN_LINK_FRAG_END)));
 }
 
 const void* LinkMsgEncoder::GetEncodedData() const

@@ -27,14 +27,14 @@
 namespace xn
 {
 
-class LinkMsgParser 
+class LinkMsgParser
 {
 public:
 	LinkMsgParser();
 	virtual ~LinkMsgParser();
 	virtual XnStatus Init();
 	virtual void Shutdown();
-	
+
 	XnStatus BeginParsing(void* pDestBuffer, XnUInt32 nDestBufferSize);
 	XnStatus ParsePacket(const LinkPacketHeader& header, const XnUInt8* pData);
 
@@ -43,11 +43,11 @@ public:
 	XnUInt32 GetBufferSize() const;
 
 protected:
-	virtual XnStatus ParsePacketImpl(XnLinkFragmentation fragmentation, 
-									 const XnUInt8* pSrc, 
-	                                 const XnUInt8* pSrcEnd, 
-									 XnUInt8*& pDst, 
-									 const XnUInt8* pDstEnd);
+	virtual XnStatus ParsePacketImpl(XnLinkFragmentation fragmentation,
+					const XnUInt8* pSrc,
+	                                const XnUInt8* pSrcEnd,
+					XnUInt8*& pDst,
+					const XnUInt8* pDstEnd);
 
 private:
 	XnUInt8* m_pDestBuffer;
