@@ -27,7 +27,6 @@
 #include <math.h>
 #include <XnLog.h>
 #include <PS1080.h>
-#include <KinectProperties.h>
 
 // --------------------------------
 // Defines
@@ -69,10 +68,10 @@ const openni::SensorInfo* g_irSensorInfo = NULL;
 // --------------------------------
 void initConstants()
 {
-// 	// Primary Streams
+ 	// Primary Streams
 	int nIndex = 0;
 
-	// Registration
+	// registration
 	nIndex = 0;
 
 	g_Registration.pValues[nIndex++] = openni::IMAGE_REGISTRATION_OFF;
@@ -239,7 +238,7 @@ openni::Status openDevice(const char* uri, DeviceConfig config)
 
 	// Register to OpenNI events.
 	static OpenNIDeviceListener deviceListener;
-	
+
 	openni::OpenNI::addDeviceDisconnectedListener(&deviceListener);
 	openni::OpenNI::addDeviceStateChangedListener(&deviceListener);
 
@@ -364,7 +363,7 @@ void toggleMirror(int )
 	toggleColorMirror(0);
 	toggleIRMirror(0);
 
-	displayMessage ("Mirror: %s", g_depthStream.getMirroringEnabled()?"On":"Off");	
+	displayMessage ("Mirror: %s", g_depthStream.getMirroringEnabled()?"On":"Off");
 }
 
 
@@ -372,16 +371,14 @@ void toggleCloseRange(int )
 {
 	static OniBool bCloseRange = FALSE;
 
-	if (g_depthStream.getProperty(XN_STREAM_PROPERTY_CLOSE_RANGE, &bCloseRange) != XN_STATUS_OK &&
-		g_depthStream.getProperty(KINECT_DEPTH_PROPERTY_CLOSE_RANGE, &bCloseRange) != XN_STATUS_OK)
+	if (g_depthStream.getProperty(XN_STREAM_PROPERTY_CLOSE_RANGE, &bCloseRange) != XN_STATUS_OK)
 	{
 		// Continue with the latest value even in case of error
 	}
 
 	bCloseRange = !bCloseRange;
 
-	if (g_depthStream.setProperty(XN_STREAM_PROPERTY_CLOSE_RANGE, bCloseRange) != XN_STATUS_OK &&
-		g_depthStream.setProperty(KINECT_DEPTH_PROPERTY_CLOSE_RANGE, bCloseRange) != XN_STATUS_OK)
+	if (g_depthStream.setProperty(XN_STREAM_PROPERTY_CLOSE_RANGE, bCloseRange) != XN_STATUS_OK)
 	{
 		displayError("Couldn't set the close range");
 		return;
@@ -394,22 +391,20 @@ void toggleEmitterState(int)
 {
 	static OniBool bEmitterState = TRUE;
 
-	if (g_device.getProperty(XN_MODULE_PROPERTY_EMITTER_STATE, &bEmitterState) != XN_STATUS_OK &&
-		g_device.getProperty(KINECT_DEVICE_PROPERTY_EMITTER_STATE, &bEmitterState) != XN_STATUS_OK)
+	if (g_device.getProperty(XN_MODULE_PROPERTY_EMITTER_STATE, &bEmitterState) != XN_STATUS_OK)
 	{
 		// Continue with the latest value even in case of error
 	}
 
 	bEmitterState = !bEmitterState;
 
-	if (g_device.setProperty(XN_MODULE_PROPERTY_EMITTER_STATE, bEmitterState) != XN_STATUS_OK &&
-		g_device.setProperty(KINECT_DEVICE_PROPERTY_EMITTER_STATE, bEmitterState) != XN_STATUS_OK)
+	if (g_device.setProperty(XN_MODULE_PROPERTY_EMITTER_STATE, bEmitterState) != XN_STATUS_OK)
 	{
 		displayError("Couldn't set the emitter state");
 		return;
 	}
 
-	displayMessage ("Emitter state: %s", bEmitterState?"On":"Off"); 
+	displayMessage ("Emitter state: %s", bEmitterState?"On":"Off");
 }
 
 void toggleImageRegistration(int)
@@ -430,7 +425,6 @@ void toggleImageRegistration(int)
 	{
 		displayError("Couldn't change image registration to unsupported mode");
 	}
-
 }
 
 openni::VideoStream* getSeekingStream(openni::VideoFrameRef*& pCurFrame)
@@ -514,7 +508,9 @@ void seekFrame(int nDiff)
 
 	pStream = getSeekingStream(pCurFrame);
 	if (pStream == NULL)
+	{
 		return;
+	}
 
 	int frameId = pCurFrame->isValid() ? pCurFrame->getFrameIndex() : 0;
 	// Calculate the new frame ID
@@ -530,7 +526,9 @@ void seekFrameAbs(int frameId)
 
 	pStream = getSeekingStream(pCurFrame);
 	if (pStream == NULL)
+	{
 		return;
+	}
 
 	seekStream(pStream, pCurFrame, frameId);
 }
@@ -742,13 +740,13 @@ void setStreamCropping(openni::VideoStream& stream, int originX, int originY, in
 		displayMessage("Stream does not exist!");
 		return;
 	}
-	
+
 	if (!stream.isCroppingSupported())
 	{
 		displayMessage("Stream does not support cropping!");
 		return;
 	}
-	
+
 	openni::Status nRetVal = stream.setCropping(originX, originY, width, height);
 	if (nRetVal != openni::STATUS_OK)
 	{
@@ -765,13 +763,13 @@ void resetStreamCropping(openni::VideoStream& stream)
 		displayMessage("Stream does not exist!");
 		return;
 	}
-	
+
 	if (!stream.isCroppingSupported())
 	{
 		displayMessage("Stream does not support cropping!");
 		return;
 	}
-	
+
 	openni::Status nRetVal = stream.resetCropping();
 	if (nRetVal != openni::STATUS_OK)
 	{
@@ -798,13 +796,19 @@ void resetIRCropping(int)
 void resetAllCropping(int)
 {
 	if (getDepthStream().isValid())
+	{
 		resetDepthCropping(0);
+	}
 
 	if (getColorStream().isValid())
+	{
 		resetColorCropping(0);
+	}
 
 	if (getIRStream().isValid())
+	{
 		resetIRCropping(0);
+	}
 }
 
 void togglePlaybackRepeat(int /*ignored*/)
@@ -930,7 +934,7 @@ void toggleZoomCrop(int)
 		displayMessage("Fast zoom crop off");
 
 		openni::VideoMode vm = g_colorStream.getVideoMode();
-		vm.setResolution(ZOOM_CROP_VGA_MODE_X_RES, ZOOM_CROP_VGA_MODE_Y_RES); 
+		vm.setResolution(ZOOM_CROP_VGA_MODE_X_RES, ZOOM_CROP_VGA_MODE_Y_RES);
 
 		g_colorStream.setVideoMode(vm);
 
@@ -938,20 +942,20 @@ void toggleZoomCrop(int)
 
 		g_colorStream.start();
 
-		g_colorStream.setProperty(XN_STREAM_PROPERTY_FAST_ZOOM_CROP, FALSE); 
+		g_colorStream.setProperty(XN_STREAM_PROPERTY_FAST_ZOOM_CROP, FALSE);
 	}
 	else
 	{
-		g_colorStream.setProperty(XN_STREAM_PROPERTY_FAST_ZOOM_CROP, TRUE); 
+		g_colorStream.setProperty(XN_STREAM_PROPERTY_FAST_ZOOM_CROP, TRUE);
 
 		displayMessage("Fast zoom crop on");
-		
+
 		g_colorStream.stop();
-	
-		g_colorStream.setProperty(XN_STREAM_PROPERTY_CROPPING_MODE, XN_CROPPING_MODE_INCREASED_FPS); 
+
+		g_colorStream.setProperty(XN_STREAM_PROPERTY_CROPPING_MODE, XN_CROPPING_MODE_INCREASED_FPS);
 
 		openni::VideoMode vm = g_colorStream.getVideoMode();
-		vm.setResolution(ZOOM_CROP_HIRES_MODE_X_RES, ZOOM_CROP_HIRES_MODE_Y_RES); 
+		vm.setResolution(ZOOM_CROP_HIRES_MODE_X_RES, ZOOM_CROP_HIRES_MODE_Y_RES);
 		g_colorStream.setVideoMode(vm);
 
 		g_colorStream.setCropping(ZOOM_CROP_VGA_MODE_X_RES/2, ZOOM_CROP_VGA_MODE_Y_RES/2, ZOOM_CROP_VGA_MODE_X_RES, ZOOM_CROP_VGA_MODE_Y_RES);
@@ -965,7 +969,9 @@ void toggleZoomCrop(int)
 bool convertDepthPointToColor(int depthX, int depthY, openni::DepthPixel depthZ, int* pColorX, int* pColorY)
 {
 	if (!g_depthStream.isValid() || !g_colorStream.isValid())
+	{
 		return false;
+	}
 
 	return (openni::STATUS_OK == openni::CoordinateConverter::convertDepthToColor(g_depthStream, g_colorStream, depthX, depthY, depthZ, pColorX, pColorY));
 }
