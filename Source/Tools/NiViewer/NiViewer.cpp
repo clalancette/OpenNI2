@@ -44,7 +44,7 @@
 // ESC - exit.
 
 // Undeprecate CRT functions
-#ifndef _CRT_SECURE_NO_DEPRECATE 
+#ifndef _CRT_SECURE_NO_DEPRECATE
 	#define _CRT_SECURE_NO_DEPRECATE 1
 #endif
 
@@ -67,7 +67,7 @@
 
 #if (ONI_PLATFORM == ONI_PLATFORM_WIN32)
 	#include <conio.h>
-	#include <direct.h>	
+	#include <direct.h>
 #elif (ONI_PLATFORM == ONI_PLATFORM_LINUX_X86 || ONI_PLATFORM == ONI_PLATFORM_LINUX_ARM || ONI_PLATFORM == ONI_PLATFORM_MACOSX)
 	#define _getch() getchar()
 #endif
@@ -472,19 +472,6 @@ void createMenu()
  					}
  					endSubMenu();
 				}
-// 				startSubMenu("Audio");
-// 				{
-// 					createMenuEntry("On/Off", toggleAudioState, 0);
-// 				}
-// 				endSubMenu();
-// 				startSubMenu("Primary Stream");
-// 				{
-// 					for (int i = 0; i < g_PrimaryStream.nValuesCount; ++i)
-// 					{
-// 						createMenuEntry(g_PrimaryStream.pValues[i], changePrimaryStream, i);
-// 					}
-// 				}
-// 				endSubMenu();
 			}
 			endSubMenu();
 			startSubMenu("Registration");
@@ -678,7 +665,6 @@ int main(int argc, char **argv)
 		closeSample(ERR_DEVICE);
 	}
 
-// 	audioInit();
  	captureInit();
 
 	glutInit(&argc, argv);
@@ -705,13 +691,11 @@ int main(int argc, char **argv)
 	createMenu();
 
 	atexit(onExit);
-	
+
 	// Per frame code is in drawFrame()
 	glutMainLoop();
 
-//	audioShutdown();
-
 	closeSample(ERR_OK);
 
-//	return (ERR_OK);
+	return 0;
 }

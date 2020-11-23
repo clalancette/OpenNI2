@@ -43,25 +43,24 @@
 // --------------------------------
 
 DeviceParameter g_Registration;
-DeviceParameter g_Resolution;
-bool g_bIsDepthOn = false;
-bool g_bIsColorOn = false;
-bool g_bIsIROn = false;
+static bool g_bIsDepthOn = false;
+static bool g_bIsColorOn = false;
+static bool g_bIsIROn = false;
 
-openni::Device g_device;
-openni::PlaybackControl* g_pPlaybackControl;
+static openni::Device g_device;
+static openni::PlaybackControl* g_pPlaybackControl;
 
-openni::VideoStream g_depthStream;
-openni::VideoStream g_colorStream;
-openni::VideoStream g_irStream;
+static openni::VideoStream g_depthStream;
+static openni::VideoStream g_colorStream;
+static openni::VideoStream g_irStream;
 
-openni::VideoFrameRef g_depthFrame;
-openni::VideoFrameRef g_colorFrame;
-openni::VideoFrameRef g_irFrame;
+static openni::VideoFrameRef g_depthFrame;
+static openni::VideoFrameRef g_colorFrame;
+static openni::VideoFrameRef g_irFrame;
 
-const openni::SensorInfo* g_depthSensorInfo = NULL;
-const openni::SensorInfo* g_colorSensorInfo = NULL;
-const openni::SensorInfo* g_irSensorInfo = NULL;
+static const openni::SensorInfo* g_depthSensorInfo = NULL;
+static const openni::SensorInfo* g_colorSensorInfo = NULL;
+static const openni::SensorInfo* g_irSensorInfo = NULL;
 
 // --------------------------------
 // Code
@@ -201,11 +200,11 @@ int openCommon(openni::Device& device, DeviceConfig config)
 	return 0;
 }
 
-class OpenNIDeviceListener : public openni::OpenNI::DeviceStateChangedListener,
+class OpenNIDeviceListener final : public openni::OpenNI::DeviceStateChangedListener,
 							public openni::OpenNI::DeviceDisconnectedListener
 {
 public:
-	virtual void onDeviceStateChanged(const openni::DeviceInfo* pInfo, openni::DeviceState errorState)
+	void onDeviceStateChanged(const openni::DeviceInfo* pInfo, openni::DeviceState errorState) override
 	{
 		if (strcmp(pInfo->getUri(), g_device.getDeviceInfo().getUri()) == 0)
 		{
@@ -219,7 +218,7 @@ public:
 			}
 		}
 	}
-	virtual void onDeviceDisconnected(const openni::DeviceInfo* pInfo)
+	void onDeviceDisconnected(const openni::DeviceInfo* pInfo) override
 	{
 		if (strcmp(pInfo->getUri(), g_device.getDeviceInfo().getUri()) == 0)
 		{

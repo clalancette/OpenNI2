@@ -112,7 +112,6 @@ bool DeviceDriver::tryDevice(const char* uri)
 	return (m_driverHandler.tryDevice(uri) == ONI_STATUS_OK);
 }
 
-
 OniStatus DeviceDriver::registerDeviceConnectedCallback(DeviceCallback handler, void* pCookie, OniCallbackHandle& handle)
 {
 	return OniStatusFromXnStatus(m_deviceConnectedEvent.Register(handler, pCookie, (XnCallbackHandle&)handle));
