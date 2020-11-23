@@ -24,8 +24,6 @@
 #include "XnShiftToDepth.h"
 #include <XnOS.h>
 #include "XnDDK.h"
-#include <cmath>
-using namespace std;
 
 //---------------------------------------------------------------------------
 // Code
@@ -53,32 +51,36 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 
 	// check max shift wasn't changed (if so, memory should be re-allocated)
 	if (pConfig->nDeviceMaxShiftValue > pShiftToDepth->nShiftsCount)
+	{
 		return XN_STATUS_DEVICE_INVALID_MAX_SHIFT;
+	}
 
 	// check max depth wasn't changed (if so, memory should be re-allocated)
 	if (pConfig->nDeviceMaxDepthValue > pShiftToDepth->nDepthsCount)
+	{
 		return XN_STATUS_DEVICE_INVALID_MAX_DEPTH;
+	}
 
-    enum OpticsRelationShip OpticsRelation;
+	enum OpticsRelationShip OpticsRelation;
 	XnUInt32 nIndex = 0;
 	XnInt16  nShiftValue = 0;
 	XnDouble dFixedRefX = 0;
 	XnDouble dMetric = 0;
 	XnDouble dDepth = 0;
-    XnInt32 nConstShift;
+	XnInt32 nConstShift;
 	XnDouble dPlanePixelSize = pConfig->fZeroPlanePixelSize;
 	XnDouble dPlaneDsr = pConfig->nZeroPlaneDistance;
 	XnDouble dPlaneDcl = pConfig->fEmitterDCmosDistance;
-    if (pConfig->nConstShift == 201)
-    {
-        OpticsRelation = ProjectRightOfCMOS;
-        nConstShift = pConfig->nParamCoeff * (pConfig->nConstShift-1);
-    }
-    else
-    {
-        OpticsRelation = ProjectLeftOfCMOS;
-	    nConstShift = pConfig->nParamCoeff * pConfig->nConstShift;
-    }
+	if (pConfig->nConstShift == 201)
+	{
+		OpticsRelation = ProjectRightOfCMOS;
+		nConstShift = pConfig->nParamCoeff * (pConfig->nConstShift-1);
+	}
+	else
+	{
+		OpticsRelation = ProjectLeftOfCMOS;
+		nConstShift = pConfig->nParamCoeff * pConfig->nConstShift;
+	}
 
 	dPlanePixelSize *= pConfig->nPixelSizeFactor;
 	nConstShift /= pConfig->nPixelSizeFactor;
@@ -113,7 +115,9 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 			pShiftToDepthTable[nIndex] = (XnUInt16)dDepth;
 
 			for (XnUInt16 i = nLastDepth; i < dDepth; i++)
+			{
 				pDepthToShiftTable[i] = nLastIndex;
+			}
 
 			nLastIndex = (XnUInt16)nIndex;
 			nLastDepth = (XnUInt16)dDepth;
@@ -121,7 +125,9 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	}
 
 	for (XnUInt16 i = nLastDepth; i <= pConfig->nDeviceMaxDepthValue; i++)
+	{
 		pDepthToShiftTable[i] = nLastIndex;
+	}
 
 	return XN_STATUS_OK;
 }
@@ -159,4 +165,3 @@ XnStatus XnShiftToDepthFree(XnShiftToDepthTables* pShiftToDepth)
 
 	return XN_STATUS_OK;
 }
-

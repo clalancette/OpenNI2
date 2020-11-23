@@ -42,7 +42,7 @@ XnStatus XnMirrorOneBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 
 	XnUInt8 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
 	XnUInt8* pSrcEnd = pSrc + nBufferSize;
 	XnUInt8* pDest = NULL;
-	XnUInt8* pDestVal = &pLineBuffer[0] + nLineSize - 1;
+	XnUInt8* pDestVal = &pLineBuffer[nLineSize - 1];
 	XnUInt8* pDestEnd = &pLineBuffer[0];
 
 	if (nLineSize > XN_MIRROR_MAX_LINE_SIZE)
@@ -55,14 +55,13 @@ XnStatus XnMirrorOneBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 
 		xnOSMemCopy(pLineBuffer, pSrc, nLineSize);
 
 		pDest = pDestVal;
-		while (pDest != pDestEnd)
+		while (pDest >= pDestEnd)
 		{
 			*pSrc = *pDest;
 
 			pSrc++;
 			pDest--;
 		}
-		*pSrc = *pDest;
 	}
 
 	// All is good...

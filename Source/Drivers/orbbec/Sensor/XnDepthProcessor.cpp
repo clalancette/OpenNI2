@@ -40,87 +40,8 @@ XnDepthProcessor::XnDepthProcessor(XnSensorDepthStream* pStream, XnSensorStreamH
 	m_applyRegistrationOnEnd(FALSE),
 	m_nExpectedFrameSize(0),
 	m_bShiftToDepthAllocated(FALSE),
-    m_pShiftToDepthTable(pStream->GetShiftToDepthTable()),
-    pDepthToShiftTable_org(pStream->GetDepthToShiftTable())
+	m_pShiftToDepthTable(pStream->GetShiftToDepthTable())
 {
-	DepthBuf = new OniDepthPixel[1280*1024];
-
-	size_t bufSize = 1280*1024*(int)(sizeof(int) + sizeof(int) + sizeof(char));
-	_buf = new unsigned char[bufSize];
-
-	config.nZeroPlaneDistance = 120;
-	config.fZeroPlanePixelSize = 0.10419999808073044;
-	config.fEmitterDCmosDistance = 7.5;
-	config.nDeviceMaxShiftValue = 2047;
-
-	config.nDeviceMaxDepthValue = 10000;
-
-	config.nConstShift = 200;
-	config.nPixelSizeFactor = 1;
-	config.nParamCoeff = 4;
-	config.nShiftScale = 10;
-
-	config.nDepthMinCutOff = 0;
-	config.nDepthMaxCutOff = static_cast<short>(config.nDeviceMaxDepthValue);
-
-	unsigned short nIndex = 0;
-	short  nShiftValue = 0;
-	double dFixedRefX = 0;
-	double dMetric = 0;
-	double dDepth = 0;
-	double dPlanePixelSize = config.fZeroPlanePixelSize;
-	double dPlaneDsr = config.nZeroPlaneDistance;
-	double dPlaneDcl = config.fEmitterDCmosDistance;
-	int nConstShift = config.nParamCoeff * config.nConstShift;
-
-	dPlanePixelSize *= config.nPixelSizeFactor;
-	nConstShift /= config.nPixelSizeFactor;
-
-	m_ShiftToDepth.pShiftToDepthTable = new unsigned short[config.nDeviceMaxShiftValue + 1];
-	m_ShiftToDepth.pDepthToShiftTable = new unsigned short[config.nDeviceMaxDepthValue + 1];
-
-	m_ShiftToDepth.bIsInitialized = TRUE;
-
-	// store allocation sizes
-	m_ShiftToDepth.nShiftsCount =  config.nDeviceMaxShiftValue + 1;
-	m_ShiftToDepth.nDepthsCount = config.nDeviceMaxDepthValue + 1;
-	unsigned short* pShiftToDepthTable = m_ShiftToDepth.pShiftToDepthTable;
-	unsigned short* pDepthToShiftTable = m_ShiftToDepth.pDepthToShiftTable;
-
-	memset(pShiftToDepthTable, 0, m_ShiftToDepth.nShiftsCount * sizeof(unsigned short));
-	memset(pDepthToShiftTable, 0, m_ShiftToDepth.nDepthsCount * sizeof(unsigned short));
-
-	unsigned short nLastDepth = 0;
-	unsigned short nLastIndex = 0;
-
-	for (nIndex = 1; nIndex < config.nDeviceMaxShiftValue; nIndex++)
-	{
-		nShiftValue = nIndex;
-
-		dFixedRefX = (double)(nShiftValue - nConstShift) / (double)config.nParamCoeff;
-		dFixedRefX -= 0.375;
-		dMetric = dFixedRefX * dPlanePixelSize;
-		dDepth = config.nShiftScale * ((dMetric * dPlaneDsr / (dPlaneDcl - dMetric)) + dPlaneDsr);
-
-		// check cut-offs
-		if ((dDepth > config.nDepthMinCutOff) && (dDepth < config.nDepthMaxCutOff))
-		{
-			pShiftToDepthTable[nIndex] = (unsigned short)dDepth;
-
-			for (unsigned short i = nLastDepth; i < dDepth; i++)
-			{
-				pDepthToShiftTable[i] = nLastIndex;
-			}
-
-			nLastIndex = nIndex;
-			nLastDepth = (unsigned short)dDepth;
-		}
-	}
-
-	for (unsigned short i = nLastDepth; i <= config.nDeviceMaxDepthValue; i++)
-	{
-		pDepthToShiftTable[i] = nLastIndex;
-	}
 }
 
 XnDepthProcessor::~XnDepthProcessor()
@@ -129,10 +50,6 @@ XnDepthProcessor::~XnDepthProcessor()
 	{
 		xnOSFree(m_pShiftToDepthTable);
 	}
-	delete[] m_ShiftToDepth.pShiftToDepthTable;
-	delete[] m_ShiftToDepth.pDepthToShiftTable;
-	delete[] DepthBuf;
-	delete[]  _buf;
 }
 
 XnStatus XnDepthProcessor::Init()
@@ -257,18 +174,6 @@ void XnDepthProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 
 	pFrame->stride = pFrame->width * GetStream()->GetBytesPerPixel();
 
-	//softfilter
-	OniDepthPixel* pDepth = (OniDepthPixel*)pFrame->data;
-	xnOSMemCopy(DepthBuf,pDepth,pFrame->width*pFrame->height*sizeof(OniDepthPixel));
-
-	for (int i = 0; i < pFrame->width*pFrame->height; i++)
-	{
-		pDepth[i] = m_pShiftToDepthTable[DepthBuf[i]];
-		if (pDepth[i] == 5506 || pDepth[i] == 288)
-		{
-			pDepth[i] = 0;
-		}
-	}
 	// call base
 	XnFrameStreamProcessor::OnEndOfFrame(pHeader);
 }

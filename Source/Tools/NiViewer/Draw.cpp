@@ -1711,19 +1711,6 @@ bool isPointInRect(IntPair point, IntRect* pRect)
 
 void drawPlaybackSpeed()
 {
-// 	XnDouble dSpeed = getPlaybackSpeed();
-// 	if (dSpeed != 1.0)
-// 	{
-// 		XnChar strSpeed[30];
-// 		int len = sprintf(strSpeed, "x%g", dSpeed);
-// 		int width = 0;
-// 		for (int i = 0; i < len; ++i)
-// 			width += glutBitmapWidth(GLUT_BITMAP_TIMES_ROMAN_24, strSpeed[i]);
-//
-// 		glColor3f(0, 1, 0);
-// 		glRasterPos2i(g_NonFullWinSize.X - width - 3, 30);
-// 		glPrintString(GLUT_BITMAP_TIMES_ROMAN_24, strSpeed);
-// 	}
 }
 
 void drawFrame()
@@ -1823,7 +1810,9 @@ void drawFrame()
 	glDisable(GL_DEPTH_TEST);
 
 	if (g_DrawConfig.Streams.Depth.Coloring == CYCLIC_RAINBOW_HISTOGRAM || g_DrawConfig.Streams.Depth.Coloring == LINEAR_HISTOGRAM || g_DrawConfig.bShowPointer)
+	{
 		calculateHistogram();
+	}
 
 	drawColor(&g_DrawConfig.ColorLocation, bDrawImagePointer ? &pointerInColor : NULL, imagePointerRed, imagePointerGreen, imagePointerBlue);
 
@@ -1832,7 +1821,9 @@ void drawFrame()
 	printRecordingInfo();
 
 	if (g_DrawConfig.bShowPointer)
+	{
 		drawPointerMode(bOverDepth ? &pointerInDepth : NULL);
+	}
 
 	drawUserInput(!bOverDepth && !bOverImage);
 
@@ -1840,10 +1831,14 @@ void drawFrame()
 	drawPlaybackSpeed();
 
 	if (g_DrawConfig.strErrorState[0] != '\0')
+	{
 		drawErrorState();
+	}
 
 	if (g_DrawConfig.bHelp)
+	{
 		drawHelpScreen();
+	}
 
 	glutSwapBuffers();
 }

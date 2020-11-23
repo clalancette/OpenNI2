@@ -66,7 +66,7 @@ typedef struct StreamCapturingData
 	const char* name;
 	bool bRecording;
 	openni::VideoFrameRef& (*getFrameFunc)();
-	openni::VideoStream&  (*getStream)();	
+	openni::VideoStream&  (*getStream)();
 	bool (*isStreamOn)();
 	int startFrame;
 } StreamCapturingData;
@@ -86,7 +86,7 @@ typedef struct CapturingData
 // --------------------------------
 // Static Global Variables
 // --------------------------------
-CapturingData g_Capture;
+static CapturingData g_Capture;
 
 DeviceParameter g_DepthCapturing;
 DeviceParameter g_ColorCapturing;
@@ -172,19 +172,19 @@ bool isCapturing()
 void captureBrowse(int)
 {
 #if (ONI_PLATFORM == ONI_PLATFORM_WIN32)
-    OPENFILENAME ofn  = { 0 };
-    ofn.lStructSize   = sizeof(ofn);
-    ofn.lpstrFilter   = TEXT("Oni Files (*.oni)\0*.oni\0");
-    ofn.nFilterIndex  = 1;
-    ofn.lpstrFile     = g_Capture.csFileName;
-    ofn.nMaxFile      = sizeof(g_Capture.csFileName);
-    ofn.lpstrTitle    = TEXT("Capture to...");
-    ofn.lpstrDefExt   = TEXT("oni");
-    ofn.Flags         = OFN_EXPLORER | OFN_NOCHANGEDIR;
-    BOOL gotFileName = GetSaveFileName(&ofn);
+	OPENFILENAME ofn  = { 0 };
+	ofn.lStructSize   = sizeof(ofn);
+	ofn.lpstrFilter   = TEXT("Oni Files (*.oni)\0*.oni\0");
+	ofn.nFilterIndex  = 1;
+	ofn.lpstrFile     = g_Capture.csFileName;
+	ofn.nMaxFile      = sizeof(g_Capture.csFileName);
+	ofn.lpstrTitle    = TEXT("Capture to...");
+	ofn.lpstrDefExt   = TEXT("oni");
+	ofn.Flags         = OFN_EXPLORER | OFN_NOCHANGEDIR;
+	BOOL gotFileName = GetSaveFileName(&ofn);
 
-    if (gotFileName)
-    {
+	if (gotFileName)
+	{
 		if (g_Capture.csFileName[0] != 0)
 		{
 			if (strstr(g_Capture.csFileName, ".oni") == NULL)
@@ -194,8 +194,8 @@ void captureBrowse(int)
 		}
 	}
 #else
-    // Set capture file to defaults.
-    strcpy(g_Capture.csFileName, "./Captured.oni");
+	// Set capture file to defaults.
+	strcpy(g_Capture.csFileName, "./Captured.oni");
 #endif // ONI_PLATFORM_WIN32
 
 	// as we waited for user input, it's probably better to discard first frame (especially if an accumulating
@@ -205,16 +205,16 @@ void captureBrowse(int)
 
 void captureStart(int nDelay)
 {
-    captureBrowse(0);
+	captureBrowse(0);
 
-    // On some platforms a user can cancel capturing. Whenever he cancels
-    // capturing, the gs_filePath[0] remains empty.
-    if ('\0' == g_Capture.csFileName[0])
-    {
-        return;
-    }
+	// On some platforms a user can cancel capturing. Whenever he cancels
+	// capturing, the gs_filePath[0] remains empty.
+	if ('\0' == g_Capture.csFileName[0])
+	{
+		return;
+	}
 
-    openni::Status rc = g_Capture.recorder.create(g_Capture.csFileName);
+	openni::Status rc = g_Capture.recorder.create(g_Capture.csFileName);
 	if (rc != openni::STATUS_OK)
 	{
 		displayError("Failed to create recorder!");
@@ -231,17 +231,17 @@ void captureStart(int nDelay)
 
 void captureRestart(int)
 {
-    captureStop(0);
-    captureStart(0);
+	captureStop(0);
+	captureStart(0);
 }
 
 void captureStop(int)
 {
-    if (g_Capture.recorder.isValid())
-    {
-        g_Capture.recorder.destroy();
+	if (g_Capture.recorder.isValid())
+	{
+		g_Capture.recorder.destroy();
 		g_Capture.State = NOT_CAPTURING;
-    }
+	}
 }
 
 #define START_CAPTURE_CHECK_RC(rc, what)												\
