@@ -40,7 +40,7 @@ XnOniDevice::XnOniDevice(const XnChar* uri, oni::driver::DriverServices& driverS
 XnOniDevice::~XnOniDevice()
 {
 	// free the allocated arrays
-	for(int i=0; i < m_numSensors; ++i)
+	for(int i = 0; i < m_numSensors; ++i)
 	{
 		XN_DELETE_ARR(m_sensors[i].pSupportedVideoModes);
 	}
@@ -51,7 +51,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 {
 	XnUInt32 nSupportedModes      = 0;
 	XnCmosPreset* pSupportedModes = NULL;
-	
+
 	int s = 0;
 
 	// Depth
@@ -61,12 +61,12 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 	m_sensors[s].sensorType             = ONI_SENSOR_DEPTH;
 	m_sensors[s].pSupportedVideoModes   = XN_NEW_ARR(OniVideoMode, nSupportedModes);
 	XN_VALIDATE_ALLOC_PTR(m_sensors[s].pSupportedVideoModes);
-	
+
 	OniPixelFormat depthFormats[] = { ONI_PIXEL_FORMAT_DEPTH_1_MM, ONI_PIXEL_FORMAT_DEPTH_100_UM };
 	XnSizeT depthFormatsCount = sizeof(depthFormats) / sizeof(depthFormats[0]);
 
 	int writeIndex = 0;
-	for(XnUInt32 i = 0; i < nSupportedModes; ++i)
+	for (XnUInt32 i = 0; i < nSupportedModes; ++i)
 	{
 		for (XnSizeT formatIndex = 0; formatIndex < depthFormatsCount; ++formatIndex)
 		{
@@ -117,9 +117,9 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 		m_sensors[s].numSupportedVideoModes = 0; // to be changed later..
 		m_sensors[s].pSupportedVideoModes   = XN_NEW_ARR(OniVideoMode, nSupportedModes * 10);
 		XN_VALIDATE_ALLOC_PTR(m_sensors[s].pSupportedVideoModes);
-		
+
 		writeIndex = 0;
-		for(XnUInt32 j=0; j < nSupportedModes; ++j)
+		for (XnUInt32 j = 0; j < nSupportedModes; ++j)
 		{
 			// make an OniVideoMode for each OniFormat supported by the input format
 			OniPixelFormat aOniFormats[10];
@@ -128,7 +128,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 			for(int curOni=0; curOni<nOniFormats; ++curOni)
 			{
 				m_sensors[s].pSupportedVideoModes[writeIndex].pixelFormat = aOniFormats[curOni];
-			
+
 				m_sensors[s].pSupportedVideoModes[writeIndex].fps = pSupportedModes[j].nFPS;
 				XnBool bOK = XnDDKGetXYFromResolution(
 					(XnResolutions)pSupportedModes[j].nResolution,
@@ -171,7 +171,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 
 	OniPixelFormat irFormats[] = {ONI_PIXEL_FORMAT_GRAY16, ONI_PIXEL_FORMAT_RGB888};
 	writeIndex = 0;
-	for(XnUInt32 i=0; i < nSupportedModes; ++i)
+	for (XnUInt32 i = 0; i < nSupportedModes; ++i)
 	{
 		for (int fmt = 0; fmt <= 1; ++fmt)
 		{

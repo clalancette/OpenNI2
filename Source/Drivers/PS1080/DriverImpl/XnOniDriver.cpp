@@ -79,7 +79,7 @@ OniStatus XnOniDriver::initialize(oni::driver::DeviceConnectedCallback deviceCon
 	return ONI_STATUS_OK;
 }
 
-void XnOniDriver::shutdown() 
+void XnOniDriver::shutdown()
 {
 	if (m_connectedEventHandle != NULL)
 	{
@@ -125,8 +125,8 @@ oni::driver::DeviceBase* XnOniDriver::deviceOpen(const char* uri, const char* mo
 
 	// Register to error state property changed.
 	XnCallbackHandle handle;
-	nRetVal = pDevice->GetSensor()->RegisterToPropertyChange(XN_MODULE_NAME_DEVICE, 
-																XN_MODULE_PROPERTY_ERROR_STATE, 
+	nRetVal = pDevice->GetSensor()->RegisterToPropertyChange(XN_MODULE_NAME_DEVICE,
+																XN_MODULE_PROPERTY_ERROR_STATE,
 																OnDevicePropertyChanged, pDevice, handle);
 	if (nRetVal != XN_STATUS_OK)
 	{
