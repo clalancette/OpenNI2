@@ -72,14 +72,13 @@ XnStatus XnMirrorOneBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 
 XnStatus XnMirrorTwoBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nLineSize)
 {
 	// Local function variables
-	XnUInt16* pSrc = (XnUInt16*)pBuffer;
-	XnUInt16 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
-	XnUInt16* pSrcEnd = pSrc + nBufferSize / sizeof(XnUInt16);
-	XnUInt16* pDest = NULL;
-	XnUInt16* pDestVal = &pLineBuffer[0] + nLineSize - 1;
-	XnUInt16* pDestEnd = &pLineBuffer[0];
-	XnUInt16 nMemCpyLineSize = (XnUInt16)(nLineSize * sizeof(XnUInt16));
-	XnUInt16 nValue;
+	XnUInt8* pSrc = pBuffer;
+	XnUInt8 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
+	XnUInt8* pSrcEnd = pSrc + nBufferSize;
+	XnUInt8* pDest = NULL;
+	XnUInt8* pDestVal = &pLineBuffer[nLineSize * 2 - 1];
+	XnUInt8* pDestEnd = &pLineBuffer[0];
+	XnUInt16 nMemCpyLineSize = (XnUInt16)(nLineSize * 2);
 
 	if (nLineSize > XN_MIRROR_MAX_LINE_SIZE)
 	{
@@ -91,16 +90,14 @@ XnStatus XnMirrorTwoBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 
 		xnOSMemCopy(pLineBuffer, pSrc, nMemCpyLineSize);
 
 		pDest = pDestVal;
-		while (pDest != pDestEnd)
+		while (pDest >= pDestEnd)
 		{
-			nValue = pDest[0];
-			pSrc[0] = nValue;
+			*pSrc = *(pDest-1);
+			*(pSrc+1) = *pDest;
 
-			pDest--;
-			pSrc++;
+                        pSrc += 2;
+                        pDest -= 2;
 		}
-		nValue = pDest[0];
-		pSrc[0] = nValue;
 	}
 
 	// All is good...
@@ -114,7 +111,7 @@ XnStatus XnMirrorThreeBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt3
 	XnUInt8 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
 	XnUInt8* pSrcEnd = pSrc + nBufferSize;
 	XnUInt8* pDest = NULL;
-	XnUInt8* pDestVal = &pLineBuffer[0] + nLineSize * 3 - 1;
+	XnUInt8* pDestVal = &pLineBuffer[nLineSize * 3 - 1];
 	XnUInt8* pDestEnd = &pLineBuffer[0];
 	XnUInt16 nMemCpyLineSize = (XnUInt16)(nLineSize * 3);
 
@@ -128,14 +125,14 @@ XnStatus XnMirrorThreeBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt3
 		xnOSMemCopy(pLineBuffer, pSrc, nMemCpyLineSize);
 
 		pDest = pDestVal;
-		while (pDest != pDestEnd)
+		while (pDest >= pDestEnd)
 		{
 			*pSrc = *(pDest-2);
 			*(pSrc+1) = *(pDest-1);
 			*(pSrc+2) = *pDest;
 
-			pSrc+=3;
-			pDest-=3;
+			pSrc += 3;
+			pDest -= 3;
 		}
 	}
 
