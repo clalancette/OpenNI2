@@ -33,7 +33,7 @@ class XnCodec;
 
 namespace oni_file {
 
-class PlayerNode
+class PlayerNode final
 {
 public:
 
@@ -46,31 +46,30 @@ public:
 		void     (XN_CALLBACK_TYPE* Destroy)(void* pCookie, XnCodec* pCodec);
 	} CodecFactory;
 
-public:
 	PlayerNode(const XnChar* strName);
-	virtual ~PlayerNode();
+	~PlayerNode();
 
 	//public functions
-	virtual XnStatus Init();
-	virtual XnStatus Destroy();
+	XnStatus Init();
+	XnStatus Destroy();
 
 	//xn::ModulePlayer implementation
-	virtual XnStatus SetInputStream(void* pStreamCookie, XnPlayerInputStreamInterface* pStream);
-	virtual XnStatus ReadNext();
-	virtual XnStatus SetNodeNotifications(void* pNotificationsCookie, XnNodeNotifications* pNodeNotifications);
-	virtual XnStatus SetNodeCodecFactory(void* pFactoryCookie, PlayerNode::CodecFactory* pPlayerNodeCodecFactory);
-	virtual XnStatus SetRepeat(XnBool bRepeat);
-	virtual XnStatus SeekToTimeStamp(XnInt64 nTimeOffset, XnPlayerSeekOrigin origin);
+	XnStatus SetInputStream(void* pStreamCookie, XnPlayerInputStreamInterface* pStream);
+	XnStatus ReadNext();
+	XnStatus SetNodeNotifications(void* pNotificationsCookie, XnNodeNotifications* pNodeNotifications);
+	XnStatus SetNodeCodecFactory(void* pFactoryCookie, PlayerNode::CodecFactory* pPlayerNodeCodecFactory);
+	XnStatus SetRepeat(XnBool bRepeat);
+	XnStatus SeekToTimeStamp(XnInt64 nTimeOffset, XnPlayerSeekOrigin origin);
 
-	virtual XnStatus SeekToFrame(const XnChar* strNodeName, XnInt32 nFrameOffset, XnPlayerSeekOrigin origin);
-	virtual XnStatus TellTimestamp(XnUInt64& nTimestamp);
-	virtual XnStatus TellFrame(const XnChar* strNodeName, XnUInt32& nFrameNumber);
-	virtual XnUInt32 GetNumFrames(const XnChar* strNodeName, XnUInt32& nFrames);
+	XnStatus SeekToFrame(const XnChar* strNodeName, XnInt32 nFrameOffset, XnPlayerSeekOrigin origin);
+	XnStatus TellTimestamp(XnUInt64& nTimestamp);
+	XnStatus TellFrame(const XnChar* strNodeName, XnUInt32& nFrameNumber);
+	XnUInt32 GetNumFrames(const XnChar* strNodeName, XnUInt32& nFrames);
 
-	virtual const XnChar* GetSupportedFormat();
-	virtual XnBool IsEOF();
-	virtual XnStatus RegisterToEndOfFileReached(EndOfFileReachedHandler handler, void* pCookie, XnCallbackHandle& hCallback);
-	virtual void UnregisterFromEndOfFileReached(XnCallbackHandle hCallback);
+	const XnChar* GetSupportedFormat();
+	XnBool IsEOF();
+	XnStatus RegisterToEndOfFileReached(EndOfFileReachedHandler handler, void* pCookie, XnCallbackHandle& hCallback);
+	void UnregisterFromEndOfFileReached(XnCallbackHandle hCallback);
 
 	static XnStatus ValidateStream(void *pStreamCookie, XnPlayerInputStreamInterface* pInputStream);
 

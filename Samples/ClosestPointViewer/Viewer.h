@@ -26,20 +26,16 @@
 
 #define MAX_DEPTH 10000
 
-class MyMwListener : public closest_point::ClosestPoint::Listener
+class MyMwListener final : public closest_point::ClosestPoint::Listener
 {
 public:
 	MyMwListener() : m_ready(false) {}
 	virtual ~MyMwListener() {}
-	void readyForNextData(closest_point::ClosestPoint* pClosestPoint)
+	void readyForNextData(closest_point::ClosestPoint* pClosestPoint) override
 	{
 		openni::Status rc = pClosestPoint->getNextData(m_closest, m_frame);
 
-		if (rc == openni::STATUS_OK)
-		{
-//			printf("%d, %d, %d\n", m_closest.X, m_closest.Y, m_closest.Z);
-		}
-		else
+		if (rc != openni::STATUS_OK)
 		{
 			printf("Update failed\n");
 		}
@@ -57,27 +53,26 @@ private:
 };
 
 
-class SampleViewer
+class SampleViewer final
 {
 public:
 	SampleViewer(const char* strSampleName, const char* deviceUri);
-	virtual ~SampleViewer();
+	~SampleViewer();
 
-	virtual openni::Status init(int argc, char **argv);
-	virtual openni::Status run();	//Does not return
+	openni::Status init(int argc, char **argv);
+	openni::Status run();	//Does not return
 
-protected:
-	virtual void display();
-	virtual void displayPostDraw(){};	// Overload to draw over the screen image
+private:
+	void display();
+	void displayPostDraw(){};	// Overload to draw over the screen image
 
-	virtual void onKey(unsigned char key, int x, int y);
+	void onKey(unsigned char key, int x, int y);
 
-	virtual openni::Status initOpenGL(int argc, char **argv);
+	openni::Status initOpenGL(int argc, char **argv);
 	void initOpenGLHooks();
 
 	void finalize();
 
-private:
 	SampleViewer(const SampleViewer&);
 	SampleViewer& operator=(SampleViewer&);
 
@@ -94,8 +89,6 @@ private:
 
 	closest_point::ClosestPoint* m_pClosestPoint;
 	MyMwListener* m_pClosestPointListener;
-
 };
-
 
 #endif // VIEWER_H

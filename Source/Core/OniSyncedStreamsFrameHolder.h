@@ -29,36 +29,35 @@
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
-class SyncedStreamsFrameHolder : public FrameHolder
+class SyncedStreamsFrameHolder final : public FrameHolder
 {
 public:
-
 	// Constructor.
 	SyncedStreamsFrameHolder(FrameManager& frameManager, VideoStream** ppStreams, int numStreams);
 
 	// Destructor.
-	virtual ~SyncedStreamsFrameHolder();
+	~SyncedStreamsFrameHolder();
 
 	// Get the next frame belonging to a stream.
-	virtual OniStatus readFrame(VideoStream* pStream, OniFrame** pFrame);
+	OniStatus readFrame(VideoStream* pStream, OniFrame** pFrame) override;
 
 	// Process a newly received frame.
-	virtual OniStatus processNewFrame(VideoStream* pStream, OniFrame* pFrame);
+	OniStatus processNewFrame(VideoStream* pStream, OniFrame* pFrame) override;
 
 	// Peek at next frame.
-	virtual OniFrame* peekFrame(VideoStream* pStream);
+	OniFrame* peekFrame(VideoStream* pStream) override;
 
 	// Clear all the frame in the holder.
-	virtual void clear();
+	void clear() override;
 
 	// Set whether stream is enabled.
-	virtual void setStreamEnabled(VideoStream* pStream, OniBool enabled);
+	void setStreamEnabled(VideoStream* pStream, OniBool enabled) override;
 
 	// Return list of streams which are members of the stream group.
-	virtual void getStreams(VideoStream** ppStreams, int* pNumStreams);
+	void getStreams(VideoStream** ppStreams, int* pNumStreams) override;
 
 	// Return number of streams which are members of the stream group.
-	virtual int getNumStreams();
+	int getNumStreams() override;
 
 private:
 

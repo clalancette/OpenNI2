@@ -31,27 +31,26 @@
 // Code
 //---------------------------------------------------------------------------
 
-class XnIRProcessor : public XnFrameStreamProcessor
+class XnIRProcessor final : public XnFrameStreamProcessor
 {
 public:
 	XnIRProcessor(XnSensorIRStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager);
-	virtual ~XnIRProcessor();
+	~XnIRProcessor();
 
 	XnStatus Init();
 
-protected:
+private:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize);
-	virtual void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader);
-	virtual XnUInt64 CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp);
-	virtual void OnFrameReady(XnUInt32 nFrameID, XnUInt64 nFrameTS);
+	void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize) override;
+	void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader) override;
+	XnUInt64 CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp) override;
+	void OnFrameReady(XnUInt32 nFrameID, XnUInt64 nFrameTS) override;
 
 	//---------------------------------------------------------------------------
 	// Internal Functions
 	//---------------------------------------------------------------------------
-private:
 	XnStatus Unpack10to16(const XnUInt8* pcInput, const XnUInt32 nInputSize, XnUInt16* pnOutput, XnUInt32* pnActualRead, XnUInt32* pnOutputSize);
 	inline XnSensorIRStream* GetStream()
 	{
@@ -61,7 +60,6 @@ private:
 	//---------------------------------------------------------------------------
 	// Class Members
 	//---------------------------------------------------------------------------
-private:
 	/* A buffer to store bytes till we have enough to unpack. */
 	XnBuffer m_ContinuousBuffer;
 	XnBuffer m_UnpackedBuffer;

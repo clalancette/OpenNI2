@@ -33,7 +33,7 @@
 /**
 * A property of type general.
 */
-class XnActualStringProperty : public XnStringProperty
+class XnActualStringProperty final : public XnStringProperty
 {
 public:
 	XnActualStringProperty(XnUInt32 propertyId, const XnChar* strName, const XnChar* strInitialValue = "", const XnChar* strModule = "");

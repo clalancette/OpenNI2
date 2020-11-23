@@ -33,21 +33,21 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class XnOniDriver :
+class XnOniDriver final :
 	public oni::driver::DriverBase
 {
 public:
 	XnOniDriver(OniDriverServices* pDriverServices) : DriverBase(pDriverServices), m_writer(pDriverServices), m_connectedEventHandle(NULL), m_disconnectedEventHandle(NULL)
 	{}
 
-	virtual OniStatus initialize(oni::driver::DeviceConnectedCallback deviceConnectedCallback, oni::driver::DeviceDisconnectedCallback deviceDisconnectedCallback, oni::driver::DeviceStateChangedCallback deviceStateChangedCallback, void* pCookie);
-	virtual void shutdown();
+	OniStatus initialize(oni::driver::DeviceConnectedCallback deviceConnectedCallback, oni::driver::DeviceDisconnectedCallback deviceDisconnectedCallback, oni::driver::DeviceStateChangedCallback deviceStateChangedCallback, void* pCookie) override;
+	void shutdown() override;
 
-	virtual oni::driver::DeviceBase* deviceOpen(const char* uri, const char* mode);
-	virtual void deviceClose(oni::driver::DeviceBase* pDevice);
+	oni::driver::DeviceBase* deviceOpen(const char* uri, const char* mode) override;
+	void deviceClose(oni::driver::DeviceBase* pDevice) override;
 
-	virtual void* enableFrameSync(oni::driver::StreamBase** pStreams, int streamCount);
-	virtual void disableFrameSync(void* frameSyncGroup);
+	void* enableFrameSync(oni::driver::StreamBase** pStreams, int streamCount) override;
+	void disableFrameSync(void* frameSyncGroup) override;
 
 	void ClearDevice(const char* uri);
 
@@ -60,7 +60,7 @@ protected:
 	xnl::XnStringsHashT<XnOniDevice*> m_devices;
 
 private:
-	class XnOpenNILogWriter : public XnLogWriterBase
+	class XnOpenNILogWriter final : public XnLogWriterBase
 	{
 	public:
 		XnOpenNILogWriter(OniDriverServices* pDriverServices);
@@ -71,7 +71,7 @@ private:
 		OniDriverServices* m_pDriverServices;
 	};
 
-	typedef struct 
+	typedef struct
 	{
 		XnOniDevice* pDevice;
 	} FrameSyncGroup;

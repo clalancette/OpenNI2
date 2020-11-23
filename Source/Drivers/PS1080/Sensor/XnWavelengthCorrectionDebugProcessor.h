@@ -29,7 +29,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-class XnWavelengthCorrectionDebugProcessor : public XnWholePacketProcessor
+class XnWavelengthCorrectionDebugProcessor final : public XnWholePacketProcessor
 {
 public:
 	XnWavelengthCorrectionDebugProcessor(XnDevicePrivateData* pDevicePrivateData);
@@ -39,7 +39,7 @@ protected:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData);
+	void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData) override;
 
 	//---------------------------------------------------------------------------
 	// Class Members

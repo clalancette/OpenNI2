@@ -40,14 +40,13 @@ enum
 	/* Get only */
 	LINK_PROP_BOOT_STATUS = 0x1200000b,
 	/* Int - system specific units */
-    LINK_PROP_PROJECTOR_POWER = 0x1200000c,
-    /* SetAccActive*/   
-    LINK_PROP_ACC_ENABLED = 0x1200000d, 
-    /* SetAccActive*/   
-    LINK_PROP_VDD_ENABLED = 0x1200000e, 
-    /* SetAccActive*/   
-    LINK_PROP_PERIODIC_BIST_ENABLED = 0x1200000f, 
-
+	LINK_PROP_PROJECTOR_POWER = 0x1200000c,
+	/* SetAccActive*/
+	LINK_PROP_ACC_ENABLED = 0x1200000d,
+	/* SetAccActive*/
+	LINK_PROP_VDD_ENABLED = 0x1200000e,
+	/* SetAccActive*/
+	LINK_PROP_PERIODIC_BIST_ENABLED = 0x1200000f,
 
 	/**** Device commands ****/
 	/* XnCommandGetFwStreams */
@@ -69,7 +68,7 @@ enum
 	/* XnCommandSetProjectorPulse */
 	LINK_COMMAND_SET_PROJECTOR_PULSE = 0x1200F009,
 	/* No args */
-    LINK_COMMAND_DISABLE_PROJECTOR_PULSE = 0x1200F00a,
+	LINK_COMMAND_DISABLE_PROJECTOR_PULSE = 0x1200F00a,
 
 	/**** Stream properties ****/
 	/* Int. 1 - Shifts 9.3, 2 - Grayscale16, 3 - YUV422, 4 - Bayer8 */

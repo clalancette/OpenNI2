@@ -30,11 +30,6 @@
 #endif
 
 
-namespace openni
-{
-	class Device;
-}
-
 namespace closest_point
 {
 
@@ -73,10 +68,5 @@ private:
 };
 
 }
-
-
-
-
-
 
 #endif // MWCLOSESTPOINT_H

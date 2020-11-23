@@ -30,7 +30,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-class XnBayerImageProcessor : public XnImageProcessor
+class XnBayerImageProcessor final : public XnImageProcessor
 {
 public:
 	XnBayerImageProcessor(XnSensorImageStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager);
@@ -38,18 +38,17 @@ public:
 
 	XnStatus Init();
 
+private:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-protected:
-	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize);
-	virtual void OnStartOfFrame(const XnSensorProtocolResponseHeader* pHeader);
-	virtual void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader);
+	void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize) override;
+	void OnStartOfFrame(const XnSensorProtocolResponseHeader* pHeader) override;
+	void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader) override;
 
 	//---------------------------------------------------------------------------
 	// Class Members
 	//---------------------------------------------------------------------------
-private:
 	XnBuffer m_ContinuousBuffer;
 	XnBuffer m_UncompressedBayerBuffer;
 };

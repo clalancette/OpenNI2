@@ -28,7 +28,7 @@ namespace closest_point
 
 class StreamListener;
 
-struct ClosestPointInternal
+struct ClosestPointInternal final
 {
 	ClosestPointInternal(ClosestPoint* pClosestPoint) :
 		m_pDevice(NULL), m_pDepthStream(NULL), m_pListener(NULL), m_pStreamListener(NULL), m_pClosesPoint(pClosestPoint)
@@ -37,7 +37,9 @@ struct ClosestPointInternal
 	void Raise()
 	{
 		if (m_pListener != NULL)
+		{
 			m_pListener->readyForNextData(m_pClosesPoint);
+		}
 	}
 	bool m_oniOwner;
 	Device* m_pDevice;
@@ -50,12 +52,12 @@ struct ClosestPointInternal
 	ClosestPoint* m_pClosesPoint;
 };
 
-class StreamListener : public VideoStream::NewFrameListener
+class StreamListener final : public VideoStream::NewFrameListener
 {
 public:
 	StreamListener(ClosestPointInternal* pClosestPoint) : m_pClosestPoint(pClosestPoint)
 	{}
-	virtual void onNewFrame(VideoStream& /*stream*/)
+	virtual void onNewFrame(VideoStream& /*stream*/) override
 	{
 		m_pClosestPoint->Raise();
 	}
@@ -148,20 +150,27 @@ ClosestPoint::~ClosestPoint()
 
 	OpenNI::shutdown();
 
-
 	delete m_pInternal;
 }
 
 bool ClosestPoint::isValid() const
 {
 	if (m_pInternal == NULL)
+	{
 		return false;
+	}
 	if (m_pInternal->m_pDevice == NULL)
+	{
 		return false;
+	}
 	if (m_pInternal->m_pDepthStream == NULL)
+	{
 		return false;
+	}
 	if (!m_pInternal->m_pDepthStream->isValid())
+	{
 		return false;
+	}
 
 	return true;
 }
@@ -191,6 +200,7 @@ Status ClosestPoint::getNextData(IntPoint3D& closestPoint, VideoFrameRef& rawFra
 	int height = rawFrame.getHeight();
 
 	for (int y = 0; y < height; ++y)
+	{
 		for (int x = 0; x < width; ++x, ++pDepth)
 		{
 			if (*pDepth < closestPoint.Z && *pDepth != 0)
@@ -201,6 +211,7 @@ Status ClosestPoint::getNextData(IntPoint3D& closestPoint, VideoFrameRef& rawFra
 				found = true;
 			}
 		}
+	}
 
 	if (!found)
 	{

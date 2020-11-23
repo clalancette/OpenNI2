@@ -36,7 +36,7 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class XnFirmwareStreams
+class XnFirmwareStreams final
 {
 public:
 	XnFirmwareStreams(XnDevicePrivateData* pDevicePrivateData);
@@ -58,7 +58,7 @@ private:
 
 	XnDevicePrivateData* m_pDevicePrivateData;
 
-	class XnFirmwareStreamData
+	class XnFirmwareStreamData final
 	{
 	public:
 		XnDataProcessorHolder* pProcessorHolder;

@@ -129,10 +129,6 @@ openni::VideoStream&  getIRStream();
 openni::VideoFrameRef& getDepthFrame();
 openni::VideoFrameRef& getColorFrame();
 openni::VideoFrameRef& getIRFrame();
-// const DepthMetaData* getDepthMetaData();
-// const ImageMetaData* getImageMetaData();
-// const IRMetaData* getIRMetaData();
-// const AudioMetaData* getAudioMetaData();
 
 void toggleFrameSync(int);
 

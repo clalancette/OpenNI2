@@ -32,24 +32,23 @@ enum DisplayModes
 	DISPLAY_MODE_DEPTH2
 };
 
-class SampleViewer
+class SampleViewer final
 {
 public:
 	SampleViewer(const char* strSampleName, openni::VideoStream& depth1, openni::VideoStream& depth2);
-	virtual ~SampleViewer();
+	~SampleViewer();
 
-	virtual openni::Status init(int argc, char **argv);
-	virtual openni::Status run();	//Does not return
+	openni::Status init(int argc, char **argv);
+	openni::Status run();	//Does not return
 
-protected:
-	virtual void display();
-	virtual void displayPostDraw(){};	// Overload to draw over the screen image
-
-	virtual void onKey(unsigned char key, int x, int y);
-
-	virtual openni::Status initOpenGL(int argc, char **argv);
-	void initOpenGLHooks();
 private:
+	void display();
+
+	void onKey(unsigned char key, int x, int y);
+
+	openni::Status initOpenGL(int argc, char **argv);
+	void initOpenGLHooks();
+
 	SampleViewer(const SampleViewer&);
 	SampleViewer& operator=(SampleViewer&);
 

@@ -37,54 +37,51 @@ public:
 	XnDataProcessor(XnDevicePrivateData* pDevicePrivateData, const XnChar* csName);
 	virtual ~XnDataProcessor();
 
-//---------------------------------------------------------------------------
-// Methods
-//---------------------------------------------------------------------------
-public:
+	//---------------------------------------------------------------------------
+	// Methods
+	//---------------------------------------------------------------------------
 	/**
-	* Initializes a Data Processor.
-	*
-	* @param	pDevicePrivateData	[in]	A pointer to the device.
-	* @param	csName				[in]	The name of the stream.
-	*/
+	 * Initializes a Data Processor.
+	 *
+	 * @param	pDevicePrivateData	[in]	A pointer to the device.
+	 * @param	csName				[in]	The name of the stream.
+	 */
 	virtual XnStatus Init();
 
 	/**
-	* Handles some data from this stream.
-	*
-	* @param	pHeader		[in]	A pointer to current packet header.
-	* @param	pData		[in]	A pointer to the data.
-	* @param	nDataOffset	[in]	The offset of this data chunk inside current packet.
-	* @param	nDataSize	[in]	Size of the data in bytes.
-	*/
+	 * Handles some data from this stream.
+	 *
+	 * @param	pHeader		[in]	A pointer to current packet header.
+	 * @param	pData		[in]	A pointer to the data.
+	 * @param	nDataOffset	[in]	The offset of this data chunk inside current packet.
+	 * @param	nDataSize	[in]	Size of the data in bytes.
+	 */
 	void ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize);
 
 	inline XnBool ShouldUseHostTimestamps() { return m_bUseHostTimestamps; }
 
-//---------------------------------------------------------------------------
-// Virtual Functions
-//---------------------------------------------------------------------------
 protected:
+	//---------------------------------------------------------------------------
+	// Virtual Functions
+	//---------------------------------------------------------------------------
 	virtual void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize) = 0;
 	virtual void OnPacketLost();
 
-//---------------------------------------------------------------------------
-// Utility Functions
-//---------------------------------------------------------------------------
-protected:
+	//---------------------------------------------------------------------------
+	// Utility Functions
+	//---------------------------------------------------------------------------
 	/*
-	* Gets a calculated timestamp from the device timestamp.
-	*
-	* @param	nDeviceTimeStamp	[in]	The device TS to translate.
-	*/
+	 * Gets a calculated timestamp from the device timestamp.
+	 *
+	 * @param	nDeviceTimeStamp	[in]	The device TS to translate.
+	 */
 	virtual XnUInt64 CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp);
 
 	XnUInt64 GetHostTimestamp();
 
-//---------------------------------------------------------------------------
-// Class Members
-//---------------------------------------------------------------------------
-protected:
+	//---------------------------------------------------------------------------
+	// Class Members
+	//---------------------------------------------------------------------------
 	XnDevicePrivateData* m_pDevicePrivateData;
 	/* The number of bytes received so far (since last time this member was reset). */
 	XnUInt32 m_nBytesReceived;

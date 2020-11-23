@@ -38,7 +38,7 @@
 //---------------------------------------------------------------------------
 // XnSensorIRStream class
 //---------------------------------------------------------------------------
-class XnSensorIRStream : public XnIRStream, public IXnSensorStream
+class XnSensorIRStream final : public XnIRStream, public IXnSensorStream
 {
 public:
 	XnSensorIRStream(const XnChar* StreamName, XnSensorObjects* pObjects);
@@ -47,42 +47,41 @@ public:
 	//---------------------------------------------------------------------------
 	// Overridden Methods
 	//---------------------------------------------------------------------------
-	XnStatus Init();
-	XnStatus Free();
+	XnStatus Init() override;
+	XnStatus Free() override;
 	XnStatus BatchConfig(const XnActualPropertiesHash& props) { return m_Helper.BatchConfig(props); }
 
 	inline XnSensorStreamHelper* GetHelper() { return &m_Helper; }
 
 	friend class XnIRProcessor;
 
-protected:
+private:
 	inline XnSensorFirmwareParams* GetFirmwareParams() const { return m_Helper.GetFirmware()->GetParams(); }
 
 	//---------------------------------------------------------------------------
 	// Overridden Methods
 	//---------------------------------------------------------------------------
 	XnStatus Open() { return m_Helper.Open(); }
-	XnStatus Close() { return m_Helper.Close(); }
-	XnStatus CalcRequiredSize(XnUInt32* pnRequiredSize) const;
-	XnStatus CropImpl(OniFrame* pFrame, const OniCropping* pCropping);
-	XnStatus ConfigureStreamImpl();
-	XnStatus OpenStreamImpl();
-	XnStatus CloseStreamImpl();
-	XnStatus CreateDataProcessor(XnDataProcessor** ppProcessor);
-	XnStatus MapPropertiesToFirmware();
-	void GetFirmwareStreamConfig(XnResolutions* pnRes, XnUInt32* pnFPS) { *pnRes = GetResolution(); *pnFPS = GetFPS(); }
+	XnStatus Close() override { return m_Helper.Close(); }
+	XnStatus CalcRequiredSize(XnUInt32* pnRequiredSize) const override;
+	XnStatus CropImpl(OniFrame* pFrame, const OniCropping* pCropping) override;
+	XnStatus ConfigureStreamImpl() override;
+	XnStatus OpenStreamImpl() override;
+	XnStatus CloseStreamImpl() override;
+	XnStatus CreateDataProcessor(XnDataProcessor** ppProcessor) override;
+	XnStatus MapPropertiesToFirmware() override;
+	void GetFirmwareStreamConfig(XnResolutions* pnRes, XnUInt32* pnFPS) override { *pnRes = GetResolution(); *pnFPS = GetFPS(); }
 
 	//---------------------------------------------------------------------------
 	// Setters
 	//---------------------------------------------------------------------------
 	XnStatus SetOutputFormat(OniPixelFormat nOutputFormat);
-	XnStatus SetResolution(XnResolutions nResolution);
-	XnStatus SetFPS(XnUInt32 nFPS);
-	XnStatus SetCropping(const OniCropping* pCropping);
+	XnStatus SetResolution(XnResolutions nResolution) override;
+	XnStatus SetFPS(XnUInt32 nFPS) override;
+	XnStatus SetCropping(const OniCropping* pCropping) override;
 	XnStatus SetCroppingMode(XnCroppingMode mode);
 	XnStatus SetActualRead(XnBool bRead);
 
-private:
 	XnStatus OnIsMirroredChanged();
 	XnStatus SetCroppingImpl(const OniCropping* pCropping, XnCroppingMode mode);
 

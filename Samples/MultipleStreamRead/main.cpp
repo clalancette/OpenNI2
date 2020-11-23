@@ -25,25 +25,23 @@
 
 #define SAMPLE_READ_WAIT_TIMEOUT 2000 //2000ms
 
-using namespace openni;
-
-void analyzeFrame(const VideoFrameRef& frame)
+void analyzeFrame(const openni::VideoFrameRef& frame)
 {
-	DepthPixel* pDepth;
-	RGB888Pixel* pColor;
+	openni::DepthPixel* pDepth;
+	openni::RGB888Pixel* pColor;
 
 	int middleIndex = (frame.getHeight()+1)*frame.getWidth()/2;
 
 	switch (frame.getVideoMode().getPixelFormat())
 	{
-	case PIXEL_FORMAT_DEPTH_1_MM:
-	case PIXEL_FORMAT_DEPTH_100_UM:
-		pDepth = (DepthPixel*)frame.getData();
+	case openni::PIXEL_FORMAT_DEPTH_1_MM:
+	case openni::PIXEL_FORMAT_DEPTH_100_UM:
+		pDepth = (openni::DepthPixel*)frame.getData();
 		printf("[%08llu] %8d\n", (long long)frame.getTimestamp(),
 			pDepth[middleIndex]);
 		break;
-	case PIXEL_FORMAT_RGB888:
-		pColor = (RGB888Pixel*)frame.getData();
+	case openni::PIXEL_FORMAT_RGB888:
+		pColor = (openni::RGB888Pixel*)frame.getData();
 		printf("[%08llu] 0x%02x%02x%02x\n", (long long)frame.getTimestamp(),
 			pColor[middleIndex].r&0xff,
 			pColor[middleIndex].g&0xff,
@@ -54,71 +52,70 @@ void analyzeFrame(const VideoFrameRef& frame)
 	}
 }
 
-
 int main()
 {
-	Status rc = OpenNI::initialize();
-	if (rc != STATUS_OK)
+	openni::Status rc = openni::OpenNI::initialize();
+	if (rc != openni::STATUS_OK)
 	{
-		printf("Initialize failed\n%s\n", OpenNI::getExtendedError());
+		printf("Initialize failed\n%s\n", openni::OpenNI::getExtendedError());
 		return 1;
 	}
 
-	Device device;
-	rc = device.open(ANY_DEVICE);
-	if (rc != STATUS_OK)
+	openni::Device device;
+	rc = device.open(openni::ANY_DEVICE);
+	if (rc != openni::STATUS_OK)
 	{
-		printf("Couldn't open device\n%s\n", OpenNI::getExtendedError());
+		printf("Couldn't open device\n%s\n", openni::OpenNI::getExtendedError());
 		return 2;
 	}
 
-	VideoStream depth, color;
+	openni::VideoStream depth, color;
 
-	if (device.getSensorInfo(SENSOR_DEPTH) != NULL)
+	if (device.getSensorInfo(openni::SENSOR_DEPTH) != NULL)
 	{
-		rc = depth.create(device, SENSOR_DEPTH);
-		if (rc == STATUS_OK)
+		rc = depth.create(device, openni::SENSOR_DEPTH);
+		if (rc == openni::STATUS_OK)
 		{
 			rc = depth.start();
-			if (rc != STATUS_OK)
+			if (rc != openni::STATUS_OK)
 			{
-				printf("Couldn't start the color stream\n%s\n", OpenNI::getExtendedError());
+				printf("Couldn't start the color stream\n%s\n", openni::OpenNI::getExtendedError());
 			}
 		}
 		else
 		{
-			printf("Couldn't create depth stream\n%s\n", OpenNI::getExtendedError());
+			printf("Couldn't create depth stream\n%s\n", openni::OpenNI::getExtendedError());
 		}
 	}
 
-	if (device.getSensorInfo(SENSOR_COLOR) != NULL)
+	if (device.getSensorInfo(openni::SENSOR_COLOR) != NULL)
 	{
-		rc = color.create(device, SENSOR_COLOR);
-		if (rc == STATUS_OK)
+		rc = color.create(device, openni::SENSOR_COLOR);
+		if (rc == openni::STATUS_OK)
 		{
 			rc = color.start();
-			if (rc != STATUS_OK)
+			if (rc != openni::STATUS_OK)
 			{
-				printf("Couldn't start the color stream\n%s\n", OpenNI::getExtendedError());
+				printf("Couldn't start the color stream\n%s\n", openni::OpenNI::getExtendedError());
 			}
 		}
 		else
 		{
-			printf("Couldn't create color stream\n%s\n", OpenNI::getExtendedError());
+			printf("Couldn't create color stream\n%s\n", openni::OpenNI::getExtendedError());
 		}
 	}
 
-	VideoFrameRef frame;
+	openni::VideoFrameRef frame;
 
-	VideoStream* streams[] = {&depth, &color};
-	
+	openni::VideoStream* streams[] = {&depth, &color};
+
 	while (!wasKeyboardHit())
 	{
 		int readyStream = -1;
-		rc = OpenNI::waitForAnyStream(streams, 2, &readyStream, SAMPLE_READ_WAIT_TIMEOUT);
-		if (rc != STATUS_OK)
+		rc = openni::OpenNI::waitForAnyStream(streams, 2, &readyStream, SAMPLE_READ_WAIT_TIMEOUT);
+		if (rc != openni::STATUS_OK)
 		{
-			printf("Wait failed! (timeout is %d ms)\n%s\n", SAMPLE_READ_WAIT_TIMEOUT, OpenNI::getExtendedError());
+			printf("Wait failed! (timeout is %d ms)\n%s\n", SAMPLE_READ_WAIT_TIMEOUT, openni::OpenNI::getExtendedError());
 			break;
 		}
 
@@ -144,7 +141,7 @@ int main()
 	depth.destroy();
 	color.destroy();
 	device.close();
-	OpenNI::shutdown();
+	openni::OpenNI::shutdown();
 
 	return 0;
 }

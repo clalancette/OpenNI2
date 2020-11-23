@@ -29,7 +29,7 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class XnOniColorStream :
+class XnOniColorStream final :
 	public XnOniMapStream
 {
 public:

@@ -33,7 +33,7 @@
 /**
 * A property of type general which actually holds a value.
 */
-class XnActualGeneralProperty : public XnGeneralProperty
+class XnActualGeneralProperty final : public XnGeneralProperty
 {
 public:
 	XnActualGeneralProperty(XnUInt32 propertyId, const XnChar* strName, void* pData, XnUInt32 nDataSize, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
@@ -68,7 +68,7 @@ public:
 		m_gbValue.dataSize = nDataSize;
 	}
 
-	XnStatus AddToPropertySet(XnPropertySet* pSet);
+	XnStatus AddToPropertySet(XnPropertySet* pSet) override;
 
 private:
 	static XnStatus XN_CALLBACK_TYPE SetCallback(XnActualGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);

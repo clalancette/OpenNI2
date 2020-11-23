@@ -41,7 +41,7 @@ public:
 	//---------------------------------------------------------------------------
 	// Overridden Methods
 	//---------------------------------------------------------------------------
-	XnStatus Init();
+	XnStatus Init() override;
 	XnStatus Free();
 
 	//---------------------------------------------------------------------------
@@ -86,7 +86,6 @@ protected:
 	virtual XnStatus SetMinDepth(OniDepthPixel nMinDepth);
 	virtual XnStatus SetMaxDepth(OniDepthPixel nMaxDepth);
 
-protected:
 	//---------------------------------------------------------------------------
 	// Helper functions
 	//---------------------------------------------------------------------------

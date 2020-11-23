@@ -26,7 +26,7 @@
 /**
 * Additional properties for PrimeSense devices
 *
-* @remarks 
+* @remarks
 * properties structure is 0x1D27XXYY where XX is range and YY is code.
 * range values:
 * 00 - common stream properties
@@ -47,7 +47,7 @@ enum
 /**
 * Additional commands for PrimeSense devices
 *
-* @remarks 
+* @remarks
 * Commands structure is 0x1D27XXYY where XX is range and YY is code.
 * range values:
 * E0 - device commands
@@ -76,7 +76,7 @@ enum
 	PS_COMMAND_SET_LOG_MASK_STATE = 0x1d27E013, // XnCommandSetLogMaskState
 	PS_COMMAND_START_LOG = 0x1d27E014, // no arguments
     PS_COMMAND_STOP_LOG = 0x1d27E015, // no arguments
-    PS_COMMAND_READ_TEMPERATURE = 0x1d27E016, // no arguments    
+    PS_COMMAND_READ_TEMPERATURE = 0x1d27E016, // no arguments
     PS_COMMAND_GET_TEMP_LIST = 0x1d27E017,// PrintTempList
     PS_COMMAND_READ_DEBUG_DATA = 0x1d27E018, //ReadDebugDaata
 };
@@ -112,7 +112,7 @@ typedef struct XnFwFileEntry
 	uint32_t size;
 	uint16_t crc;
 	uint16_t zone;
-	XnFwFileFlags flags; // bitmap 
+	XnFwFileFlags flags; // bitmap
 } XnFwFileEntry;
 
 typedef struct XnI2CDeviceInfo
@@ -167,18 +167,18 @@ typedef struct XnCommandI2C
 	uint32_t value;			// For write request - the value to be written. For read requests - the place where the actual value is written to
 } XnCommandI2C;
 
-typedef struct XnCommandUploadFile  
+typedef struct XnCommandUploadFile
 {
 	const char* filePath;
 	uint32_t uploadToFactory;
-} XnCommandUploadFile;  
+} XnCommandUploadFile;
 
-typedef struct XnCommandDownloadFile  
+typedef struct XnCommandDownloadFile
 {
 	uint16_t zone;
 	const char*  firmwareFileName;
 	const char*  targetPath;
-} XnCommandDownloadFile;  
+} XnCommandDownloadFile;
 
 typedef struct XnCommandGetFileList
 {
@@ -186,7 +186,7 @@ typedef struct XnCommandGetFileList
 	XnFwFileEntry* files;
 } XnCommandGetFileList;
 
-typedef struct XnCommandFormatZone 
+typedef struct XnCommandFormatZone
 {
 	uint8_t zone;
 } XnCommandFormatZone;
@@ -250,9 +250,9 @@ typedef struct XnCommandSetLogMaskState
 
 typedef struct XnCommandDebugData
 {
-    uint16_t dataID;    // Values come from XnLinkInternalPropID
-    uint16_t dataSize;  // in: size of allocated buffer in data, out: actual bytes written to data
-    uint8_t* data;
+	uint16_t dataID;    // Values come from XnLinkInternalPropID
+	uint16_t dataSize;  // in: size of allocated buffer in data, out: actual bytes written to data
+	uint8_t* data;
 } XnCommandDebugData;
 
 #pragma pack (pop)

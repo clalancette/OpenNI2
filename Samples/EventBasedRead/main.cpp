@@ -23,25 +23,23 @@
 
 #include "OniSampleUtilities.h"
 
-using namespace openni;
-
-void analyzeFrame(const VideoFrameRef& frame)
+void analyzeFrame(const openni::VideoFrameRef& frame)
 {
-	DepthPixel* pDepth;
-	RGB888Pixel* pColor;
+	openni::DepthPixel* pDepth;
+	openni::RGB888Pixel* pColor;
 
 	int middleIndex = (frame.getHeight()+1)*frame.getWidth()/2;
 
 	switch (frame.getVideoMode().getPixelFormat())
 	{
-	case PIXEL_FORMAT_DEPTH_1_MM:
-	case PIXEL_FORMAT_DEPTH_100_UM:
-		pDepth = (DepthPixel*)frame.getData();
+	case openni::PIXEL_FORMAT_DEPTH_1_MM:
+	case openni::PIXEL_FORMAT_DEPTH_100_UM:
+		pDepth = (openni::DepthPixel*)frame.getData();
 		printf("[%08llu] %8d\n", (long long)frame.getTimestamp(),
 			pDepth[middleIndex]);
 		break;
-	case PIXEL_FORMAT_RGB888:
-		pColor = (RGB888Pixel*)frame.getData();
+	case openni::PIXEL_FORMAT_RGB888:
+		pColor = (openni::RGB888Pixel*)frame.getData();
 		printf("[%08llu] 0x%02x%02x%02x\n", (long long)frame.getTimestamp(),
 			pColor[middleIndex].r&0xff,
 			pColor[middleIndex].g&0xff,
@@ -52,35 +50,35 @@ void analyzeFrame(const VideoFrameRef& frame)
 	}
 }
 
-class PrintCallback : public VideoStream::NewFrameListener
+class PrintCallback final : public openni::VideoStream::NewFrameListener
 {
 public:
-	void onNewFrame(VideoStream& stream)
+	void onNewFrame(openni::VideoStream& stream) override
 	{
 		stream.readFrame(&m_frame);
 
 		analyzeFrame(m_frame);
 	}
 private:
-	VideoFrameRef m_frame;
+	openni::VideoFrameRef m_frame;
 };
 
-class OpenNIDeviceListener : public OpenNI::DeviceConnectedListener,
-									public OpenNI::DeviceDisconnectedListener,
-									public OpenNI::DeviceStateChangedListener
+class OpenNIDeviceListener final : public openni::OpenNI::DeviceConnectedListener,
+									public openni::OpenNI::DeviceDisconnectedListener,
+									public openni::OpenNI::DeviceStateChangedListener
 {
 public:
-	virtual void onDeviceStateChanged(const DeviceInfo* pInfo, DeviceState state) 
+	void onDeviceStateChanged(const openni::DeviceInfo* pInfo, openni::DeviceState state) override
 	{
 		printf("Device \"%s\" error state changed to %d\n", pInfo->getUri(), state);
 	}
 
-	virtual void onDeviceConnected(const DeviceInfo* pInfo)
+	void onDeviceConnected(const openni::DeviceInfo* pInfo) override
 	{
 		printf("Device \"%s\" connected\n", pInfo->getUri());
 	}
 
-	virtual void onDeviceDisconnected(const DeviceInfo* pInfo)
+	void onDeviceDisconnected(const openni::DeviceInfo* pInfo) override
 	{
 		printf("Device \"%s\" disconnected\n", pInfo->getUri());
 	}
@@ -88,18 +86,18 @@ public:
 
 int main()
 {
-	Status rc = OpenNI::initialize();
-	if (rc != STATUS_OK)
+	openni::Status rc = openni::OpenNI::initialize();
+	if (rc != openni::STATUS_OK)
 	{
-		printf("Initialize failed\n%s\n", OpenNI::getExtendedError());
+		printf("Initialize failed\n%s\n", openni::OpenNI::getExtendedError());
 		return 1;
 	}
 
 	OpenNIDeviceListener devicePrinter;
 
-	OpenNI::addDeviceConnectedListener(&devicePrinter);
-	OpenNI::addDeviceDisconnectedListener(&devicePrinter);
-	OpenNI::addDeviceStateChangedListener(&devicePrinter);
+	openni::OpenNI::addDeviceConnectedListener(&devicePrinter);
+	openni::OpenNI::addDeviceDisconnectedListener(&devicePrinter);
+	openni::OpenNI::addDeviceStateChangedListener(&devicePrinter);
 
 	openni::Array<openni::DeviceInfo> deviceList;
 	openni::OpenNI::enumerateDevices(&deviceList);
@@ -108,30 +106,29 @@ int main()
 		printf("Device \"%s\" already connected\n", deviceList[i].getUri());
 	}
 
-	Device device;
-	rc = device.open(ANY_DEVICE);
-	if (rc != STATUS_OK)
+	openni::Device device;
+	rc = device.open(openni::ANY_DEVICE);
+	if (rc != openni::STATUS_OK)
 	{
-		printf("Couldn't open device\n%s\n", OpenNI::getExtendedError());
+		printf("Couldn't open device\n%s\n", openni::OpenNI::getExtendedError());
 		return 2;
 	}
 
-	VideoStream depth;
+	openni::VideoStream depth;
 
-	if (device.getSensorInfo(SENSOR_DEPTH) != NULL)
+	if (device.getSensorInfo(openni::SENSOR_DEPTH) != NULL)
 	{
-		rc = depth.create(device, SENSOR_DEPTH);
-		if (rc != STATUS_OK)
+		rc = depth.create(device, openni::SENSOR_DEPTH);
+		if (rc != openni::STATUS_OK)
 		{
-			printf("Couldn't create depth stream\n%s\n", OpenNI::getExtendedError());
+			printf("Couldn't create depth stream\n%s\n", openni::OpenNI::getExtendedError());
 		}
 	}
 	rc = depth.start();
-	if (rc != STATUS_OK)
+	if (rc != openni::STATUS_OK)
 	{
-		printf("Couldn't start the depth stream\n%s\n", OpenNI::getExtendedError());
+		printf("Couldn't start the depth stream\n%s\n", openni::OpenNI::getExtendedError());
 	}
-
 
 	PrintCallback depthPrinter;
 
@@ -151,10 +148,10 @@ int main()
 	depth.destroy();
 	device.close();
 
-	OpenNI::removeDeviceStateChangedListener(&devicePrinter);
-	OpenNI::removeDeviceDisconnectedListener(&devicePrinter);
-	OpenNI::removeDeviceConnectedListener(&devicePrinter);
-	OpenNI::shutdown();
+	openni::OpenNI::removeDeviceStateChangedListener(&devicePrinter);
+	openni::OpenNI::removeDeviceDisconnectedListener(&devicePrinter);
+	openni::OpenNI::removeDeviceConnectedListener(&devicePrinter);
+	openni::OpenNI::shutdown();
 
 	return 0;
 }

@@ -33,7 +33,7 @@ typedef struct
 } OniGeneralBuffer;
 
 /////// DriverServices
-struct OniDriverServices
+struct OniDriverServices final
 {
 	void* driverServices;
 	void (ONI_CALLBACK_TYPE* errorLoggerAppend)(void* driverServices, const char* format, va_list args);

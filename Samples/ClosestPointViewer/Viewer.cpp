@@ -165,11 +165,6 @@ void SampleViewer::display()
 					{
 						factor[0] = factor[1] = 0;
 					}
-//					// Add debug lines - every 10cm
-// 					else if ((*pDepth / 10) % 10 == 0)
-// 					{
-// 						factor[0] = factor[2] = 0;
-// 					}
 
 					int nHistValue = m_pDepthHist[*pDepth];
 					pTex->r = nHistValue*factor[0];
@@ -245,7 +240,6 @@ openni::Status SampleViewer::initOpenGL(int argc, char **argv)
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(GL_WIN_SIZE_X, GL_WIN_SIZE_Y);
 	glutCreateWindow (m_strSampleName);
-	// 	glutFullScreen();
 	glutSetCursor(GLUT_CURSOR_NONE);
 
 	initOpenGLHooks();

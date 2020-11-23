@@ -35,7 +35,7 @@ class VideoStream;
 class Sensor;
 class DeviceDriver;
 
-class Device
+class Device final
 {
 public:
 	Device(DeviceDriver* pDeviceDriver, const DriverHandler& libraryHandler, FrameManager& frameManager, const OniDeviceInfo* pDeviceInfo, xnl::ErrorLogger& errorLogger);

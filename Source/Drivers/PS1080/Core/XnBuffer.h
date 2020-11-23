@@ -33,7 +33,7 @@
 /**
 * Holds a buffer of data, and provides some common methods for it.
 */
-class XnBuffer
+class XnBuffer final
 {
 public:
 	XnBuffer() : m_pData(NULL), m_nSize(0), m_nMaxSize(0), m_bAllocated(FALSE) {}

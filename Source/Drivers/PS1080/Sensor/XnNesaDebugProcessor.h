@@ -30,22 +30,21 @@
 // Code
 //---------------------------------------------------------------------------
 
-class XnNesaDebugProcessor : public XnWholePacketProcessor
+class XnNesaDebugProcessor final : public XnWholePacketProcessor
 {
 public:
 	XnNesaDebugProcessor(XnDevicePrivateData* pDevicePrivateData);
 	~XnNesaDebugProcessor();
 
-protected:
+private:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData);
+	void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData) override;
 
 	//---------------------------------------------------------------------------
 	// Class Members
 	//---------------------------------------------------------------------------
-private:
 	XnDumpFile* m_Dump;
 };
 

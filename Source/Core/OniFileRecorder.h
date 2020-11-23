@@ -36,7 +36,7 @@
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
-class FileRecorder : public Recorder
+class FileRecorder final : public Recorder
 {
 public:
 	FileRecorder(FrameManager& frameManager, xnl::ErrorLogger& errorLogger, OniRecorderHandle handle = NULL);
@@ -47,15 +47,15 @@ public:
 	OniStatus attachStream(VideoStream& stream, OniBool allowLossyCompression);
 	OniStatus detachStream(VideoStream& stream);
 
-	virtual OniStatus start();
+	OniStatus start() override;
 
-	virtual OniStatus record(VideoStream& stream, OniFrame& aFrame);
+	OniStatus record(VideoStream& stream, OniFrame& aFrame) override;
 
-	virtual OniStatus recordStreamProperty(
+	OniStatus recordStreamProperty(
 		VideoStream&     stream,
 		int         propertyId,
 		const void* pData,
-		int         dataSize);
+		int         dataSize) override;
 
 private:
 	XN_DISABLE_COPY_AND_ASSIGN(FileRecorder)

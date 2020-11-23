@@ -33,4 +33,3 @@
 #define ONI_PLATFORM_STRING "Linux-Arm"
 
 #endif // ONIPLATFORMLINUX_ARM_H
-

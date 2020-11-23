@@ -37,16 +37,15 @@ public:
 
 	XnStatus Init();
 
-//---------------------------------------------------------------------------
-// Overridden Functions
-//---------------------------------------------------------------------------
 protected:
-	void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize);
+	//---------------------------------------------------------------------------
+	// Overridden Functions
+	//---------------------------------------------------------------------------
+	void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize) override;
 
-//---------------------------------------------------------------------------
-// Virtual Functions
-//---------------------------------------------------------------------------
-protected:
+	//---------------------------------------------------------------------------
+	// Virtual Functions
+	//---------------------------------------------------------------------------
 	virtual void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData) = 0;
 
 private:

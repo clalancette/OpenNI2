@@ -32,22 +32,22 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class Xn16zCodec : public XnCodecBase
+class Xn16zCodec final : public XnCodecBase
 {
 public:
-	virtual XnCodecID GetCodecID() const { return XN_CODEC_16Z; }
-	virtual XnCompressionFormats GetCompressionFormat() const { return XN_COMPRESSION_16Z; }
+	XnCodecID GetCodecID() const override { return XN_CODEC_16Z; }
+	XnCompressionFormats GetCompressionFormat() const override { return XN_COMPRESSION_16Z; }
 
-	virtual XnFloat GetWorseCompressionRatio() const { return XN_STREAM_COMPRESSION_DEPTH16Z_WORSE_RATIO; }
-	virtual XnUInt32 GetOverheadSize() const { return 0; }
+	XnFloat GetWorseCompressionRatio() const override { return XN_STREAM_COMPRESSION_DEPTH16Z_WORSE_RATIO; }
+	XnUInt32 GetOverheadSize() const override { return 0; }
 
-protected:
-	virtual XnStatus CompressImpl(const XnUChar* pData, XnUInt32 nDataSize, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize)
+private:
+	XnStatus CompressImpl(const XnUChar* pData, XnUInt32 nDataSize, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize)
 	{
 		return XnStreamCompressDepth16Z((XnUInt16*)pData, nDataSize, pCompressedData, pnCompressedDataSize);
 	}
 
-	virtual XnStatus DecompressImpl(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize)
+	XnStatus DecompressImpl(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize)
 	{
 		return XnStreamUncompressDepth16Z(pCompressedData, nCompressedDataSize, (XnUInt16*)pData, pnDataSize);
 	}

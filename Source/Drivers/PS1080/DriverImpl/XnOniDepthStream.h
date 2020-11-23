@@ -30,15 +30,15 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class XnOniDepthStream :
+class XnOniDepthStream final :
 	public XnOniMapStream
 {
 public:
 	XnOniDepthStream(XnSensor* pSensor, XnOniDevice* pDevice);
-	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize);
-	virtual OniBool isPropertySupported(int propertyId);
-	virtual void notifyAllProperties();
-	virtual OniStatus convertDepthToColorCoordinates(StreamBase* colorStream, int depthX, int depthY, OniDepthPixel depthZ, int* pColorX, int* pColorY);
+	OniStatus getProperty(int propertyId, void* data, int* pDataSize) override;
+	OniBool isPropertySupported(int propertyId) override;
+	void notifyAllProperties() override;
+	OniStatus convertDepthToColorCoordinates(StreamBase* colorStream, int depthX, int depthY, OniDepthPixel depthZ, int* pColorX, int* pColorY) override;
 };
 
 #endif // XNONIDEPTHSTREAM_H

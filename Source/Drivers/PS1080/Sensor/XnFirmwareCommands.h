@@ -34,7 +34,7 @@
 * Implements the various firmware opcodes.
 * TODO: all opcodes should move here from XnHostProtocol.cpp.
 */
-class XnFirmwareCommands
+class XnFirmwareCommands final
 {
 public:
 	XnFirmwareCommands(XnDevicePrivateData* pDevicePrivateData);

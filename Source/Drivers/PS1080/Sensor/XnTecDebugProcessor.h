@@ -30,7 +30,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-class XnTecDebugProcessor : public XnWholePacketProcessor
+class XnTecDebugProcessor final : public XnWholePacketProcessor
 {
 public:
 	XnTecDebugProcessor(XnDevicePrivateData* pDevicePrivateData);
@@ -40,7 +40,7 @@ protected:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData);
+	void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData) override;
 
 	//---------------------------------------------------------------------------
 	// Class Members

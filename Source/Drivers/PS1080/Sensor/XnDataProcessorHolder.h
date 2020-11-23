@@ -29,7 +29,7 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class XnDataProcessorHolder
+class XnDataProcessorHolder final
 {
 public:
 	XnDataProcessorHolder();

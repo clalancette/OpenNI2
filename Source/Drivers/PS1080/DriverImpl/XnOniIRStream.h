@@ -30,13 +30,13 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class XnOniIRStream :
+class XnOniIRStream final :
 	public XnOniMapStream
 {
 public:
     XnOniIRStream(XnSensor* pSensor, XnOniDevice* pDevice);
-    virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize);
-    virtual OniBool isPropertySupported(int propertyId);
+    OniStatus getProperty(int propertyId, void* data, int* pDataSize) override;
+    OniBool isPropertySupported(int propertyId) override;
 };
 
 #endif // XNONIIRSTREAM_H

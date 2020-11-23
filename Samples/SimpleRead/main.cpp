@@ -25,76 +25,78 @@
 
 #define SAMPLE_READ_WAIT_TIMEOUT 2000 //2000ms
 
-using namespace openni;
-
 int main(int argc, char* argv[])
 {
-	Status rc = OpenNI::initialize();
-	if (rc != STATUS_OK)
+	openni::Status rc = openni::OpenNI::initialize();
+	if (rc != openni::STATUS_OK)
 	{
-		printf("Initialize failed\n%s\n", OpenNI::getExtendedError());
+		printf("Initialize failed\n%s\n", openni::OpenNI::getExtendedError());
 		return 1;
 	}
 
-	Device device;
+	openni::Device device;
 
-    if (argc < 2)
-        rc = device.open(ANY_DEVICE);
-    else
-        rc = device.open(argv[1]);
-
-    if (rc != STATUS_OK)
+	if (argc < 2)
 	{
-		printf("Couldn't open device\n%s\n", OpenNI::getExtendedError());
+		rc = device.open(openni::ANY_DEVICE);
+	}
+	else
+	{
+		rc = device.open(argv[1]);
+	}
+
+	if (rc != openni::STATUS_OK)
+	{
+		printf("Couldn't open device\n%s\n", openni::OpenNI::getExtendedError());
 		return 2;
 	}
 
-	VideoStream depth;
+	openni::VideoStream depth;
 
-	if (device.getSensorInfo(SENSOR_DEPTH) != NULL)
+	if (device.getSensorInfo(openni::SENSOR_DEPTH) != NULL)
 	{
-		rc = depth.create(device, SENSOR_DEPTH);
-		if (rc != STATUS_OK)
+		rc = depth.create(device, openni::SENSOR_DEPTH);
+		if (rc != openni::STATUS_OK)
 		{
-			printf("Couldn't create depth stream\n%s\n", OpenNI::getExtendedError());
+			printf("Couldn't create depth stream\n%s\n", openni::OpenNI::getExtendedError());
 			return 3;
 		}
 	}
 
 	rc = depth.start();
-	if (rc != STATUS_OK)
+	if (rc != openni::STATUS_OK)
 	{
-		printf("Couldn't start the depth stream\n%s\n", OpenNI::getExtendedError());
+		printf("Couldn't start the depth stream\n%s\n", openni::OpenNI::getExtendedError());
 		return 4;
 	}
 
-	VideoFrameRef frame;
+	openni::VideoFrameRef frame;
 
 	while (!wasKeyboardHit())
 	{
 		int changedStreamDummy;
-		VideoStream* pStream = &depth;
-		rc = OpenNI::waitForAnyStream(&pStream, 1, &changedStreamDummy, SAMPLE_READ_WAIT_TIMEOUT);
-		if (rc != STATUS_OK)
+		openni::VideoStream* pStream = &depth;
+		rc = openni::OpenNI::waitForAnyStream(&pStream, 1, &changedStreamDummy, SAMPLE_READ_WAIT_TIMEOUT);
+		if (rc != openni::STATUS_OK)
 		{
-			printf("Wait failed! (timeout is %d ms)\n%s\n", SAMPLE_READ_WAIT_TIMEOUT, OpenNI::getExtendedError());
+			printf("Wait failed! (timeout is %d ms)\n%s\n", SAMPLE_READ_WAIT_TIMEOUT, openni::OpenNI::getExtendedError());
 			continue;
 		}
 
 		rc = depth.readFrame(&frame);
-		if (rc != STATUS_OK)
+		if (rc != openni::STATUS_OK)
 		{
-			printf("Read failed!\n%s\n", OpenNI::getExtendedError());
+			printf("Read failed!\n%s\n", openni::OpenNI::getExtendedError());
 			continue;
 		}
 
-		if (frame.getVideoMode().getPixelFormat() != PIXEL_FORMAT_DEPTH_1_MM && frame.getVideoMode().getPixelFormat() != PIXEL_FORMAT_DEPTH_100_UM)
+		if (frame.getVideoMode().getPixelFormat() != openni::PIXEL_FORMAT_DEPTH_1_MM && frame.getVideoMode().getPixelFormat() != openni::PIXEL_FORMAT_DEPTH_100_UM)
 		{
 			printf("Unexpected frame format\n");
 			continue;
 		}
 
-		DepthPixel* pDepth = (DepthPixel*)frame.getData();
+		openni::DepthPixel* pDepth = (openni::DepthPixel*)frame.getData();
 
 		int middleIndex = (frame.getHeight()+1)*frame.getWidth()/2;
 
@@ -104,7 +106,7 @@ int main(int argc, char* argv[])
 	depth.stop();
 	depth.destroy();
 	device.close();
-	OpenNI::shutdown();
+	openni::OpenNI::shutdown();
 
 	return 0;
 }

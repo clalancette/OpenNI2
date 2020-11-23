@@ -129,7 +129,7 @@ static inline NodeType AsNodeType(OniSensorType sensorType)
 	return res;
 }
 
-class RecordAssembler
+class RecordAssembler final
 {
 public:
 	RecordAssembler();

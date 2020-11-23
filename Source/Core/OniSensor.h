@@ -34,7 +34,7 @@
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
 /** Contains stuff that is common to several streams created on the same sensor */
-class Sensor : OniStreamServices
+class Sensor final : OniStreamServices
 {
 public:
 	Sensor(xnl::ErrorLogger& errorLogger, FrameManager& frameManager, const DriverHandler& driverHandler);

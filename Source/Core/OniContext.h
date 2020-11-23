@@ -58,7 +58,7 @@ struct _OniRecorder
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
-class Context
+class Context final
 {
 public:
 	Context();
@@ -103,9 +103,9 @@ public:
 
 	void addToLogger(const XnChar* cpFormat, ...);
 
-    OniStatus recorderOpen(const char* fileName, OniRecorderHandle* pRecorder);
-    OniStatus recorderClose(OniRecorderHandle* pRecorder);
-    OniStatus recorderClose(Recorder* pRecorder);
+	OniStatus recorderOpen(const char* fileName, OniRecorderHandle* pRecorder);
+	OniStatus recorderClose(OniRecorderHandle* pRecorder);
+	OniStatus recorderClose(Recorder* pRecorder);
 
 	static OniBool s_valid;
 protected:

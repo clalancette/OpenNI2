@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 // Undeprecate CRT functions
-#ifndef _CRT_SECURE_NO_DEPRECATE 
+#ifndef _CRT_SECURE_NO_DEPRECATE
 	#define _CRT_SECURE_NO_DEPRECATE 1
 #endif
 
@@ -57,11 +57,6 @@ void SampleViewer::glutKeyboard(unsigned char key, int x, int y)
 	SampleViewer::ms_self->onKey(key, x, y);
 }
 
-
-
-
-
-
 SampleViewer::SampleViewer(const char* strSampleName, openni::Device& device, openni::VideoStream& depth, openni::VideoStream& color) :
 	m_device(device), m_depthStream(depth), m_colorStream(color), m_streams(NULL), m_eViewState(DEFAULT_DISPLAY_MODE), m_pTexMap(NULL)
 
@@ -70,6 +65,7 @@ SampleViewer::SampleViewer(const char* strSampleName, openni::Device& device, op
 	strncpy(m_strSampleName, strSampleName, ONI_MAX_STR - 1);
 	m_strSampleName[ONI_MAX_STR - 1] = '\0';
 }
+
 SampleViewer::~SampleViewer()
 {
 	delete[] m_pTexMap;
@@ -305,7 +301,6 @@ openni::Status SampleViewer::initOpenGL(int argc, char **argv)
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(GL_WIN_SIZE_X, GL_WIN_SIZE_Y);
 	glutCreateWindow (m_strSampleName);
-	// 	glutFullScreen();
 	glutSetCursor(GLUT_CURSOR_NONE);
 
 	initOpenGLHooks();
@@ -316,6 +311,7 @@ openni::Status SampleViewer::initOpenGL(int argc, char **argv)
 	return openni::STATUS_OK;
 
 }
+
 void SampleViewer::initOpenGLHooks()
 {
 	glutKeyboardFunc(glutKeyboard);

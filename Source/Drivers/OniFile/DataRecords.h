@@ -194,7 +194,7 @@ private:
 	XnUInt64 m_nMaxTimestamp;
 };
 
-class NodeAddedRecord : public NodeAdded_1_0_0_5_Record
+class NodeAddedRecord final : public NodeAdded_1_0_0_5_Record
 {
 public:
 	NodeAddedRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
@@ -212,7 +212,7 @@ private:
 	XnUInt64 m_nSeekTablePosition;
 };
 
-class NodeRemovedRecord : public Record
+class NodeRemovedRecord final : public Record
 {
 public:
 	NodeRemovedRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
@@ -247,7 +247,7 @@ private:
 	void* m_pPropData;
 };
 
-class IntPropRecord : public GeneralPropRecord
+class IntPropRecord final : public GeneralPropRecord
 {
 public:
 	IntPropRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
@@ -260,7 +260,7 @@ private:
 	XnUInt64 m_nValue;
 };
 
-class RealPropRecord : public GeneralPropRecord
+class RealPropRecord final : public GeneralPropRecord
 {
 public:
 	RealPropRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
@@ -273,7 +273,7 @@ private:
 	XnDouble m_dValue;
 };
 
-class StringPropRecord : public GeneralPropRecord
+class StringPropRecord final : public GeneralPropRecord
 {
 public:
 	StringPropRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
@@ -289,7 +289,7 @@ struct SeekInfo
 	XnUInt64 m_nMaxTimeStamp;
 };
 
-class NodeDataBeginRecord : public Record
+class NodeDataBeginRecord final : public Record
 {
 public:
 	NodeDataBeginRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
@@ -306,7 +306,7 @@ private:
 	SeekInfo m_seekInfo;
 };
 
-class NodeStateReadyRecord : public Record
+class NodeStateReadyRecord final : public Record
 {
 public:
 	NodeStateReadyRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
@@ -318,7 +318,7 @@ public:
 
 /*This class represents only the data record HEADER, not the data itself.
   This is because we want to be able to read/write the data directly without copying it.*/
-class NewDataRecordHeader : public Record
+class NewDataRecordHeader final : public Record
 {
 public:
 	enum {MAX_SIZE = Record::HEADER_SIZE_current + //Record header
@@ -364,7 +364,7 @@ typedef struct _DataIndexEntry
 	}
 } DataIndexEntry;
 
-class DataIndexRecordHeader : public Record
+class DataIndexRecordHeader final : public Record
 {
 public:
 	DataIndexRecordHeader(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);

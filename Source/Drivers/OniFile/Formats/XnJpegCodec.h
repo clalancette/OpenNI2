@@ -31,7 +31,7 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class XnJpegCodec : public XnCodecBase
+class XnJpegCodec final : public XnCodecBase
 {
 public:
 	XnJpegCodec(XnBool bRGB, XnUInt32 nXRes, XnUInt32 nYRes, XnUInt32 nQuality = XN_STREAM_COMPRESSION_JPEG_DEFAULT_QUALITY) :
@@ -40,13 +40,13 @@ public:
 
 	~XnJpegCodec()
 	{
-        XnStreamFreeCompressImageJ(&mp_CompJPEGContext);
-        XnStreamFreeUncompressImageJ(&mp_UncompJPEGContext);
+		XnStreamFreeCompressImageJ(&mp_CompJPEGContext);
+		XnStreamFreeUncompressImageJ(&mp_UncompJPEGContext);
 	}
 
-	virtual XnCodecID GetCodecID() const { return XN_CODEC_JPEG; }
+	XnCodecID GetCodecID() const override { return XN_CODEC_JPEG; }
 
-	XnStatus Init()
+	XnStatus Init() override
 	{
 		XnStatus nRetVal = XN_STATUS_OK;
 
@@ -63,14 +63,14 @@ public:
 		return (XN_STATUS_OK);
 	}
 
-	virtual XnCompressionFormats GetCompressionFormat() const { return XN_COMPRESSION_JPEG; }
-	virtual XnFloat GetWorseCompressionRatio() const { return XN_STREAM_COMPRESSION_IMAGEJ_WORSE_RATIO; }
-	virtual XnUInt32 GetOverheadSize() const { return 0; }
+	XnCompressionFormats GetCompressionFormat() const override { return XN_COMPRESSION_JPEG; }
+	XnFloat GetWorseCompressionRatio() const override { return XN_STREAM_COMPRESSION_IMAGEJ_WORSE_RATIO; }
+	XnUInt32 GetOverheadSize() const override { return 0; }
 
-protected:
+private:
 	XN_DISABLE_COPY_AND_ASSIGN(XnJpegCodec);
 
-	virtual XnStatus CompressImpl(const XnUChar* pData, XnUInt32 /*nDataSize*/, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize)
+	XnStatus CompressImpl(const XnUChar* pData, XnUInt32 /*nDataSize*/, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize) override
 	{
 		if (m_bRGB)
 		{
@@ -82,12 +82,11 @@ protected:
 		}
 	}
 
-	virtual XnStatus DecompressImpl(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize)
+	XnStatus DecompressImpl(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize) override
 	{
 		return XnStreamUncompressImageJ(&mp_UncompJPEGContext, pCompressedData, nCompressedDataSize, pData, pnDataSize);
 	}
 
-private:
 	const XnBool m_bRGB;
 	const XnUInt32 m_nXRes;
 	const XnUInt32 m_nYRes;

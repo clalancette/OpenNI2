@@ -70,4 +70,5 @@ enum
 };
 
 } // namespace openni
+
 #endif // ONIPROPERTIES_H

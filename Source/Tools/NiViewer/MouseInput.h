@@ -70,6 +70,4 @@ void mouseInputButton(int button, int state, int x, int y);
 void mouseInputRegisterForSelectionRectangle(SelectionRectangleChangedPtr pFunc);
 void mouseInputRegisterForCursorMovement(CursorMovedPtr pFunc);
 
-
-
 #endif // MOUSEINPUT_H

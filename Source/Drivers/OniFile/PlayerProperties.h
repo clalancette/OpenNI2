@@ -27,7 +27,7 @@
 
 namespace oni_file {
 
-class PlayerProperties
+class PlayerProperties final
 {
 public:
 

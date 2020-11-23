@@ -68,7 +68,7 @@ typedef struct XN_SENSOR_HANDLE
 //---------------------------------------------------------------------------
 // Functions Declaration
 //---------------------------------------------------------------------------
-class XnSensorIO
+class XnSensorIO final
 {
 public:
 	XnSensorIO(XN_SENSOR_HANDLE* pSensorHandle);

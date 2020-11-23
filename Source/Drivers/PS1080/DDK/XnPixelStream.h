@@ -43,7 +43,7 @@ public:
 	//---------------------------------------------------------------------------
 	// Overridden Methods
 	//---------------------------------------------------------------------------
-	XnStatus Init();
+	virtual XnStatus Init();
 
 	//---------------------------------------------------------------------------
 	// Getters
@@ -91,7 +91,7 @@ protected:
 	// Overridden Methods
 	//---------------------------------------------------------------------------
 	XnStatus Mirror(OniFrame* pFrame) const;
-	XnStatus CalcRequiredSize(XnUInt32* pnRequiredSize) const;
+	virtual XnStatus CalcRequiredSize(XnUInt32* pnRequiredSize) const;
 
 	XnStatus ValidateCropping(const OniCropping* pCropping);
 

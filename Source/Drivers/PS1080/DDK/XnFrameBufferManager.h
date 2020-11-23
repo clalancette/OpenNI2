@@ -33,7 +33,7 @@
 // Types
 //---------------------------------------------------------------------------
 
-class XnFrameBufferManager
+class XnFrameBufferManager final
 {
 public:
 	typedef void (XN_CALLBACK_TYPE* NewFrameCallback)(OniFrame* pFrame, void* pCookie);
@@ -49,11 +49,11 @@ public:
 	XnStatus Start(oni::driver::StreamServices& services);
 	void Stop();
 
-	inline XnBuffer* GetWriteBuffer() 
-	{ 
+	inline XnBuffer* GetWriteBuffer()
+	{
 		// NOTE: no need to lock buffer, as we assume the same thread is the one that is responsible
 		// for marking working buffer as stable.
-		return &m_writeBuffer; 
+		return &m_writeBuffer;
 	}
 
 	inline OniFrame* GetWriteFrame()

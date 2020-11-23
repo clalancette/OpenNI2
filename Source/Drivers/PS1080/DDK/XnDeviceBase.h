@@ -108,7 +108,7 @@ public:
 	NewStreamDataEvent::Interface& OnNewStreamDataEvent() { return m_OnNewStreamDataEvent; }
 
 	/**
-	* Finds a stream (a module which has the IS_STREAM property set to TRUE). 
+	* Finds a stream (a module which has the IS_STREAM property set to TRUE).
 	*/
 	XnStatus FindStream(const XnChar* StreamName, XnDeviceStream** ppStream);
 
@@ -133,12 +133,12 @@ protected:
 	XnStatus RemoveModule(const XnChar* ModuleName);
 
 	/**
-	* Finds a module. 
+	* Finds a module.
 	*/
 	XnStatus FindModule(const XnChar* ModuleName, XnDeviceModule** ppModule);
 
 	/**
-	* Finds a module. 
+	* Finds a module.
 	*/
 	XnStatus FindModule(const XnChar* ModuleName, XnDeviceModuleHolder** ppModuleHolder);
 
@@ -148,7 +148,7 @@ protected:
 	static XnBool IsStream(XnDeviceModule* pModule);
 
 	/**
-	* Finds a stream holder (a module which has the IS_STREAM property set to TRUE). 
+	* Finds a stream holder (a module which has the IS_STREAM property set to TRUE).
 	*/
 	XnStatus FindStream(const XnChar* StreamName, XnDeviceModuleHolder** ppStreamHolder);
 

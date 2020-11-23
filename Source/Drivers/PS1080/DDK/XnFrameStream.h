@@ -47,10 +47,10 @@ public:
 	//---------------------------------------------------------------------------
 	// Overridden Methods
 	//---------------------------------------------------------------------------
-	XnStatus Init();
-	XnStatus Free();
+	virtual XnStatus Init() override;
+	virtual XnStatus Free() override;
 
-	virtual XnStatus Close();
+	virtual XnStatus Close() override;
 
 protected:
 	//---------------------------------------------------------------------------

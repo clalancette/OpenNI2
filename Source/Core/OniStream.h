@@ -38,7 +38,7 @@ class Device;
 class FrameHolder;
 class Recorder;
 
-class VideoStream
+class VideoStream final
 {
 public:
 	VideoStream(Sensor* pSensor, const OniSensorInfo* pSensorInfo, Device& device, const DriverHandler& driverHandler, FrameManager& frameManager, xnl::ErrorLogger& errorLogger);
@@ -94,13 +94,12 @@ public:
 
 	double calcCurrentFPS();
 
-protected:
+private:
 	XN_EVENT_HANDLE m_newFrameInternalEvent;
 	XN_EVENT_HANDLE m_newFrameInternalEventForFrameHolder;
 
 	xnl::ErrorLogger& m_errorLogger;
 
-private:
 	XN_DISABLE_COPY_AND_ASSIGN(VideoStream)
 
 	FrameHolder* m_pFrameHolder;

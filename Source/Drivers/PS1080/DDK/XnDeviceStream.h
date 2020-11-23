@@ -41,8 +41,8 @@ public:
 	XnDeviceStream(const XnChar* csType, const XnChar* csName);
 	~XnDeviceStream() { Free(); }
 
-	XnStatus Init();
-	XnStatus Free();
+	virtual XnStatus Init() override;
+	virtual XnStatus Free() override;
 
 	void SetServices(oni::driver::StreamServices& services) { m_pServices = &services; }
 	void AddRefToFrame(OniFrame* pFrame) { m_pServices->addFrameRef(pFrame); }
@@ -92,7 +92,6 @@ protected:
 	inline XnActualIntProperty& RequiredSizeProperty() { return m_RequiredSize; }
 	inline XnActualIntProperty& IsMirroredProperty() { return m_IsMirrored; }
 
-protected:
 	oni::driver::StreamServices& GetServices() { return *m_pServices; }
 
 	//---------------------------------------------------------------------------

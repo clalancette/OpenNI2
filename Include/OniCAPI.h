@@ -156,9 +156,9 @@ ONI_C_API OniStatus oniCreateRecorder(const char* fileName, OniRecorderHandle* p
  * @retval ONI_STATUS_ERROR Upon any kind of failure.
  */
 ONI_C_API OniStatus oniRecorderAttachStream(
-        OniRecorderHandle   recorder, 
-        OniStreamHandle     stream, 
-        OniBool             allowLossyCompression);
+	OniRecorderHandle   recorder,
+	OniStreamHandle     stream,
+	OniBool             allowLossyCompression);
 
 /**
  * Starts recording. There must be at least one stream attached to the recorder,
@@ -194,7 +194,7 @@ ONI_C_API OniStatus oniCoordinateConverterDepthToColor(OniStreamHandle depthStre
 
 /******************************************** Log APIs */
 
-/** 
+/**
  * Change the log output folder
 
  * @param const char * strOutputFolder	[in]	path to the desirebale folder
@@ -204,7 +204,7 @@ ONI_C_API OniStatus oniCoordinateConverterDepthToColor(OniStreamHandle depthStre
  */
 ONI_C_API OniStatus oniSetLogOutputFolder(const char* strOutputFolder);
 
-/** 
+/**
  * Get the current log file name
 
  * @param	char * strFileName	[out]	hold the returned file name
@@ -215,8 +215,8 @@ ONI_C_API OniStatus oniSetLogOutputFolder(const char* strOutputFolder);
  */
 ONI_C_API OniStatus oniGetLogFileName(char* strFileName, int nBufferSize);
 
-/** 
- * Set the Minimum severity for log produce 
+/**
+ * Set the Minimum severity for log produce
 
  * @param	const char * strMask	[in]	Name of the logger
  *
@@ -225,7 +225,7 @@ ONI_C_API OniStatus oniGetLogFileName(char* strFileName, int nBufferSize);
  */
 ONI_C_API OniStatus oniSetLogMinSeverity(int nMinSeverity);
 
-/** 
+/**
  * Configures if log entries will be printed to console.
 
  * @param	OniBool bConsoleOutput	[in]	TRUE to print log entries to console, FALSE otherwise.
@@ -235,7 +235,7 @@ ONI_C_API OniStatus oniSetLogMinSeverity(int nMinSeverity);
  */
 ONI_C_API OniStatus oniSetLogConsoleOutput(OniBool bConsoleOutput);
 
-/** 
+/**
  * Configures if log entries will be printed to a log file.
 
  * @param	OniBool bFileOutput	[in]	TRUE to print log entries to the file, FALSE otherwise.

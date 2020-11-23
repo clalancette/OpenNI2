@@ -91,7 +91,7 @@ struct Funcs
 };
 
 
-class DriverHandler
+class DriverHandler final
 {
 public:
 	DriverHandler(const char* library, xnl::ErrorLogger& errorLogger);

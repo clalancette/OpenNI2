@@ -30,16 +30,16 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-class XnIOFileStream : public XnIOStream
+class XnIOFileStream final : public XnIOStream
 {
 public:
 	XnIOFileStream(const XnChar* pcsFileName, XnUInt32 nFlags);
 	~XnIOFileStream() { Free(); }
 
-	virtual XnStatus WriteData(const XnUChar* pData, XnUInt32 nDataSize);
-	virtual XnStatus ReadData(XnUChar* pData, XnUInt32 nDataSize);
-	virtual XnStatus Init();
-	virtual XnStatus Free();
+	XnStatus WriteData(const XnUChar* pData, XnUInt32 nDataSize) override;
+	XnStatus ReadData(XnUChar* pData, XnUInt32 nDataSize) override;
+	XnStatus Init() override;
+	XnStatus Free() override;
 
 	XnStatus Tell(XnUInt64* pnOffset);
 	XnStatus Seek(XnUInt64 nOffset);

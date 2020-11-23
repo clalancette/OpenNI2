@@ -2733,7 +2733,7 @@ Status Device::open(const char* uri)
 Status Device::_openEx(const char* uri, const char* mode)
 {
 	//If we are not the owners, we stick with our own device
-	if(!m_isOwner)
+	if (!m_isOwner)
 	{
 		if(isValid()){
 			return STATUS_OK;

@@ -19,7 +19,7 @@
 *                                                                            *
 *****************************************************************************/
 // Undeprecate CRT functions
-#ifndef _CRT_SECURE_NO_DEPRECATE 
+#ifndef _CRT_SECURE_NO_DEPRECATE
 	#define _CRT_SECURE_NO_DEPRECATE 1
 #endif
 
@@ -57,19 +57,15 @@ void SampleViewer::glutKeyboard(unsigned char key, int x, int y)
 	SampleViewer::ms_self->onKey(key, x, y);
 }
 
-
-
-
-
-
 SampleViewer::SampleViewer(const char* strSampleName, openni::VideoStream& depth1, openni::VideoStream& depth2) :
-	m_pTexMap(NULL), m_eViewState(DEFAULT_DISPLAY_MODE), m_depth1(depth1), m_depth2(depth2), m_streams(NULL) 
+	m_pTexMap(NULL), m_eViewState(DEFAULT_DISPLAY_MODE), m_depth1(depth1), m_depth2(depth2), m_streams(NULL)
 
 {
 	ms_self = this;
 	strncpy(m_strSampleName, strSampleName, ONI_MAX_STR - 1);
 	m_strSampleName[ONI_MAX_STR - 1] = '\0';
 }
+
 SampleViewer::~SampleViewer()
 {
 	delete[] m_pTexMap;
@@ -119,7 +115,9 @@ openni::Status SampleViewer::run()	//Does not return
 void SampleViewer::displayFrame(const openni::VideoFrameRef& frame)
 {
 	if (!frame.isValid())
+	{
 		return;
+	}
 
 	const openni::DepthPixel* pDepthRow = (const openni::DepthPixel*)frame.getData();
 	openni::RGB888Pixel* pTexRow = m_pTexMap + frame.getCropOriginY() * m_nTexMapX;
@@ -194,9 +192,7 @@ void SampleViewer::displayBothFrames()
 		maskFrame.pDepthRow += rowSize;
 		pTexRow += m_nTexMapX;
 	}
-
 }
-
 
 void SampleViewer::display()
 {
@@ -227,9 +223,13 @@ void SampleViewer::display()
 	glOrtho(0, GL_WIN_SIZE_X, GL_WIN_SIZE_Y, 0, -1.0, 1.0);
 
 	if (m_depth1Frame.isValid() && m_eViewState != DISPLAY_MODE_DEPTH2)
+	{
 		calculateHistogram(m_pDepthHist, MAX_DEPTH, m_depth1Frame);
+	}
 	else
+	{
 		calculateHistogram(m_pDepthHist, MAX_DEPTH, m_depth2Frame);
+	}
 
 	memset(m_pTexMap, 0, m_nTexMapX*m_nTexMapY*sizeof(openni::RGB888Pixel));
 
@@ -277,7 +277,6 @@ void SampleViewer::display()
 
 	// Swap the OpenGL display buffers
 	glutSwapBuffers();
-
 }
 
 void SampleViewer::onKey(unsigned char key, int /*x*/, int /*y*/)
@@ -301,9 +300,6 @@ void SampleViewer::onKey(unsigned char key, int /*x*/, int /*y*/)
 	case '3':
 		m_eViewState = DISPLAY_MODE_DEPTH2;
 		break;
-	case 'm':
-//		m_rContext.SetGlobalMirror(!m_rContext.GetGlobalMirror());
-		break;
 	}
 
 }
@@ -314,7 +310,6 @@ openni::Status SampleViewer::initOpenGL(int argc, char **argv)
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(GL_WIN_SIZE_X, GL_WIN_SIZE_Y);
 	glutCreateWindow (m_strSampleName);
-	// 	glutFullScreen();
 	glutSetCursor(GLUT_CURSOR_NONE);
 
 	initOpenGLHooks();
@@ -325,6 +320,7 @@ openni::Status SampleViewer::initOpenGL(int argc, char **argv)
 	return openni::STATUS_OK;
 
 }
+
 void SampleViewer::initOpenGLHooks()
 {
 	glutKeyboardFunc(glutKeyboard);

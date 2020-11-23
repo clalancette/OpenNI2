@@ -79,10 +79,10 @@ void Sleep(int ms)
 
 
 
-class MyMwListener : public closest_point::ClosestPoint::Listener
+class MyMwListener final : public closest_point::ClosestPoint::Listener
 {
 public:
-	void readyForNextData(closest_point::ClosestPoint* pClosestPoint)
+	void readyForNextData(closest_point::ClosestPoint* pClosestPoint) override
 	{
 		openni::VideoFrameRef frame;
 		closest_point::IntPoint3D closest;
@@ -99,10 +99,8 @@ public:
 	}
 };
 
-
 int main()
 {
-
 	closest_point::ClosestPoint closestPoint;
 
 	if (!closestPoint.isValid())

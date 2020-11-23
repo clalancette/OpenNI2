@@ -41,7 +41,7 @@ namespace oni_file {
 class Codec;
 
 /// Represents a source in a played .ONI file.
-class PlayerSource
+class PlayerSource final
 {
 public:
 	// New data event.
@@ -55,13 +55,11 @@ public:
 	typedef xnl::Event<NewDataEventArgs> NewDataEvent;
 	typedef void (ONI_CALLBACK_TYPE* NewDataCallback)(const NewDataEventArgs& newDataEventArgs, void* pCookie);
 
-public:
-
 	/// Constructor.
 	PlayerSource(const XnChar* strNodeName, OniSensorType sensorType);
 
 	/// Destructor.
-	virtual ~PlayerSource();
+	~PlayerSource();
 
 	/// Return the source info associated with the source.
 	OniSensorInfo* GetInfo();
@@ -70,10 +68,10 @@ public:
 	const XnChar* GetNodeName();
 
 	/// Get property.
-	virtual OniStatus GetProperty(int propertyId, void* data, int* pDataSize);
+	OniStatus GetProperty(int propertyId, void* data, int* pDataSize);
 
 	/// Set property.
-	virtual OniStatus SetProperty(int propertyId, const void* data, int dataSize);
+	OniStatus SetProperty(int propertyId, const void* data, int dataSize);
 
 	// Process new data.
 	void ProcessNewData(XnUInt64 nTimeStamp, XnUInt32 nFrameId, void* pData, XnUInt32 nSize);

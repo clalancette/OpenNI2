@@ -49,15 +49,15 @@ public:
 
 	OniDeviceInfo* GetInfo() { return &m_info; }
 
-	OniStatus getSensorInfoList(OniSensorInfo** pSensors, int* numSensors);
+	OniStatus getSensorInfoList(OniSensorInfo** pSensors, int* numSensors) override;
 
-	oni::driver::StreamBase* createStream(OniSensorType sensorType);
-	void destroyStream(oni::driver::StreamBase* pStream);
+	oni::driver::StreamBase* createStream(OniSensorType sensorType) override;
+	void destroyStream(oni::driver::StreamBase* pStream) override;
 
-	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize);
-	virtual OniStatus setProperty(int propertyId, const void* data, int dataSize);
-	virtual OniBool isPropertySupported(int propertyId);
-	virtual void notifyAllProperties();
+	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize) override;
+	virtual OniStatus setProperty(int propertyId, const void* data, int dataSize) override;
+	virtual OniBool isPropertySupported(int propertyId) override;
+	virtual void notifyAllProperties() override;
 
 	virtual OniStatus EnableFrameSync(XnOniStream** pStreams, int streamCount);
 	virtual void DisableFrameSync();

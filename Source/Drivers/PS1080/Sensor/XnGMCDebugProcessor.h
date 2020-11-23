@@ -30,22 +30,21 @@
 // Code
 //---------------------------------------------------------------------------
 
-class XnGMCDebugProcessor : public XnWholePacketProcessor
+class XnGMCDebugProcessor final : public XnWholePacketProcessor
 {
 public:
 	XnGMCDebugProcessor(XnDevicePrivateData* pDevicePrivateData);
 	~XnGMCDebugProcessor();
 
-protected:
+private:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData);
+	void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData) override;
 
 	//---------------------------------------------------------------------------
 	// Class Members
 	//---------------------------------------------------------------------------
-private:
 	XnDumpFile* m_DumpTxt;
 	XnDumpFile* m_DumpBin;
 	XnUInt32 m_nGMCTime;

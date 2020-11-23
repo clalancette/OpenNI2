@@ -25,15 +25,14 @@
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
-class DriverServices
+class DriverServices final
 {
 public:
 	DriverServices(xnl::ErrorLogger& errorLogger) : m_errorLogger(errorLogger) {}
 
 	xnl::ErrorLogger& getErrorLogger() {return m_errorLogger;}
-protected:
-	xnl::ErrorLogger& m_errorLogger;
 private:
+	xnl::ErrorLogger& m_errorLogger;
 	DriverServices(const DriverServices& other);
 	DriverServices& operator=(const DriverServices& other);
 };

@@ -29,16 +29,16 @@
 #define DEFAULT_RESOLUTION_Y 480
 #define DEFAULT_FPS 30
 
-class TestStream : public oni::driver::StreamBase
+class TestStream final : public oni::driver::StreamBase
 {
 public:
 	TestStream(OniSensorType sensorType);
 	virtual ~TestStream();
-	virtual OniStatus start();
-	virtual void stop();
-	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize);
-	virtual OniStatus setProperty(int propertyId, const void* data, int dataSize);
-	virtual OniStatus invoke(int commandId, void* data, int dataSize);
+	virtual OniStatus start() override;
+	virtual void stop() override;
+	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize) override;
+	virtual OniStatus setProperty(int propertyId, const void* data, int dataSize) override;
+	virtual OniStatus invoke(int commandId, void* data, int dataSize) override;
 
 	static OniPixelFormat getDefaultPixelFormat(OniSensorType sensorType);
 

@@ -38,7 +38,7 @@ typedef struct
 	XnUInt32 nFPS;
 } XnCmosBlankingData;
 
-class XnCmosInfo
+class XnCmosInfo final
 {
 public:
 	XnCmosInfo(XnSensorFirmware* pFirmware, XnDevicePrivateData* pDevicePrivateData);

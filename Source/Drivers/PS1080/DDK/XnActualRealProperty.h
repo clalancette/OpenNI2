@@ -33,7 +33,7 @@
 /**
 * A property of type integer.
 */
-class XnActualRealProperty : public XnRealProperty
+class XnActualRealProperty final : public XnRealProperty
 {
 public:
 	XnActualRealProperty(XnUInt32 propertyId, const XnChar* strName, XnDouble dInitialValue = 0.0, const XnChar* strModule = "");

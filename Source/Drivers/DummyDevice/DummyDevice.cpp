@@ -35,14 +35,14 @@ public:
 		stop();
 	}
 
-	OniStatus start()
+	OniStatus start() override
 	{
 		xnOSCreateThread(threadFunc, this, &m_threadHandle);
 
 		return ONI_STATUS_OK;
 	}
 
-	void stop()
+	void stop() override
 	{
 		m_running = false;
 	}
@@ -50,7 +50,7 @@ public:
 	virtual OniStatus SetVideoMode(OniVideoMode*) = 0;
 	virtual OniStatus GetVideoMode(OniVideoMode* pVideoMode) = 0;
 
-	OniStatus getProperty(int propertyId, void* data, int* pDataSize)
+	OniStatus getProperty(int propertyId, void* data, int* pDataSize) override
 	{
 		if (propertyId == ONI_STREAM_PROPERTY_VIDEO_MODE)
 		{
@@ -65,7 +65,7 @@ public:
 		return ONI_STATUS_NOT_IMPLEMENTED;
 	}
 
-	OniStatus setProperty(int propertyId, const void* data, int dataSize)
+	OniStatus setProperty(int propertyId, const void* data, int dataSize) override
 	{
 		if (propertyId == ONI_STREAM_PROPERTY_VIDEO_MODE)
 		{
@@ -100,11 +100,11 @@ protected:
 	XN_THREAD_HANDLE m_threadHandle;
 };
 
-class OzDepthStream : public OzStream
+class OzDepthStream final : public OzStream
 {
 public:
-	OniStatus SetVideoMode(OniVideoMode*) {return ONI_STATUS_NOT_IMPLEMENTED;}
-	OniStatus GetVideoMode(OniVideoMode* pVideoMode)
+	OniStatus SetVideoMode(OniVideoMode*) override {return ONI_STATUS_NOT_IMPLEMENTED;}
+	OniStatus GetVideoMode(OniVideoMode* pVideoMode) override
 	{
 		pVideoMode->pixelFormat = ONI_PIXEL_FORMAT_DEPTH_1_MM;
 		pVideoMode->fps = 30;
@@ -115,7 +115,7 @@ public:
 
 private:
 
-	void Mainloop()
+	void Mainloop() override
 	{
 		int frameId = 1;
 		int xdir = 1;
@@ -188,11 +188,11 @@ private:
 	}
 };
 
-class OzImageStream : public OzStream
+class OzImageStream final : public OzStream
 {
 public:
-	OniStatus SetVideoMode(OniVideoMode*) {return ONI_STATUS_NOT_IMPLEMENTED;}
-	OniStatus GetVideoMode(OniVideoMode* pVideoMode)
+	OniStatus SetVideoMode(OniVideoMode*) override {return ONI_STATUS_NOT_IMPLEMENTED;}
+	OniStatus GetVideoMode(OniVideoMode* pVideoMode) override
 	{
 		pVideoMode->pixelFormat = ONI_PIXEL_FORMAT_RGB888;
 		pVideoMode->fps = 30;
@@ -203,7 +203,7 @@ public:
 
 private:
 
-	void Mainloop()
+	void Mainloop() override
 	{
 		int frameId = 1;
 		int xdir = -3;
@@ -270,7 +270,7 @@ private:
 	}
 };
 
-class OzDevice : public oni::driver::DeviceBase
+class OzDevice final : public oni::driver::DeviceBase
 {
 public:
 	OzDevice(OniDeviceInfo* pInfo, oni::driver::DriverServices& driverServices) : m_pInfo(pInfo), m_driverServices(driverServices)
@@ -299,7 +299,7 @@ public:
 		return m_pInfo;
 	}
 
-	OniStatus getSensorInfoList(OniSensorInfo** pSensors, int* numSensors)
+	OniStatus getSensorInfoList(OniSensorInfo** pSensors, int* numSensors) override
 	{
 		*numSensors = m_numSensors;
 		*pSensors = m_sensors;
@@ -307,7 +307,7 @@ public:
 		return ONI_STATUS_OK;
 	}
 
-	oni::driver::StreamBase* createStream(OniSensorType sensorType)
+	oni::driver::StreamBase* createStream(OniSensorType sensorType) override
 	{
 		if (sensorType == ONI_SENSOR_DEPTH)
 		{
@@ -324,12 +324,12 @@ public:
 		return NULL;
 	}
 
-	void destroyStream(oni::driver::StreamBase* pStream)
+	void destroyStream(oni::driver::StreamBase* pStream) override
 	{
 		XN_DELETE(pStream);
 	}
 
-	OniStatus  getProperty(int propertyId, void* data, int* pDataSize)
+	OniStatus getProperty(int propertyId, void* data, int* pDataSize) override
 	{
 		OniStatus rc = ONI_STATUS_OK;
 
@@ -366,13 +366,13 @@ private:
 };
 
 
-class OzDriver : public oni::driver::DriverBase
+class OzDriver final : public oni::driver::DriverBase
 {
 public:
 	OzDriver(OniDriverServices* pDriverServices) : DriverBase(pDriverServices)
 	{}
 
-	virtual oni::driver::DeviceBase* deviceOpen(const char* uri, const char* /*mode*/)
+	oni::driver::DeviceBase* deviceOpen(const char* uri, const char* /*mode*/) override
 	{
 		for (xnl::Hash<OniDeviceInfo*, oni::driver::DeviceBase*>::Iterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter)
 		{
@@ -395,7 +395,7 @@ public:
 		return NULL;
 	}
 
-	virtual void deviceClose(oni::driver::DeviceBase* pDevice)
+	void deviceClose(oni::driver::DeviceBase* pDevice) override
 	{
 		for (xnl::Hash<OniDeviceInfo*, oni::driver::DeviceBase*>::Iterator iter = m_devices.Begin(); iter != m_devices.End(); ++iter)
 		{
@@ -411,7 +411,7 @@ public:
 		XN_ASSERT(FALSE);
 	}
 
-	virtual OniStatus tryDevice(const char* uri)
+	OniStatus tryDevice(const char* uri) override
 	{
 		if (xnOSStrCmp(uri, "Dummy") != 0 &&
 			xnOSStrCmp(uri, "Oz") != 0 &&
@@ -431,9 +431,9 @@ public:
 		return ONI_STATUS_OK;
 	}
 
-	void shutdown() {}
+	void shutdown() override {}
 
-protected:
+private:
 	XN_THREAD_HANDLE m_threadHandle;
 
 	xnl::Hash<OniDeviceInfo*, oni::driver::DeviceBase*> m_devices;

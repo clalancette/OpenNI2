@@ -27,7 +27,7 @@
 
 #define MAX_Z 65535
 
-class DepthUtilsImpl
+class DepthUtilsImpl final
 {
 public:
 	DepthUtilsImpl();
@@ -70,7 +70,6 @@ private:
 		XnInt64 dYdYdX0, XnInt64 dYdYdY0,
 		XnInt32 betaX, XnInt32 betaY);
 
-private:
 	DepthUtilsSensorCalibrationInfo m_blob;
 
 

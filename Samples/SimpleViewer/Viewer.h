@@ -32,22 +32,21 @@ enum DisplayModes
 	DISPLAY_MODE_IMAGE
 };
 
-class SampleViewer
+class SampleViewer final
 {
 public:
 	SampleViewer(const char* strSampleName, openni::Device& device, openni::VideoStream& depth, openni::VideoStream& color);
 	virtual ~SampleViewer();
 
-	virtual openni::Status init(int argc, char **argv);
-	virtual openni::Status run();	//Does not return
+	openni::Status init(int argc, char **argv);
+	openni::Status run();	//Does not return
 
-protected:
-	virtual void display();
-	virtual void displayPostDraw(){};	// Overload to draw over the screen image
+private:
+	void display();
 
-	virtual void onKey(unsigned char key, int x, int y);
+	void onKey(unsigned char key, int x, int y);
 
-	virtual openni::Status initOpenGL(int argc, char **argv);
+	openni::Status initOpenGL(int argc, char **argv);
 	void initOpenGLHooks();
 
 	openni::VideoFrameRef		m_depthFrame;
@@ -58,7 +57,6 @@ protected:
 	openni::VideoStream&			m_colorStream;
 	openni::VideoStream**		m_streams;
 
-private:
 	SampleViewer(const SampleViewer&);
 	SampleViewer& operator=(SampleViewer&);
 
@@ -76,6 +74,5 @@ private:
 	int			m_width;
 	int			m_height;
 };
-
 
 #endif // VIEWER_H

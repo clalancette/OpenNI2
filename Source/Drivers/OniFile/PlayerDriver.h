@@ -34,7 +34,7 @@ namespace oni_file {
 
 /// Implements an OpenNI driver, which manages virtual OpenNI devices. Those
 /// devics read their data from *.ONI files.
-class PlayerDriver : public oni::driver::DriverBase
+class PlayerDriver final : public oni::driver::DriverBase
 {
 public:
 	/// @copydoc OniDriverBase::OniDriverBase(OniDriverServices*)
@@ -42,19 +42,19 @@ public:
 
 	/// @copydoc OniDriverBase::DeviceOpen(const char*)
 	/// @todo Document it.
-	oni::driver::DeviceBase* deviceOpen(const char* strUri, const char* mode);
+	oni::driver::DeviceBase* deviceOpen(const char* strUri, const char* mode) override;
 
-	void deviceClose(oni::driver::DeviceBase* pDevice);
+	void deviceClose(oni::driver::DeviceBase* pDevice) override;
 
 	/// @copydoc OniDriverBase::Shutdown()
-	virtual void shutdown();
+	void shutdown() override;
 
 	/// Verifies that the given URI's scheme is known, and emits a message which
 	/// notifies OpenNI that a device has been connected.
 	/// @param[in] strUri The requested URI which points to a *.ONI file.
 	/// @returns ONI_STATUS_OK whenever the URI is supported, or ONI_STATUS_ERROR
 	/// when it's not.
-	virtual OniStatus tryDevice(const char* strUri);
+	OniStatus tryDevice(const char* strUri) override;
 
 private:
 

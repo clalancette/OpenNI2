@@ -38,34 +38,34 @@
 class XnOniStream;
 class XnOniDriver;
 
-class XnOniDevice :
+class XnOniDevice final :
 	public oni::driver::DeviceBase
 {
 public:
 	XnOniDevice(const char* uri, oni::driver::DriverServices& driverServices, XnOniDriver* pDriver);
-	virtual ~XnOniDevice();
+	~XnOniDevice();
 
 	XnStatus Init(const char* mode);
 
 	OniDeviceInfo* GetInfo() { return &m_info; }
 
-	OniStatus getSensorInfoList(OniSensorInfo** pSensors, int* numSensors);
+	OniStatus getSensorInfoList(OniSensorInfo** pSensors, int* numSensors) override;
 
-	oni::driver::StreamBase* createStream(OniSensorType sensorType);
-	void destroyStream(oni::driver::StreamBase* pStream);
+	oni::driver::StreamBase* createStream(OniSensorType sensorType) override;
+	void destroyStream(oni::driver::StreamBase* pStream) override;
 
-	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize);
-	virtual OniStatus setProperty(int propertyId, const void* data, int dataSize);
-	virtual OniBool isPropertySupported(int propertyId);
-	virtual void notifyAllProperties();
+	OniStatus getProperty(int propertyId, void* data, int* pDataSize) override;
+	OniStatus setProperty(int propertyId, const void* data, int dataSize) override;
+	OniBool isPropertySupported(int propertyId) override;
+	void notifyAllProperties() override;
 
-	virtual OniStatus EnableFrameSync(XnOniStream** pStreams, int streamCount);
-	virtual void DisableFrameSync();
+	OniStatus EnableFrameSync(XnOniStream** pStreams, int streamCount);
+	void DisableFrameSync();
 
-	virtual OniBool isImageRegistrationModeSupported(OniImageRegistrationMode mode);
+	OniBool isImageRegistrationModeSupported(OniImageRegistrationMode mode) override;
 
-	XnSensor* GetSensor() 
-	{ 
+	XnSensor* GetSensor()
+	{
 		return &m_sensor;
 	}
 

@@ -39,7 +39,7 @@ namespace oni_file {
 class PlayerSource;
 
 /// Implements a virtual OpenNI device, which reads is adata from a *.ONI file.
-class PlayerDevice : public oni::driver::DeviceBase
+class PlayerDevice final : public oni::driver::DeviceBase
 {
 public:
 	/// Constructs a device from the given file path.
@@ -52,27 +52,27 @@ public:
 	OniStatus Initialize();
 
 	/// @copydoc OniDeviceBase::GetStreamSourceInfoList(OniSourceInfo**, int*)
-	virtual OniStatus getSensorInfoList(OniSensorInfo** pSources, int* numSources);
+	OniStatus getSensorInfoList(OniSensorInfo** pSources, int* numSources) override;
 
 	/// @copydoc OniDeviceBase::CreateStream(OniStreamSource)
-	virtual oni::driver::StreamBase* createStream(OniSensorType);
+	oni::driver::StreamBase* createStream(OniSensorType) override;
 
-	virtual void destroyStream(oni::driver::StreamBase* pStream);
+	void destroyStream(oni::driver::StreamBase* pStream) override;
 
 	/// @copydoc OniDeviceBase::TryManualTrigger()
-	virtual OniStatus tryManualTrigger();
+	OniStatus tryManualTrigger() override;
 
 	/// Get property.
-	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize);
+	OniStatus getProperty(int propertyId, void* data, int* pDataSize) override;
 
 	/// Set property.
-	virtual OniStatus setProperty(int propertyId, const void* data, int dataSize);
+	OniStatus setProperty(int propertyId, const void* data, int dataSize) override;
 
-	virtual OniBool isPropertySupported(int propertyId);
+	OniBool isPropertySupported(int propertyId) override;
 
 	/// @copydoc OniDeviceBase::Invoke(int, void*, int)
-	virtual OniStatus invoke(int commandId, void* data, int dataSize);
-	virtual OniBool isCommandSupported(int commandId);
+	OniStatus invoke(int commandId, void* data, int dataSize) override;
+	OniBool isCommandSupported(int commandId) override;
 
 	OniBool isPlayerEOF() { return m_player.IsEOF(); };
 
@@ -85,7 +85,7 @@ public:
 	void TriggerDriverEOFCallback() { if(m_driverEOFCallback) (m_driverEOFCallback)(m_driverCookie, m_filePath.c_str()); };
 
 	const char* getOriginalDevice() {return m_originalDevice;}
-protected:
+private:
 	PlayerSource* FindSource(const XnChar* strNodeName);
 
 	// Wake up when timestamp is valid.
@@ -93,7 +93,6 @@ protected:
 
 	void LoadConfigurationFromIniFile();
 
-private:
 	void close();
 
 	typedef struct

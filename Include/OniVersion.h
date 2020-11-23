@@ -28,7 +28,7 @@
 #define ONI_VERSION_MAINTENANCE	0
 #define ONI_VERSION_BUILD	15
 
-/** OpenNI version (in brief string format): "Major.Minor.Maintenance (Build)" */ 
+/** OpenNI version (in brief string format): "Major.Minor.Maintenance (Build)" */
 #define ONI_BRIEF_VERSION_STRING \
 	ONI_STRINGIFY(ONI_VERSION_MAJOR) "." \
 	ONI_STRINGIFY(ONI_VERSION_MINOR) "." \
@@ -40,7 +40,7 @@
 #define ONI_CREATE_API_VERSION(major, minor) ((major)*1000 + (minor))
 #define ONI_API_VERSION ONI_CREATE_API_VERSION(ONI_VERSION_MAJOR, ONI_VERSION_MINOR)
 
-/** OpenNI version (in string format): "Major.Minor.Maintenance.Build-Platform (MMM DD YYYY HH:MM:SS)". */ 
+/** OpenNI version (in string format): "Major.Minor.Maintenance.Build-Platform (MMM DD YYYY HH:MM:SS)". */
 #define ONI_VERSION_STRING \
 	ONI_BRIEF_VERSION_STRING  "-" \
 	ONI_PLATFORM_STRING " (" ONI_TIMESTAMP ")"

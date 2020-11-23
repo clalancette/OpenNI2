@@ -36,7 +36,7 @@ class Decoder;
 class PlayerDevice;
 
 /// Implements a stream from a virtual OpenNI device.
-class PlayerStream : public oni::driver::StreamBase
+class PlayerStream final : public oni::driver::StreamBase
 {
 public:
 
@@ -58,7 +58,6 @@ public:
 	typedef StreamEvent		DestroyEvent;
 	typedef StreamCallback  DestroyCallback;
 
-public:
 	/// Constructor.
 	PlayerStream(PlayerDevice* pDevice, PlayerSource* pSource);
 
@@ -68,25 +67,25 @@ public:
 	/// Initialize the stream object.
 	OniStatus Initialize();
 
-	virtual int getRequiredFrameSize();
+	virtual int getRequiredFrameSize() override;
 
 	/// @copydoc OniStreamBase::start()
-	virtual OniStatus start();
+	virtual OniStatus start() override;
 
 	/// has start() been called on this stream already?
 	bool isStreamStarted() { return m_isStarted; }
 
 	/// @copydoc OniStreamBase::stop()
-	virtual void stop();
+	virtual void stop() override;
 
 	// Return the player source the stream was created on.
 	PlayerSource* GetSource();
 
 	/// @copydoc OniStreamBase::getProperty(int,void*,int*)
-	virtual OniStatus getProperty(int propertyId, void* pData, int* pDataSize);
+	virtual OniStatus getProperty(int propertyId, void* pData, int* pDataSize) override;
 
 	/// @copydoc OniStreamBase::setProperty(int,void*,int*)
-	virtual OniStatus setProperty(int propertyId, const void* pData, int dataSize);
+	virtual OniStatus setProperty(int propertyId, const void* pData, int dataSize) override;
 
 	// Register for 'ready for data' event.
 	OniStatus RegisterReadyForDataEvent(ReadyForDataCallback callback, void* pCookie, OniCallbackHandle& handle);

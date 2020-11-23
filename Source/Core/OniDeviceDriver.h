@@ -38,7 +38,7 @@ typedef void ONI_CALLBACK_TYPE DeviceStateCallback(Device*, OniDeviceState, void
 
 class VideoStream;
 
-class DeviceDriver
+class DeviceDriver final
 {
 public:
 	DeviceDriver(const char* strDriverFileName, FrameManager& frameManager, xnl::ErrorLogger& errorLogger);
@@ -59,7 +59,7 @@ public:
 	void* enableFrameSync(VideoStream** pStreams, int streamCount);
 	void disableFrameSync(void* frameSyncGroup);
 
-protected:
+private:
 	static void ONI_CALLBACK_TYPE driver_DeviceConnected(const OniDeviceInfo* pInfo, void* pCookie);
 	static void ONI_CALLBACK_TYPE driver_DeviceDisconnected(const OniDeviceInfo* pInfo, void* pCookie);
 	static void ONI_CALLBACK_TYPE driver_DeviceStateChanged(const OniDeviceInfo* pInfo, OniDeviceState deviceState, void* pCookie);
@@ -77,7 +77,6 @@ protected:
 	xnl::Event1Arg<Device*> m_deviceDisconnectedEvent;
 	xnl::Event2Args<Device*, OniDeviceState> m_deviceStateChangedEvent;
 
-private:
 	DeviceDriver(const DeviceDriver& other);
 	DeviceDriver& operator=(const DeviceDriver& other);
 };

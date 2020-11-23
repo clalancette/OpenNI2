@@ -41,7 +41,7 @@ struct OniFrameInternal : public OniFrame
 	void* freeBufferFuncCookie;
 };
 
-class FrameManager
+class FrameManager final
 {
 public:
 	FrameManager();

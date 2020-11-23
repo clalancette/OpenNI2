@@ -30,14 +30,14 @@
 
 typedef bool (*cbfunc)(openni::Device& Device, std::vector<std::string>& Command);
 
-std::map<std::string, cbfunc> cbs;
-std::map<std::string, cbfunc> mnemonics;
-std::map<std::string, std::string>  helps;
+static std::map<std::string, cbfunc> g_cbs;
+static std::map<std::string, cbfunc> g_mnemonics;
+static std::map<std::string, std::string> g_helps;
 
-XnVersions g_DeviceVersion;
-const char* g_openMode;
-openni::VideoStream g_depthStream;
-openni::VideoStream g_colorStream;
+static XnVersions g_DeviceVersion;
+static const char* g_openMode;
+static openni::VideoStream g_depthStream;
+static openni::VideoStream g_colorStream;
 
 const XnUInt16 REQUIRE_MODE_PS				= 0x0001;
 const XnUInt16 REQUIRE_MODE_MAINTENANCE		= 0x0002;
@@ -129,16 +129,16 @@ void mainloop(openni::Device& Device, std::istream& istr, bool prompt)
 				Command[0][i] = (char)tolower(Command[0][i]);
 			}
 
-			if (cbs.find(Command[0]) != cbs.end())
+			if (g_cbs.find(Command[0]) != g_cbs.end())
 			{
-				if (!(*cbs[Command[0]])(Device, Command))
+				if (!(*g_cbs[Command[0]])(Device, Command))
 				{
 					return;
 				}
 			}
-			else if (mnemonics.find(Command[0]) != mnemonics.end())
+			else if (g_mnemonics.find(Command[0]) != g_mnemonics.end())
 			{
-				if (!(*mnemonics[Command[0]])(Device, Command))
+				if (!(*g_mnemonics[Command[0]])(Device, Command))
 				{
 					return;
 				}
@@ -647,9 +647,9 @@ bool Script(openni::Device& Device, std::vector<std::string>& Command)
 
 bool Help(openni::Device& /*Device*/, std::vector<std::string>& /*Command*/)
 {
-	for (std::map<std::string, cbfunc>::iterator iter = cbs.begin(); iter != cbs.end(); ++iter)
+	for (std::map<std::string, cbfunc>::iterator iter = g_cbs.begin(); iter != g_cbs.end(); ++iter)
 	{
-		std::cout << "\"" << iter->first << "\" - " << helps[iter->first] << std::endl;
+		std::cout << "\"" << iter->first << "\" - " << g_helps[iter->first] << std::endl;
 	}
 
 	return true;
@@ -1170,8 +1170,8 @@ void RegisterCB(std::string cmd, cbfunc func, const std::string& strHelp)
 	{
 		cmd[i] = (char)tolower(cmd[i]);
 	}
-	cbs[cmd] = func;
-	helps[cmd] = strHelp;
+	g_cbs[cmd] = func;
+	g_helps[cmd] = strHelp;
 }
 
 void RegisterMnemonic(std::string strMnemonic, std::string strCommand)
@@ -1185,9 +1185,9 @@ void RegisterMnemonic(std::string strMnemonic, std::string strCommand)
 		strMnemonic[i] = (char)tolower(strMnemonic[i]);
 	}
 
-	if (cbs.find(strCommand) != cbs.end())
+	if (g_cbs.find(strCommand) != g_cbs.end())
 	{
-		mnemonics[strMnemonic] = cbs[strCommand];
+		g_mnemonics[strMnemonic] = g_cbs[strCommand];
 	}
 }
 
@@ -1808,13 +1808,13 @@ int main(int argc, char **argv)
 		{
 			//
 		}
-		else if (cbs.find(Command[0]) != cbs.end())
+		else if (g_cbs.find(Command[0]) != g_cbs.end())
 		{
-			(*cbs[Command[0]])(Device, Command);
+			(*g_cbs[Command[0]])(Device, Command);
 		}
-		else if (mnemonics.find(Command[0]) != mnemonics.end())
+		else if (g_mnemonics.find(Command[0]) != g_mnemonics.end())
 		{
-			(*mnemonics[Command[0]])(Device, Command);
+			(*g_mnemonics[Command[0]])(Device, Command);
 		}
 		else
 		{
