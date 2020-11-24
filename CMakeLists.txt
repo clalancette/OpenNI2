@@ -148,103 +148,129 @@ install(TARGETS DummyDevice
   DESTINATION OpenNI2/Drivers
 )
 
+add_library(DriverCommon STATIC
+  Source/Drivers/DriverCommon/Core/XnBuffer.cpp
+  Source/Drivers/DriverCommon/Core/XnCore.cpp
+  Source/Drivers/DriverCommon/Core/XnIOFileStream.cpp
+
+  Source/Drivers/DriverCommon/DDK/XnActualGeneralProperty.cpp
+  Source/Drivers/DriverCommon/DDK/XnActualIntProperty.cpp
+  Source/Drivers/DriverCommon/DDK/XnActualPropertiesHash.cpp
+  Source/Drivers/DriverCommon/DDK/XnActualRealProperty.cpp
+  Source/Drivers/DriverCommon/DDK/XnActualStringProperty.cpp
+  Source/Drivers/DriverCommon/DDK/XnDDK.cpp
+  Source/Drivers/DriverCommon/DDK/XnDepthStream.cpp
+  Source/Drivers/DriverCommon/DDK/XnDeviceBase.cpp
+  Source/Drivers/DriverCommon/DDK/XnDeviceModule.cpp
+  Source/Drivers/DriverCommon/DDK/XnDeviceModuleHolder.cpp
+  Source/Drivers/DriverCommon/DDK/XnDeviceStream.cpp
+  Source/Drivers/DriverCommon/DDK/XnGeneralProperty.cpp
+  Source/Drivers/DriverCommon/DDK/XnFrameBufferManager.cpp
+  Source/Drivers/DriverCommon/DDK/XnFrameStream.cpp
+  Source/Drivers/DriverCommon/DDK/XnImageStream.cpp
+  Source/Drivers/DriverCommon/DDK/XnIntProperty.cpp
+  Source/Drivers/DriverCommon/DDK/XnIntPropertySynchronizer.cpp
+  Source/Drivers/DriverCommon/DDK/XnIRStream.cpp
+  Source/Drivers/DriverCommon/DDK/XnPixelStream.cpp
+  Source/Drivers/DriverCommon/DDK/XnProperty.cpp
+  Source/Drivers/DriverCommon/DDK/XnPropertySet.cpp
+  Source/Drivers/DriverCommon/DDK/XnRealProperty.cpp
+  Source/Drivers/DriverCommon/DDK/XnShiftToDepthStreamHelper.cpp
+  Source/Drivers/DriverCommon/DDK/XnStreamingStream.cpp
+  Source/Drivers/DriverCommon/DDK/XnStringProperty.cpp
+
+  Source/Drivers/DriverCommon/DriverImpl/XnOniColorStream.cpp
+  Source/Drivers/DriverCommon/DriverImpl/XnOniDepthStream.cpp
+  Source/Drivers/DriverCommon/DriverImpl/XnOniDevice.cpp
+  Source/Drivers/DriverCommon/DriverImpl/XnOniDriver.cpp
+  Source/Drivers/DriverCommon/DriverImpl/XnOniIRStream.cpp
+  Source/Drivers/DriverCommon/DriverImpl/XnOniMapStream.cpp
+  Source/Drivers/DriverCommon/DriverImpl/XnOniStream.cpp
+
+  Source/Drivers/DriverCommon/Formats/XnFormats.cpp
+  Source/Drivers/DriverCommon/Formats/XnFormatsMirror.cpp
+  Source/Drivers/DriverCommon/Formats/XnFormatsStatus.cpp
+
+  Source/Drivers/DriverCommon/Sensor/Bayer.cpp
+  Source/Drivers/DriverCommon/Sensor/Uncomp.cpp
+  Source/Drivers/DriverCommon/Sensor/XnBayerImageProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnCmosInfo.cpp
+  Source/Drivers/DriverCommon/Sensor/XnDataProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnDataProcessorHolder.cpp
+  Source/Drivers/DriverCommon/Sensor/XnDepthProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnDeviceSensorInit.cpp
+  Source/Drivers/DriverCommon/Sensor/XnDeviceSensorIO.cpp
+  Source/Drivers/DriverCommon/Sensor/XnDeviceSensorProtocol.cpp
+  Source/Drivers/DriverCommon/Sensor/XnFirmwareCommands.cpp
+  Source/Drivers/DriverCommon/Sensor/XnFirmwareStreams.cpp
+  Source/Drivers/DriverCommon/Sensor/XnFrameStreamProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnGeneralDebugProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnGMCDebugProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnJpegToRGBImageProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnNesaDebugProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnImageProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnIRProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnJpegImageProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnPacked11DepthProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnPacked12DepthProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnPassThroughImageProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnPSCompressedDepthProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnPSCompressedImageProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnSensorDepthStream.cpp
+  Source/Drivers/DriverCommon/Sensor/XnSensorFirmware.cpp
+  Source/Drivers/DriverCommon/Sensor/XnSensorFixedParams.cpp
+  Source/Drivers/DriverCommon/Sensor/XnSensorFPS.cpp
+  Source/Drivers/DriverCommon/Sensor/XnSensorImageStream.cpp
+  Source/Drivers/DriverCommon/Sensor/XnSensorIRStream.cpp
+  Source/Drivers/DriverCommon/Sensor/XnSensorStreamHelper.cpp
+  Source/Drivers/DriverCommon/Sensor/XnStreamProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnTecDebugProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnUncompressedBayerProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnUncompressedDepthProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnUncompressedYUV422toRGBImageProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnUncompressedYUYVtoRGBImageProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnWavelengthCorrectionDebugProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/XnWholePacketProcessor.cpp
+  Source/Drivers/DriverCommon/Sensor/YUV.cpp
+)
+target_include_directories(DriverCommon PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/DepthUtils>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon/Include>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/PSCommon/XnLib/Include>"
+)
+target_link_libraries(DriverCommon
+  DepthUtils
+  XnLib
+  -Wl,--no-undefined
+)
+
 # FIXME: missing compile flags -msse3 -O2 -DNDEBUG
 add_library(PS1080 SHARED
-  Source/Drivers/PS1080/Core/XnBuffer.cpp
-  Source/Drivers/PS1080/Core/XnCore.cpp
-  Source/Drivers/PS1080/Core/XnIOFileStream.cpp
-  Source/Drivers/PS1080/DDK/XnActualGeneralProperty.cpp
-  Source/Drivers/PS1080/DDK/XnActualIntProperty.cpp
-  Source/Drivers/PS1080/DDK/XnActualPropertiesHash.cpp
-  Source/Drivers/PS1080/DDK/XnActualRealProperty.cpp
-  Source/Drivers/PS1080/DDK/XnActualStringProperty.cpp
-  Source/Drivers/PS1080/DDK/XnDDK.cpp
-  Source/Drivers/PS1080/DDK/XnDepthStream.cpp
-  Source/Drivers/PS1080/DDK/XnDeviceBase.cpp
-  Source/Drivers/PS1080/DDK/XnDeviceModule.cpp
-  Source/Drivers/PS1080/DDK/XnDeviceModuleHolder.cpp
-  Source/Drivers/PS1080/DDK/XnDeviceStream.cpp
-  Source/Drivers/PS1080/DDK/XnFrameBufferManager.cpp
-  Source/Drivers/PS1080/DDK/XnFrameStream.cpp
-  Source/Drivers/PS1080/DDK/XnGeneralProperty.cpp
-  Source/Drivers/PS1080/DDK/XnImageStream.cpp
-  Source/Drivers/PS1080/DDK/XnIntProperty.cpp
-  Source/Drivers/PS1080/DDK/XnIntPropertySynchronizer.cpp
-  Source/Drivers/PS1080/DDK/XnIRStream.cpp
-  Source/Drivers/PS1080/DDK/XnPixelStream.cpp
-  Source/Drivers/PS1080/DDK/XnProperty.cpp
-  Source/Drivers/PS1080/DDK/XnPropertySet.cpp
-  Source/Drivers/PS1080/DDK/XnRealProperty.cpp
+  Source/Drivers/DriverCommon/DriverImpl/XnExportedOniDriver.cpp
+
   Source/Drivers/PS1080/DDK/XnShiftToDepth.cpp
-  Source/Drivers/PS1080/DDK/XnShiftToDepthStreamHelper.cpp
-  Source/Drivers/PS1080/DDK/XnStreamingStream.cpp
-  Source/Drivers/PS1080/DDK/XnStringProperty.cpp
-  Source/Drivers/PS1080/DriverImpl/XnExportedOniDriver.cpp
-  Source/Drivers/PS1080/DriverImpl/XnOniColorStream.cpp
-  Source/Drivers/PS1080/DriverImpl/XnOniDepthStream.cpp
-  Source/Drivers/PS1080/DriverImpl/XnOniDevice.cpp
-  Source/Drivers/PS1080/DriverImpl/XnOniDriver.cpp
-  Source/Drivers/PS1080/DriverImpl/XnOniIRStream.cpp
-  Source/Drivers/PS1080/DriverImpl/XnOniMapStream.cpp
-  Source/Drivers/PS1080/DriverImpl/XnOniStream.cpp
-  Source/Drivers/PS1080/Formats/XnFormats.cpp
-  Source/Drivers/PS1080/Formats/XnFormatsMirror.cpp
-  Source/Drivers/PS1080/Formats/XnFormatsStatus.cpp
-  Source/Drivers/PS1080/Sensor/Bayer.cpp
-  Source/Drivers/PS1080/Sensor/Uncomp.cpp
-  Source/Drivers/PS1080/Sensor/XnBayerImageProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnCmosInfo.cpp
-  Source/Drivers/PS1080/Sensor/XnDataProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnDataProcessorHolder.cpp
-  Source/Drivers/PS1080/Sensor/XnDepthProcessor.cpp
+
   Source/Drivers/PS1080/Sensor/XnDeviceEnumeration.cpp
-  Source/Drivers/PS1080/Sensor/XnDeviceSensorInit.cpp
-  Source/Drivers/PS1080/Sensor/XnDeviceSensorIO.cpp
-  Source/Drivers/PS1080/Sensor/XnDeviceSensorProtocol.cpp
-  Source/Drivers/PS1080/Sensor/XnFirmwareCommands.cpp
-  Source/Drivers/PS1080/Sensor/XnFirmwareStreams.cpp
-  Source/Drivers/PS1080/Sensor/XnFrameStreamProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnGeneralDebugProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnGMCDebugProcessor.cpp
   Source/Drivers/PS1080/Sensor/XnHostProtocol.cpp
-  Source/Drivers/PS1080/Sensor/XnImageProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnIRProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnJpegImageProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnJpegToRGBImageProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnNesaDebugProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnPacked11DepthProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnPacked12DepthProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnPassThroughImageProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnPSCompressedDepthProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnPSCompressedImageProcessor.cpp
   Source/Drivers/PS1080/Sensor/XnSensor.cpp
-  Source/Drivers/PS1080/Sensor/XnSensorDepthStream.cpp
-  Source/Drivers/PS1080/Sensor/XnSensorFirmware.cpp
   Source/Drivers/PS1080/Sensor/XnSensorFirmwareParams.cpp
-  Source/Drivers/PS1080/Sensor/XnSensorFixedParams.cpp
-  Source/Drivers/PS1080/Sensor/XnSensorFPS.cpp
-  Source/Drivers/PS1080/Sensor/XnSensorImageStream.cpp
-  Source/Drivers/PS1080/Sensor/XnSensorIRStream.cpp
-  Source/Drivers/PS1080/Sensor/XnSensorStreamHelper.cpp
-  Source/Drivers/PS1080/Sensor/XnStreamProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnTecDebugProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnUncompressedBayerProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnUncompressedDepthProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnUncompressedYUV422toRGBImageProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnUncompressedYUYVtoRGBImageProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnWavelengthCorrectionDebugProcessor.cpp
-  Source/Drivers/PS1080/Sensor/XnWholePacketProcessor.cpp
-  Source/Drivers/PS1080/Sensor/YUV.cpp
 )
 target_include_directories(PS1080 PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>"
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/DepthUtils>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon/DDK>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon/Formats>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon/Include>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon/Sensor>"
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/PS1080>"
-  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/PS1080/Include>"
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/PSCommon/XnLib/Include>"
 )
 target_link_libraries(PS1080
   DepthUtils
+  DriverCommon
   XnLib
   -Wl,--no-undefined
 )
@@ -254,101 +280,29 @@ install(TARGETS PS1080
 
 # FIXME: missing compile flags -msse3 -O2 -DNDEBUG
 add_library(orbbec SHARED
-  Source/Drivers/orbbec/Core/XnBuffer.cpp
-  Source/Drivers/orbbec/Core/XnCore.cpp
-  Source/Drivers/orbbec/Core/XnIOFileStream.cpp
-  Source/Drivers/orbbec/DDK/XnActualGeneralProperty.cpp
-  Source/Drivers/orbbec/DDK/XnActualIntProperty.cpp
-  Source/Drivers/orbbec/DDK/XnActualPropertiesHash.cpp
-  Source/Drivers/orbbec/DDK/XnActualRealProperty.cpp
-  Source/Drivers/orbbec/DDK/XnActualStringProperty.cpp
-  Source/Drivers/orbbec/DDK/XnDDK.cpp
-  Source/Drivers/orbbec/DDK/XnDepthStream.cpp
-  Source/Drivers/orbbec/DDK/XnDeviceBase.cpp
-  Source/Drivers/orbbec/DDK/XnDeviceModule.cpp
-  Source/Drivers/orbbec/DDK/XnDeviceModuleHolder.cpp
-  Source/Drivers/orbbec/DDK/XnDeviceStream.cpp
-  Source/Drivers/orbbec/DDK/XnFrameBufferManager.cpp
-  Source/Drivers/orbbec/DDK/XnFrameStream.cpp
-  Source/Drivers/orbbec/DDK/XnGeneralProperty.cpp
-  Source/Drivers/orbbec/DDK/XnImageStream.cpp
-  Source/Drivers/orbbec/DDK/XnIntProperty.cpp
-  Source/Drivers/orbbec/DDK/XnIntPropertySynchronizer.cpp
-  Source/Drivers/orbbec/DDK/XnIRStream.cpp
-  Source/Drivers/orbbec/DDK/XnPixelStream.cpp
-  Source/Drivers/orbbec/DDK/XnProperty.cpp
-  Source/Drivers/orbbec/DDK/XnPropertySet.cpp
-  Source/Drivers/orbbec/DDK/XnRealProperty.cpp
+  Source/Drivers/DriverCommon/DriverImpl/XnExportedOniDriver.cpp
+
   Source/Drivers/orbbec/DDK/XnShiftToDepth.cpp
-  Source/Drivers/orbbec/DDK/XnShiftToDepthStreamHelper.cpp
-  Source/Drivers/orbbec/DDK/XnStreamingStream.cpp
-  Source/Drivers/orbbec/DDK/XnStringProperty.cpp
-  Source/Drivers/orbbec/DriverImpl/XnExportedOniDriver.cpp
-  Source/Drivers/orbbec/DriverImpl/XnOniColorStream.cpp
-  Source/Drivers/orbbec/DriverImpl/XnOniDepthStream.cpp
-  Source/Drivers/orbbec/DriverImpl/XnOniDevice.cpp
-  Source/Drivers/orbbec/DriverImpl/XnOniDriver.cpp
-  Source/Drivers/orbbec/DriverImpl/XnOniIRStream.cpp
-  Source/Drivers/orbbec/DriverImpl/XnOniMapStream.cpp
-  Source/Drivers/orbbec/DriverImpl/XnOniStream.cpp
-  Source/Drivers/orbbec/Formats/XnFormats.cpp
-  Source/Drivers/orbbec/Formats/XnFormatsMirror.cpp
-  Source/Drivers/orbbec/Formats/XnFormatsStatus.cpp
-  Source/Drivers/orbbec/Sensor/Bayer.cpp
-  Source/Drivers/orbbec/Sensor/Uncomp.cpp
-  Source/Drivers/orbbec/Sensor/XnBayerImageProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnCmosInfo.cpp
-  Source/Drivers/orbbec/Sensor/XnDataProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnDataProcessorHolder.cpp
-  Source/Drivers/orbbec/Sensor/XnDepthProcessor.cpp
+
   Source/Drivers/orbbec/Sensor/XnDeviceEnumeration.cpp
-  Source/Drivers/orbbec/Sensor/XnDeviceSensorInit.cpp
-  Source/Drivers/orbbec/Sensor/XnDeviceSensorIO.cpp
-  Source/Drivers/orbbec/Sensor/XnDeviceSensorProtocol.cpp
-  Source/Drivers/orbbec/Sensor/XnFirmwareCommands.cpp
-  Source/Drivers/orbbec/Sensor/XnFirmwareStreams.cpp
-  Source/Drivers/orbbec/Sensor/XnFrameStreamProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnGeneralDebugProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnGMCDebugProcessor.cpp
   Source/Drivers/orbbec/Sensor/XnHostProtocol.cpp
-  Source/Drivers/orbbec/Sensor/XnImageProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnIRProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnJpegImageProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnJpegToRGBImageProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnNesaDebugProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnPacked11DepthProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnPacked12DepthProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnPassThroughImageProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnPSCompressedDepthProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnPSCompressedImageProcessor.cpp
   Source/Drivers/orbbec/Sensor/XnSensor.cpp
-  Source/Drivers/orbbec/Sensor/XnSensorDepthStream.cpp
-  Source/Drivers/orbbec/Sensor/XnSensorFirmware.cpp
   Source/Drivers/orbbec/Sensor/XnSensorFirmwareParams.cpp
-  Source/Drivers/orbbec/Sensor/XnSensorFixedParams.cpp
-  Source/Drivers/orbbec/Sensor/XnSensorFPS.cpp
-  Source/Drivers/orbbec/Sensor/XnSensorImageStream.cpp
-  Source/Drivers/orbbec/Sensor/XnSensorIRStream.cpp
-  Source/Drivers/orbbec/Sensor/XnSensorStreamHelper.cpp
-  Source/Drivers/orbbec/Sensor/XnStreamProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnTecDebugProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnUncompressedBayerProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnUncompressedDepthProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnUncompressedYUV422toRGBImageProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnUncompressedYUYVtoRGBImageProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnWavelengthCorrectionDebugProcessor.cpp
-  Source/Drivers/orbbec/Sensor/XnWholePacketProcessor.cpp
-  Source/Drivers/orbbec/Sensor/YUV.cpp
 )
 target_include_directories(orbbec PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>"
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/DepthUtils>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon/DDK>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon/Formats>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon/Include>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon/Sensor>"
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/orbbec>"
-  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/orbbec/Include>"
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/PSCommon/XnLib/Include>"
 )
 target_link_libraries(orbbec
   DepthUtils
+  DriverCommon
   XnLib
   -Wl,--no-undefined
 )
@@ -442,6 +396,7 @@ add_executable(PS1080Console
 target_include_directories(PS1080Console PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>"
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/PSCommon/XnLib/Include>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/DriverCommon/Include>"
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/PS1080/Include>"
 )
 target_link_libraries(PS1080Console
