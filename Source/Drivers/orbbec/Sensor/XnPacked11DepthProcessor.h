@@ -30,21 +30,21 @@
 // Code
 //---------------------------------------------------------------------------
 
-class XnPacked11DepthProcessor : public XnDepthProcessor
+class XnPacked11DepthProcessor final : public XnDepthProcessor
 {
 public:
 	XnPacked11DepthProcessor(XnSensorDepthStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager);
-	virtual ~XnPacked11DepthProcessor();
+	~XnPacked11DepthProcessor();
 
 	XnStatus Init();
 
-protected:
+private:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize);
-	virtual void OnStartOfFrame(const XnSensorProtocolResponseHeader* pHeader);
-	virtual void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader);
+	void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize) override;
+	void OnStartOfFrame(const XnSensorProtocolResponseHeader* pHeader) override;
+	void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader) override;
 
 	//---------------------------------------------------------------------------
 	// Internal Functions
@@ -54,7 +54,6 @@ protected:
 	//---------------------------------------------------------------------------
 	// Class Members
 	//---------------------------------------------------------------------------
-private:
 	/* A buffer used for storing some left-over bytes for the next packet. */
 	XnBuffer m_ContinuousBuffer;
 };

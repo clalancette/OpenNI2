@@ -136,8 +136,6 @@ void XnPacked11DepthProcessor::ProcessFramePacketChunk(const XnSensorProtocolRes
 {
 	XN_PROFILING_START_SECTION("XnPacked11DepthProcessor::ProcessFramePacketChunk")
 
-	XnStatus nRetVal = XN_STATUS_OK;
-
 	// check if we have data from previous packet
 	if (m_ContinuousBuffer.GetSize() != 0)
 	{
@@ -158,7 +156,7 @@ void XnPacked11DepthProcessor::ProcessFramePacketChunk(const XnSensorProtocolRes
 
 	// find out the number of input elements we have
 	XnUInt32 nActualRead = 0;
-	nRetVal = Unpack11to16(pData, nDataSize, &nActualRead);
+	XnStatus nRetVal = Unpack11to16(pData, nDataSize, &nActualRead);
 	if (nRetVal == XN_STATUS_OK)
 	{
 		pData += nActualRead;

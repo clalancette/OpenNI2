@@ -141,9 +141,13 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp)
 		XnInt64 nEstimatedTime = (XnInt64)(nEstimatedTicks / (XnDouble)m_pDevicePrivateData->fDeviceFrequency);
 
 		if (nEstimatedTime < nOSTime - 0.5 * fWrapAroundInMicroseconds)
+		{
 			nWraps++;
+		}
 		else if (nEstimatedTime > nOSTime + 0.5 * fWrapAroundInMicroseconds)
+		{
 			nWraps--;
+		}
 
 		// handle the two special cases - 3 & 4 in which we get a timestamp which is
 		// *before* global TS (meaning before time 0)

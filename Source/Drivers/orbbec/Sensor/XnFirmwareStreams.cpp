@@ -68,19 +68,10 @@ XnStatus XnFirmwareStreams::Init()
 	nRetVal = m_FirmwareStreams.Set(XN_STREAM_TYPE_IMAGE, tempData);
 	XN_IS_STATUS_OK(nRetVal);
 
-	// IR (currently uses the same processor
+	// IR (currently uses the same processor)
 	tempData.pProcessorHolder = &m_ImageProcessor;
 	tempData.strType = XN_STREAM_TYPE_IR;
 	nRetVal = m_FirmwareStreams.Set(XN_STREAM_TYPE_IR, tempData);
-	XN_IS_STATUS_OK(nRetVal);
-
-	// Audio
-	nRetVal = m_AudioProcessor.Init();
-	XN_IS_STATUS_OK(nRetVal);
-
-	tempData.pProcessorHolder = &m_AudioProcessor;
-	tempData.strType = XN_STREAM_TYPE_AUDIO;
-	nRetVal = m_FirmwareStreams.Set(XN_STREAM_TYPE_AUDIO, tempData);
 	XN_IS_STATUS_OK(nRetVal);
 
 	// GMC debug processor
@@ -326,9 +317,13 @@ XnBool XnFirmwareStreams::IsClaimed(const XnChar* strType, XnDeviceStream* pStre
 {
 	XnFirmwareStreamData* pData = NULL;
 	if (XN_STATUS_OK == m_FirmwareStreams.Get(strType, pData) && pData->pOwner == pStream)
+	{
 		return TRUE;
+	}
 	else
+	{
 		return FALSE;
+	}
 }
 
 void XnFirmwareStreams::ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize)
@@ -348,9 +343,6 @@ void XnFirmwareStreams::ProcessPacketChunk(XnSensorProtocolResponseHeader* pHead
 	case XN_SENSOR_PROTOCOL_RESPONSE_IMAGE_BUFFER:
 	case XN_SENSOR_PROTOCOL_RESPONSE_IMAGE_END:
 		pStreamProcessor = &m_ImageProcessor;
-		break;
-	case XN_SENSOR_PROTOCOL_RESPONSE_AUDIO_BUFFER:
-		pStreamProcessor = &m_AudioProcessor;
 		break;
 	case XN_SENSOR_PROTOCOL_RESPONSE_GMC_DEBUG:
 	case XN_SENSOR_PROTOCOL_RESPONSE_GMC_DEBUG_END:

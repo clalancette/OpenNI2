@@ -74,7 +74,6 @@ private:
 
 	XnDataProcessorHolder m_DepthProcessor;
 	XnDataProcessorHolder m_ImageProcessor;
-	XnDataProcessorHolder m_AudioProcessor;
 	XnDataProcessorHolder m_GMCDebugProcessor;
 	XnDataProcessorHolder m_WavelengthCorrectionDebugProcessor;
 	XnDataProcessorHolder m_TecDebugProcessor;
