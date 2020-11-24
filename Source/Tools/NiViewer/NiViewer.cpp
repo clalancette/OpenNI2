@@ -671,7 +671,6 @@ int main(int argc, char **argv)
 	glutInitDisplayString("stencil double rgb");
 	glutInitWindowSize(1280, 1024);
 	glutCreateWindow("OpenNI Viewer");
-	glutFullScreen();
 	glutSetCursor(GLUT_CURSOR_NONE);
 
 	init_opengl();
