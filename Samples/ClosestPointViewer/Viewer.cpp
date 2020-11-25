@@ -126,8 +126,6 @@ void SampleViewer::display()
 		m_pTexMap = new openni::RGB888Pixel[m_nTexMapX * m_nTexMapY];
 	}
 
-
-
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glMatrixMode(GL_PROJECTION);
@@ -220,7 +218,6 @@ void SampleViewer::display()
 
 	// Swap the OpenGL display buffers
 	glutSwapBuffers();
-
 }
 
 void SampleViewer::onKey(unsigned char key, int /*x*/, int /*y*/)

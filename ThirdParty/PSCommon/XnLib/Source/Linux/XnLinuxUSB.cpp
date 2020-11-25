@@ -192,9 +192,9 @@ void xnUSBDeviceDisconnected(struct udev_device *dev)
 	std::list<XnUSBConnectedDevice*>::iterator it = std::find(g_connectedDevices.begin(), g_connectedDevices.end(), pConnected);
 	if (it != g_connectedDevices.end())
 	{
-		//g_connectedDevices.erase(it);
+		g_connectedDevices.erase(it);
 	}
-	//XN_DELETE(pConnected);
+	XN_DELETE(pConnected);
 }
 
 XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM /*pThreadParam*/)
@@ -346,6 +346,11 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM /*pThreadParam*/)
 	}
 	udev_monitor_unref(mon);
 	udev_unref(udev);
+
+	for (std::list<XnUSBConnectedDevice*>::iterator it = g_connectedDevices.begin(); it != g_connectedDevices.end(); ++it)
+	{
+		XN_DELETE(*it);
+	}
 
 	XN_THREAD_PROC_RETURN(XN_STATUS_OK);
 }

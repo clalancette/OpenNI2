@@ -55,9 +55,16 @@ class PrintCallback final : public openni::VideoStream::NewFrameListener
 public:
 	void onNewFrame(openni::VideoStream& stream) override
 	{
+		m_frame.release();
+
 		stream.readFrame(&m_frame);
 
 		analyzeFrame(m_frame);
+	}
+
+	~PrintCallback()
+	{
+		m_frame.release();
 	}
 private:
 	openni::VideoFrameRef m_frame;
@@ -130,19 +137,24 @@ int main()
 		printf("Couldn't start the depth stream\n%s\n", openni::OpenNI::getExtendedError());
 	}
 
-	PrintCallback depthPrinter;
-
-	// Register to new frame
-	depth.addNewFrameListener(&depthPrinter);
-
-	// Wait while we're getting frames through the printer
-	while (!wasKeyboardHit())
 	{
-		Sleep(100);
+		// The extra scope here is to ensure that the PrintCallback gets
+		// destroyed (and unrefs the frames) before the rest of OpenNI is
+		// cleaned up.
+
+		PrintCallback depthPrinter;
+
+		// Register to new frame
+		depth.addNewFrameListener(&depthPrinter);
+
+		// Wait while we're getting frames through the printer
+		while (!wasKeyboardHit())
+		{
+			Sleep(100);
+		}
+
+		depth.removeNewFrameListener(&depthPrinter);
 	}
-
-	depth.removeNewFrameListener(&depthPrinter);
-
 
 	depth.stop();
 	depth.destroy();

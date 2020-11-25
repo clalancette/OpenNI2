@@ -101,6 +101,8 @@ int main(int argc, char* argv[])
 		int middleIndex = (frame.getHeight()+1)*frame.getWidth()/2;
 
 		printf("[%08llu] %8d\n", (long long)frame.getTimestamp(), pDepth[middleIndex]);
+
+		frame.release();
 	}
 
 	depth.stop();

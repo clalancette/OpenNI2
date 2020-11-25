@@ -134,6 +134,8 @@ int main()
 		}
 
 		analyzeFrame(frame);
+
+		frame.release();
 	}
 
 	depth.stop();

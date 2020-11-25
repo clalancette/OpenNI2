@@ -48,10 +48,12 @@ void SampleViewer::glutIdle()
 {
 	glutPostRedisplay();
 }
+
 void SampleViewer::glutDisplay()
 {
 	SampleViewer::ms_self->display();
 }
+
 void SampleViewer::glutKeyboard(unsigned char key, int x, int y)
 {
 	SampleViewer::ms_self->onKey(key, x, y);
@@ -137,12 +139,14 @@ openni::Status SampleViewer::init(int argc, char **argv)
 	return initOpenGL(argc, argv);
 
 }
+
 openni::Status SampleViewer::run()	//Does not return
 {
 	glutMainLoop();
 
 	return openni::STATUS_OK;
 }
+
 void SampleViewer::display()
 {
 	int changedIndex;
@@ -156,8 +160,10 @@ void SampleViewer::display()
 	switch (changedIndex)
 	{
 	case 0:
+		m_depthFrame.release();
 		m_depthStream.readFrame(&m_depthFrame); break;
 	case 1:
+		m_colorFrame.release();
 		m_colorStream.readFrame(&m_colorFrame); break;
 	default:
 		printf("Error in wait\n");
@@ -259,7 +265,6 @@ void SampleViewer::display()
 
 	// Swap the OpenGL display buffers
 	glutSwapBuffers();
-
 }
 
 void SampleViewer::onKey(unsigned char key, int /*x*/, int /*y*/)
@@ -271,6 +276,8 @@ void SampleViewer::onKey(unsigned char key, int /*x*/, int /*y*/)
 		m_colorStream.stop();
 		m_depthStream.destroy();
 		m_colorStream.destroy();
+		m_depthFrame.release();
+		m_colorFrame.release();
 		m_device.close();
 		openni::OpenNI::shutdown();
 
@@ -309,7 +316,6 @@ openni::Status SampleViewer::initOpenGL(int argc, char **argv)
 	glEnable(GL_TEXTURE_2D);
 
 	return openni::STATUS_OK;
-
 }
 
 void SampleViewer::initOpenGLHooks()
