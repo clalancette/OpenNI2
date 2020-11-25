@@ -88,7 +88,6 @@ private:
 
 	// following members are for the frame buffer pool that is used by default
 	xnl::CriticalSection m_framesCS;
-	std::list<void*> m_allFrameBuffers;
 	std::list<void*> m_availableFrameBuffers;
 	std::list<OniFrameInternal*> m_currentStreamFrames;
 

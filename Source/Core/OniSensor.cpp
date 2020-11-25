@@ -138,7 +138,6 @@ void* Sensor::allocFrameBufferFromPool(int size)
 	{
 		// create a new one
 		pResult = xnOSMallocAligned(size, XN_DEFAULT_MEM_ALIGN);
-		m_allFrameBuffers.push_back(pResult);
 	}
 	else
 	{

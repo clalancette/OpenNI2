@@ -38,6 +38,7 @@ public:
 
 	~Pool()
 	{
+		Clear();
 	}
 
 	void Lock() { m_lock.Lock(); }
@@ -100,7 +101,7 @@ public:
 		{
 			typename std::list<TInPool*>::iterator it = m_all.begin();
 			TInPool* pObject = *it;
-			m_all.Remove(it);
+			m_all.erase(it);
 			XN_DELETE(pObject);
 		}
 		Unlock();

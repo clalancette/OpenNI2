@@ -45,6 +45,10 @@ Context::Context() : m_errorLogger(xnl::ErrorLogger::GetInstance()), m_autoRecor
 Context::~Context()
 {
 	s_valid = FALSE;
+	for (xnl::Hash<XN_THREAD_ID, XN_EVENT_HANDLE>::Iterator it = m_waitingThreads.Begin(); it != m_waitingThreads.End(); ++it)
+	{
+		xnOSCloseEvent(&(it->Value()));
+	}
 }
 
 OniStatus Context::initialize()
