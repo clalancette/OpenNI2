@@ -309,6 +309,10 @@ void closeDevice()
 	g_colorStream.stop();
 	g_irStream.stop();
 
+	g_depthFrame.release();
+	g_colorFrame.release();
+	g_irFrame.release();
+
 	g_depthStream.destroy();
 	g_colorStream.destroy();
 	g_irStream.destroy();
@@ -904,7 +908,7 @@ openni::VideoFrameRef& getIRFrame()
 	return g_irFrame;
 }
 
-bool g_bFrameSyncOn = false;
+static bool g_bFrameSyncOn = false;
 void toggleFrameSync(int)
 {
 	if (g_bFrameSyncOn)
@@ -925,7 +929,7 @@ void toggleFrameSync(int)
 	g_bFrameSyncOn = !g_bFrameSyncOn;
 }
 
-bool g_bZoomCropOn = false;
+static bool g_bZoomCropOn = false;
 void toggleZoomCrop(int)
 {
 	if (g_bZoomCropOn)

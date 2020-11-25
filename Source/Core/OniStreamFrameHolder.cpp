@@ -48,7 +48,7 @@ OniStatus StreamFrameHolder::readFrame(VideoStream* pStream, OniFrame** pFrame)
 		return ONI_STATUS_ERROR;
 	}
 
-	// If frame already exists, wait() will return immidiately.
+	// If frame already exists, wait() will return immediately.
 	m_pStream->waitForNewFrameEvent();
 
 	// Return the last frame and set it to NULL.
@@ -136,7 +136,9 @@ int StreamFrameHolder::getNumStreams()
 void StreamFrameHolder::setStreamEnabled(VideoStream* pStream, OniBool enabled)
 {
 	if (pStream != m_pStream)
+	{
 		return;
+	}
 
 	if (enabled == FALSE)
 	{
