@@ -244,15 +244,6 @@ void captureStop(int)
 	}
 }
 
-#define START_CAPTURE_CHECK_RC(rc, what)												\
-	if (nRetVal != XN_STATUS_OK)														\
-	{																					\
-		displayError("Failed to %s: %s\n", what, openni::OpenNI::getExtendedError());	\
-		g_Capture.recorder.destroy();													\
-		g_Capture.State = NOT_CAPTURING;												\
-		return;																			\
-	}
-
 void captureRun()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -284,14 +275,26 @@ void captureRun()
 				if (g_Capture.streams[i].isStreamOn() && g_Capture.streams[i].captureType != STREAM_DONT_CAPTURE)
 				{
 					nRetVal = g_Capture.recorder.attach(g_Capture.streams[i].getStream(), g_Capture.streams[i].captureType == STREAM_CAPTURE_LOSSY);
-					START_CAPTURE_CHECK_RC(nRetVal, "add stream");
+					if (nRetVal != XN_STATUS_OK)
+					{
+						displayError("Failed to add stream: %s\n", openni::OpenNI::getExtendedError());
+						g_Capture.recorder.destroy();
+						g_Capture.State = NOT_CAPTURING;
+						return;
+					}
 					g_Capture.streams[i].bRecording = TRUE;
 					g_Capture.streams[i].startFrame = g_Capture.streams[i].getFrameFunc().getFrameIndex();
 				}
 			}
 
 			nRetVal = g_Capture.recorder.start();
-			START_CAPTURE_CHECK_RC(nRetVal, "start recording");
+			if (nRetVal != XN_STATUS_OK)
+			{
+				displayError("Failed to start recording: %s\n", openni::OpenNI::getExtendedError());
+				g_Capture.recorder.destroy();
+				g_Capture.State = NOT_CAPTURING;
+				return;
+			}
 			g_Capture.State = CAPTURING;
 		}
 	}
@@ -375,7 +378,9 @@ int findUniqueFileName()
 
 		nRetVal = xnOSDoesFileExist(csColorFileName, &bExist);
 		if (nRetVal != XN_STATUS_OK)
+		{
 			break;
+		}
 
 		if (!bExist)
 		{
@@ -384,7 +389,9 @@ int findUniqueFileName()
 
 			nRetVal = xnOSDoesFileExist(csDepthFileName, &bExist);
 			if (nRetVal != XN_STATUS_OK || !bExist)
+			{
 				break;
+			}
 		}
 
 		if (!bExist)
@@ -394,7 +401,9 @@ int findUniqueFileName()
 
 			nRetVal = xnOSDoesFileExist(csIRFileName, &bExist);
 			if (nRetVal != XN_STATUS_OK || !bExist)
+			{
 				break;
+			}
 		}
 
 		++num;

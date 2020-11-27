@@ -360,7 +360,7 @@ void changeRegistration(int value)
 	g_device.setImageRegistrationMode(mode);
 }
 
-void toggleMirror(int )
+void toggleMirror(int)
 {
 	toggleDepthMirror(0);
 	toggleColorMirror(0);
@@ -369,8 +369,7 @@ void toggleMirror(int )
 	displayMessage ("Mirror: %s", g_depthStream.getMirroringEnabled()?"On":"Off");
 }
 
-
-void toggleCloseRange(int )
+void toggleCloseRange(int)
 {
 	static OniBool bCloseRange = FALSE;
 
@@ -825,7 +824,7 @@ void togglePlaybackRepeat(int /*ignored*/)
 	bLoop = !bLoop;
 	g_pPlaybackControl->setRepeatEnabled(bLoop);
 	char msg[100];
-	sprintf(msg,"Repeat playback: %s", (bLoop ? "ON" : "OFF"));
+	sprintf(msg, "Repeat playback: %s", (bLoop ? "ON" : "OFF"));
 	displayMessage(msg);
 }
 
@@ -886,10 +885,12 @@ openni::VideoStream& getDepthStream()
 {
 	return g_depthStream;
 }
+
 openni::VideoStream& getColorStream()
 {
 	return g_colorStream;
 }
+
 openni::VideoStream& getIRStream()
 {
 	return g_irStream;
@@ -899,10 +900,12 @@ openni::VideoFrameRef& getDepthFrame()
 {
 	return g_depthFrame;
 }
+
 openni::VideoFrameRef& getColorFrame()
 {
 	return g_colorFrame;
 }
+
 openni::VideoFrameRef& getIRFrame()
 {
 	return g_irFrame;

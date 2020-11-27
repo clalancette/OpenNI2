@@ -40,7 +40,7 @@ XnOniDevice::XnOniDevice(const XnChar* uri, oni::driver::DriverServices& driverS
 XnOniDevice::~XnOniDevice()
 {
 	// free the allocated arrays
-	for(int i=0; i < m_numSensors; ++i)
+	for(int i = 0; i < m_numSensors; ++i)
 	{
 		XN_DELETE_ARR(m_sensors[i].pSupportedVideoModes);
 	}

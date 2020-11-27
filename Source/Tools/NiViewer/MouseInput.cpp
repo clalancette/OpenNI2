@@ -43,7 +43,7 @@ typedef struct MouseInput
 	CursorMovedPtr pCursorCallback;
 } MouseInput;
 
-MouseInput g_MouseInput = {SELECTION_NONE, {0,0}, {0,0}, NULL, NULL};
+static MouseInput g_MouseInput = {SELECTION_NONE, {0,0}, {0,0}, NULL, NULL};
 
 void mouseInputCallSelection()
 {
@@ -65,10 +65,14 @@ void mouseInputMotion(int x, int y)
 	g_MouseInput.LastLocation.Y	= y;
 
 	if (g_MouseInput.pCursorCallback != NULL)
+	{
 		g_MouseInput.pCursorCallback(g_MouseInput.LastLocation);
+	}
 
 	if (g_MouseInput.nSelectionState == SELECTION_ACTIVE)
+	{
 		mouseInputCallSelection();
+	}
 }
 
 void mouseInputButton(int button, int state, int x, int y)
@@ -104,4 +108,3 @@ void mouseInputRegisterForCursorMovement(CursorMovedPtr pFunc)
 {
 	g_MouseInput.pCursorCallback = pFunc;
 }
-

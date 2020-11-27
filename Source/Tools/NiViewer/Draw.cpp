@@ -114,16 +114,16 @@ typedef struct XnTextureMap
 // --------------------------------
 // Global Variables
 // --------------------------------
-DrawConfig g_DrawConfig;
+static DrawConfig g_DrawConfig;
 
-XnUInt8 PalletIntsR [256] = {0};
-XnUInt8 PalletIntsG [256] = {0};
-XnUInt8 PalletIntsB [256] = {0};
+static XnUInt8 PalletIntsR [256] = {0};
+static XnUInt8 PalletIntsG [256] = {0};
+static XnUInt8 PalletIntsB [256] = {0};
 
 /* Histograms */
-float* g_pDepthHist = NULL;
-int g_nMaxDepth = 0;
-unsigned short g_nMaxGrayscale16Value = 0;
+static float* g_pDepthHist = NULL;
+static int g_nMaxDepth = 0;
+static unsigned short g_nMaxGrayscale16Value = 0;
 
 const char* g_DepthDrawColoring[NUM_OF_DEPTH_DRAW_TYPES];
 const char* g_ColorDrawColoring[NUM_OF_COLOR_DRAW_TYPES];
@@ -135,36 +135,36 @@ typedef struct DrawUserInput
 	IntPair Cursor;
 } DrawUserInput;
 
-DrawUserInput g_DrawUserInput;
+static DrawUserInput g_DrawUserInput;
 
-DrawConfigPreset g_Presets[PRESET_COUNT] =
+static DrawConfigPreset g_Presets[PRESET_COUNT] =
 {
-	// NAME,								    Depth_Type,               Transparency  Image_Type			  Arrangement
-	{ "Standard Deviation",					{ { STANDARD_DEVIATION,	      1 },        { COLOR_OFF },          OVERLAY } },			// Obsolete
-	{ "Depth Histogram",					{ { LINEAR_HISTOGRAM,	      1 },        { COLOR_OFF },          OVERLAY } },
-	{ "Psychedelic Depth [Centimeters]",	{ { PSYCHEDELIC,			  1 },        { COLOR_OFF },          OVERLAY } },
-	{ "Psychedelic Depth [Millimeters]",	{ { PSYCHEDELIC_SHADES,	      1 },        { COLOR_OFF },          OVERLAY } },
-	{ "Rainbow Depth",						{ { CYCLIC_RAINBOW_HISTOGRAM, 1 },        { COLOR_OFF },          OVERLAY } },
-	{ "Depth masked Color",					{ { DEPTH_OFF,			      1 },        { DEPTH_MASKED_COLOR }, OVERLAY } },
-	{ "Background Removal",					{ { DEPTH_OFF,			      1 },        { DEPTH_MASKED_COLOR }, OVERLAY } },			// Obsolete
-	{ "Side by Side",						{ { LINEAR_HISTOGRAM,	      1 },        { COLOR_NORMAL },	      SIDE_BY_SIDE } },
-	{ "Depth on Color",						{ { LINEAR_HISTOGRAM,	      1 },        { COLOR_NORMAL },       OVERLAY } },
-	{ "Transparent Depth on Color",			{ { LINEAR_HISTOGRAM,         0.6 },      { COLOR_NORMAL },       OVERLAY } },
-	{ "Rainbow Depth on Color",				{ { RAINBOW,			      0.6 },      { COLOR_NORMAL },       OVERLAY } },
-	{ "Cyclic Rainbow Depth on Color",		{ { CYCLIC_RAINBOW,	          0.6 },      { COLOR_NORMAL },       OVERLAY } },
-	{ "Color Only",							{ { DEPTH_OFF,			      1 },        { COLOR_NORMAL },       OVERLAY } },
+	// NAME,				Depth_Type,			Transparency	Image_Type		Arrangement
+	{ "Standard Deviation",			{ { STANDARD_DEVIATION,		1 },		{ COLOR_OFF },		OVERLAY } },			// Obsolete
+	{ "Depth Histogram",			{ { LINEAR_HISTOGRAM,		1 },		{ COLOR_OFF },		OVERLAY } },
+	{ "Psychedelic Depth [Centimeters]",	{ { PSYCHEDELIC,		1 },		{ COLOR_OFF },		OVERLAY } },
+	{ "Psychedelic Depth [Millimeters]",	{ { PSYCHEDELIC_SHADES,		1 },		{ COLOR_OFF },		OVERLAY } },
+	{ "Rainbow Depth",			{ { CYCLIC_RAINBOW_HISTOGRAM,	1 },		{ COLOR_OFF },		OVERLAY } },
+	{ "Depth masked Color",			{ { DEPTH_OFF,			1 },		{ DEPTH_MASKED_COLOR },	OVERLAY } },
+	{ "Background Removal",			{ { DEPTH_OFF,			1 },		{ DEPTH_MASKED_COLOR },	OVERLAY } },			// Obsolete
+	{ "Side by Side",			{ { LINEAR_HISTOGRAM,		1 },		{ COLOR_NORMAL },	SIDE_BY_SIDE } },
+	{ "Depth on Color",			{ { LINEAR_HISTOGRAM,		1 },		{ COLOR_NORMAL },	OVERLAY } },
+	{ "Transparent Depth on Color",		{ { LINEAR_HISTOGRAM,		0.6 },		{ COLOR_NORMAL },	OVERLAY } },
+	{ "Rainbow Depth on Color",		{ { RAINBOW,			0.6 },		{ COLOR_NORMAL },	OVERLAY } },
+	{ "Cyclic Rainbow Depth on Color",	{ { CYCLIC_RAINBOW,		0.6 },		{ COLOR_NORMAL },	OVERLAY } },
+	{ "Color Only",				{ { DEPTH_OFF,			1 },		{ COLOR_NORMAL },	OVERLAY } },
 };
 
 /* Texture maps for depth and color */
-XnTextureMap g_texDepth;
-XnTextureMap g_texColor;
+static XnTextureMap g_texDepth;
+static XnTextureMap g_texColor;
 
 /* A user message to be displayed. */
-char g_csUserMessage[256];
+static char g_csUserMessage[256];
 
-bool g_bFullScreen = true;
-bool g_bFirstTimeNonFull = true;
-IntPair g_NonFullWinSize = { 1280, 1024 };
+static bool g_bFullScreen = true;
+static bool g_bFirstTimeNonFull = true;
+static IntPair g_NonFullWinSize = { 1280, 1024 };
 
 // --------------------------------
 // Textures
@@ -174,7 +174,9 @@ int GetPowerOfTwo(int num)
 	int result = 1;
 
 	while (result < num)
+	{
 		result <<= 1;
+	}
 
 	return result;
 }
@@ -245,7 +247,9 @@ inline unsigned char* TextureMapGetLine(XnTextureMap* pTex, unsigned int nLine)
 void TextureMapSetPixel(XnTextureMap* pTex, int x, int y, int red, int green, int blue)
 {
 	if (x < 0 || y < 0 || x >= (int)pTex->OrigSize.X || y >= (int)pTex->OrigSize.Y)
+	{
 		return;
+	}
 
 	unsigned char* pPixel = TextureMapGetLine(pTex, y) + x * pTex->nBytesPerPixel;
 	pPixel[0] = red;
@@ -253,7 +257,9 @@ void TextureMapSetPixel(XnTextureMap* pTex, int x, int y, int red, int green, in
 	pPixel[2] = blue;
 
 	if (pTex->nBytesPerPixel > 3)
+	{
 		pPixel[3] = 255;
+	}
 }
 
 void TextureMapDrawCursor(XnTextureMap* pTex, IntPair cursor, int red = 255, int green = 0, int blue = 0)
@@ -335,27 +341,27 @@ void TextureMapDraw(XnTextureMap* pTex, IntRect* pLocation)
 void CreateRainbowPallet()
 {
 	unsigned char r, g, b;
-	for (int i=0; i<256; i++)
+	for (int i = 0; i < 256; i++)
 	{
-		if (i<=29)
+		if (i <= 29)
 		{
 			r = (unsigned char)(129.36-i*4.36);
 			g = 0;
 			b = (unsigned char)255;
 		}
-		else if (i<=86)
+		else if (i <= 86)
 		{
 			r = 0;
 			g = (unsigned char)(-133.54+i*4.52);
 			b = (unsigned char)255;
 		}
-		else if (i<=141)
+		else if (i <= 141)
 		{
 			r = 0;
 			g = (unsigned char)255;
 			b = (unsigned char)(665.83-i*4.72);
 		}
-		else if (i<=199)
+		else if (i <= 199)
 		{
 			r = (unsigned char)(-635.26+i*4.47);
 			g = (unsigned char)255;
@@ -378,9 +384,9 @@ void glPrintString(void *font, const char *str)
 {
 	int i,l = (int)strlen(str);
 
-	for(i=0; i<l; i++)
+	for(i = 0; i < l; i++)
 	{
-		glutBitmapCharacter(font,*str++);
+		glutBitmapCharacter(font, *str++);
 	}
 }
 
@@ -499,9 +505,13 @@ void drawCropStream(openni::VideoStream& stream, IntRect location, IntRect selec
 		height = cropRect.uTop   - cropRect.uBottom;
 
 		if ((originX % dividedBy) != 0)
+		{
 			originX -= (originX % dividedBy);
+		}
 		if ((width % dividedBy) != 0)
+		{
 			width += dividedBy - (width % dividedBy);
+		}
 
 		setStreamCropping(stream, originX, originY, width, height);
 	}
@@ -592,7 +602,6 @@ void calculateHistogram()
 
 	openni::DepthPixel nValue;
 
-
 	const openni::DepthPixel* pDepth = (const openni::DepthPixel*)getDepthFrame().getData();
 	const openni::DepthPixel* pDepthEnd = pDepth + (getDepthFrame().getDataSize() / sizeof(openni::DepthPixel));
 
@@ -612,11 +621,11 @@ void calculateHistogram()
 	}
 
 	int nIndex;
-	for (nIndex=1; nIndex<g_nMaxDepth; nIndex++)
+	for (nIndex = 1; nIndex<g_nMaxDepth; nIndex++)
 	{
 		g_pDepthHist[nIndex] += g_pDepthHist[nIndex-1];
 	}
-	for (nIndex=1; nIndex<g_nMaxDepth; nIndex++)
+	for (nIndex = 1; nIndex<g_nMaxDepth; nIndex++)
 	{
 		if (g_pDepthHist[nIndex] != 0)
 		{
@@ -932,7 +941,9 @@ void drawClosedStream(IntRect* pLocation, const char* csStreamName)
 void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointerGreen, int pointerBlue)
 {
 	if (g_DrawConfig.Streams.Color.Coloring == COLOR_OFF)
+	{
 		return;
+	}
 
 	if (!isColorOn() && !isIROn())
 	{
@@ -955,10 +966,14 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
  		colorMD = getIRFrame();
  	}
 	else
+	{
 		return;
+	}
 
 	if (!colorMD.isValid())
+	{
 		return;
+	}
 
 	if (colorMD.getFrameIndex() == 0)
 	{
@@ -1110,7 +1125,9 @@ void drawDepth(IntRect* pLocation, IntPair* pPointer)
 		openni::VideoFrameRef* pDepthMD = &getDepthFrame();
 
 		if (!pDepthMD->isValid())
+		{
 			return;
+		}
 
 		const openni::DepthPixel* pDepth = (openni::DepthPixel*)pDepthMD->getData();
 		XN_ASSERT(pDepth);
@@ -1269,7 +1286,7 @@ void drawPointerMode(IntPair* pPointer)
 
 		// Print the scale data
 		glBegin(GL_POINTS);
-		for (int i=0; i<g_nMaxDepth; i+=1)
+		for (int i = 0; i < g_nMaxDepth; i += 1)
 		{
 			float fNewColor = g_pDepthHist[i];
 			if ((fNewColor > 0.004) && (fNewColor < 0.996))
@@ -1303,7 +1320,7 @@ void drawPointerMode(IntPair* pPointer)
 		}
 
 		// Print the scale texts
-		for (int i=0; i<g_nMaxDepth/10; i+=25)
+		for (int i = 0; i < g_nMaxDepth/10; i += 25)
 		{
 			int xPos = i*2 + 10;
 
@@ -1491,7 +1508,9 @@ void printRecordingInfo()
 	getCaptureMessage(csMessage);
 
 	if (csMessage[0] != 0)
+	{
 		drawCenteredMessage(GLUT_BITMAP_TIMES_ROMAN_24, 30, csMessage, 1, 0, 0);
+	}
 
 	XnUInt32 nWritten;
 	xnOSStrFormat(csMessage, sizeof(csMessage), &nWritten,

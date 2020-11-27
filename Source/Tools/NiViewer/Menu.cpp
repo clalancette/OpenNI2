@@ -59,7 +59,7 @@ typedef struct XnMenuEntry
 // Global Variables
 // --------------------------------
 /* Holds a list of all menu entries and their callbacks. */
-XnMenuEntry	g_MenuEntries[XN_MAX_MENU_ENTRIES];
+static XnMenuEntry	g_MenuEntries[XN_MAX_MENU_ENTRIES];
 
 // --------------------------------
 // Code

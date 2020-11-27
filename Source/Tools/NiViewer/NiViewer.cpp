@@ -91,13 +91,12 @@ enum {
 // Global Variables
 // --------------------------------
 /* When true, frames will not be read from the device. */
-bool g_bPause = false;
+static bool g_bPause = false;
 /* When true, only a single frame will be read, and then reading will be paused. */
-bool g_bStep = false;
-bool g_bShutdown = false;
+static bool g_bStep = false;
+static bool g_bShutdown = false;
 
-IntPair mouseLocation;
-IntPair windowSize;
+static IntPair windowSize;
 
 // --------------------------------
 // Utilities

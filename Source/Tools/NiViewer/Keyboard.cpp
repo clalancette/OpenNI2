@@ -48,12 +48,12 @@ typedef struct XnKeyboardGroup
 // --------------------------------
 // Global Variables
 // --------------------------------
-XnKeyboardAction g_KeyboardMap[500];
-XnKeyboardAction g_KeyboardSpecialMap[100];
-XnKeyboardGroup g_Groups[20];
-int g_nRegisteredKeys = 0;
-int g_nRegisteredSpecialKeys = 0;
-int g_nRegisteredGroups = 0;
+static XnKeyboardAction g_KeyboardMap[500];
+static XnKeyboardAction g_KeyboardSpecialMap[100];
+static XnKeyboardGroup g_Groups[20];
+static int g_nRegisteredKeys = 0;
+static int g_nRegisteredSpecialKeys = 0;
+static int g_nRegisteredGroups = 0;
 
 static bool g_bUserInput = false;
 static bool g_bUserInputNumbersOnly = false;
@@ -111,7 +111,9 @@ char getRegisteredKey(ActionFunc func, int arg)
 	for (int i = 0; i < g_nRegisteredKeys; ++i)
 	{
 		if (g_KeyboardMap[i].pCallbackFunc == func && g_KeyboardMap[i].nCallbackArg == arg)
+		{
 			return g_KeyboardMap[i].key;
+		}
 	}
 
 	return 0;
@@ -122,7 +124,9 @@ int getRegisteredSpecialKey(ActionFunc func, int arg)
 	for (int i = 0; i < g_nRegisteredKeys; ++i)
 	{
 		if (g_KeyboardSpecialMap[i].pCallbackFunc == func && g_KeyboardSpecialMap[i].nCallbackArg == arg)
+		{
 			return g_KeyboardSpecialMap[i].key;
+		}
 	}
 
 	return 0;
@@ -182,7 +186,9 @@ int findGroup(const char* csGroupName)
 	for (int i = 0; i < g_nRegisteredGroups; ++i)
 	{
 		if (strcmp(g_Groups[i].csName, csGroupName) == 0)
+		{
 			return i;
+		}
 	}
 
 	return -1;
