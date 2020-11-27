@@ -288,8 +288,7 @@ openni::Status openDeviceFromList(DeviceConfig config)
 
 	} while (chosen < 1 || chosen > deviceList.getSize());
 
-	g_device.open(deviceList[chosen-1].getUri());
-
+	rc = g_device.open(deviceList[chosen-1].getUri());
 	if (rc != openni::STATUS_OK)
 	{
 		return rc;
