@@ -271,7 +271,7 @@ typedef struct XnLinkUserFrame
 	XnLinkUserFrameHeader m_header;
 
 	// Using 2 unfixed sized fields, Commented out to avoid direct usage
-	//XnUChar			m_UsersPixelsBLOB[1];
+	//unsigned char			m_UsersPixelsBLOB[1];
 	//XnLinkUserData	m_aUsers[1];
 } XnLinkUserFrame;
 
@@ -799,7 +799,7 @@ typedef struct XnLinkExecuteBistResponse // Entire data in this struct is system
 {
 	uint32_t m_nErrorCode; // 0 for success
 	uint32_t m_nExtraDataSize;
-	XnUChar m_ExtraData[1];
+	unsigned char m_ExtraData[1];
 } XnLinkExecuteBistResponse;
 
 typedef struct XnLinkGetFileListResponse

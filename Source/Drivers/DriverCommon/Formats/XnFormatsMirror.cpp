@@ -35,7 +35,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStatus XnMirrorOneBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
+XnStatus XnMirrorOneBytePixels(unsigned char* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
 	uint8_t* pSrc = pBuffer;
@@ -68,7 +68,7 @@ XnStatus XnMirrorOneBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t 
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnMirrorTwoBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
+XnStatus XnMirrorTwoBytePixels(unsigned char* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
 	uint8_t* pSrc = pBuffer;
@@ -103,7 +103,7 @@ XnStatus XnMirrorTwoBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t 
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnMirrorThreeBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
+XnStatus XnMirrorThreeBytePixels(unsigned char* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
 	uint8_t* pSrc = pBuffer;
@@ -139,7 +139,7 @@ XnStatus XnMirrorThreeBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnMirrorYUV422Pixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
+XnStatus XnMirrorYUV422Pixels(unsigned char* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
 	uint8_t* pSrc = pBuffer;
@@ -176,7 +176,7 @@ XnStatus XnMirrorYUV422Pixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t n
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnMirrorYUYVPixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
+XnStatus XnMirrorYUYVPixels(unsigned char* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
 	uint8_t* pSrc = pBuffer;
@@ -213,7 +213,7 @@ XnStatus XnMirrorYUYVPixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLi
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnFormatsMirrorPixelData(OniPixelFormat nOutputFormat, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nXRes)
+XnStatus XnFormatsMirrorPixelData(OniPixelFormat nOutputFormat, unsigned char* pBuffer, uint32_t nBufferSize, uint32_t nXRes)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pBuffer);

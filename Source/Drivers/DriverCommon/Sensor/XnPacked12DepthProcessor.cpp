@@ -162,7 +162,7 @@ XnStatus XnPacked12DepthProcessor::Unpack12to16(const uint8_t* pcInput, const ui
 	return XN_STATUS_OK;
 }
 
-void XnPacked12DepthProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, uint32_t /*nDataOffset*/, uint32_t nDataSize)
+void XnPacked12DepthProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const unsigned char* pData, uint32_t /*nDataOffset*/, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnPacked12DepthProcessor::ProcessFramePacketChunk")
 

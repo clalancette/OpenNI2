@@ -79,7 +79,7 @@ private:
 public:
 
 	// We processing the map up down first, because people are more likely to stand next to each other than on top of each other.
-	XnStatus MapToSequenceList(const PixelType* pMap, uint32_t nHeight, uint32_t nWidth, XnUChar* pSeqBuffer, uint32_t& nSeqSize)
+	XnStatus MapToSequenceList(const PixelType* pMap, uint32_t nHeight, uint32_t nWidth, unsigned char* pSeqBuffer, uint32_t& nSeqSize)
 	{
 		const PixelType NA_PIXEL		= (PixelType)-1;
 		const PixelType	MAX_PIXEL_SIZE	= (1 << sizeof(ValueType) * 8) - 1;
@@ -93,7 +93,7 @@ public:
 		Sequence*		pCurrSeq			= NULL;
 
 		// Output related data
-		XnUChar*	pCurrOutput = pSeqBuffer;
+		unsigned char*	pCurrOutput = pSeqBuffer;
 		unsigned int		nCurrOutputSize	= 0;
 
 		const PixelType*	pColumn = pMap;
@@ -171,13 +171,13 @@ public:
 		return XN_STATUS_OK;
 	}
 
-	XnStatus SequenceListToMap(XnUChar* pSeqBuffer, uint32_t nSeqSize, PixelType* pMap, uint32_t nHeight, uint32_t nWidth)
+	XnStatus SequenceListToMap(unsigned char* pSeqBuffer, uint32_t nSeqSize, PixelType* pMap, uint32_t nHeight, uint32_t nWidth)
 	{
 		uint32_t nCurrProcessed = 0;
 		uint32_t nX = 0;
 		uint32_t nY = 0;
 
-		XnUChar* pCurr = pSeqBuffer;
+		unsigned char* pCurr = pSeqBuffer;
 
 		// Default all pixels
 		xnOSMemSet(pMap, 0, sizeof(PixelType) * nHeight * nWidth);

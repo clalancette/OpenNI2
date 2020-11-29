@@ -1000,7 +1000,7 @@ void FileRecorder::onRecord(uint32_t nodeId, XnCodecBase* pCodec, const OniFrame
 		uint32_t bufferSize_bytes32 = pFrame->dataSize * 2 + pCodec->GetOverheadSize();
 		uint8_t* buffer             = XN_NEW_ARR(uint8_t, bufferSize_bytes32);
 
-		XnStatus status = pCodec->Compress(reinterpret_cast<const XnUChar*>(pFrame->data),
+		XnStatus status = pCodec->Compress(reinterpret_cast<const unsigned char*>(pFrame->data),
 			pFrame->dataSize, buffer, &bufferSize_bytes32);
 		size_t  bufferSize_bytes = bufferSize_bytes32;
 		if (XN_STATUS_OK == status)

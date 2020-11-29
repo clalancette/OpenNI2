@@ -62,7 +62,7 @@ XnStatus XnBayerImageProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnBayerImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
+void XnBayerImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnBayerImageProcessor::ProcessFramePacketChunk")
 
@@ -70,7 +70,7 @@ void XnBayerImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolRespon
 	// to write to a temp buffer.
 	XnBuffer* pWriteBuffer = (GetStream()->GetOutputFormat() == ONI_PIXEL_FORMAT_GRAY8) ? GetWriteBuffer() : &m_UncompressedBayerBuffer;
 
-	const XnUChar* pBuf = NULL;
+	const unsigned char* pBuf = NULL;
 	uint32_t nBufSize = 0;
 
 	// check if we have bytes stored from previous calls

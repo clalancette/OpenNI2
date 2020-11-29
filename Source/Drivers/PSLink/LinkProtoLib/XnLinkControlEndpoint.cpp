@@ -1296,7 +1296,7 @@ XnStatus LinkControlEndpoint::SetProperty(uint16_t nStreamID, XnLinkPropType pro
 	const uint32_t nMaxSize = 500;
 	XN_ASSERT(nSize < nMaxSize);
 
-	XnUChar message[nMaxSize];
+	unsigned char message[nMaxSize];
 
 	XnLinkPropVal* pSetPropParams = (XnLinkPropVal*)message;
 	pSetPropParams->m_header.m_nPropType = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)propType);

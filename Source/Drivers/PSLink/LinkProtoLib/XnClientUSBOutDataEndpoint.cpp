@@ -106,7 +106,7 @@ XnStatus ClientUSBOutDataEndpoint::Send(const void* pData, uint32_t nSize)
 	}
 	/* TEMP TEMP TEMP - Patch to bypass USB driver bug */
 
-	nRetVal = xnUSBWriteEndPoint(m_hEndpoint, (XnUChar*)pData, nSize, SEND_TIMEOUT);
+	nRetVal = xnUSBWriteEndPoint(m_hEndpoint, (unsigned char*)pData, nSize, SEND_TIMEOUT);
 
 	XN_IS_STATUS_OK_LOG_ERROR("Write to USB data endpoint", nRetVal);
 	return XN_STATUS_OK;

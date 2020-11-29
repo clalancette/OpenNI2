@@ -203,13 +203,13 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const uint8_t* pInput, 
 	return (XN_STATUS_OK);
 }
 
-void XnPSCompressedDepthProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
+void XnPSCompressedDepthProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnPSCompressedDepthProcessor::ProcessFramePacketChunk")
 
 	XnBuffer* pWriteBuffer = GetWriteBuffer();
 
-	const XnUChar* pBuf = NULL;
+	const unsigned char* pBuf = NULL;
 	uint32_t nBufSize = 0;
 
 	// check if we have bytes stored from previous calls

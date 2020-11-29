@@ -223,7 +223,7 @@ XN_C_API XnStatus xnOSStrCRC32(const char* cpString, uint32_t* nCRC32)
 
 }
 
-XN_C_API XnStatus xnOSStrNCRC32(XnUChar* cpBuffer, uint32_t nBufferSize, uint32_t* nCRC32)
+XN_C_API XnStatus xnOSStrNCRC32(unsigned char* cpBuffer, uint32_t nBufferSize, uint32_t* nCRC32)
 {
 	// Local function variables
 	uint32_t nTempCRC32 = 0xffffffff;

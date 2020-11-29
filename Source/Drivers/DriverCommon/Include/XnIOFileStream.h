@@ -36,8 +36,8 @@ public:
 	XnIOFileStream(const char* pcsFileName, uint32_t nFlags);
 	~XnIOFileStream() { Free(); }
 
-	XnStatus WriteData(const XnUChar* pData, uint32_t nDataSize) override;
-	XnStatus ReadData(XnUChar* pData, uint32_t nDataSize) override;
+	XnStatus WriteData(const unsigned char* pData, uint32_t nDataSize) override;
+	XnStatus ReadData(unsigned char* pData, uint32_t nDataSize) override;
 	XnStatus Init() override;
 	XnStatus Free() override;
 

@@ -167,7 +167,7 @@ XnStatus XnStreamCompressImage8J(XnStreamCompJPEGContext** ppStreamCompJPEGConte
 XnStatus XnStreamCompressImage24J(XnStreamCompJPEGContext** ppStreamCompJPEGContext, const uint8_t* pInput, uint8_t* pOutput, uint32_t* pnOutputSize, const uint32_t nXRes, const uint32_t nYRes, const uint32_t nQuality)
 {
 	// Local function variables
-	uint8_t* pCurrScanline = (XnUChar*)pInput;
+	uint8_t* pCurrScanline = (unsigned char*)pInput;
 	uint32_t nYIndex = 0;
 	uint32_t nScanLineSize = 0;
 	jpeg_compress_struct* pjCompStruct = NULL;

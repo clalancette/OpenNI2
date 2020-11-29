@@ -43,7 +43,7 @@ XnGMCDebugProcessor::~XnGMCDebugProcessor()
 	xnDumpFileClose(m_DumpBin);
 }
 
-void XnGMCDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData)
+void XnGMCDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData)
 {
 	XN_PROFILING_START_SECTION("XnGMCDebugProcessor::ProcessPacketChunk")
 

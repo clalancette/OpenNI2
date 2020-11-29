@@ -46,12 +46,12 @@ XnStatus XnIOFileStream::Free()
 	return xnOSCloseFile(&m_hFile);
 }
 
-XnStatus XnIOFileStream::WriteData(const XnUChar *pData, uint32_t nDataSize)
+XnStatus XnIOFileStream::WriteData(const unsigned char *pData, uint32_t nDataSize)
 {
 	return xnOSWriteFile(m_hFile, pData, nDataSize);
 }
 
-XnStatus XnIOFileStream::ReadData(XnUChar *pData, uint32_t nDataSize)
+XnStatus XnIOFileStream::ReadData(unsigned char *pData, uint32_t nDataSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

@@ -40,12 +40,12 @@ public:
 	uint32_t GetOverheadSize() const override { return 0; }
 
 protected:
-	XnStatus CompressImpl(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize)
+	XnStatus CompressImpl(const unsigned char* pData, uint32_t nDataSize, unsigned char* pCompressedData, uint32_t* pnCompressedDataSize)
 	{
 		return XnStreamCompressImage8Z(pData, nDataSize, pCompressedData, pnCompressedDataSize);
 	}
 
-	XnStatus DecompressImpl(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize)
+	XnStatus DecompressImpl(const unsigned char* pCompressedData, uint32_t nCompressedDataSize, unsigned char* pData, uint32_t* pnDataSize)
 	{
 		return XnStreamUncompressImage8Z(pCompressedData, nCompressedDataSize, pData, pnDataSize);
 	}

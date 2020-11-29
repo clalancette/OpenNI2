@@ -138,7 +138,7 @@ XnStatus XnIRProcessor::Unpack10to16(const uint8_t* pcInput, const uint32_t nInp
 	return XN_STATUS_OK;
 }
 
-void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, uint32_t /*nDataOffset*/, uint32_t nDataSize)
+void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const unsigned char* pData, uint32_t /*nDataOffset*/, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnIRProcessor::ProcessFramePacketChunk")
 

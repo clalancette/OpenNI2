@@ -47,7 +47,7 @@ XnStatus XnWholePacketProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnWholePacketProcessor::ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
+void XnWholePacketProcessor::ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	if (nDataOffset == 0 && m_WholePacket.GetSize() != 0)
 	{

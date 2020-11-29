@@ -56,7 +56,7 @@ protected:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
+	virtual void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize);
 	virtual void OnPacketLost();
 
 	//---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ protected:
 	* @param	nDataOffset	[in]	The offset of this data chunk inside current packet.
 	* @param	nDataSize	[in]	Size of the data in bytes.
 	*/
-	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) = 0;
+	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize) = 0;
 
 	/*
 	* Called when a frame ends.

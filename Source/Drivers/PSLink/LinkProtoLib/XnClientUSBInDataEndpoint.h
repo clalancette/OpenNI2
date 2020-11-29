@@ -51,7 +51,7 @@ public:
 	inline XnUSBEndPointType GetEndpointType() const { return m_endpointType; }
 
 private:
-	static bool XN_CALLBACK_TYPE ReadThreadCallback(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData);
+	static bool XN_CALLBACK_TYPE ReadThreadCallback(unsigned char* pBuffer, uint32_t nBufferSize, void* pCallbackData);
 
 	static const uint32_t READ_THREAD_BUFFER_NUM_PACKETS_ISO;
 	static const uint32_t READ_THREAD_NUM_BUFFERS_ISO;

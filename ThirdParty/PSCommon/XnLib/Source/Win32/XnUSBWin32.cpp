@@ -1003,7 +1003,7 @@ XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE pEPHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, uint8_t nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, uint8_t nRequest, uint16_t nValue, uint16_t nIndex, unsigned char* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
 	bool bResult = false;
@@ -1049,7 +1049,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, uint8_t nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, uint8_t nRequest, uint16_t nValue, uint16_t nIndex, unsigned char* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// Local variables
 	bool bResult = false;
@@ -1109,7 +1109,7 @@ XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControl
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, unsigned char* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// Local variables
 	BOOL bResult = false;
@@ -1181,7 +1181,7 @@ XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, unsigned char* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
 	BOOL bResult = false;
@@ -1250,7 +1250,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, unsigned char* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
 	BOOL bResult = false;
@@ -1505,7 +1505,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBuff
 		nRetVal = xnOSCreateEvent(&pThreadData->pOvlpIO[nBufIdx].hEvent, false);
 		XN_IS_STATUS_OK(nRetVal); // Add cleanup memory!
 
-		XN_VALIDATE_ALIGNED_CALLOC(pThreadData->pBuffersInfo[nBufIdx].pBuffer, XnUChar, nBufferSize, XN_DEFAULT_MEM_ALIGN); // Add cleanup memory!
+		XN_VALIDATE_ALIGNED_CALLOC(pThreadData->pBuffersInfo[nBufIdx].pBuffer, unsigned char, nBufferSize, XN_DEFAULT_MEM_ALIGN); // Add cleanup memory!
 	}
 
 	// Create the read thread

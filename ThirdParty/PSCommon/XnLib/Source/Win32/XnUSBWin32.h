@@ -59,7 +59,7 @@ typedef struct XnUSBDeviceHandle
 
 typedef struct xnUSBBuffersInfo
 {
-	XnUChar* pBuffer;
+	unsigned char* pBuffer;
 } xnUSBBuffersInfo;
 
 typedef struct xnUSBReadThreadData

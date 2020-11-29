@@ -56,7 +56,7 @@ public:
 	 * @param	nDataOffset	[in]	The offset of this data chunk inside current packet.
 	 * @param	nDataSize	[in]	Size of the data in bytes.
 	 */
-	void ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
+	void ProcessData(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize);
 
 	inline bool ShouldUseHostTimestamps() { return m_bUseHostTimestamps; }
 
@@ -64,7 +64,7 @@ protected:
 	//---------------------------------------------------------------------------
 	// Virtual Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) = 0;
+	virtual void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize) = 0;
 	virtual void OnPacketLost();
 
 	//---------------------------------------------------------------------------

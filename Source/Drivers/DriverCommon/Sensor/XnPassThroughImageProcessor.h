@@ -40,7 +40,7 @@ public:
 	// Overridden Functions
 	//---------------------------------------------------------------------------
 protected:
-	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
+	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize);
 };
 
 #endif // XNPASSTHROUGHIMAGEPROCESSOR_H

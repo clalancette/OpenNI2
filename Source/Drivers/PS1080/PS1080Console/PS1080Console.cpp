@@ -586,7 +586,7 @@ bool Reset(openni::Device& Device, std::vector<std::string>& Command)
 
 bool Log(openni::Device& Device, std::vector<std::string>& /*Command*/)
 {
-	XnUChar LogBuffer[XN_MAX_LOG_SIZE] = {0};
+	unsigned char LogBuffer[XN_MAX_LOG_SIZE] = {0};
 	bool bAll = true;
 	openni::Status rc;
 
@@ -1214,7 +1214,7 @@ bool ReadFlash(openni::Device& Device, std::vector<std::string>& Command)
 	}
 
 	int nSizeInBytes = ParamFlash.nSize * sizeof(uint16_t);
-	ParamFlash.pData = new XnUChar[nSizeInBytes];
+	ParamFlash.pData = new unsigned char[nSizeInBytes];
 
 	openni::Status rc = Device.getProperty(XN_MODULE_PROPERTY_FLASH_CHUNK, &ParamFlash);
 	if (rc != openni::STATUS_OK)

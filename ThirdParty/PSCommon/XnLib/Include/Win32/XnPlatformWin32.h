@@ -81,8 +81,6 @@
 //---------------------------------------------------------------------------
 // Basic Types
 //---------------------------------------------------------------------------
-/** Unsigned character for strings. */
-typedef	unsigned char		XnUChar;
 
 /** Far procedures type (for shared libraries functions). */
 typedef FARPROC				XnFarProc;

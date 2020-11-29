@@ -82,7 +82,7 @@ XnStatus XnFrameBufferManager::Start(oni::driver::StreamServices& services)
 		return XN_STATUS_ERROR;
 	}
 
-	m_writeBuffer.SetExternalBuffer((XnUChar*)m_pWorkingBuffer->data, m_pWorkingBuffer->dataSize);
+	m_writeBuffer.SetExternalBuffer((unsigned char*)m_pWorkingBuffer->data, m_pWorkingBuffer->dataSize);
 
 	return (XN_STATUS_OK);
 }
@@ -124,7 +124,7 @@ void XnFrameBufferManager::MarkWriteBufferAsStable(uint32_t* pnFrameID)
 		return;
 	}
 
-	m_writeBuffer.SetExternalBuffer((XnUChar*)m_pWorkingBuffer->data, m_pWorkingBuffer->dataSize);
+	m_writeBuffer.SetExternalBuffer((unsigned char*)m_pWorkingBuffer->data, m_pWorkingBuffer->dataSize);
 
 	xnOSLeaveCriticalSection(&m_hLock);
 

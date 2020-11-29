@@ -331,7 +331,7 @@ bool XnFirmwareStreams::IsClaimed(const char* strType, XnDeviceStream* pStream)
 		return false;
 }
 
-void XnFirmwareStreams::ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
+void XnFirmwareStreams::ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_MT_SECTION("XnFirmwareStreams::ProcessPacketChunk")
 

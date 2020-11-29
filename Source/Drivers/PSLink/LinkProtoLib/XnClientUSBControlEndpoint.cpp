@@ -88,7 +88,7 @@ XnStatus ClientUSBControlEndpoint::Receive(void* pData, uint32_t& nSize)
 	xnOSSleep(m_nPreControlReceiveSleep);
 
 	nRetVal = xnUSBReceiveControl(m_hUSBDevice, XN_USB_CONTROL_TYPE_VENDOR, 0, 0, 0,
-		reinterpret_cast<XnUChar*>(pData), nBufferSize, &nSize, RECEIVE_TIMEOUT);
+		reinterpret_cast<unsigned char*>(pData), nBufferSize, &nSize, RECEIVE_TIMEOUT);
 	XN_IS_STATUS_OK_LOG_ERROR("Receive buffer from USB", nRetVal);
 
 	return XN_STATUS_OK;

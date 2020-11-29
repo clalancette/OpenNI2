@@ -737,7 +737,7 @@ XnStatus XnHostProtocolInitHeader(const XnDevicePrivateData* pDevicePrivateData,
 }
 
 XnStatus XnHostProtocolUSBSend(const XnDevicePrivateData* pDevicePrivateData,
-							   XnUChar* pBuffer, uint16_t nSize, uint32_t nTimeOut, bool bForceBulk)
+							   unsigned char* pBuffer, uint16_t nSize, uint32_t nTimeOut, bool bForceBulk)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -763,7 +763,7 @@ XnStatus XnHostProtocolUSBSend(const XnDevicePrivateData* pDevicePrivateData,
 }
 
 XnStatus XnHostProtocolUSBReceive(const XnDevicePrivateData* pDevicePrivateData,
-								  XnUChar* pBuffer, unsigned int nSize, uint32_t& nRead, uint32_t nTimeOut, bool bForceBulk, uint32_t nFailTimeout)
+								  unsigned char* pBuffer, unsigned int nSize, uint32_t& nRead, uint32_t nTimeOut, bool bForceBulk, uint32_t nFailTimeout)
 {
 	XnStatus nRetVal;
 	uint64_t nMaxTime;
@@ -812,7 +812,7 @@ XnStatus XnHostProtocolUSBReceive(const XnDevicePrivateData* pDevicePrivateData,
 	return nRetVal;
 }
 
-XnStatus ValidateReplyV26(const XnDevicePrivateData* pDevicePrivateData, XnUChar* pBuffer, uint32_t nBufferSize, uint16_t nExpectedOpcode, uint16_t nRequestId, uint16_t& nDataSize, XnUChar** pDataBuf)
+XnStatus ValidateReplyV26(const XnDevicePrivateData* pDevicePrivateData, unsigned char* pBuffer, uint32_t nBufferSize, uint16_t nExpectedOpcode, uint16_t nRequestId, uint16_t& nDataSize, unsigned char** pDataBuf)
 {
 	uint16_t nHeaderOffset = 0;
 	XnHostProtocolHeaderV26* pHeader = (XnHostProtocolHeaderV26*)pBuffer;
@@ -902,7 +902,7 @@ XnStatus ValidateReplyV26(const XnDevicePrivateData* pDevicePrivateData, XnUChar
 	return XN_STATUS_OK;
 }
 
-XnStatus ValidateReplyV25(const XnDevicePrivateData* pDevicePrivateData, XnUChar* pBuffer, uint32_t nBufferSize, uint16_t nExpectedOpcode, uint16_t nRequestId, uint16_t& nDataSize, XnUChar** pDataBuf)
+XnStatus ValidateReplyV25(const XnDevicePrivateData* pDevicePrivateData, unsigned char* pBuffer, uint32_t nBufferSize, uint16_t nExpectedOpcode, uint16_t nRequestId, uint16_t& nDataSize, unsigned char** pDataBuf)
 {
 	uint16_t nHeaderOffset = 0;
 	XnHostProtocolHeaderV25* pHeader = (XnHostProtocolHeaderV25*)pBuffer;
@@ -1026,7 +1026,7 @@ uint32_t XnHostProtocolGetSetParamRecvTimeOut(XnDevicePrivateData* pDevicePrivat
 		return 0;
 }
 
-XnStatus XnHostProtocolGetRequestID(const XnDevicePrivateData* pDevicePrivateData, XnUChar* pBuffer, uint16_t* pnRequestId)
+XnStatus XnHostProtocolGetRequestID(const XnDevicePrivateData* pDevicePrivateData, unsigned char* pBuffer, uint16_t* pnRequestId)
 {
 	uint16_t nRequestId;
 
@@ -1043,7 +1043,7 @@ XnStatus XnHostProtocolGetRequestID(const XnDevicePrivateData* pDevicePrivateDat
 	return XN_STATUS_OK;
 }
 
-XnStatus XnHostProtocolReceiveReply(const XnDevicePrivateData* pDevicePrivateData, XnUChar* pBuffer, uint32_t nTimeOut, uint16_t nOpcode, uint16_t nRequestId, uint32_t* pnReadBytes, uint16_t* pnDataSize, XnUChar** ppRelevantBuffer, bool bForceBulk, uint32_t nRecvTimeout, uint32_t nFailTimeout)
+XnStatus XnHostProtocolReceiveReply(const XnDevicePrivateData* pDevicePrivateData, unsigned char* pBuffer, uint32_t nTimeOut, uint16_t nOpcode, uint16_t nRequestId, uint32_t* pnReadBytes, uint16_t* pnDataSize, unsigned char** ppRelevantBuffer, bool bForceBulk, uint32_t nRecvTimeout, uint32_t nFailTimeout)
 {
 	XnStatus rc = XN_STATUS_OK;
 
@@ -1102,8 +1102,8 @@ XnStatus XnHostProtocolReceiveReply(const XnDevicePrivateData* pDevicePrivateDat
 }
 
 XnStatus XnHostProtocolExecute(const XnDevicePrivateData* pDevicePrivateData,
-							   XnUChar* pBuffer, uint16_t nSize, uint16_t nOpcode,
-							   XnUChar** ppRelevantBuffer, uint16_t& nDataSize, uint32_t nRecvTimeout = 0)
+							   unsigned char* pBuffer, uint16_t nSize, uint16_t nOpcode,
+							   unsigned char** ppRelevantBuffer, uint16_t& nDataSize, uint32_t nRecvTimeout = 0)
 {
 	XnStatus rc;
 	uint32_t nRead = 0;
@@ -1125,7 +1125,7 @@ XnStatus XnHostProtocolExecute(const XnDevicePrivateData* pDevicePrivateData,
 	uint32_t nTimeOut = XnHostProtocolGetTimeOut(pDevicePrivateData, nOpcode);
 
 	// store request (in case we need to retry it)
-	XnUChar request[MAX_PACKET_SIZE];
+	unsigned char request[MAX_PACKET_SIZE];
 	xnOSMemCopy(request, pBuffer, nSize);
 
 	uint16_t nRequestId;
@@ -1239,9 +1239,9 @@ typedef struct
 XnStatus XnHostProtocolGetLog(XnDevicePrivateData* pDevicePrivateData, char* csBuffer, uint32_t nBufferSize)
 {
 	XnStatus rc = XN_STATUS_OK;
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 
-	XnUChar allLogBuffer[XN_MAX_LOG_SIZE];
+	unsigned char allLogBuffer[XN_MAX_LOG_SIZE];
 
 	unsigned int nAllLogBytes = 0;
 
@@ -1250,7 +1250,7 @@ XnStatus XnHostProtocolGetLog(XnDevicePrivateData* pDevicePrivateData, char* csB
 	{
 		XnHostProtocolInitHeader(pDevicePrivateData, buffer, 0, pDevicePrivateData->FWInfo.nOpcodeGetLog);
 
-		XnUChar* pRelevantBuffer;
+		unsigned char* pRelevantBuffer;
 		uint16_t nDataSize;
 
 		rc = XnHostProtocolExecute(pDevicePrivateData,
@@ -1275,8 +1275,8 @@ XnStatus XnHostProtocolGetLog(XnDevicePrivateData* pDevicePrivateData, char* csB
 		nAllLogBytes += nDataSize;
 	}
 
-	XnUChar* pCurrData = allLogBuffer;
-	XnUChar* pEndData = allLogBuffer + nAllLogBytes;
+	unsigned char* pCurrData = allLogBuffer;
+	unsigned char* pEndData = allLogBuffer + nAllLogBytes;
 
 	uint32_t nBufferUsed = 0;
 
@@ -1356,7 +1356,7 @@ XnStatus XnHostProtocolGetLog(XnDevicePrivateData* pDevicePrivateData, char* csB
 
 XnStatus XnHostProtocolGetVersion(const XnDevicePrivateData* pDevicePrivateData, XnVersions& Version)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 	uint16_t nDataSize;
 	XnVersions *pVersion = NULL;
 
@@ -1365,7 +1365,7 @@ XnStatus XnHostProtocolGetVersion(const XnDevicePrivateData* pDevicePrivateData,
 	XnHostProtocolInitHeader(pDevicePrivateData, buffer, 0, pDevicePrivateData->FWInfo.nOpcodeGetVersion);
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 										buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize, pDevicePrivateData->FWInfo.nOpcodeGetVersion,
-										(XnUChar**)(&pVersion), nDataSize);
+										(unsigned char**)(&pVersion), nDataSize);
 	if (rc != XN_STATUS_OK)
 	{
 		xnLogError(XN_MASK_SENSOR_PROTOCOL, "Get version failed: %s", xnGetStatusString(rc));
@@ -1521,7 +1521,7 @@ XnStatus XnHostProtocolGetVersion(const XnDevicePrivateData* pDevicePrivateData,
 
 XnStatus XnHostProtocolKeepAlive(XnDevicePrivateData* pDevicePrivateData)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 
 	xnLogVerbose(XN_MASK_SENSOR_PROTOCOL, "Requesting KeepAlive...");
 
@@ -1543,8 +1543,8 @@ XnStatus XnHostProtocolKeepAlive(XnDevicePrivateData* pDevicePrivateData)
 
 XnStatus XnHostProtocolReadAHB(XnDevicePrivateData* pDevicePrivateData, uint32_t nAddress, uint32_t &nValue)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint32_t*)pDataBuf = XN_PREPARE_VAR32_IN_BUFFER(nAddress);
 
@@ -1555,7 +1555,7 @@ XnStatus XnHostProtocolReadAHB(XnDevicePrivateData* pDevicePrivateData, uint32_t
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 										buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize+sizeof(uint32_t), pDevicePrivateData->FWInfo.nOpcodeReadAHB,
-										(XnUChar**)(&pValue), nDataSize);
+										(unsigned char**)(&pValue), nDataSize);
 	if (rc != XN_STATUS_OK)
 	{
 		return rc;
@@ -1569,8 +1569,8 @@ XnStatus XnHostProtocolReadAHB(XnDevicePrivateData* pDevicePrivateData, uint32_t
 XnStatus XnHostProtocolWriteAHB(XnDevicePrivateData* pDevicePrivateData, uint32_t nAddress, uint32_t nValue,
 								uint32_t nMask)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	xnLogInfo(XN_MASK_SENSOR_PROTOCOL, "Write AHB: 0x%08x 0x%08x 0x%08x", nAddress, nValue, nMask);
 
@@ -1590,8 +1590,8 @@ XnStatus XnHostProtocolWriteAHB(XnDevicePrivateData* pDevicePrivateData, uint32_
 
 XnStatus XnHostProtocolGetParam(XnDevicePrivateData* pDevicePrivateData, uint16_t nParam, uint16_t& nValue)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 //	xnLogInfo(XN_MASK_SENSOR_PROTOCOL, "Getting Parameter [%d]...", nParam);
 
@@ -1604,7 +1604,7 @@ XnStatus XnHostProtocolGetParam(XnDevicePrivateData* pDevicePrivateData, uint16_
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 										buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize+sizeof(uint16_t), pDevicePrivateData->FWInfo.nOpcodeGetParam,
-										(XnUChar**)(&pValue), nDataSize);
+										(unsigned char**)(&pValue), nDataSize);
 	if (rc != XN_STATUS_OK)
 	{
 		xnLogError(XN_MASK_SENSOR_PROTOCOL, "Failed getting [%d]: %s", nParam, xnGetStatusString(rc));
@@ -1619,8 +1619,8 @@ XnStatus XnHostProtocolGetParam(XnDevicePrivateData* pDevicePrivateData, uint16_
 
 XnStatus XnHostProtocolSetParam(XnDevicePrivateData* pDevicePrivateData, uint16_t nParam, uint16_t nValue)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 //	xnLogInfo(XN_MASK_SENSOR_PROTOCOL, "Setting Parameter [%d] to %d", nParam, nValue);
 
@@ -1685,9 +1685,9 @@ void XnHostPrototcolAdjustFixedParamsV20(XnFixedParamsV20* pFixedParamsV20, XnFi
 
 XnStatus XnHostProtocolGetFixedParams(XnDevicePrivateData* pDevicePrivateData, XnFixedParams& FixedParams)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
-	XnUChar* pRelevantBuffer;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char* pRelevantBuffer;
 	uint16_t nFixedParamSize = 0;
 
 	char FixedParamsBuffer[2048] = {0};
@@ -1770,7 +1770,7 @@ XnStatus XnHostProtocolGetFixedParams(XnDevicePrivateData* pDevicePrivateData, X
 
 XnStatus XnHostProtocolGetMode(XnDevicePrivateData* pDevicePrivateData, uint16_t& nMode)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 
 	XnHostProtocolInitHeader(pDevicePrivateData, buffer, 0, pDevicePrivateData->FWInfo.nOpcodeGetMode);
 
@@ -1779,7 +1779,7 @@ XnStatus XnHostProtocolGetMode(XnDevicePrivateData* pDevicePrivateData, uint16_t
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 										buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize, pDevicePrivateData->FWInfo.nOpcodeGetMode,
-										(XnUChar**)(&pMode), nDataSize);
+										(unsigned char**)(&pMode), nDataSize);
 	if (rc != XN_STATUS_OK)
 	{
 		xnLogError(XN_MASK_SENSOR_PROTOCOL, "Get mode failed: %s", xnGetStatusString(rc));
@@ -1797,8 +1797,8 @@ XnStatus XnHostProtocolReset(XnDevicePrivateData* pDevicePrivateData, uint16_t n
 
 	if (pDevicePrivateData->FWInfo.nFWVer == XN_SENSOR_FW_VER_0_17)
 	{
-		XnUChar buffer[MAX_PACKET_SIZE] = {0};
-		XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+		unsigned char buffer[MAX_PACKET_SIZE] = {0};
+		unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 		*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER(nResetType);
 
@@ -1854,8 +1854,8 @@ XnStatus XnHostProtocolReset(XnDevicePrivateData* pDevicePrivateData, uint16_t n
 
 XnStatus XnHostProtocolSetMode(XnDevicePrivateData* pDevicePrivateData, uint16_t nMode)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER(nMode);
 
@@ -1876,8 +1876,8 @@ XnStatus XnHostProtocolSetMode(XnDevicePrivateData* pDevicePrivateData, uint16_t
 XnStatus XnHostProtocolGetCMOSRegister(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOS, uint16_t nAddress,
 									   uint16_t& nValue)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)nCMOS);
 	*(((uint16_t*)pDataBuf)+1) = XN_PREPARE_VAR16_IN_BUFFER(nAddress);
@@ -1889,7 +1889,7 @@ XnStatus XnHostProtocolGetCMOSRegister(XnDevicePrivateData* pDevicePrivateData, 
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 										buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize+sizeof(uint16_t)*2,
-										pDevicePrivateData->FWInfo.nOpcodeGetCMOSReg, (XnUChar**)(&pValue), nDataSize);
+										pDevicePrivateData->FWInfo.nOpcodeGetCMOSReg, (unsigned char**)(&pValue), nDataSize);
 	if (rc != XN_STATUS_OK)
 	{
 		return rc;
@@ -1903,8 +1903,8 @@ XnStatus XnHostProtocolGetCMOSRegister(XnDevicePrivateData* pDevicePrivateData, 
 XnStatus XnHostProtocolSetCMOSRegister(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOS, uint16_t nAddress,
 									   uint16_t nValue)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)nCMOS);
 	*(((uint16_t*)pDataBuf)+1) = XN_PREPARE_VAR16_IN_BUFFER(nAddress);
@@ -1923,8 +1923,8 @@ XnStatus XnHostProtocolSetCMOSRegister(XnDevicePrivateData* pDevicePrivateData, 
 
 XnStatus XnHostProtocolReadI2C(XnDevicePrivateData* pDevicePrivateData, XnI2CReadData* pI2CReadData)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER(pI2CReadData->nBus);
 	*(((uint16_t*)pDataBuf)+1) = XN_PREPARE_VAR16_IN_BUFFER(pI2CReadData->nSlaveAddress);
@@ -1940,7 +1940,7 @@ XnStatus XnHostProtocolReadI2C(XnDevicePrivateData* pDevicePrivateData, XnI2CRea
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize+nOpSize,
-		pDevicePrivateData->FWInfo.nOpcodeReadI2C, (XnUChar**)(&pValue), nDataSize);
+		pDevicePrivateData->FWInfo.nOpcodeReadI2C, (unsigned char**)(&pValue), nDataSize);
 
 	if (rc != XN_STATUS_OK)
 	{
@@ -1955,8 +1955,8 @@ XnStatus XnHostProtocolReadI2C(XnDevicePrivateData* pDevicePrivateData, XnI2CRea
 
 XnStatus XnHostProtocolWriteI2C(XnDevicePrivateData* pDevicePrivateData, const XnI2CWriteData* pI2CWriteData)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER(pI2CWriteData->nBus);
 	*(((uint16_t*)pDataBuf)+1) = XN_PREPARE_VAR16_IN_BUFFER(pI2CWriteData->nSlaveAddress);
@@ -2064,8 +2064,8 @@ XnStatus XnHostProtocolInitUpload(XnDevicePrivateData* pDevicePrivateData, uint3
 		}
 	}
 
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint32_t*)pDataBuf = XN_PREPARE_VAR32_IN_BUFFER(nOffset);
 	uint32_t *Size = (uint32_t*)pDataBuf + 1;
@@ -2093,7 +2093,7 @@ XnStatus XnHostProtocolInitUpload(XnDevicePrivateData* pDevicePrivateData, uint3
 
 	XnHostProtocolExecute(pDevicePrivateData,
 						  buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize + nHeaderSize + (uint16_t)nReadFromFile,
-						  pDevicePrivateData->FWInfo.nOpcodeInitFileUpload, (XnUChar**)(&pValue), nDataSize);
+						  pDevicePrivateData->FWInfo.nOpcodeInitFileUpload, (unsigned char**)(&pValue), nDataSize);
 
 	if (rc != XN_STATUS_OK)
 	{
@@ -2108,8 +2108,8 @@ XnStatus XnHostProtocolInitUpload(XnDevicePrivateData* pDevicePrivateData, uint3
 XnStatus XnHostProtocolWriteUpload(XnDevicePrivateData* pDevicePrivateData, XN_FILE_HANDLE &FileToUpload,
 								   uint32_t nOffset, uint32_t nFileSize, uint32_t& nNextOffset)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	uint32_t nChunkSize = pDevicePrivateData->FWInfo.nProtocolMaxPacketSize - pDevicePrivateData->FWInfo.nProtocolHeaderSize - sizeof(uint32_t);
 
@@ -2140,7 +2140,7 @@ XnStatus XnHostProtocolWriteUpload(XnDevicePrivateData* pDevicePrivateData, XN_F
 
 	rc = XnHostProtocolExecute(pDevicePrivateData,
 								buffer, (uint16_t)(pDevicePrivateData->FWInfo.nProtocolHeaderSize + sizeof(uint32_t) + nChunkSize),
-								pDevicePrivateData->FWInfo.nOpcodeWriteFileUpload, (XnUChar**)(&pValue), nDataSize);
+								pDevicePrivateData->FWInfo.nOpcodeWriteFileUpload, (unsigned char**)(&pValue), nDataSize);
 	if (rc != XN_STATUS_OK)
 	{
 		return rc;
@@ -2153,7 +2153,7 @@ XnStatus XnHostProtocolWriteUpload(XnDevicePrivateData* pDevicePrivateData, XN_F
 
 XnStatus XnHostProtocolFinishUpload	(XnDevicePrivateData* pDevicePrivateData)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 
 	XnHostProtocolInitHeader(pDevicePrivateData, buffer, 0, pDevicePrivateData->FWInfo.nOpcodeFinishFileUpload);
 
@@ -2249,8 +2249,8 @@ XnStatus XnHostProtocolDeleteFile(XnDevicePrivateData* pDevicePrivateData, uint1
 		}
 	}
 
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER(nFileId);
 
@@ -2267,8 +2267,8 @@ XnStatus XnHostProtocolDeleteFile(XnDevicePrivateData* pDevicePrivateData, uint1
 
 XnStatus XnHostProtocolSetFileAttributes(XnDevicePrivateData* pDevicePrivateData, uint16_t nFileId, uint16_t nAttributes)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER(nFileId);
 	*(((uint16_t*)pDataBuf)+1) = XN_PREPARE_VAR16_IN_BUFFER(nAttributes);
@@ -2287,8 +2287,8 @@ XnStatus XnHostProtocolSetFileAttributes(XnDevicePrivateData* pDevicePrivateData
 
 XnStatus XnHostProtocolExecuteFile(XnDevicePrivateData* pDevicePrivateData, uint16_t nFileId)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER(nFileId);
 
@@ -2305,12 +2305,12 @@ XnStatus XnHostProtocolExecuteFile(XnDevicePrivateData* pDevicePrivateData, uint
 
 XnStatus XnHostProtocolGetFlashMap(XnDevicePrivateData* pDevicePrivateData)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 
 	XnHostProtocolInitHeader(pDevicePrivateData, buffer, 0, pDevicePrivateData->FWInfo.nOpcodeGetFlashMap);
 
 	unsigned int nRead;
-	XnUChar* pRelevantBuffer;
+	unsigned char* pRelevantBuffer;
 	uint16_t nDataSize;
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
@@ -2388,9 +2388,9 @@ XnStatus XnHostProtocolAlgorithmParams(XnDevicePrivateData* pDevicePrivateData,
 									   void* pAlgorithmInformation, uint16_t nAlgInfoSize, XnResolutions nResolution, uint16_t nFPS)
 {
 	char* pData = (char*)pAlgorithmInformation;
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
-	XnUChar* pRelevantBuffer;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char* pRelevantBuffer;
 
 	int16_t nDataRead = 0;
 	uint16_t nRequestSize = 0;
@@ -2462,8 +2462,8 @@ XnStatus XnHostProtocolAlgorithmParams(XnDevicePrivateData* pDevicePrivateData,
 
 XnStatus XnHostProtocolTakeSnapshot(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOS)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)nCMOS);
 
@@ -2480,9 +2480,9 @@ XnStatus XnHostProtocolTakeSnapshot(XnDevicePrivateData* pDevicePrivateData, XnC
 
 XnStatus XnHostProtocolGetFileList(XnDevicePrivateData* pDevicePrivateData, uint16_t nFirstFileId, XnFlashFile* pFileList, uint16_t& nNumOfEntries)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
-	XnUChar* pRelevantBuffer;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char* pRelevantBuffer;
 	uint32_t nBytesRead = 0;
 	bool bDone = false;
 
@@ -2534,9 +2534,9 @@ XnStatus XnHostProtocolGetFileList(XnDevicePrivateData* pDevicePrivateData, uint
 XnStatus XnHostProtocolFileDownloadChunk(XnDevicePrivateData* pDevicePrivateData, uint16_t nFileType,
 										 uint32_t nOffset, char* pData, uint16_t& nChunkSize)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
-	XnUChar* pRelevantBuffer;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char* pRelevantBuffer;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER(nFileType);
 	*(uint32_t*)((((uint16_t*)pDataBuf)+1)) = XN_PREPARE_VAR32_IN_BUFFER(uint32_t(nOffset/sizeof(uint16_t)));
@@ -2613,7 +2613,7 @@ XnStatus XnHostProtocolFileDownload(XnDevicePrivateData* pDevicePrivateData, uin
 }
 
 #define XN_HOST_PROTOCOL_INIT_BUFFER(pBuffer)	\
-	XnUChar* __pBuffer = (XnUChar*)pBuffer;	\
+	unsigned char* __pBuffer = (unsigned char*)pBuffer;	\
 	uint16_t __nBufferSize = 0;
 
 #define XN_HOST_PROTOCOL_APPEND_PARAM(type, param)	\
@@ -2623,11 +2623,11 @@ XnStatus XnHostProtocolFileDownload(XnDevicePrivateData* pDevicePrivateData, uin
 
 #define XN_HOST_PROTOCOL_SIZE	__nBufferSize
 
-XnStatus XnHostProtocolReadFlashChunk(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, XnUChar* pData, uint16_t* nChunkSize)
+XnStatus XnHostProtocolReadFlashChunk(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, unsigned char* pData, uint16_t* nChunkSize)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
-	XnUChar* pRelevantBuffer;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char* pRelevantBuffer;
 
 	XN_HOST_PROTOCOL_INIT_BUFFER(pDataBuf);
 	XN_HOST_PROTOCOL_APPEND_PARAM(uint32_t, XN_PREPARE_VAR32_IN_BUFFER(nOffset));
@@ -2662,7 +2662,7 @@ XnStatus XnHostProtocolReadFlashChunk(XnDevicePrivateData* pDevicePrivateData, u
 
 }
 
-XnStatus XnHostProtocolReadFlash(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, uint32_t nSize, XnUChar* pBuffer)
+XnStatus XnHostProtocolReadFlash(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, uint32_t nSize, unsigned char* pBuffer)
 {
 	XnStatus rc = XN_STATUS_OK;
 
@@ -2701,8 +2701,8 @@ XnStatus XnHostProtocolReadFlash(XnDevicePrivateData* pDevicePrivateData, uint32
 
 XnStatus XnHostProtocolRunBIST(XnDevicePrivateData* pDevicePrivateData, uint32_t nTestsMask, uint32_t* pnFailures)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 	uint32_t* pRelevantBuffer;
 
 	*(uint16_t*)pDataBuf = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)nTestsMask);
@@ -2713,7 +2713,7 @@ XnStatus XnHostProtocolRunBIST(XnDevicePrivateData* pDevicePrivateData, uint32_t
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize + sizeof(uint16_t), pDevicePrivateData->FWInfo.nOpcodeBIST,
-		(XnUChar**)&pRelevantBuffer, nDataSize);
+		(unsigned char**)&pRelevantBuffer, nDataSize);
 
 	if (rc != XN_STATUS_OK)
 	{
@@ -2728,7 +2728,7 @@ XnStatus XnHostProtocolRunBIST(XnDevicePrivateData* pDevicePrivateData, uint32_t
 
 XnStatus XnHostProtocolGetCPUStats(XnDevicePrivateData* pDevicePrivateData, XnTaskCPUInfo* pTasks, uint32_t *pnTimesCount)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 	uint32_t* pRelevantBuffer;
 
 	XnHostProtocolInitHeader(pDevicePrivateData, buffer, 0, pDevicePrivateData->FWInfo.nOpcodeGetCPUStats);
@@ -2737,7 +2737,7 @@ XnStatus XnHostProtocolGetCPUStats(XnDevicePrivateData* pDevicePrivateData, XnTa
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize, pDevicePrivateData->FWInfo.nOpcodeGetCPUStats,
-		(XnUChar**)&pRelevantBuffer, nDataSize);
+		(unsigned char**)&pRelevantBuffer, nDataSize);
 
 	if (rc != XN_STATUS_OK)
 	{
@@ -2852,8 +2852,8 @@ XnStatus XnHostProtocolGetAudioSampleRate(XnDevicePrivateData* pDevicePrivateDat
 
 XnStatus XnHostProtocolSetMultipleParams(XnDevicePrivateData* pDevicePrivateData, uint16_t nNumOfParams, XnInnerParamData* anParams)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	uint16_t* pCurData = (uint16_t*)pDataBuf;
 	for (uint16_t nIndex = 0; nIndex < nNumOfParams; ++nIndex)
@@ -2892,8 +2892,8 @@ typedef struct
 
 XnStatus XnHostProtocolCalibrateTec(XnDevicePrivateData* pDevicePrivateData, uint16_t nSetPoint)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	xnLogVerbose(XN_MASK_SENSOR_PROTOCOL, "Calibrating TEC. Set Point: %d", nSetPoint);
 
@@ -2917,7 +2917,7 @@ XnStatus XnHostProtocolCalibrateTec(XnDevicePrivateData* pDevicePrivateData, uin
 
 XnStatus XnHostProtocolGetTecData(XnDevicePrivateData* pDevicePrivateData, XnTecData* pTecData)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 	uint16_t nDataSize;
 	XnStatus rc;
 
@@ -2931,7 +2931,7 @@ XnStatus XnHostProtocolGetTecData(XnDevicePrivateData* pDevicePrivateData, XnTec
 
 		rc = XnHostProtocolExecute(pDevicePrivateData,
 			buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize, pDevicePrivateData->FWInfo.nOpcodeGetTecData,
-			(XnUChar**)(&pResult), nDataSize);
+			(unsigned char**)(&pResult), nDataSize);
 
 		XN_IS_STATUS_OK(rc);
 
@@ -2968,7 +2968,7 @@ XnStatus XnHostProtocolGetTecData(XnDevicePrivateData* pDevicePrivateData, XnTec
 
 XnStatus XnHostProtocolGetTecFastConvergenceData (XnDevicePrivateData* pDevicePrivateData, XnTecFastConvergenceData* pTecData)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 	uint16_t nDataSize;
 
 	xnLogVerbose(XN_MASK_SENSOR_PROTOCOL, "Getting TEC Fast Convergence data...");
@@ -2979,7 +2979,7 @@ XnStatus XnHostProtocolGetTecFastConvergenceData (XnDevicePrivateData* pDevicePr
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize, pDevicePrivateData->FWInfo.nOpcodeGetFastConvergenceTEC,
-		(XnUChar**)(&pResult), nDataSize);
+		(unsigned char**)(&pResult), nDataSize);
 
 	XN_IS_STATUS_OK(rc);
 
@@ -3005,8 +3005,8 @@ typedef struct
 
 XnStatus XnHostProtocolCalibrateEmitter(XnDevicePrivateData* pDevicePrivateData, uint16_t nSetPoint)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	xnLogVerbose(XN_MASK_SENSOR_PROTOCOL, "Calibrating Emitter. Set Point: %d", nSetPoint);
 
@@ -3030,7 +3030,7 @@ XnStatus XnHostProtocolCalibrateEmitter(XnDevicePrivateData* pDevicePrivateData,
 
 XnStatus XnHostProtocolGetEmitterData(XnDevicePrivateData* pDevicePrivateData, XnEmitterData* pEmitterData)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 	uint16_t nDataSize;
 
 	xnLogVerbose(XN_MASK_SENSOR_PROTOCOL, "Getting Emitter data...");
@@ -3041,7 +3041,7 @@ XnStatus XnHostProtocolGetEmitterData(XnDevicePrivateData* pDevicePrivateData, X
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize, pDevicePrivateData->FWInfo.nOpcodeGetEmitterData,
-		(XnUChar**)(&pResult), nDataSize);
+		(unsigned char**)(&pResult), nDataSize);
 
 	XN_IS_STATUS_OK(rc);
 
@@ -3090,8 +3090,8 @@ typedef struct
 
 XnStatus XnHostProtocolCalibrateProjectorFault(XnDevicePrivateData* pDevicePrivateData, uint16_t nMinThreshold, uint16_t nMaxThreshold, bool* pbProjectorFaultEvent)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 	uint16_t nDataSize;
 
 	xnLogVerbose(XN_MASK_SENSOR_PROTOCOL, "Testing Projector Fault. Min Threshold: %u, Max Threshold: %u...", nMinThreshold, nMaxThreshold);
@@ -3106,7 +3106,7 @@ XnStatus XnHostProtocolCalibrateProjectorFault(XnDevicePrivateData* pDevicePriva
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize + sizeof(XnProjectorFaultRequest), pDevicePrivateData->FWInfo.nOpcodeCalibrateProjectorFault,
-		(XnUChar**)(&pResult), nDataSize);
+		(unsigned char**)(&pResult), nDataSize);
 
 	XN_IS_STATUS_OK(rc);
 
@@ -3195,8 +3195,8 @@ typedef struct XnVSyncRequest
 
 XnStatus XnHostProtocolSetCmosBlanking(XnDevicePrivateData* pDevicePrivateData, uint16_t nUnits, XnCMOSType nCMOSID, uint16_t nNumberOfFrames)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 	uint32_t nRequestSize;
 
 	if (pDevicePrivateData->FWInfo.nFWVer >= XN_SENSOR_FW_VER_5_1)
@@ -3245,8 +3245,8 @@ typedef struct XnGetCmosBlankingReply
 
 XnStatus XnHostProtocolGetCmosBlanking(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOSID, uint16_t* pnLines)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	XnGetCmosBlankingRequest* pRequest = (XnGetCmosBlankingRequest*)pDataBuf;
 	pRequest->nCmosID = (uint16_t)nCMOSID;
@@ -3259,7 +3259,7 @@ XnStatus XnHostProtocolGetCmosBlanking(XnDevicePrivateData* pDevicePrivateData, 
 	uint16_t nDataSize;
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize + sizeof(XnGetCmosBlankingRequest), pDevicePrivateData->FWInfo.nOpcodeGetCmosBlanking,
-		(XnUChar**)&pReply, nDataSize);
+		(unsigned char**)&pReply, nDataSize);
 
 	if (rc != XN_STATUS_OK)
 	{
@@ -3275,8 +3275,8 @@ XnStatus XnHostProtocolGetCmosBlanking(XnDevicePrivateData* pDevicePrivateData, 
 
 XnStatus XnHostProtocolGetCmosPresets(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOSID, XnCmosPreset* aPresets, uint32_t& nCount)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 
 	xnLogInfo(XN_MASK_SENSOR_PROTOCOL, "Reading CMOS %d supported presets...", nCMOSID);
 
@@ -3289,7 +3289,7 @@ XnStatus XnHostProtocolGetCmosPresets(XnDevicePrivateData* pDevicePrivateData, X
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize+sizeof(uint16_t), pDevicePrivateData->FWInfo.nOpcodeGetCmosPresets,
-		(XnUChar**)(&pValue), nDataSize);
+		(unsigned char**)(&pValue), nDataSize);
 	if (rc != XN_STATUS_OK)
 	{
 		xnLogError(XN_MASK_SENSOR_PROTOCOL, "Failed getting CMOS %d presets: %s", nCMOSID, xnGetStatusString(rc));
@@ -3325,18 +3325,18 @@ XnStatus XnHostProtocolGetCmosPresets(XnDevicePrivateData* pDevicePrivateData, X
 
 XnStatus XnHostProtocolGetSerialNumber (XnDevicePrivateData* pDevicePrivateData, char* cpSerialNumber)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 
 	xnLogInfo(XN_MASK_SENSOR_PROTOCOL, "Reading sensor serial number...");
 
 	XnHostProtocolInitHeader(pDevicePrivateData, buffer, 0, pDevicePrivateData->FWInfo.nOpcodeGetSerialNumber);
 
 	uint16_t nDataSize;
-	XnUChar *serialNumberBuffer = NULL;
+	unsigned char *serialNumberBuffer = NULL;
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize, pDevicePrivateData->FWInfo.nOpcodeGetSerialNumber,
-		(XnUChar**)(&serialNumberBuffer), nDataSize);
+		(unsigned char**)(&serialNumberBuffer), nDataSize);
 	if (rc != XN_STATUS_OK)
 	{
 		xnLogError(XN_MASK_SENSOR_PROTOCOL, "Failed getting the sensor serial number: %s", xnGetStatusString(rc));
@@ -3352,7 +3352,7 @@ XnStatus XnHostProtocolGetSerialNumber (XnDevicePrivateData* pDevicePrivateData,
 
 XnStatus XnHostProtocolGetPlatformString(XnDevicePrivateData* pDevicePrivateData, char* cpPlatformString)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 
 	cpPlatformString[0] = '\0';
 
@@ -3371,7 +3371,7 @@ XnStatus XnHostProtocolGetPlatformString(XnDevicePrivateData* pDevicePrivateData
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize, pDevicePrivateData->FWInfo.nOpcodeGetPlatformString,
-		(XnUChar**)(&platformStringBuffer), nDataSize);
+		(unsigned char**)(&platformStringBuffer), nDataSize);
 	if (rc != XN_STATUS_OK)
 	{
 		xnLogError(XN_MASK_SENSOR_PROTOCOL, "Failed getting the sensor platform string: %s", xnGetStatusString(rc));
@@ -3391,7 +3391,7 @@ XnStatus XnHostProtocolGetPlatformString(XnDevicePrivateData* pDevicePrivateData
 
 XnStatus XnHostProtocolGetUsbCoreType(XnDevicePrivateData* pDevicePrivateData, XnHostProtocolUsbCore& nValue)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
 
 	XnHostProtocolInitHeader(pDevicePrivateData, buffer, 0, pDevicePrivateData->FWInfo.nOpcodeGetUsbCore);
 
@@ -3400,7 +3400,7 @@ XnStatus XnHostProtocolGetUsbCoreType(XnDevicePrivateData* pDevicePrivateData, X
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize, pDevicePrivateData->FWInfo.nOpcodeGetUsbCore,
-		(XnUChar**)(&pValue), nDataSize);
+		(unsigned char**)(&pValue), nDataSize);
 	XN_IS_STATUS_OK(rc);
 
 	nValue = (XnHostProtocolUsbCore)XN_PREPARE_VAR16_IN_BUFFER(*pValue);
@@ -3420,8 +3420,8 @@ typedef struct XnVSetLedStateRequest
 
 XnStatus XnHostProtocolSetLedState(XnDevicePrivateData* pDevicePrivateData, uint16_t nLedId, uint16_t nState)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 	uint32_t nRequestSize;
 
 	XnVSetLedStateRequest* pRequest = (XnVSetLedStateRequest*)pDataBuf;
@@ -3451,8 +3451,8 @@ typedef struct XnVSetEmitterStateRequest
 
 XnStatus XnHostProtocolSetEmitterState(XnDevicePrivateData* pDevicePrivateData, bool bActive)
 {
-	XnUChar buffer[MAX_PACKET_SIZE] = {0};
-	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
+	unsigned char buffer[MAX_PACKET_SIZE] = {0};
+	unsigned char* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 	uint32_t nRequestSize;
 
 	XnVSetEmitterStateRequest* pRequest = (XnVSetEmitterStateRequest*)pDataBuf;

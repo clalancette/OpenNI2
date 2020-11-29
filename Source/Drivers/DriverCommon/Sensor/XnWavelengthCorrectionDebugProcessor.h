@@ -39,7 +39,7 @@ protected:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData) override;
+	void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData) override;
 
 	//---------------------------------------------------------------------------
 	// Class Members

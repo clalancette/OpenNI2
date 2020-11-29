@@ -52,7 +52,7 @@ XnFrameStreamProcessor::~XnFrameStreamProcessor()
 	xnDumpFileClose(m_InternalDump);
 }
 
-void XnFrameStreamProcessor::ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
+void XnFrameStreamProcessor::ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnFrameStreamProcessor::ProcessPacketChunk");
 

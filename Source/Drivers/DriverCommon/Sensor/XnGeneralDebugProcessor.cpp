@@ -31,7 +31,7 @@ XnGeneralDebugProcessor::~XnGeneralDebugProcessor()
 	xnDumpFileClose(m_pDump);
 }
 
-void XnGeneralDebugProcessor::ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
+void XnGeneralDebugProcessor::ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	if (nDataOffset == 0)
 	{
@@ -58,7 +58,7 @@ void XnGeneralDebugProcessor::ProcessPacketChunk(const XnSensorProtocolResponseH
 		xnDumpFileClose(m_pDump);
 		m_pDump = xnDumpFileOpenEx("FirmwareDebug", true, true, strFileName);
 
-		const XnUChar* pDataStart = (const XnUChar*)pFields;
+		const unsigned char* pDataStart = (const unsigned char*)pFields;
 		nDataSize -= uint32_t(pDataStart - pData);
 		pData = pDataStart;
 	}

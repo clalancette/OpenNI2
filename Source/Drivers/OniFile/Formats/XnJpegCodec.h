@@ -70,7 +70,7 @@ public:
 private:
 	XN_DISABLE_COPY_AND_ASSIGN(XnJpegCodec);
 
-	XnStatus CompressImpl(const XnUChar* pData, uint32_t /*nDataSize*/, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize) override
+	XnStatus CompressImpl(const unsigned char* pData, uint32_t /*nDataSize*/, unsigned char* pCompressedData, uint32_t* pnCompressedDataSize) override
 	{
 		if (m_bRGB)
 		{
@@ -82,7 +82,7 @@ private:
 		}
 	}
 
-	XnStatus DecompressImpl(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize) override
+	XnStatus DecompressImpl(const unsigned char* pCompressedData, uint32_t nCompressedDataSize, unsigned char* pData, uint32_t* pnDataSize) override
 	{
 		return XnStreamUncompressImageJ(&mp_UncompJPEGContext, pCompressedData, nCompressedDataSize, pData, pnDataSize);
 	}

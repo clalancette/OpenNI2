@@ -62,7 +62,7 @@ XnStatus XnPSCompressedImageProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnPSCompressedImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
+void XnPSCompressedImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnPSCompressedImageProcessor::ProcessFramePacketChunk")
 
@@ -70,7 +70,7 @@ void XnPSCompressedImageProcessor::ProcessFramePacketChunk(const XnSensorProtoco
 	// to write to a temp buffer.
 	XnBuffer* pWriteBuffer = (GetStream()->GetOutputFormat() == ONI_PIXEL_FORMAT_YUV422) ? GetWriteBuffer() : &m_UncompressedYUVBuffer;
 
-	const XnUChar* pBuf = NULL;
+	const unsigned char* pBuf = NULL;
 	uint32_t nBufSize = 0;
 
 	// check if we have bytes stored from previous calls

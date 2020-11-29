@@ -42,7 +42,7 @@ private:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) override;
+	void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize) override;
 	void OnStartOfFrame(const XnSensorProtocolResponseHeader* pHeader) override;
 	void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader) override;
 

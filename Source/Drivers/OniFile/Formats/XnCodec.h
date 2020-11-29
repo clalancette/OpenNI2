@@ -44,9 +44,9 @@ public:
 
 	virtual XnCompressionFormats GetCompressionFormat() const = 0;
 
-	virtual XnStatus Compress(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize) = 0;
+	virtual XnStatus Compress(const unsigned char* pData, uint32_t nDataSize, unsigned char* pCompressedData, uint32_t* pnCompressedDataSize) = 0;
 
-	virtual XnStatus Decompress(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize) = 0;
+	virtual XnStatus Decompress(const unsigned char* pCompressedData, uint32_t nCompressedDataSize, unsigned char* pData, uint32_t* pnDataSize) = 0;
 
 	static XnCompressionFormats GetCompressionFormatFromCodecID(XnCodecID codecID);
 	static XnCodecID GetCodecIDFromCompressionFormat(XnCompressionFormats format);

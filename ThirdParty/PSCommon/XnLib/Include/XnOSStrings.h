@@ -31,7 +31,7 @@ XN_C_API XnStatus XN_C_DECL xnOSStrCopy(char* cpDestString, const char* cpSrcStr
 XN_C_API uint32_t XN_C_DECL xnOSStrLen(const char* cpStr);
 XN_C_API XnStatus XN_C_DECL xnOSStrNCopy(char* cpDestString, const char* cpSrcString, const uint32_t nCopyLength, const uint32_t nDestLength);
 XN_C_API XnStatus XN_C_DECL xnOSStrCRC32(const char* cpString, uint32_t* nCRC32);
-XN_C_API XnStatus XN_C_DECL xnOSStrNCRC32(XnUChar* cpBuffer, uint32_t nBufferSize, uint32_t* nCRC32);
+XN_C_API XnStatus XN_C_DECL xnOSStrNCRC32(unsigned char* cpBuffer, uint32_t nBufferSize, uint32_t* nCRC32);
 XN_C_API XnStatus XN_C_DECL xnOSStrFormat(char* cpDestString, const uint32_t nDestLength, uint32_t* pnCharsWritten, const char* cpFormat, ...);
 XN_C_API XnStatus XN_C_DECL xnOSStrFormatV(char* cpDestString, const uint32_t nDestLength, uint32_t* pnCharsWritten, const char* cpFormat, va_list args);
 XN_C_API int32_t  XN_C_DECL xnOSStrCmp(const char* cpFirstString, const char* cpSecondString);

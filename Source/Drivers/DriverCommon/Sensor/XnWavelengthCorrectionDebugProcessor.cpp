@@ -39,7 +39,7 @@ XnWavelengthCorrectionDebugProcessor::~XnWavelengthCorrectionDebugProcessor()
 	xnDumpFileClose(m_DumpTxt);
 }
 
-void XnWavelengthCorrectionDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData)
+void XnWavelengthCorrectionDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData)
 {
 	m_DumpTxt = xnDumpFileOpenEx("WavelengthCorrectionDebug", true, true, "WavelengthCorrection.csv");
 	xnDumpFileWriteString(m_DumpTxt, "HostTimestamp,PacketID,BLast,BCurrent,IsHop,CurrentSlidingWindow,CurrentHopsCount,IsTecCalibrated,WaitPeriod,IsWavelengthUnstable,BestHopsCount,BestSetPoint,BestStep,IsTotallyUnstable,ConfiguredTecSetPoint,CurrentStep\n");

@@ -60,7 +60,7 @@ XnStatus XnUncompressedBayerProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnUncompressedBayerProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, uint32_t /*nDataOffset*/, uint32_t nDataSize)
+void XnUncompressedBayerProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const unsigned char* pData, uint32_t /*nDataOffset*/, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnUncompressedBayerProcessor::ProcessFramePacketChunk")
 

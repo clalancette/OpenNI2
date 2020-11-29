@@ -358,7 +358,7 @@ XnStatus XnHostProtocolUpdateSupportedImageModes(XnDevicePrivateData* pDevicePri
 XnStatus XnHostProtocolGetLog			(XnDevicePrivateData* pDevicePrivateData, char* csBuffer, uint32_t nBufferSize);
 XnStatus XnHostProtocolFileUpload		(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, const char* strFileName, uint16_t nAttributes);
 XnStatus XnHostProtocolFileDownload		(XnDevicePrivateData* pDevicePrivateData, uint16_t nFileType, const char* strFileName);
-XnStatus XnHostProtocolReadFlash		(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, uint32_t nSize, XnUChar* pBuffer);
+XnStatus XnHostProtocolReadFlash		(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, uint32_t nSize, unsigned char* pBuffer);
 XnStatus XnHostProtocolRunBIST			(XnDevicePrivateData* pDevicePrivateData, uint32_t nTestsMask, uint32_t* pnFailures);
 XnStatus XnHostProtocolGetCPUStats		(XnDevicePrivateData* pDevicePrivateData, XnTaskCPUInfo* pTasks, uint32_t *pnTimesCount);
 XnStatus XnHostProtocolCalibrateTec		(XnDevicePrivateData* pDevicePrivateData, uint16_t nSetPoint);

@@ -41,12 +41,12 @@ protected:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) override;
+	void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize) override;
 
 	//---------------------------------------------------------------------------
 	// Virtual Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData) = 0;
+	virtual void ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData) = 0;
 
 private:
 	/* The maximum size of the packet. */

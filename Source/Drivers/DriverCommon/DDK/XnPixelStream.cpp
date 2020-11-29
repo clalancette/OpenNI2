@@ -270,10 +270,10 @@ XnStatus XnPixelStream::OnOutputFormatChanged()
 	case ONI_PIXEL_FORMAT_YUV422:
 	case ONI_PIXEL_FORMAT_YUYV:
 		// YUV422 is actually 4 bytes for every 2 pixels
-		nBytesPerPixel = sizeof(XnUChar) * 2;
+		nBytesPerPixel = sizeof(unsigned char) * 2;
 		break;
 	case ONI_PIXEL_FORMAT_RGB888:
-		nBytesPerPixel = sizeof(XnUChar) * 3;
+		nBytesPerPixel = sizeof(unsigned char) * 3;
 		break;
 	case ONI_PIXEL_FORMAT_JPEG:
 		// size is unknown.
@@ -337,17 +337,17 @@ void XnPixelStream::NewDataAvailable(OniFrame* pFrame)
 
 XnStatus XnPixelStream::Mirror(OniFrame* pFrame) const
 {
-	return XnFormatsMirrorPixelData(GetOutputFormat(), (XnUChar*)pFrame->data, pFrame->dataSize, pFrame->width);
+	return XnFormatsMirrorPixelData(GetOutputFormat(), (unsigned char*)pFrame->data, pFrame->dataSize, pFrame->width);
 }
 
 XnStatus XnPixelStream::CropImpl(OniFrame* pFrame, const OniCropping* pCropping)
 {
-	XnUChar* pPixelData = (XnUChar*)pFrame->data;
+	unsigned char* pPixelData = (unsigned char*)pFrame->data;
 	uint32_t nCurDataSize = 0;
 
 	for (uint32_t y = pCropping->originY; y < uint32_t(pCropping->originY + pCropping->height); ++y)
 	{
-		XnUChar* pOrigLine = &pPixelData[y * GetXRes() * GetBytesPerPixel()];
+		unsigned char* pOrigLine = &pPixelData[y * GetXRes() * GetBytesPerPixel()];
 
 		// move line
 		xnOSMemCopy(pPixelData + nCurDataSize, pOrigLine + pCropping->originX * GetBytesPerPixel(), pCropping->width * GetBytesPerPixel());

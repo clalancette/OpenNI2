@@ -123,10 +123,10 @@ typedef struct XnSpecificUsbDevice
 //---------------------------------------------------------------------------
 // Functions Declaration
 //---------------------------------------------------------------------------
-bool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData);
+bool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(unsigned char* pBuffer, uint32_t nBufferSize, void* pCallbackData);
 
 XnStatus XnCalculateExpectedImageSize(XnDevicePrivateData* pDevicePrivateData, uint32_t* pnExpectedSize);
-void XnProcessUncompressedDepthPacket(XnSensorProtocolResponseHeader* pCurrHeader, XnUChar* pData, uint32_t nDataSize, bool bEOP, XnSpecificUsbDevice* pSpecificDevice);
+void XnProcessUncompressedDepthPacket(XnSensorProtocolResponseHeader* pCurrHeader, unsigned char* pData, uint32_t nDataSize, bool bEOP, XnSpecificUsbDevice* pSpecificDevice);
 XnStatus XnDeviceSensorProtocolUpdateImageProcessor(XnDevicePrivateData* pDevicePrivateData);
 
 XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam);

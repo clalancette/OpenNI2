@@ -41,7 +41,7 @@ public:
 
 	void Lock();
 	void Unlock();
-	void ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
+	void ProcessData(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize);
 
 private:
 	XN_DISABLE_COPY_AND_ASSIGN(XnDataProcessorHolder);

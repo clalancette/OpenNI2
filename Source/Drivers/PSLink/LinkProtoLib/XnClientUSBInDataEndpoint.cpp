@@ -146,7 +146,7 @@ XnStatus ClientUSBInDataEndpoint::SetDataDestination(IDataDestination* pDataDest
 	return XN_STATUS_OK;
 }
 
-bool XN_CALLBACK_TYPE ClientUSBInDataEndpoint::ReadThreadCallback(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData)
+bool XN_CALLBACK_TYPE ClientUSBInDataEndpoint::ReadThreadCallback(unsigned char* pBuffer, uint32_t nBufferSize, void* pCallbackData)
 {
 	ClientUSBInDataEndpoint* pThis = reinterpret_cast<ClientUSBInDataEndpoint*>(pCallbackData);
 	IDataDestination* pDataDestination = pThis->m_pDataDestination;

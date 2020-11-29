@@ -121,7 +121,7 @@ private:
 	XnStatus GetCmosBlankingUnits(XnCmosBlankingUnits* pBlanking);
 	XnStatus GetCmosBlankingTime(XnCmosBlankingTime* pBlanking);
 	XnStatus GetFirmwareMode(XnParamCurrentMode* pnMode);
-	XnStatus GetLastRawFrame(const char* strStream, XnUChar* pBuffer, uint32_t nDataSize);
+	XnStatus GetLastRawFrame(const char* strStream, unsigned char* pBuffer, uint32_t nDataSize);
 	XnStatus GetFixedParams(XnDynamicSizeBuffer* pBuffer);
 	XnStatus GetDepthCmosRegister(XnControlProcessingData* pRegister);
 	XnStatus GetImageCmosRegister(XnControlProcessingData* pRegister);

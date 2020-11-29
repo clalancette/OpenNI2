@@ -51,7 +51,7 @@ public:
 	XnStatus ReplaceStreamProcessor(const char* strType, XnDeviceStream* pOwner, XnDataProcessor* pProcessor);
 	bool IsClaimed(const char* strType, XnDeviceStream* pStream);
 
-	void ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
+	void ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize);
 
 private:
 	XnStatus CheckClaimStream(const char* strType, XnResolutions nRes, uint32_t nFPS, XnDeviceStream* pOwner);

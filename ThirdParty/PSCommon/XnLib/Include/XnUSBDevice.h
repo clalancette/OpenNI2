@@ -107,11 +107,11 @@ XN_C_API void XN_C_DECL xnUSBDeviceShutdown(XnUSBDevice* pDevice);
 XN_C_API bool XN_C_DECL xnUSBDeviceIsControlRequestPending(XnUSBDevice* pDevice);
 
 //pnRequestSize is max size on input, actual size on output
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevice, XnUChar* pBuffer, uint32_t* pnRequestSize);
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, const XnUChar* pBuffer, uint32_t nReplySize);
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevice, unsigned char* pBuffer, uint32_t* pnRequestSize);
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, const unsigned char* pBuffer, uint32_t nReplySize);
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceSetNewControlRequestCallback(XnUSBDevice* pDevice, XnUSBDeviceNewControlRequestCallback pFunc, void* pCookie);
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceSetConnectivityChangedCallback(XnUSBDevice* pDevice, XnUSBDeviceConnectivityChangedCallback pFunc, void* pCookie);
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, uint8_t nAddress, const XnUChar* pData, uint32_t nDataSize);
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, uint8_t nAddress, const unsigned char* pData, uint32_t nDataSize);
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceResetEndpoint(XnUSBDevice* pDevice, uint8_t nAddress);
 
 #endif

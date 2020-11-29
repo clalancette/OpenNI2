@@ -63,7 +63,7 @@ XnStatus LinkResponseMsgParser::ParsePacketImpl(XnLinkFragmentation /*fragmentat
 		xnLogWarning(XN_MASK_LINK, "Received error from link layer response: '%s' (%u)",
 			xnGetStatusString(nRetVal), nResponseCode);
 		xnLogWriteBinaryData(XN_MASK_LINK, XN_LOG_WARNING,
-			__FILE__, __LINE__, (XnUChar*)pSrc, (uint32_t)nPacketDataSize, "Response extra data: ");
+			__FILE__, __LINE__, (unsigned char*)pSrc, (uint32_t)nPacketDataSize, "Response extra data: ");
 
 		XN_ASSERT(false);
 		return nRetVal;

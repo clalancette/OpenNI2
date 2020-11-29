@@ -36,7 +36,7 @@ FILE* g_fUSBDump;
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-bool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData)
+bool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(unsigned char* pBuffer, uint32_t nBufferSize, void* pCallbackData)
 {
 	XN_PROFILING_START_MT_SECTION("XnDeviceSensorProtocolUsbEpCb");
 
@@ -45,7 +45,7 @@ bool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t n
 
 	XnSpecificUsbDevice* pDevice = (XnSpecificUsbDevice*)pCallbackData;
 	XnDevicePrivateData* pDevicePrivateData = pDevice->pDevicePrivateData;
-	XnUChar* pBufEnd = pBuffer + nBufferSize;
+	unsigned char* pBufEnd = pBuffer + nBufferSize;
 
 	XnSpecificUsbDeviceState* pCurrState = &pDevice->CurrState;
 
@@ -122,7 +122,7 @@ bool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t n
 
 		case XN_PACKET_HEADER:
 			nReadBytes = XN_MIN((uint32_t)(pBufEnd - pBuffer), pCurrState->nMissingBytesInState);
-			xnOSMemCopy((XnUChar*)&pCurrState->CurrHeader + sizeof(XnSensorProtocolResponseHeader) - pCurrState->nMissingBytesInState,
+			xnOSMemCopy((unsigned char*)&pCurrState->CurrHeader + sizeof(XnSensorProtocolResponseHeader) - pCurrState->nMissingBytesInState,
 				pBuffer, nReadBytes);
 			pCurrState->nMissingBytesInState -= nReadBytes;
 			pBuffer += nReadBytes;

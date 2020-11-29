@@ -656,7 +656,7 @@ void xnLogWriteNoEntryImplV(const char* csFormat, va_list args)
 	}
 }
 
-void xnLogWriteBinaryDataImplV(const char* strMask, XnLogSeverity nSeverity, const char* csFile, uint32_t nLine, XnUChar* pBinData, uint32_t nDataSize, const char* csFormat, va_list args)
+void xnLogWriteBinaryDataImplV(const char* strMask, XnLogSeverity nSeverity, const char* csFile, uint32_t nLine, unsigned char* pBinData, uint32_t nDataSize, const char* csFormat, va_list args)
 {
 	// first write preceding message:
 	xnLogWriteImplV(strMask, nSeverity, csFile, nLine, csFormat, args);
@@ -748,7 +748,7 @@ XN_C_API void XN_C_DECL xnLoggerWriteNoEntry(XnLogger* pLogger, XnLogSeverity nS
 	va_end(args);
 }
 
-XN_C_API void XN_C_DECL xnLoggerWriteBinaryData(XnLogger* pLogger, XnLogSeverity nSeverity, const char* csFile, uint32_t nLine, XnUChar* pBinData, uint32_t nDataSize, const char* csFormat, ...)
+XN_C_API void XN_C_DECL xnLoggerWriteBinaryData(XnLogger* pLogger, XnLogSeverity nSeverity, const char* csFile, uint32_t nLine, unsigned char* pBinData, uint32_t nDataSize, const char* csFormat, ...)
 {
 	if (!xnLoggerIsEnabled(pLogger, nSeverity))
 		return;
@@ -896,7 +896,7 @@ XN_C_API void xnLogWriteNoEntry(const char* csLogMask, XnLogSeverity nSeverity, 
 	}
 }
 
-XN_C_API void xnLogWriteBinaryData(const char* csLogMask, XnLogSeverity nSeverity, const char* csFile, uint32_t nLine, XnUChar* pBinData, uint32_t nDataSize, const char* csFormat, ...)
+XN_C_API void xnLogWriteBinaryData(const char* csLogMask, XnLogSeverity nSeverity, const char* csFile, uint32_t nLine, unsigned char* pBinData, uint32_t nDataSize, const char* csFormat, ...)
 {
 	if (!xnLogIsEnabled(csLogMask, nSeverity))
 		return;

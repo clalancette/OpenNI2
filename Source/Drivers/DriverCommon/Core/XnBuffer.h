@@ -52,7 +52,7 @@ public:
 	 * @param	pBuffer		[in]	the buffer to use.
 	 * @param	nSize		[in]	Buffer size.
 	 */
-	void SetExternalBuffer(XnUChar* pBuffer, uint32_t nSize);
+	void SetExternalBuffer(unsigned char* pBuffer, uint32_t nSize);
 
 	/*
 	* Writes data to the buffer.
@@ -60,7 +60,7 @@ public:
 	* @param	data		[in]	a pointer to the data to copy from.
 	* @param	size		[in]	The number of bytes to copy.
 	*/
-	inline void UnsafeWrite(const XnUChar* pData, uint32_t nDataSize)
+	inline void UnsafeWrite(const unsigned char* pData, uint32_t nDataSize)
 	{
 		// Some of my callers copy data from within my buffer after Reset()ing.
 		// So safely "slide" the to-be-copied chunk back to the buffer's beginning.
@@ -74,7 +74,7 @@ public:
 	* @param	data		[in]	a pointer to the data to copy from.
 	* @param	size		[in]	The number of bytes to copy.
 	*/
-	XnStatus Write(const XnUChar* pData, uint32_t nDataSize);
+	XnStatus Write(const unsigned char* pData, uint32_t nDataSize);
 
 	/*
 	* Copies buffer data to another location.
@@ -94,7 +94,7 @@ public:
 		m_nSize = 0;
 	}
 
-	inline XnUChar* GetData()
+	inline unsigned char* GetData()
 	{
 		return m_pData;
 	}
@@ -132,7 +132,7 @@ public:
 	/*
 	* Gets the free space in the buffer.
 	*/
-	inline XnUChar* GetUnsafeWritePointer()
+	inline unsigned char* GetUnsafeWritePointer()
 	{
 		return m_pData + m_nSize;
 	}
@@ -167,7 +167,7 @@ public:
 	}
 
 private:
-	XnUChar* m_pData;
+	unsigned char* m_pData;
 	uint32_t m_nSize;
 	uint32_t m_nMaxSize;
 	bool m_bAllocated;

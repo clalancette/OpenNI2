@@ -43,7 +43,7 @@ XnNesaDebugProcessor::~XnNesaDebugProcessor()
 	xnDumpFileClose(m_Dump);
 }
 
-void XnNesaDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData)
+void XnNesaDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeader* /*pHeader*/, const unsigned char* pData)
 {
 	if (m_Dump == NULL)
 	{

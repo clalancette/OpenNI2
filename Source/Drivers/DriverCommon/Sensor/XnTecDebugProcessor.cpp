@@ -43,7 +43,7 @@ XnTecDebugProcessor::~XnTecDebugProcessor()
 	xnDumpFileClose(m_Dump);
 }
 
-void XnTecDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData)
+void XnTecDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeader* /*pHeader*/, const unsigned char* pData)
 {
 	if (m_Dump == NULL)
 	{

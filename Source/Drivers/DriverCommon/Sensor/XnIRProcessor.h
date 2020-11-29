@@ -43,7 +43,7 @@ private:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) override;
+	void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize) override;
 	void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader) override;
 	uint64_t CreateTimestampFromDevice(uint32_t nDeviceTimeStamp) override;
 	void OnFrameReady(uint32_t nFrameID, uint64_t nFrameTS) override;

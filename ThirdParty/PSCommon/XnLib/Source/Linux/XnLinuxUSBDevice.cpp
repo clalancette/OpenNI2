@@ -86,7 +86,7 @@ typedef enum
 typedef struct XnUSBDeviceEndpointWriteTx
 {
 	struct aiocb cb;
-	XnUChar* pBuffer;
+	unsigned char* pBuffer;
 } XnUSBDeviceEndpointWriteTx;
 
 typedef struct XnUSBDeviceEndpoint
@@ -118,7 +118,7 @@ struct XnUSBDevice
 	// or the ep0 thread.
 	DeviceControlState eDeviceControlState;
 	HostControlState eHostControlState;
-	XnUChar* pControlBuffer;
+	unsigned char* pControlBuffer;
 	uint32_t nControlSize;
 	XnUSBDeviceNewControlRequestCallback pNewControlRequestCallback;
 	void* pNewControlRequestCallbackCookie;
@@ -233,8 +233,8 @@ static int openEndpointFile(struct usb_endpoint_descriptor* pDesc)
 	int fd = open(fileName, O_RDWR);
 
 	// config it
-	XnUChar bufConfig[1024];
-	XnUChar* buf = bufConfig;
+	unsigned char bufConfig[1024];
+	unsigned char* buf = bufConfig;
 
 	uint32_t nFormatID = 1;
 	WRITE_OBJ_TO_BUF(buf, nFormatID);
@@ -297,7 +297,7 @@ static bool configureEndpoints(XnUSBDevice* pDevice, int nConfigID)
 		// create write buffers
 		for (int j = 0; j < XN_USB_MAX_WRITE_TX; ++j)
 		{
-			pDevice->endpoints[nAddress].txs[j].pBuffer = (XnUChar*)xnOSMallocAligned(pDevice->endpoints[nAddress].nBufferSize, XN_DEFAULT_MEM_ALIGN);
+			pDevice->endpoints[nAddress].txs[j].pBuffer = (unsigned char*)xnOSMallocAligned(pDevice->endpoints[nAddress].nBufferSize, XN_DEFAULT_MEM_ALIGN);
 			if (pDevice->endpoints[nAddress].txs[j].pBuffer == NULL)
 			{
 				return false;
@@ -408,7 +408,7 @@ static bool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, __
 		return false;
 	}
 
-	XnUChar buf[256];
+	unsigned char buf[256];
 
 	// descriptor 0 has the language id
 	if (nIndex == 0)
@@ -727,7 +727,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* p
 	}
 	pDevice->nControlMessageMaxSize = nControlMessageMaxSize;
 	pDevice->pDescriptors = pDescriptors;
-	pDevice->pControlBuffer = (XnUChar*)xnOSMallocAligned(nControlMessageMaxSize, XN_DEFAULT_MEM_ALIGN);
+	pDevice->pControlBuffer = (unsigned char*)xnOSMallocAligned(nControlMessageMaxSize, XN_DEFAULT_MEM_ALIGN);
 
 	if (pDevice->pControlBuffer == NULL)
 	{
@@ -819,7 +819,7 @@ XN_C_API bool XN_C_DECL xnUSBDeviceIsControlRequestPending(XnUSBDevice* pDevice)
 	return (pDevice->eDeviceControlState == DEVICE_CONTROL_REQUEST_RECEIVED);
 }
 
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevice, XnUChar* pBuffer, uint32_t* pnRequestSize)
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevice, unsigned char* pBuffer, uint32_t* pnRequestSize)
 {
 	XN_VALIDATE_INPUT_PTR(pDevice);
 	XN_VALIDATE_INPUT_PTR(pBuffer);
@@ -848,7 +848,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevic
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, const XnUChar* pBuffer, uint32_t nReplySize)
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, const unsigned char* pBuffer, uint32_t nReplySize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1091,7 +1091,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceSetConnectivityChangedCallback(XnUSBDevic
 // Writing Data
 //---------------------------------------------------------------------------
 
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, uint8_t nEndpointID, const XnUChar* pData, uint32_t nDataSize)
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, uint8_t nEndpointID, const unsigned char* pData, uint32_t nDataSize)
 {
 	XN_VALIDATE_INPUT_PTR(pDevice);
 	XN_VALIDATE_INPUT_PTR(pData);

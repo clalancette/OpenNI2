@@ -48,7 +48,7 @@ XnStatus XnDataProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnDataProcessor::ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
+void XnDataProcessor::ProcessData(const XnSensorProtocolResponseHeader* pHeader, const unsigned char* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnDataProcessor::ProcessData")
 
