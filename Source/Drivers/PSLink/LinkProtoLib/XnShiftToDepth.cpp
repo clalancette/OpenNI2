@@ -62,7 +62,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	}
 
 	uint16_t nIndex = 0;
-	XnInt16  nShiftValue = 0;
+	int16_t  nShiftValue = 0;
 	double dFixedRefX = 0;
 	double dMetric = 0;
 	double dDepth = 0;

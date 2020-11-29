@@ -58,7 +58,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 		return XN_STATUS_DEVICE_INVALID_MAX_DEPTH;
 
 	uint32_t nIndex = 0;
-	XnInt16  nShiftValue = 0;
+	int16_t  nShiftValue = 0;
 	double dFixedRefX = 0;
 	double dMetric = 0;
 	double dDepth = 0;
@@ -83,7 +83,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 
 	for (nIndex = 1; nIndex < pConfig->nDeviceMaxShiftValue; nIndex++)
 	{
-		nShiftValue = (XnInt16)nIndex;
+		nShiftValue = (int16_t)nIndex;
 
 		dFixedRefX = (double)(nShiftValue - nConstShift) / (double)pConfig->nParamCoeff;
 		dFixedRefX -= 0.375;

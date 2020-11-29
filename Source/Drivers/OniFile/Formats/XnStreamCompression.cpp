@@ -39,7 +39,7 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const uint16_t* pInput, const uint
 	uint16_t nCurrValue = 0;
 	uint16_t nLastValue = 0;
 	uint16_t nAbsDiffValue = 0;
-	XnInt16 nDiffValue = 0;
+	int16_t nDiffValue = 0;
 	XnUInt8 cOutStage = 0;
 	XnUInt8 cOutChar = 0;
 	XnUInt8 cZeroCounter = 0;
@@ -351,7 +351,7 @@ XnStatus XnStreamCompressDepth16Z(const uint16_t* pInput, const uint32_t nInputS
 	uint16_t nCurrValue = 0;
 	uint16_t nLastValue = 0;
 	uint16_t nAbsDiffValue = 0;
-	XnInt16 nDiffValue = 0;
+	int16_t nDiffValue = 0;
 	XnUInt8 cOutStage = 0;
 	XnUInt8 cOutChar = 0;
 	XnUInt8 cZeroCounter = 0;

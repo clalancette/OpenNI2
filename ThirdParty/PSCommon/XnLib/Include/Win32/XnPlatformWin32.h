@@ -97,9 +97,6 @@ typedef	signed char			XnInt8;
 /** 8-bit unsigned integer. */
 typedef	unsigned char		XnUInt8;
 
-/** 16-bit signed integer. */
-typedef	short				XnInt16;
-
 /** natural signed integer. */
 typedef	int					XnInt;
 /** natural unsigned integer. */

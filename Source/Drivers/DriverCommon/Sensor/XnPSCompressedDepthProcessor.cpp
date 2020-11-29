@@ -153,7 +153,7 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, 
 
 				nLargeValue |= nInput;
 				// diff values are from -64 to 63 (0x00 to 0x7f)
-				nLastValue += ((XnInt16)nLargeValue - 64);
+				nLastValue += ((int16_t)nLargeValue - 64);
 			}
 			else // Full value (15-bit)
 			{
@@ -183,7 +183,7 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, 
 			break;
 		default: // all rest (smaller than 0xd) are diffs
 			// diff values are from -6 to 6 (0x0 to 0xc)
-			nLastValue += ((XnInt16)nInput - 6);
+			nLastValue += ((int16_t)nInput - 6);
 			XN_DEPTH_OUTPUT(pDepthOutput, pOutputEnd, nLastValue);
 		}
 	}

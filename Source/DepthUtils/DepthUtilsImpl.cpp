@@ -138,8 +138,8 @@ XnStatus DepthUtilsImpl::Apply(unsigned short* pOutput)
 	unsigned short* pInput = pTempBuffer;
 	memcpy(pInput, pOutput, m_depthResolution.x*m_depthResolution.y*2);
 
-	XnInt16* pRegTable;
-	XnInt16* pRGBRegDepthToShiftTable = (XnInt16*)m_pDepth2ShiftTable;
+	int16_t* pRegTable;
+	int16_t* pRGBRegDepthToShiftTable = (int16_t*)m_pDepth2ShiftTable;
 	unsigned short nValue = 0;
 	unsigned short nOutValue = 0;
 	uint32_t nNewX = 0;
@@ -156,7 +156,7 @@ XnStatus DepthUtilsImpl::Apply(unsigned short* pOutput)
 
 	for (uint32_t y = 0; y < nDepthYRes; ++y)
 	{
-		pRegTable = (XnInt16*)&m_pRegTable[ bMirror ? ((y+1) * nDepthXRes - 1) * 2 : y * nDepthXRes * 2 ];
+		pRegTable = (int16_t*)&m_pRegTable[ bMirror ? ((y+1) * nDepthXRes - 1) * 2 : y * nDepthXRes * 2 ];
 		for (uint32_t x = 0; x < nDepthXRes; ++x)
 		{
 			nValue = *pInput;
@@ -262,8 +262,8 @@ XnStatus DepthUtilsImpl::TranslateSinglePixel(uint32_t x, uint32_t y, unsigned s
 	uint32_t nDepthXRes = m_depthResolution.x;
 	XnBool bMirror = m_isMirrored;
 	uint32_t nIndex = bMirror ? ((y+1)*nDepthXRes - x - 1) * 2 : (y*nDepthXRes + x) * 2;
-	XnInt16* pRegTable = (XnInt16*)&m_pRegTable[nIndex];
-	XnInt16* pRGBRegDepthToShiftTable = (XnInt16*)m_pDepth2ShiftTable;
+	int16_t* pRegTable = (int16_t*)&m_pRegTable[nIndex];
+	int16_t* pRGBRegDepthToShiftTable = (int16_t*)m_pDepth2ShiftTable;
 	uint32_t nNewX = 0;
 	uint32_t nNewY = 0;
 
@@ -337,12 +337,12 @@ void DepthUtilsImpl::BuildDepthToShiftTable(uint16_t* pRGBRegDepthToShiftTable, 
 	double dPelDCC = dDCRCDist * dPelSize * m_blob.params1080.s2dPelConst;
 	double dPelDSR = dPlaneDsr * dPelSize * m_blob.params1080.s2dPelConst;
 
-	memset(pRGBRegDepthToShiftTable, 0, nMaxDepth * sizeof(XnInt16));
+	memset(pRGBRegDepthToShiftTable, 0, nMaxDepth * sizeof(int16_t));
 
 	for (nIndex = 0; nIndex < nMaxDepth; nIndex++)
 	{
 		dDepth = nIndex * dPelSize;
-		pRGBRegDepthToShiftTable[nIndex] = (XnInt16)(((dPelDCC * (dDepth - dPelDSR) / dDepth) + (m_blob.params1080.s2dConstOffset)) * m_blob.params1080.rgbRegXValScale);
+		pRGBRegDepthToShiftTable[nIndex] = (int16_t)(((dPelDCC * (dDepth - dPelDSR) / dDepth) + (m_blob.params1080.s2dConstOffset)) * m_blob.params1080.rgbRegXValScale);
 	}
 }
 
@@ -419,8 +419,8 @@ XnStatus DepthUtilsImpl::BuildRegistrationTable(uint16_t* pRegTable, Registratio
 				nNewY = nDepthYRes;
 			}
 
-			*pRegTable = (XnInt16)nNewX;
-			*(pRegTable+1) = (XnInt16)nNewY;
+			*pRegTable = (int16_t)nNewX;
+			*(pRegTable+1) = (int16_t)nNewY;
 
 			pRegXTable++;
 			pRegYTable++;

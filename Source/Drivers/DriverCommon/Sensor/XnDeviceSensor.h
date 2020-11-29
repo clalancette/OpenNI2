@@ -166,7 +166,7 @@ typedef struct XnDeviceSensorGMCPoint
 	uint16_t m_X;
 	uint16_t m_Y;
 	uint16_t m_DX;
-	XnInt16 m_DY;
+	int16_t m_DY;
 	uint16_t m_Score;
 } XnDeviceSensorGMCPoint;
 

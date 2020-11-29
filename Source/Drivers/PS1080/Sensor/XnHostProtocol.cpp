@@ -1713,7 +1713,7 @@ XnStatus XnHostProtocolGetFixedParams(XnDevicePrivateData* pDevicePrivateData, X
 
 	xnOSMemSet(&FixedParams, 0, sizeof(XnFixedParams));
 
-	XnInt16 nDataRead = 0;
+	int16_t nDataRead = 0;
 
 	XnStatus rc;
 	while (nDataRead < nFixedParamSize)
@@ -2395,7 +2395,7 @@ XnStatus XnHostProtocolAlgorithmParams(XnDevicePrivateData* pDevicePrivateData,
 	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 	XnUChar* pRelevantBuffer;
 
-	XnInt16 nDataRead = 0;
+	int16_t nDataRead = 0;
 	uint16_t nRequestSize = 0;
 
 	if (eAlgorithmType == XN_HOST_PROTOCOL_ALGORITHM_DEVICE_INFO &&

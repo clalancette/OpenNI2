@@ -253,7 +253,7 @@ typedef struct XnHostProtocolGMCPoint_1000
 
 typedef struct XnHostProtocolGMCLastConfData
 {
-	XnInt16 nLast;
+	int16_t nLast;
 	uint16_t nRICCLast;
 	float fRICC_IIR;
 } XnHostProtocolGMCLastConfData;
@@ -272,11 +272,11 @@ typedef struct XnHostProtocolGMCLastPacketData
 	float m_A;
 	float m_B;
 	float m_C;
-	XnInt16 m_N;
+	int16_t m_N;
 	uint16_t m_RICC;
 	uint32_t m_StartB;
 	uint32_t m_DeltaB;
-	XnInt16 m_FlashStoredRefOffset;
+	int16_t m_FlashStoredRefOffset;
 } XnHostProtocolGMCLastPacketData;
 
 typedef struct XnBestTecConf

@@ -63,7 +63,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 
 	enum OpticsRelationShip OpticsRelation;
 	uint32_t nIndex = 0;
-	XnInt16  nShiftValue = 0;
+	int16_t  nShiftValue = 0;
 	double dFixedRefX = 0;
 	double dMetric = 0;
 	double dDepth = 0;
@@ -98,7 +98,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 
 	for (nIndex = 1; nIndex < pConfig->nDeviceMaxShiftValue; nIndex++)
 	{
-		nShiftValue = (XnInt16)nIndex;
+		nShiftValue = (int16_t)nIndex;
 		if (OpticsRelation == ProjectRightOfCMOS)
 		{
 			 nShiftValue = 1603 - nShiftValue;
