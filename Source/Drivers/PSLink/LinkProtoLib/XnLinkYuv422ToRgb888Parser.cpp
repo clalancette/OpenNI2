@@ -38,7 +38,7 @@ XnStatus LinkYuv422ToRgb888Parser::ParsePacketImpl(XnLinkFragmentation /*fragmen
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnSizeT dstSize = pDstEnd - pDst;
+	size_t dstSize = pDstEnd - pDst;
 	nRetVal = LinkYuvToRgb::Yuv422ToRgb888(pSrc, pSrcEnd - pSrc, pDst, dstSize);
 	XN_IS_STATUS_OK(nRetVal);
 

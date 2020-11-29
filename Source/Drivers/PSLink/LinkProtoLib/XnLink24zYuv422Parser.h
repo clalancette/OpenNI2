@@ -44,12 +44,12 @@ protected:
 
 private:
 	XnStatus Uncompress24z(
-		const uint8_t* pInput, XnSizeT nInputSize,
-		uint8_t* pOutput, XnSizeT* pnOutputSize, uint32_t nLineSize,
-		XnSizeT* pnActualRead, XnBool bLastPart);
+		const uint8_t* pInput, size_t nInputSize,
+		uint8_t* pOutput, size_t* pnOutputSize, uint32_t nLineSize,
+		size_t* pnActualRead, XnBool bLastPart);
 
 	uint8_t* m_dataFromPrevPacket;
-	XnSizeT m_dataFromPrevPacketBytes;
+	size_t m_dataFromPrevPacketBytes;
 	uint32_t m_lineWidthBytes;
 	uint32_t m_rgbFrameSize;
 	uint32_t m_expectedFrameSize;

@@ -50,7 +50,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 	//Otherwise, we do not advance pDst, so Data size remains 0
 	if (m_copyDataToOutput)
 	{
-		XnSizeT nPacketDataSize = pSrcEnd - pSrc;
+		size_t nPacketDataSize = pSrcEnd - pSrc;
 		if (pDst + nPacketDataSize > pDstEnd)
 		{
 			XN_ASSERT(FALSE);

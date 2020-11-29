@@ -64,13 +64,13 @@ RecordAssembler::~RecordAssembler()
 
 void RecordAssembler::initialize()
 {
-	XnSizeT maxHeaderSize_bytes =
+	size_t maxHeaderSize_bytes =
 		/* size of header POD   = */ sizeof(RecordHeaderData) +
 		/* size of node name    = */ (ONI_MAX_STR + 1) +
 		/* size of time stamp   = */ sizeof(uint64_t) +
 		/* size of frame number = */ sizeof(uint32_t);
 
-	m_bufferSize_bytes = (XnSizeT)(maxHeaderSize_bytes +
+	m_bufferSize_bytes = (size_t)(maxHeaderSize_bytes +
 		/* max video mode width (pixels)  = */ 1600 *
 		/* max video mode height (pixels) = */ 1200 *
 		/* max video mode bits per pixel  = */ 3    *
@@ -113,7 +113,7 @@ void RecordAssembler::emitCommonHeader(uint32_t recordType, uint32_t nodeId, uin
 	m_pEmitPtr = m_pBuffer + sizeof(*m_header);
 }
 
-OniStatus RecordAssembler::emitString(const XnChar* pStr, XnSizeT& totalFieldsSize_bytes)
+OniStatus RecordAssembler::emitString(const XnChar* pStr, size_t& totalFieldsSize_bytes)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 	if (NULL == pStr)
@@ -132,7 +132,7 @@ OniStatus RecordAssembler::emitString(const XnChar* pStr, XnSizeT& totalFieldsSi
 	field.data[sizeof(field.data) - 1] = '\0';
 
 	// Emit field's data.
-	XnSizeT fieldSize_bytes = field.dataSize + sizeof(field.dataSize);
+	size_t fieldSize_bytes = field.dataSize + sizeof(field.dataSize);
 	OniStatus status = emitData(&field, fieldSize_bytes);
 	if (ONI_STATUS_OK == status)
 	{
@@ -142,7 +142,7 @@ OniStatus RecordAssembler::emitString(const XnChar* pStr, XnSizeT& totalFieldsSi
 	return status;
 }
 
-OniStatus RecordAssembler::emitData(const void* pData, XnSizeT dataSize_bytes)
+OniStatus RecordAssembler::emitData(const void* pData, size_t dataSize_bytes)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 	xnOSMemCopy(m_pEmitPtr, pData, dataSize_bytes);
@@ -151,10 +151,10 @@ OniStatus RecordAssembler::emitData(const void* pData, XnSizeT dataSize_bytes)
 }
 
 template<typename T>
-OniStatus RecordAssembler::emit(const T& field, XnSizeT& totalFieldsSize_bytes)
+OniStatus RecordAssembler::emit(const T& field, size_t& totalFieldsSize_bytes)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
-	XnSizeT fieldSize_bytes = sizeof(field);
+	size_t fieldSize_bytes = sizeof(field);
 	OniStatus status = emitData(&field, fieldSize_bytes);
 	if (ONI_STATUS_OK == status)
 	{
@@ -194,7 +194,7 @@ OniStatus RecordAssembler::emit_RECORD_NODE_ADDED_1_0_0_5(
 	//           Y + 20     +-------------------+
 	//   8                  | Max Time Stamp    |
 	//           Y + 28     +-------------------+
-	XnSizeT fieldsSize = m_header->fieldsSize;
+	size_t fieldsSize = m_header->fieldsSize;
 	emitString(AsString(nodeType),  fieldsSize);
 	emit(nodeType,                  fieldsSize);
 	emit(codecId,                   fieldsSize);
@@ -239,7 +239,7 @@ OniStatus RecordAssembler::emit_RECORD_NODE_ADDED(
 	//           0          +---------------------+
 	//   8                  | Seek table position |
 	//           8          +---------------------+
-	XnSizeT fieldsSize = m_header->fieldsSize;
+	size_t fieldsSize = m_header->fieldsSize;
 	emit(seekTablePosition, fieldsSize);
 	m_header->fieldsSize = (uint32_t)fieldsSize;
 
@@ -267,11 +267,11 @@ OniStatus RecordAssembler::emit_RECORD_SEEK_TABLE(uint32_t nodeId, uint32_t numF
 	// no fields today :-)
 	emitCommonHeader(RECORD_SEEK_TABLE, nodeId, /*undoRecordPos*/ 0);
 
-	XnSizeT entrySize    = sizeof(DataIndexEntry);
-	XnSizeT nPayloadSize = (numFrames + 1) * entrySize;
+	size_t entrySize    = sizeof(DataIndexEntry);
+	size_t nPayloadSize = (numFrames + 1) * entrySize;
 
 	// Verify that there's enough room for the payload in the buffer.
-	XnSizeT roomLeft = m_bufferSize_bytes - size_t(m_pEmitPtr - m_pBuffer);
+	size_t roomLeft = m_bufferSize_bytes - size_t(m_pEmitPtr - m_pBuffer);
 	if (roomLeft < nPayloadSize)
 	{
 		return ONI_STATUS_ERROR;
@@ -323,7 +323,7 @@ OniStatus RecordAssembler::emit_RECORD_NODE_DATA_BEGIN(
 	//           4          +------------------+
 	//   8                  | Max Time Stamp   |
 	//           12         +------------------+
-	XnSizeT fieldsSize = m_header->fieldsSize;
+	size_t fieldsSize = m_header->fieldsSize;
 	emit(framesCount,  fieldsSize);
 	emit(maxTimeStamp, fieldsSize);
 	m_header->fieldsSize = (uint32_t)fieldsSize;
@@ -337,7 +337,7 @@ OniStatus RecordAssembler::emit_RECORD_NEW_DATA(
 	uint64_t    timeStamp,
 	uint32_t    frameId,
 	const void* data,
-	XnSizeT     dataSize_bytes)
+	size_t     dataSize_bytes)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 
@@ -352,13 +352,13 @@ OniStatus RecordAssembler::emit_RECORD_NEW_DATA(
 	//           8          +---------------------+
 	//   4                  | Seek table position |
 	//           12         +---------------------+
-	XnSizeT fieldsSize = m_header->fieldsSize;
+	size_t fieldsSize = m_header->fieldsSize;
 	emit(timeStamp, fieldsSize);
 	emit(frameId,   fieldsSize);
 	m_header->fieldsSize = (uint32_t)fieldsSize;
 
 	// Verify that there's enough room for the payload in the buffer.
-	XnSizeT roomLeft = m_bufferSize_bytes - size_t(m_pEmitPtr - m_pBuffer);
+	size_t roomLeft = m_bufferSize_bytes - size_t(m_pEmitPtr - m_pBuffer);
 	if (roomLeft < dataSize_bytes)
 	{
 		return ONI_STATUS_ERROR;
@@ -376,7 +376,7 @@ OniStatus RecordAssembler::emit_RECORD_GENERAL_PROPERTY(
 	uint64_t    undoRecordPos,
 	const char* propertyName,
 	const void* data,
-	XnSizeT     dataSize_bytes)
+	size_t     dataSize_bytes)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 
@@ -398,7 +398,7 @@ OniStatus RecordAssembler::emit_RECORD_GENERAL_PROPERTY(
 	//           Y + 4   |  +-----------------------+
 	//                   |  | Data                  |
 	//       Z = Y + 4 + W  +-----------------------+
-	XnSizeT fieldsSize = m_header->fieldsSize;
+	size_t fieldsSize = m_header->fieldsSize;
 	emitString(propertyName,       fieldsSize);
 	emit(uint32_t(dataSize_bytes), fieldsSize);
 	m_header->fieldsSize = (uint32_t)fieldsSize;

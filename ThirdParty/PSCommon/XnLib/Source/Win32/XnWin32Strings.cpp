@@ -94,7 +94,7 @@ XN_C_API XnStatus xnOSStrPrefix(const XnChar* cpPrefixString, XnChar* cpDestStri
 {
 	// Local function variables
 	XnChar* cpTempBuffer = NULL;
-	XnSizeT nOutStringLength = 0;
+	size_t nOutStringLength = 0;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpPrefixString);
@@ -193,7 +193,7 @@ XN_C_API XnStatus xnOSStrCRC32(const XnChar* cpString, uint32_t* nCRC32)
 {
 	// Local function variables
 	uint32_t nTempCRC32 = 0xffffffff;
-	XnSizeT nStrLen = 0;
+	size_t nStrLen = 0;
 	uint32_t nIdx = 0;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)

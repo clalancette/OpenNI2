@@ -20,29 +20,29 @@
 *****************************************************************************/
 #include "XnLib.h"
 
-XN_C_API void* xnOSMalloc(const XnSizeT nAllocSize)
+XN_C_API void* xnOSMalloc(const size_t nAllocSize)
 {
 	// Return a pointer to the requested allocation size
 	return (malloc(nAllocSize));
 }
 
-XN_C_API void* xnOSMallocAligned(const XnSizeT nAllocSize, const XnSizeT nAlignment)
+XN_C_API void* xnOSMallocAligned(const size_t nAllocSize, const size_t nAlignment)
 {
 	// Return a pointer to the aligned requested allocation size
 	return (_aligned_malloc(nAllocSize, nAlignment));
 }
 
-XN_C_API void* xnOSCalloc(const XnSizeT nAllocNum, const XnSizeT nAllocSize)
+XN_C_API void* xnOSCalloc(const size_t nAllocNum, const size_t nAllocSize)
 {
 	// Return a pointer to the requested allocation size and write zeros on the entire memory block (C Alloc)
 	return (calloc(nAllocNum, nAllocSize));
 }
 
-XN_C_API void* xnOSCallocAligned(const XnSizeT nAllocNum, const XnSizeT nAllocSize, const XnSizeT nAlignment)
+XN_C_API void* xnOSCallocAligned(const size_t nAllocNum, const size_t nAllocSize, const size_t nAlignment)
 {
 	// Local function variables
 	void* pMemBlock = NULL;
-	XnSizeT nBlockSize = nAllocNum * nAllocSize;
+	size_t nBlockSize = nAllocNum * nAllocSize;
 
 	// Allocate the aligned memory block
 	pMemBlock = xnOSMallocAligned(nBlockSize, nAlignment);
@@ -56,19 +56,19 @@ XN_C_API void* xnOSCallocAligned(const XnSizeT nAllocNum, const XnSizeT nAllocSi
 	return (pMemBlock);
 }
 
-XN_C_API void* xnOSRealloc(void* pMemory, const XnSizeT nAllocSize)
+XN_C_API void* xnOSRealloc(void* pMemory, const size_t nAllocSize)
 {
 	// Return a pointer to the requested allocation size
 	return (realloc(pMemory, nAllocSize));
 }
 
-XN_C_API void* xnOSReallocAligned(void* pMemory, const XnSizeT nAllocSize, const XnSizeT nAlignment)
+XN_C_API void* xnOSReallocAligned(void* pMemory, const size_t nAllocSize, const size_t nAlignment)
 {
 	// Return a pointer to the aligned requested allocation size
 	return (_aligned_realloc(pMemory, nAllocSize, nAlignment));
 }
 
-XN_C_API void* xnOSRecalloc(void* pMemory, const XnSizeT nAllocNum, const XnSizeT nAllocSize)
+XN_C_API void* xnOSRecalloc(void* pMemory, const size_t nAllocNum, const size_t nAllocSize)
 {
 	// Return a pointer to the requested allocation size and write zeros on the entire memory block (C Alloc)
 	return (_recalloc(pMemory, nAllocNum, nAllocSize));
@@ -90,22 +90,22 @@ XN_C_API void  xnOSFreeAligned(const void* pMemBlock)
 	_aligned_free((void*)pMemBlock);
 }
 
-XN_C_API void xnOSMemCopy(void* pDest, const void* pSource, XnSizeT nCount)
+XN_C_API void xnOSMemCopy(void* pDest, const void* pSource, size_t nCount)
 {
 	memcpy(pDest, pSource, nCount);
 }
 
-XN_C_API int32_t xnOSMemCmp(const void *pBuf1, const void *pBuf2, XnSizeT nCount)
+XN_C_API int32_t xnOSMemCmp(const void *pBuf1, const void *pBuf2, size_t nCount)
 {
 	return memcmp(pBuf1, pBuf2, nCount);
 }
 
-XN_C_API void xnOSMemSet(void* pDest, uint8_t nValue, XnSizeT nCount)
+XN_C_API void xnOSMemSet(void* pDest, uint8_t nValue, size_t nCount)
 {
 	memset(pDest, nValue, nCount);
 }
 
-XN_C_API void xnOSMemMove(void* pDest, const void* pSource, XnSizeT nCount)
+XN_C_API void xnOSMemMove(void* pDest, const void* pSource, size_t nCount)
 {
 	memmove(pDest, pSource, nCount);
 }

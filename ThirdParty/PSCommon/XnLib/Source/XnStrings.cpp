@@ -22,7 +22,7 @@
 
 XN_C_API XnChar* xnOSStrDup(const XnChar* strSource)
 {
-	XnSizeT nLen = strlen(strSource);
+	size_t nLen = strlen(strSource);
 	++nLen;
 
 	XnChar* result = (XnChar*)xnOSMalloc(nLen);

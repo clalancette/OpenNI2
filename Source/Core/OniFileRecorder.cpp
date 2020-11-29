@@ -84,7 +84,7 @@ const struct PropertyTable {
 	{ ONI_FILE_PROPERTY_ORIGINAL_DEVICE,			"oniOriginalDevice", 	PROPERTY_TYPE_GENERAL  },
 };
 
-const XnSizeT propertyTableItemsCount = sizeof(propertyTable) / sizeof(propertyTable[0]);
+const size_t propertyTableItemsCount = sizeof(propertyTable) / sizeof(propertyTable[0]);
 
 } // namespace
 
@@ -438,7 +438,7 @@ void FileRecorder::messagePump()
 	}
 }
 
-void FileRecorder::send(Message::Type type, VideoStream* pStream, const void* pData, uint32_t propertyId, XnSizeT dataSize, int priority)
+void FileRecorder::send(Message::Type type, VideoStream* pStream, const void* pData, uint32_t propertyId, size_t dataSize, int priority)
 {
 	Message msg =
 	{
@@ -1002,7 +1002,7 @@ void FileRecorder::onRecord(uint32_t nodeId, XnCodecBase* pCodec, const OniFrame
 
 		XnStatus status = pCodec->Compress(reinterpret_cast<const XnUChar*>(pFrame->data),
 			pFrame->dataSize, buffer, &bufferSize_bytes32);
-		XnSizeT  bufferSize_bytes = bufferSize_bytes32;
+		size_t  bufferSize_bytes = bufferSize_bytes32;
 		if (XN_STATUS_OK == status)
 		{
 			EMIT(RECORD_NEW_DATA(
@@ -1043,14 +1043,14 @@ void FileRecorder::onRecordProperty(
 	uint32_t    nodeId,
 	uint32_t    propertyId,
 	const void* pData,
-	XnSizeT     dataSize)
+	size_t     dataSize)
 {
 	if (0 == nodeId || NULL == pData || 0 == dataSize)
 	{
 		return;
 	}
 	Memento undoPoint(this);
-	for (XnSizeT i = 0; i < propertyTableItemsCount; ++i)
+	for (size_t i = 0; i < propertyTableItemsCount; ++i)
 	{
 		if (propertyTable[i].propertyId == propertyId)
 		{

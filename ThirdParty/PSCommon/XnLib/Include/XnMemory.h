@@ -23,19 +23,19 @@
 
 #include "XnLib.h"
 
-XN_C_API void* XN_C_DECL xnOSMalloc(const XnSizeT nAllocSize);
-XN_C_API void* XN_C_DECL xnOSMallocAligned(const XnSizeT nAllocSize, const XnSizeT nAlignment);
-XN_C_API void* XN_C_DECL xnOSCalloc(const XnSizeT nAllocNum, const XnSizeT nAllocSize);
-XN_C_API void* XN_C_DECL xnOSCallocAligned(const XnSizeT nAllocNum, const XnSizeT nAllocSize, const XnSizeT nAlignment);
-XN_C_API void* XN_C_DECL xnOSRealloc(void* pMemory, const XnSizeT nAllocSize);
-XN_C_API void* XN_C_DECL xnOSReallocAligned(void* pMemory, const XnSizeT nAllocSize, const XnSizeT nAlignment);
-XN_C_API void* XN_C_DECL xnOSRecalloc(void* pMemory, const XnSizeT nAllocNum, const XnSizeT nAllocSize);
+XN_C_API void* XN_C_DECL xnOSMalloc(const size_t nAllocSize);
+XN_C_API void* XN_C_DECL xnOSMallocAligned(const size_t nAllocSize, const size_t nAlignment);
+XN_C_API void* XN_C_DECL xnOSCalloc(const size_t nAllocNum, const size_t nAllocSize);
+XN_C_API void* XN_C_DECL xnOSCallocAligned(const size_t nAllocNum, const size_t nAllocSize, const size_t nAlignment);
+XN_C_API void* XN_C_DECL xnOSRealloc(void* pMemory, const size_t nAllocSize);
+XN_C_API void* XN_C_DECL xnOSReallocAligned(void* pMemory, const size_t nAllocSize, const size_t nAlignment);
+XN_C_API void* XN_C_DECL xnOSRecalloc(void* pMemory, const size_t nAllocNum, const size_t nAllocSize);
 XN_C_API void XN_C_DECL xnOSFree(const void* pMemBlock);
 XN_C_API void XN_C_DECL xnOSFreeAligned(const void* pMemBlock);
-XN_C_API void XN_C_DECL xnOSMemCopy(void* pDest, const void* pSource, XnSizeT nCount);
-XN_C_API int32_t XN_C_DECL xnOSMemCmp(const void *pBuf1, const void *pBuf2, XnSizeT nCount);
-XN_C_API void XN_C_DECL xnOSMemSet(void* pDest, uint8_t nValue, XnSizeT nCount);
-XN_C_API void XN_C_DECL xnOSMemMove(void* pDest, const void* pSource, XnSizeT nCount);
+XN_C_API void XN_C_DECL xnOSMemCopy(void* pDest, const void* pSource, size_t nCount);
+XN_C_API int32_t XN_C_DECL xnOSMemCmp(const void *pBuf1, const void *pBuf2, size_t nCount);
+XN_C_API void XN_C_DECL xnOSMemSet(void* pDest, uint8_t nValue, size_t nCount);
+XN_C_API void XN_C_DECL xnOSMemMove(void* pDest, const void* pSource, size_t nCount);
 XN_C_API uint64_t XN_C_DECL xnOSEndianSwapUINT64(uint64_t nValue);
 XN_C_API uint32_t XN_C_DECL xnOSEndianSwapUINT32(uint32_t nValue);
 XN_C_API uint16_t XN_C_DECL xnOSEndianSwapUINT16(uint16_t nValue);

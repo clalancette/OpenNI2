@@ -62,7 +62,7 @@ extern const RecordingHeader DEFAULT_RECORDING_HEADER;
 class Record
 {
 public:
-	Record(uint8_t* pData, XnSizeT nMaxSize, XnBool bUseOld32Header);
+	Record(uint8_t* pData, size_t nMaxSize, XnBool bUseOld32Header);
 	Record(const Record &other);
 	RecordType GetType() const;
 	uint32_t GetNodeID() const;

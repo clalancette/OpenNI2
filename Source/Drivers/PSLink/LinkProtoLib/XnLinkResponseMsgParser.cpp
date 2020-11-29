@@ -37,7 +37,7 @@ XnStatus LinkResponseMsgParser::ParsePacketImpl(XnLinkFragmentation /*fragmentat
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnSizeT nPacketDataSize = pSrcEnd - pSrc;
+	size_t nPacketDataSize = pSrcEnd - pSrc;
 	if (nPacketDataSize < sizeof(XnLinkResponseInfo))
 	{
 		XN_ASSERT(FALSE);

@@ -37,7 +37,7 @@ ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 #define ONI_CODEC_16Z_EMB_TABLES    ONI_CODEC_ID('1', '6', 'z', 'T')
 #define ONI_CODEC_JPEG              ONI_CODEC_ID('J', 'P', 'E', 'G')
 
-static const XnSizeT IDENTITY_SIZE = 4;
+static const size_t IDENTITY_SIZE = 4;
 
 /// The structure of ONI file's file header.
 struct FileHeaderData
@@ -179,14 +179,14 @@ public:
 		uint64_t    timeStamp,
 		uint32_t    frameId,
 		const void* data,
-	XnSizeT     dataSize_bytes);
+	size_t     dataSize_bytes);
 
 	OniStatus emit_RECORD_GENERAL_PROPERTY(
 		uint32_t    nodeId,
 		uint64_t    undoRecordPos,
 		const char* propertyName,
 		const void* data,
-		XnSizeT     dataSize_bytes);
+		size_t     dataSize_bytes);
 
 	OniStatus emit_RECORD_INT_PROPERTY(
 		uint32_t    nodeId,
@@ -201,11 +201,11 @@ public:
 
 private:
 	void emitCommonHeader(uint32_t recordType, uint32_t nodeId, uint64_t undoRecordPos);
-	OniStatus emitString(const XnChar* pStr, XnSizeT& totalFieldsSize_bytes);
-	OniStatus emitData(const void* pData, XnSizeT dataSize_bytes);
+	OniStatus emitString(const XnChar* pStr, size_t& totalFieldsSize_bytes);
+	OniStatus emitData(const void* pData, size_t dataSize_bytes);
 
 	template<typename T>
-	OniStatus emit(const T& field, XnSizeT& totalFieldsSize_bytes);
+	OniStatus emit(const T& field, size_t& totalFieldsSize_bytes);
 
 	// Union of a buffer and a record header.
 	union
@@ -214,7 +214,7 @@ private:
 		RecordHeaderData* m_header;
 	};
 	// Size of the buffer in bytes.
-	XnSizeT m_bufferSize_bytes;
+	size_t m_bufferSize_bytes;
 	// Pointer into the buffer for emit operations.
 	uint8_t* m_pEmitPtr;
 };

@@ -69,7 +69,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 	}
 
 	const uint8_t* pInput = pSrc;
-	XnSizeT inputSize = pSrcEnd - pSrc;
+	size_t inputSize = pSrcEnd - pSrc;
 
 	// if there's data left from previous packet, append new data to it
 	if (m_dataFromPrevPacketBytes > 0)
@@ -87,7 +87,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 	}
 
 	uint8_t* pOutput = pDst;
-	XnSizeT outputSize = pDstEnd - pDst;
+	size_t outputSize = pDstEnd - pDst;
 
 	if (m_transformToRGB)
 	{
@@ -95,7 +95,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 		outputSize = m_rgbFrameSize - m_tempYuvImageBytes;
 	}
 
-	XnSizeT actualRead;
+	size_t actualRead;
 	nRetVal = Uncompress24z(pInput, inputSize, pOutput, &outputSize, m_lineWidthBytes, &actualRead, (fragmentation | XN_LINK_FRAG_END) == XN_LINK_FRAG_END);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -118,9 +118,9 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 	return (XN_STATUS_OK);
 }
 
-XnStatus Link24zYuv422Parser::Uncompress24z(const uint8_t* pInput, XnSizeT nInputSize,
-	uint8_t* pOutput, XnSizeT* pnOutputSize, uint32_t nLineSize,
-	XnSizeT* pnActualRead, XnBool bLastPart)
+XnStatus Link24zYuv422Parser::Uncompress24z(const uint8_t* pInput, size_t nInputSize,
+	uint8_t* pOutput, size_t* pnOutputSize, uint32_t nLineSize,
+	size_t* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
 	const uint8_t* pInputOrig = pInput;

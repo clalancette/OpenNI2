@@ -223,7 +223,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 		}
 
 		// read file
-		XnChar* pcsCommandsFile = (XnChar*)xnOSCalloc((XnSizeT)(nFileSize + 1), sizeof(XnChar));
+		XnChar* pcsCommandsFile = (XnChar*)xnOSCalloc((size_t)(nFileSize + 1), sizeof(XnChar));
 		rc = xnOSLoadFile(csFileName, pcsCommandsFile, (uint32_t)nFileSize);
 		if (rc == XN_STATUS_OK)
 		{

@@ -38,7 +38,7 @@ const RecordingHeader DEFAULT_RECORDING_HEADER =
 
 const uint32_t Record::MAGIC = 0x0052494E; //It reads "NIR\0"
 
-Record::Record(uint8_t* pData, XnSizeT nMaxSize, XnBool bUseOld32Header) :
+Record::Record(uint8_t* pData, size_t nMaxSize, XnBool bUseOld32Header) :
 	m_pData(pData),
 	m_nReadOffset(0),
 	m_nMaxSize((uint32_t)nMaxSize),

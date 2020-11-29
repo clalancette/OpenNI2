@@ -32,7 +32,7 @@ public:
 		RGB_888_BYTES_PER_PIXEL = 3
 	};
 
-	static XnStatus Yuv422ToRgb888(const uint8_t* pSrc, XnSizeT srcBytes, uint8_t* pDst, XnSizeT& dstSize);
+	static XnStatus Yuv422ToRgb888(const uint8_t* pSrc, size_t srcBytes, uint8_t* pDst, size_t& dstSize);
 };
 
 }

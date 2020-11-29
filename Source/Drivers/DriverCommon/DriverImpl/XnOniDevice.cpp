@@ -63,12 +63,12 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 	XN_VALIDATE_ALLOC_PTR(m_sensors[s].pSupportedVideoModes);
 
 	OniPixelFormat depthFormats[] = { ONI_PIXEL_FORMAT_DEPTH_1_MM, ONI_PIXEL_FORMAT_DEPTH_100_UM };
-	XnSizeT depthFormatsCount = sizeof(depthFormats) / sizeof(depthFormats[0]);
+	size_t depthFormatsCount = sizeof(depthFormats) / sizeof(depthFormats[0]);
 
 	int writeIndex = 0;
 	for(uint32_t i = 0; i < nSupportedModes; ++i)
 	{
-		for (XnSizeT formatIndex = 0; formatIndex < depthFormatsCount; ++formatIndex)
+		for (size_t formatIndex = 0; formatIndex < depthFormatsCount; ++formatIndex)
 		{
 			m_sensors[s].pSupportedVideoModes[writeIndex].pixelFormat = depthFormats[formatIndex];
 			m_sensors[s].pSupportedVideoModes[writeIndex].fps = pSupportedModes[i].nFPS;

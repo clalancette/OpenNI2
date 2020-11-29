@@ -54,7 +54,7 @@ typedef struct
 	uint32_t nSectionCount;
 	XN_THREAD_HANDLE hThread;
 	XN_CRITICAL_SECTION_HANDLE hCriticalSection;
-	XnSizeT nMaxSectionName;
+	size_t nMaxSectionName;
 	uint32_t nProfilingInterval;
 	XnBool bKillThread;
 } XnProfilingData;

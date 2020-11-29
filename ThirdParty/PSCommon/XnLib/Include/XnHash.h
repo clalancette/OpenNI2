@@ -54,11 +54,11 @@ class DefaultKeyManager
 public:
 	static xnl::HashCode Hash(const TKey& key)
 	{
-		return ((XnSizeT)key) & 0xff;
+		return ((size_t)key) & 0xff;
 	}
 	static int32_t Compare(const TKey& key1, const TKey& key2)
 	{
-		return int32_t(XnSizeT(key1)-XnSizeT(key2));
+		return int32_t(size_t(key1)-size_t(key2));
 	}
 };
 

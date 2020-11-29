@@ -43,7 +43,7 @@ XnStatus LinkUnpackedS2DParser::ParsePacketImpl(XnLinkFragmentation /*fragmentat
 {
 	XN_ASSERT(m_shiftToDepthTables.bIsInitialized);
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnSizeT nPacketDataSize = pSrcEnd - pSrc;
+	size_t nPacketDataSize = pSrcEnd - pSrc;
 
 	if (pDst + nPacketDataSize > pDstEnd)
 	{

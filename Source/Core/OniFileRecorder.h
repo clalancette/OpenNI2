@@ -86,7 +86,7 @@ private:
 			OniFrame*       pFrame;
 		};
 		uint32_t    propertyId;
-		XnSizeT     dataSize;
+		size_t     dataSize;
 	};
 
 	// Used for undo functionality.
@@ -106,7 +106,7 @@ private:
 		VideoStream*     pStream    = NULL,
 		const void* pData      = NULL,
 		uint32_t    propertyId = 0u,
-		XnSizeT     dataSize   = 0u,
+		size_t     dataSize   = 0u,
 		int priority = ms_priorityNormal);
 
 	// Message handlers:
@@ -120,7 +120,7 @@ private:
 		uint32_t    nodeId,
 		uint32_t    propertyId,
 		const void* pData,
-		XnSizeT     dataSize);
+		size_t     dataSize);
 
 	FrameManager& m_frameManager;
 

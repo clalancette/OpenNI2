@@ -71,9 +71,6 @@ typedef	unsigned int		XnUInt;
 /** Far procedures type (for shared libraries functions). */
 typedef void (*XnFarProc)(void *);
 
-/** Size type. */
-typedef size_t				XnSizeT;
-
 /** Max unsigned 8-bit value */
 #define XN_MAX_UINT8 UCHAR_MAX
 /** Max unsigned 16-bit value */

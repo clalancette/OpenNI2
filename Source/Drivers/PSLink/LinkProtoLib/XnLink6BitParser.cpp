@@ -43,10 +43,10 @@ XnStatus Link6BitParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 {
 	OniDepthPixel*& pDstPixel = reinterpret_cast<OniDepthPixel*&>(pDst);
 	const OniDepthPixel* pDstPixelEnd = reinterpret_cast<const OniDepthPixel*>(pDstEnd);
-	XnSizeT nPacketBits = 0;
-	XnSizeT nPacketDstWords = 0;
+	size_t nPacketBits = 0;
+	size_t nPacketDstWords = 0;
 
-	XnSizeT nPacketDataSize = pSrcEnd - pSrc;
+	size_t nPacketDataSize = pSrcEnd - pSrc;
 
 	if ((fragmentation & XN_LINK_FRAG_BEGIN) != 0)
 	{
