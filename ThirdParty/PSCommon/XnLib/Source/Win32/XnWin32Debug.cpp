@@ -45,13 +45,13 @@ typedef BOOL (__stdcall *SymGetLineFromAddr64Prot)(HANDLE hProcess, DWORD64 qwAd
 //---------------------------------------------------------------------------
 // Global Variables
 //---------------------------------------------------------------------------
-static XnBool g_bInitialized = FALSE;
+static bool g_bInitialized = false;
 StackWalk64Prot g_pStackWalk64 = NULL;
 SymFromAddrProt g_pSymFromAddr = NULL;
 SymFunctionTableAccess64Prot g_pSymFunctionTableAccess64 = NULL;
 SymGetModuleBase64Prot g_pSymGetModuleBase64 = NULL;
 SymGetLineFromAddr64Prot g_pSymGetLineFromAddr64 = NULL;
-static XnBool g_bAvailable = FALSE;
+static bool g_bAvailable = false;
 
 //---------------------------------------------------------------------------
 // Code
@@ -69,7 +69,7 @@ static void Init()
 	SymInitializeProt pSymInitialize = (SymInitializeProt)GetProcAddress(hDbg, "SymInitialize");
 	SymSetOptionsProt pSymSetOptions = (SymSetOptionsProt)GetProcAddress(hDbg, "SymSetOptions");
 
-	if (FALSE == pSymInitialize(GetCurrentProcess(), NULL, TRUE))
+	if (false == pSymInitialize(GetCurrentProcess(), NULL, true))
 	{
 		return;
 	}
@@ -100,7 +100,7 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(int32_t nFramesToSkip, XnChar** astrFr
 	if (!g_bInitialized)
 	{
 		Init();
-		g_bInitialized = TRUE;
+		g_bInitialized = true;
 	}
 
 	if (!g_bAvailable)

@@ -62,7 +62,7 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 					m_FrameSyncedStreams[0].pLastFrame->frameIndex : -1;
 	int minSyncedFrameId = -1;
 	uint32_t validFrameCount = 0;
-	OniBool syncedFramesExist = FALSE;
+	bool syncedFramesExist = false;
 	uint32_t numFrameSyncStreams = m_FrameSyncedStreams.size();
 	for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 	{
@@ -105,7 +105,7 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 			{
 				minSyncedFrameId = m_FrameSyncedStreams[i].pSyncedFrame->frameIndex;
 			}
-			syncedFramesExist = TRUE;
+			syncedFramesExist = true;
 		}
 
 		// Check if stream has a last frame frame.
@@ -129,7 +129,7 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 			}
 			m_FrameSyncedStreams[i].pSyncedFrame = NULL;
 		}
-		syncedFramesExist = FALSE;
+		syncedFramesExist = false;
 	}
 
 	// Check if all the streams have valid frames but no synced ones.
@@ -293,7 +293,7 @@ void SyncedStreamsFrameHolder::clear()
 }
 
 // Set whether stream is enabled.
-void SyncedStreamsFrameHolder::setStreamEnabled(VideoStream* pStream, OniBool enabled)
+void SyncedStreamsFrameHolder::setStreamEnabled(VideoStream* pStream, bool enabled)
 {
 	lock();
 
@@ -333,7 +333,7 @@ void SyncedStreamsFrameHolder::setStreamEnabled(VideoStream* pStream, OniBool en
 
 	// Update global enabled flag.
 	// NOTE: do NOT change m_enabled flag for now, to make sure no frames are received.
-	//m_enabled = (numEnabled == numFrameSyncStreams) ? TRUE : FALSE;
+	//m_enabled = (numEnabled == numFrameSyncStreams) ? true : false;
 
 	unlock();
 }

@@ -64,10 +64,10 @@ public:
 	inline Vector3D& Set(float x, float y, float z);
 
 	inline Vector3D& SetZero();
-	inline XnBool IsZero() const;
+	inline bool IsZero() const;
 
-	inline XnBool operator==(const Vector3D& other) const;
-	inline XnBool operator!=(const Vector3D& other) const;
+	inline bool operator==(const Vector3D& other) const;
+	inline bool operator!=(const Vector3D& other) const;
 
 	inline Vector3D operator-() const;
 	inline Vector3D& Negate(const Vector3D& other);
@@ -123,7 +123,7 @@ public:
 
 	inline Vector3D& Interpolate(const Vector3D& vec1, const Vector3D& vec2, float alpha);
 
-	inline XnBool IsSameDirection(const Vector3D& other) const;
+	inline bool IsSameDirection(const Vector3D& other) const;
 
 	inline float GetTolerance() const;
 	inline void SetTolerance(float tolerance);
@@ -174,10 +174,10 @@ Vector3D& Vector3D::Set(const Point3D& point) {*this = point; return *this;}
 Vector3D& Vector3D::Set(float x, float y, float z) {this->x = x; this->y = y; this->z = z; return *this;}
 
 Vector3D& Vector3D::SetZero() {return Set(Zero());}
-XnBool Vector3D::IsZero() const {return *this==Zero();}
+bool Vector3D::IsZero() const {return *this==Zero();}
 
-XnBool Vector3D::operator==(const Vector3D& other) const {return (Math::Abs(x-other.x) < m_tolerance && Math::Abs(y-other.y) < m_tolerance && Math::Abs(z-other.z) < m_tolerance);}
-XnBool Vector3D::operator!=(const Vector3D& other) const {return !this->operator==(other);}
+bool Vector3D::operator==(const Vector3D& other) const {return (Math::Abs(x-other.x) < m_tolerance && Math::Abs(y-other.y) < m_tolerance && Math::Abs(z-other.z) < m_tolerance);}
+bool Vector3D::operator!=(const Vector3D& other) const {return !this->operator==(other);}
 
 Vector3D Vector3D::operator-() const {return Vector3D(-x, -y, -z);}
 Vector3D& Vector3D::Negate(const Vector3D& other) {return Set(-other.x, -other.y, -other.z);}
@@ -287,7 +287,7 @@ Vector3D& Vector3D::Interpolate(const Vector3D& vec1, const Vector3D& vec2, floa
 				vec1.z+alpha*(vec2.z-vec1.z));
 }
 
-XnBool Vector3D::IsSameDirection(const Vector3D& other) const
+bool Vector3D::IsSameDirection(const Vector3D& other) const
 {
 	if (IsZero() || other.IsZero())
 	{

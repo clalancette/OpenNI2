@@ -41,7 +41,7 @@ public:
 	XnStatus OpenFile();
 	void CloseFile();
 
-	void SetLineInfo(XnBool bLineInfo);
+	void SetLineInfo(bool bLineInfo);
 
 	const XnChar* GetFileName() { return m_strCurrFileName; }
 
@@ -51,7 +51,7 @@ protected:
 
 private:
 	XN_FILE_HANDLE m_fLogFile;
-	XnBool m_bWriteLineInfo;
+	bool m_bWriteLineInfo;
 	XnChar m_strCurrFileName[XN_FILE_MAX_PATH];
 };
 

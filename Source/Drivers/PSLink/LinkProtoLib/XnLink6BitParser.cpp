@@ -63,7 +63,7 @@ XnStatus Link6BitParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 
 	if ((pDstPixel + nPacketDstWords) > pDstPixelEnd) //Do we have enough room for this packet?
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 
@@ -98,7 +98,7 @@ XnStatus Link6BitParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 				m_nState = 0;
 				break;
 			default:
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 		}//switch
 	}// while
 

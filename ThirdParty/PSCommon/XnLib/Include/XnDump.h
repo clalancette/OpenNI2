@@ -41,16 +41,16 @@ typedef struct XnDumpFile XnDumpFile;
  * Configures if a specific dump mask is enabled.
  *
  * @param	strMask		[in]	The mask to set.
- * @param	bEnabled	[in]	TRUE to enable this dump, FALSE otherwise.
+ * @param	bEnabled	[in]	true to enable this dump, false otherwise.
  */
-XN_C_API XnStatus XN_C_DECL xnDumpSetMaskState(const XnChar* strMask, XnBool bEnabled);
+XN_C_API XnStatus XN_C_DECL xnDumpSetMaskState(const XnChar* strMask, bool bEnabled);
 
 /**
  * This function checks if a dump mask is enabled
  *
  * @param	strDumpMask	[in]	The mask that should be checked.
  */
-XN_C_API XnBool XN_C_DECL xnLogIsDumpMaskEnabled(const XnChar* strDumpMask);
+XN_C_API bool XN_C_DECL xnLogIsDumpMaskEnabled(const XnChar* strDumpMask);
 
 /**
  * Opens a file for writing dump.
@@ -68,13 +68,13 @@ XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpen(const XnChar* strDumpName, const X
  * You would usually prefer to use @ref xnDumpFileOpen().
  *
  * @param	strDumpName		[in]	Name of the dump mask this file belongs to.
- * @param	bForce			[in]	When TRUE, file will be created even if dump is currently off.
- * @param	bSessionDump	[in]	When TRUE, file will be created with current session timestamp as a prefix to its name.
+ * @param	bForce			[in]	When true, file will be created even if dump is currently off.
+ * @param	bSessionDump	[in]	When true, file will be created with current session timestamp as a prefix to its name.
  * @param	strNameFormat	[in]	A format string for the name of the file.
  *
  * @returns a file handle for writing data. The file should be closed using @ref xnDumpFileClose().
  */
-XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpenEx(const XnChar* strDumpName, XnBool bForce, XnBool bSessionDump, const XnChar* strNameFormat, ...);
+XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpenEx(const XnChar* strDumpName, bool bForce, bool bSessionDump, const XnChar* strNameFormat, ...);
 
 /**
  * Writes a buffer to a dump file.

@@ -86,9 +86,9 @@ void LinkInputStreamsMgr::RegisterStreamOfType(XnStreamType streamType, const Xn
 }
 
 
-XnBool LinkInputStreamsMgr::UnregisterStream(uint16_t nStreamID)
+bool LinkInputStreamsMgr::UnregisterStream(uint16_t nStreamID)
 {
-	XnBool wasLast = false;
+	bool wasLast = false;
 
 	if (m_streamInfos[nStreamID].pInputStream == NULL || m_streamInfos[nStreamID].refCount <= 0)
 	{
@@ -107,7 +107,7 @@ XnBool LinkInputStreamsMgr::UnregisterStream(uint16_t nStreamID)
 	return wasLast;
 }
 
-XnBool LinkInputStreamsMgr::HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo,	uint16_t& nStreamID)
+bool LinkInputStreamsMgr::HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo,	uint16_t& nStreamID)
 {
 	int i;
 	if ((i = FindStreamByType(streamType, strCreationInfo)) >= 0)
@@ -143,7 +143,7 @@ XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlE
 	{
 		xnLogError(XN_MASK_LINK, "Cannot initialize stream of id %u - max stream id is %u",
 			nStreamID, XN_LINK_MAX_STREAMS-1);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_STREAM_ID;
 	}
 
@@ -164,7 +164,7 @@ XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlE
 
 			default:
 				xnLogError(XN_MASK_LINK, "Bad stream type %u", streamFragLevel);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return XN_STATUS_ERROR;
 		}
 	}
@@ -181,7 +181,7 @@ XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlE
 			nStreamID, streamInfo.streamFragLevel, streamFragLevel);
 		/*Streams may only be re-initialized with the same stream type. This means a frame stream must always
 		  remain a frame stream and a continuous stream must always remain a continuous stream. */
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -191,7 +191,7 @@ XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlE
 		XN_DELETE(m_streamInfos[nStreamID].pInputStream);
 		m_streamInfos[nStreamID].pInputStream = NULL;
 		xnLogError(XN_MASK_LINK, "Failed to Initialize link input stream: %s", xnGetStatusString(nRetVal));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return nRetVal;
 	}
 
@@ -199,7 +199,7 @@ XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlE
 	streamInfo.nNextPacketID = INITIAL_PACKET_ID;
 	streamInfo.streamFragLevel = streamFragLevel;
 	streamInfo.prevFragmentation = XN_LINK_FRAG_END; // this means we now expect BEGIN
-	streamInfo.packetLoss = FALSE;
+	streamInfo.packetLoss = false;
 	return XN_STATUS_OK;
 }
 
@@ -221,7 +221,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	if (nStreamID >= XN_LINK_MAX_STREAMS)
 	{
 		xnLogWarning(XN_MASK_LINK, "Got bad Stream ID: %u, max StreamID is %u", nStreamID, XN_LINK_MAX_STREAMS-1);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return;
 	}
 
@@ -233,7 +233,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	{
 		xnLogWarning(XN_MASK_LINK, "Expected packet id of %u but got %u on stream %u.",
 			pStreamInfo->nNextPacketID, nPacketID, nStreamID);
-		pStreamInfo->packetLoss = TRUE;
+		pStreamInfo->packetLoss = true;
 	}
 
 	//We now expect the packet ID to be right after the one we got (even if we lost some packets on the way).
@@ -249,7 +249,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 			nPacketID, nStreamID,
 			xnFragmentationFlagsToStr(fragmentation),
 			xnFragmentationFlagsToStr(pStreamInfo->prevFragmentation));
-		pStreamInfo->packetLoss = TRUE;
+		pStreamInfo->packetLoss = true;
 	}
 
 	pStreamInfo->prevFragmentation = fragmentation;
@@ -266,7 +266,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 		{
 			xnLogWarning(XN_MASK_LINK, "Inconsistent msg type for stream %u - expected 0x%04X but got 0x%04X",
 				nStreamID, pStreamInfo->nMsgType, nMsgType);
-			pStreamInfo->packetLoss = TRUE;
+			pStreamInfo->packetLoss = true;
 			return;
 		}
 	}
@@ -274,7 +274,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	if (!pStreamInfo->pInputStream->IsStreaming())
 	{
 		xnLogWarning(XN_MASK_LINK, "Stream %u got packets but it is not streaming", nStreamID);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return;
 	}
 
@@ -321,7 +321,7 @@ LinkInputStream* LinkInputStreamsMgr::GetInputStream(uint16_t nStreamID)
 {
 	if (nStreamID >= XN_LINK_MAX_STREAMS)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return NULL;
 	}
 
@@ -332,24 +332,24 @@ const LinkInputStream* LinkInputStreamsMgr::GetInputStream(uint16_t nStreamID) c
 {
 	if (nStreamID >= XN_LINK_MAX_STREAMS)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return NULL;
 	}
 
 	return m_streamInfos[nStreamID].pInputStream;
 }
 
-XnBool LinkInputStreamsMgr::HasStreams() const
+bool LinkInputStreamsMgr::HasStreams() const
 {
 	for (int i = 0; i < XN_LINK_MAX_STREAMS; ++i)
 	{
 		if (m_streamInfos[i].pInputStream != NULL)
 		{
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
 } //namespace xn

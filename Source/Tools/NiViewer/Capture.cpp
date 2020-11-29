@@ -55,8 +55,8 @@ typedef enum
 
 typedef enum
 {
-	STREAM_CAPTURE_LOSSLESS = FALSE,
-	STREAM_CAPTURE_LOSSY = TRUE,
+	STREAM_CAPTURE_LOSSLESS = false,
+	STREAM_CAPTURE_LOSSY = true,
 	STREAM_DONT_CAPTURE,
 } StreamCaptureType;
 
@@ -282,7 +282,7 @@ void captureRun()
 						g_Capture.State = NOT_CAPTURING;
 						return;
 					}
-					g_Capture.streams[i].bRecording = TRUE;
+					g_Capture.streams[i].bRecording = true;
 					g_Capture.streams[i].startFrame = g_Capture.streams[i].getFrameFunc().getFrameIndex();
 				}
 			}
@@ -365,7 +365,7 @@ int findUniqueFileName()
 
 	int num = g_Capture.nCapturedFrameUniqueID;
 
-	XnBool bExist = FALSE;
+	bool bExist = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 	XnChar csColorFileName[XN_FILE_MAX_PATH];
 	XnChar csDepthFileName[XN_FILE_MAX_PATH];
@@ -454,7 +454,7 @@ const char* getCaptureTypeName(StreamCaptureType type)
 	case STREAM_CAPTURE_LOSSY: return "Lossy";
 	case STREAM_DONT_CAPTURE: return "Don't Capture";
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return "";
 	}
 }

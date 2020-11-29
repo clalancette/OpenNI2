@@ -40,7 +40,7 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-typedef xnl::XnStringsHashT<XnBool> XnDumpsHash;
+typedef xnl::XnStringsHashT<bool> XnDumpsHash;
 
 class DumpData
 {
@@ -53,7 +53,7 @@ public:
 		return *pSingleton;
 	}
 
-	void SetStateGlobally(XnBool bState)
+	void SetStateGlobally(bool bState)
 	{
 		// change default (for future dumps)
 		this->bDefaultState = bState;
@@ -66,10 +66,10 @@ public:
 
 	std::list<XnDumpWriter*> writers;
 	XnDumpsHash dumpsState;
-	XnBool bDefaultState;
+	bool bDefaultState;
 
 private:
-	DumpData() : bDefaultState(FALSE) {}
+	DumpData() : bDefaultState(false) {}
 };
 
 typedef struct XnDumpWriterFile
@@ -92,7 +92,7 @@ XnStatus _register_status = g_fileWriter.Register();
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XN_C_API XnStatus xnDumpSetMaskState(const XnChar* csMask, XnBool bEnabled)
+XN_C_API XnStatus xnDumpSetMaskState(const XnChar* csMask, bool bEnabled)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -111,11 +111,14 @@ XN_C_API XnStatus xnDumpSetMaskState(const XnChar* csMask, XnBool bEnabled)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnBool XN_C_DECL xnLogIsDumpMaskEnabled(const XnChar* strDumpMask)
+XN_C_API bool XN_C_DECL xnLogIsDumpMaskEnabled(const XnChar* strDumpMask)
 {
-	XN_VALIDATE_INPUT_PTR(strDumpMask);
+	if (strDumpMask == NULL)
+	{
+		return false;
+	}
 
-	XnBool bEnabled = FALSE;
+	bool bEnabled = false;
 	DumpData::GetInstance().dumpsState.Get(strDumpMask, bEnabled);
 	return bEnabled;
 }
@@ -135,7 +138,7 @@ XN_C_API void XN_C_DECL xnDumpUnregisterWriter(XnDumpWriter* pWriter)
 	}
 }
 
-XN_C_API XnStatus XN_C_DECL xnDumpSetFilesOutput(XnBool bOn)
+XN_C_API XnStatus XN_C_DECL xnDumpSetFilesOutput(bool bOn)
 {
 	if (bOn)
 	{
@@ -149,7 +152,7 @@ XN_C_API XnStatus XN_C_DECL xnDumpSetFilesOutput(XnBool bOn)
 	return XN_STATUS_OK;
 }
 
-XnDumpFile* xnDumpFileOpenImpl(const XnChar* strDumpName, XnBool bForce, XnBool bSessionDump, const XnChar* strNameFormat, va_list args)
+XnDumpFile* xnDumpFileOpenImpl(const XnChar* strDumpName, bool bForce, bool bSessionDump, const XnChar* strNameFormat, va_list args)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -175,7 +178,7 @@ XnDumpFile* xnDumpFileOpenImpl(const XnChar* strDumpName, XnBool bForce, XnBool 
 	nRetVal = xnOSStrFormatV(strFileName, XN_FILE_MAX_PATH, &nChars, strNameFormat, args);
 	if (nRetVal != XN_STATUS_OK)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return NULL;
 	}
 
@@ -211,23 +214,23 @@ XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpen(const XnChar* strDumpName, const X
 {
 	if (strDumpName == NULL || strNameFormat == NULL)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return NULL;
 	}
 
 	va_list args;
 	va_start(args, strNameFormat);
-	XnDumpFile* pFile = xnDumpFileOpenImpl(strDumpName, FALSE, TRUE, strNameFormat, args);
+	XnDumpFile* pFile = xnDumpFileOpenImpl(strDumpName, false, true, strNameFormat, args);
 	va_end(args);
 
 	return pFile;
 }
 
-XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpenEx(const XnChar* strDumpName, XnBool bForce, XnBool bSessionDump, const XnChar* strNameFormat, ...)
+XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpenEx(const XnChar* strDumpName, bool bForce, bool bSessionDump, const XnChar* strNameFormat, ...)
 {
 	if (strNameFormat == NULL)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return NULL;
 	}
 
@@ -313,7 +316,7 @@ XnStatus xnDumpCreate(XnDump* pDump, const XnChar* csHeader, const XnChar* csFil
 	XN_IS_STATUS_OK(nRetVal);
 
 	XnChar strFullPath[XN_FILE_MAX_PATH];
-	nRetVal = xnLogCreateNewFile(strFileName, TRUE, strFullPath, XN_FILE_MAX_PATH, &pDump->hFile);
+	nRetVal = xnLogCreateNewFile(strFileName, true, strFullPath, XN_FILE_MAX_PATH, &pDump->hFile);
 	if (nRetVal != XN_STATUS_OK)
 	{
 		// we don't have much to do if files can't be open. Dump will not be written

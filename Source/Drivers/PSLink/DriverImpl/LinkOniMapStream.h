@@ -40,14 +40,14 @@ public:
 
 	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize);
 	virtual OniStatus setProperty(int propertyId, const void* data, int dataSize);
-	virtual OniBool isPropertySupported(int propertyId);
+	virtual bool isPropertySupported(int propertyId);
 	virtual void notifyAllProperties();
 
 	XnStatus GetVideoMode(OniVideoMode* pVideoMode);
 	XnStatus SetVideoMode(OniVideoMode* pVideoMode);
 
-	XnStatus GetMirror(OniBool* pEnabled);
-	XnStatus SetMirror(OniBool enabled);
+	XnStatus GetMirror(bool* pEnabled);
+	XnStatus SetMirror(bool enabled);
 
 	XnStatus GetCropping(OniCropping &cropping);
 	XnStatus SetCropping(const OniCropping &cropping);

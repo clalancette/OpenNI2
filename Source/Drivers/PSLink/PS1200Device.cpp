@@ -36,7 +36,7 @@ const uint32_t PS1200Device::PRE_CONTROL_RECEIVE_SLEEP = 0;
 PS1200Device::PS1200Device()
 {
 	m_hInputInterruptCallback = NULL;
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 }
 
 PS1200Device::~PS1200Device()
@@ -51,24 +51,24 @@ XnStatus PS1200Device::Init(const XnChar* strConnString, XnTransportType transpo
 	if (transportType != XN_TRANSPORT_TYPE_USB)
 	{
 		xnLogError(XN_MASK_LINK, "Transport type not supported: %d", transportType);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_PARAM;
 	}
 
 	nRetVal = PrimeClient::Init(strConnString, XN_TRANSPORT_TYPE_USB);
 	XN_IS_STATUS_OK_LOG_ERROR("Init EE Device", nRetVal);
 
-	m_bInitialized = TRUE;
+	m_bInitialized = true;
 	return XN_STATUS_OK;
 }
 
 void PS1200Device::Shutdown()
 {
 	PrimeClient::Shutdown();
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 }
 
-XnBool PS1200Device::IsInitialized() const
+bool PS1200Device::IsInitialized() const
 {
 	return m_bInitialized;
 }
@@ -77,7 +77,7 @@ IConnectionFactory* PS1200Device::CreateConnectionFactory(XnTransportType transp
 {
 	if (transportType != XN_TRANSPORT_TYPE_USB)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return NULL;
 	}
 
@@ -211,7 +211,7 @@ XnStatus PS1200Device::UsbTest(uint32_t nSeconds, uint32_t& endpointsCount, XnUs
 	if (nRetVal != XN_STATUS_OK)
 	{
 		xnLogWarning(XN_MASK_PS1200_DEVICE, "Failed to stop USB test!");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 	}
 
 	for (int i = 0; i < nNumEndpoints; ++i)

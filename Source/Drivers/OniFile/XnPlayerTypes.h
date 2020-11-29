@@ -145,8 +145,8 @@ typedef struct XnMapOutputMode
  */
 typedef struct XnCropping
 {
-	/** TRUE if cropping is turned on, FALSE otherwise. */
-	XnBool bEnabled;
+	/** true if cropping is turned on, false otherwise. */
+	bool bEnabled;
 	/** Offset in the X-axis, in pixels. */
 	uint16_t nXOffset;
 	/** Offset in the Y-axis, in pixels. */

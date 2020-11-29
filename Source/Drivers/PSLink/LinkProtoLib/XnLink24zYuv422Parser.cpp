@@ -26,7 +26,7 @@
 namespace xn
 {
 
-Link24zYuv422Parser::Link24zYuv422Parser(uint32_t xRes, uint32_t yRes, XnBool transformToRGB) :
+Link24zYuv422Parser::Link24zYuv422Parser(uint32_t xRes, uint32_t yRes, bool transformToRGB) :
 	m_dataFromPrevPacket(NULL),
 	m_dataFromPrevPacketBytes(0),
 	m_lineWidthBytes(xRes * LinkYuvToRgb::YUV_422_BYTES_PER_PIXEL), // 4 bytes for every 2 pixels
@@ -76,7 +76,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 	{
 		if (m_dataFromPrevPacketBytes + inputSize > m_expectedFrameSize)
 		{
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			m_dataFromPrevPacketBytes = 0;
 			return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 		}
@@ -120,7 +120,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 
 XnStatus Link24zYuv422Parser::Uncompress24z(const uint8_t* pInput, size_t nInputSize,
 	uint8_t* pOutput, size_t* pnOutputSize, uint32_t nLineSize,
-	size_t* pnActualRead, XnBool bLastPart)
+	size_t* pnActualRead, bool bLastPart)
 {
 	// Input is made of 4-bit elements.
 	const uint8_t* pInputOrig = pInput;
@@ -132,7 +132,7 @@ XnStatus Link24zYuv422Parser::Uncompress24z(const uint8_t* pInput, size_t nInput
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
 	uint32_t nTempValue = 0;
 	uint32_t cInput = 0;
-	XnBool bReadByte = TRUE;
+	bool bReadByte = true;
 
 	const uint8_t* pInputLastPossibleStop = pInputOrig;
 	uint8_t* pOutputLastPossibleStop = pOrigOutput;
@@ -149,7 +149,7 @@ XnStatus Link24zYuv422Parser::Uncompress24z(const uint8_t* pInput, size_t nInput
 
 		if (bReadByte)
 		{
-			bReadByte = FALSE;
+			bReadByte = false;
 
 			if (cInput < 0xd0) // 0x0 to 0xc are diffs
 			{
@@ -178,7 +178,7 @@ XnStatus Link24zYuv422Parser::Uncompress24z(const uint8_t* pInput, size_t nInput
 		{
 			// take low-element
 			cInput &= 0x0f;
-			bReadByte = TRUE;
+			bReadByte = true;
 			pInput++;
 
 			if (cInput < 0xd) // 0x0 to 0xc are diffs
@@ -234,7 +234,7 @@ XnStatus Link24zYuv422Parser::Uncompress24z(const uint8_t* pInput, size_t nInput
 		}
 	}
 
-	if (bLastPart == TRUE)
+	if (bLastPart == true)
 	{
 		*pnOutputSize = (pOutput - pOrigOutput);
 		*pnActualRead += (pInput - pInputOrig);

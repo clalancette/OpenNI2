@@ -72,7 +72,7 @@ void ClientUSBControlEndpoint::Disconnect()
 
 uint16_t ClientUSBControlEndpoint::GetMaxPacketSize() const
 {
-	XN_ASSERT(FALSE); //Did you mean the logical packet size?? If the answer is no, remove this assert.
+	XN_ASSERT(false); //Did you mean the logical packet size?? If the answer is no, remove this assert.
 	return USB_LOW_LEVEL_MAX_PACKET_SIZE;
 }
 
@@ -102,9 +102,9 @@ XnStatus ClientUSBControlEndpoint::Send(const void* pData, uint32_t nSize)
 	return XN_STATUS_OK;
 }
 
-XnBool ClientUSBControlEndpoint::IsConnected() const
+bool ClientUSBControlEndpoint::IsConnected() const
 {
-	return TRUE;
+	return true;
 }
 
 }

@@ -107,7 +107,7 @@ public:
 	OniStatus recorderClose(OniRecorderHandle* pRecorder);
 	OniStatus recorderClose(Recorder* pRecorder);
 
-	static OniBool s_valid;
+	static bool s_valid;
 protected:
 	OniStatus streamDestroy(VideoStream* pStream);
 	static void ONI_CALLBACK_TYPE deviceDriver_DeviceConnected(Device* pDevice, void* pCookie);
@@ -140,8 +140,8 @@ private:
 	std::list<oni::implementation::Recorder*> m_recorders;
 
 	xnl::Lockable<std::list<OniStreamHandle> > m_streamsToAutoRecord;
-	XnBool m_autoRecording;
-	XnBool m_autoRecordingStarted;
+	bool m_autoRecording;
+	bool m_autoRecordingStarted;
 	OniRecorderHandle m_autoRecorder;
 
 	xnl::Hash<XN_THREAD_ID, XN_EVENT_HANDLE> m_waitingThreads;

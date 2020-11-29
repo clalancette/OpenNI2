@@ -161,7 +161,7 @@ void idleCallback()
 		return;
 	}
 
-	if (g_bPause != TRUE)
+	if (g_bPause != true)
 	{
 		// read a frame
 		readFrame();
@@ -169,10 +169,10 @@ void idleCallback()
 		captureRun();
 	}
 
-	if (g_bStep == TRUE)
+	if (g_bStep == true)
 	{
-		g_bStep = FALSE;
-		g_bPause = TRUE;
+		g_bStep = false;
+		g_bPause = true;
 	}
 
 	glutPostRedisplay();
@@ -233,7 +233,7 @@ void init_opengl()
 void closeSample(int errCode)
 {
  	captureStop(0);
-	g_bShutdown = TRUE;
+	g_bShutdown = true;
 	closeDevice();
 
 	if (errCode != ERR_OK)
@@ -567,7 +567,7 @@ int changeDirectory(char* arg0)
 
 int main(int argc, char **argv)
 {
-	XnBool bChooseDevice = FALSE;
+	bool bChooseDevice = false;
 	const char* uri = NULL;
 
 	DeviceConfig config;
@@ -597,7 +597,7 @@ int main(int argc, char **argv)
 		}
 		else if (strcmp(argv[i], "-devices") == 0)
 		{
-			bChooseDevice = TRUE;
+			bChooseDevice = true;
 		}
 		else if (strcmp(argv[i], "-depth=on") == 0)
 		{

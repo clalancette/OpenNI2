@@ -43,33 +43,33 @@ public:
 				uint16_t nStreamID,
 				IConnection* pConnection);
 
-	virtual XnBool IsInitialized() const = 0;
+	virtual bool IsInitialized() const = 0;
 	virtual void Shutdown();
 	virtual void Reset();
 
 	virtual XnStatus Start();
 	virtual XnStatus Stop();
-	virtual XnBool IsStreaming() const;
+	virtual bool IsStreaming() const;
 	virtual uint16_t GetStreamID() const;
 
 	typedef void (XN_CALLBACK_TYPE* NewDataAvailableHandler)(void* pCookie);
 
-	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, XnBool& bPacketLoss) = 0;
+	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, bool& bPacketLoss) = 0;
 
 	virtual void SetDumpName(const XnChar* strDumpName) = 0;
-	virtual void SetDumpOn(XnBool bDumpOn) = 0;
+	virtual void SetDumpOn(bool bDumpOn) = 0;
 
 	/* Stream Properties */
-	virtual XnBool IsOutputFormatSupported(OniPixelFormat format) const;
+	virtual bool IsOutputFormatSupported(OniPixelFormat format) const;
 	virtual OniPixelFormat GetOutputFormat() const;
 	virtual XnStatus SetOutputFormat(OniPixelFormat format);
 
-	virtual XnBool IsInterfaceSupported(uint8_t nInterfaceID) const;
+	virtual bool IsInterfaceSupported(uint8_t nInterfaceID) const;
 
 	virtual XnStreamFragLevel GetStreamFragLevel() const = 0;
 
-	virtual XnBool GetMirror() const;
-	virtual XnStatus SetMirror(XnBool bMirror);
+	virtual bool GetMirror() const;
+	virtual XnStatus SetMirror(bool bMirror);
 
 	virtual XnStatus SetGain(uint16_t gain);
 	virtual XnStatus GetGain(uint16_t& gain);
@@ -84,11 +84,11 @@ protected:
 	XnStreamType m_streamType;
 	uint16_t m_nStreamID;
 	OniPixelFormat m_outputFormat;
-	volatile XnBool m_bStreaming;
+	volatile bool m_bStreaming;
 	int m_streamingRefcount;
 
 	xnl::BitSet m_supportedInterfaces;
-	XnBool m_bMirror;
+	bool m_bMirror;
 };
 
 }

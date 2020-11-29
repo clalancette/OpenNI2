@@ -62,7 +62,7 @@
 #define XN_IS_STATUS_OK_ASSERT(x)	\
 	if (x != XN_STATUS_OK)		\
 	{							\
-		XN_ASSERT(FALSE);		\
+		XN_ASSERT(false);		\
 		return (x);				\
 	}
 
@@ -76,14 +76,14 @@
 
 /** Returns Y if X isn't XN_STATUS_OK. */
 #define XN_IS_BOOL_OK_RET(x, y)		\
-		if (x != TRUE)				\
+		if (x != true)				\
 		{							\
 			return (y);				\
 		}
 
 /** Jumps to the ErrorCleanUp label if X isn't XN_STATUS_OK and returns Y. */
 #define XN_IS_BOOL_OK_GOCLEANUP_RET(x, y)	\
-		if (x != TRUE)						\
+		if (x != true)						\
 		{									\
 			goto ErrorCleanUp;				\
 		}

@@ -121,7 +121,7 @@ namespace xnl
 		std::list<XN_THREAD_ID> deadThreads;
 		for (xnl::Hash<XN_THREAD_ID, SingleBuffer*>::ConstIterator iter = m_buffers.Begin(); iter != m_buffers.End(); ++iter)
 		{
-			if (xnOSDoesThreadExistByID(iter->Key()) != TRUE)
+			if (xnOSDoesThreadExistByID(iter->Key()) != true)
 			{
 				deadThreads.push_back(iter->Key());
 			}

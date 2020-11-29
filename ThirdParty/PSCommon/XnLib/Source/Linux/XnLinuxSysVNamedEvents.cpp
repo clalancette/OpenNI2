@@ -51,7 +51,7 @@ union semun {
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnLinuxSysVNamedEvent::XnLinuxSysVNamedEvent(XnBool bManualReset, const XnChar* strName, XnBool bCreate) : XnLinuxNamedEvent(bManualReset, strName, bCreate)
+XnLinuxSysVNamedEvent::XnLinuxSysVNamedEvent(bool bManualReset, const XnChar* strName, bool bCreate) : XnLinuxNamedEvent(bManualReset, strName, bCreate)
 {
 }
 

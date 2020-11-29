@@ -43,7 +43,7 @@ public:
 	virtual void Shutdown();
 	virtual XnStatus Connect();
 	virtual void Disconnect();
-	virtual XnBool IsConnected() const;
+	virtual bool IsConnected() const;
 	virtual XnStatus Send(const void* pData, uint32_t nSize);
 	virtual uint16_t GetMaxPacketSize() const;
 
@@ -55,7 +55,7 @@ private:
 	static const uint32_t SEND_TIMEOUT;
 
 	uint16_t m_nMaxPacketSize;
-	XnBool m_bConnected;
+	bool m_bConnected;
 };
 
 }

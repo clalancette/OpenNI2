@@ -51,7 +51,7 @@ public:
 	}
 
 	/** Sets the bit at nIndex to bValue. **/
-	XnStatus Set(uint32_t nIndex, XnBool bValue)
+	XnStatus Set(uint32_t nIndex, bool bValue)
 	{
 		uint32_t nArrayIndex = (nIndex / 8);
 		uint32_t nBitIndex = (nIndex % 8);
@@ -65,15 +65,15 @@ public:
 	}
 
 	/** @returns the value of the bit specified by nIndex. **/
-	XnBool IsSet(uint32_t nIndex) const
+	bool IsSet(uint32_t nIndex) const
 	{
 		uint32_t nArrayIndex = (nIndex / 8);
 		uint32_t nBitIndex = (nIndex % 8);
 		if (nArrayIndex >= m_array.size())
 		{
-			return FALSE;
+			return false;
 		}
-		return (m_array[nArrayIndex] & (1 << nBitIndex)) ? TRUE : FALSE;
+		return (m_array[nArrayIndex] & (1 << nBitIndex)) ? true : false;
 	}
 
 	/** Copies raw data from a buffer of bytes to this bitset. **/
@@ -118,8 +118,8 @@ public:
 		m_nSize = 0;
 	}
 
-	/** @returns TRUE if this bitset is empty, FALSE otherwise. **/
-	XnBool IsEmpty() const
+	/** @returns true if this bitset is empty, false otherwise. **/
+	bool IsEmpty() const
 	{
 		return m_array.empty();
 	}

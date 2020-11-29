@@ -44,14 +44,14 @@ public:
 	virtual void Shutdown();
 	virtual XnStatus Connect();
 	virtual void Disconnect();
-	virtual XnBool IsConnected() const;
+	virtual bool IsConnected() const;
 	virtual uint16_t GetMaxPacketSize() const;
 	virtual XnStatus SetDataDestination(IDataDestination* pDataDestination);
 
 	inline XnUSBEndPointType GetEndpointType() const { return m_endpointType; }
 
 private:
-	static XnBool XN_CALLBACK_TYPE ReadThreadCallback(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData);
+	static bool XN_CALLBACK_TYPE ReadThreadCallback(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData);
 
 	static const uint32_t READ_THREAD_BUFFER_NUM_PACKETS_ISO;
 	static const uint32_t READ_THREAD_NUM_BUFFERS_ISO;
@@ -68,7 +68,7 @@ private:
 	uint16_t m_nEndpointID;
 	uint16_t m_nMaxPacketSize;
 	IDataDestination* m_pDataDestination;
-	XnBool m_bConnected;
+	bool m_bConnected;
 
 };
 

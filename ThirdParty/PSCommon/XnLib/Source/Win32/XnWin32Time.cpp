@@ -84,7 +84,7 @@ XN_C_API XnStatus xnOSSleep(uint32_t nMilliseconds)
 XN_C_API XnStatus xnOSStartTimer(XnOSTimer* pTimer)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 	LARGE_INTEGER nTicksPerSecond;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -131,7 +131,7 @@ XnStatus xnOSTimeInit()
 XN_C_API XnStatus xnOSQueryTimer(XnOSTimer Timer, uint64_t* pnTimeSinceStart)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 	LARGE_INTEGER nCurrTick;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)

@@ -36,7 +36,7 @@
 class XnBuffer final
 {
 public:
-	XnBuffer() : m_pData(NULL), m_nSize(0), m_nMaxSize(0), m_bAllocated(FALSE) {}
+	XnBuffer() : m_pData(NULL), m_nSize(0), m_nMaxSize(0), m_bAllocated(false) {}
 	~XnBuffer() { Free(); }
 
 	/*
@@ -117,7 +117,7 @@ public:
 		if (m_bAllocated)
 		{
 			XN_ALIGNED_FREE_AND_NULL(m_pData);
-			m_bAllocated = FALSE;
+			m_bAllocated = false;
 		}
 	}
 
@@ -170,7 +170,7 @@ private:
 	XnUChar* m_pData;
 	uint32_t m_nSize;
 	uint32_t m_nMaxSize;
-	XnBool m_bAllocated;
+	bool m_bAllocated;
 	void* m_pCookie;
 };
 

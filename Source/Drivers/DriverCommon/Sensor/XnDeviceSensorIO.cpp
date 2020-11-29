@@ -31,8 +31,8 @@
 //---------------------------------------------------------------------------
 XnSensorIO::XnSensorIO(XN_SENSOR_HANDLE* pSensorHandle) :
 	m_pSensorHandle(pSensorHandle),
-	m_bMiscSupported(FALSE),
-	m_bIsLowBandwidth(FALSE)
+	m_bMiscSupported(false),
+	m_bIsLowBandwidth(false)
 {
 }
 
@@ -57,7 +57,7 @@ XnStatus XnSensorIO::OpenDevice(const XnChar* strPath)
 	if (nRetVal == XN_STATUS_USB_ENDPOINT_NOT_FOUND || nRetVal == XN_STATUS_USB_WRONG_ENDPOINT_TYPE || nRetVal == XN_STATUS_USB_WRONG_ENDPOINT_DIRECTION)
 	{
 		// this is not the case. use regular control endpoint (0)
-		m_pSensorHandle->ControlConnection.bIsBulk = FALSE;
+		m_pSensorHandle->ControlConnection.bIsBulk = false;
 	}
 	else
 	{
@@ -67,7 +67,7 @@ XnStatus XnSensorIO::OpenDevice(const XnChar* strPath)
 		nRetVal = xnUSBOpenEndPoint(m_pSensorHandle->USBDevice, 0x85, XN_USB_EP_BULK, XN_USB_DIRECTION_IN, &m_pSensorHandle->ControlConnection.ControlInConnectionEp);
 		XN_IS_STATUS_OK(nRetVal);
 
-		m_pSensorHandle->ControlConnection.bIsBulk = TRUE;
+		m_pSensorHandle->ControlConnection.bIsBulk = true;
 	}
 
 	nRetVal = XnDeviceEnumeration::IsSensorLowBandwidth(strPath, &m_bIsLowBandwidth);
@@ -100,13 +100,13 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 			nAlternativeInterface = fwInfo.nISOLowDepthAlternativeInterface;
 			break;
 		default:
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			XN_LOG_WARNING_RETURN(XN_STATUS_USB_INTERFACE_NOT_SUPPORTED, XN_MASK_DEVICE_IO, "Unknown interface type: %d", nInterface);
 		}
 
 		if (nAlternativeInterface == (uint8_t)-1)
 		{
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			XN_LOG_WARNING_RETURN(XN_STATUS_USB_INTERFACE_NOT_SUPPORTED, XN_MASK_DEVICE_IO, "Interface %d is not supported by firmware", nInterface);
 		}
 
@@ -120,16 +120,16 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 	// up until v3.0/4.0, Image went over 0x82, depth on 0x83, audio on 0x86, and control was using bulk EPs, at 0x4 and 0x85.
 	// starting v3.0/4.0, Image is at 0x81, depth at 0x82, audio/misc at 0x83, and control is using actual control EPs.
 	// This means we are using the new Jungo USB Code
-	XnBool bNewUSB = TRUE;
+	bool bNewUSB = true;
 
 	// Depth
-	XnBool bIsISO = FALSE;
+	bool bIsISO = false;
 
 	xnLogVerbose(XN_MASK_DEVICE_IO, "Opening endpoint 0x81 for depth...");
 	nRetVal = xnUSBOpenEndPoint(m_pSensorHandle->USBDevice, 0x81, XN_USB_EP_BULK, XN_USB_DIRECTION_IN, &m_pSensorHandle->DepthConnection.UsbEp);
 	if (nRetVal == XN_STATUS_USB_ENDPOINT_NOT_FOUND)
 	{
-		bNewUSB = FALSE;
+		bNewUSB = false;
 		xnLogVerbose(XN_MASK_DEVICE_IO, "Endpoint 0x81 does not exist. Trying old USB: Opening 0x82 for depth...");
 		nRetVal = xnUSBOpenEndPoint(m_pSensorHandle->USBDevice, 0x82, XN_USB_EP_BULK, XN_USB_DIRECTION_IN, &m_pSensorHandle->DepthConnection.UsbEp);
 		XN_IS_STATUS_OK(nRetVal);
@@ -140,10 +140,10 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 		{
 			nRetVal = xnUSBOpenEndPoint(m_pSensorHandle->USBDevice, 0x81, XN_USB_EP_ISOCHRONOUS, XN_USB_DIRECTION_IN, &m_pSensorHandle->DepthConnection.UsbEp);
 
-			bIsISO = TRUE;
+			bIsISO = true;
 		}
 
-		bNewUSB = TRUE;
+		bNewUSB = true;
 
 		XN_IS_STATUS_OK(nRetVal);
 
@@ -156,7 +156,7 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 			xnLogVerbose(XN_MASK_DEVICE_IO, "Depth endpoint is bulk.");
 		}
 	}
-	m_pSensorHandle->DepthConnection.bIsOpen = TRUE;
+	m_pSensorHandle->DepthConnection.bIsOpen = true;
 
 	nRetVal = xnUSBGetEndPointMaxPacketSize(m_pSensorHandle->DepthConnection.UsbEp, &m_pSensorHandle->DepthConnection.nMaxPacketSize);
 	XN_IS_STATUS_OK(nRetVal);
@@ -164,7 +164,7 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 	// Image
 	uint16_t nImageEP = bNewUSB ? 0x82 : 0x83;
 
-	bIsISO = FALSE;
+	bIsISO = false;
 
 	xnLogVerbose(XN_MASK_DEVICE_IO, "Opening endpoint 0x%hx for image...", nImageEP);
 	nRetVal = xnUSBOpenEndPoint(m_pSensorHandle->USBDevice, nImageEP, XN_USB_EP_BULK, XN_USB_DIRECTION_IN, &m_pSensorHandle->ImageConnection.UsbEp);
@@ -172,7 +172,7 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 	{
 		nRetVal = xnUSBOpenEndPoint(m_pSensorHandle->USBDevice, nImageEP, XN_USB_EP_ISOCHRONOUS, XN_USB_DIRECTION_IN, &m_pSensorHandle->ImageConnection.UsbEp);
 
-		bIsISO = TRUE;
+		bIsISO = true;
 	}
 
 	XN_IS_STATUS_OK(nRetVal);
@@ -186,7 +186,7 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 		xnLogVerbose(XN_MASK_DEVICE_IO, "Image endpoint is bulk.");
 	}
 
-	m_pSensorHandle->ImageConnection.bIsOpen = TRUE;
+	m_pSensorHandle->ImageConnection.bIsOpen = true;
 
 	nRetVal = xnUSBGetEndPointMaxPacketSize(m_pSensorHandle->ImageConnection.UsbEp, &m_pSensorHandle->ImageConnection.nMaxPacketSize);
 	XN_IS_STATUS_OK(nRetVal);
@@ -194,7 +194,7 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 	// Misc
 	uint16_t nMiscEP = bNewUSB ? 0x83 : 0x86;
 
-	bIsISO = FALSE;
+	bIsISO = false;
 
 	xnLogVerbose(XN_MASK_DEVICE_IO, "Opening endpoint 0x%hx for misc...", nMiscEP);
 	nRetVal = xnUSBOpenEndPoint(m_pSensorHandle->USBDevice, nMiscEP, XN_USB_EP_BULK, XN_USB_DIRECTION_IN, &m_pSensorHandle->MiscConnection.UsbEp);
@@ -202,20 +202,20 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 	{
 		nRetVal = xnUSBOpenEndPoint(m_pSensorHandle->USBDevice, nMiscEP, XN_USB_EP_ISOCHRONOUS, XN_USB_DIRECTION_IN, &m_pSensorHandle->MiscConnection.UsbEp);
 
-		bIsISO = TRUE;
+		bIsISO = true;
 	}
 	if (nRetVal == XN_STATUS_USB_ENDPOINT_NOT_FOUND)
 	{
 		// Firmware does not support misc...
-		m_pSensorHandle->MiscConnection.bIsOpen = FALSE;
-		m_bMiscSupported = FALSE;
+		m_pSensorHandle->MiscConnection.bIsOpen = false;
+		m_bMiscSupported = false;
 
 		xnLogVerbose(XN_MASK_DEVICE_IO, "Misc endpoint is not supported...");
 	}
 	else if (nRetVal == XN_STATUS_OK)
 	{
-		m_pSensorHandle->MiscConnection.bIsOpen = TRUE;
-		m_bMiscSupported = TRUE;
+		m_pSensorHandle->MiscConnection.bIsOpen = true;
+		m_bMiscSupported = true;
 
 		if (bIsISO)
 		{
@@ -322,7 +322,7 @@ XnSensorUsbInterface XnSensorIO::GetCurrentInterface(const XnFirmwareInfo& fwInf
 	XnStatus nRetVal = xnUSBGetInterface(m_pSensorHandle->USBDevice, &nActualInterface, &nAlternativeInterface);
 	if (nRetVal != XN_STATUS_OK)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return (XnSensorUsbInterface)-1;
 	}
 
@@ -340,7 +340,7 @@ XnSensorUsbInterface XnSensorIO::GetCurrentInterface(const XnFirmwareInfo& fwInf
 	}
 	else
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		xnLogError(XN_MASK_DEVICE_IO, "Unexpected alternative interface: %d", nAlternativeInterface);
 		return (XnSensorUsbInterface)-1;
 	}

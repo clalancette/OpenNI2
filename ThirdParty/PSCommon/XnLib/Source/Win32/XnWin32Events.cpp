@@ -22,17 +22,17 @@
 #include "XnWin32Internal.h"
 #include <XnLog.h>
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateEvent(XN_EVENT_HANDLE* pEventHandle, XnBool bManualReset)
+XN_C_API XnStatus XN_C_DECL xnOSCreateEvent(XN_EVENT_HANDLE* pEventHandle, bool bManualReset)
 {
 	return (xnOSCreateNamedEvent(pEventHandle, NULL, bManualReset));
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEvent(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, XnBool bManualReset)
+XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEvent(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, bool bManualReset)
 {
-	return xnOSCreateNamedEventEx(pEventHandle, cpEventName, bManualReset, FALSE);
+	return xnOSCreateNamedEventEx(pEventHandle, cpEventName, bManualReset, false);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, XnBool bManualReset, XnBool bAllowOtherUsers)
+XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, bool bManualReset, bool bAllowOtherUsers)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -62,7 +62,7 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEventEx(XN_EVENT_HANDLE* pEventHandle
 	}
 
 	// Create a named event via the OS
-	*pEventHandle = CreateEvent(pSecurityAttributes, bManualReset, FALSE, pEventOSName);
+	*pEventHandle = CreateEvent(pSecurityAttributes, bManualReset, false, pEventOSName);
 
 	// Make sure it succeeded (return value is not null)
 	if (*pEventHandle == NULL)
@@ -77,10 +77,10 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEventEx(XN_EVENT_HANDLE* pEventHandle
 
 XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEvent(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName)
 {
-	return xnOSOpenNamedEventEx(pEventHandle, cpEventName, FALSE);
+	return xnOSOpenNamedEventEx(pEventHandle, cpEventName, false);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, XnBool bAllowOtherUsers)
+XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, bool bAllowOtherUsers)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_VALIDATE_INPUT_PTR(cpEventName);
@@ -93,7 +93,7 @@ XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEventEx(XN_EVENT_HANDLE* pEventHandle, 
 		return XN_STATUS_OS_EVENT_CREATION_FAILED;
 	}
 
-	*pEventHandle = OpenEvent(EVENT_MODIFY_STATE | SYNCHRONIZE, FALSE, cpEventName);
+	*pEventHandle = OpenEvent(EVENT_MODIFY_STATE | SYNCHRONIZE, false, cpEventName);
 	if (*pEventHandle == NULL)
 	{
 		return XN_STATUS_OS_EVENT_OPEN_FAILED;
@@ -105,7 +105,7 @@ XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEventEx(XN_EVENT_HANDLE* pEventHandle, 
 XN_C_API XnStatus xnOSCloseEvent(XN_EVENT_HANDLE* pEventHandle)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pEventHandle);
@@ -117,7 +117,7 @@ XN_C_API XnStatus xnOSCloseEvent(XN_EVENT_HANDLE* pEventHandle)
 	bRetVal = CloseHandle(*pEventHandle);
 
 	// Make sure it succeeded (return value is true)
-	if (bRetVal != TRUE)
+	if (bRetVal != true)
 	{
 		xnLogVerbose(XN_MASK_OS, "CloseHandle() failed with error %u", GetLastError());
 		return (XN_STATUS_OS_EVENT_CLOSE_FAILED);
@@ -133,7 +133,7 @@ XN_C_API XnStatus xnOSCloseEvent(XN_EVENT_HANDLE* pEventHandle)
 XN_C_API XnStatus xnOSSetEvent(const XN_EVENT_HANDLE EventHandle)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 
 	// Make sure the actual event handle isn't NULL
 	XN_RET_IF_NULL(EventHandle, XN_STATUS_OS_INVALID_EVENT);
@@ -142,7 +142,7 @@ XN_C_API XnStatus xnOSSetEvent(const XN_EVENT_HANDLE EventHandle)
 	bRetVal = SetEvent(EventHandle);
 
 	// Make sure it succeeded (return value is true)
-	if (bRetVal != TRUE)
+	if (bRetVal != true)
 	{
 		xnLogVerbose(XN_MASK_OS, "SetEvent() failed with error %u", GetLastError());
 		return (XN_STATUS_OS_EVENT_SET_FAILED);
@@ -155,7 +155,7 @@ XN_C_API XnStatus xnOSSetEvent(const XN_EVENT_HANDLE EventHandle)
 XN_C_API XnStatus xnOSResetEvent(const XN_EVENT_HANDLE EventHandle)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 
 	// Make sure the actual event handle isn't NULL
 	XN_RET_IF_NULL(EventHandle, XN_STATUS_OS_INVALID_EVENT);
@@ -164,7 +164,7 @@ XN_C_API XnStatus xnOSResetEvent(const XN_EVENT_HANDLE EventHandle)
 	bRetVal = ResetEvent(EventHandle);
 
 	// Make sure it succeeded (return value is true)
-	if (bRetVal != TRUE)
+	if (bRetVal != true)
 	{
 		xnLogVerbose(XN_MASK_OS, "ResetEvent() failed with error %u", GetLastError());
 		return (XN_STATUS_OS_EVENT_RESET_FAILED);
@@ -204,7 +204,7 @@ XN_C_API XnStatus xnOSWaitEvent(const XN_EVENT_HANDLE EventHandle, uint32_t nMil
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnBool xnOSIsEventSet(const XN_EVENT_HANDLE EventHandle)
+XN_C_API bool xnOSIsEventSet(const XN_EVENT_HANDLE EventHandle)
 {
 	return (xnOSWaitEvent(EventHandle, 0) == XN_STATUS_OK);
 }

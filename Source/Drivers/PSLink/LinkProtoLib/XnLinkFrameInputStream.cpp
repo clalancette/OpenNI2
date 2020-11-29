@@ -45,10 +45,10 @@ namespace xn
 
 LinkFrameInputStream::LinkFrameInputStream()
 {
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 	m_defaultServices.setStream(this);
 	m_pServices = &m_defaultServices;
-	m_bStreaming = FALSE;
+	m_bStreaming = false;
 	m_pCurrFrame = NULL;
 	m_nDumpFrameID = 0;
 
@@ -57,7 +57,7 @@ LinkFrameInputStream::LinkFrameInputStream()
 	m_nBufferSize = 0;
 	m_hCriticalSection = NULL;
 	m_pDumpFile = NULL;
-	m_currentFrameCorrupt = FALSE;
+	m_currentFrameCorrupt = false;
 	xnOSCreateCriticalSection(&m_hCriticalSection);
 
 	xnOSMemSet(&m_shiftToDepthConfig, 0, sizeof(m_shiftToDepthConfig));
@@ -79,7 +79,7 @@ XnStatus LinkFrameInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 	if (m_hCriticalSection == NULL)
 	{
 		xnLogError(XN_MASK_INPUT_STREAM, "Cannot initialize - critical section was not created successfully");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -126,7 +126,7 @@ XnStatus LinkFrameInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 	if (nRetVal != XN_STATUS_OK)
 	{
 		xnLogWarning("Failed to get stream dump name: %s", xnGetStatusString(nRetVal));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 	}
 
 	if (m_hCriticalSection == NULL)
@@ -136,7 +136,7 @@ XnStatus LinkFrameInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 	}
 
 	m_nDumpFrameID = 1;
-	m_bInitialized = TRUE;
+	m_bInitialized = true;
 
 	return XN_STATUS_OK;
 }
@@ -148,7 +148,7 @@ void LinkFrameInputStream::Reset()
 	LinkInputStream::Reset();
 }
 
-XnBool LinkFrameInputStream::IsInitialized() const
+bool LinkFrameInputStream::IsInitialized() const
 {
 	return m_bInitialized;
 }
@@ -171,11 +171,11 @@ void LinkFrameInputStream::Shutdown()
 
 	xnDumpFileClose(m_pDumpFile);
 	LinkInputStream::Shutdown();
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 	xnOSLeaveCriticalSection(&m_hCriticalSection);
 }
 
-XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, const uint8_t* pData, XnBool& bPacketLoss)
+XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, const uint8_t* pData, bool& bPacketLoss)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	xnl::AutoCSLocker csLock(m_hCriticalSection);
@@ -188,11 +188,11 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 
     if (header.GetFragmentationFlags() & XN_LINK_FRAG_BEGIN)
     {
-		bPacketLoss = FALSE;
+		bPacketLoss = false;
 
 		xnDumpFileClose(m_pDumpFile); //In case we didn't get an END packet before
 		m_pDumpFile = xnDumpFileOpen(m_strDumpName, "%s.%05u.raw", m_strDumpName, m_nDumpFrameID++);
-		m_currentFrameCorrupt = FALSE;
+		m_currentFrameCorrupt = false;
 
 		// acquire a frame
 		if (m_pCurrFrame == NULL)
@@ -208,9 +208,9 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 		// take timestamp
 		if (header.GetDataSize() < sizeof(uint64_t))
 		{
-			m_currentFrameCorrupt = TRUE;
+			m_currentFrameCorrupt = true;
 			xnLogWarning(XN_MASK_LINK, "Got a BEGIN packet with no timestamp!");
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_LINK_MISSING_TIMESTAMP;
 		}
 		m_pCurrFrame->timestamp = *(uint64_t*)pData;
@@ -223,7 +223,7 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnLogWarning(XN_MASK_LINK, "Failed to get timestamp from os: %s", xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 		}
 		m_pCurrFrame->timestamp = nTimestamp;
 
@@ -233,7 +233,7 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 	}
 	else if (bPacketLoss)
 	{
-		m_currentFrameCorrupt = TRUE;
+		m_currentFrameCorrupt = true;
 	}
 
 	if (!m_currentFrameCorrupt)
@@ -242,7 +242,7 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 		nRetVal = m_pLinkMsgParser->ParsePacket(header, pData);
 		if (nRetVal != XN_STATUS_OK)
 		{
-			m_currentFrameCorrupt = TRUE;
+			m_currentFrameCorrupt = true;
 			if (nRetVal != XN_STATUS_OK)
 			{
 				return nRetVal;
@@ -262,7 +262,7 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 
 		if (m_pLinkMsgParser->GetParsedSize() != CalcExpectedSize())
 		{
-			m_currentFrameCorrupt = TRUE;
+			m_currentFrameCorrupt = true;
 			xnLogWarning(XN_MASK_LINK, "Received bad frame. Expected Size: %u, Actual Size: %u", CalcExpectedSize(), m_pLinkMsgParser->GetParsedSize());
 		}
 
@@ -326,7 +326,7 @@ XnStatus LinkFrameInputStream::StartImpl()
 	if (m_nBufferSize == 0)
 	{
 		xnLogError(XN_MASK_LINK, "Failed to calculate buffer size for stream of type %u", m_streamType);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 	xnLogVerbose(XN_MASK_LINK, "Stream %u calculated buffer size: %u", m_nStreamID, m_nBufferSize);
@@ -339,14 +339,14 @@ XnStatus LinkFrameInputStream::StartImpl()
 	//TODO: Delete LinkMsgParser and buffers on each of these errors
 
 	//We must set the streaming flag first cuz the data handler checks it
-	m_bStreaming = TRUE;
+	m_bStreaming = true;
 	//Connect to input connection
 	nRetVal = m_pConnection->Connect();
 	if (nRetVal != XN_STATUS_OK)
 	{
-		m_bStreaming = FALSE;
+		m_bStreaming = false;
 		xnLogError(XN_MASK_LINK, "Failed to connect stream's input connection: %s", xnGetStatusString(nRetVal));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return nRetVal;
 	}
 
@@ -355,9 +355,9 @@ XnStatus LinkFrameInputStream::StartImpl()
 	XN_IS_STATUS_OK_LOG_ERROR("Connect stream's input connection", nRetVal);
 	if (nRetVal != XN_STATUS_OK)
 	{
-		m_bStreaming = FALSE;
+		m_bStreaming = false;
 		xnLogError(XN_MASK_LINK, "Failed to start streaming: %s", xnGetStatusString(nRetVal));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return nRetVal;
 	}
 
@@ -390,7 +390,7 @@ XnStatus LinkFrameInputStream::StopImpl()
 		m_pCurrFrame = NULL;
 	}
 
-	m_bStreaming = FALSE;
+	m_bStreaming = false;
 
 	return XN_STATUS_OK;
 }
@@ -398,10 +398,10 @@ XnStatus LinkFrameInputStream::StopImpl()
 void LinkFrameInputStream::SetDumpName(const XnChar* /*strDumpName*/)
 {
 	//Not implemented for frame input stream
-	XN_ASSERT(FALSE);
+	XN_ASSERT(false);
 }
 
-void LinkFrameInputStream::SetDumpOn(XnBool bDumpOn)
+void LinkFrameInputStream::SetDumpOn(bool bDumpOn)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	(void)nRetVal;
@@ -410,7 +410,7 @@ void LinkFrameInputStream::SetDumpOn(XnBool bDumpOn)
 	if (nRetVal != XN_STATUS_OK)
 	{
 		xnLogWarning(XN_MASK_INPUT_STREAM, "Failed to set dump state: %s", xnGetStatusString(nRetVal));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 	}
 }
 
@@ -440,7 +440,7 @@ uint32_t LinkFrameInputStream::GetOutputBytesPerPixel() const
 	case ONI_PIXEL_FORMAT_GRAY16:
 		return sizeof(OniGrayscale16Pixel);
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		xnLogError(XN_MASK_LINK, "Unknown output format!");
 		return 0;
 	}
@@ -499,12 +499,12 @@ uint32_t LinkFrameInputStream::CalcExpectedSize() const
 	}
 }
 
-XnBool LinkFrameInputStream::IsOutputFormatSupported(OniPixelFormat format) const
+bool LinkFrameInputStream::IsOutputFormatSupported(OniPixelFormat format) const
 {
 	if (format == XN_FORMAT_PASS_THROUGH_RAW   ||
         format == XN_FORMAT_PASS_THROUGH_UNPACK  )
 	{
-		return TRUE;
+		return true;
 	}
 	switch (format)
 	{
@@ -531,7 +531,7 @@ const XnFwStreamVideoMode& LinkFrameInputStream::GetVideoMode() const
 XnStatus LinkFrameInputStream::SetVideoMode(const XnFwStreamVideoMode& videoMode)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnBool bModeSupported = FALSE;
+	bool bModeSupported = false;
 
 	XnChar strVideoMode[100];
 	xnLinkVideoModeToString(videoMode, strVideoMode, sizeof(strVideoMode));
@@ -543,14 +543,14 @@ XnStatus LinkFrameInputStream::SetVideoMode(const XnFwStreamVideoMode& videoMode
 		if (xnOSMemCmp(&videoMode, &m_supportedVideoModes[i], sizeof(videoMode)) == 0)
 		{
 			//Found our supported mode
-			bModeSupported = TRUE;
+			bModeSupported = true;
 		}
 	}
 
 	if (!bModeSupported)
 	{
 		xnLogError(XN_MASK_LINK, "Tried to set unsupported mode: %s", strVideoMode);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_PARAM;
 	}
 
@@ -596,7 +596,7 @@ XnStatus LinkFrameInputStream::GetShiftToDepthTables(const XnShiftToDepthTables*
 {
 	if (!m_shiftToDepthTables.bIsInitialized)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -653,10 +653,10 @@ LinkMsgParser* LinkFrameInputStream::CreateLinkMsgParser()
 		case XN_FW_COMPRESSION_16Z:
 			return XN_NEW(Link16zParser<false>, m_shiftToDepthTables);
 		case XN_FW_COMPRESSION_24Z:
-			return XN_NEW(Link24zYuv422Parser, m_videoMode.m_nXRes, m_videoMode.m_nYRes, FALSE);
+			return XN_NEW(Link24zYuv422Parser, m_videoMode.m_nXRes, m_videoMode.m_nYRes, false);
 		default:
 			xnLogError(XN_MASK_LINK, "Unknown compression for pass-through: %d", compression);
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return NULL;
 		}
 	}
@@ -684,7 +684,7 @@ LinkMsgParser* LinkFrameInputStream::CreateLinkMsgParser()
 				return XN_NEW(Link16zParser<true>, m_shiftToDepthTables);
 			default:
 				xnLogError(XN_MASK_LINK, "Unknown compression for shifts: %d", compression);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return NULL;
 			}
 		}
@@ -702,10 +702,10 @@ LinkMsgParser* LinkFrameInputStream::CreateLinkMsgParser()
 			case XN_FW_COMPRESSION_NONE:
 				return XN_NEW(LinkMsgParser);
 			case XN_FW_COMPRESSION_24Z:
-				return XN_NEW(Link24zYuv422Parser, m_videoMode.m_nXRes, m_videoMode.m_nYRes, FALSE);
+				return XN_NEW(Link24zYuv422Parser, m_videoMode.m_nXRes, m_videoMode.m_nYRes, false);
 			default:
 				xnLogError(XN_MASK_LINK, "Unknown compression YUV422: %d", compression);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return NULL;
 			}
 		}
@@ -718,23 +718,23 @@ LinkMsgParser* LinkFrameInputStream::CreateLinkMsgParser()
 				case XN_FW_COMPRESSION_NONE:
 					return XN_NEW(LinkYuv422ToRgb888Parser);
 				case XN_FW_COMPRESSION_24Z:
-					return XN_NEW(Link24zYuv422Parser, m_videoMode.m_nXRes, m_videoMode.m_nYRes, TRUE);
+					return XN_NEW(Link24zYuv422Parser, m_videoMode.m_nXRes, m_videoMode.m_nYRes, true);
 				default:
 					xnLogError(XN_MASK_LINK, "Unknown compression YUV422: %d", compression);
-					XN_ASSERT(FALSE);
+					XN_ASSERT(false);
 					return NULL;
 				}
 			}
 			else if (pixelFormat == XN_FW_PIXEL_FORMAT_BAYER8)
 			{
 				xnLogError(XN_MASK_LINK, "Bayer to RGB888 conversion is not supported yet");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return NULL;
 			}
 			else
 			{
 				xnLogError(XN_MASK_LINK, "Unsupported pixel format");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return NULL;
 			}
 		}
@@ -747,12 +747,12 @@ LinkMsgParser* LinkFrameInputStream::CreateLinkMsgParser()
 			return XN_NEW(LinkPacked10BitParser);
 		default:
 			xnLogError(XN_MASK_LINK, "Unknown compression for grey16: %d", compression);
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return NULL;
 		}
 	default:
 		xnLogError(XN_MASK_LINK, "Unknown output format: %d", outputFormat);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return NULL;
 	}
 }

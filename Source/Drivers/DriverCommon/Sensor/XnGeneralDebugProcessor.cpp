@@ -56,7 +56,7 @@ void XnGeneralDebugProcessor::ProcessPacketChunk(const XnSensorProtocolResponseH
 		xnOSStrFormat(strFileName + nLength, XN_FILE_MAX_PATH - nLength, &nCharsWritten, ".raw");
 
 		xnDumpFileClose(m_pDump);
-		m_pDump = xnDumpFileOpenEx("FirmwareDebug", TRUE, TRUE, strFileName);
+		m_pDump = xnDumpFileOpenEx("FirmwareDebug", true, true, strFileName);
 
 		const XnUChar* pDataStart = (const XnUChar*)pFields;
 		nDataSize -= uint32_t(pDataStart - pData);

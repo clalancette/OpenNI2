@@ -39,7 +39,7 @@ public:
 	static DeviceConnectivityEvent::Interface& DisconnectedEvent();
 
 	static XnStatus EnumerateSensors(OniDeviceInfo* aDevices, uint32_t* pnCount);
-	static XnStatus IsSensorLowBandwidth(const XnChar* connectionString, XnBool* pbIsLowband);
+	static XnStatus IsSensorLowBandwidth(const XnChar* connectionString, bool* pbIsLowband);
 };
 
 #endif // XNDEVICEENUMERATION_H

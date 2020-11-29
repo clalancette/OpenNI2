@@ -587,7 +587,7 @@ bool Reset(openni::Device& Device, std::vector<std::string>& Command)
 bool Log(openni::Device& Device, std::vector<std::string>& /*Command*/)
 {
 	XnUChar LogBuffer[XN_MAX_LOG_SIZE] = {0};
-	XnBool bAll = true;
+	bool bAll = true;
 	openni::Status rc;
 
 	do
@@ -1566,7 +1566,7 @@ bool Emitter(openni::Device& Device, std::vector<std::string>& Command)
 		}
 		else if (Command[1] == "on")
 		{
-			openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_EMITTER_STATE, (uint64_t)TRUE);
+			openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_EMITTER_STATE, (uint64_t)true);
 			if (rc != openni::STATUS_OK)
 			{
 				printf("Error: %s\n", openni::OpenNI::getExtendedError());
@@ -1575,7 +1575,7 @@ bool Emitter(openni::Device& Device, std::vector<std::string>& Command)
 		}
 		else if (Command[1] == "off")
 		{
-			openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_EMITTER_STATE, (uint64_t)FALSE);
+			openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_EMITTER_STATE, (uint64_t)false);
 			if (rc != openni::STATUS_OK)
 			{
 				printf("Error: %s\n", openni::OpenNI::getExtendedError());
@@ -1683,14 +1683,14 @@ bool StartReadData(openni::Device& Device, std::vector<std::string>& Command)
 	}
 
 	// and cause reading to take place (without start streaming)
-	rc = g_depthStream.setProperty(XN_STREAM_PROPERTY_ACTUAL_READ_DATA, TRUE);
+	rc = g_depthStream.setProperty(XN_STREAM_PROPERTY_ACTUAL_READ_DATA, true);
 	if (rc != openni::STATUS_OK)
 	{
 		printf("Can't start depth endpoint: %s\n", openni::OpenNI::getExtendedError());
 		return true;
 	}
 
-	rc = g_colorStream.setProperty(XN_STREAM_PROPERTY_ACTUAL_READ_DATA, TRUE);
+	rc = g_colorStream.setProperty(XN_STREAM_PROPERTY_ACTUAL_READ_DATA, true);
 	if (rc != openni::STATUS_OK)
 	{
 		printf("Can't start image endpoint: %s\n", openni::OpenNI::getExtendedError());

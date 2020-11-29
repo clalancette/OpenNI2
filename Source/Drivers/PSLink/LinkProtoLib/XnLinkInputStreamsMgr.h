@@ -45,8 +45,8 @@ public:
 	void Shutdown();
 
 	void RegisterStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t nStreamID);
-	XnBool UnregisterStream(uint16_t nStreamID); // returns true if the unregistered stream was the last one
-	XnBool HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID);
+	bool UnregisterStream(uint16_t nStreamID); // returns true if the unregistered stream was the last one
+	bool HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID);
 
 	XnStatus InitInputStream(LinkControlEndpoint* pLinkControlEndpoint,
 					XnStreamType streamType,
@@ -58,7 +58,7 @@ public:
 	const LinkInputStream* GetInputStream(uint16_t nStreamID) const;
 	LinkInputStream* GetInputStream(uint16_t nStreamID);
 
-	XnBool HasStreams() const;
+	bool HasStreams() const;
 
 private:
 	void HandlePacket(const LinkPacketHeader* pLinkPacketHeader);
@@ -74,7 +74,7 @@ private:
 		XnLinkFragmentation prevFragmentation;
 		XnStreamFragLevel streamFragLevel;
 		LinkInputStream* pInputStream;
-		XnBool packetLoss;
+		bool packetLoss;
 
 		XnStreamType streamType;
 		const XnChar* strCreationInfo;

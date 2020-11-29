@@ -43,7 +43,7 @@ Device::Device(DeviceDriver* pDeviceDriver, const DriverHandler& driverHandler, 
 	m_pDeviceDriver(pDeviceDriver),
 	m_depthColorSyncHandle(NULL),
 	m_pContext(NULL),
-	m_syncEnabled(FALSE)
+	m_syncEnabled(false)
 {
 	m_pInfo = XN_NEW(OniDeviceInfo);
 	xnOSMemCopy(m_pInfo, pDeviceInfo, sizeof(OniDeviceInfo));
@@ -142,7 +142,7 @@ VideoStream* Device::createStream(OniSensorType sensorType)
 	{
 		xnLogError(XN_MASK_ONI_DEVICE, "Internal error!");
 		m_errorLogger.Append("Device: Can't find this source %d", sensorType);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return NULL;
 	}
 
@@ -152,7 +152,7 @@ VideoStream* Device::createStream(OniSensorType sensorType)
 		m_sensors[sensorType] = XN_NEW(Sensor, m_errorLogger, m_frameManager, m_driverHandler);
 		if (m_sensors[sensorType] == NULL)
 		{
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return NULL;
 		}
 	}
@@ -204,7 +204,7 @@ OniStatus oni::implementation::Device::getProperty(int propertyId, void* data, i
 	}
 	return rc;
 }
-OniBool oni::implementation::Device::isPropertySupported(int propertyId)
+bool oni::implementation::Device::isPropertySupported(int propertyId)
 {
 	return m_driverHandler.deviceIsPropertySupported(m_deviceHandle, propertyId);
 }
@@ -231,7 +231,7 @@ OniStatus Device::invoke(int commandId, void* data, int dataSize)
 
 	return m_driverHandler.deviceInvoke(m_deviceHandle, commandId, &seek, sizeof(seek));
 }
-OniBool Device::isCommandSupported(int commandId)
+bool Device::isCommandSupported(int commandId)
 {
 	return m_driverHandler.deviceIsCommandSupported(m_deviceHandle, commandId);
 }
@@ -269,7 +269,7 @@ void Device::clearStream(VideoStream* pStream)
 OniStatus Device::enableDepthColorSync(Context* pContext)
 {
 	m_pContext = pContext;
-	m_syncEnabled = TRUE;
+	m_syncEnabled = true;
 	std::vector<VideoStream*> streamArray(m_streams.size(), NULL);
 
 	int streamsUsed = 0;
@@ -297,10 +297,10 @@ void Device::disableDepthColorSync()
 	m_pContext->disableFrameSync(m_depthColorSyncHandle);
 	m_depthColorSyncHandle = NULL;
 	m_pContext = NULL;
-	m_syncEnabled = FALSE;
+	m_syncEnabled = false;
 }
 
-OniBool Device::isDepthColorSyncEnabled()
+bool Device::isDepthColorSyncEnabled()
 {
 	return m_syncEnabled;
 }
@@ -311,7 +311,7 @@ void ONI_CALLBACK_TYPE Device::stream_PropertyChanged(void* /*deviceHandle*/, in
 	XN_REFERENCE_VARIABLE(pStream);
 }
 
-OniBool Device::isImageRegistrationModeSupported(OniImageRegistrationMode mode)
+bool Device::isImageRegistrationModeSupported(OniImageRegistrationMode mode)
 {
 	return m_driverHandler.deviceIsImageRegistrationModeSupported(m_deviceHandle, mode);
 }

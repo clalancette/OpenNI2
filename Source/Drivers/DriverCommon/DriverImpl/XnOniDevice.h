@@ -56,13 +56,13 @@ public:
 
 	OniStatus getProperty(int propertyId, void* data, int* pDataSize) override;
 	OniStatus setProperty(int propertyId, const void* data, int dataSize) override;
-	OniBool isPropertySupported(int propertyId) override;
+	bool isPropertySupported(int propertyId) override;
 	void notifyAllProperties() override;
 
 	OniStatus EnableFrameSync(XnOniStream** pStreams, int streamCount);
 	void DisableFrameSync();
 
-	OniBool isImageRegistrationModeSupported(OniImageRegistrationMode mode) override;
+	bool isImageRegistrationModeSupported(OniImageRegistrationMode mode) override;
 
 	XnSensor* GetSensor()
 	{

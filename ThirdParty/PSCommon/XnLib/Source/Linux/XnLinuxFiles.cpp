@@ -112,14 +112,14 @@ XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* c
 
 XN_C_API XnStatus xnOSCountFiles(const XnChar* cpSearchPattern, int32_t* pnFoundFiles)
 {
-	XN_ASSERT(FALSE);
+	XN_ASSERT(false);
 	return XN_STATUS_OS_FILE_NOT_FOUND;
 }
 
 
 XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* cpPrefixPath, XnChar cpFileList[][XN_FILE_MAX_PATH], const int32_t nMaxFiles, int32_t* pnFoundFiles)
 {
-	XN_ASSERT(FALSE);
+	XN_ASSERT(false);
 	return XN_STATUS_OS_FILE_NOT_FOUND;
 }
 
@@ -462,19 +462,19 @@ XN_C_API XnStatus xnOSFlushFile(const XN_FILE_HANDLE File)
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSFileExists(const XnChar* cpFileName, XnBool* bResult)
+XN_C_API XnStatus xnOSFileExists(const XnChar* cpFileName, bool* bResult)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
 	XN_VALIDATE_OUTPUT_PTR(bResult);
 
 	// Reset the output result
-	*bResult = FALSE;
+	*bResult = false;
 
 	// Check if the file exists and update the result accordingly
 	if ((access(cpFileName, F_OK)) != -1)
 	{
-		*bResult = TRUE;
+		*bResult = true;
 	}
 
 	// All is good...
@@ -636,47 +636,47 @@ XN_C_API XnStatus xnOSDeleteFile(const XnChar* cpFileName)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSDoesFileExist(const XnChar* cpFileName, XnBool* pbResult)
+XN_C_API XnStatus xnOSDoesFileExist(const XnChar* cpFileName, bool* pbResult)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
 	XN_VALIDATE_OUTPUT_PTR(pbResult);
 
 	// Reset the output result
-	*pbResult = FALSE;
+	*pbResult = false;
 
 	// Check if the file exists and update the result accordingly
 	if ((access(cpFileName, F_OK)) != -1)
 	{
-		*pbResult = TRUE;
+		*pbResult = true;
 	}
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSDoesDirectoryExist(const XnChar* cpDirName, XnBool* pbResult)
+XN_C_API XnStatus xnOSDoesDirectoryExist(const XnChar* cpDirName, bool* pbResult)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpDirName);
 	XN_VALIDATE_OUTPUT_PTR(pbResult);
 
 	// Reset the output result
-	*pbResult = FALSE;
+	*pbResult = false;
 
 	// Check if the file exists and update the result accordingly
 	struct stat nodeStat;
 	if (stat(cpDirName, &nodeStat) == 0 &&
 		S_ISDIR(nodeStat.st_mode))
 	{
-		*pbResult = TRUE;
+		*pbResult = true;
 	}
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnBool xnOSIsAbsoluteFilePath(const XnChar* strFilePath)
+XN_C_API bool xnOSIsAbsoluteFilePath(const XnChar* strFilePath)
 {
 	return xnOSIsDirSep(strFilePath[0]);
 }

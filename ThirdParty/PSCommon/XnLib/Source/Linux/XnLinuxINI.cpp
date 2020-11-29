@@ -79,12 +79,12 @@ static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, cons
 
 	// now parse file
 	XnChar* pCurPos = csFileData;
-	XnBool bIsInRequestedSection = FALSE;
+	bool bIsInRequestedSection = false;
 
 	XnChar csTempString[XN_INI_MAX_LEN];
 	uint32_t nTempStringLength = 0;
 
-	while (TRUE)
+	while (true)
 	{
 		// ignore spaces
 		while (*pCurPos && XN_IS_SPACE(pCurPos))
@@ -120,7 +120,7 @@ static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, cons
 
 				if (strcmp(csTempString, cpSection) == 0)
 				{
-					bIsInRequestedSection = TRUE;
+					bIsInRequestedSection = true;
 				}
 			}
 
@@ -163,7 +163,7 @@ static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, cons
 XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnChar* cpDest, const uint32_t nDestLength)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnBool bINIFileExists = FALSE;
+	bool bINIFileExists = false;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpSection);
@@ -202,7 +202,7 @@ XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cp
 XN_C_API XnStatus xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, double* fDest)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnBool bINIFileExists = FALSE;
+	bool bINIFileExists = false;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpSection);
@@ -226,7 +226,7 @@ XN_C_API XnStatus xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* c
 XN_C_API XnStatus xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, int32_t* nDest)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnBool bINIFileExists = FALSE;
+	bool bINIFileExists = false;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpSection);

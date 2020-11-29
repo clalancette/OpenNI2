@@ -39,7 +39,7 @@
 typedef struct
 {
 	XnChar csName[MAX_SECTION_NAME];
-	XnBool bMultiThreaded;
+	bool bMultiThreaded;
 	XN_CRITICAL_SECTION_HANDLE hLock;
 	uint64_t nCurrStartTime;
 	uint64_t nTotalTime;
@@ -49,20 +49,20 @@ typedef struct
 
 typedef struct
 {
-	XnBool bInitialized;
+	bool bInitialized;
 	XnProfiledSection* aSections;
 	uint32_t nSectionCount;
 	XN_THREAD_HANDLE hThread;
 	XN_CRITICAL_SECTION_HANDLE hCriticalSection;
 	size_t nMaxSectionName;
 	uint32_t nProfilingInterval;
-	XnBool bKillThread;
+	bool bKillThread;
 } XnProfilingData;
 
 //---------------------------------------------------------------------------
 // Global Variables
 //---------------------------------------------------------------------------
-static XnProfilingData g_ProfilingData = {FALSE, NULL, 0, NULL, NULL, 0, 0, FALSE};
+static XnProfilingData g_ProfilingData = {false, NULL, 0, NULL, NULL, 0, 0, false};
 static XN_THREAD_STATIC uint32_t gt_nStackDepth = 0;
 
 //---------------------------------------------------------------------------
@@ -140,7 +140,7 @@ XN_C_API XnStatus xnProfilingInit(uint32_t nProfilingInterval)
 		g_ProfilingData.nMaxSectionName = 0;
 		g_ProfilingData.nSectionCount = 0;
 		g_ProfilingData.nProfilingInterval = nProfilingInterval;
-		g_ProfilingData.bKillThread = FALSE;
+		g_ProfilingData.bKillThread = false;
 
 		XN_VALIDATE_CALLOC(g_ProfilingData.aSections, XnProfiledSection, MAX_PROFILED_SECTIONS);
 		g_ProfilingData.nSectionCount = 0;
@@ -151,7 +151,7 @@ XN_C_API XnStatus xnProfilingInit(uint32_t nProfilingInterval)
 		nRetVal = xnOSCreateCriticalSection(&g_ProfilingData.hCriticalSection);
 		XN_IS_STATUS_OK(nRetVal);
 
-		g_ProfilingData.bInitialized = TRUE;
+		g_ProfilingData.bInitialized = true;
 	}
 
 	return XN_STATUS_OK;
@@ -174,7 +174,7 @@ XN_C_API XnStatus xnProfilingShutdown()
 {
 	if (g_ProfilingData.hThread != NULL)
 	{
-		g_ProfilingData.bKillThread = TRUE;
+		g_ProfilingData.bKillThread = true;
 		xnLogVerbose(XN_MASK_PROFILING, "Shutting down Profiling thread...");
 		xnOSWaitAndTerminateThread(&g_ProfilingData.hThread, g_ProfilingData.nProfilingInterval * 2);
 		g_ProfilingData.hThread = NULL;
@@ -188,17 +188,17 @@ XN_C_API XnStatus xnProfilingShutdown()
 
 	XN_FREE_AND_NULL(g_ProfilingData.aSections);
 
-	g_ProfilingData.bInitialized = FALSE;
+	g_ProfilingData.bInitialized = false;
 
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnBool xnProfilingIsActive()
+XN_C_API bool xnProfilingIsActive()
 {
 	return (g_ProfilingData.bInitialized && g_ProfilingData.nProfilingInterval > 0);
 }
 
-XN_C_API XnStatus xnProfilingSectionStart(const char* csSectionName, XnBool bMT, XnProfilingHandle* pHandle)
+XN_C_API XnStatus xnProfilingSectionStart(const char* csSectionName, bool bMT, XnProfilingHandle* pHandle)
 {
 	if (!g_ProfilingData.bInitialized)
 		return XN_STATUS_OK;
@@ -225,7 +225,7 @@ XN_C_API XnStatus xnProfilingSectionStart(const char* csSectionName, XnBool bMT,
 
 			if (bMT)
 			{
-				pSection->bMultiThreaded = TRUE;
+				pSection->bMultiThreaded = true;
 				xnOSCreateCriticalSection(&pSection->hLock);
 			}
 

@@ -166,12 +166,12 @@ XnStatus XnSensorStreamHelper::RegisterDataProcessorProperty(XnActualIntProperty
 	nRetVal = m_FirmwareProperties.Get(&Property, pCookie);
 	XN_IS_STATUS_OK(nRetVal);
 
-	pCookie->bProcessorProp = TRUE;
+	pCookie->bProcessorProp = true;
 
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorStreamHelper::MapFirmwareProperty(XnActualIntProperty& Property, XnActualIntProperty& FirmwareProperty, XnBool bAllowChangeWhileOpen, XnSensorStreamHelper::ConvertCallback pStreamToFirmwareFunc /* = 0 */)
+XnStatus XnSensorStreamHelper::MapFirmwareProperty(XnActualIntProperty& Property, XnActualIntProperty& FirmwareProperty, bool bAllowChangeWhileOpen, XnSensorStreamHelper::ConvertCallback pStreamToFirmwareFunc /* = 0 */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -217,8 +217,8 @@ XnStatus XnSensorStreamHelper::BeforeSettingFirmwareParam(XnActualIntProperty& P
 	nRetVal = m_FirmwareProperties.Get(&Property, pPropData);
 	XN_IS_STATUS_OK(nRetVal);
 
-	pPropData->CurrentTransaction.bShouldOpen = FALSE;
-	pPropData->CurrentTransaction.bChooseProcessor = FALSE;
+	pPropData->CurrentTransaction.bShouldOpen = false;
+	pPropData->CurrentTransaction.bChooseProcessor = false;
 
 	// if stream is closed, we can just update the prop.
 	if (m_pStream->IsOpen())
@@ -232,7 +232,7 @@ XnStatus XnSensorStreamHelper::BeforeSettingFirmwareParam(XnActualIntProperty& P
 				// lock processor
 				nRetVal = GetFirmware()->GetStreams()->LockStreamProcessor(m_pStream->GetType(), m_pStream);
 				XN_IS_STATUS_OK(nRetVal);
-				pPropData->CurrentTransaction.bChooseProcessor = TRUE;
+				pPropData->CurrentTransaction.bChooseProcessor = true;
 			}
 
 			// OK. change the value
@@ -249,7 +249,7 @@ XnStatus XnSensorStreamHelper::BeforeSettingFirmwareParam(XnActualIntProperty& P
 			XN_IS_STATUS_OK(nRetVal);
 
 			// no need to do anything after property will be set
-			pPropData->CurrentTransaction.bShouldOpen = FALSE;
+			pPropData->CurrentTransaction.bShouldOpen = false;
 		}
 		else
 		{
@@ -258,7 +258,7 @@ XnStatus XnSensorStreamHelper::BeforeSettingFirmwareParam(XnActualIntProperty& P
 			XN_IS_STATUS_OK(nRetVal);
 
 			// after property will be set, we need to reopen the stream
-			pPropData->CurrentTransaction.bShouldOpen = TRUE;
+			pPropData->CurrentTransaction.bShouldOpen = true;
 		}
 	}
 
@@ -363,7 +363,7 @@ XnStatus XnSensorStreamHelper::BatchConfig(const XnActualPropertiesHash& props)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnBool bShouldClose = FALSE;
+	bool bShouldClose = false;
 
 	if (m_pStream->IsOpen())
 	{
@@ -375,7 +375,7 @@ XnStatus XnSensorStreamHelper::BatchConfig(const XnActualPropertiesHash& props)
 				XnProperty* pProp;
 				if (XN_STATUS_OK == props.Get(it->Value().pStreamProp->GetId(), pProp))
 				{
-					bShouldClose = TRUE;
+					bShouldClose = true;
 					break;
 				}
 			}
@@ -402,7 +402,7 @@ XnStatus XnSensorStreamHelper::BatchConfig(const XnActualPropertiesHash& props)
 	return (XN_STATUS_OK);
 }
 
-XnFirmwareCroppingMode XnSensorStreamHelper::GetFirmwareCroppingMode(XnCroppingMode nValue, XnBool bEnabled)
+XnFirmwareCroppingMode XnSensorStreamHelper::GetFirmwareCroppingMode(XnCroppingMode nValue, bool bEnabled)
 {
 	if (!bEnabled)
 	{

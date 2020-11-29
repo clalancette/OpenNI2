@@ -83,10 +83,10 @@ static XnStatus AccessFlagsToWin32ViewFlags(uint32_t nAccessFlags, DWORD* pFlags
 
 XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemory(const XnChar* strName, uint32_t nSize, uint32_t nAccessFlags, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
-	return xnOSCreateSharedMemoryEx(strName, nSize, nAccessFlags, FALSE, phSharedMem);
+	return xnOSCreateSharedMemoryEx(strName, nSize, nAccessFlags, false, phSharedMem);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, uint32_t nSize, uint32_t nAccessFlags, XnBool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem)
+XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, uint32_t nSize, uint32_t nAccessFlags, bool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -153,10 +153,10 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, uint
 
 XN_C_API XnStatus xnOSOpenSharedMemory(const XnChar* strName, uint32_t nAccessFlags, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
-	return xnOSOpenSharedMemoryEx(strName, nAccessFlags, FALSE, phSharedMem);
+	return xnOSOpenSharedMemoryEx(strName, nAccessFlags, false, phSharedMem);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemoryEx(const XnChar* strName, uint32_t nAccessFlags, XnBool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem)
+XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemoryEx(const XnChar* strName, uint32_t nAccessFlags, bool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -181,7 +181,7 @@ XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemoryEx(const XnChar* strName, uint32
 	// create file mapping
 	pHandle->hMapFile = OpenFileMapping(
 		flags,					 // read/write access
-		FALSE,                   // do not inherit the name
+		false,                   // do not inherit the name
 		strWinName);             // name of mapping object
 
 	if (pHandle->hMapFile == NULL)

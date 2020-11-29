@@ -36,9 +36,9 @@
 XnDepthProcessor::XnDepthProcessor(XnSensorDepthStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager) :
 	XnFrameStreamProcessor(pStream, pHelper, pBufferManager, XN_SENSOR_PROTOCOL_RESPONSE_DEPTH_START, XN_SENSOR_PROTOCOL_RESPONSE_DEPTH_END),
 	m_nPaddingPixelsOnEnd(0),
-	m_applyRegistrationOnEnd(FALSE),
+	m_applyRegistrationOnEnd(false),
 	m_nExpectedFrameSize(0),
-	m_bShiftToDepthAllocated(FALSE),
+	m_bShiftToDepthAllocated(false),
 	m_pShiftToDepthTable(pStream->GetShiftToDepthTable())
 {
 }
@@ -70,7 +70,7 @@ XnStatus XnDepthProcessor::Init()
 			{
 				m_pShiftToDepthTable[i] = (OniDepthPixel)i;
 			}
-			m_bShiftToDepthAllocated = TRUE;
+			m_bShiftToDepthAllocated = true;
 			m_noDepthValue = 2047;
 		}
 		break;
@@ -79,7 +79,7 @@ XnStatus XnDepthProcessor::Init()
 		m_noDepthValue = 0;
 		break;
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_LOG_WARNING_RETURN(XN_STATUS_ERROR, XN_MASK_SENSOR_PROTOCOL_DEPTH, "Unknown Depth output: %d", GetStream()->GetOutputFormat());
 	}
 
@@ -95,8 +95,8 @@ void XnDepthProcessor::OnStartOfFrame(const XnSensorProtocolResponseHeader* pHea
 
 	m_applyRegistrationOnEnd = (
 		(GetStream()->GetOutputFormat() == ONI_PIXEL_FORMAT_DEPTH_1_MM || GetStream()->GetOutputFormat() == ONI_PIXEL_FORMAT_DEPTH_100_UM) &&
-		GetStream()->m_DepthRegistration.GetValue() == TRUE &&
-		GetStream()->m_FirmwareRegistration.GetValue() == FALSE);
+		GetStream()->m_DepthRegistration.GetValue() == true &&
+		GetStream()->m_FirmwareRegistration.GetValue() == false);
 
 	if (m_pDevicePrivateData->FWInfo.nFWVer >= XN_SENSOR_FW_VER_5_1 && pHeader->nTimeStamp != 0)
 	{
@@ -160,7 +160,7 @@ void XnDepthProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 		pFrame->height = (int)GetStream()->m_FirmwareCropSizeY.GetValue();
 		pFrame->cropOriginX = (int)GetStream()->m_FirmwareCropOffsetX.GetValue();
 		pFrame->cropOriginY = (int)GetStream()->m_FirmwareCropOffsetY.GetValue();
-		pFrame->croppingEnabled = TRUE;
+		pFrame->croppingEnabled = true;
 	}
 	else
 	{
@@ -168,7 +168,7 @@ void XnDepthProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 		pFrame->height = pFrame->videoMode.resolutionY;
 		pFrame->cropOriginX = 0;
 		pFrame->cropOriginY = 0;
-		pFrame->croppingEnabled = FALSE;
+		pFrame->croppingEnabled = false;
 	}
 
 	pFrame->stride = pFrame->width * GetStream()->GetBytesPerPixel();

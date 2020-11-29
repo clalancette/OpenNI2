@@ -31,7 +31,7 @@
 // Global Variables
 //---------------------------------------------------------------------------
 // Note: See the XnIOGlobals.h file for global variables description
-XnBool g_bXnCoreWasInit = FALSE;
+bool g_bXnCoreWasInit = false;
 
 //---------------------------------------------------------------------------
 // Code

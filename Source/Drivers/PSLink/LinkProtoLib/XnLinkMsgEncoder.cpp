@@ -52,7 +52,7 @@ XnStatus LinkMsgEncoder::Init(uint32_t nMaxMsgSize, uint16_t nMaxPacketSize)
 	if (nMaxPacketSize == 0)
 	{
 		xnLogError(XN_MASK_LINK, "Got max packet size of 0 in link msg encoder init :(");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -122,7 +122,7 @@ void LinkMsgEncoder::EncodeData(const void* pSourceData, uint32_t nSize)
 			{
 				xnLogError(XN_MASK_LINK, "Msg encoder buffer overrun :( Was about to write to position %u, but buffer size is only %u",
 					(m_pCurrPacketBuffer - m_pOutputBuffer), m_nBufferSize);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return;
 			}
 			//Advance packet ID

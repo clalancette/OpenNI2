@@ -35,7 +35,7 @@ class FrameHolder
 public:
 
 	// Constructor.
-	FrameHolder(FrameManager& frameManager) : m_frameManager(frameManager), m_enabled(TRUE) {}
+	FrameHolder(FrameManager& frameManager) : m_frameManager(frameManager), m_enabled(true) {}
 
 	// Destructor.
 	virtual ~FrameHolder() {}
@@ -53,7 +53,7 @@ public:
 	virtual void clear() = 0;
 
 	// Set whether stream is enabled.
-	virtual void setStreamEnabled(VideoStream* /*pStream*/, OniBool /*enabled*/) {}
+	virtual void setStreamEnabled(VideoStream* /*pStream*/, bool /*enabled*/) {}
 
 	// Return list of streams which are members of the stream group.
 	virtual void getStreams(VideoStream** ppStreams, int* pNumStreams) = 0;
@@ -68,12 +68,12 @@ public:
 	void unlock() { m_cs.Unlock(); }
 
 	// Set whether frame holder is enabled.
-	void setEnabled(OniBool enabled) { m_enabled = enabled; }
+	void setEnabled(bool enabled) { m_enabled = enabled; }
 
 // Data members:
 protected:
 	FrameManager& m_frameManager;
-	OniBool m_enabled;
+	bool m_enabled;
 
 private:
 

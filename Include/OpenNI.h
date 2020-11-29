@@ -596,7 +596,7 @@ public:
 		{
 			throw std::runtime_error("Null frame pointer");
 		}
-		return m_pFrame->croppingEnabled == TRUE;
+		return m_pFrame->croppingEnabled == true;
 	}
 
 	/**
@@ -1087,7 +1087,7 @@ public:
 			*pOriginY = cropping.originY;
 			*pWidth = cropping.width;
 			*pHeight = cropping.height;
-			enabled = (cropping.enabled == TRUE);
+			enabled = (cropping.enabled == true);
 		}
 
 		return enabled;
@@ -1130,13 +1130,13 @@ public:
 	*/
 	bool getMirroringEnabled() const
 	{
-		OniBool enabled;
-		Status rc = getProperty<OniBool>(STREAM_PROPERTY_MIRRORING, &enabled);
+		bool enabled;
+		Status rc = getProperty<bool>(STREAM_PROPERTY_MIRRORING, &enabled);
 		if (rc != STATUS_OK)
 		{
 			return false;
 		}
-		return enabled == TRUE;
+		return enabled == true;
 	}
 
 	/**
@@ -1146,7 +1146,7 @@ public:
 	*/
 	Status setMirroringEnabled(bool isEnabled)
 	{
-		return setProperty<OniBool>(STREAM_PROPERTY_MIRRORING, isEnabled ? TRUE : FALSE);
+		return setProperty<bool>(STREAM_PROPERTY_MIRRORING, isEnabled ? true : false);
 	}
 
 	/**
@@ -1214,7 +1214,7 @@ public:
 			return false;
 		}
 
-		return oniStreamIsPropertySupported(m_stream, propertyId) == TRUE;
+		return oniStreamIsPropertySupported(m_stream, propertyId) == true;
 	}
 
 	/**
@@ -1263,7 +1263,7 @@ public:
 			return false;
 		}
 
-		return (Status)oniStreamIsCommandSupported(m_stream, commandId) == TRUE;
+		return (Status)oniStreamIsCommandSupported(m_stream, commandId) == true;
 	}
 
 private:
@@ -1516,7 +1516,7 @@ public:
 	*/
 	bool isImageRegistrationModeSupported(ImageRegistrationMode mode) const
 	{
-		return (oniDeviceIsImageRegistrationModeSupported(m_device, (OniImageRegistrationMode)mode) == TRUE);
+		return (oniDeviceIsImageRegistrationModeSupported(m_device, (OniImageRegistrationMode)mode) == true);
 	}
 
 	/**
@@ -1580,7 +1580,7 @@ public:
 	is enabled, the device will deliver depth and image frames that are separated in time
 	by some maximum value.  When disabled, the phase difference between depth and image frame
 	generation cannot be guaranteed.
-	@param [in] isEnabled Set to TRUE to enable synchronization, FALSE to disable it
+	@param [in] isEnabled Set to true to enable synchronization, false to disable it
 	@returns Status code indicating success or failure of this operation
 	*/
 	Status setDepthColorSyncEnabled(bool isEnabled)
@@ -1601,7 +1601,7 @@ public:
 
 	bool getDepthColorSyncEnabled()
 	{
-		return oniDeviceGetDepthColorSyncEnabled(m_device) == TRUE;
+		return oniDeviceGetDepthColorSyncEnabled(m_device) == true;
 	}
 
 	/**
@@ -1643,7 +1643,7 @@ public:
 	*/
 	bool isPropertySupported(int propertyId) const
 	{
-		return oniDeviceIsPropertySupported(m_device, propertyId) == TRUE;
+		return oniDeviceIsPropertySupported(m_device, propertyId) == true;
 	}
 
 	/**
@@ -1682,7 +1682,7 @@ public:
 	*/
 	bool isCommandSupported(int commandId) const
 	{
-		return oniDeviceIsCommandSupported(m_device, commandId) == TRUE;
+		return oniDeviceIsCommandSupported(m_device, commandId) == true;
 	}
 
 	/** @internal **/
@@ -1801,14 +1801,14 @@ public:
 			return false;
 		}
 
-		OniBool repeat;
-		Status rc = m_pDevice->getProperty<OniBool>(DEVICE_PROPERTY_PLAYBACK_REPEAT_ENABLED, &repeat);
+		bool repeat;
+		Status rc = m_pDevice->getProperty<bool>(DEVICE_PROPERTY_PLAYBACK_REPEAT_ENABLED, &repeat);
 		if (rc != STATUS_OK)
 		{
 			return false;
 		}
 
-		return repeat == TRUE;
+		return repeat == true;
 	}
 
 	/**
@@ -1826,7 +1826,7 @@ public:
 			return STATUS_NO_DEVICE;
 		}
 
-		return m_pDevice->setProperty<OniBool>(DEVICE_PROPERTY_PLAYBACK_REPEAT_ENABLED, repeat ? TRUE : FALSE);
+		return m_pDevice->setProperty<bool>(DEVICE_PROPERTY_PLAYBACK_REPEAT_ENABLED, repeat ? true : false);
 	}
 
 	/**
@@ -1910,26 +1910,26 @@ public:
 	// setters
 	Status setAutoExposureEnabled(bool enabled)
 	{
-		return setProperty(STREAM_PROPERTY_AUTO_EXPOSURE, enabled ? TRUE : FALSE);
+		return setProperty(STREAM_PROPERTY_AUTO_EXPOSURE, enabled ? true : false);
 	}
 	Status setAutoWhiteBalanceEnabled(bool enabled)
 	{
-		return setProperty(STREAM_PROPERTY_AUTO_WHITE_BALANCE, enabled ? TRUE : FALSE);
+		return setProperty(STREAM_PROPERTY_AUTO_WHITE_BALANCE, enabled ? true : false);
 	}
 
 	bool getAutoExposureEnabled() const
 	{
-		OniBool enabled = FALSE;
+		bool enabled = false;
 
 		Status rc = getProperty(STREAM_PROPERTY_AUTO_EXPOSURE, &enabled);
-		return rc == STATUS_OK && enabled == TRUE;
+		return rc == STATUS_OK && enabled == true;
 	}
 	bool getAutoWhiteBalanceEnabled() const
 	{
-		OniBool enabled = FALSE;
+		bool enabled = false;
 
 		Status rc = getProperty(STREAM_PROPERTY_AUTO_WHITE_BALANCE, &enabled);
-		return rc == STATUS_OK && enabled == TRUE;
+		return rc == STATUS_OK && enabled == true;
 	}
 
 	Status setGain(int gain)
@@ -2375,7 +2375,7 @@ public:
 	/**
 	* Configures if log entries will be printed to console.
 
-	* @param	const OniBool bConsoleOutput	[in]	TRUE to print log entries to console, FALSE otherwise.
+	* @param	const bool bConsoleOutput	[in]	true to print log entries to console, false otherwise.
 	*
 	* @retval STATUS_OK Upon successful completion.
 	* @retval STATUS_ERROR Upon any kind of failure.
@@ -2388,7 +2388,7 @@ public:
 	/**
 	* Configures if log entries will be printed to file.
 
-	* @param	const OniBool bConsoleOutput	[in]	TRUE to print log entries to file, FALSE otherwise.
+	* @param	const bool bConsoleOutput	[in]	true to print log entries to file, false otherwise.
 	*
 	* @retval STATUS_OK Upon successful completion.
 	* @retval STATUS_ERROR Upon any kind of failure.

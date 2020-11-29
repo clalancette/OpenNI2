@@ -39,19 +39,19 @@ public:
 
 	XnStatus Init(uint16_t nEndpointID,
 	              IConnectionFactory* pConnectionFactory);
-	XnBool IsInitialized() const;
+	bool IsInitialized() const;
 	void Shutdown();
 	XnStatus Connect();
 	void Disconnect();
-	XnBool IsConnected() const;
+	bool IsConnected() const;
 	uint16_t GetMaxPacketSize() const;
 
 	XnStatus SendData(const void* pData, uint32_t nSize);
 
 private:
 	IOutputConnection* m_pConnection;
-	XnBool m_bInitialized;
-	XnBool m_bConnected;
+	bool m_bInitialized;
+	bool m_bConnected;
 	uint16_t m_nEndpointID;
 };
 

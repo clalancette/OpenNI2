@@ -34,7 +34,7 @@ static const char* ONI_DEFAULT_DRIVERS_REPOSITORY = "OpenNI2" XN_FILE_DIR_SEP "D
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
-OniBool Context::s_valid = FALSE;
+bool Context::s_valid = false;
 
 Context::Context() : m_errorLogger(xnl::ErrorLogger::GetInstance()), m_autoRecording(false), m_autoRecordingStarted(false), m_initializationCounter(0), m_lastFPSPrint(0)
 {
@@ -44,7 +44,7 @@ Context::Context() : m_errorLogger(xnl::ErrorLogger::GetInstance()), m_autoRecor
 
 Context::~Context()
 {
-	s_valid = FALSE;
+	s_valid = false;
 	for (xnl::Hash<XN_THREAD_ID, XN_EVENT_HANDLE>::Iterator it = m_waitingThreads.Begin(); it != m_waitingThreads.End(); ++it)
 	{
 		xnOSCloseEvent(&(it->Value()));
@@ -72,7 +72,7 @@ OniStatus Context::initialize()
 		return OniStatusFromXnStatus(rc);
 	}
 
-	s_valid = TRUE;
+	s_valid = true;
 
 	rc = loadLibraries();
 	if (rc == XN_STATUS_OK)
@@ -112,7 +112,7 @@ XnStatus Context::resolvePathToOpenNI()
 XnStatus Context::resolveConfigurationFile(char* strOniConfigurationFile)
 {
 	XnStatus rc = XN_STATUS_OK;
-	XnBool bExists;
+	bool bExists;
 
 	xnOSStrCopy(strOniConfigurationFile, m_pathToOpenNI, XN_FILE_MAX_PATH);
 	rc = xnOSAppendFilePath(strOniConfigurationFile, ONI_CONFIGURATION_FILE, XN_FILE_MAX_PATH);
@@ -330,7 +330,7 @@ void Context::shutdown()
 		return;
 	}
 
-	s_valid = FALSE;
+	s_valid = false;
 
 	m_cs.Lock();
 
@@ -649,7 +649,7 @@ OniStatus Context::streamDestroy(VideoStream* pStream)
 
 	// Lock stream's frame holder.
 	FrameHolder* pFrameHolder = pStream->getFrameHolder();
-	pFrameHolder->setEnabled(FALSE);
+	pFrameHolder->setEnabled(false);
 	pFrameHolder->lock();
 	pFrameHolder->clear();
 
@@ -920,7 +920,7 @@ OniStatus Context::enableFrameSyncEx(VideoStream** pStreams, int numStreams, Dev
 	{
 		FrameHolder* pOldFrameHolder = pStreams[j]->getFrameHolder();
 		pOldFrameHolder->lock();
-		pOldFrameHolder->setStreamEnabled(pStreams[j], FALSE);
+		pOldFrameHolder->setStreamEnabled(pStreams[j], false);
 		pStreams[j]->setFrameHolder(pSyncedStreamsFrameHolder);
 		pOldFrameHolder->unlock();
 		XN_DELETE(pOldFrameHolder);
@@ -943,7 +943,7 @@ void Context::disableFrameSync(OniFrameSyncHandle frameSyncHandle)
 	frameSyncHandle->pDeviceDriver->disableFrameSync(frameSyncHandle->pFrameSyncHandle);
 
 	// Disable and clear the synced stream frame holder.
-	frameSyncHandle->pSyncedStreamsFrameHolder->setEnabled(FALSE);
+	frameSyncHandle->pSyncedStreamsFrameHolder->setEnabled(false);
 	frameSyncHandle->pSyncedStreamsFrameHolder->lock();
 	frameSyncHandle->pSyncedStreamsFrameHolder->clear();
 
@@ -1178,7 +1178,7 @@ XN_EVENT_HANDLE Context::getThreadEvent()
 
 	if (XN_STATUS_OK != m_waitingThreads.Get(tid, hEvent))
 	{
-		xnOSCreateEvent(&hEvent, FALSE);
+		xnOSCreateEvent(&hEvent, false);
 		m_waitingThreads.Set(tid, hEvent);
 	}
 

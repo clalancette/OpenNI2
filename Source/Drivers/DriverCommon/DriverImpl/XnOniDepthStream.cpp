@@ -63,7 +63,7 @@ OniStatus XnOniDepthStream::getProperty(int propertyId, void* data, int* pDataSi
 	}
 }
 
-OniBool XnOniDepthStream::isPropertySupported(int propertyId)
+bool XnOniDepthStream::isPropertySupported(int propertyId)
 {
 	return (
 		propertyId == ONI_STREAM_PROPERTY_MAX_VALUE ||
@@ -157,7 +157,7 @@ OniStatus XnOniDepthStream::convertDepthToColorCoordinates(StreamBase* colorStre
 	XnStatus retVal = pColorStream->GetVideoMode(&videoMode);
 	if (retVal != XN_STATUS_OK)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return ONI_STATUS_ERROR;
 	}
 

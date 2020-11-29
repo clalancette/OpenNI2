@@ -141,15 +141,15 @@ protected:
 	/*
 	* Checks if write buffer has overflowed, if so, a log will be issued and buffer will reset.
 	*/
-	inline XnBool CheckWriteBufferForOverflow(uint32_t nWriteSize)
+	inline bool CheckWriteBufferForOverflow(uint32_t nWriteSize)
 	{
 		if (GetWriteBuffer()->GetFreeSpaceInBuffer() < nWriteSize)
 		{
 			WriteBufferOverflowed();
-			return FALSE;
+			return false;
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/*
@@ -157,7 +157,7 @@ protected:
 	*/
 	void FrameIsCorrupted();
 
-	void SetAllowDoubleSOFPackets(XnBool bAllow) { m_bAllowDoubleSOF = bAllow; }
+	void SetAllowDoubleSOFPackets(bool bAllow) { m_bAllowDoubleSOF = bAllow; }
 
 private:
 	//---------------------------------------------------------------------------
@@ -174,8 +174,8 @@ private:
 	XnChar m_csInternalDumpMask[XN_DEVICE_MAX_STRING_LENGTH + 8];
 	XnDumpFile* m_InDump;
 	XnDumpFile* m_InternalDump;
-	XnBool m_bFrameCorrupted;
-	XnBool m_bAllowDoubleSOF;
+	bool m_bFrameCorrupted;
+	bool m_bAllowDoubleSOF;
 	uint16_t m_nLastSOFPacketID;
 	uint64_t m_nFirstPacketTimestamp;
 };

@@ -104,7 +104,7 @@ typedef void (*XnUSBDeviceConnectivityChangedCallback)(XnUSBDevice* pDevice, XnU
 //---------------------------------------------------------------------------
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* pDeviceDescriptor, uint32_t nControlMessageMaxSize, XnUSBDevice** ppDevice);
 XN_C_API void XN_C_DECL xnUSBDeviceShutdown(XnUSBDevice* pDevice);
-XN_C_API XnBool XN_C_DECL xnUSBDeviceIsControlRequestPending(XnUSBDevice* pDevice);
+XN_C_API bool XN_C_DECL xnUSBDeviceIsControlRequestPending(XnUSBDevice* pDevice);
 
 //pnRequestSize is max size on input, actual size on output
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevice, XnUChar* pBuffer, uint32_t* pnRequestSize);

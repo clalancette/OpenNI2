@@ -187,7 +187,7 @@ XnStatus XnHostProtocolUpdateSupportedImageModes(XnDevicePrivateData* pDevicePri
 			break;
 		default:
 			xnLogError(XN_MASK_DEVICE_SENSOR, "Unknown interface in old firmware (%d)", pDevicePrivateData->pSensor->GetCurrentUsbInterface());
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_ERROR;
 		}
 	}
@@ -195,7 +195,7 @@ XnStatus XnHostProtocolUpdateSupportedImageModes(XnDevicePrivateData* pDevicePri
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uint8_t nMajor, uint8_t nMinor, uint16_t nBuild, XnHostProtocolUsbCore usb, XnBool bGuessed)
+XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uint8_t nMajor, uint8_t nMinor, uint16_t nBuild, XnHostProtocolUsbCore usb, bool bGuessed)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -204,11 +204,11 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 	pDevicePrivateData->FWInfo.nHostMagic = XN_HOST_MAGIC_25;
 	pDevicePrivateData->FWInfo.nProtocolHeaderSize = sizeof(XnHostProtocolHeaderV25);
 	pDevicePrivateData->FWInfo.nProtocolMaxPacketSize = XN_PROTOCOL_MAX_PACKET_SIZE_V0_17;
-	pDevicePrivateData->FWInfo.bAudioSupported = FALSE;
-	pDevicePrivateData->FWInfo.bMirrorSupported = FALSE;
-	pDevicePrivateData->FWInfo.bGetPresetsSupported = FALSE;
-	pDevicePrivateData->FWInfo.bDeviceInfoSupported = FALSE;
-	pDevicePrivateData->FWInfo.bImageAdjustmentsSupported = FALSE;
+	pDevicePrivateData->FWInfo.bAudioSupported = false;
+	pDevicePrivateData->FWInfo.bMirrorSupported = false;
+	pDevicePrivateData->FWInfo.bGetPresetsSupported = false;
+	pDevicePrivateData->FWInfo.bDeviceInfoSupported = false;
+	pDevicePrivateData->FWInfo.bImageAdjustmentsSupported = false;
 
 	pDevicePrivateData->FWInfo.nOpcodeGetVersion = OPCODE_V017_GET_VERSION;
 	pDevicePrivateData->FWInfo.nOpcodeKeepAlive = OPCODE_V017_KEEP_ALIVE;
@@ -267,10 +267,10 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 	pDevicePrivateData->FWInfo.nUSBDelaySetParamStream1Mode = 300;
 	pDevicePrivateData->FWInfo.nUSBDelaySetParamStream2Mode = 1;
 
-	pDevicePrivateData->FWInfo.bGetImageCmosTypeSupported = FALSE;
-	pDevicePrivateData->FWInfo.bImageSupported = TRUE;
-	pDevicePrivateData->FWInfo.bIncreasedFpsCropSupported = FALSE;
-	pDevicePrivateData->FWInfo.bHasFilesystemLock = FALSE;
+	pDevicePrivateData->FWInfo.bGetImageCmosTypeSupported = false;
+	pDevicePrivateData->FWInfo.bImageSupported = true;
+	pDevicePrivateData->FWInfo.bIncreasedFpsCropSupported = false;
+	pDevicePrivateData->FWInfo.bHasFilesystemLock = false;
 
 	pDevicePrivateData->FWInfo.nISOLowDepthAlternativeInterface = (uint8_t)(-1);
 
@@ -399,7 +399,7 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 	if (CompareVersion(nMajor, nMinor, nBuild, 3, 0, 0) >= 0)
 	{
 		// audio support!
-		pDevicePrivateData->FWInfo.bAudioSupported = TRUE;
+		pDevicePrivateData->FWInfo.bAudioSupported = true;
 
 		// opcodes were changed
 		pDevicePrivateData->FWInfo.nOpcodeGetVersion = OPCODE_GET_VERSION;
@@ -451,7 +451,7 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 	if (CompareVersion(nMajor, nMinor, nBuild, 4, 0, 0) >= 0)
 	{
 		// audio removed...
-		pDevicePrivateData->FWInfo.bAudioSupported = FALSE;
+		pDevicePrivateData->FWInfo.bAudioSupported = false;
 
 		// opcodes added
 		pDevicePrivateData->FWInfo.nOpcodeBIST = OPCODE_BIST;
@@ -467,9 +467,9 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 		// max packet size changed
 		pDevicePrivateData->FWInfo.nProtocolMaxPacketSize = XN_PROTOCOL_MAX_PACKET_SIZE_V5_0;
 		// audio is back on
-		pDevicePrivateData->FWInfo.bAudioSupported = TRUE;
+		pDevicePrivateData->FWInfo.bAudioSupported = true;
 		// mirror supported
-		pDevicePrivateData->FWInfo.bMirrorSupported = TRUE;
+		pDevicePrivateData->FWInfo.bMirrorSupported = true;
 
 		// opcodes changes
 		pDevicePrivateData->FWInfo.nOpcodeSetCmosBlanking = OPCODE_SET_CMOS_BLANKING;
@@ -601,7 +601,7 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 3, 25) >= 0)
 	{
-		pDevicePrivateData->FWInfo.bDeviceInfoSupported = TRUE;
+		pDevicePrivateData->FWInfo.bDeviceInfoSupported = true;
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 3, 28) >= 0)
@@ -618,13 +618,13 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 3, 29) >= 0)
 	{
 		pDevicePrivateData->FWInfo.nOpcodeGetCmosPresets = OPCODE_GET_CMOS_PRESETS;
-		pDevicePrivateData->FWInfo.bGetPresetsSupported = TRUE;
+		pDevicePrivateData->FWInfo.bGetPresetsSupported = true;
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 3, 31) >= 0 && CompareVersion(nMajor, nMinor, nBuild, 5, 4, 0) < 0)
 	{
 		// file system lock was also added in 5.3.31 (a maintenance release), but it's not in newer versions (5.4 and above)
-		pDevicePrivateData->FWInfo.bHasFilesystemLock = TRUE;
+		pDevicePrivateData->FWInfo.bHasFilesystemLock = true;
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 4, 0) >= 0)
@@ -643,7 +643,7 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 6, 0) >= 0)
 	{
 		// audio is no longer supported - switched to UAC
-		pDevicePrivateData->FWInfo.bAudioSupported = FALSE;
+		pDevicePrivateData->FWInfo.bAudioSupported = false;
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 6, 2) >= 0)
@@ -664,7 +664,7 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 6, 9) >= 0)
 	{
-		pDevicePrivateData->FWInfo.bGetImageCmosTypeSupported = TRUE;
+		pDevicePrivateData->FWInfo.bGetImageCmosTypeSupported = true;
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 7, 0) >= 0)
@@ -674,7 +674,7 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 7, 2) >= 0)
 	{
-		pDevicePrivateData->FWInfo.bIncreasedFpsCropSupported = TRUE;
+		pDevicePrivateData->FWInfo.bIncreasedFpsCropSupported = true;
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 8, 0) >= 0)
@@ -684,12 +684,12 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uin
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 8, 2) >= 0)
 	{
-		pDevicePrivateData->FWInfo.bHasFilesystemLock = TRUE;
+		pDevicePrivateData->FWInfo.bHasFilesystemLock = true;
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 8, 9) >= 0)
 	{
-		pDevicePrivateData->FWInfo.bImageAdjustmentsSupported = TRUE;
+		pDevicePrivateData->FWInfo.bImageAdjustmentsSupported = true;
 	}
 
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 8, 15) >= 0)
@@ -746,7 +746,7 @@ XnStatus XnHostProtocolInitHeader(const XnDevicePrivateData* pDevicePrivateData,
 }
 
 XnStatus XnHostProtocolUSBSend(const XnDevicePrivateData* pDevicePrivateData,
-							   XnUChar* pBuffer, uint16_t nSize, uint32_t nTimeOut, XnBool bForceBulk)
+							   XnUChar* pBuffer, uint16_t nSize, uint32_t nTimeOut, bool bForceBulk)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -772,7 +772,7 @@ XnStatus XnHostProtocolUSBSend(const XnDevicePrivateData* pDevicePrivateData,
 }
 
 XnStatus XnHostProtocolUSBReceive(const XnDevicePrivateData* pDevicePrivateData,
-								  XnUChar* pBuffer, XnUInt nSize, uint32_t& nRead, uint32_t nTimeOut, XnBool bForceBulk, uint32_t nFailTimeout)
+								  XnUChar* pBuffer, XnUInt nSize, uint32_t& nRead, uint32_t nTimeOut, bool bForceBulk, uint32_t nFailTimeout)
 {
 	XnStatus nRetVal;
 	uint64_t nMaxTime;
@@ -1052,7 +1052,7 @@ XnStatus XnHostProtocolGetRequestID(const XnDevicePrivateData* pDevicePrivateDat
 	return XN_STATUS_OK;
 }
 
-XnStatus XnHostProtocolReceiveReply(const XnDevicePrivateData* pDevicePrivateData, XnUChar* pBuffer, uint32_t nTimeOut, uint16_t nOpcode, uint16_t nRequestId, uint32_t* pnReadBytes, uint16_t* pnDataSize, XnUChar** ppRelevantBuffer, XnBool bForceBulk, uint32_t nRecvTimeout, uint32_t nFailTimeout)
+XnStatus XnHostProtocolReceiveReply(const XnDevicePrivateData* pDevicePrivateData, XnUChar* pBuffer, uint32_t nTimeOut, uint16_t nOpcode, uint16_t nRequestId, uint32_t* pnReadBytes, uint16_t* pnDataSize, XnUChar** ppRelevantBuffer, bool bForceBulk, uint32_t nRecvTimeout, uint32_t nFailTimeout)
 {
 	XnStatus rc = XN_STATUS_OK;
 
@@ -1118,7 +1118,7 @@ XnStatus XnHostProtocolExecute(const XnDevicePrivateData* pDevicePrivateData,
 	uint32_t nRead = 0;
 	uint32_t nFailTimeout = 0;
 
-	XnBool bForceBulk = FALSE;
+	bool bForceBulk = false;
 
 	if (nOpcode == OPCODE_INVALID)
 	{
@@ -1680,8 +1680,8 @@ void XnHostPrototcolAdjustFixedParamsV26(XnFixedParamsV26* pFixedParamsV26, XnFi
 	// the only difference from V2.6 to V3.0 is the 4 last parameters
 	xnOSMemCopy(pFixedParams, pFixedParamsV26, sizeof(XnFixedParamsV26));
 	pFixedParams->nUseExtPhy = pFixedParamsV26->nUseExtPhy;
-	pFixedParams->bProjectorProtectionEnabled = FALSE;
-	pFixedParams->nProjectorDACOutputVoltage = FALSE;
+	pFixedParams->bProjectorProtectionEnabled = false;
+	pFixedParams->nProjectorDACOutputVoltage = false;
 	pFixedParams->nTecEmitterDelay = pFixedParamsV26->nTecEmitterDelay;
 }
 
@@ -2496,7 +2496,7 @@ XnStatus XnHostProtocolGetFileList(XnDevicePrivateData* pDevicePrivateData, uint
 	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
 	XnUChar* pRelevantBuffer;
 	uint32_t nBytesRead = 0;
-	XnBool bDone = false;
+	bool bDone = false;
 
 	xnLogVerbose(XN_MASK_SENSOR_PROTOCOL, "Getting file list");
 
@@ -3100,7 +3100,7 @@ typedef struct
 } XnProjectorFaultRequest;
 #pragma pack (pop)
 
-XnStatus XnHostProtocolCalibrateProjectorFault(XnDevicePrivateData* pDevicePrivateData, uint16_t nMinThreshold, uint16_t nMaxThreshold, XnBool* pbProjectorFaultEvent)
+XnStatus XnHostProtocolCalibrateProjectorFault(XnDevicePrivateData* pDevicePrivateData, uint16_t nMinThreshold, uint16_t nMaxThreshold, bool* pbProjectorFaultEvent)
 {
 	XnUChar buffer[MAX_PACKET_SIZE] = {0};
 	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;
@@ -3114,7 +3114,7 @@ XnStatus XnHostProtocolCalibrateProjectorFault(XnDevicePrivateData* pDevicePriva
 
 	XnHostProtocolInitHeader(pDevicePrivateData, buffer, sizeof(XnProjectorFaultRequest), pDevicePrivateData->FWInfo.nOpcodeCalibrateProjectorFault);
 
-	XnBool* pResult;
+	bool* pResult;
 
 	XnStatus rc = XnHostProtocolExecute(pDevicePrivateData,
 		buffer, pDevicePrivateData->FWInfo.nProtocolHeaderSize + sizeof(XnProjectorFaultRequest), pDevicePrivateData->FWInfo.nOpcodeCalibrateProjectorFault,
@@ -3461,7 +3461,7 @@ typedef struct XnVSetEmitterStateRequest
 
 #pragma pack (pop)
 
-XnStatus XnHostProtocolSetEmitterState(XnDevicePrivateData* pDevicePrivateData, XnBool bActive)
+XnStatus XnHostProtocolSetEmitterState(XnDevicePrivateData* pDevicePrivateData, bool bActive)
 {
 	XnUChar buffer[MAX_PACKET_SIZE] = {0};
 	XnUChar* pDataBuf = buffer + pDevicePrivateData->FWInfo.nProtocolHeaderSize;

@@ -42,18 +42,18 @@
 
 #define XN_DEPTH_STREAM_DEFAULT_FPS							30
 #define XN_DEPTH_STREAM_DEFAULT_OUTPUT_FORMAT				ONI_PIXEL_FORMAT_DEPTH_1_MM
-#define XN_DEPTH_STREAM_DEFAULT_REGISTRATION				FALSE
+#define XN_DEPTH_STREAM_DEFAULT_REGISTRATION				false
 #define XN_DEPTH_STREAM_DEFAULT_REGISTRATION_TYPE			XN_PROCESSING_DONT_CARE
-#define XN_DEPTH_STREAM_DEFAULT_HOLE_FILLER					TRUE
-#define XN_DEPTH_STREAM_DEFAULT_WHITE_BALANCE				TRUE
+#define XN_DEPTH_STREAM_DEFAULT_HOLE_FILLER					true
+#define XN_DEPTH_STREAM_DEFAULT_WHITE_BALANCE				true
 #define XN_DEPTH_STREAM_DEFAULT_GAIN_OLD					50
-#define XN_DEPTH_STREAM_DEFAULT_GMC_MODE					TRUE
-#define XN_DEPTH_STREAM_DEFAULT_CLOSE_RANGE					FALSE
-#define XN_DEPTH_STREAM_DEFAULT_SHIFT_MAP_APPENDED			TRUE
+#define XN_DEPTH_STREAM_DEFAULT_GMC_MODE					true
+#define XN_DEPTH_STREAM_DEFAULT_CLOSE_RANGE					false
+#define XN_DEPTH_STREAM_DEFAULT_SHIFT_MAP_APPENDED			true
 
-#define XN_DEPTH_STREAM_DEFAULT_GMC_DEBUG					FALSE
-#define XN_DEPTH_STREAM_DEFAULT_WAVELENGTH_CORRECTION		FALSE
-#define XN_DEPTH_STREAM_DEFAULT_WAVELENGTH_CORRECTION_DEBUG	FALSE
+#define XN_DEPTH_STREAM_DEFAULT_GMC_DEBUG					false
+#define XN_DEPTH_STREAM_DEFAULT_WAVELENGTH_CORRECTION		false
+#define XN_DEPTH_STREAM_DEFAULT_WAVELENGTH_CORRECTION_DEBUG	false
 
 //---------------------------------------------------------------------------
 // XnSensorDepthStream class
@@ -102,33 +102,33 @@ protected:
 	// Setters
 	//---------------------------------------------------------------------------
 	XnStatus SetOutputFormat(OniPixelFormat nOutputFormat);
-	XnStatus SetMirror(XnBool bIsMirrored);
+	XnStatus SetMirror(bool bIsMirrored);
 	XnStatus SetResolution(XnResolutions nResolution);
 	XnStatus SetFPS(uint32_t nFPS);
 	virtual XnStatus SetInputFormat(XnIODepthFormats nInputFormat);
-	virtual XnStatus SetRegistration(XnBool bRegistration);
-	virtual XnStatus SetHoleFilter(XnBool bHoleFilter);
-	virtual XnStatus SetWhiteBalance(XnBool bWhiteBalance);
+	virtual XnStatus SetRegistration(bool bRegistration);
+	virtual XnStatus SetHoleFilter(bool bHoleFilter);
+	virtual XnStatus SetWhiteBalance(bool bWhiteBalance);
 	virtual XnStatus SetGain(uint32_t nGain);
 	virtual XnStatus SetRegistrationType(XnProcessingType type);
 	virtual XnStatus SetAGCBin(const XnDepthAGCBin* pBin);
 	virtual XnStatus GetAGCBin(XnDepthAGCBin* pBin);
 	XnStatus SetCropping(const OniCropping* pCropping);
-	XnStatus SetActualRead(XnBool bRead);
-	virtual XnStatus SetGMCMode(XnBool bGMCMode);
-	virtual XnStatus SetCloseRange(XnBool bCloseRange);
+	XnStatus SetActualRead(bool bRead);
+	virtual XnStatus SetGMCMode(bool bGMCMode);
+	virtual XnStatus SetCloseRange(bool bCloseRange);
 	virtual XnStatus SetCroppingMode(XnCroppingMode mode);
 	XnStatus GetImageCoordinatesOfDepthPixel(uint32_t x, uint32_t y, OniDepthPixel z, uint32_t imageXRes, uint32_t imageYRes, uint32_t& imageX, uint32_t& imageY);
-	virtual XnStatus SetGMCDebug(XnBool bGMCDebug);
-	virtual XnStatus SetWavelengthCorrection(XnBool bWavelengthCorrection);
-	virtual XnStatus SetWavelengthCorrectionDebug(XnBool bWavelengthCorrectionDebug);
+	virtual XnStatus SetGMCDebug(bool bGMCDebug);
+	virtual XnStatus SetWavelengthCorrection(bool bWavelengthCorrection);
+	virtual XnStatus SetWavelengthCorrectionDebug(bool bWavelengthCorrectionDebug);
 
 private:
 	uint32_t CalculateExpectedSize();
-	XnStatus DecideFirmwareRegistration(XnBool bRegistration, XnProcessingType registrationType, XnResolutions nRes);
+	XnStatus DecideFirmwareRegistration(bool bRegistration, XnProcessingType registrationType, XnResolutions nRes);
 	XnStatus DecidePixelSizeFactor();
 	XnStatus SetCroppingImpl(const OniCropping* pCropping, XnCroppingMode mode);
-	XnStatus CloseRangeControl(XnBool bEnabled);
+	XnStatus CloseRangeControl(bool bEnabled);
 
 	static XnStatus XN_CALLBACK_TYPE SetInputFormatCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE SetRegistrationCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);

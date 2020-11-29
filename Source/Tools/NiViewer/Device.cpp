@@ -74,10 +74,10 @@ void initConstants()
 	nIndex = 0;
 
 	g_Registration.pValues[nIndex++] = openni::IMAGE_REGISTRATION_OFF;
-	g_Registration.pValueToName[FALSE] = "Off";
+	g_Registration.pValueToName[false] = "Off";
 
 	g_Registration.pValues[nIndex++] = openni::IMAGE_REGISTRATION_DEPTH_TO_COLOR;
-	g_Registration.pValueToName[TRUE] = "Depth -> Image";
+	g_Registration.pValueToName[true] = "Depth -> Image";
 
 	g_Registration.nValuesCount = nIndex;
 }
@@ -370,7 +370,7 @@ void toggleMirror(int)
 
 void toggleCloseRange(int)
 {
-	static OniBool bCloseRange = FALSE;
+	static bool bCloseRange = false;
 
 	if (g_depthStream.getProperty(XN_STREAM_PROPERTY_CLOSE_RANGE, &bCloseRange) != XN_STATUS_OK)
 	{
@@ -390,7 +390,7 @@ void toggleCloseRange(int)
 
 void toggleEmitterState(int)
 {
-	static OniBool bEmitterState = TRUE;
+	static bool bEmitterState = true;
 
 	if (g_device.getProperty(XN_MODULE_PROPERTY_EMITTER_STATE, &bEmitterState) != XN_STATUS_OK)
 	{
@@ -947,11 +947,11 @@ void toggleZoomCrop(int)
 
 		g_colorStream.start();
 
-		g_colorStream.setProperty(XN_STREAM_PROPERTY_FAST_ZOOM_CROP, FALSE);
+		g_colorStream.setProperty(XN_STREAM_PROPERTY_FAST_ZOOM_CROP, false);
 	}
 	else
 	{
-		g_colorStream.setProperty(XN_STREAM_PROPERTY_FAST_ZOOM_CROP, TRUE);
+		g_colorStream.setProperty(XN_STREAM_PROPERTY_FAST_ZOOM_CROP, true);
 
 		displayMessage("Fast zoom crop on");
 

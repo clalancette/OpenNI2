@@ -49,12 +49,12 @@ public:
 				IConnectionFactory* pConnectionFactory,
 				LinkInputStreamsMgr* pLinkInputStreamsMgr,
 				ILinkDataEndpointNotifications* pNotifications);
-	XnBool IsInitialized() const;
+	bool IsInitialized() const;
 
 	void Shutdown();
 	XnStatus Connect();
 	void Disconnect();
-	XnBool IsConnected() const;
+	bool IsConnected() const;
 	uint16_t GetMaxPacketSize() const;
 
 	/* IDataDestination Implementation */
@@ -67,7 +67,7 @@ private:
 	ILinkDataEndpointNotifications* m_pNotifications;
 	IAsyncInputConnection* m_pConnection;
 	IConnectionFactory* m_pConnectionFactory;
-	XnBool m_bInitialized;
+	bool m_bInitialized;
 	volatile uint32_t m_nConnected;
 	XN_CRITICAL_SECTION_HANDLE m_hCriticalSection;
 	XnDumpFile* m_pDumpFile;

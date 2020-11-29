@@ -75,20 +75,20 @@ ONI_C_API OniStatus oniDeviceCreateStream(OniDeviceHandle device, OniSensorType 
 
 ONI_C_API OniStatus oniDeviceEnableDepthColorSync(OniDeviceHandle device);
 ONI_C_API void oniDeviceDisableDepthColorSync(OniDeviceHandle device);
-ONI_C_API OniBool oniDeviceGetDepthColorSyncEnabled(OniDeviceHandle device);
+ONI_C_API bool oniDeviceGetDepthColorSyncEnabled(OniDeviceHandle device);
 
 /** Set property in the device. Use the properties listed in OniTypes.h: ONI_DEVICE_PROPERTY_..., or specific ones supplied by the device. */
 ONI_C_API OniStatus oniDeviceSetProperty(OniDeviceHandle device, int propertyId, const void* data, int dataSize);
 /** Get property in the device. Use the properties listed in OniTypes.h: ONI_DEVICE_PROPERTY_..., or specific ones supplied by the device. */
 ONI_C_API OniStatus oniDeviceGetProperty(OniDeviceHandle device, int propertyId, void* data, int* pDataSize);
 /** Check if the property is supported by the device. Use the properties listed in OniTypes.h: ONI_DEVICE_PROPERTY_..., or specific ones supplied by the device. */
-ONI_C_API OniBool oniDeviceIsPropertySupported(OniDeviceHandle device, int propertyId);
+ONI_C_API bool oniDeviceIsPropertySupported(OniDeviceHandle device, int propertyId);
 /** Invoke an internal functionality of the device. */
 ONI_C_API OniStatus oniDeviceInvoke(OniDeviceHandle device, int commandId, void* data, int dataSize);
 /** Check if a command is supported, for invoke */
-ONI_C_API OniBool oniDeviceIsCommandSupported(OniDeviceHandle device, int commandId);
+ONI_C_API bool oniDeviceIsCommandSupported(OniDeviceHandle device, int commandId);
 
-ONI_C_API OniBool oniDeviceIsImageRegistrationModeSupported(OniDeviceHandle device, OniImageRegistrationMode mode);
+ONI_C_API bool oniDeviceIsImageRegistrationModeSupported(OniDeviceHandle device, OniImageRegistrationMode mode);
 
 /** @internal */
 ONI_C_API OniStatus oniDeviceOpenEx(const char* uri, const char* mode, OniDeviceHandle* pDevice);
@@ -119,11 +119,11 @@ ONI_C_API OniStatus oniStreamSetProperty(OniStreamHandle stream, int propertyId,
 /** Get property in the stream. Use the properties listed in OniTypes.h: ONI_STREAM_PROPERTY_..., or specific ones supplied by the device for its streams. */
 ONI_C_API OniStatus oniStreamGetProperty(OniStreamHandle stream, int propertyId, void* data, int* pDataSize);
 /** Check if the property is supported the stream. Use the properties listed in OniTypes.h: ONI_STREAM_PROPERTY_..., or specific ones supplied by the device for its streams. */
-ONI_C_API OniBool oniStreamIsPropertySupported(OniStreamHandle stream, int propertyId);
+ONI_C_API bool oniStreamIsPropertySupported(OniStreamHandle stream, int propertyId);
 /** Invoke an internal functionality of the stream. */
 ONI_C_API OniStatus oniStreamInvoke(OniStreamHandle stream, int commandId, void* data, int dataSize);
 /** Check if a command is supported, for invoke */
-ONI_C_API OniBool oniStreamIsCommandSupported(OniStreamHandle stream, int commandId);
+ONI_C_API bool oniStreamIsCommandSupported(OniStreamHandle stream, int commandId);
 /** Sets the stream buffer allocation functions. Note that this function may only be called while stream is not started. */
 ONI_C_API OniStatus oniStreamSetFrameBuffersAllocator(OniStreamHandle stream, OniFrameAllocBufferCallback alloc, OniFrameFreeBufferCallback free, void* pCookie);
 
@@ -158,7 +158,7 @@ ONI_C_API OniStatus oniCreateRecorder(const char* fileName, OniRecorderHandle* p
 ONI_C_API OniStatus oniRecorderAttachStream(
 	OniRecorderHandle   recorder,
 	OniStreamHandle     stream,
-	OniBool             allowLossyCompression);
+	bool             allowLossyCompression);
 
 /**
  * Starts recording. There must be at least one stream attached to the recorder,
@@ -228,21 +228,21 @@ ONI_C_API OniStatus oniSetLogMinSeverity(int nMinSeverity);
 /**
  * Configures if log entries will be printed to console.
 
- * @param	OniBool bConsoleOutput	[in]	TRUE to print log entries to console, FALSE otherwise.
+ * @param	bool bConsoleOutput	[in]	true to print log entries to console, false otherwise.
  *
  * @retval ONI_STATUS_OK Upon successful completion.
  * @retval ONI_STATUS_ERROR Upon any kind of failure.
  */
-ONI_C_API OniStatus oniSetLogConsoleOutput(OniBool bConsoleOutput);
+ONI_C_API OniStatus oniSetLogConsoleOutput(bool bConsoleOutput);
 
 /**
  * Configures if log entries will be printed to a log file.
 
- * @param	OniBool bFileOutput	[in]	TRUE to print log entries to the file, FALSE otherwise.
+ * @param	bool bFileOutput	[in]	true to print log entries to the file, false otherwise.
  *
  * @retval ONI_STATUS_OK Upon successful completion.
  * @retval ONI_STATUS_ERROR Upon any kind of failure.
  */
-ONI_C_API OniStatus oniSetLogFileOutput(OniBool bFileOutput);
+ONI_C_API OniStatus oniSetLogFileOutput(bool bFileOutput);
 
 #endif // ONICAPI_H

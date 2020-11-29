@@ -85,12 +85,12 @@ void XnOniColorStream::GetAllowedOniOutputFormatForInputFormat(XnIOImageFormats 
 	}
 }
 
-XnBool XnOniColorStream::IsSupportedInputFormat(XnIOImageFormats inputFormat, OniPixelFormat oniFormat)
+bool XnOniColorStream::IsSupportedInputFormat(XnIOImageFormats inputFormat, OniPixelFormat oniFormat)
 {
 	return IsPreferredInputFormat(inputFormat, (XnIOImageFormats)XN_MAX_UINT32, oniFormat);
 }
 
-XnBool XnOniColorStream::IsPreferredInputFormat(XnIOImageFormats inputFormat, XnIOImageFormats thanFormat, OniPixelFormat oniFormat)
+bool XnOniColorStream::IsPreferredInputFormat(XnIOImageFormats inputFormat, XnIOImageFormats thanFormat, OniPixelFormat oniFormat)
 {
 	XnIOImageFormats *aAllowedFormats;
 	int		  nAllowedFormats;
@@ -118,22 +118,22 @@ XnBool XnOniColorStream::IsPreferredInputFormat(XnIOImageFormats inputFormat, Xn
 		nAllowedFormats = sizeof(g_anAllowedGray8Formats)/sizeof(g_anAllowedGray8Formats[0]);
 		break;
 	default:
-		return FALSE;
+		return false;
 	}
 
 	for(int i=0; i<nAllowedFormats; ++i)
 	{
 		// the order in the allowed input formats is the preferred one
 		if(aAllowedFormats[i] == thanFormat) {
-			return FALSE;
+			return false;
 		}
 		if(aAllowedFormats[i] == inputFormat) {
-			return TRUE;
+			return true;
 		}
 	}
 
 	// none of the formats is supported :|
-	return FALSE;
+	return false;
 }
 
 //---------------------------------------------------------------------------

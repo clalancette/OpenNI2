@@ -36,7 +36,7 @@ class XnOniDepthStream final :
 public:
 	XnOniDepthStream(XnSensor* pSensor, XnOniDevice* pDevice);
 	OniStatus getProperty(int propertyId, void* data, int* pDataSize) override;
-	OniBool isPropertySupported(int propertyId) override;
+	bool isPropertySupported(int propertyId) override;
 	void notifyAllProperties() override;
 	OniStatus convertDepthToColorCoordinates(StreamBase* colorStream, int depthX, int depthY, OniDepthPixel depthZ, int* pColorX, int* pColorY) override;
 };

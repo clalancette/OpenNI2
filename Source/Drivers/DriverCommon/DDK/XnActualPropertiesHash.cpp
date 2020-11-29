@@ -137,7 +137,7 @@ XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName,
 	XnActualGeneralProperty* pProp;
 	XN_VALIDATE_NEW(pProp, XnActualGeneralProperty, propertyId, strName, gbNew, NULL, m_strName);
 
-	pProp->SetAsBufferOwner(TRUE);
+	pProp->SetAsBufferOwner(true);
 
 	// and add it to the hash
 	nRetVal = m_Hash.Set(propertyId, pProp);

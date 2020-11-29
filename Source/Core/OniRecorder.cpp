@@ -24,7 +24,7 @@
 
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 
-Recorder::Recorder(OniRecorderHandle handle) : m_handle(handle), m_running(FALSE), m_started(FALSE), m_wasStarted(FALSE)
+Recorder::Recorder(OniRecorderHandle handle) : m_handle(handle), m_running(false), m_started(false), m_wasStarted(false)
 {}
 
 Recorder::~Recorder()
@@ -38,7 +38,7 @@ OniStatus Recorder::initialize(const char* /*path*/)
 	return ONI_STATUS_OK;
 }
 
-OniStatus Recorder::attachStream(VideoStream& stream, OniBool /*allowLossyCompression*/)
+OniStatus Recorder::attachStream(VideoStream& stream, bool /*allowLossyCompression*/)
 {
 	if (m_wasStarted)
 	{

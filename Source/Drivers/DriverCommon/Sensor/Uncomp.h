@@ -35,9 +35,9 @@
 //---------------------------------------------------------------------------
 XnStatus XnStreamUncompressImageNew(const uint8_t* pInput, const uint32_t nInputSize,
 									uint8_t* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
-									uint32_t* pnActualRead, XnBool bLastPart);
+									uint32_t* pnActualRead, bool bLastPart);
 XnStatus XnStreamUncompressYUVImagePS(const uint8_t* pInput, const uint32_t nInputSize,
 									   uint8_t* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
-									   uint32_t* pnActualRead, XnBool bLastPart);
+									   uint32_t* pnActualRead, bool bLastPart);
 
 #endif // UNCOMP_H

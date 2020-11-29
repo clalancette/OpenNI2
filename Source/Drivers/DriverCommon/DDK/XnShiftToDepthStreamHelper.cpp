@@ -25,7 +25,7 @@ XnShiftToDepthStreamHelper::XnShiftToDepthStreamHelper() :
 	m_ShiftToDepthTable(XN_STREAM_PROPERTY_S2D_TABLE, "S2D", NULL, 0, NULL),
 	m_DepthToShiftTable(XN_STREAM_PROPERTY_D2S_TABLE, "D2S", NULL, 0, NULL),
 	m_pModule(NULL),
-	m_bPropertiesAdded(FALSE)
+	m_bPropertiesAdded(false)
 {
 	m_ShiftToDepthTable.UpdateGetCallback(GetShiftToDepthTableCallback, this);
 	m_DepthToShiftTable.UpdateGetCallback(GetDepthToShiftTableCallback, this);
@@ -45,7 +45,7 @@ XnStatus XnShiftToDepthStreamHelper::Init(XnDeviceModule* pModule)
 	m_pModule = pModule;
 
 	// old depth streams did not have S2D tables as actual properties. Add these properties
-	XnBool bDoesExist = FALSE;
+	bool bDoesExist = false;
 	nRetVal = m_pModule->DoesPropertyExist(XN_STREAM_PROPERTY_S2D_TABLE, &bDoesExist);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -54,7 +54,7 @@ XnStatus XnShiftToDepthStreamHelper::Init(XnDeviceModule* pModule)
 		// add properties to the module
 		XN_VALIDATE_ADD_PROPERTIES(m_pModule, &m_ShiftToDepthTable, &m_DepthToShiftTable);
 
-		m_bPropertiesAdded = TRUE;
+		m_bPropertiesAdded = true;
 
 		// now create tables and register to properties
 		nRetVal = InitShiftToDepth();
@@ -207,7 +207,7 @@ XnStatus XnShiftToDepthStreamHelper::GetShiftToDepthConfig(XnShiftToDepthConfig&
 		Config.nShiftScale *= 10;
 		break;
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 	}
 
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_MIN_DEPTH, &nTemp);

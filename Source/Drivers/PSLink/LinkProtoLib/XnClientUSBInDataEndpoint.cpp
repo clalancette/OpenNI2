@@ -56,7 +56,7 @@ ClientUSBInDataEndpoint::ClientUSBInDataEndpoint()
 	m_nEndpointID = 0;
 	m_nMaxPacketSize = 0;
 	m_pDataDestination = NULL;
-	m_bConnected = FALSE;
+	m_bConnected = false;
 	m_hEndpoint = NULL;
 }
 
@@ -85,7 +85,7 @@ XnStatus ClientUSBInDataEndpoint::Init(XN_USB_DEV_HANDLE hUSBDevice, uint16_t nE
 	if (nTempMaxPacketSize > XN_MAX_UINT16)
 	{
 		xnLogError(XN_MASK_USB, "Max packet size received is larger than max uint16 value?!");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 	m_nMaxPacketSize = static_cast<uint16_t>(nTempMaxPacketSize);
@@ -113,7 +113,7 @@ XnStatus ClientUSBInDataEndpoint::Connect()
 		uint32_t nTimeout = (m_endpointType == XN_USB_EP_ISOCHRONOUS) ? READ_THREAD_TIMEOUT_ISO : READ_THREAD_TIMEOUT_BULK;
 		nRetVal = xnUSBInitReadThread(m_hEndpoint, nBufferSize, nBuffersCount, nTimeout, ReadThreadCallback, this);
 		XN_IS_STATUS_OK_LOG_ERROR("Init USB Read thread", nRetVal);
-		m_bConnected = TRUE;
+		m_bConnected = true;
 	}
 	return XN_STATUS_OK;
 }
@@ -128,9 +128,9 @@ void ClientUSBInDataEndpoint::Disconnect()
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnLogWarning(XN_MASK_USB, "Failed to shutdown endpoint 0x%x read thread: %s", m_nEndpointID, xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 		}
-		m_bConnected = FALSE;
+		m_bConnected = false;
 	}
 }
 
@@ -146,7 +146,7 @@ XnStatus ClientUSBInDataEndpoint::SetDataDestination(IDataDestination* pDataDest
 	return XN_STATUS_OK;
 }
 
-XnBool XN_CALLBACK_TYPE ClientUSBInDataEndpoint::ReadThreadCallback(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData)
+bool XN_CALLBACK_TYPE ClientUSBInDataEndpoint::ReadThreadCallback(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData)
 {
 	ClientUSBInDataEndpoint* pThis = reinterpret_cast<ClientUSBInDataEndpoint*>(pCallbackData);
 	IDataDestination* pDataDestination = pThis->m_pDataDestination;
@@ -162,10 +162,10 @@ XnBool XN_CALLBACK_TYPE ClientUSBInDataEndpoint::ReadThreadCallback(XnUChar* pBu
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
-XnBool ClientUSBInDataEndpoint::IsConnected() const
+bool ClientUSBInDataEndpoint::IsConnected() const
 {
 	return m_bConnected;
 }

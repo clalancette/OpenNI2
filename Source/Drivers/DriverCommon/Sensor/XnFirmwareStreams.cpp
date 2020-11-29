@@ -322,13 +322,13 @@ XnStatus XnFirmwareStreams::ReplaceStreamProcessor(const XnChar* strType, XnDevi
 	return (XN_STATUS_OK);
 }
 
-XnBool XnFirmwareStreams::IsClaimed(const XnChar* strType, XnDeviceStream* pStream)
+bool XnFirmwareStreams::IsClaimed(const XnChar* strType, XnDeviceStream* pStream)
 {
 	XnFirmwareStreamData* pData = NULL;
 	if (XN_STATUS_OK == m_FirmwareStreams.Get(strType, pData) && pData->pOwner == pStream)
-		return TRUE;
+		return true;
 	else
-		return FALSE;
+		return false;
 }
 
 void XnFirmwareStreams::ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)

@@ -52,7 +52,7 @@ public:
 	XnStatus AddProperty(XnProperty* pProperty);
 	XnStatus AddProperties(XnProperty** apProperties, uint32_t nCount);
 
-	XnStatus DoesPropertyExist(uint32_t propertyId, XnBool* pbDoesExist) const;
+	XnStatus DoesPropertyExist(uint32_t propertyId, bool* pbDoesExist) const;
 	XnStatus GetPropertyType(uint32_t propertyId, XnPropertyType* pnType) const;
 
 	XnStatus GetProperty(uint32_t propertyId, XnProperty** ppProperty) const;
@@ -95,7 +95,7 @@ public:
 private:
 	XnStatus GetPropertyImpl(uint32_t propertyId, XnPropertyType Type, XnProperty** ppProperty) const;
 
-	XnStatus SetLockState(XnBool bLocked);
+	XnStatus SetLockState(bool bLocked);
 
 	static XnStatus XN_CALLBACK_TYPE SetLockStateCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 

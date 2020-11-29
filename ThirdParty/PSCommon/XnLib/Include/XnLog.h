@@ -96,16 +96,16 @@ XN_C_API void XN_C_DECL xnLogUnregisterLogWriter(XnLogWriter* pWriter);
 /**
 * Configures if log entries will be printed to console.
 *
-* @param	bConsoleOutput	[in]	TRUE to print log entries to console, FALSE otherwise.
+* @param	bConsoleOutput	[in]	true to print log entries to console, false otherwise.
 */
-XN_C_API XnStatus XN_C_DECL xnLogSetConsoleOutput(XnBool bConsoleOutput);
+XN_C_API XnStatus XN_C_DECL xnLogSetConsoleOutput(bool bConsoleOutput);
 
 /**
 * Configures if log entries will be printed to a log file.
 *
-* @param	bFileOutput	[in]	TRUE to print log entries to the file, FALSE otherwise.
+* @param	bFileOutput	[in]	true to print log entries to the file, false otherwise.
 */
-XN_C_API XnStatus XN_C_DECL xnLogSetFileOutput(XnBool bFileOutput);
+XN_C_API XnStatus XN_C_DECL xnLogSetFileOutput(bool bFileOutput);
 
 // @}
 
@@ -123,9 +123,9 @@ XN_C_API XnStatus XN_C_DECL xnLogStartNewFile();
 /**
  * Configures if log entries in file will include the file and line that caused them.
  *
- * @param	bLineInfo	[in]	TRUE to print file and line, FALSE otherwise
+ * @param	bLineInfo	[in]	true to print file and line, false otherwise
  */
-XN_C_API XnStatus XN_C_DECL xnLogSetLineInfo(XnBool bLineInfo);
+XN_C_API XnStatus XN_C_DECL xnLogSetLineInfo(bool bLineInfo);
 
 /**
  * Configures the folder under which logs will be written.
@@ -199,7 +199,7 @@ XN_C_API void XN_C_DECL xnLoggerWriteBinaryData(XnLogger* pLogger, XnLogSeverity
  * @param	pLogger		[in]	Logger to check
  * @param	severity	[in]	Severity to check.
  */
-XN_C_API XnBool XN_C_DECL xnLoggerIsEnabled(XnLogger* pLogger, XnLogSeverity severity);
+XN_C_API bool XN_C_DECL xnLoggerIsEnabled(XnLogger* pLogger, XnLogSeverity severity);
 
 /**
  * Closes a logger previsouly opened using @ref xnLoggerOpen().
@@ -350,14 +350,14 @@ XN_C_API void XN_C_DECL _xnLoggerClose(XnLogger* pLogger);
  * Creates a new file under the logs directory.
  *
  * @param	strName			[in]		Name of the file to create
- * @param	bSessionBased	[in]		TRUE for a session-based file, FALSE otherwise. A session based
+ * @param	bSessionBased	[in]		true for a session-based file, false otherwise. A session based
  *										file also includes the timestamp and process ID of the running
  *										process as a prefix to its name.
  * @param	csFullPath		[in/out]	A buffer to be filled with full path of the created file
  * @param	nPathBufferSize	[in]		The size of the <c>csFullPath</c> buffer
  * @param	phFile			[out]		The file handle
  */
-XN_C_API XnStatus XN_C_DECL xnLogCreateNewFile(const XnChar* strName, XnBool bSessionBased, XnChar* csFullPath, uint32_t nPathBufferSize, XN_FILE_HANDLE* phFile);
+XN_C_API XnStatus XN_C_DECL xnLogCreateNewFile(const XnChar* strName, bool bSessionBased, XnChar* csFullPath, uint32_t nPathBufferSize, XN_FILE_HANDLE* phFile);
 
 // @}
 
@@ -370,7 +370,7 @@ XN_C_API XnLogger* XN_LOGGER_RETVAL_CHECKS;
 	if (nRetVal != XN_STATUS_OK)																		\
 	{																									\
 		xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to " what ": %s", xnGetStatusString(nRetVal));	\
-		XN_ASSERT(FALSE);																				\
+		XN_ASSERT(false);																				\
 		return (nRetVal);																				\
 	}
 /** The same, but returns a different value **/
@@ -378,21 +378,21 @@ XN_C_API XnLogger* XN_LOGGER_RETVAL_CHECKS;
 	if (xnStatus != XN_STATUS_OK)																		\
 {																									\
 	xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to " what ": %s", xnGetStatusString(xnStatus));	\
-	XN_ASSERT(FALSE);																				\
+	XN_ASSERT(false);																				\
 	return (retVal);																				\
 }
 
 
 #ifndef __XN_NO_BC__
 
-XN_C_API XnStatus XN_API_DEPRECATED("Please use xnLogSetMaskMinSeverity() instead") XN_C_DECL xnLogSetMaskState(const XnChar* csMask, XnBool bEnabled);
+XN_C_API XnStatus XN_API_DEPRECATED("Please use xnLogSetMaskMinSeverity() instead") XN_C_DECL xnLogSetMaskState(const XnChar* csMask, bool bEnabled);
 XN_C_API XnStatus XN_API_DEPRECATED("Please use xnLogSetMaskMinSeverity() instead") XN_C_DECL xnLogSetSeverityFilter(XnLogSeverity nMinSeverity);
-XN_C_API XnBool XN_C_DECL xnLogIsEnabled(const XnChar* csLogMask, XnLogSeverity nSeverity);
+XN_C_API bool XN_C_DECL xnLogIsEnabled(const XnChar* csLogMask, XnLogSeverity nSeverity);
 XN_C_API void XN_C_DECL xnLogWrite(const XnChar* csLogMask, XnLogSeverity nSeverity, const XnChar* csFile, uint32_t nLine, const XnChar* csFormat, ...);
 XN_C_API void XN_C_DECL xnLogWriteNoEntry(const XnChar* csLogMask, XnLogSeverity nSeverity, const XnChar* csFormat, ...);
 XN_C_API void XN_C_DECL xnLogWriteBinaryData(const XnChar* csLogMask, XnLogSeverity nSeverity, const XnChar* csFile, uint32_t nLine, XnUChar* pBinData, uint32_t nDataSize, const XnChar* csFormat, ...);
 XN_C_API XnStatus XN_API_DEPRECATED("Use xnLogCreateNewFile() instead") XN_C_DECL xnLogCreateFile(const XnChar* strFileName, XN_FILE_HANDLE* phFile);
-XN_C_API XnStatus XN_API_DEPRECATED("Use xnLogCreateNewFile() instead") XN_C_DECL xnLogCreateFileEx(const XnChar* strFileName, XnBool bSessionBased, XN_FILE_HANDLE* phFile);
+XN_C_API XnStatus XN_API_DEPRECATED("Use xnLogCreateNewFile() instead") XN_C_DECL xnLogCreateFileEx(const XnChar* strFileName, bool bSessionBased, XN_FILE_HANDLE* phFile);
 
 #if XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_WIN32_VAARGS_STYLE
 	#define xnLogVerbose(csLogMask, csFormat, ...)	xnLogWrite(csLogMask, XN_LOG_VERBOSE, __FILE__, __LINE__, csFormat, __VA_ARGS__)

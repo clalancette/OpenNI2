@@ -301,7 +301,7 @@ typedef struct XnLinkIDSetGroup
 
 typedef struct XnLinkCropping
 {
-	/** TRUE if cropping is turned on, FALSE otherwise. */
+	/** true if cropping is turned on, false otherwise. */
 	uint8_t m_bEnabled;
 
 	uint8_t m_nReserved1;
@@ -360,7 +360,7 @@ typedef struct XnLinkSupportedBistTests
 
 typedef struct XnLinkUploadFileHeader
 {
-	XnBool m_bOverrideFactorySettings;
+	bool m_bOverrideFactorySettings;
 } XnLinkUploadFileHeader;
 
 typedef struct XnLinkLeanVersion

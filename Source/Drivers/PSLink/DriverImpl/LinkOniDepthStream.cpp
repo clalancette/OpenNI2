@@ -148,7 +148,7 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 	return ONI_STATUS_OK;
 }
 
-OniBool LinkOniDepthStream::isPropertySupported(int propertyId)
+bool LinkOniDepthStream::isPropertySupported(int propertyId)
 {
 	switch(propertyId)
 	{

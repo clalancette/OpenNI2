@@ -154,7 +154,7 @@ private:
 
 	XnFirmwareInfo* m_pInfo;
 	XnFirmwareCommands* m_pCommands;
-	XnBool m_bInTransaction;
+	bool m_bInTransaction;
 	std::list<XnActualIntProperty *> m_TransactionOrder; // the transaction according to the order in which it was set
 	XnPropertyToValueHash m_Transaction; // maps a property to its new value
 };

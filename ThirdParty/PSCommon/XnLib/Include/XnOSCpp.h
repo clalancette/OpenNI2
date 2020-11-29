@@ -144,7 +144,7 @@ private:
 class AutoCSLocker
 {
 public:
-	inline AutoCSLocker(const AutoCSLocker& other) : m_cs(other.m_cs), m_locked(FALSE)
+	inline AutoCSLocker(const AutoCSLocker& other) : m_cs(other.m_cs), m_locked(false)
 	{
 		Lock();
 	}
@@ -155,11 +155,11 @@ public:
 		Lock();
 		return *this;
 	}
-	inline AutoCSLocker(XN_CRITICAL_SECTION_HANDLE handle) : m_cs(handle), m_locked(FALSE)
+	inline AutoCSLocker(XN_CRITICAL_SECTION_HANDLE handle) : m_cs(handle), m_locked(false)
 	{
 		Lock();
 	}
-	inline AutoCSLocker(const CriticalSection& cs) : m_cs(cs.m_cs), m_locked(FALSE)
+	inline AutoCSLocker(const CriticalSection& cs) : m_cs(cs.m_cs), m_locked(false)
 	{
 		Lock();
 	}
@@ -173,7 +173,7 @@ public:
 		if (!m_locked)
 		{
 			xnOSEnterCriticalSection(&m_cs);
-			m_locked = TRUE;
+			m_locked = true;
 		}
 	}
 	inline void Unlock()
@@ -181,7 +181,7 @@ public:
 		if (m_locked)
 		{
 			xnOSLeaveCriticalSection(&m_cs);
-			m_locked = FALSE;
+			m_locked = false;
 		}
 	}
 private:
@@ -220,17 +220,17 @@ public:
 		return m_hEvent;
 	}
 
-	XnStatus Create(XnBool bManualReset)
+	XnStatus Create(bool bManualReset)
 	{
 		return xnOSCreateEvent(&m_hEvent, bManualReset);
 	}
 
-	XnStatus Create(const XnChar* strName, XnBool bManualReset, XnBool bAllowOtherUsers = FALSE)
+	XnStatus Create(const XnChar* strName, bool bManualReset, bool bAllowOtherUsers = false)
 	{
 		return xnOSCreateNamedEventEx(&m_hEvent, strName, bManualReset, bAllowOtherUsers);
 	}
 
-	XnStatus Open(const XnChar* strName, XnBool bEnableOtherUsers = FALSE)
+	XnStatus Open(const XnChar* strName, bool bEnableOtherUsers = false)
 	{
 		return xnOSOpenNamedEventEx(&m_hEvent, strName, bEnableOtherUsers);
 	}

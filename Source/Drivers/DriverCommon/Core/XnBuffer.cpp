@@ -32,7 +32,7 @@ XnStatus XnBuffer::Allocate(uint32_t nAllocSize)
 	XN_VALIDATE_ALIGNED_CALLOC(m_pData, XnUChar, nAllocSize, XN_DEFAULT_MEM_ALIGN);
 	m_nMaxSize = nAllocSize;
 	m_nSize = 0;
-	m_bAllocated = TRUE;
+	m_bAllocated = true;
 	return (XN_STATUS_OK);
 }
 
@@ -42,7 +42,7 @@ void XnBuffer::SetExternalBuffer(XnUChar* pBuffer, uint32_t nSize)
 	m_pData = pBuffer;
 	m_nMaxSize = nSize;
 	m_nSize = 0;
-	m_bAllocated = FALSE;
+	m_bAllocated = false;
 }
 
 XnStatus XnBuffer::Write(const XnUChar* pData, uint32_t nDataSize)

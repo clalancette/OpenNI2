@@ -82,9 +82,9 @@ private:
 	uint32_t CalculateExpectedSize();
 
 	uint32_t m_nPaddingPixelsOnEnd;
-	XnBool m_applyRegistrationOnEnd;
+	bool m_applyRegistrationOnEnd;
 	uint32_t m_nExpectedFrameSize;
-	XnBool m_bShiftToDepthAllocated;
+	bool m_bShiftToDepthAllocated;
 	OniDepthPixel* m_pShiftToDepthTable;
 	OniDepthPixel m_noDepthValue;
 };

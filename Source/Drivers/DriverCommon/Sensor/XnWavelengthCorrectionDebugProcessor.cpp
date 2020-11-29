@@ -41,7 +41,7 @@ XnWavelengthCorrectionDebugProcessor::~XnWavelengthCorrectionDebugProcessor()
 
 void XnWavelengthCorrectionDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData)
 {
-	m_DumpTxt = xnDumpFileOpenEx("WavelengthCorrectionDebug", TRUE, TRUE, "WavelengthCorrection.csv");
+	m_DumpTxt = xnDumpFileOpenEx("WavelengthCorrectionDebug", true, true, "WavelengthCorrection.csv");
 	xnDumpFileWriteString(m_DumpTxt, "HostTimestamp,PacketID,BLast,BCurrent,IsHop,CurrentSlidingWindow,CurrentHopsCount,IsTecCalibrated,WaitPeriod,IsWavelengthUnstable,BestHopsCount,BestSetPoint,BestStep,IsTotallyUnstable,ConfiguredTecSetPoint,CurrentStep\n");
 
 	XnWavelengthCorrectionDebugPacket* pPacket = (XnWavelengthCorrectionDebugPacket*)pData;

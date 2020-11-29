@@ -23,7 +23,7 @@
 
 TestStream::TestStream(OniSensorType sensorType) : oni::driver::StreamBase()
 {
-	m_osEvent.Create(TRUE);
+	m_osEvent.Create(true);
 	m_sensorType = sensorType;
 	m_videoMode.resolutionX = DEFAULT_RESOLUTION_X;
 	m_videoMode.resolutionY = DEFAULT_RESOLUTION_Y;
@@ -48,7 +48,7 @@ OniPixelFormat TestStream::getDefaultPixelFormat(OniSensorType sensorType)
 	case ONI_SENSOR_IR:
 		return ONI_PIXEL_FORMAT_GRAY16;
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return (OniPixelFormat)-1;
 	}
 }
@@ -126,7 +126,7 @@ int getBytesPerPixel(OniPixelFormat format)
 	case ONI_PIXEL_FORMAT_JPEG:
 		return 1;
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return 0;
 	}
 }
@@ -162,7 +162,7 @@ OniStatus TestStream::invoke(int commandId, void* data, int dataSize)
 			pFrame->height = m_videoMode.resolutionY;
 
 			pFrame->cropOriginX = pFrame->cropOriginY = 0;
-			pFrame->croppingEnabled = FALSE;
+			pFrame->croppingEnabled = false;
 
 			pFrame->sensorType = m_sensorType;
 			pFrame->stride = m_videoMode.resolutionX * getBytesPerPixel(m_videoMode.pixelFormat);

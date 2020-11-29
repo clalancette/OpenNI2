@@ -187,7 +187,7 @@ void ONI_CALLBACK_TYPE PlayerStream::OnNewDataCallback(const PlayerSource::NewDa
 	OniStatus rc = pStream->m_pSource->GetProperty(ONI_STREAM_PROPERTY_VIDEO_MODE, &videoMode, &valueSize);
 	if (rc != ONI_STATUS_OK)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return;
 	}
 
@@ -197,7 +197,7 @@ void ONI_CALLBACK_TYPE PlayerStream::OnNewDataCallback(const PlayerSource::NewDa
 	rc = pStream->m_pSource->GetProperty(ONI_STREAM_PROPERTY_STRIDE, &stride, &valueSize);
 	if (rc != ONI_STATUS_OK)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return;
 	}
 
@@ -207,7 +207,7 @@ void ONI_CALLBACK_TYPE PlayerStream::OnNewDataCallback(const PlayerSource::NewDa
 	rc = pStream->m_pSource->GetProperty(ONI_STREAM_PROPERTY_CROPPING, &cropping, &dataSize);
 	if (rc != ONI_STATUS_OK)
 	{
-		cropping.enabled = FALSE;
+		cropping.enabled = false;
 	}
 
 	// Allocate new frame and fill it.
@@ -232,7 +232,7 @@ void ONI_CALLBACK_TYPE PlayerStream::OnNewDataCallback(const PlayerSource::NewDa
 		pFrame->stride = stride;
 		pFrame->cropOriginX = 0;
 		pFrame->cropOriginY = 0;
-		pFrame->croppingEnabled = FALSE;
+		pFrame->croppingEnabled = false;
 	}
 	else
 	{
@@ -242,7 +242,7 @@ void ONI_CALLBACK_TYPE PlayerStream::OnNewDataCallback(const PlayerSource::NewDa
 		pFrame->stride = (stride / pFrame->videoMode.resolutionX) * cropping.width;
 		pFrame->cropOriginX = cropping.originX;
 		pFrame->cropOriginY = cropping.originY;
-		pFrame->croppingEnabled = TRUE;
+		pFrame->croppingEnabled = true;
 	}
 	pFrame->sensorType = pStream->m_pSource->GetInfo()->sensorType;
 	pFrame->timestamp = newDataEventArgs.nTimeStamp;
@@ -250,7 +250,7 @@ void ONI_CALLBACK_TYPE PlayerStream::OnNewDataCallback(const PlayerSource::NewDa
 	if (pFrame->dataSize > pStream->m_requiredFrameSize)
 	{
 		xnLogWarning("Player", "File contains a frame with size %d whereas required frame size is %d", pFrame->dataSize, pStream->m_requiredFrameSize);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		pFrame->dataSize = pStream->m_requiredFrameSize;
 	}
 	memcpy(pFrame->data, newDataEventArgs.pData, pFrame->dataSize);

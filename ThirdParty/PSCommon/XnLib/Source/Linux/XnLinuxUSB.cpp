@@ -76,7 +76,7 @@ typedef struct XnUSBConnectedDevice
 static std::list<XnUSBConnectedDevice*> g_connectedDevices;
 
 XN_THREAD_HANDLE g_hUDEVThread = NULL;
-XnBool g_bShouldRunUDEVThread = false;
+bool g_bShouldRunUDEVThread = false;
 #endif
 
 //---------------------------------------------------------------------------
@@ -104,10 +104,10 @@ struct xnUSBInitData
 {
 	libusb_context* pContext;
 	XN_THREAD_HANDLE hThread;
-	XnBool bShouldThreadRun;
+	bool bShouldThreadRun;
 	uint32_t nOpenDevices;
 	XN_CRITICAL_SECTION_HANDLE hLock;
-} g_InitData = {NULL, NULL, FALSE, 0, NULL};
+} g_InitData = {NULL, NULL, false, 0, NULL};
 
 XnStatus xnUSBPlatformSpecificShutdown();
 
@@ -417,7 +417,7 @@ XnStatus xnUSBAsynchThreadAddRef()
 		xnLogVerbose(XN_MASK_USB, "Starting libusb asynch thread...");
 
 		// mark thread should run
-		g_InitData.bShouldThreadRun = TRUE;
+		g_InitData.bShouldThreadRun = true;
 
 		// and start thread
 		nRetVal = xnOSCreateThread(xnUSBHandleEventsThread, NULL, &g_InitData.hThread);
@@ -445,7 +445,7 @@ void xnUSBAsynchThreadStop()
 	if (g_InitData.hThread != NULL)
 	{
 		// mark for thread to exit
-		g_InitData.bShouldThreadRun = FALSE;
+		g_InitData.bShouldThreadRun = false;
 
 		// wait for it to exit
 		xnLogVerbose(XN_MASK_USB, "Shutting down USB events thread...");
@@ -548,7 +548,7 @@ XnStatus FindDevice(uint16_t nVendorID, uint16_t nProductID, void* /*pExtraParam
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t nVendorID, uint16_t nProductID, void* pExtraParam, XnBool* pbDevicePresent)
+XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t nVendorID, uint16_t nProductID, void* pExtraParam, bool* pbDevicePresent)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -558,7 +558,7 @@ XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t nVendorID, uint16_t nProductID, 
 	// Validate parameters
 	XN_VALIDATE_OUTPUT_PTR(pbDevicePresent);
 
-	*pbDevicePresent = FALSE;
+	*pbDevicePresent = false;
 
 	libusb_device* pDevice;
 	nRetVal = FindDevice(nVendorID, nProductID, pExtraParam, &pDevice);
@@ -566,7 +566,7 @@ XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t nVendorID, uint16_t nProductID, 
 
 	if (pDevice != NULL)
 	{
-		*pbDevicePresent = TRUE;
+		*pbDevicePresent = true;
 
 		// unref device
 		libusb_unref_device(pDevice);
@@ -1290,15 +1290,15 @@ void xnCleanupThreadData(XnUSBReadThreadData* pThreadData)
 }
 
 /** Checks if any transfer of the thread is queued. */
-XnBool xnIsAnyTransferQueued(XnUSBReadThreadData* pThreadData)
+bool xnIsAnyTransferQueued(XnUSBReadThreadData* pThreadData)
 {
 	for (uint32_t i = 0; i < pThreadData->nNumBuffers; ++i)
 	{
 		if (pThreadData->pBuffersInfo[i].bIsQueued)
-			return (TRUE);
+			return (true);
 	}
 
-	return (FALSE);
+	return (false);
 }
 
 XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
@@ -1319,7 +1319,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 		libusb_transfer* pTransfer = pBufferInfo->transfer;
 
 		// submit request
-		pBufferInfo->bIsQueued = TRUE;
+		pBufferInfo->bIsQueued = true;
 		int rc = libusb_submit_transfer(pTransfer);
 		if (rc != 0)
 		{
@@ -1329,7 +1329,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 
 	// now let libusb process asynchornous I/O
 
-	while (TRUE)
+	while (true)
 	{
 		for (uint32_t i = 0; i < pThreadData->nNumBuffers; ++i)
 		{
@@ -1397,7 +1397,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 					{
 						XnUChar* pBuffer = NULL;
 						uint32_t nTotalBytes = 0;
-						XnBool bCompletePacket;
+						bool bCompletePacket;
 
 						// some packets may return empty or partial, aggregate as many consequent packets as possible, and then send them to processing
 						for (int32_t i = 0; i < pTransfer->num_iso_packets; ++i)
@@ -1414,7 +1414,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 
 								nTotalBytes += pPacket->actual_length;
 
-								bCompletePacket = TRUE;
+								bCompletePacket = true;
 							}
 							else
 							{
@@ -1423,7 +1423,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 									xnLogWarning(XN_MASK_USB, "Endpoint 0x%x, Buffer %d, packet %d Asynch transfer failed (status: %d)", pTransfer->endpoint, pBufferInfo->nBufferID, i, pPacket->status);
 								}
 
-								bCompletePacket = FALSE;
+								bCompletePacket = false;
 							}
 
 							// stop condition for aggregating
@@ -1458,7 +1458,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 				// as long as running should continue, resubmit transfer
 				if (!pBufferInfo->pThreadData->bKillReadThread)
 				{
-					pBufferInfo->bIsQueued = TRUE;
+					pBufferInfo->bIsQueued = true;
 					int rc = libusb_submit_transfer(pTransfer);
 					if (rc != 0)
 					{
@@ -1489,7 +1489,7 @@ void xnTransferCallback(libusb_transfer *pTransfer)
 	XnUSBBuffersInfo* pBufferInfo = (XnUSBBuffersInfo*)pTransfer->user_data;
 
 	// mark that buffer is done
-	pBufferInfo->bIsQueued = FALSE;
+	pBufferInfo->bIsQueued = false;
 
 	// keep the status (according to libusb documentation, this field is invalid outside the callback method)
 	pBufferInfo->nLastStatus = pTransfer->status;
@@ -1516,7 +1516,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBuff
 
 	XnUSBReadThreadData* pThreadData = &pEPHandle->ThreadData;
 
-	if (pThreadData->bIsRunning == TRUE)
+	if (pThreadData->bIsRunning == true)
 	{
 		return (XN_STATUS_USB_READTHREAD_ALREADY_INIT);
 	}
@@ -1525,7 +1525,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBuff
 	pThreadData->nNumBuffers = nNumBuffers;
 	pThreadData->pCallbackFunction = pCallbackFunction;
 	pThreadData->pCallbackData = pCallbackData;
-	pThreadData->bKillReadThread = FALSE;
+	pThreadData->bKillReadThread = false;
 	pThreadData->nTimeOut = nTimeOut;
 
 	// allocate buffers
@@ -1591,7 +1591,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBuff
 		}
 
 		// create event
-		nRetVal = xnOSCreateEvent(&pBufferInfo->hEvent,FALSE);
+		nRetVal = xnOSCreateEvent(&pBufferInfo->hEvent,false);
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnCleanupThreadData(pThreadData);
@@ -1607,7 +1607,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBuff
 		return (nRetVal);
 	}
 
-	pThreadData->bIsRunning = TRUE;
+	pThreadData->bIsRunning = true;
 
 	xnLogInfo(XN_MASK_USB, "USB read thread was started.");
 
@@ -1621,7 +1621,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 
 	XnUSBReadThreadData* pThreadData = &pEPHandle->ThreadData;
 
-	if (pThreadData->bIsRunning == FALSE)
+	if (pThreadData->bIsRunning == false)
 	{
 		return (XN_STATUS_USB_READTHREAD_NOT_INIT);
 	}
@@ -1629,7 +1629,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 	if (pThreadData->hReadThread != NULL)
 	{
 		// mark thread should be killed
-		pThreadData->bKillReadThread = TRUE;
+		pThreadData->bKillReadThread = true;
 
 		// PATCH: we don't cancel the requests, because there is a bug causing segmentation fault.
 
@@ -1647,7 +1647,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 
 	xnCleanupThreadData(pThreadData);
 
-	pThreadData->bIsRunning = FALSE;
+	pThreadData->bIsRunning = false;
 
 	return (XN_STATUS_OK);
 }

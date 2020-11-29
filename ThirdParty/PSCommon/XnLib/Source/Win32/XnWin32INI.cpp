@@ -27,7 +27,7 @@ XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* c
 {
 	// Local function variables
 	uint32_t nReadBytes = 0;
-	XnBool bINIFileExists = FALSE;
+	bool bINIFileExists = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -57,7 +57,7 @@ XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cp
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
 	uint32_t nReadBytes = 0;
-	XnBool bINIFileExists = FALSE;
+	bool bINIFileExists = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -90,7 +90,7 @@ XN_C_API XnStatus xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* c
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
 	uint32_t nReadBytes = 0;
-	XnBool bINIFileExists = FALSE;
+	bool bINIFileExists = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -123,7 +123,7 @@ XN_C_API XnStatus xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSe
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
 	uint32_t nReadBytes = 0;
-	XnBool bINIFileExists = FALSE;
+	bool bINIFileExists = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -154,8 +154,8 @@ XN_C_API XnStatus xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSe
 XN_C_API XnStatus xnOSWriteStringToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnChar* cpSrc)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
-	XnBool bINIFileExists = FALSE;
+	bool bRetVal = false;
+	bool bINIFileExists = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -171,7 +171,7 @@ XN_C_API XnStatus xnOSWriteStringToINI(const XnChar* cpINIFile, const XnChar* cp
 	bRetVal = WritePrivateProfileString (cpSection, cpKey, cpSrc, cpINIFile);
 
 	// Make sure the value was written properly
-	if (bRetVal == FALSE)
+	if (bRetVal == false)
 	{
 		return (XN_STATUS_OS_INI_WRITE_FAILED);
 	}
@@ -184,8 +184,8 @@ XN_C_API XnStatus xnOSWriteFloatToINI(const XnChar* cpINIFile, const XnChar* cpS
 {
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
-	XnBool bRetVal = FALSE;
-	XnBool bINIFileExists = FALSE;
+	bool bRetVal = false;
+	bool bINIFileExists = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -203,7 +203,7 @@ XN_C_API XnStatus xnOSWriteFloatToINI(const XnChar* cpINIFile, const XnChar* cpS
 	bRetVal = WritePrivateProfileString (cpSection, cpKey, cpTempBuffer, cpINIFile);
 
 	// Make sure the value was written properly
-	if (bRetVal == FALSE)
+	if (bRetVal == false)
 	{
 		return (XN_STATUS_OS_INI_WRITE_FAILED);
 	}
@@ -216,8 +216,8 @@ XN_C_API XnStatus xnOSWriteDoubleToINI(const XnChar* cpINIFile, const XnChar* cp
 {
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
-	XnBool bRetVal = FALSE;
-	XnBool bINIFileExists = FALSE;
+	bool bRetVal = false;
+	bool bINIFileExists = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -235,7 +235,7 @@ XN_C_API XnStatus xnOSWriteDoubleToINI(const XnChar* cpINIFile, const XnChar* cp
 	bRetVal = WritePrivateProfileString (cpSection, cpKey, cpTempBuffer, cpINIFile);
 
 	// Make sure the value was written properly
-	if (bRetVal == FALSE)
+	if (bRetVal == false)
 	{
 		return (XN_STATUS_OS_INI_WRITE_FAILED);
 	}
@@ -248,8 +248,8 @@ XN_C_API XnStatus xnOSWriteIntToINI(const XnChar* cpINIFile, const XnChar* cpSec
 {
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
-	XnBool bRetVal = FALSE;
-	XnBool bINIFileExists = FALSE;
+	bool bRetVal = false;
+	bool bINIFileExists = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -267,7 +267,7 @@ XN_C_API XnStatus xnOSWriteIntToINI(const XnChar* cpINIFile, const XnChar* cpSec
 	bRetVal = WritePrivateProfileString (cpSection, cpKey, cpTempBuffer, cpINIFile);
 
 	// Make sure the value was written properly
-	if (bRetVal == FALSE)
+	if (bRetVal == false)
 	{
 		return (XN_STATUS_OS_INI_WRITE_FAILED);
 	}

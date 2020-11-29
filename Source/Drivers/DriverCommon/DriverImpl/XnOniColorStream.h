@@ -37,9 +37,9 @@ public:
 
 	static void GetAllowedOniOutputFormatForInputFormat(XnIOImageFormats inputFormat, OniPixelFormat *aOniFormats, int *nOniFormats);
 
-	static XnBool IsSupportedInputFormat(XnIOImageFormats inputFormat, OniPixelFormat oniFormat);
+	static bool IsSupportedInputFormat(XnIOImageFormats inputFormat, OniPixelFormat oniFormat);
 
-	static XnBool IsPreferredInputFormat(XnIOImageFormats inputFormat, XnIOImageFormats thanFormat, OniPixelFormat oniFormat);
+	static bool IsPreferredInputFormat(XnIOImageFormats inputFormat, XnIOImageFormats thanFormat, OniPixelFormat oniFormat);
 };
 
 #endif // XNONICOLORSTREAM_H

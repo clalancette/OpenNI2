@@ -59,7 +59,7 @@ public:
 	* Maps a stream property to a firmware property. Later on, such a property can be used
 	* in calls to ConfigureFirmware or SetStreamFirmwareParam.
 	*/
-	XnStatus MapFirmwareProperty(XnActualIntProperty& Property, XnActualIntProperty& FirmwareProperty, XnBool bAllowChangeWhileOpen, ConvertCallback pStreamToFirmwareFunc = 0);
+	XnStatus MapFirmwareProperty(XnActualIntProperty& Property, XnActualIntProperty& FirmwareProperty, bool bAllowChangeWhileOpen, ConvertCallback pStreamToFirmwareFunc = 0);
 
 	/**
 	* Configures the firmware according to the property. This can only be done for properties
@@ -92,7 +92,7 @@ public:
 
 	XnStatus BatchConfig(const XnActualPropertiesHash& props);
 
-	XnFirmwareCroppingMode GetFirmwareCroppingMode(XnCroppingMode nValue, XnBool bEnabled);
+	XnFirmwareCroppingMode GetFirmwareCroppingMode(XnCroppingMode nValue, bool bEnabled);
 
 private:
 	IXnSensorStream* m_pSensorStream;
@@ -103,20 +103,20 @@ private:
 	{
 	public:
 		XnSensorStreamHelperCookie() {}
-		XnSensorStreamHelperCookie(XnActualIntProperty* pStreamProp, XnActualIntProperty* pFirmwareProp, XnBool bAllowWhileOpen, XnSensorStreamHelper::ConvertCallback pStreamToFirmwareFunc) :
-			pStreamProp(pStreamProp), pFirmwareProp(pFirmwareProp), bAllowWhileOpen(bAllowWhileOpen), pStreamToFirmwareFunc(pStreamToFirmwareFunc), bProcessorProp(FALSE)
+		XnSensorStreamHelperCookie(XnActualIntProperty* pStreamProp, XnActualIntProperty* pFirmwareProp, bool bAllowWhileOpen, XnSensorStreamHelper::ConvertCallback pStreamToFirmwareFunc) :
+			pStreamProp(pStreamProp), pFirmwareProp(pFirmwareProp), bAllowWhileOpen(bAllowWhileOpen), pStreamToFirmwareFunc(pStreamToFirmwareFunc), bProcessorProp(false)
 		{}
 
 		XnActualIntProperty* pStreamProp;
 		XnActualIntProperty* pFirmwareProp;
-		XnBool bAllowWhileOpen;
+		bool bAllowWhileOpen;
 		XnSensorStreamHelper::ConvertCallback pStreamToFirmwareFunc;
-		XnBool bProcessorProp;
+		bool bProcessorProp;
 
 		struct
 		{
-			XnBool bShouldOpen;
-			XnBool bChooseProcessor;
+			bool bShouldOpen;
+			bool bChooseProcessor;
 		} CurrentTransaction;
 	};
 

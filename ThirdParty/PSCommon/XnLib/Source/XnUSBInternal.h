@@ -45,7 +45,7 @@ extern uint32_t g_nRefCount;
 	{												\
 		return (XN_STATUS_USB_DEVICE_NOT_VALID);	\
 	}												\
-	if (x.bValid != TRUE)							\
+	if (x.bValid != true)							\
 	{												\
 		return (XN_STATUS_USB_DEVICE_NOT_VALID);	\
 	}
@@ -55,7 +55,7 @@ extern uint32_t g_nRefCount;
 	{												\
 		return (XN_STATUS_USB_DEVICE_NOT_VALID);	\
 	}												\
-	if (x->bValid != TRUE)							\
+	if (x->bValid != true)							\
 	{												\
 		return (XN_STATUS_USB_DEVICE_NOT_VALID);	\
 	}
@@ -65,7 +65,7 @@ extern uint32_t g_nRefCount;
 	{												\
 		return (XN_STATUS_USB_ENDPOINT_NOT_VALID);	\
 	}												\
-	if (x.bValid != TRUE)							\
+	if (x.bValid != true)							\
 	{												\
 		return (XN_STATUS_USB_ENDPOINT_NOT_VALID);	\
 	}
@@ -75,7 +75,7 @@ extern uint32_t g_nRefCount;
 	{												\
 		return (XN_STATUS_USB_ENDPOINT_NOT_VALID);	\
 	}												\
-	if (x->bValid != TRUE)							\
+	if (x->bValid != true)							\
 	{												\
 		return (XN_STATUS_USB_ENDPOINT_NOT_VALID);	\
 	}

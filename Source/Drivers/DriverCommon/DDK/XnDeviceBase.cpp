@@ -46,7 +46,7 @@
 //---------------------------------------------------------------------------
 XnDeviceBase::XnDeviceBase() :
 	m_pDevicePropertiesHolder(NULL),
-	m_DeviceMirror(XN_MODULE_PROPERTY_MIRROR, "Mirror", TRUE),
+	m_DeviceMirror(XN_MODULE_PROPERTY_MIRROR, "Mirror", true),
 	m_StreamsDataDump(NULL),
 	m_hLock(NULL)
 {
@@ -203,7 +203,7 @@ void XnDeviceBase::DestroyModule(XnDeviceModuleHolder* pModuleHolder)
 	XN_DELETE(pModuleHolder);
 }
 
-XnStatus XnDeviceBase::SetMirror(XnBool bMirror)
+XnStatus XnDeviceBase::SetMirror(bool bMirror)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -386,20 +386,20 @@ XnStatus XnDeviceBase::GetStreamNames(const XnChar** pstrNames, uint32_t* pnName
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::DoesModuleExist(const XnChar* ModuleName, XnBool* pbDoesExist)
+XnStatus XnDeviceBase::DoesModuleExist(const XnChar* ModuleName, bool* pbDoesExist)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	XN_VALIDATE_INPUT_PTR(ModuleName);
 	XN_VALIDATE_OUTPUT_PTR(pbDoesExist);
 
-	*pbDoesExist = FALSE;
+	*pbDoesExist = false;
 
 	XnDeviceModuleHolder* pModuleHolder;
 	nRetVal = FindModule(ModuleName, &pModuleHolder);
 	if (nRetVal == XN_STATUS_OK)
 	{
-		*pbDoesExist = TRUE;
+		*pbDoesExist = true;
 	}
 	else if (nRetVal != XN_STATUS_DEVICE_MODULE_NOT_FOUND)
 	{
@@ -423,11 +423,11 @@ XnStatus XnDeviceBase::UnregisterFromNewStreamData(XnCallbackHandle hCallback)
 	return m_OnNewStreamDataEvent.Unregister(hCallback);
 }
 
-XnStatus XnDeviceBase::DoesPropertyExist(const XnChar* ModuleName, uint32_t propertyId, XnBool* pbDoesExist)
+XnStatus XnDeviceBase::DoesPropertyExist(const XnChar* ModuleName, uint32_t propertyId, bool* pbDoesExist)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	*pbDoesExist = FALSE;
+	*pbDoesExist = false;
 
 	XnDeviceModule* pModule;
 	nRetVal = FindModule(ModuleName, &pModule);
@@ -602,7 +602,7 @@ XnStatus XnDeviceBase::BatchConfig(const XnPropertySet* pChangeSet)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetAllProperties(XnPropertySet* pSet, XnBool bNoStreams /* = FALSE */, const XnChar* strModule /* = NULL */)
+XnStatus XnDeviceBase::GetAllProperties(XnPropertySet* pSet, bool bNoStreams /* = false */, const XnChar* strModule /* = NULL */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -753,15 +753,15 @@ XnStatus XnDeviceBase::FindModule(const XnChar* ModuleName, XnDeviceModuleHolder
 	return XN_STATUS_OK;
 }
 
-XnBool XnDeviceBase::IsStream(XnDeviceModule* pModule)
+bool XnDeviceBase::IsStream(XnDeviceModule* pModule)
 {
 	XnProperty* pProperty;
 	XnStatus nRetVal = pModule->GetProperty(XN_STREAM_PROPERTY_IS_STREAM, &pProperty);
 	if (nRetVal != XN_STATUS_OK)
-		return FALSE;
+		return false;
 
 	if (pProperty->GetType() != XN_PROPERTY_TYPE_INTEGER)
-		return FALSE;
+		return false;
 
 	XnIntProperty* pIntProperty = (XnIntProperty*)pProperty;
 
@@ -770,10 +770,10 @@ XnBool XnDeviceBase::IsStream(XnDeviceModule* pModule)
 	if (nRetVal != XN_STATUS_OK)
 	{
 		xnLogError(XN_MASK_DDK, "Failed getting the value of the IsStream property: %s", xnGetStatusString(nRetVal));
-		return FALSE;
+		return false;
 	}
 
-	return (XnBool)nValue;
+	return (bool)nValue;
 }
 
 XnStatus XnDeviceBase::FindStream(const XnChar* StreamName, XnDeviceStream** ppStream)
@@ -963,20 +963,20 @@ XnStatus XnDeviceBase::CreateStreamImpl(const XnChar* strType, const XnChar* str
 		}
 
 		// set it's mirror value (if not requested otherwise)
-		XnBool bSetMirror = TRUE;
+		bool bSetMirror = true;
 
 		if (pInitialSet != NULL)
 		{
 			XnActualPropertiesHash::ConstIterator it = pInitialSet->End();
 			if (XN_STATUS_OK == pInitialSet->Find(XN_MODULE_PROPERTY_MIRROR, it))
 			{
-				bSetMirror = FALSE;
+				bSetMirror = false;
 			}
 		}
 
 		if (bSetMirror)
 		{
-			nRetVal = pNewStream->SetMirror((XnBool)m_DeviceMirror.GetValue());
+			nRetVal = pNewStream->SetMirror((bool)m_DeviceMirror.GetValue());
 			if (nRetVal != XN_STATUS_OK)
 			{
 				DestroyStreamModule(pNewStreamHolder);
@@ -1144,7 +1144,7 @@ XnStatus XN_CALLBACK_TYPE XnDeviceBase::PropertyValueChangedCallback(const XnPro
 XnStatus XN_CALLBACK_TYPE XnDeviceBase::SetMirrorCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDeviceBase* pThis = (XnDeviceBase*)pCookie;
-	return pThis->SetMirror((XnBool)nValue);
+	return pThis->SetMirror((bool)nValue);
 }
 
 XnDeviceBase::XnPropertyCallback::XnPropertyCallback(const XnChar* strModule, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler pHandler, void* pCookie) :

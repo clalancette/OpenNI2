@@ -52,22 +52,22 @@ public:
 
 	OniStatus setProperty(int propertyId, const void* data, int dataSize);
 	OniStatus getProperty(int propertyId, void* data, int* pDataSize);
-	OniBool isPropertySupported(int propertId);
+	bool isPropertySupported(int propertId);
 	void notifyAllProperties();
 	OniStatus invoke(int commandId, void* data, int dataSize);
-	OniBool isCommandSupported(int commandId);
+	bool isCommandSupported(int commandId);
 
 	void* getHandle() const {return m_deviceHandle;}
 	DeviceDriver* getDeviceDriver() {return m_pDeviceDriver; }
 
-	OniBool isImageRegistrationModeSupported(OniImageRegistrationMode mode);
+	bool isImageRegistrationModeSupported(OniImageRegistrationMode mode);
 	OniStatus tryManualTrigger();
 
 	void clearStream(VideoStream* pStream);
 
 	OniStatus enableDepthColorSync(Context* pContext);
 	void disableDepthColorSync();
-	OniBool isDepthColorSyncEnabled();
+	bool isDepthColorSyncEnabled();
 
 	void refreshDepthColorSyncState();
 private:
@@ -98,7 +98,7 @@ private:
 	xnl::CriticalSection m_cs;
 	OniFrameSyncHandle m_depthColorSyncHandle;
 	Context* m_pContext;
-	OniBool m_syncEnabled;
+	bool m_syncEnabled;
 	enum { MAX_SENSORS_PER_DEVICE = 10 };
 	Sensor* m_sensors[MAX_SENSORS_PER_DEVICE];
 };

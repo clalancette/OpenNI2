@@ -40,7 +40,7 @@ static void incrementalFitting50(int64_t dPrev, int64_t ddPrev, int64_t dddPrev,
 }
 
 DepthUtilsImpl::DepthUtilsImpl() : m_pDepthToShiftTable_QQVGA(NULL), m_pDepthToShiftTable_QVGA(NULL), m_pDepthToShiftTable_VGA(NULL),
-									m_pRegistrationTable_QQVGA(NULL), m_pRegistrationTable_QVGA(NULL), m_pRegistrationTable_VGA(NULL), m_bD2SAlloc(false), m_bInitialized(FALSE)
+									m_pRegistrationTable_QQVGA(NULL), m_pRegistrationTable_QVGA(NULL), m_pRegistrationTable_VGA(NULL), m_bD2SAlloc(false), m_bInitialized(false)
 {
 }
 
@@ -79,7 +79,7 @@ XnStatus DepthUtilsImpl::Initialize(DepthUtilsSensorCalibrationInfo* pBlob)
 	nRetVal = BuildRegistrationTable(m_pRegistrationTable_VGA, &m_blob.params1080.registrationInfo_VGA, &m_pDepthToShiftTable_VGA, 640, 480);
 	XN_IS_STATUS_OK(nRetVal);
 
-	m_bInitialized = TRUE;
+	m_bInitialized = true;
 
 	return XN_STATUS_OK;
 
@@ -87,7 +87,7 @@ XnStatus DepthUtilsImpl::Initialize(DepthUtilsSensorCalibrationInfo* pBlob)
 
 XnStatus DepthUtilsImpl::Free()
 {
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 
 	if (m_pRegistrationTable_QQVGA != NULL)
 	{
@@ -124,7 +124,7 @@ XnStatus DepthUtilsImpl::Free()
 			m_pDepthToShiftTable_VGA = NULL;
 		}
 
-		m_bD2SAlloc = FALSE;
+		m_bD2SAlloc = false;
 	}
 
 	return (XN_STATUS_OK);
@@ -150,7 +150,7 @@ XnStatus DepthUtilsImpl::Apply(unsigned short* pOutput)
 
 	memset(pOutput, 0, nDepthXRes*nDepthYRes*sizeof(unsigned short));
 
-	XnBool bMirror = m_isMirrored;
+	bool bMirror = m_isMirrored;
 
 	uint32_t nLinesShift = m_pPadInfo->nCroppingLines - m_pPadInfo->nStartLines;
 
@@ -260,7 +260,7 @@ XnStatus DepthUtilsImpl::TranslateSinglePixel(uint32_t x, uint32_t y, unsigned s
 	imageY = 0;
 
 	uint32_t nDepthXRes = m_depthResolution.x;
-	XnBool bMirror = m_isMirrored;
+	bool bMirror = m_isMirrored;
 	uint32_t nIndex = bMirror ? ((y+1)*nDepthXRes - x - 1) * 2 : (y*nDepthXRes + x) * 2;
 	int16_t* pRegTable = (int16_t*)&m_pRegTable[nIndex];
 	int16_t* pRGBRegDepthToShiftTable = (int16_t*)m_pDepth2ShiftTable;
@@ -288,17 +288,17 @@ XnStatus DepthUtilsImpl::TranslateSinglePixel(uint32_t x, uint32_t y, unsigned s
 
 	double fullXRes = m_colorResolution.x;
 	double fullYRes;
-	XnBool bCrop = FALSE;
+	bool bCrop = false;
 
 	if ((9 * m_colorResolution.x / m_colorResolution.y) == 16)
 	{
 		fullYRes = m_colorResolution.x * 4 / 5;
-		bCrop = TRUE;
+		bCrop = true;
 	}
 	else
 	{
 		fullYRes = m_colorResolution.y;
-		bCrop = FALSE;
+		bCrop = false;
 	}
 
 	// inflate to full res
@@ -351,7 +351,7 @@ XnStatus DepthUtilsImpl::BuildRegistrationTable(uint16_t* pRegTable, Registratio
 	// take needed parameters to perform registration
 
 	XN_VALIDATE_ALIGNED_CALLOC(*pDepthToShiftTable, uint16_t, MAX_Z+1, XN_DEFAULT_MEM_ALIGN);
-	m_bD2SAlloc = TRUE;
+	m_bD2SAlloc = true;
 
 	BuildDepthToShiftTable(*pDepthToShiftTable, xres);
 

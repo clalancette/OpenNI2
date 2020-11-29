@@ -36,7 +36,7 @@
 // XnSensorIRStream class
 //---------------------------------------------------------------------------
 XnSensorIRStream::XnSensorIRStream(const XnChar* StreamName, XnSensorObjects* pObjects) :
-	XnIRStream(StreamName, FALSE, XN_DEVICE_SENSOR_MAX_IR),
+	XnIRStream(StreamName, false, XN_DEVICE_SENSOR_MAX_IR),
 	m_InputFormat(XN_STREAM_PROPERTY_INPUT_FORMAT, "InputFormat", 0),
 	m_CroppingMode(XN_STREAM_PROPERTY_CROPPING_MODE, "CroppingMode", XN_CROPPING_MODE_NORMAL),
 	m_Helper(pObjects),
@@ -45,7 +45,7 @@ XnSensorIRStream::XnSensorIRStream(const XnChar* StreamName, XnSensorObjects* pO
 	m_FirmwareCropOffsetX(0, "FirmwareCropOffsetX", 0, StreamName),
 	m_FirmwareCropOffsetY(0, "FirmwareCropOffsetY", 0, StreamName),
 	m_FirmwareCropMode(0, "FirmwareCropMode", XN_FIRMWARE_CROPPING_MODE_DISABLED, StreamName),
-	m_ActualRead(XN_STREAM_PROPERTY_ACTUAL_READ_DATA, "ActualReadData", FALSE)
+	m_ActualRead(XN_STREAM_PROPERTY_ACTUAL_READ_DATA, "ActualReadData", false)
 {
 	m_ActualRead.UpdateSetCallback(SetActualReadCallback, this);
 	m_CroppingMode.UpdateSetCallback(SetCroppingModeCallback, this);
@@ -105,19 +105,19 @@ XnStatus XnSensorIRStream::MapPropertiesToFirmware()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_Helper.MapFirmwareProperty(ResolutionProperty(), GetFirmwareParams()->m_IRResolution, FALSE);
+	nRetVal = m_Helper.MapFirmwareProperty(ResolutionProperty(), GetFirmwareParams()->m_IRResolution, false);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(FPSProperty(), GetFirmwareParams()->m_IRFPS, FALSE);
+	nRetVal = m_Helper.MapFirmwareProperty(FPSProperty(), GetFirmwareParams()->m_IRFPS, false);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeX, GetFirmwareParams()->m_IRCropSizeX, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeX, GetFirmwareParams()->m_IRCropSizeX, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeY, GetFirmwareParams()->m_IRCropSizeY, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeY, GetFirmwareParams()->m_IRCropSizeY, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetX, GetFirmwareParams()->m_IRCropOffsetX, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetX, GetFirmwareParams()->m_IRCropOffsetX, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetY, GetFirmwareParams()->m_IRCropOffsetY, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetY, GetFirmwareParams()->m_IRCropOffsetY, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropMode, GetFirmwareParams()->m_IRCropMode, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropMode, GetFirmwareParams()->m_IRCropMode, true);
 	XN_IS_STATUS_OK(nRetVal);;
 
 	return (XN_STATUS_OK);
@@ -129,7 +129,7 @@ XnStatus XnSensorIRStream::ConfigureStreamImpl()
 
 	xnUSBShutdownReadThread(GetHelper()->GetPrivateData()->pSpecificImageUsb->pUsbConnection->UsbEp);
 
-	nRetVal = SetActualRead(TRUE);
+	nRetVal = SetActualRead(true);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = m_Helper.ConfigureFirmware(ResolutionProperty());
@@ -138,7 +138,7 @@ XnStatus XnSensorIRStream::ConfigureStreamImpl()
 	XN_IS_STATUS_OK(nRetVal);;
 
 	// IR mirror is always off in firmware
-	nRetVal = GetFirmwareParams()->m_IRMirror.SetValue(FALSE);
+	nRetVal = GetFirmwareParams()->m_IRMirror.SetValue(false);
 	XN_IS_STATUS_OK(nRetVal);
 
 	// CMOS
@@ -151,11 +151,11 @@ XnStatus XnSensorIRStream::ConfigureStreamImpl()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorIRStream::SetActualRead(XnBool bRead)
+XnStatus XnSensorIRStream::SetActualRead(bool bRead)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	if ((XnBool)m_ActualRead.GetValue() != bRead)
+	if ((bool)m_ActualRead.GetValue() != bRead)
 	{
 		if (bRead)
 		{
@@ -232,7 +232,7 @@ XnStatus XnSensorIRStream::CloseStreamImpl()
 	nRetVal = GetFirmwareParams()->m_Stream0Mode.SetValue(XN_VIDEO_STREAM_OFF);
 	XN_IS_STATUS_OK(nRetVal);
 
-	nRetVal = SetActualRead(FALSE);
+	nRetVal = SetActualRead(false);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = XnIRStream::Close();
@@ -486,7 +486,7 @@ XnStatus XnSensorIRStream::IsMirroredChangedCallback(const XnProperty* /*pSender
 XnStatus XN_CALLBACK_TYPE XnSensorIRStream::SetActualReadCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorIRStream* pThis = (XnSensorIRStream*)pCookie;
-	return pThis->SetActualRead(nValue == TRUE);
+	return pThis->SetActualRead(nValue == true);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorIRStream::SetCroppingModeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)

@@ -49,7 +49,7 @@ typedef struct XnUSBEventCallback
 HANDLE g_xnUsbhModule = NULL;
 HWND g_xnUsbhDevDetectWnd = NULL;
 XN_THREAD_HANDLE g_xnUsbhPnThread = NULL;
-XnBool g_bUsbDevDetectShoudRun = FALSE;
+bool g_bUsbDevDetectShoudRun = false;
 ATOM g_xnClass = 0;
 
 static std::list<XnUSBEventCallback*> g_connectivityEvent;
@@ -164,7 +164,7 @@ XnStatus xnUSBInitOvlp(XN_USB_EP_HANDLE pEPHandle)
 
 	// Init the overlapped variables
 	xnOSMemSet(&pEPHandle->ovlpIO, 0, sizeof(OVERLAPPED));
-	nRetVal = xnOSCreateEvent(&pEPHandle->ovlpIO.hEvent, FALSE);
+	nRetVal = xnOSCreateEvent(&pEPHandle->ovlpIO.hEvent, false);
 	if (nRetVal != XN_STATUS_OK)
 	{
 		return (XN_STATUS_ERROR);
@@ -230,7 +230,7 @@ HANDLE xnUSBOpenOneDevice(HDEVINFO hDevInfo, PSP_DEVICE_INTERFACE_DATA pDevInter
 XnStatus xnUSBSetPipeProperty(XN_USB_EP_HANDLE pEPHandle, uint32_t nIndex, uint32_t nValue)
 {
 	// Local variables
-	XnBool bResult = FALSE;
+	bool bResult = false;
 	ULONG nRetBytes = 0;
 	PSUSBDRV_PIPE_PROPERTY PipeProp;
 
@@ -240,14 +240,14 @@ XnStatus xnUSBSetPipeProperty(XN_USB_EP_HANDLE pEPHandle, uint32_t nIndex, uint3
 
 	// Set pipe property (regular handle)
 	bResult = DeviceIoControl(pEPHandle->hEPHandle, IOCTL_PSDRV_SET_PIPE_PROPERTY, &PipeProp, sizeof(PSUSBDRV_PIPE_PROPERTY), NULL, NULL, &nRetBytes, NULL);
-	if (bResult == FALSE)
+	if (bResult == false)
 	{
 		return (XN_STATUS_USB_SET_ENDPOINT_POLICY_FAILED);
 	}
 
 	// Set pipe property (ovlp handle)
 	bResult = DeviceIoControl(pEPHandle->hEPHandleOvlp, IOCTL_PSDRV_SET_PIPE_PROPERTY, &PipeProp, sizeof(PSUSBDRV_PIPE_PROPERTY), NULL, NULL, &nRetBytes, NULL);
-	if (bResult == FALSE)
+	if (bResult == false)
 	{
 		return (XN_STATUS_USB_SET_ENDPOINT_POLICY_FAILED);
 	}
@@ -259,12 +259,12 @@ XnStatus xnUSBSetPipeProperty(XN_USB_EP_HANDLE pEPHandle, uint32_t nIndex, uint3
 XnStatus xnUSBGetDriverVersion(XN_USB_DEV_HANDLE pDevHandle, PSUSBDRV_DRIVER_VERSION* pUsbDriverVersion)
 {
 	// Local variables
-	XnBool bResult = FALSE;
+	bool bResult = false;
 	ULONG nRetBytes = 0;
 
 	// Do the get driver version
 	bResult = DeviceIoControl(pDevHandle->hUSBDevHandle, IOCTL_PSDRV_GET_DRIVER_VERSION, NULL, 0, pUsbDriverVersion, sizeof(PSUSBDRV_DRIVER_VERSION), &nRetBytes, NULL);
-	if (bResult == FALSE)
+	if (bResult == false)
 	{
 		return (XN_STATUS_USB_GET_DRIVER_VERSION);
 	}
@@ -276,12 +276,12 @@ XnStatus xnUSBGetDriverVersion(XN_USB_DEV_HANDLE pDevHandle, PSUSBDRV_DRIVER_VER
 XnStatus xnUSBGetDeviceSpeedInternal(XN_USB_DEV_HANDLE pDevHandle, XnUSBDeviceSpeed* pUSBDeviceSpeed)
 {
 	// Local variables
-	XnBool bResult = FALSE;
+	bool bResult = false;
 	ULONG nRetBytes = 0;
 
 	// Do the device get speed
 	bResult = DeviceIoControl(pDevHandle->hUSBDevHandle, IOCTL_PSDRV_GET_DEVICE_SPEED, NULL, 0, pUSBDeviceSpeed, sizeof(XnUSBDeviceSpeed), &nRetBytes, NULL);
-	if (bResult == FALSE)
+	if (bResult == false)
 	{
 		return (XN_STATUS_USB_GET_SPEED_FAILED);
 	}
@@ -316,8 +316,8 @@ XnStatus xnUSBPlatformSpecificInit()
 	g_xnClass = RegisterClass(&wc);
 	if (g_xnClass)
 	{
-		HANDLE hWaitEv = CreateEvent(NULL,FALSE,FALSE,NULL);
-		g_bUsbDevDetectShoudRun = TRUE;
+		HANDLE hWaitEv = CreateEvent(NULL,false,false,NULL);
+		g_bUsbDevDetectShoudRun = true;
 		nRetVal = xnOSCreateThread(DevDetectThread, hWaitEv, &g_xnUsbhPnThread);
 		XN_IS_STATUS_OK(nRetVal);
 
@@ -341,19 +341,19 @@ XnStatus xnUSBPlatformSpecificInit()
 
 XnStatus xnUSBPlatformSpecificShutdown()
 {
-	g_bUsbDevDetectShoudRun = FALSE;
+	g_bUsbDevDetectShoudRun = false;
 	xnOSWaitAndTerminateThread(&g_xnUsbhPnThread, 5000);
 	UnregisterClass((LPCSTR)g_xnClass, (HINSTANCE)g_xnUsbhModule);
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t /*nVendorID*/, uint16_t /*nProductID*/, void* pExtraParam, XnBool* pbDevicePresent)
+XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t /*nVendorID*/, uint16_t /*nProductID*/, void* pExtraParam, bool* pbDevicePresent)
 {
 	// Local variables
 	LPGUID pInterfaceGuid = NULL;
 	HDEVINFO deviceInfo;
 	SP_DEVICE_INTERFACE_DATA interfaceData;
-	BOOL bResult = FALSE;
+	BOOL bResult = false;
 
 	// Validate the input/output pointers
 	XN_VALIDATE_INPUT_PTR(pExtraParam);
@@ -363,7 +363,7 @@ XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t /*nVendorID*/, uint16_t /*nProdu
 	pInterfaceGuid = (LPGUID)pExtraParam;
 
 	// Let's assume the device is not present for now
-	*pbDevicePresent = FALSE;
+	*pbDevicePresent = false;
 
 	// See if the driver is installed
 	deviceInfo = SetupDiGetClassDevs(pInterfaceGuid, NULL, NULL, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
@@ -376,7 +376,7 @@ XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t /*nVendorID*/, uint16_t /*nProdu
 	// See if any devices are attached
 	interfaceData.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
 	bResult = SetupDiEnumDeviceInterfaces(deviceInfo, NULL, pInterfaceGuid, 0, &interfaceData);
-	if (bResult == FALSE)
+	if (bResult == false)
 	{
 		SetupDiDestroyDeviceInfoList(deviceInfo);
 
@@ -387,7 +387,7 @@ XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t /*nVendorID*/, uint16_t /*nProdu
 	SetupDiDestroyDeviceInfoList(deviceInfo);
 
 	// Yay! We found at least one device
-	*pbDevicePresent = TRUE;
+	*pbDevicePresent = true;
 
 	// All is good...
 	return (XN_STATUS_OK);
@@ -403,7 +403,7 @@ XN_C_API XnStatus xnUSBEnumerateDevices(uint16_t nVendorID, uint16_t nProductID,
 	ULONG nDevices = 0;
 	uint32_t nFoundDevices = 0;
 	SP_DEVICE_INTERFACE_DATA devInterfaceData;
-	XnBool bReachedEnd = FALSE;
+	bool bReachedEnd = false;
 
 	// Validate xnUSB
 	XN_VALIDATE_USB_INIT();
@@ -471,7 +471,7 @@ XN_C_API XnStatus xnUSBEnumerateDevices(uint16_t nVendorID, uint16_t nProductID,
 		else if (ERROR_NO_MORE_ITEMS == GetLastError())
 		{
 			// no more devices
-			bReachedEnd = TRUE;
+			bReachedEnd = true;
 			break;
 		}
 	}
@@ -536,7 +536,7 @@ XnStatus xnUSBOpenDeviceImpl(const XnChar* strDevicePath, XN_USB_DEV_HANDLE* pDe
 
 	// Scan the hardware for any devices that are attached to our driver. Stop only after we have successfully opened a device.
 	devInterfaceData.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
-	bool bDone = FALSE;
+	bool bDone = false;
 	ULONG nIdx = 0;
 
 	// Scan all the devices that are attached to the driver. Stop when one of them open successfully.
@@ -550,7 +550,7 @@ XnStatus xnUSBOpenDeviceImpl(const XnChar* strDevicePath, XN_USB_DEV_HANDLE* pDe
 			if (hSelectedDevice != INVALID_HANDLE_VALUE)
 			{
 				// Success! We have a valid device handle.
-				bDone = TRUE;
+				bDone = true;
 				break;
 			}
 		}
@@ -560,7 +560,7 @@ XnStatus xnUSBOpenDeviceImpl(const XnChar* strDevicePath, XN_USB_DEV_HANDLE* pDe
 			if (ERROR_NO_MORE_ITEMS == GetLastError())
 			{
 				// Yup... and we didn't find any devices...
-				bDone = TRUE;
+				bDone = true;
 				break;
 			}
 		}
@@ -601,7 +601,7 @@ XnStatus xnUSBOpenDeviceImpl(const XnChar* strDevicePath, XN_USB_DEV_HANDLE* pDe
 	xnLogVerbose(XN_MASK_USB, "USB Driver Version is: %d.%d.%d.%d", UsbDriverVersion.nMajor, UsbDriverVersion.nMinor, UsbDriverVersion.nMaintenance, UsbDriverVersion.nBuild);
 
 	// Mark the device handle as valid
-	pDevHandle->bValid = TRUE;
+	pDevHandle->bValid = true;
 
 	// Read the current alt-if settings
 	nRetVal = xnUSBGetInterface(pDevHandle, &pInterfaceProp.nIF, &pInterfaceProp.nAltIF);
@@ -674,7 +674,7 @@ XN_C_API XnStatus xnUSBGetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, uint8_t* /*pn
 XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, uint8_t /*nInterface*/, uint8_t nAltInterface)
 {
 	// Local variables
-	XnBool bResult = FALSE;
+	bool bResult = false;
 	ULONG nRetBytes = 0;
 	PSUSBDRV_INTERFACE_PROPERTY InterfaceProp;
 
@@ -684,7 +684,7 @@ XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, uint8_t /*nInt
 
 	// Do the set interface
 	bResult = DeviceIoControl(pDevHandle->hUSBDevHandle, IOCTL_PSDRV_SET_INTERFACE, &InterfaceProp, sizeof(PSUSBDRV_INTERFACE_PROPERTY), NULL, NULL, &nRetBytes, NULL);
-	if (bResult == FALSE)
+	if (bResult == false)
 	{
 		return (XN_STATUS_USB_SET_INTERFACE_FAILED);
 	}
@@ -701,7 +701,7 @@ XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, uint8_t /*nInt
 XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, uint8_t* pnInterface, uint8_t* pnAltInterface)
 {
 	// Local variables
-	XnBool bResult = FALSE;
+	bool bResult = false;
 	ULONG nRetBytes = 0;
 	PSUSBDRV_INTERFACE_PROPERTY InterfaceProp;
 
@@ -715,7 +715,7 @@ XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, uint8_t* pnInt
 
 	// Do the get interface
 	bResult = DeviceIoControl(pDevHandle->hUSBDevHandle, IOCTL_PSDRV_GET_INTERFACE, NULL, 0, &InterfaceProp, sizeof(PSUSBDRV_INTERFACE_PROPERTY), &nRetBytes, NULL);
-	if (bResult == FALSE)
+	if (bResult == false)
 	{
 		return (XN_STATUS_USB_GET_INTERFACE_FAILED);
 	}
@@ -731,7 +731,7 @@ XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, uint8_t* pnInt
 XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, uint16_t nEndPointID, XnUSBEndPointType nEPType, XnUSBDirectionType nDirType, XN_USB_EP_HANDLE* pEPHandlePtr)
 {
 	// Local variables
-	XnBool bResult = TRUE;
+	bool bResult = true;
 	XnStatus nRetVal = XN_STATUS_OK;
 	int32_t nRetBytes = 0;
 	XnChar pConfigDescBuf[MAX_CONFIG_DESC_SIZE];
@@ -819,7 +819,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, uint16_t nEndP
 					// Verify that the EP direction matches the requested direction
 					if (nDirType == XN_USB_DIRECTION_IN)
 					{
-						if (USB_ENDPOINT_DIRECTION_IN(pUSBEndPointDesc->bEndpointAddress) == FALSE)
+						if (USB_ENDPOINT_DIRECTION_IN(pUSBEndPointDesc->bEndpointAddress) == false)
 						{
 							XN_ALIGNED_FREE_AND_NULL(pEPHandle);
 							return (XN_STATUS_USB_WRONG_ENDPOINT_DIRECTION);
@@ -827,7 +827,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, uint16_t nEndP
 					}
 					else if (nDirType == XN_USB_DIRECTION_OUT)
 					{
-						if (USB_ENDPOINT_DIRECTION_OUT(pUSBEndPointDesc->bEndpointAddress) == FALSE)
+						if (USB_ENDPOINT_DIRECTION_OUT(pUSBEndPointDesc->bEndpointAddress) == false)
 						{
 							XN_ALIGNED_FREE_AND_NULL(pEPHandle);
 							return (XN_STATUS_USB_WRONG_ENDPOINT_DIRECTION);
@@ -868,7 +868,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, uint16_t nEndP
 
 					// Init the ThreadData variables
 					xnOSMemSet(&pEPHandle->ThreadData, 0, sizeof(xnUSBReadThreadData));
-					pEPHandle->ThreadData.bInUse = FALSE;
+					pEPHandle->ThreadData.bInUse = false;
 
 					// Init the default endpoint properties
 					pEPHandle->nTimeOut = XN_USB_DEFAULT_EP_TIMEOUT;
@@ -897,7 +897,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, uint16_t nEndP
 					}
 
 					// Mark the endpoint as valid
-					pEPHandle->bValid = TRUE;
+					pEPHandle->bValid = true;
 
 					// The end... (Happy)
 					return (XN_STATUS_OK);
@@ -959,7 +959,7 @@ XN_C_API XnStatus xnUSBGetEndPointMaxPacketSize(XN_USB_EP_HANDLE pEPHandle, uint
 XN_C_API XnStatus xnUSBAbortEndPoint(XN_USB_EP_HANDLE pEPHandle)
 {
 	// Local variables
-	BOOL bResult = FALSE;
+	BOOL bResult = false;
 	ULONG nRetBytes = 0;
 
 	// Validate xnUSB
@@ -968,7 +968,7 @@ XN_C_API XnStatus xnUSBAbortEndPoint(XN_USB_EP_HANDLE pEPHandle)
 
 	// Abort the pipe
 	bResult = DeviceIoControl(pEPHandle->hEPHandle, IOCTL_PSDRV_ABORT_PIPE, NULL, NULL, NULL, NULL, &nRetBytes, NULL);
-	if (bResult != TRUE)
+	if (bResult != true)
 	{
 		return (XN_STATUS_USB_ABORT_FAILED);
 	}
@@ -985,7 +985,7 @@ XN_C_API XnStatus xnUSBFlushEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/)
 XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE pEPHandle)
 {
 	// Local variables
-	BOOL bResult = FALSE;
+	BOOL bResult = false;
 	ULONG nRetBytes = 0;
 
 	// Validate xnUSB
@@ -994,7 +994,7 @@ XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE pEPHandle)
 
 	// Reset the pipe
 	bResult = DeviceIoControl(pEPHandle->hEPHandle, IOCTL_PSDRV_RESET_PIPE, NULL, NULL, NULL, NULL, &nRetBytes, NULL);
-	if (bResult != TRUE)
+	if (bResult != true)
 	{
 		return (XN_STATUS_USB_RESET_FAILED);
 	}
@@ -1006,7 +1006,7 @@ XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE pEPHandle)
 XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, uint8_t nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
-	XnBool bResult = FALSE;
+	bool bResult = false;
 	ULONG nRetBytes = 0;
 	PSUSBDRV_CONTROL_TRANSFER ControlTransfer;
 
@@ -1024,7 +1024,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 
 	// Do the control transfer
 	bResult = DeviceIoControl(pDevHandle->hUSBDevHandle, IOCTL_PSDRV_CONTROL_TRANSFER, &ControlTransfer, sizeof(ControlTransfer), pBuffer, nBufferSize, &nRetBytes, NULL);
-	if (bResult != TRUE)
+	if (bResult != true)
 	{
 		// Something failed... let's get the last error
 		DWORD nLastErr = GetLastError();
@@ -1052,7 +1052,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, uint8_t nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// Local variables
-	XnBool bResult = FALSE;
+	bool bResult = false;
 	PSUSBDRV_CONTROL_TRANSFER ControlTransfer;
 
 	// Validate xnUSB
@@ -1079,7 +1079,7 @@ XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControl
 
 	// Do the control transfer
 	bResult = DeviceIoControl(pDevHandle->hUSBDevHandle, IOCTL_PSDRV_CONTROL_TRANSFER, &ControlTransfer, sizeof(ControlTransfer), pBuffer, nBufferSize, (DWORD*)pnBytesReceived, NULL);
-	if (bResult != TRUE)
+	if (bResult != true)
 	{
 		// Something failed... let's get the last error
 		DWORD nLastErr = GetLastError();
@@ -1112,7 +1112,7 @@ XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControl
 XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// Local variables
-	BOOL bResult = FALSE;
+	BOOL bResult = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate xnUSB
@@ -1156,7 +1156,7 @@ XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer
 
 	// Read from the EP
 	bResult = ReadFile(pEPHandle->hEPHandle, pBuffer, nBufferSize, (PULONG)pnBytesReceived, NULL);
-	if (bResult == FALSE)
+	if (bResult == false)
 	{
 		// Something failed... let's get the last error
 		DWORD nLastErr = GetLastError();
@@ -1184,7 +1184,7 @@ XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer
 XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
-	BOOL bResult = FALSE;
+	BOOL bResult = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 	ULONG nBytesSent = 0;
 
@@ -1225,7 +1225,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 
 	// Write into the EP
 	bResult = WriteFile(pEPHandle->hEPHandle, pBuffer, nBufferSize,  (PULONG) &nBytesSent, NULL);
-	if (bResult == FALSE)
+	if (bResult == false)
 	{
 		// Something failed... let's get the last error
 		DWORD nLastErr = GetLastError();
@@ -1253,7 +1253,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
-	BOOL bResult = FALSE;
+	BOOL bResult = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 	ULONG nBytesRcvd = 0;
 
@@ -1294,7 +1294,7 @@ XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pB
 
 	// Queue the read via overlapped I/O
 	bResult = ReadFile(pEPHandle->hEPHandleOvlp, pBuffer, nBufferSize, (PULONG)&nBytesRcvd, &pEPHandle->ovlpIO);
-	if (bResult == FALSE)
+	if (bResult == false)
 	{
 		// If everything is OK, we're expecting to get an ERROR_IO_PENDING error
 		DWORD nLastErr = GetLastError();
@@ -1312,7 +1312,7 @@ XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pB
 XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE pEPHandle, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// Local variables
-	XnBool bRetVal = TRUE;
+	bool bRetVal = true;
 	DWORD nWaitRetVal = 0;
 
 	// Validate xnUSB
@@ -1338,7 +1338,7 @@ XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE pEPHandle, uint32_t* 
 	}
 
 	// Get the operation status and the amount of received bytes
-	bRetVal = GetOverlappedResult(pEPHandle->hEPHandleOvlp, &pEPHandle->ovlpIO, (DWORD*)pnBytesReceived, FALSE);
+	bRetVal = GetOverlappedResult(pEPHandle->hEPHandleOvlp, &pEPHandle->ovlpIO, (DWORD*)pnBytesReceived, false);
 	XN_IS_BOOL_OK_RET(bRetVal, XN_STATUS_USB_OVERLAPIO_FAILED);
 
 	// All is good...
@@ -1350,7 +1350,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 	// Local variables
 	xnUSBReadThreadData* pThreadData = (xnUSBReadThreadData*)pThreadParam;
 	uint32_t nBufIdx = 0;
-	XnBool bResult = FALSE;
+	bool bResult = false;
 	ULONG nBytesRead = 0;
 	HANDLE hCompletionPort = NULL;
 	HANDLE hEPOvlp = NULL;
@@ -1416,7 +1416,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 
 		// Wait for any of our requests to complete
 		bResult = GetQueuedCompletionStatus(hCompletionPort, &nBytesRead, &nFinishedEP, &pFinishedOV, nTimeOut);
-		if (bResult == FALSE)
+		if (bResult == false)
 		{
 			// if the error is SEM_TIMEOUT, the overlapped I/O operation has ended with a timeout,
 			// and we still need to requeue it. Other errors does not return the Finished OV, and so
@@ -1431,7 +1431,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 		nOVIdx = pFinishedOV - pOvlpIO;
 
 		// If the request was completed successfully, call the callback function
-		if (bResult == TRUE)
+		if (bResult == true)
 		{
 			pCallbackFunction(pBuffersInfo[nOVIdx].pBuffer, nBytesRead, pCallbackData);
 			nTotalBytesSinceLastPrint += nBytesRead;
@@ -1470,7 +1470,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBuff
 	pThreadData = &pEPHandle->ThreadData;
 
 	// Does this EP already have a read thread?
-	if (pThreadData->bInUse == TRUE)
+	if (pThreadData->bInUse == true)
 	{
 		return (XN_STATUS_USB_READTHREAD_ALREADY_INIT);
 	}
@@ -1485,7 +1485,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBuff
 	pThreadData->nTimeOut = nTimeOut;
 	pThreadData->pCallbackFunction = pCallbackFunction;
 	pThreadData->pCallbackData = pCallbackData;
-	pThreadData->bKillReadThread = FALSE;
+	pThreadData->bKillReadThread = false;
 
 	// Update the EP timeout
 	if (nTimeOut != pEPHandle->nTimeOut)
@@ -1502,7 +1502,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBuff
 
 	for (nBufIdx=0; nBufIdx<nNumBuffers; nBufIdx++)
 	{
-		nRetVal = xnOSCreateEvent(&pThreadData->pOvlpIO[nBufIdx].hEvent, FALSE);
+		nRetVal = xnOSCreateEvent(&pThreadData->pOvlpIO[nBufIdx].hEvent, false);
 		XN_IS_STATUS_OK(nRetVal); // Add cleanup memory!
 
 		XN_VALIDATE_ALIGNED_CALLOC(pThreadData->pBuffersInfo[nBufIdx].pBuffer, XnUChar, nBufferSize, XN_DEFAULT_MEM_ALIGN); // Add cleanup memory!
@@ -1513,7 +1513,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBuff
 	XN_IS_STATUS_OK(nRetVal); // Add cleanup memory!
 
 	// Mark that this EP has a valid read thread
-	pThreadData->bInUse = TRUE;
+	pThreadData->bInUse = true;
 
 	// All is good...
 	return (XN_STATUS_OK);
@@ -1533,7 +1533,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 	pThreadData = &pEPHandle->ThreadData;
 
 	// Make sure that this EP has a read thread active
-	if (pThreadData->bInUse == FALSE)
+	if (pThreadData->bInUse == false)
 	{
 		return (XN_STATUS_USB_READTHREAD_NOT_INIT);
 	}
@@ -1542,7 +1542,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 	if (pThreadData->hReadThread != NULL)
 	{
 		// Request for the read thread to die
-		pThreadData->bKillReadThread = TRUE;
+		pThreadData->bKillReadThread = true;
 
 		// close thread
 		xnOSWaitAndTerminateThread(&pThreadData->hReadThread, XN_USB_READ_THREAD_KILL_TIMEOUT);
@@ -1578,7 +1578,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 	}
 
 	// Mark that this EP doesn't have a read thread anymore
-	pThreadData->bInUse = FALSE;
+	pThreadData->bInUse = false;
 
 	// All is good...
 	return (XN_STATUS_OK);

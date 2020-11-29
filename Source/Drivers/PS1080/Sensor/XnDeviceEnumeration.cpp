@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 // Globals
 //---------------------------------------------------------------------------
-static XnBool ms_initialized = FALSE;
+static bool ms_initialized = false;
 static XnDeviceEnumeration::DeviceConnectivityEvent ms_connectedEvent;
 static XnDeviceEnumeration::DeviceConnectivityEvent ms_disconnectedEvent;
 static std::unordered_map<std::string, OniDeviceInfo> ms_devices;
@@ -98,7 +98,7 @@ XnStatus XnDeviceEnumeration::Initialize()
 		xnUSBFreeDevicesList(astrDevicePaths);
 	}
 
-	ms_initialized = TRUE;
+	ms_initialized = true;
 
 	return XN_STATUS_OK;
 }
@@ -121,7 +121,7 @@ void XnDeviceEnumeration::Shutdown()
 
 		ms_devices.clear();
 
-		ms_initialized = FALSE;
+		ms_initialized = false;
 	}
 }
 
@@ -174,9 +174,9 @@ void XN_CALLBACK_TYPE OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* p
 	OnConnectivityEvent(pArgs->strDevicePath, pArgs->eventType, usbId);
 }
 
-XnStatus XnDeviceEnumeration::IsSensorLowBandwidth(const XnChar* uri, XnBool* pbIsLowBandwidth)
+XnStatus XnDeviceEnumeration::IsSensorLowBandwidth(const XnChar* uri, bool* pbIsLowBandwidth)
 {
-	*pbIsLowBandwidth = FALSE;
+	*pbIsLowBandwidth = false;
 
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 	XnChar cpMatchString[XN_FILE_MAX_PATH];
@@ -194,7 +194,7 @@ XnStatus XnDeviceEnumeration::IsSensorLowBandwidth(const XnChar* uri, XnBool* pb
 
 		if (strstr ((char*)uri,cpMatchString) != 0)
 		{
-			*pbIsLowBandwidth = TRUE;
+			*pbIsLowBandwidth = true;
 		}
 	}
 #else

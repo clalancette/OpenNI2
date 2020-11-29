@@ -52,9 +52,9 @@ public:
 	/* Initialization and shutdown */
 	virtual XnStatus Init(const XnChar* strConnString, XnTransportType transportType);
 	virtual void Shutdown();
-	virtual XnBool IsInitialized() const;
+	virtual bool IsInitialized() const;
 	virtual XnStatus Connect();
-	virtual XnBool IsConnected() const;
+	virtual bool IsConnected() const;
 	virtual void Disconnect();
 
 	/* Global Properties */
@@ -75,13 +75,13 @@ public:
 	virtual XnStatus SoftReset();
 	virtual XnStatus HardReset();
 	virtual XnStatus ReadDebugData(XnCommandDebugData& commandDebugData);
-	virtual XnStatus SetProjectorActive(XnBool bActive);
-	virtual XnStatus SetAccActive(XnBool bActive);
-	virtual XnStatus GetAccActive(XnBool& bActive);
-	virtual XnStatus SetVDDActive(XnBool bActive);
-	virtual XnStatus GetVDDActive(XnBool& bActive);
-	virtual XnStatus SetPeriodicBistActive(XnBool bActive);
-	virtual XnStatus GetPeriodicBistActive(XnBool& bActive);
+	virtual XnStatus SetProjectorActive(bool bActive);
+	virtual XnStatus SetAccActive(bool bActive);
+	virtual XnStatus GetAccActive(bool& bActive);
+	virtual XnStatus SetVDDActive(bool bActive);
+	virtual XnStatus GetVDDActive(bool& bActive);
+	virtual XnStatus SetPeriodicBistActive(bool bActive);
+	virtual XnStatus GetPeriodicBistActive(bool& bActive);
 	virtual XnStatus StartFWLog();
 	virtual XnStatus StopFWLog();
 	virtual XnStatus OpenFWLogFile(uint8_t logID);
@@ -115,13 +115,13 @@ public:
 
 	virtual	XnStatus BeginUploadFileOnControlEP();
 	virtual	XnStatus EndUploadFileOnControlEP();
-	virtual XnStatus UploadFileOnControlEP(const XnChar* strFileName, XnBool bOverrideFactorySettings);
+	virtual XnStatus UploadFileOnControlEP(const XnChar* strFileName, bool bOverrideFactorySettings);
 	virtual XnStatus GetFileList(std::vector<XnFwFileEntry>& files);
 	virtual XnStatus DownloadFile(uint16_t zone, const XnChar* strFirmwareFileName, const XnChar* strTargetFile);
 
 	virtual XnStatus EnableProjectorPulse(float delay, float width, float cycle);
 	virtual XnStatus DisableProjectorPulse();
-	virtual XnStatus GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip);
+	virtual XnStatus GetProjectorPulse(bool& enabled, float& delay, float& width, float& framesToskip);
 	virtual XnStatus SetProjectorPower(uint16_t power);
 	virtual XnStatus GetProjectorPower(uint16_t& power);
 
@@ -132,7 +132,7 @@ protected:
 	virtual IConnectionFactory* CreateConnectionFactory(XnTransportType transportType) = 0;
 	void LogVersions();
 	XnStatus CreateInputStreamImpl(XnLinkStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID);
-	XnBool IsPropertySupported(uint16_t propID);
+	bool IsPropertySupported(uint16_t propID);
 	LinkControlEndpoint m_linkControlEndpoint;
 	LinkOutputDataEndpoint m_outputDataEndpoint;
 	IConnectionFactory* m_pConnectionFactory;
@@ -143,8 +143,8 @@ private:
 	static const uint32_t MAX_COMMAND_SIZE;
 	static const uint32_t CONT_STREAM_PREDEFINED_BUFFER_SIZE;
 
-	XnBool m_bInitialized;
-	volatile XnBool m_bConnected;
+	bool m_bInitialized;
+	volatile bool m_bConnected;
 	std::vector<LinkInputDataEndpoint> m_inputDataEndpoints;
 	uint16_t m_nFWLogStreamID;
 	XnChar m_strConnectionString[XN_FILE_MAX_PATH];

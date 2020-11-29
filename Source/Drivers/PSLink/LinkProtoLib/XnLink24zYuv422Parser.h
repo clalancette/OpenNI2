@@ -29,7 +29,7 @@ namespace xn
 class Link24zYuv422Parser : public LinkMsgParser
 {
 public:
-	Link24zYuv422Parser(uint32_t xRes, uint32_t yRes, XnBool transformToRGB);
+	Link24zYuv422Parser(uint32_t xRes, uint32_t yRes, bool transformToRGB);
 	virtual ~Link24zYuv422Parser();
 
 	virtual XnStatus Init();
@@ -46,14 +46,14 @@ private:
 	XnStatus Uncompress24z(
 		const uint8_t* pInput, size_t nInputSize,
 		uint8_t* pOutput, size_t* pnOutputSize, uint32_t nLineSize,
-		size_t* pnActualRead, XnBool bLastPart);
+		size_t* pnActualRead, bool bLastPart);
 
 	uint8_t* m_dataFromPrevPacket;
 	size_t m_dataFromPrevPacketBytes;
 	uint32_t m_lineWidthBytes;
 	uint32_t m_rgbFrameSize;
 	uint32_t m_expectedFrameSize;
-	XnBool m_transformToRGB;
+	bool m_transformToRGB;
 	uint8_t* m_tempYuvImage; // hold Yuv Image, when transform is required
 	uint32_t m_tempYuvImageBytes;
 };

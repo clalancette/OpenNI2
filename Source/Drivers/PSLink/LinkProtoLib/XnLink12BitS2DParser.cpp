@@ -75,7 +75,7 @@ XnStatus Link12BitS2DParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 	pDstPixel += (OniDepthPixel)(bytesWritten/2); //progress pDst by the number of pixels (bytes divided by two)
 	if (pDstPixel > pDstPixelEnd) //Do we have enough room for this packet?
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 

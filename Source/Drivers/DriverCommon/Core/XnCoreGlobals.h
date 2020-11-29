@@ -36,21 +36,21 @@
 // Global Variables
 //---------------------------------------------------------------------------
 /** Was the Xiron Core subsystem successfully initialized? */
-extern XnBool g_bXnCoreWasInit;
+extern bool g_bXnCoreWasInit;
 
 //---------------------------------------------------------------------------
 // Macros
 //---------------------------------------------------------------------------
 /** Make sure the core subsystem was initialized. */
 #define XN_VALIDATE_CORE_INIT() 	\
-	if (g_bXnCoreWasInit != TRUE)	\
+	if (g_bXnCoreWasInit != true)	\
 	{									\
 		return (XN_STATUS_NOT_INIT);	\
 	}
 
 /** Make sure the core subsystem was not initialized already. */
 #define XN_VALIDATE_CORE_NOT_INIT()		\
-	if (g_bXnCoreWasInit == TRUE)		\
+	if (g_bXnCoreWasInit == true)		\
 	{										\
 		return (XN_STATUS_ALREADY_INIT);	\
 	}

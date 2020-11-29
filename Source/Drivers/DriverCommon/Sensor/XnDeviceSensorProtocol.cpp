@@ -36,7 +36,7 @@ FILE* g_fUSBDump;
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData)
+bool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData)
 {
 	XN_PROFILING_START_MT_SECTION("XnDeviceSensorProtocolUsbEpCb");
 
@@ -160,7 +160,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t
 
 	XN_PROFILING_END_SECTION;
 
-	return TRUE;
+	return true;
 }
 
 XnStatus XnDeviceSensorProtocolFindStreamOfType(XnDevicePrivateData* pDevicePrivateData, const XnChar* strType, const XnChar** ppStreamName)
@@ -196,8 +196,8 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 	XnDevicePrivateData* pDevicePrivateData = (XnDevicePrivateData*)pThreadParam;
 	XnSensor* pSensor = pDevicePrivateData->pSensor;
 
-	pDevicePrivateData->LogThread.bThreadAlive = TRUE;
-	pDevicePrivateData->LogThread.bKillThread = FALSE;
+	pDevicePrivateData->LogThread.bThreadAlive = true;
+	pDevicePrivateData->LogThread.bKillThread = false;
 
 	XnStatus rc = XN_STATUS_OK;
 
@@ -208,7 +208,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 	XnI2CReadData D2;
 	uint32_t i=0;
 
-//	if (FALSE /* pDevicePrivateData->bConfigure*/)
+//	if (false /* pDevicePrivateData->bConfigure*/)
 	{
 		XnChar which;
 		uint32_t address, value, mask;
@@ -538,7 +538,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 
 						printf("* Testing Projector Fault. Min: %hu, Max: %hu\n", nMin, nMax);
 
-						XnBool bProjectorFaultEvent;
+						bool bProjectorFaultEvent;
 						rc = XnHostProtocolCalibrateProjectorFault(pDevicePrivateData, nMin, nMax, &bProjectorFaultEvent);
 						if (rc != XN_STATUS_OK)
 						{
@@ -567,6 +567,6 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 
 	} // if (configure)
 
-	pDevicePrivateData->LogThread.bThreadAlive = FALSE;
+	pDevicePrivateData->LogThread.bThreadAlive = false;
 	XN_THREAD_PROC_RETURN (XN_STATUS_OK);
 }

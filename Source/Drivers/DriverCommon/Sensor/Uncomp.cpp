@@ -44,7 +44,7 @@
 //---------------------------------------------------------------------------
 XnStatus XnStreamUncompressYUVImagePS(const uint8_t* pInput, const uint32_t nInputSize,
 										  uint8_t* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
-										  uint32_t* pnActualRead, XnBool bLastPart)
+										  uint32_t* pnActualRead, bool bLastPart)
 {
 	// Input is made of 4-bit elements.
 	const uint8_t* pInputOrig = pInput;
@@ -56,7 +56,7 @@ XnStatus XnStreamUncompressYUVImagePS(const uint8_t* pInput, const uint32_t nInp
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
 	uint32_t nTempValue = 0;
 	uint32_t cInput = 0;
-	XnBool bReadByte = TRUE;
+	bool bReadByte = true;
 
 	if (nInputSize < sizeof(uint8_t))
 	{
@@ -79,7 +79,7 @@ XnStatus XnStreamUncompressYUVImagePS(const uint8_t* pInput, const uint32_t nInp
 
 		if (bReadByte)
 		{
-			bReadByte = FALSE;
+			bReadByte = false;
 
 			if (cInput < 0xd0) // 0x0 to 0xc are diffs
 			{
@@ -108,7 +108,7 @@ XnStatus XnStreamUncompressYUVImagePS(const uint8_t* pInput, const uint32_t nInp
 		{
 			// take low-element
 			cInput &= 0x0f;
-			bReadByte = TRUE;
+			bReadByte = true;
 			pInput++;
 
 			if (cInput < 0xd) // 0x0 to 0xc are diffs
@@ -164,7 +164,7 @@ XnStatus XnStreamUncompressYUVImagePS(const uint8_t* pInput, const uint32_t nInp
 		}
 	}
 
-	if (bLastPart == TRUE)
+	if (bLastPart == true)
 	{
 		*pnOutputSize = (uint32_t)(pOutput - pOrigOutput) * sizeof(uint8_t);
 		*pnActualRead += (uint32_t)(pInput - pInputOrig) * sizeof(uint8_t);
@@ -181,7 +181,7 @@ XnStatus XnStreamUncompressYUVImagePS(const uint8_t* pInput, const uint32_t nInp
 
 XnStatus XnStreamUncompressImageNew(const uint8_t* pInput, const uint32_t nInputSize,
 									uint8_t* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
-									uint32_t* pnActualRead, XnBool bLastPart)
+									uint32_t* pnActualRead, bool bLastPart)
 {
 	// Input is made of 4-bit elements.
 	const uint8_t* pInputOrig = pInput;
@@ -193,7 +193,7 @@ XnStatus XnStreamUncompressImageNew(const uint8_t* pInput, const uint32_t nInput
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
 	uint32_t nTempValue = 0;
 	uint32_t cInput = 0;
-	XnBool bReadByte = TRUE;
+	bool bReadByte = true;
 
 	if (nInputSize < sizeof(uint8_t))
 	{
@@ -216,7 +216,7 @@ XnStatus XnStreamUncompressImageNew(const uint8_t* pInput, const uint32_t nInput
 
 		if (bReadByte)
 		{
-			bReadByte = FALSE;
+			bReadByte = false;
 
 			if (cInput < 0xd0) // 0x0 to 0xc are diffs
 			{
@@ -245,7 +245,7 @@ XnStatus XnStreamUncompressImageNew(const uint8_t* pInput, const uint32_t nInput
 		{
 			// take low-element
 			cInput &= 0x0f;
-			bReadByte = TRUE;
+			bReadByte = true;
 			pInput++;
 
 			if (cInput < 0xd) // 0x0 to 0xc are diffs
@@ -297,7 +297,7 @@ XnStatus XnStreamUncompressImageNew(const uint8_t* pInput, const uint32_t nInput
 		}
 	}
 
-	if (bLastPart == TRUE)
+	if (bLastPart == true)
 	{
 		*pnOutputSize = (uint32_t)(pOutput - pOrigOutput) * sizeof(uint8_t);
 		*pnActualRead += (uint32_t)(pInput - pInputOrig) * sizeof(uint8_t);

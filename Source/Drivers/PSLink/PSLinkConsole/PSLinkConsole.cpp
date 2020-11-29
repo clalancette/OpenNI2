@@ -45,7 +45,7 @@ using namespace openni;
 	if (nRetVal != XN_STATUS_OK) \
 	{ \
 		printf("Failed to %s: %s\n", what, OpenNI::getExtendedError()); \
-		XN_ASSERT(FALSE); \
+		XN_ASSERT(false); \
 		return nRetVal; \
 	}
 
@@ -53,7 +53,7 @@ using namespace openni;
 	if (nRetVal != XN_STATUS_OK) \
 	{ \
 		printf("Failed to %s: %s\n", what, OpenNI::getExtendedError()); \
-		XN_ASSERT(FALSE); \
+		XN_ASSERT(false); \
 	}
 
 //---------------------------------------------------------------------------
@@ -93,7 +93,7 @@ typedef struct
 static Device g_device;
 static std::list<const XnChar*> g_commandsList;
 static xnl::XnStringsHashT<Command> g_commands;
-static XnBool g_continue = TRUE;
+static bool g_continue = true;
 
 static FwStreamName g_fwStreamNames[] = {
 	{ XN_FW_STREAM_TYPE_COLOR, "Color" },
@@ -113,7 +113,7 @@ static UsbInterfaceName g_usbInterfaceNames[] = {
 //---------------------------------------------------------------------------
 // Forward Declarations
 //---------------------------------------------------------------------------
-void ExecuteCommandsFromStream(FILE* inputStream, XnBool bPrompt);
+void ExecuteCommandsFromStream(FILE* inputStream, bool bPrompt);
 
 //---------------------------------------------------------------------------
 // Utilities
@@ -125,19 +125,19 @@ void SplitStr(XnChar* str, const XnChar* strTokens[], int* pnTokens)
 	uint32_t nMaxTokens = *pnTokens;
 	uint32_t nToken = 0;
 
-	XnBool bFirstAfterDelim = TRUE;
+	bool bFirstAfterDelim = true;
 
 	for (XnChar* p = str; *p != '\0' && nToken < nMaxTokens ; ++p)
 	{
 		if (*p == ' ' || *p == '\n')
 		{
 			*p = '\0';
-			bFirstAfterDelim = TRUE;
+			bFirstAfterDelim = true;
 		}
 		else if (bFirstAfterDelim)
 		{
 			strTokens[nToken++] = p;
-			bFirstAfterDelim = FALSE;
+			bFirstAfterDelim = false;
 		}
 	}
 
@@ -171,7 +171,7 @@ const char* fwStreamTypeToName(XnFwStreamType type)
 		}
 	}
 
-	XN_ASSERT(FALSE);
+	XN_ASSERT(false);
 	return NULL;
 }
 
@@ -201,7 +201,7 @@ const XnChar* fwPixelFormatToName(XnFwPixelFormat pixelFormat)
 	case XN_FW_PIXEL_FORMAT_BAYER8:
 		return "BAYER8";
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return "UNKNOWN";
 	}
 }
@@ -218,7 +218,7 @@ XnFwPixelFormat fwPixelFormatNameToType(const XnChar* name)
 		return XN_FW_PIXEL_FORMAT_BAYER8;
 	else
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return (XnFwPixelFormat)(-1);
 	}
 }
@@ -244,7 +244,7 @@ const XnChar* fwCompressionTypeToName(XnFwCompressionType compression)
 	case XN_FW_COMPRESSION_12_BIT_PACKED:
 		return "12bit";
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return "UNKNOWN";
 	}
 }
@@ -269,7 +269,7 @@ XnFwCompressionType fwCompressionNameToType(const XnChar* name)
 		return XN_FW_COMPRESSION_12_BIT_PACKED;
 	else
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return (XnFwCompressionType)-1;
 	}
 }
@@ -328,10 +328,10 @@ void RunCommand(XnChar* strCmdLine)
 	RunCommand(argc, argv);
 }
 
-void ExecuteCommandsFromStream(FILE* pStream, XnBool bPrompt)
+void ExecuteCommandsFromStream(FILE* pStream, bool bPrompt)
 {
 	XnChar strCmdLine[1024];
-	XnBool bEOF = FALSE;
+	bool bEOF = false;
 
 	while (g_continue && !bEOF)
 	{
@@ -352,7 +352,7 @@ void ExecuteCommandsFromStream(FILE* pStream, XnBool bPrompt)
 				printf("Error reading from input stream: %d\n", errno);
 			}
 			//if fgets returns 0 and this is not an error then it's eof
-			bEOF = TRUE;
+			bEOF = true;
 		}
 	} // commands loop
 }
@@ -375,7 +375,7 @@ int RunScript(const XnChar* strFileName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnBool bExists = FALSE;
+	bool bExists = false;
 	nRetVal = xnOSDoesFileExist(strFileName, &bExists);
 	if (nRetVal != XN_STATUS_OK)
 	{
@@ -397,7 +397,7 @@ int RunScript(const XnChar* strFileName)
 		return -3;
 	}
 
-	ExecuteCommandsFromStream(pScriptFile, FALSE);
+	ExecuteCommandsFromStream(pScriptFile, false);
 	fclose(pScriptFile);
 
 	return nRetVal;
@@ -565,7 +565,7 @@ int DumpStream(int argc, const char* argv[])
 	}
 
 	uint16_t nStreamID = (uint16_t)MyAtoi(argv[1]);
-	XnBool bDumpOn = (xnOSStrCaseCmp(argv[2], "on") == 0);
+	bool bDumpOn = (xnOSStrCaseCmp(argv[2], "on") == 0);
 	if (STATUS_OK != g_device.setProperty(PS_PROPERTY_DUMP_DATA, bDumpOn))
 	{
 		printf("Failed to toggle dump for stream\n");
@@ -1109,7 +1109,7 @@ int ReadDebugData(int argc, const char* argv[])
 // Enables/Disables the BIST (XN_LINK_PROP_ID_ACC_ENABLED)
 int Acc(int argc, const char* argv[])
 {
-	XnBool bAccEnabled;
+	bool bAccEnabled;
 	Status nRetVal;
 	if (argc == 1)
 	{
@@ -1149,7 +1149,7 @@ int Acc(int argc, const char* argv[])
 //on - Safety mechanism is on | off - reduce power
 int VDD(int argc, const char* argv[])
 {
-	XnBool bAccEnabled;
+	bool bAccEnabled;
 	Status nRetVal;
 	if (argc == 1)
 	{
@@ -1189,7 +1189,7 @@ int VDD(int argc, const char* argv[])
 // Enables/Disables the Periodic BIST (XN_LINK_PROP_ID_PERIODIC_BIST_ENABLED)
 int PeriodicBist(int argc, const char* argv[])
 {
-	XnBool bAccEnabled;
+	bool bAccEnabled;
 	Status nRetVal;
 	if (argc == 1)
 	{
@@ -1307,7 +1307,7 @@ int Log(int argc, const char* argv[])
 	else
 	{
 		const XnChar* strLogOn = argv[1];
-		XnBool bLogOn = (xnOSStrCaseCmp(strLogOn, "on") == 0);
+		bool bLogOn = (xnOSStrCaseCmp(strLogOn, "on") == 0);
 
 		if (bLogOn)
 		{
@@ -1472,14 +1472,14 @@ int RunBist(int argc, const char* argv[])
 	{
 		for (uint32_t i = 0; i < supportedTests.count; ++i)
 		{
-			requestedTests.Set(supportedTests.tests[i].id, TRUE);
+			requestedTests.Set(supportedTests.tests[i].id, true);
 		}
 	}
 	else
 	{
 		for (int i = 1; i < argc; ++i)
 		{
-			requestedTests.Set(MyAtoi(argv[i]), TRUE);
+			requestedTests.Set(MyAtoi(argv[i]), true);
 	}
 	}
 
@@ -1640,7 +1640,7 @@ int ReadTemps(int argc, const char* argv[])
 
 int Quit(int /*argc*/, const char* /*argv*/[])
 {
-	g_continue = FALSE;
+	g_continue = false;
 	return 0;
 }
 
@@ -1773,7 +1773,7 @@ int Projector(int argc, const char* argv[])
 	if (argc > 1)
 	{
 		//Projector <on/off> command
-		XnBool bProjectorActive = (xnOSStrCaseCmp(argv[1], "on") == 0);
+		bool bProjectorActive = (xnOSStrCaseCmp(argv[1], "on") == 0);
 		if ((bProjectorActive || xnOSStrCaseCmp(argv[1], "off") == 0))
 		{
 			Status nRetVal = g_device.setProperty(LINK_PROP_PROJECTOR_ACTIVE, bProjectorActive);
@@ -2004,7 +2004,7 @@ int main(int argc, char* argv[])
 	if (uri == NULL)
 	{
 		printf("Device not found (after %u milliseconds)\n", WAIT_FOR_DEVICE_TIMEOUT);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return -3;
 	}
 
@@ -2038,7 +2038,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		ExecuteCommandsFromStream(stdin, TRUE);
+		ExecuteCommandsFromStream(stdin, true);
 	}
 
 	g_device.close();

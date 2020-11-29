@@ -189,7 +189,7 @@ public:
 private:
 	FileRecorder* m_pRecorder;
 	uint64_t  m_offset;
-	XnBool    m_needRollback;
+	bool    m_needRollback;
 };
 
 FileRecorder::FileRecorder(FrameManager& frameManager, xnl::ErrorLogger& errorLogger, OniRecorderHandle handle) :
@@ -244,7 +244,7 @@ OniStatus FileRecorder::initialize(const char* fileName)
 	return ONI_STATUS_OK;
 }
 
-OniStatus FileRecorder::attachStream(VideoStream& stream, OniBool allowLossyCompression)
+OniStatus FileRecorder::attachStream(VideoStream& stream, bool allowLossyCompression)
 {
 	OniStatus rc = Recorder::attachStream(stream, allowLossyCompression);
 	if (rc == ONI_STATUS_OK)
@@ -329,7 +329,7 @@ XN_THREAD_PROC FileRecorder::threadMain(XN_THREAD_PARAM pThreadParam)
 	FileRecorder* pSelf = reinterpret_cast<FileRecorder*>(pThreadParam);
 	if (NULL != pSelf)
 	{
-		pSelf->m_running = TRUE;
+		pSelf->m_running = true;
 		while (pSelf->m_running)
 		{
 			pSelf->messagePump();
@@ -362,7 +362,7 @@ void FileRecorder::messagePump()
 		case Message::MESSAGE_TERMINATE:
 			{
 				onTerminate();
-				m_running = FALSE;
+				m_running = false;
 			}
     			break;
 		case Message::MESSAGE_ATTACH:
@@ -566,11 +566,11 @@ typedef enum XnPixelFormat
 
 typedef struct XnSupportedPixelFormats
 {
-	XnBool m_bRGB24 : 1;
-	XnBool m_bYUV422 : 1;
-	XnBool m_bGrayscale8Bit : 1;
-	XnBool m_bGrayscale16Bit : 1;
-	XnBool m_bMJPEG : 1;
+	bool m_bRGB24 : 1;
+	bool m_bYUV422 : 1;
+	bool m_bGrayscale8Bit : 1;
+	bool m_bGrayscale16Bit : 1;
+	bool m_bMJPEG : 1;
 	XnUInt m_nPadding : 3;
 	XnUInt m_nReserved : 24;
 } XnSupportedPixelFormats;
@@ -654,7 +654,7 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 			{
 				m_streams[pStream].pCodec = XN_NEW(
 					XnJpegCodec,
-					/* bRGB = */ TRUE,
+					/* bRGB = */ true,
 					curVideoMode.resolutionX,
 					curVideoMode.resolutionY);
 
@@ -717,7 +717,7 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 		nodeId,
 		getLastPropertyRecordPos(nodeId, "xnIsGenerating", undoPoint.GetPosition()),
 		"xnIsGenerating",
-		TRUE
+		true
 		));
 	undoPoint.Reuse();
 
@@ -838,8 +838,8 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 	// xnCropping
 	struct XnCropping
 	{
-		/** TRUE if cropping is turned on, FALSE otherwise. */
-		XnBool bEnabled = FALSE;
+		/** true if cropping is turned on, false otherwise. */
+		bool bEnabled = false;
 		/** Offset in the X-axis, in pixels. */
 		uint16_t nXOffset = 0;
 		/** Offset in the Y-axis, in pixels. */
@@ -858,7 +858,7 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 			nodeId,
 			getLastPropertyRecordPos(nodeId, "Cropping", undoPoint.GetPosition()),
 			"Cropping",
-			TRUE
+			true
 			));
 
 		undoPoint.Reuse();
@@ -880,7 +880,7 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 		undoPoint.Reuse();
 	}
 
-	OniBool bMirror = FALSE;
+	bool bMirror = false;
 	size = sizeof(bMirror);
 	if (pStream->getProperty(ONI_STREAM_PROPERTY_MIRRORING, &bMirror, &size) == ONI_STATUS_OK)
 	{
@@ -889,7 +889,7 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 			nodeId,
 			getLastPropertyRecordPos(nodeId, "Mirror", undoPoint.GetPosition()),
 			"Mirror",
-			TRUE
+			true
 			));
 
 		undoPoint.Reuse();

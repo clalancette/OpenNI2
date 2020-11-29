@@ -30,9 +30,9 @@
 XnDeviceStream::XnDeviceStream(const XnChar* csType, const XnChar* csName) :
 	XnDeviceModule(csName),
 	m_pServices(NULL),
-	m_IsStream(XN_STREAM_PROPERTY_IS_STREAM, "IsStream", TRUE),
+	m_IsStream(XN_STREAM_PROPERTY_IS_STREAM, "IsStream", true),
 	m_Type(XN_STREAM_PROPERTY_TYPE, "Type", csType),
-	m_IsOpen(XN_STREAM_PROPERTY_STATE, "State", FALSE),
+	m_IsOpen(XN_STREAM_PROPERTY_STATE, "State", false),
 	m_RequiredSize(XN_STREAM_PROPERTY_REQUIRED_DATA_SIZE, "RequiredDataSize"),
 	m_OutputFormat(XN_STREAM_PROPERTY_OUTPUT_FORMAT, "OutputFormat"),
 	m_IsMirrored(XN_MODULE_PROPERTY_MIRROR, "Mirror"),
@@ -81,7 +81,7 @@ XnStatus XnDeviceStream::Open()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_IsOpen.UnsafeUpdateValue(TRUE);
+	nRetVal = m_IsOpen.UnsafeUpdateValue(true);
 	XN_IS_STATUS_OK(nRetVal);
 
 	m_nOpenRefCount = 1;
@@ -93,7 +93,7 @@ XnStatus XnDeviceStream::Close()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_IsOpen.UnsafeUpdateValue(FALSE);
+	nRetVal = m_IsOpen.UnsafeUpdateValue(false);
 	XN_IS_STATUS_OK(nRetVal);
 
 	return (XN_STATUS_OK);
@@ -109,7 +109,7 @@ XnStatus XnDeviceStream::SetOutputFormat(OniPixelFormat nOutputFormat)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceStream::SetMirror(XnBool bIsMirrored)
+XnStatus XnDeviceStream::SetMirror(bool bIsMirrored)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -122,7 +122,7 @@ XnStatus XnDeviceStream::SetMirror(XnBool bIsMirrored)
 void XnDeviceStream::NewDataAvailable(OniFrame* pFrame)
 {
 	xnOSEnterCriticalSection(&m_hCriticalSection);
-	XnBool bMirror = IsMirrored();
+	bool bMirror = IsMirrored();
 	xnOSLeaveCriticalSection(&m_hCriticalSection);
 
 	// mirror it if needed
@@ -183,7 +183,7 @@ XnStatus XN_CALLBACK_TYPE XnDeviceStream::UpdateRequiredSizeCallback(const XnPro
 XnStatus XN_CALLBACK_TYPE XnDeviceStream::SetIsOpenCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDeviceStream* pStream = (XnDeviceStream*)pCookie;
-	if (nValue == TRUE)
+	if (nValue == true)
 	{
 		return pStream->Open();
 	}
@@ -202,7 +202,7 @@ XnStatus XN_CALLBACK_TYPE XnDeviceStream::SetOutputFormatCallback(XnActualIntPro
 XnStatus XN_CALLBACK_TYPE XnDeviceStream::SetIsMirrorCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDeviceStream* pStream = (XnDeviceStream*)pCookie;
-	return pStream->SetMirror((XnBool)nValue);
+	return pStream->SetMirror((bool)nValue);
 }
 
 void XnDeviceStream::AddRef()

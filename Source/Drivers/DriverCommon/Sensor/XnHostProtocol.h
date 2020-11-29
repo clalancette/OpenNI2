@@ -309,7 +309,7 @@ typedef struct XnWavelengthCorrectionDebugPacket
 
 // All implemented protocol commands
 // Init
-XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uint8_t nMajor, uint8_t nMinor, uint16_t nBuild, XnHostProtocolUsbCore usb, XnBool bGuessed);
+XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uint8_t nMajor, uint8_t nMinor, uint16_t nBuild, XnHostProtocolUsbCore usb, bool bGuessed);
 
 XnStatus XnHostProtocolKeepAlive		(XnDevicePrivateData* pDevicePrivateData);
 XnStatus XnHostProtocolGetVersion		(const XnDevicePrivateData* pDevicePrivateData, XnVersions& Version);
@@ -351,7 +351,7 @@ XnStatus XnHostProtocolReadAHB			(XnDevicePrivateData* pDevicePrivateData, uint3
 XnStatus XnHostProtocolWriteAHB 		(XnDevicePrivateData* pDevicePrivateData, uint32_t nAddress, uint32_t nValue, uint32_t nMask);
 XnStatus XnHostProtocolGetUsbCoreType	(XnDevicePrivateData* pDevicePrivateData, XnHostProtocolUsbCore& nValue);
 XnStatus XnHostProtocolSetLedState	(XnDevicePrivateData* pDevicePrivateData, uint16_t nLedId, uint16_t nState);
-XnStatus XnHostProtocolSetEmitterState	(XnDevicePrivateData* pDevicePrivateData, XnBool bActive);
+XnStatus XnHostProtocolSetEmitterState	(XnDevicePrivateData* pDevicePrivateData, bool bActive);
 XnStatus XnHostProtocolUpdateSupportedImageModes(XnDevicePrivateData* pDevicePrivateData);
 
 // Commands.txt
@@ -366,7 +366,7 @@ XnStatus XnHostProtocolGetTecData		(XnDevicePrivateData* pDevicePrivateData, XnT
 XnStatus XnHostProtocolGetTecFastConvergenceData (XnDevicePrivateData* pDevicePrivateData, XnTecFastConvergenceData* pTecData);
 XnStatus XnHostProtocolCalibrateEmitter (XnDevicePrivateData* pDevicePrivateData, uint16_t nSetPoint);
 XnStatus XnHostProtocolGetEmitterData	(XnDevicePrivateData* pDevicePrivateData, XnEmitterData* pEmitterData);
-XnStatus XnHostProtocolCalibrateProjectorFault	(XnDevicePrivateData* pDevicePrivateData, uint16_t nMinThreshold, uint16_t nMaxThreshold, XnBool* pbProjectorFaultEvent);
+XnStatus XnHostProtocolCalibrateProjectorFault	(XnDevicePrivateData* pDevicePrivateData, uint16_t nMinThreshold, uint16_t nMaxThreshold, bool* pbProjectorFaultEvent);
 XnStatus XnHostProtocolGetFileList(XnDevicePrivateData* pDevicePrivateData, uint16_t nFirstFileId, XnFlashFile* pFileList, uint16_t& nNumOfEntries);
 XnStatus XnHostProtocolDeleteFile(XnDevicePrivateData* pDevicePrivateData, uint16_t nFileId);
 XnStatus XnHostProtocolWriteI2C(XnDevicePrivateData* pDevicePrivateData, const XnI2CWriteData* pI2CWriteData);

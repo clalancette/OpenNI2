@@ -34,7 +34,7 @@
 // Code
 //---------------------------------------------------------------------------
 XnDeviceModule::XnDeviceModule(const XnChar* strName) :
-	m_Lock(XN_MODULE_PROPERTY_LOCK, "Lock", FALSE, strName),
+	m_Lock(XN_MODULE_PROPERTY_LOCK, "Lock", false, strName),
 	m_hLockCS(NULL)
 {
 	strncpy(m_strName, strName, XN_DEVICE_MAX_STRING_LENGTH - 1);
@@ -96,11 +96,11 @@ XnStatus XnDeviceModule::AddProperties(XnProperty** apProperties, uint32_t nCoun
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::DoesPropertyExist(uint32_t propertyId, XnBool* pbDoesExist) const
+XnStatus XnDeviceModule::DoesPropertyExist(uint32_t propertyId, bool* pbDoesExist) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	*pbDoesExist = FALSE;
+	*pbDoesExist = false;
 
 	XnPropertiesHash::ConstIterator it = m_Properties.End();
 	nRetVal = m_Properties.Find(propertyId, it);
@@ -232,7 +232,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 			nRetVal = GetProperty(propertyId, &nValue);
 			if (nRetVal != XN_STATUS_OK)
 			{
-				// XN_ASSERT(FALSE); // This could happen when the property was write only
+				// XN_ASSERT(false); // This could happen when the property was write only
 				return XN_STATUS_ERROR;
 			}
 
@@ -254,7 +254,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 			}
 			else
 			{
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return XN_STATUS_DEVICE_PROPERTY_BAD_TYPE;
 			}
 			break;
@@ -265,7 +265,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 			nRetVal = GetProperty(propertyId, &dValue);
 			if (nRetVal != XN_STATUS_OK)
 			{
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return XN_STATUS_ERROR;
 			}
 
@@ -279,7 +279,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 			}
 			else
 			{
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return XN_STATUS_DEVICE_PROPERTY_BAD_TYPE;
 			}
 			break;
@@ -290,7 +290,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 			nRetVal = GetProperty(propertyId, strValue);
 			if (nRetVal != XN_STATUS_OK)
 			{
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return XN_STATUS_ERROR;
 			}
 
@@ -298,7 +298,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 			if (nRetVal != XN_STATUS_OK)
 			{
 				// wrong size?
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return XN_STATUS_DEVICE_PROPERTY_BAD_TYPE;
 			}
 			break;
@@ -313,7 +313,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 			break;
 		}
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -408,7 +408,7 @@ XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const void* data, int 
 			}
 			else
 			{
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return XN_STATUS_DEVICE_PROPERTY_BAD_TYPE;
 			}
 
@@ -431,7 +431,7 @@ XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const void* data, int 
 			}
 			else
 			{
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return XN_STATUS_DEVICE_PROPERTY_BAD_TYPE;
 			}
 
@@ -455,7 +455,7 @@ XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const void* data, int 
 			break;
 		}
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -707,11 +707,11 @@ XnStatus XnDeviceModule::UnsafeBatchConfig(const XnActualPropertiesHash& props)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::SetLockState(XnBool bLocked)
+XnStatus XnDeviceModule::SetLockState(bool bLocked)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	if (bLocked && m_Lock.GetValue() == TRUE)
+	if (bLocked && m_Lock.GetValue() == true)
 	{
 		return XN_STATUS_NODE_IS_LOCKED;
 	}
@@ -719,7 +719,7 @@ XnStatus XnDeviceModule::SetLockState(XnBool bLocked)
 	xnOSEnterCriticalSection(&m_hLockCS);
 
 	// check again
-	if (bLocked && m_Lock.GetValue() == TRUE)
+	if (bLocked && m_Lock.GetValue() == true)
 	{
 		xnOSLeaveCriticalSection(&m_hLockCS);
 		return XN_STATUS_NODE_IS_LOCKED;
@@ -734,5 +734,5 @@ XnStatus XnDeviceModule::SetLockState(XnBool bLocked)
 XnStatus XnDeviceModule::SetLockStateCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDeviceModule* pThis = (XnDeviceModule*)pCookie;
-	return pThis->SetLockState(nValue != FALSE);
+	return pThis->SetLockState(nValue != false);
 }

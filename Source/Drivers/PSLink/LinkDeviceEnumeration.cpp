@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 // Globals
 //---------------------------------------------------------------------------
-XnBool LinkDeviceEnumeration::ms_initialized = FALSE;
+bool LinkDeviceEnumeration::ms_initialized = false;
 LinkDeviceEnumeration::DeviceConnectivityEvent LinkDeviceEnumeration::ms_connectedEvent;
 LinkDeviceEnumeration::DeviceConnectivityEvent LinkDeviceEnumeration::ms_disconnectedEvent;
 LinkDeviceEnumeration::DevicesHash LinkDeviceEnumeration::ms_devices;
@@ -89,7 +89,7 @@ XnStatus LinkDeviceEnumeration::Initialize()
 		xnUSBFreeDevicesList(astrDevicePaths);
 	}
 
-	ms_initialized = TRUE;
+	ms_initialized = true;
 
 	return XN_STATUS_OK;
 }
@@ -112,7 +112,7 @@ void LinkDeviceEnumeration::Shutdown()
 
 		ms_devices.Clear();
 
-		ms_initialized = FALSE;
+		ms_initialized = false;
 	}
 }
 

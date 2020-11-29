@@ -172,7 +172,7 @@ private:
 			pFrame->height = OZ_RESOLUTION_Y;
 
 			pFrame->cropOriginX = pFrame->cropOriginY = 0;
-			pFrame->croppingEnabled = FALSE;
+			pFrame->croppingEnabled = false;
 
 			pFrame->sensorType = ONI_SENSOR_DEPTH;
 			pFrame->stride = OZ_RESOLUTION_X*sizeof(OniDepthPixel);
@@ -256,7 +256,7 @@ private:
 			pFrame->height = OZ_RESOLUTION_Y;
 
 			pFrame->cropOriginX = pFrame->cropOriginY = 0;
-			pFrame->croppingEnabled = FALSE;
+			pFrame->croppingEnabled = false;
 
 			pFrame->sensorType = ONI_SENSOR_COLOR;
 			pFrame->stride = OZ_RESOLUTION_X*3;
@@ -408,7 +408,7 @@ public:
 		}
 
 		// not our device?!
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 	}
 
 	OniStatus tryDevice(const char* uri) override

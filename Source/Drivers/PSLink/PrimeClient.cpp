@@ -40,8 +40,8 @@ const uint32_t PrimeClient::CONT_STREAM_PREDEFINED_BUFFER_SIZE = 0x40000;
 PrimeClient::PrimeClient()
 {
 	m_pConnectionFactory = NULL;
-	m_bInitialized = FALSE;
-	m_bConnected = FALSE;
+	m_bInitialized = false;
+	m_bConnected = false;
 
 	/* Global properties */
 	xnOSMemSet(&m_fwVersion, 0, sizeof(m_fwVersion));
@@ -74,7 +74,7 @@ XnStatus PrimeClient::Init(const XnChar* strConnString, XnTransportType transpor
 
 	m_inputDataEndpoints.resize(m_pConnectionFactory->GetNumInputDataConnections());
 
-	m_bInitialized = TRUE;
+	m_bInitialized = true;
 	return XN_STATUS_OK;
 }
 
@@ -96,11 +96,11 @@ void PrimeClient::Shutdown()
 		m_pConnectionFactory->Shutdown();
 		XN_DELETE(m_pConnectionFactory);
 		m_pConnectionFactory = NULL;
-		m_bInitialized = FALSE;
+		m_bInitialized = false;
 	}
 }
 
-XnBool PrimeClient::IsInitialized() const
+bool PrimeClient::IsInitialized() const
 {
 	return m_bInitialized;
 }
@@ -143,7 +143,7 @@ XnStatus PrimeClient::Connect()
 
 		xnLogInfo(XN_MASK_PRIME_CLIENT, "Prime Client is now connected.");
 		LogVersions();
-		m_bConnected = TRUE;
+		m_bConnected = true;
 	}
 
 	return XN_STATUS_OK;
@@ -159,7 +159,7 @@ void PrimeClient::Disconnect()
 }
 
 
-XnBool PrimeClient::IsConnected() const
+bool PrimeClient::IsConnected() const
 {
 	return m_bConnected;
 }
@@ -323,7 +323,7 @@ XnStatus PrimeClient::EndUploadFileOnControlEP()
 	return m_linkControlEndpoint.EndUpload();
 }
 
-XnStatus PrimeClient::UploadFileOnControlEP(const XnChar* strFileName, XnBool bOverrideFactorySettings)
+XnStatus PrimeClient::UploadFileOnControlEP(const XnChar* strFileName, bool bOverrideFactorySettings)
 {
 	return m_linkControlEndpoint.UploadFile(strFileName, bOverrideFactorySettings);
 }
@@ -356,43 +356,43 @@ XnStatus PrimeClient::DownloadFile(uint16_t zone, const XnChar* strFirmwareFileN
 	return m_linkControlEndpoint.DownloadFile(zone, strFirmwareFileName, strTargetFile);
 }
 
-XnStatus PrimeClient::SetProjectorActive(XnBool bActive)
+XnStatus PrimeClient::SetProjectorActive(bool bActive)
 {
 	return m_linkControlEndpoint.SetProjectorActive(bActive);
 }
 
-XnStatus PrimeClient::SetAccActive(XnBool bActive)
+XnStatus PrimeClient::SetAccActive(bool bActive)
 {
 	return m_linkControlEndpoint.SetAccActive(bActive);
 }
 
-XnStatus PrimeClient::GetAccActive(XnBool& bActive)
+XnStatus PrimeClient::GetAccActive(bool& bActive)
 {
 	return m_linkControlEndpoint.GetAccActive(bActive);
 }
 
-XnStatus PrimeClient::SetVDDActive(XnBool bActive)
+XnStatus PrimeClient::SetVDDActive(bool bActive)
 {
 	return m_linkControlEndpoint.SetVDDActive(bActive);
 }
 
-XnStatus PrimeClient::GetVDDActive(XnBool& bActive)
+XnStatus PrimeClient::GetVDDActive(bool& bActive)
 {
 	return m_linkControlEndpoint.GetVDDActive(bActive);
 }
 
-XnStatus PrimeClient::SetPeriodicBistActive(XnBool bActive)
+XnStatus PrimeClient::SetPeriodicBistActive(bool bActive)
 {
 	return m_linkControlEndpoint.SetPeriodicBistActive(bActive);
 }
 
-XnStatus PrimeClient::GetPeriodicBistActive(XnBool& bActive)
+XnStatus PrimeClient::GetPeriodicBistActive(bool& bActive)
 {
 	return m_linkControlEndpoint.GetPeriodicBistActive(bActive);
 }
 void PrimeClient::LogVersions()
 {
-	static XnBool bVersionsLoggedOnce = FALSE;
+	static bool bVersionsLoggedOnce = false;
 
 	if (!bVersionsLoggedOnce)
 	{
@@ -402,7 +402,7 @@ void PrimeClient::LogVersions()
 		xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device FW version:\t\t%u.%u.%u.%u-%s", m_fwVersion.m_nMajor, m_fwVersion.m_nMinor, m_fwVersion.m_nMaintenance, m_fwVersion.m_nBuild, m_fwVersion.m_strModifier);
 		xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device HW version:\t\t0x%04X", m_nHWVersion);
 		xnLogVerbose(XN_MASK_PRIME_CLIENT, "Device SerialNumber:\t%s", m_strSerialNumber);
-		bVersionsLoggedOnce = TRUE;
+		bVersionsLoggedOnce = true;
 	}
 }
 
@@ -422,7 +422,7 @@ XnStatus PrimeClient::OpenFWLogFile(uint8_t logID)
 	if (pFWLogStream == NULL)
 	{
 		xnLogError(XN_MASK_PRIME_CLIENT, "FW log input stream is NULL?!");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -440,7 +440,7 @@ XnStatus PrimeClient::CloseFWLogFile(uint8_t logID)
 	if (m_nFWLogStreamID == XN_LINK_STREAM_ID_NONE)
 	{
 		xnLogError(XN_MASK_PRIME_CLIENT, "No FW log input stream");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -449,7 +449,7 @@ XnStatus PrimeClient::CloseFWLogFile(uint8_t logID)
 	if (pFWLogStream == NULL)
 	{
 		xnLogError(XN_MASK_PRIME_CLIENT, "FW log input stream is NULL?!");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -471,14 +471,14 @@ XnStatus PrimeClient::StartFWLog()
 	if (fwLogStreamInfos.size() == 0)
 	{
 		xnLogError(XN_MASK_PRIME_CLIENT, "No FW log stream exists in device");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
 	if (fwLogStreamInfos.size() > 1)
 	{
 		xnLogError(XN_MASK_PRIME_CLIENT, "Only one FW log stream is supported");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -489,7 +489,7 @@ XnStatus PrimeClient::StartFWLog()
 	if (pFWLogStream == NULL)
 	{
 		xnLogError(XN_MASK_PRIME_CLIENT, "FW log input stream is NULL?!");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -511,7 +511,7 @@ XnStatus PrimeClient::StopFWLog()
 		if (pFWLogStream == NULL)
 		{
 			xnLogError(XN_MASK_PRIME_CLIENT, "FW log input stream is NULL?!");
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_ERROR;
 		}
 
@@ -538,7 +538,7 @@ XnStatus PrimeClient::CreateInputStreamImpl(XnLinkStreamType streamType, const X
 	if (nEndpointID > m_inputDataEndpoints.size())
 	{
 		xnLogError(XN_MASK_PRIME_CLIENT, "Stream %u was created on non-existing endpoint %u", nStreamID, nEndpointID);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -562,7 +562,7 @@ XnStatus PrimeClient::CreateInputStreamImpl(XnLinkStreamType streamType, const X
 	if (pToken == NULL)																								\
 	{																												\
 		xnLogError(XN_MASK_PRIME_CLIENT, "Preset file corrupt: line '%s' is not in the correct format!", strLine);	\
-		XN_ASSERT(FALSE);																							\
+		XN_ASSERT(false);																							\
 		fclose(pFile);																								\
 		return XN_STATUS_CORRUPT_FILE;																				\
 	}
@@ -574,7 +574,7 @@ XnStatus PrimeClient::RunPresetFile(const XnChar* strFileName)
 	xnLogVerbose(XN_MASK_PRIME_CLIENT, "Executing preset file '%s'...", strFileName);
 
 	// Check that file exists
-	XnBool bFileExists;
+	bool bFileExists;
 	nRetVal = xnOSDoesFileExist(strFileName, &bFileExists);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -705,7 +705,7 @@ XnStatus PrimeClient::ExecuteBist(uint32_t nID, uint32_t& errorCode, uint32_t& e
 	return m_linkControlEndpoint.ExecuteBistTests(nID, errorCode, extraDataSize, extraData);
 }
 
-XnBool PrimeClient::IsPropertySupported(uint16_t propID)
+bool PrimeClient::IsPropertySupported(uint16_t propID)
 {
 	uint32_t nInterface = (propID >> 8);
 	uint32_t nProp = (propID & 0x0F);
@@ -719,15 +719,15 @@ XnStatus PrimeClient::GetBootStatus(XnBootStatus& bootStatus)
 
 XnStatus PrimeClient::EnableProjectorPulse(float delay, float width, float cycle)
 {
-	return m_linkControlEndpoint.SetProjectorPulse(TRUE, delay, width, cycle);
+	return m_linkControlEndpoint.SetProjectorPulse(true, delay, width, cycle);
 }
 
 XnStatus PrimeClient::DisableProjectorPulse()
 {
-	return m_linkControlEndpoint.SetProjectorPulse(FALSE, 0, 0, 0);
+	return m_linkControlEndpoint.SetProjectorPulse(false, 0, 0, 0);
 }
 
-XnStatus PrimeClient::GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip)
+XnStatus PrimeClient::GetProjectorPulse(bool& enabled, float& delay, float& width, float& framesToskip)
 {
 	return m_linkControlEndpoint.GetProjectorPulse(enabled, delay, width, framesToskip);
 }

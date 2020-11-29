@@ -50,7 +50,7 @@ public:
 
 	OniStatus start();
 	void stop();
-	OniBool isStarted();
+	bool isStarted();
 
 	OniStatus readFrame(OniFrame** pFrame);
 
@@ -60,9 +60,9 @@ public:
 
 	OniStatus setProperty(int propertyId, const void* data, int dataSize);
 	OniStatus getProperty(int propertyId, void* data, int* pDataSize);
-	OniBool isPropertySupported(int propertyId);
+	bool isPropertySupported(int propertyId);
 	OniStatus invoke(int commandId, void* data, int dataSize);
-	OniBool isCommandSupported(int commandId);
+	bool isCommandSupported(int commandId);
 	void notifyAllProperties();
 
 	OniStatus registerNewFrameCallback(OniGeneralCallback handler, void* pCookie, XnCallbackHandle* pHandle);
@@ -129,7 +129,7 @@ private:
 
 	XnCallbackHandle m_hNewFrameEvent;
 
-	OniBool m_started;
+	bool m_started;
 
 	// XnLib does not provide a set container. I decided to use this odd
 	// Recorder* -> Recorder* map to mimic a set.

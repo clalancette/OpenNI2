@@ -35,7 +35,7 @@
 class XnLinuxPosixNamedEvent : public XnLinuxNamedEvent
 {
 public:
-	XnLinuxPosixNamedEvent(XnBool bManualReset, const XnChar* strName, XnBool bCreate);
+	XnLinuxPosixNamedEvent(bool bManualReset, const XnChar* strName, bool bCreate);
 
 	virtual XnStatus CreateNamed(const XnChar* strName);
 	virtual XnStatus OpenNamed(const XnChar* strName);

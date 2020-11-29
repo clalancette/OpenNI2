@@ -51,7 +51,7 @@ public:
 	void clear() override;
 
 	// Set whether stream is enabled.
-	void setStreamEnabled(VideoStream* pStream, OniBool enabled) override;
+	void setStreamEnabled(VideoStream* pStream, bool enabled) override;
 
 	// Return list of streams which are members of the stream group.
 	void getStreams(VideoStream** ppStreams, int* pNumStreams) override;
@@ -67,7 +67,7 @@ private:
 		VideoStream* pStream = NULL;
 
 		// Flag indicating stream is enabled.
-		OniBool enabled = false;
+		bool enabled = false;
 
 		// Last received frame.
 		OniFrame* pLastFrame = NULL;

@@ -51,7 +51,7 @@ OniStatus XnOniIRStream::getProperty(int propertyId, void* data, int* pDataSize)
     }
 }
 
-OniBool XnOniIRStream::isPropertySupported(int propertyId)
+bool XnOniIRStream::isPropertySupported(int propertyId)
 {
     return (
 	propertyId == ONI_STREAM_PROPERTY_MAX_VALUE ||

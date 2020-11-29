@@ -332,7 +332,7 @@ XN_C_API XnStatus xnOSGetInfo(xnOSInfo* pOSInfo)
 	return (XN_STATUS_OK);
 }
 
-XnStatus xnWin32CreateKernelObjectName(XnChar* strDest, const uint32_t nDestLength, const XnChar* strSource, XnBool bAllowOtherUsers)
+XnStatus xnWin32CreateKernelObjectName(XnChar* strDest, const uint32_t nDestLength, const XnChar* strSource, bool bAllowOtherUsers)
 {
 	XnChar* pDest = strDest;
 	XnChar* pDestEnd = strDest + nDestLength;
@@ -364,7 +364,7 @@ XnStatus xnWin32CreateKernelObjectName(XnChar* strDest, const uint32_t nDestLeng
 	return (XN_STATUS_OK);
 }
 
-XnStatus xnWin32GetSecurityAttributes(XnBool bAllowOtherUsers, SECURITY_ATTRIBUTES** ppSecurityAttributes)
+XnStatus xnWin32GetSecurityAttributes(bool bAllowOtherUsers, SECURITY_ATTRIBUTES** ppSecurityAttributes)
 {
 	*ppSecurityAttributes = NULL;
 
@@ -375,13 +375,13 @@ XnStatus xnWin32GetSecurityAttributes(XnBool bAllowOtherUsers, SECURITY_ATTRIBUT
 	if (pSecurityAttributes == NULL)
 	{
 		// initialize it now
-		if (FALSE == InitializeSecurityDescriptor(&securityDesc, SECURITY_DESCRIPTOR_REVISION))
+		if (false == InitializeSecurityDescriptor(&securityDesc, SECURITY_DESCRIPTOR_REVISION))
 		{
 			xnLogWarning(XN_MASK_OS, "Failed to initialize security descriptor (%d)", GetLastError());
 			return XN_STATUS_ERROR;
 		}
 
-		if (FALSE == SetSecurityDescriptorDacl(&securityDesc, TRUE, NULL, FALSE))
+		if (false == SetSecurityDescriptorDacl(&securityDesc, true, NULL, false))
 		{
 			xnLogWarning(XN_MASK_OS, "Failed to set security descriptor DACL (%d)", GetLastError());
 			return XN_STATUS_ERROR;
@@ -389,7 +389,7 @@ XnStatus xnWin32GetSecurityAttributes(XnBool bAllowOtherUsers, SECURITY_ATTRIBUT
 
 		securityAttributes.nLength = sizeof(SECURITY_ATTRIBUTES);
 		securityAttributes.lpSecurityDescriptor = &securityDesc;
-		securityAttributes.bInheritHandle = FALSE;
+		securityAttributes.bInheritHandle = false;
 
 		// initialization complete. Store a pointer
 		pSecurityAttributes = &securityAttributes;

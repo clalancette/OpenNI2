@@ -35,9 +35,9 @@ const uint32_t LinkContInputStream::CONT_STREAM_PREDEFINED_BUFFER_SIZE = 0x40000
 
 LinkContInputStream::LinkContInputStream()
 {
-	m_bInitialized = FALSE;
-    m_bStreaming = FALSE;
-	m_bNewDataAvailable = FALSE;
+	m_bInitialized = false;
+    m_bStreaming = false;
+	m_bNewDataAvailable = false;
 	m_hCriticalSection = NULL;
 	m_nUserBufferMaxSize = 0;
 	m_pUserBuffer = NULL;
@@ -62,7 +62,7 @@ XnStatus LinkContInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 	if (m_hCriticalSection == NULL)
 	{
 		xnLogError(XN_MASK_INPUT_STREAM, "Cannot initialize - critical section was not created successfully");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -85,7 +85,7 @@ XnStatus LinkContInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 	{
 		Shutdown();
 		xnLogError(XN_MASK_INPUT_STREAM, "Failed to allocate buffer of size %u", m_nUserBufferMaxSize);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ALLOC_FAILED;
 	}
 	m_pWorkingBuffer = reinterpret_cast<uint8_t*>(xnOSCallocAligned(1, CONT_STREAM_PREDEFINED_BUFFER_SIZE, XN_DEFAULT_MEM_ALIGN));
@@ -93,7 +93,7 @@ XnStatus LinkContInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 	{
 		Shutdown();
 		xnLogError(XN_MASK_INPUT_STREAM, "Failed to allocate buffer of size %u", m_nUserBufferMaxSize);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ALLOC_FAILED;
 	}
 	
@@ -101,14 +101,14 @@ XnStatus LinkContInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
     if (nRetVal != XN_STATUS_OK)
     {
         xnLogWarning(XN_MASK_INPUT_STREAM, "Failed to get stream dump name: %s", xnGetStatusString(nRetVal));
-        XN_ASSERT(FALSE);
+        XN_ASSERT(false);
     }
 
-    m_bInitialized = TRUE;
+    m_bInitialized = true;
 	return XN_STATUS_OK;
 }
 
-XnBool LinkContInputStream::IsInitialized() const
+bool LinkContInputStream::IsInitialized() const
 {
 	return m_bInitialized;
 }
@@ -123,14 +123,14 @@ void LinkContInputStream::Shutdown()
 	XN_ALIGNED_FREE_AND_NULL(m_pUserBuffer);
 	XN_ALIGNED_FREE_AND_NULL(m_pWorkingBuffer);
 
-	m_bInitialized = FALSE;
-	m_bNewDataAvailable = FALSE;
+	m_bInitialized = false;
+	m_bNewDataAvailable = false;
     LinkInputStream::Shutdown();
 
 	xnOSLeaveCriticalSection(&m_hCriticalSection);
 }
 
-XnStatus LinkContInputStream::HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, XnBool& bPacketLoss)
+XnStatus LinkContInputStream::HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, bool& bPacketLoss)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	xnl::AutoCSLocker csLock(m_hCriticalSection);
@@ -140,7 +140,7 @@ XnStatus LinkContInputStream::HandlePacket(const LinkPacketHeader& header, const
 	}
 
 	// TODO: handle packet loss!
-	bPacketLoss = FALSE;
+	bPacketLoss = false;
 
 	if(m_streamType == XN_LINK_STREAM_TYPE_LOG)
 	{
@@ -162,7 +162,7 @@ XnStatus LinkContInputStream::HandlePacket(const LinkPacketHeader& header, const
 	if (header.GetFragmentationFlags() & XN_LINK_FRAG_END)
 	{
 		//Notify that we have new data available
-		m_bNewDataAvailable = TRUE;
+		m_bNewDataAvailable = true;
 		nRetVal = m_newDataAvailableEvent.Raise();
 		XN_IS_STATUS_OK_LOG_ERROR("Raise new data available event", nRetVal);
 	}
@@ -184,7 +184,7 @@ const void* LinkContInputStream::GetNextData() const
 {
 	static const uint64_t nDummy = 0;
 	//TODO: Implement this properly for timestamps...
-	XN_ASSERT(FALSE);
+	XN_ASSERT(false);
 	return &nDummy;
 }
 
@@ -193,14 +193,14 @@ uint32_t LinkContInputStream::GetNextDataSize() const
 	return 0;
 }
 
-XnBool LinkContInputStream::IsNewDataAvailable() const
+bool LinkContInputStream::IsNewDataAvailable() const
 {
 	xnOSEnterCriticalSection(&m_hCriticalSection);
 	if (!m_bInitialized)
 	{
-		return FALSE;
+		return false;
 	}
-	XnBool bNewDataAvailable = m_bNewDataAvailable;
+	bool bNewDataAvailable = m_bNewDataAvailable;
 	xnOSLeaveCriticalSection(&m_hCriticalSection);
 
 	return bNewDataAvailable;
@@ -220,7 +220,7 @@ XnStatus LinkContInputStream::StartImpl()
 	m_logParser.GenerateOutputBuffer(m_pDumpFile != NULL);
 
 	//We must set the streaming flag first cuz the data handler checks it
-	m_bStreaming = TRUE;
+	m_bStreaming = true;
 
     nRetVal = m_pConnection->Connect();
     XN_IS_STATUS_OK_LOG_ERROR("Connect stream's input connection", nRetVal);
@@ -241,13 +241,13 @@ XnStatus LinkContInputStream::StopImpl()
     nRetVal = m_pLinkControlEndpoint->StopStreaming(m_nStreamID);
     XN_IS_STATUS_OK_LOG_ERROR("Stop streaming", nRetVal);
     m_pConnection->Disconnect();
-    m_bStreaming = FALSE;
+    m_bStreaming = false;
     xnDumpFileClose(m_pDumpFile);
 
     return XN_STATUS_OK;
 }
 
-XnBool LinkContInputStream::IsStreaming() const
+bool LinkContInputStream::IsStreaming() const
 {
     return m_bStreaming;
 }
@@ -258,7 +258,7 @@ XnStatus LinkContInputStream::UpdateData()
 	if (!m_bInitialized)
 	{
 		xnLogError(XN_MASK_INPUT_STREAM, "Attempted to update data from stream %u which is not initialized", m_nStreamID);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_NOT_INIT;
 	}
 
@@ -267,7 +267,7 @@ XnStatus LinkContInputStream::UpdateData()
 		//Copy working buffer to user buffer
 		xnOSMemCopy(m_pUserBuffer, m_pWorkingBuffer, m_nUserBufferMaxSize);
 		m_nUserBufferCurrentSize = m_nWorkingBufferCurrentSize;
-		m_bNewDataAvailable = FALSE;
+		m_bNewDataAvailable = false;
 	}
 
 	return XN_STATUS_OK;
@@ -291,11 +291,11 @@ void LinkContInputStream::SetDumpName(const XnChar* strDumpName)
     if (nRetVal != XN_STATUS_OK)
     {
         xnLogWarning(XN_MASK_INPUT_STREAM, "Failed to set dump name: %s", xnGetStatusString(nRetVal));
-        XN_ASSERT(FALSE);
+        XN_ASSERT(false);
     }
 }
 
-void LinkContInputStream::SetDumpOn(XnBool bDumpOn)
+void LinkContInputStream::SetDumpOn(bool bDumpOn)
 {
     XnStatus nRetVal = XN_STATUS_OK;
     (void)nRetVal;
@@ -304,7 +304,7 @@ void LinkContInputStream::SetDumpOn(XnBool bDumpOn)
     if (nRetVal != XN_STATUS_OK)
     {
         xnLogWarning(XN_MASK_INPUT_STREAM, "Failed to set dump state: %s", xnGetStatusString(nRetVal));
-        XN_ASSERT(FALSE);
+        XN_ASSERT(false);
     }
 }
 }

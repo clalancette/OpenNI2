@@ -100,7 +100,7 @@ static XnStatus OpenSharedMemoryImpl(const XnChar* strName, uint32_t nAccessFlag
 	XN_VALIDATE_OUTPUT_PTR(phSharedMem);
 
 	// if (nSize) is a number - create, otherwise - open
-	XnBool bCreate = (nSize != 0);
+	bool bCreate = (nSize != 0);
 
 	// convert to local OS types
 	int prot = 0;
@@ -173,20 +173,20 @@ static XnStatus OpenSharedMemoryImpl(const XnChar* strName, uint32_t nAccessFlag
 
 XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemory(const XnChar* strName, uint32_t nSize, uint32_t nAccessFlags, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
-	return xnOSCreateSharedMemoryEx(strName, nSize, nAccessFlags, FALSE, phSharedMem);
+	return xnOSCreateSharedMemoryEx(strName, nSize, nAccessFlags, false, phSharedMem);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, uint32_t nSize, uint32_t nAccessFlags, XnBool /*bAllowOtherUsers*/, XN_SHARED_MEMORY_HANDLE* phSharedMem)
+XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, uint32_t nSize, uint32_t nAccessFlags, bool /*bAllowOtherUsers*/, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
 	return OpenSharedMemoryImpl(strName, nAccessFlags, phSharedMem, nSize);
 }
 
 XN_C_API XnStatus xnOSOpenSharedMemory(const XnChar* strName, uint32_t nAccessFlags, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
-	return xnOSOpenSharedMemoryEx(strName, nAccessFlags, FALSE, phSharedMem);
+	return xnOSOpenSharedMemoryEx(strName, nAccessFlags, false, phSharedMem);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemoryEx(const XnChar* strName, uint32_t nAccessFlags, XnBool /*bAllowOtherUsers*/, XN_SHARED_MEMORY_HANDLE* phSharedMem)
+XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemoryEx(const XnChar* strName, uint32_t nAccessFlags, bool /*bAllowOtherUsers*/, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
 	return OpenSharedMemoryImpl(strName, nAccessFlags, phSharedMem, 0);
 }
@@ -236,7 +236,7 @@ XN_C_API XnStatus xnOSCreateSharedMemory(const XnChar* strName, uint32_t nSize, 
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSCreateSharedMemoryEx(const XnChar* strName, uint32_t nSize, uint32_t nAccessFlags, XnBool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem)
+XN_C_API XnStatus xnOSCreateSharedMemoryEx(const XnChar* strName, uint32_t nSize, uint32_t nAccessFlags, bool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
 	void* pAddress = xnOSMallocAligned(nSize, XN_DEFAULT_MEM_ALIGN);
 	XN_VALIDATE_ALLOC_PTR(pAddress);
@@ -251,7 +251,7 @@ XN_C_API XnStatus xnOSOpenSharedMemory(const XnChar* strName, uint32_t nAccessFl
 	return XN_STATUS_OS_FAILED_TO_CREATE_SHARED_MEMORY;
 }
 
-XN_C_API XnStatus xnOSOpenSharedMemoryEx(const XnChar* strName, uint32_t nAccessFlags, XnBool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem)
+XN_C_API XnStatus xnOSOpenSharedMemoryEx(const XnChar* strName, uint32_t nAccessFlags, bool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem)
 {
 	return XN_STATUS_OS_FAILED_TO_CREATE_SHARED_MEMORY;
 }

@@ -42,14 +42,14 @@ public:
 		}
 	}
 
-	OniBool Exists(int propertyId)
+	bool Exists(int propertyId)
 	{
 		xnl::AutoCSLocker lock(m_cs);
 		if (m_properties.Find(propertyId) != m_properties.End())
 		{
-			return TRUE;
+			return true;
 		}
-		return FALSE;
+		return false;
 	}
 
 	OniStatus GetProperty(int propertyId, void* data, int* pDataSize) const

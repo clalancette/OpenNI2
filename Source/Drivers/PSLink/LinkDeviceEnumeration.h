@@ -55,7 +55,7 @@ private:
 	static void XN_CALLBACK_TYPE OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* pCookie);
 	static void OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId);
 
-	static XnBool ms_initialized;
+	static bool ms_initialized;
 	static DeviceConnectivityEvent ms_connectedEvent;
 	static DeviceConnectivityEvent ms_disconnectedEvent;
 

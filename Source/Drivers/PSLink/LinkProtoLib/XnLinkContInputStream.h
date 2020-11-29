@@ -44,19 +44,19 @@ public:
                           uint16_t nStreamID, 
                           IConnection* pConnection);
     //LinkInputStream methods
-    virtual XnBool IsInitialized() const;
+    virtual bool IsInitialized() const;
 	virtual void Shutdown();
-	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, XnBool& bPacketLoss);
+	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, bool& bPacketLoss);
 	virtual const void* GetData() const;
 	virtual uint32_t GetDataSize() const;
 	virtual uint64_t GetTimestamp() const { return 0; }
 	virtual const void* GetNextData() const;
 	virtual uint32_t GetNextDataSize() const;
 	virtual uint64_t GetNextTimestamp() const { return 0; }
-	virtual XnBool IsNewDataAvailable() const;
+	virtual bool IsNewDataAvailable() const;
 	virtual XnStatus UpdateData();
 
-    virtual XnBool IsStreaming() const;
+    virtual bool IsStreaming() const;
 
 	virtual XnStreamFragLevel GetStreamFragLevel() const { return XN_LINK_STREAM_FRAG_LEVEL_CONTINUOUS; }
 
@@ -66,7 +66,7 @@ public:
 
     //Other methods
     virtual void SetDumpName(const XnChar* strDumpName);
-    virtual void SetDumpOn(XnBool bDumpOn);
+    virtual void SetDumpOn(bool bDumpOn);
 
 protected:
 	virtual XnStatus StartImpl();
@@ -77,9 +77,9 @@ private:
 
 	static const uint32_t CONT_STREAM_PREDEFINED_BUFFER_SIZE;
 	mutable XN_CRITICAL_SECTION_HANDLE m_hCriticalSection; //Protects buffers info
-	XnBool m_bNewDataAvailable;
-    XnBool m_bInitialized;
-	XnBool m_bStreaming;
+	bool m_bNewDataAvailable;
+    bool m_bInitialized;
+	bool m_bStreaming;
 	
 	uint32_t m_nUserBufferMaxSize;
 	uint32_t m_nUserBufferCurrentSize;

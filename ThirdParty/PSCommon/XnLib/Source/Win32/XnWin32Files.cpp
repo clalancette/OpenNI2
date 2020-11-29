@@ -53,7 +53,7 @@ XN_C_API XnStatus xnOSCountFiles(const XnChar* cpSearchPattern, int32_t* pnFound
 		// Increase the temporary number of found files counter
 		nFoundFiles++;
 
-		// Get the next file in the list. If there are no more, FindNextFile returns FALSE and the while loop is aborted
+		// Get the next file in the list. If there are no more, FindNextFile returns false and the while loop is aborted
 		if (!FindNextFile(hFind, &FindFileData))
 		{
 			FindClose(hFind);
@@ -103,7 +103,7 @@ XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* c
 		// Increase the temporary number of found files counter
 		nFoundFiles++;
 
-		// Get the next file in the list. If there are no more, FindNextFile returns FALSE and the while loop is aborted
+		// Get the next file in the list. If there are no more, FindNextFile returns false and the while loop is aborted
 		if (!FindNextFile(hFind, &FindFileData))
 		{
 			FindClose(hFind);
@@ -134,7 +134,7 @@ XN_C_API XnStatus xnOSOpenFile(const XnChar* cpFileName, const uint32_t nFlags, 
 	uint32_t nOSCreateFlags = OPEN_ALWAYS;
 	uint32_t nShareMode = FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE;
 	uint32_t nAttributes = FILE_ATTRIBUTE_NORMAL;
-	XnBool bFileExists = FALSE;
+	bool bFileExists = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -164,7 +164,7 @@ XN_C_API XnStatus xnOSOpenFile(const XnChar* cpFileName, const uint32_t nFlags, 
 		nRetVal = xnOSDoesFileExist(cpFileName, &bFileExists);
 		XN_IS_STATUS_OK(nRetVal);
 
-		if (bFileExists == TRUE)
+		if (bFileExists == true)
 		{
 			nOSCreateFlags = TRUNCATE_EXISTING;
 		}
@@ -215,7 +215,7 @@ XN_C_API XnStatus xnOSOpenFile(const XnChar* cpFileName, const uint32_t nFlags, 
 XN_C_API XnStatus xnOSCloseFile(XN_FILE_HANDLE* pFile)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pFile);
@@ -227,7 +227,7 @@ XN_C_API XnStatus xnOSCloseFile(XN_FILE_HANDLE* pFile)
 	bRetVal = CloseHandle(*pFile);
 
 	// Make sure it succeeded (return value is true)
-	if (bRetVal == TRUE)
+	if (bRetVal == true)
 	{
 		// Reset the user supplied handle
 		*pFile = NULL;
@@ -248,7 +248,7 @@ XN_C_API XnStatus xnOSReadFile(const XN_FILE_HANDLE File, void* pBuffer, uint32_
 	//       is a problem or not...
 
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pBuffer);
@@ -261,7 +261,7 @@ XN_C_API XnStatus xnOSReadFile(const XN_FILE_HANDLE File, void* pBuffer, uint32_
 	bRetVal	= ReadFile(File, pBuffer, *pnBufferSize, (DWORD*)pnBufferSize, NULL);
 
 	// Make sure it succeeded (return value is true)
-	if (bRetVal != TRUE)
+	if (bRetVal != true)
 	{
 		return (XN_STATUS_OS_FILE_READ_FAILED);
 	}
@@ -273,7 +273,7 @@ XN_C_API XnStatus xnOSReadFile(const XN_FILE_HANDLE File, void* pBuffer, uint32_
 XN_C_API XnStatus xnOSWriteFile(const XN_FILE_HANDLE File, const void* pBuffer, const uint32_t nBufferSize)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 	uint32_t nBytesToWrite = nBufferSize;
 	DWORD nBytesWritten = 0;
 
@@ -287,7 +287,7 @@ XN_C_API XnStatus xnOSWriteFile(const XN_FILE_HANDLE File, const void* pBuffer, 
 	bRetVal	= WriteFile(File, pBuffer, nBytesToWrite, &nBytesWritten, NULL);
 
 	// Make sure it succeeded (return value is true) and that the correct number of bytes were written
-	if ((bRetVal != TRUE) || (nBytesToWrite != nBytesWritten))
+	if ((bRetVal != true) || (nBytesToWrite != nBytesWritten))
 	{
 		return (XN_STATUS_OS_FILE_WRITE_FAILED);
 	}
@@ -462,7 +462,7 @@ XN_C_API XnStatus XN_C_DECL xnOSTruncateFile64(const XN_FILE_HANDLE File, uint64
 
 	// Finally, truncate the physical size of the file.
 	BOOL retVal = SetEndOfFile(File);
-	if (FALSE == retVal)
+	if (false == retVal)
 	{
 		goto failure;
 	}
@@ -475,13 +475,13 @@ failure:
 
 XN_C_API XnStatus xnOSFlushFile(const XN_FILE_HANDLE File)
 {
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 
 	// Make sure the actual file handle isn't NULL
 	XN_RET_IF_NULL(File, XN_STATUS_OS_INVALID_FILE);
 
 	bRetVal = FlushFileBuffers(File);
-	if (bRetVal == FALSE)
+	if (bRetVal == false)
 	{
 		return (XN_STATUS_OS_FILE_FLUSH_FAILED);
 	}
@@ -503,38 +503,38 @@ XN_C_API XnStatus xnOSDeleteFile(const XnChar* cpFileName)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSDoesFileExist(const XnChar* cpFileName, XnBool* bResult)
+XN_C_API XnStatus xnOSDoesFileExist(const XnChar* cpFileName, bool* bResult)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
 	XN_VALIDATE_OUTPUT_PTR(bResult);
 
 	// Reset the output result
-	*bResult = FALSE;
+	*bResult = false;
 
 	// Check if the file exists and update the result accordingly
 	if ((_access(cpFileName, 0)) != -1)
 	{
-		*bResult = TRUE;
+		*bResult = true;
 	}
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSDoesDirectoryExist(const XnChar* cpDirName, XnBool* pbResult)
+XN_C_API XnStatus xnOSDoesDirectoryExist(const XnChar* cpDirName, bool* pbResult)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpDirName);
 	XN_VALIDATE_OUTPUT_PTR(pbResult);
 
-	*pbResult = FALSE;
+	*pbResult = false;
 
 	DWORD attribs = ::GetFileAttributes(cpDirName);
 	if (attribs != INVALID_FILE_ATTRIBUTES &&
 		(attribs & FILE_ATTRIBUTE_DIRECTORY) != 0)
 	{
-		*pbResult = TRUE;
+		*pbResult = true;
 	}
 
 	return (XN_STATUS_OK);
@@ -604,13 +604,13 @@ XN_C_API XnStatus xnOSGetFileSize64(const XnChar* cpFileName, uint64_t* pnFileSi
 XN_C_API XnStatus xnOSCreateDirectory(const XnChar* cpDirName)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpDirName);
 
 	bRetVal = CreateDirectory(cpDirName, NULL);
-	if (bRetVal == FALSE)
+	if (bRetVal == false)
 	{
 		return (XN_STATUS_OS_FAILED_TO_CREATE_DIR);
 	}
@@ -623,7 +623,7 @@ XN_C_API XnStatus XN_C_DECL xnOSDeleteEmptyDirectory(const XnChar* strDirName)
 {
 	XN_VALIDATE_INPUT_PTR(strDirName);
 
-	XnBool bRetVal = RemoveDirectory(strDirName);
+	bool bRetVal = RemoveDirectory(strDirName);
 	if (!bRetVal)
 	{
 		return XN_STATUS_OS_FAILED_TO_DELETE_DIR;
@@ -752,7 +752,7 @@ XN_C_API XnStatus xnOSGetFullPathName(const XnChar* strFilePath, XnChar* strFull
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnBool xnOSIsAbsoluteFilePath(const XnChar* strFilePath)
+XN_C_API bool xnOSIsAbsoluteFilePath(const XnChar* strFilePath)
 {
 	// If the path starts with <letter><colon><path separator>, it is absolute.
 	return xnOSStrLen(strFilePath) >= 3 && isalpha(strFilePath[0]) && strFilePath[1] == ':' && xnOSIsDirSep(strFilePath[2]);

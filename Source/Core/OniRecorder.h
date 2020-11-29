@@ -52,7 +52,7 @@ public:
 	 * Attaches a stream to the recorder. Can not be done if Start() has been
 	 * called at least once.
 	 */
-	virtual OniStatus attachStream(VideoStream& stream, OniBool allowLossyCompression);
+	virtual OniStatus attachStream(VideoStream& stream, bool allowLossyCompression);
 
 	/**
 	 * Detaches a stream from the recorder.
@@ -99,9 +99,9 @@ protected:
 	typedef xnl::Lockable< xnl::Hash<VideoStream*, uint32_t> > StreamFrameIDList;
 	StreamFrameIDList m_frameIds;
 
-	XnBool           m_running;     //< TRUE whenever the threadMain is running.
-	XnBool           m_started;     //< TRUE whenever the recorder has started.
-	XnBool           m_wasStarted;  //< TRUE if the recorder has been started once.
+	bool           m_running;     //< true whenever the threadMain is running.
+	bool           m_started;     //< true whenever the recorder has started.
+	bool           m_wasStarted;  //< true if the recorder has been started once.
 
 };
 

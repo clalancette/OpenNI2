@@ -34,7 +34,7 @@
 class XnIRStream : public XnPixelStream
 {
 public:
-	XnIRStream(const XnChar* csName, XnBool bAllowCustomResolutions, OniIRPixel nDeviceMaxIR);
+	XnIRStream(const XnChar* csName, bool bAllowCustomResolutions, OniIRPixel nDeviceMaxIR);
 
 	virtual XnStatus Init();
 

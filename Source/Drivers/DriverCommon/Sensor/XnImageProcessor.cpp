@@ -29,7 +29,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnImageProcessor::XnImageProcessor(XnSensorImageStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager, XnBool bCompressedOutput /* = FALSE */) :
+XnImageProcessor::XnImageProcessor(XnSensorImageStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager, bool bCompressedOutput /* = false */) :
 	XnFrameStreamProcessor(pStream, pHelper, pBufferManager, XN_SENSOR_PROTOCOL_RESPONSE_IMAGE_START, XN_SENSOR_PROTOCOL_RESPONSE_IMAGE_END),
 	m_bCompressedOutput(bCompressedOutput)
 {
@@ -114,7 +114,7 @@ void XnImageProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 		pFrame->height = (int)GetStream()->m_FirmwareCropSizeY.GetValue();
 		pFrame->cropOriginX = (int)GetStream()->m_FirmwareCropOffsetX.GetValue();
 		pFrame->cropOriginY = (int)GetStream()->m_FirmwareCropOffsetY.GetValue();
-		pFrame->croppingEnabled = TRUE;
+		pFrame->croppingEnabled = true;
 	}
 	else
 	{
@@ -122,7 +122,7 @@ void XnImageProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 		pFrame->height = pFrame->videoMode.resolutionY;
 		pFrame->cropOriginX = 0;
 		pFrame->cropOriginY = 0;
-		pFrame->croppingEnabled = FALSE;
+		pFrame->croppingEnabled = false;
 	}
 
 	pFrame->stride = pFrame->width * GetStream()->GetBytesPerPixel();

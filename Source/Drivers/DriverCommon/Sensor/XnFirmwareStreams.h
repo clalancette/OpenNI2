@@ -49,7 +49,7 @@ public:
 	XnStatus LockStreamProcessor(const XnChar* strType, XnDeviceStream* pOwner);
 	XnStatus UnlockStreamProcessor(const XnChar* strType, XnDeviceStream* pOwner);
 	XnStatus ReplaceStreamProcessor(const XnChar* strType, XnDeviceStream* pOwner, XnDataProcessor* pProcessor);
-	XnBool IsClaimed(const XnChar* strType, XnDeviceStream* pStream);
+	bool IsClaimed(const XnChar* strType, XnDeviceStream* pStream);
 
 	void ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
 

@@ -24,16 +24,6 @@
 #include "OniPlatform.h"
 #include "OniCEnums.h"
 
-/** Basic types **/
-typedef int OniBool;
-
-#ifndef TRUE
-#define TRUE 1
-#endif //TRUE
-#ifndef FALSE
-#define FALSE 0
-#endif //FALSE
-
 #define ONI_MAX_STR 256
 #define ONI_MAX_SENSORS 10
 
@@ -105,7 +95,7 @@ typedef struct
 	int height;
 
 	OniVideoMode videoMode;
-	OniBool croppingEnabled;
+	bool croppingEnabled;
 	int cropOriginX;
 	int cropOriginY;
 

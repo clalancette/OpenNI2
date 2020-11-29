@@ -35,7 +35,7 @@ LinkOniStream::LinkOniStream(const char* configFile, const char* configSection, 
 	m_pSensor(pSensor),
 	m_pDevice(pDevice),
 	m_pInputStream(NULL),
-	m_started(FALSE)
+	m_started(false)
 {
 }
 
@@ -93,7 +93,7 @@ OniStatus LinkOniStream::start()
     	XnStatus nRetVal = m_pInputStream->Start();
 		XN_IS_STATUS_OK_LOG_ERROR("Start streaming", (OniStatus)nRetVal);
 
-		m_started = TRUE;
+		m_started = true;
 	}
 
 	return ONI_STATUS_OK;
@@ -103,13 +103,13 @@ void LinkOniStream::stop()
 {
 	if (m_started)
 	{
-		m_started = FALSE;
+		m_started = false;
 
 		XnStatus nRetVal = m_pInputStream->Stop();
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnLogWarning(XN_MASK_LINK_STREAM, "Failed to stop streaming: %s", xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 		}
 	}
 }
@@ -122,7 +122,7 @@ OniStatus LinkOniStream::getProperty(int propertyId, void* data, int* pDataSize)
 		{
 			XnChar strDumpName[XN_FILE_MAX_PATH] = "";
 			xnLinkGetStreamDumpName(m_streamId, strDumpName, sizeof(strDumpName));
-			XnBool bEnabled = xnLogIsDumpMaskEnabled(strDumpName);
+			bool bEnabled = xnLogIsDumpMaskEnabled(strDumpName);
 			ENSURE_PROP_SIZE(*pDataSize, bool);
 			ASSIGN_PROP_VALUE_INT(data, *pDataSize, bEnabled);
 		}
@@ -155,7 +155,7 @@ OniStatus LinkOniStream::setProperty(int propertyId, const void* data, int dataS
 	return ONI_STATUS_OK;
 }
 
-OniBool LinkOniStream::isPropertySupported(int propertyId)
+bool LinkOniStream::isPropertySupported(int propertyId)
 {
 	return (propertyId == PS_PROPERTY_DUMP_DATA);
 }

@@ -201,7 +201,7 @@ XnStatus XnDeviceSensorConfigureVersion(XnDevicePrivateData* pDevicePrivateData)
 	// GetVersion is exactly the same in all versions, except a change that was made in version 5.1.
 	// so, we'll start with that, and if doesn't work we'll try previous protocols
 	XnHostProtocolUsbCore usb = XN_USB_CORE_JANGO;
-	nRetVal = XnHostProtocolInitFWParams(pDevicePrivateData, 5, 1, 0, usb, TRUE);
+	nRetVal = XnHostProtocolInitFWParams(pDevicePrivateData, 5, 1, 0, usb, true);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = XnHostProtocolGetVersion(pDevicePrivateData, pDevicePrivateData->Version);
@@ -216,7 +216,7 @@ XnStatus XnDeviceSensorConfigureVersion(XnDevicePrivateData* pDevicePrivateData)
 	// if command failed for any reason, try again with older protocol
 	if (nRetVal != XN_STATUS_OK)
 	{
-		nRetVal = XnHostProtocolInitFWParams(pDevicePrivateData, 5, 0, 0, usb, TRUE);
+		nRetVal = XnHostProtocolInitFWParams(pDevicePrivateData, 5, 0, 0, usb, true);
 		XN_IS_STATUS_OK(nRetVal);
 
 		nRetVal = XnHostProtocolGetVersion(pDevicePrivateData, pDevicePrivateData->Version);
@@ -232,7 +232,7 @@ XnStatus XnDeviceSensorConfigureVersion(XnDevicePrivateData* pDevicePrivateData)
 	}
 
 	// Now that we have the actual version, configure protocol accordingly
-	nRetVal = XnHostProtocolInitFWParams(pDevicePrivateData, pDevicePrivateData->Version.nMajor, pDevicePrivateData->Version.nMinor, pDevicePrivateData->Version.nBuild, usb, FALSE);
+	nRetVal = XnHostProtocolInitFWParams(pDevicePrivateData, pDevicePrivateData->Version.nMajor, pDevicePrivateData->Version.nMinor, pDevicePrivateData->Version.nBuild, usb, false);
 	XN_IS_STATUS_OK(nRetVal);
 
 	pDevicePrivateData->HWInfo.nHWVer = pDevicePrivateData->Version.HWVer;

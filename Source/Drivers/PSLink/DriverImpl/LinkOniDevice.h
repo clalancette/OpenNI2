@@ -57,11 +57,11 @@ public:
 
 	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize);
 	virtual OniStatus setProperty(int propertyId, const void* data, int dataSize);
-	virtual OniBool isPropertySupported(int propertyId);
+	virtual bool isPropertySupported(int propertyId);
 	virtual void notifyAllProperties();
 
 	virtual OniStatus invoke(int commandId, void* data, int dataSize);
-	virtual OniBool isCommandSupported(int commandId);
+	virtual bool isCommandSupported(int commandId);
 
 	xn::PrimeClient* GetSensor()
 	{

@@ -73,7 +73,7 @@ XnStatus LinkOutputStreamsMgr::InitOutputStream(uint16_t nStreamID,
 			break;
 		default:
 			xnLogError(XN_MASK_LINK, "Bad stream fragmentation level %u", streamFragLevel);
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_ERROR;
 	}
 
@@ -89,7 +89,7 @@ XnStatus LinkOutputStreamsMgr::InitOutputStream(uint16_t nStreamID,
 	{
 		XN_DELETE(pLinkOutputStream);
 		xnLogError(XN_MASK_LINK, "Failed to initialize link output stream %u: %s", nStreamID, xnGetStatusString(nRetVal));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return nRetVal;
 	}
 
@@ -107,7 +107,7 @@ void LinkOutputStreamsMgr::ShutdownOutputStream(uint16_t nStreamID)
 	if (nStreamID > m_outputStreams.size())
 	{
 		xnLogWarning(XN_MASK_LINK, "Stream ID %u is not in array", nStreamID);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return;
 	}
 
@@ -131,7 +131,7 @@ XnStatus LinkOutputStreamsMgr::SendData(uint16_t nStreamID,
 		!m_outputStreams[nStreamID]->IsInitialized())
 	{
 		xnLogError(XN_MASK_LINK, "Stream %u is not initialized", nStreamID);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_NOT_INIT;
 	}
 
@@ -140,7 +140,7 @@ XnStatus LinkOutputStreamsMgr::SendData(uint16_t nStreamID,
 	return XN_STATUS_OK;
 }
 
-XnBool LinkOutputStreamsMgr::IsStreamInitialized( uint16_t nStreamID ) const
+bool LinkOutputStreamsMgr::IsStreamInitialized( uint16_t nStreamID ) const
 {
 	return (
 		nStreamID < m_outputStreams.size() &&

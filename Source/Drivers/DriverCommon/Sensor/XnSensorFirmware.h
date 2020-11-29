@@ -37,7 +37,7 @@ class XnSensorFirmware
 {
 public:
 	XnSensorFirmware(XnDevicePrivateData* pDevicePrivateData);
-	XnStatus Init(XnBool bReset, XnBool bLeanInit);
+	XnStatus Init(bool bReset, bool bLeanInit);
 	void Free();
 
 	inline XnFirmwareInfo* GetInfo() { return m_pInfo; }

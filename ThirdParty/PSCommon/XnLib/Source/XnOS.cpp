@@ -36,7 +36,7 @@ XnStatus xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, uint32_t nMilli
 	nRetVal = xnOSGetTimeStamp(&nStarted);
 	XN_IS_STATUS_OK(nRetVal);
 
-	XnBool bTimeout = FALSE;
+	bool bTimeout = false;
 
 	// as long as condition isn't met
 	while (!pConditionFunc(pConditionData))
@@ -48,7 +48,7 @@ XnStatus xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, uint32_t nMilli
 
 		if (nNow - nStarted > nMilliseconds)
 		{
-			bTimeout = TRUE;
+			bTimeout = true;
 		}
 		else
 		{
@@ -56,7 +56,7 @@ XnStatus xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, uint32_t nMilli
 			nRetVal = xnOSWaitEvent(EventHandle, (uint32_t)(nMilliseconds - (nNow - nStarted)));
 			if (nRetVal == XN_STATUS_OS_EVENT_TIMEOUT)
 			{
-				bTimeout = TRUE;
+				bTimeout = true;
 			}
 			else if (nRetVal != XN_STATUS_OK)
 			{

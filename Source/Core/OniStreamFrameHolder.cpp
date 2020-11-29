@@ -133,14 +133,14 @@ int StreamFrameHolder::getNumStreams()
 	return 1;
 }
 
-void StreamFrameHolder::setStreamEnabled(VideoStream* pStream, OniBool enabled)
+void StreamFrameHolder::setStreamEnabled(VideoStream* pStream, bool enabled)
 {
 	if (pStream != m_pStream)
 	{
 		return;
 	}
 
-	if (enabled == FALSE)
+	if (enabled == false)
 	{
 		clear();
 	}

@@ -43,7 +43,7 @@ public:
 	virtual ~ClientUSBConnectionFactory();
 	virtual XnStatus Init(const XnChar* strConnString);
 	virtual void Shutdown();
-	virtual XnBool IsInitialized() const;
+	virtual bool IsInitialized() const;
 
 	XnStatus SetUsbAltInterface(uint8_t interfaceNum);
 	XnStatus GetUsbAltInterface(uint8_t* pInterfaceNum) const;
@@ -67,9 +67,9 @@ private:
 	ClientUSBControlEndpoint m_controlEndpoint;
 	static const uint16_t NUM_INPUT_CONNECTIONS;
 	XN_USB_DEV_HANDLE m_hUSBDevice;
-	XnBool m_bInitialized;
-	XnBool m_bUsbInitialized;
-	XnBool m_dataOpen;
+	bool m_bInitialized;
+	bool m_bUsbInitialized;
+	bool m_dataOpen;
 };
 
 }

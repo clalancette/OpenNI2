@@ -73,14 +73,14 @@ public:
 
 	virtual XnStatus AddToPropertySet(XnPropertySet* pSet) override;
 
-	XnBool IsReadOnly() const override { return (m_pGetCallback == NULL); }
+	bool IsReadOnly() const override { return (m_pGetCallback == NULL); }
 
 protected:
 	//---------------------------------------------------------------------------
 	// Overridden Methods
 	//---------------------------------------------------------------------------
 	virtual XnStatus CopyValueImpl(void* pDest, const void* pSource) const override;
-	virtual XnBool IsEqual(const void* pValue1, const void* pValue2) const override;
+	virtual bool IsEqual(const void* pValue1, const void* pValue2) const override;
 	virtual XnStatus CallSetCallback(const void* pValue) override;
 	virtual XnStatus CallGetCallback(void* pValue) const override;
 	virtual XnStatus ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection) override;

@@ -34,7 +34,7 @@ XN_C_API XnStatus xnOSCreateSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHandle, uin
 	if (*pSemaphoreHandle == NULL)
 	{
 		xnLogError(XN_MASK_OS, "Failed to create semaphore. Last error was %u.", GetLastError());
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_OS_SEMAPHORE_CREATION_FAILED;
 	}
 
@@ -54,7 +54,7 @@ XN_C_API XnStatus xnOSLockSemaphore(XN_SEMAPHORE_HANDLE hSemaphore, uint32_t nMi
 			return XN_STATUS_OS_SEMAPHORE_TIMEOUT;
 		default:
 			xnLogError(XN_MASK_OS, "Failed to wait for semaphore. Last error was %u.", GetLastError());
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_OS_SEMAPHORE_LOCK_FAILED;
 	}
 
@@ -67,7 +67,7 @@ XN_C_API XnStatus xnOSUnlockSemaphore(XN_SEMAPHORE_HANDLE hSemaphore)
 	if (!ReleaseSemaphore(hSemaphore, 1, NULL))
 	{
 		xnLogError(XN_MASK_OS, "Failed to release semaphore. Last error was %u.", GetLastError());
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_OS_SEMAPHORE_UNLOCK_FAILED;
 	}
 	return XN_STATUS_OK;
@@ -80,7 +80,7 @@ XN_C_API XnStatus xnOSCloseSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHandle)
 	if (!CloseHandle(*pSemaphoreHandle))
 	{
 		xnLogError(XN_MASK_OS, "Failed to release semaphore. Last error was %u.", GetLastError());
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_OS_SEMAPHORE_CLOSE_FAILED;
 	}
 	*pSemaphoreHandle = NULL;

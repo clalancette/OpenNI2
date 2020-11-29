@@ -69,7 +69,7 @@ public:
 		m_pGetCallbackCookie = pCookie;
 	}
 
-	XnBool IsReadOnly() const override { return (m_pGetCallback == NULL); }
+	bool IsReadOnly() const override { return (m_pGetCallback == NULL); }
 
 	virtual XnStatus ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection) override;
 
@@ -80,10 +80,10 @@ protected:
 	// Overridden Methods
 	//---------------------------------------------------------------------------
 	virtual XnStatus CopyValueImpl(void* pDest, const void* pSource) const override;
-	virtual XnBool IsEqual(const void* pValue1, const void* pValue2) const override;
+	virtual bool IsEqual(const void* pValue1, const void* pValue2) const override;
 	virtual XnStatus CallSetCallback(const void* pValue) override;
 	virtual XnStatus CallGetCallback(void* pValue) const override;
-	virtual XnBool ConvertValueToString(XnChar* csValue, const void* pValue) const override;
+	virtual bool ConvertValueToString(XnChar* csValue, const void* pValue) const override;
 
 private:
 	// Set callback

@@ -33,10 +33,10 @@ XnDataProcessor::XnDataProcessor(XnDevicePrivateData* pDevicePrivateData, const 
 	m_nBytesReceived(0),
 	m_nLastPacketID(0),
 	m_csName(csName),
-	m_bUseHostTimestamps(FALSE)
+	m_bUseHostTimestamps(false)
 {
 	m_TimeStampData.csStreamName = csName;
-	m_TimeStampData.bFirst = TRUE;
+	m_TimeStampData.bFirst = true;
 	m_bUseHostTimestamps = pDevicePrivateData->pSensor->ShouldUseHostTimestamps();
 }
 
@@ -103,7 +103,7 @@ uint64_t XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 	uint64_t nResultInTicks;
 	const uint32_t nDumpCommentMaxLength = 200;
 	XnChar csDumpComment[nDumpCommentMaxLength] = "";
-	XnBool bCheckSanity = TRUE;
+	bool bCheckSanity = true;
 
 	if (m_TimeStampData.bFirst)
 	{
@@ -161,8 +161,8 @@ uint64_t XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 		m_TimeStampData.nReferenceTS = m_pDevicePrivateData->nGlobalReferenceTS;
 		m_TimeStampData.nTotalTicksAtReferenceTS = nWrapPoint * nWraps;
 		m_TimeStampData.nLastDeviceTS = 0;
-		m_TimeStampData.bFirst = FALSE;
-		bCheckSanity = FALSE; // no need.
+		m_TimeStampData.bFirst = false;
+		bCheckSanity = false; // no need.
 		sprintf(csDumpComment, "Init. Total Ticks in Ref TS: %" PRIu64, m_TimeStampData.nTotalTicksAtReferenceTS);
 	}
 
@@ -190,12 +190,12 @@ uint64_t XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 	double dResultTimeMicroSeconds = (double)nResultInTicks / (double)m_pDevicePrivateData->fDeviceFrequency;
 	uint64_t nResultTimeMilliSeconds = (uint64_t)(dResultTimeMicroSeconds / 1000.0);
 
-	XnBool bIsSane = TRUE;
+	bool bIsSane = true;
 
 	// perform sanity check
 	if (bCheckSanity && (nResultTimeMilliSeconds > (m_TimeStampData.nLastResultTime + XN_SENSOR_TIMESTAMP_SANITY_DIFF*1000)))
 	{
-		bIsSane = FALSE;
+		bIsSane = false;
 		xnOSStrAppend(csDumpComment, ",Didn't pass sanity. Will try to re-sync.", nDumpCommentMaxLength);
 	}
 
@@ -212,7 +212,7 @@ uint64_t XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 	else
 	{
 		// sanity failed. We lost sync. restart
-		m_TimeStampData.bFirst = TRUE;
+		m_TimeStampData.bFirst = true;
 		return CreateTimestampFromDevice(nDeviceTimeStamp);
 	}
 }

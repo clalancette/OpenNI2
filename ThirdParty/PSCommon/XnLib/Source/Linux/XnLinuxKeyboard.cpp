@@ -32,7 +32,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XN_C_API XnBool xnOSWasKeyboardHit()
+XN_C_API bool xnOSWasKeyboardHit()
 {
 	struct termios oldt, newt;
 	int ch;
@@ -48,7 +48,7 @@ XN_C_API XnBool xnOSWasKeyboardHit()
 	// make it non-blocking (so we can check without waiting)
 	if (0 != fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK))
 	{
-		return FALSE;
+		return false;
 	}
 
 	ch = getchar();
@@ -56,16 +56,16 @@ XN_C_API XnBool xnOSWasKeyboardHit()
 	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 	if (0 != fcntl(STDIN_FILENO, F_SETFL, oldf))
 	{
-		return FALSE;
+		return false;
 	}
 
 	if(ch != EOF)
 	{
 		ungetc(ch, stdin);
-		return TRUE;
+		return true;
 	}
 
-	return FALSE;
+	return false;
 }
 
 XN_C_API XnChar xnOSReadCharFromInput()

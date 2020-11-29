@@ -55,7 +55,7 @@ XnStatus XnRealProperty::CopyValueImpl(void* pDest, const void* pSource) const
 	return XN_STATUS_OK;
 }
 
-XnBool XnRealProperty::IsEqual(const void* pValue1, const void* pValue2) const
+bool XnRealProperty::IsEqual(const void* pValue1, const void* pValue2) const
 {
 	return (*(double*)pValue1) == (*(double*)pValue2);
 }
@@ -78,10 +78,10 @@ XnStatus XnRealProperty::CallGetCallback(void* pValue) const
 	return m_pGetCallback(this, (double*)pValue, m_pGetCallbackCookie);
 }
 
-XnBool XnRealProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
+bool XnRealProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
 {
 	sprintf(csValue, "%f", *(double*)pValue);
-	return TRUE;
+	return true;
 }
 
 XnStatus XnRealProperty::AddToPropertySet(XnPropertySet* pSet)

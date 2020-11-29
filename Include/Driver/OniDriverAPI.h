@@ -72,9 +72,9 @@ public:
 
 	virtual OniStatus setProperty(int /*propertyId*/, const void* /*data*/, int /*dataSize*/) {return ONI_STATUS_NOT_IMPLEMENTED;}
 	virtual OniStatus getProperty(int /*propertyId*/, void* /*data*/, int* /*pDataSize*/) {return ONI_STATUS_NOT_IMPLEMENTED;}
-	virtual OniBool isPropertySupported(int /*propertyId*/) {return FALSE;}
+	virtual bool isPropertySupported(int /*propertyId*/) {return false;}
 	virtual OniStatus invoke(int /*commandId*/, void* /*data*/, int /*dataSize*/) {return ONI_STATUS_NOT_IMPLEMENTED;}
-	virtual OniBool isCommandSupported(int /*commandId*/) {return FALSE;}
+	virtual bool isCommandSupported(int /*commandId*/) {return false;}
 
 	virtual int getRequiredFrameSize() { return getServices().getDefaultRequiredFrameSize(); }
 
@@ -115,15 +115,15 @@ public:
 
 	virtual OniStatus setProperty(int /*propertyId*/, const void* /*data*/, int /*dataSize*/) {return ONI_STATUS_NOT_IMPLEMENTED;}
 	virtual OniStatus getProperty(int /*propertyId*/, void* /*data*/, int* /*pDataSize*/) {return ONI_STATUS_NOT_IMPLEMENTED;}
-	virtual OniBool isPropertySupported(int /*propertyId*/) {return FALSE;}
+	virtual bool isPropertySupported(int /*propertyId*/) {return false;}
 	virtual OniStatus invoke(int /*commandId*/, void* /*data*/, int /*dataSize*/) {return ONI_STATUS_NOT_IMPLEMENTED;}
-	virtual OniBool isCommandSupported(int /*commandId*/) {return FALSE;}
+	virtual bool isCommandSupported(int /*commandId*/) {return false;}
 	virtual OniStatus tryManualTrigger() {return ONI_STATUS_OK;}
 
 	virtual void setPropertyChangedCallback(PropertyChangedCallback handler, void* pCookie) { m_propertyChangedCallback = handler; m_propertyChangedCookie = pCookie; }
 	virtual void notifyAllProperties() { return; }
 
-	virtual OniBool isImageRegistrationModeSupported(OniImageRegistrationMode mode) { return (mode == ONI_IMAGE_REGISTRATION_OFF); }
+	virtual bool isImageRegistrationModeSupported(OniImageRegistrationMode mode) { return (mode == ONI_IMAGE_REGISTRATION_OFF); }
 
 protected:
 	void raisePropertyChanged(int propertyId, const void* data, int dataSize) { (*m_propertyChangedCallback)(this, propertyId, data, dataSize, m_propertyChangedCookie); }
@@ -268,7 +268,7 @@ ONI_C_API_EXPORT OniStatus oniDriverDeviceGetProperty(oni::driver::DeviceBase* p
 {																															\
 	return pDevice->getProperty(propertyId, data, pDataSize);																\
 }																															\
-ONI_C_API_EXPORT OniBool oniDriverDeviceIsPropertySupported(oni::driver::DeviceBase* pDevice, int propertyId)				\
+ONI_C_API_EXPORT bool oniDriverDeviceIsPropertySupported(oni::driver::DeviceBase* pDevice, int propertyId)				\
 {																															\
 	return pDevice->isPropertySupported(propertyId);																		\
 }																															\
@@ -286,7 +286,7 @@ ONI_C_API_EXPORT OniStatus oniDriverDeviceInvoke(oni::driver::DeviceBase* pDevic
 {																															\
 	return pDevice->invoke(commandId, data, dataSize);																		\
 }																															\
-ONI_C_API_EXPORT OniBool oniDriverDeviceIsCommandSupported(oni::driver::DeviceBase* pDevice, int commandId)					\
+ONI_C_API_EXPORT bool oniDriverDeviceIsCommandSupported(oni::driver::DeviceBase* pDevice, int commandId)					\
 {																															\
 	return pDevice->isCommandSupported(commandId);																			\
 }																															\
@@ -294,7 +294,7 @@ ONI_C_API_EXPORT OniStatus oniDriverDeviceTryManualTrigger(oni::driver::DeviceBa
 {																															\
 	return pDevice->tryManualTrigger();																						\
 }																															\
-ONI_C_API_EXPORT OniBool oniDriverDeviceIsImageRegistrationModeSupported(oni::driver::DeviceBase* pDevice,					\
+ONI_C_API_EXPORT bool oniDriverDeviceIsImageRegistrationModeSupported(oni::driver::DeviceBase* pDevice,					\
 	OniImageRegistrationMode mode)																							\
 {																															\
 	return pDevice->isImageRegistrationModeSupported(mode);																	\
@@ -316,7 +316,7 @@ ONI_C_API_EXPORT OniStatus oniDriverStreamGetProperty(oni::driver::StreamBase* p
 {																															\
 	return pStream->getProperty(propertyId, data, pDataSize);																\
 }																															\
-ONI_C_API_EXPORT OniBool oniDriverStreamIsPropertySupported(oni::driver::StreamBase* pStream, int propertyId)				\
+ONI_C_API_EXPORT bool oniDriverStreamIsPropertySupported(oni::driver::StreamBase* pStream, int propertyId)				\
 {																															\
 	return pStream->isPropertySupported(propertyId);																		\
 }																															\
@@ -334,7 +334,7 @@ ONI_C_API_EXPORT OniStatus oniDriverStreamInvoke(oni::driver::StreamBase* pStrea
 {																															\
 	return pStream->invoke(commandId, data, dataSize);																		\
 }																															\
-ONI_C_API_EXPORT OniBool oniDriverStreamIsCommandSupported(oni::driver::StreamBase* pStream, int commandId)					\
+ONI_C_API_EXPORT bool oniDriverStreamIsCommandSupported(oni::driver::StreamBase* pStream, int commandId)					\
 {																															\
 	return pStream->isCommandSupported(commandId);																			\
 }																															\

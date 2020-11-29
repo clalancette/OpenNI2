@@ -81,9 +81,6 @@
 //---------------------------------------------------------------------------
 // Basic Types
 //---------------------------------------------------------------------------
-/** Boolean TRUE/FALSE type. */
-typedef	BOOL				XnBool;
-
 /** Signed character for strings. */
 typedef	char				XnChar;
 /** Unsigned character for strings. */
@@ -225,7 +222,7 @@ typedef	HMODULE	XN_LIB_HANDLE;
 		case DLL_PROCESS_DETACH:														\
 			break;																		\
 		}																				\
-		return TRUE;																	\
+		return true;																	\
 	}
 
 #define XN_ASSERT(assertion) _ASSERT(assertion)

@@ -52,7 +52,7 @@ public:
 
 	XnStatus Connect();
 	void Disconnect();
-	XnBool IsConnected() const;
+	bool IsConnected() const;
 
 #ifdef DATA_ON_CONTROL
 	void SetStreamID(uint16_t nStreamID);
@@ -60,12 +60,12 @@ public:
 
 	//nResponseSize is max size on input, actual size on output
 	//pIsLast - optional. If provided, command will not automatically continue response, and the out value is whether this is the last packet. If NULL, all data is fetched automatically.
-	XnStatus ExecuteCommand(uint16_t nMsgType, uint16_t nStreamID, const void* pCmdData, uint32_t nCmdSize, void* pResponseData, uint32_t& nResponseSize, XnBool* pIsLast = NULL);
+	XnStatus ExecuteCommand(uint16_t nMsgType, uint16_t nStreamID, const void* pCmdData, uint32_t nCmdSize, void* pResponseData, uint32_t& nResponseSize, bool* pIsLast = NULL);
 	XnStatus SendData(uint16_t nMsgType, const void* pCmdData, uint32_t nCmdSize, void* pResponseData, uint32_t& nResponseSize);
 	uint16_t GetPacketID() const;
 	XN_MUTEX_HANDLE GetMutex() const;
-	XnBool IsMsgTypeSupported(uint16_t nMsgType);
-	XnBool IsPropertySupported(uint16_t nPropID);
+	bool IsMsgTypeSupported(uint16_t nMsgType);
+	bool IsPropertySupported(uint16_t nPropID);
 
 	/* Specific commands */
 	XnStatus GetFWVersion(XnLinkDetailedVersion& version);
@@ -77,7 +77,7 @@ public:
 	XnStatus GetSupportedProperties(std::vector<xnl::BitSet>& supportedProperties);
 	XnStatus GetSupportedInterfaces(uint16_t nStreamID, xnl::BitSet& supportedInterfaces);
 	XnStatus GetBootStatus(XnBootStatus& bootStatus);
-	XnStatus UploadFile(const XnChar* strFileName, XnBool bOverrideFactorySettings);
+	XnStatus UploadFile(const XnChar* strFileName, bool bOverrideFactorySettings);
 	XnStatus GetFileList(std::vector<XnFwFileEntry>& files);
 	XnStatus DownloadFile(uint16_t zone, const XnChar* fwFileName, const XnChar* targetFile);
 	XnStatus StartStreaming(uint16_t nStreamID);
@@ -105,18 +105,18 @@ public:
 	XnStatus DestroyInputStream(uint16_t nStreamID);
 	XnStatus SetCropping(uint16_t nStreamID, const OniCropping& cropping);
 	XnStatus GetCropping(uint16_t nStreamID, OniCropping& cropping);
-	XnStatus SetProjectorActive(XnBool bActive);
-	XnStatus SetAccActive(XnBool bActive);
-	XnStatus GetAccActive(XnBool& bActive);
-	XnStatus SetVDDActive(XnBool bActive);
-	XnStatus GetVDDActive(XnBool& bActive);
-	XnStatus SetPeriodicBistActive(XnBool bActive);
-	XnStatus GetPeriodicBistActive(XnBool& bActive);
+	XnStatus SetProjectorActive(bool bActive);
+	XnStatus SetAccActive(bool bActive);
+	XnStatus GetAccActive(bool& bActive);
+	XnStatus SetVDDActive(bool bActive);
+	XnStatus GetVDDActive(bool& bActive);
+	XnStatus SetPeriodicBistActive(bool bActive);
+	XnStatus GetPeriodicBistActive(bool& bActive);
 	XnStatus GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles);
 	XnStatus OpenFWLogFile(uint8_t logID, uint16_t nLogStreamID);
 	XnStatus CloseFWLogFile(uint8_t logID, uint16_t nLogStreamID);
-	XnStatus SetProjectorPulse(XnBool enabled, float delay, float width, float cycle);
-	XnStatus GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip);
+	XnStatus SetProjectorPulse(bool enabled, float delay, float width, float cycle);
+	XnStatus GetProjectorPulse(bool& enabled, float& delay, float& width, float& framesToskip);
 	XnStatus SetProjectorPower(uint16_t power);
 	XnStatus GetProjectorPower(uint16_t& power);
 	XnStatus SetGain(uint16_t streamID, uint16_t gain);
@@ -124,8 +124,8 @@ public:
 	//TODO: Implement Get emitter active
 
 	XnStatus GetStreamFragLevel(uint16_t nStreamID, XnStreamFragLevel& streamFragLevel);
-	XnStatus GetMirror(uint16_t nStreamID, XnBool& bMirror);
-	XnStatus SetMirror(uint16_t nStreamID, XnBool bMirror);
+	XnStatus GetMirror(uint16_t nStreamID, bool& bMirror);
+	XnStatus SetMirror(uint16_t nStreamID, bool bMirror);
 
 	XnStatus BeginUpload();
 	XnStatus EndUpload();
@@ -152,10 +152,10 @@ private:
 				XnLinkFragmentation fragmentation,
 				void* pResponseData,
 				uint32_t& nResponseSize,
-				XnBool autoContinue,
-				XnBool& isLast);
+				bool autoContinue,
+				bool& isLast);
 
-	XnStatus ContinueResponseImpl(uint16_t originalMsgType, uint16_t streamID, void* pResponseData, uint32_t& nResponseSize, XnBool& outLastPacket);
+	XnStatus ContinueResponseImpl(uint16_t originalMsgType, uint16_t streamID, void* pResponseData, uint32_t& nResponseSize, bool& outLastPacket);
 
 	XnStatus ValidateResponsePacket(const LinkPacketHeader* pResponsePacket,
 					uint16_t nExpectedMsgType,
@@ -188,8 +188,8 @@ private:
 	LinkResponseMsgParser m_responseMsgParser;
 	uint8_t* m_pIncomingResponse; //Holds complete parsed response (without link headers)
 	uint32_t m_nMaxResponseSize;
-	XnBool m_bInitialized;
-	XnBool m_bConnected;
+	bool m_bInitialized;
+	bool m_bConnected;
 	uint16_t m_nPacketID;
 	uint16_t m_nMaxPacketSize;
 	XN_MUTEX_HANDLE m_hMutex;

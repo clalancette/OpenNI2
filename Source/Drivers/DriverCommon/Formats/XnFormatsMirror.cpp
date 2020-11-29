@@ -235,7 +235,7 @@ XnStatus XnFormatsMirrorPixelData(OniPixelFormat nOutputFormat, XnUChar* pBuffer
 		return XnMirrorThreeBytePixels(pBuffer, nBufferSize, nXRes);
 	default:
 		xnLogError(XN_MASK_FORMATS, "Mirror was not implemented for output format %d", nOutputFormat);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 }

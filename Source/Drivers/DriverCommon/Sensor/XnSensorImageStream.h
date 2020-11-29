@@ -45,16 +45,16 @@
 #define XN_IMAGE_STREAM_DEFAULT_CONTRAST		32
 #define XN_IMAGE_STREAM_DEFAULT_SATURATION		128
 #define XN_IMAGE_STREAM_DEFAULT_SHARPNESS		32
-#define XN_IMAGE_STREAM_DEFAULT_AWB			TRUE
+#define XN_IMAGE_STREAM_DEFAULT_AWB			true
 #define XN_IMAGE_STREAM_DEFAULT_COLOR_TEMP		5000
 #define XN_IMAGE_STREAM_DEFAULT_BACKLIGHT_COMP		1
 #define XN_IMAGE_STREAM_DEFAULT_GAIN			100
 #define XN_IMAGE_STREAM_DEFAULT_ZOOM			100
-#define XN_IMAGE_STREAM_DEFAULT_AUTO_EXPOSURE		TRUE
+#define XN_IMAGE_STREAM_DEFAULT_AUTO_EXPOSURE		true
 #define XN_IMAGE_STREAM_DEFAULT_EXPOSURE_BAR		0
 #define XN_IMAGE_STREAM_DEFAULT_PAN			0
 #define XN_IMAGE_STREAM_DEFAULT_TILT			0
-#define XN_IMAGE_STREAM_DEFAULT_LOW_LIGHT_COMP		TRUE
+#define XN_IMAGE_STREAM_DEFAULT_LOW_LIGHT_COMP		true
 
 //---------------------------------------------------------------------------
 // XnSensorImageStream class
@@ -99,7 +99,7 @@ protected:
 	// Setters
 	//---------------------------------------------------------------------------
 	XnStatus SetOutputFormat(OniPixelFormat nOutputFormat);
-	XnStatus SetMirror(XnBool bIsMirrored);
+	XnStatus SetMirror(bool bIsMirrored);
 	XnStatus SetResolution(XnResolutions nResolution);
 	XnStatus SetFPS(uint32_t nFPS);
 	virtual XnStatus SetInputFormat(XnIOImageFormats nInputFormat);
@@ -107,17 +107,17 @@ protected:
 	virtual XnStatus SetImageQuality(uint32_t nQuality);
 	virtual XnStatus SetCropping(const OniCropping* pCropping);
 	virtual XnStatus SetCroppingMode(XnCroppingMode mode);
-	XnStatus SetActualRead(XnBool bRead);
-	virtual XnStatus SetAutoExposure(XnBool bAutoExposure);
-	virtual XnStatus SetAutoWhiteBalance(XnBool bAutoWhiteBalance);
+	XnStatus SetActualRead(bool bRead);
+	virtual XnStatus SetAutoExposure(bool bAutoExposure);
+	virtual XnStatus SetAutoWhiteBalance(bool bAutoWhiteBalance);
 	virtual XnStatus SetExposure(uint64_t nValue);
 	virtual XnStatus SetGain(uint64_t nValue);
-	virtual XnStatus SetFastZoomCrop(XnBool bFastZoomCrop);
+	virtual XnStatus SetFastZoomCrop(bool bFastZoomCrop);
 private:
 	XnStatus ValidateMode();
 	XnStatus SetCroppingImpl(const OniCropping* pCropping, XnCroppingMode mode);
-	XnStatus SetAutoExposureForOldFirmware(XnBool bAutoExposure);
-	XnStatus SetAutoWhiteBalanceForOldFirmware(XnBool bAutoWhiteBalance);
+	XnStatus SetAutoExposureForOldFirmware(bool bAutoExposure);
+	XnStatus SetAutoWhiteBalanceForOldFirmware(bool bAutoWhiteBalance);
 
 	static XnStatus XN_CALLBACK_TYPE SetInputFormatCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE SetAntiFlickerCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);

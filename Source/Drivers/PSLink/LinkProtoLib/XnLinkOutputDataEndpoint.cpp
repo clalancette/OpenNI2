@@ -33,8 +33,8 @@ namespace xn
 LinkOutputDataEndpoint::LinkOutputDataEndpoint()
 {
 	m_pConnection = NULL;
-	m_bInitialized = FALSE;
-	m_bConnected = FALSE;
+	m_bInitialized = false;
+	m_bConnected = false;
 	m_nEndpointID = 0;
 }
 
@@ -58,14 +58,14 @@ XnStatus LinkOutputDataEndpoint::Init(uint16_t nEndpointID,
 		XN_IS_STATUS_OK_LOG_ERROR("Create output data connection", nRetVal);
 
 		//We are initialized :)
-		m_bInitialized = TRUE;
+		m_bInitialized = true;
 	}
 
 	return XN_STATUS_OK;
 }
 
 
-XnBool LinkOutputDataEndpoint::IsInitialized() const
+bool LinkOutputDataEndpoint::IsInitialized() const
 {
 	return m_bInitialized;
 }
@@ -75,7 +75,7 @@ void LinkOutputDataEndpoint::Shutdown()
 	Disconnect();
 	XN_DELETE(m_pConnection);
 	m_pConnection = NULL;
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 }
 
 XnStatus LinkOutputDataEndpoint::Connect()
@@ -94,7 +94,7 @@ XnStatus LinkOutputDataEndpoint::Connect()
 		XN_IS_STATUS_OK_LOG_ERROR("Connect input data connection", nRetVal);
 
 		//We're connected
-		m_bConnected = TRUE;
+		m_bConnected = true;
 	}
 
 	return XN_STATUS_OK;
@@ -105,11 +105,11 @@ void LinkOutputDataEndpoint::Disconnect()
 	if (m_bConnected)
 	{
 		m_pConnection->Disconnect();
-		m_bConnected = FALSE;
+		m_bConnected = false;
 	}
 }
 
-XnBool LinkOutputDataEndpoint::IsConnected() const
+bool LinkOutputDataEndpoint::IsConnected() const
 {
 	return m_bConnected;
 }

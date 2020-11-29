@@ -95,25 +95,25 @@ const XnChar* XnGetAllocTypeString(XnAllocationType nType)
 
 XN_C_API void* xnOSLogMemAlloc(void* pMemBlock, XnAllocationType nAllocType, uint32_t nBytes, const XnChar* csFunction, const XnChar* csFile, uint32_t nLine, const XnChar* csAdditional)
 {
-	static XnBool bFirstTime = TRUE;
-	static XnBool bReentrent = FALSE;
+	static bool bFirstTime = true;
+	static bool bReentrent = false;
 
 	if (bFirstTime)
 	{
-		bFirstTime = FALSE;
+		bFirstTime = false;
 		printf("************************************************************\n");
 		printf("**  WARNING: Memory Profiling is on!                      **\n");
 		printf("************************************************************\n");
 
-		bReentrent = TRUE;
+		bReentrent = true;
 		xnOSCreateCriticalSection(&g_hCS);
 
 #ifdef XN_MEMORY_PROFILING_DUMP
-		xnDumpSetMaskState("MemProf", TRUE);
+		xnDumpSetMaskState("MemProf", true);
 #endif
 		g_dump = xnDumpFileOpen("MemProf", "MemProfiling.log");
 		xnDumpFileWriteString(g_dump, "Entry,Address,AllocType,Bytes,Function,File,Line,AdditionalInfo\n");
-		bReentrent = FALSE;
+		bReentrent = false;
 	}
 
 	// ignore stuff that is being allocated during "first time"
@@ -198,7 +198,7 @@ XN_C_API void xnOSLogMemFree(const void* pMemBlock)
 	}
 
 	// if we got here then we're trying to free a non-allocated memory
-	XN_ASSERT(FALSE);
+	XN_ASSERT(false);
 }
 
 XN_C_API void xnOSWriteMemoryReport(const XnChar* csFileName)

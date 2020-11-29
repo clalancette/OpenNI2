@@ -47,7 +47,7 @@ XnStatus XnDDKInitFromINIFile(const XnChar* cpINIFileName);
 XnStatus XnDDKShutdown();
 
 XnResolutions XnDDKGetResolutionFromXY(uint32_t nXRes, uint32_t nYRes);
-XnBool XnDDKGetXYFromResolution(XnResolutions res, uint32_t* pnXRes, uint32_t* pnYRes);
+bool XnDDKGetXYFromResolution(XnResolutions res, uint32_t* pnXRes, uint32_t* pnYRes);
 const XnChar*  XnDDKGetResolutionName(XnResolutions res);
 
 #endif // XNDDK_H

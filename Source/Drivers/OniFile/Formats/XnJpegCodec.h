@@ -34,7 +34,7 @@
 class XnJpegCodec final : public XnCodecBase
 {
 public:
-	XnJpegCodec(XnBool bRGB, uint32_t nXRes, uint32_t nYRes, uint32_t nQuality = XN_STREAM_COMPRESSION_JPEG_DEFAULT_QUALITY) :
+	XnJpegCodec(bool bRGB, uint32_t nXRes, uint32_t nYRes, uint32_t nQuality = XN_STREAM_COMPRESSION_JPEG_DEFAULT_QUALITY) :
 		m_bRGB(bRGB), m_nXRes(nXRes), m_nYRes(nYRes), m_nQuality(nQuality), mp_CompJPEGContext(NULL), mp_UncompJPEGContext(NULL)
 	{}
 
@@ -87,7 +87,7 @@ private:
 		return XnStreamUncompressImageJ(&mp_UncompJPEGContext, pCompressedData, nCompressedDataSize, pData, pnDataSize);
 	}
 
-	const XnBool m_bRGB;
+	const bool m_bRGB;
 	const uint32_t m_nXRes;
 	const uint32_t m_nYRes;
 	const uint32_t m_nQuality;

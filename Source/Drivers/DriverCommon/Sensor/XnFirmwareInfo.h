@@ -42,10 +42,10 @@ public:
 
 	XnParamCurrentMode nCurrMode;
 
-	XnBool bAudioSupported;
-	XnBool bGetPresetsSupported;
-	XnBool bDeviceInfoSupported;
-	XnBool bImageAdjustmentsSupported;
+	bool bAudioSupported;
+	bool bGetPresetsSupported;
+	bool bDeviceInfoSupported;
+	bool bImageAdjustmentsSupported;
 
 	uint16_t nOpcodeGetVersion;
 	uint16_t nOpcodeKeepAlive;
@@ -96,7 +96,7 @@ public:
 	uint16_t nLogStringType;
 	uint16_t nLogOverflowType;
 
-	XnBool bMirrorSupported;
+	bool bMirrorSupported;
 
 	uint16_t nUSBDelayReceive;
 	uint16_t nUSBDelayExecutePreSend;
@@ -111,10 +111,10 @@ public:
 	uint8_t nBulkAlternativeInterface;
 	uint8_t nISOLowDepthAlternativeInterface;
 
-	XnBool bGetImageCmosTypeSupported;
-	XnBool bImageSupported;
-	XnBool bIncreasedFpsCropSupported;
-	XnBool bHasFilesystemLock;
+	bool bGetImageCmosTypeSupported;
+	bool bImageSupported;
+	bool bIncreasedFpsCropSupported;
+	bool bHasFilesystemLock;
 
 	std::vector<XnCmosPreset> depthModes;
 	std::vector<XnCmosPreset> _imageBulkModes;

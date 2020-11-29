@@ -53,7 +53,7 @@ struct XnScheduler
 	/* A handle to the running thread. */
 	XN_THREAD_HANDLE hThread;
 	/* When true, thread should stop. */
-	XnBool bStopThread;
+	bool bStopThread;
 	/* An event that is raised whenever thread should be awaken. */
 	XN_EVENT_HANDLE hWakeThreadEvent;
 	/* All changes to the list must be performed inside critical section. */
@@ -159,7 +159,7 @@ void FreeScheduler(XnScheduler* pScheduler)
 	if (pScheduler->hThread)
 	{
 		// mark for thread to stop
-		pScheduler->bStopThread = TRUE;
+		pScheduler->bStopThread = true;
 
 		if (pScheduler->hWakeThreadEvent)
 		{
@@ -212,7 +212,7 @@ XN_C_API XnStatus xnSchedulerStart(XnScheduler** ppScheduler)
 	XN_VALIDATE_CALLOC(pScheduler, XnScheduler, 1);
 
 	// create event
-	nRetVal = xnOSCreateEvent(&pScheduler->hWakeThreadEvent, FALSE);
+	nRetVal = xnOSCreateEvent(&pScheduler->hWakeThreadEvent, false);
 	XN_CHECK_RC_AND_FREE(nRetVal, pScheduler);
 
 	// create critical section

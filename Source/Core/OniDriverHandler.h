@@ -60,23 +60,23 @@ struct Funcs
 
 	OniStatus (ONI_C_DECL* oniDriverDeviceSetProperty)(void* deviceHandle, int propertyId, const void* data, int dataSize);
 	OniStatus (ONI_C_DECL* oniDriverDeviceGetProperty)(void* deviceHandle, int propertyId, void* data, int* pDataSize);
-	OniBool (ONI_C_DECL* oniDriverDeviceIsPropertySupported)(void* deviceHandle, int propertyId);
+	bool (ONI_C_DECL* oniDriverDeviceIsPropertySupported)(void* deviceHandle, int propertyId);
 	void (ONI_C_DECL* oniDriverDeviceSetPropertyChangedCallback)(void* deviceHandle, OniDriverPropertyChanged handler, void* pCookie);
 	void (ONI_C_DECL* oniDriverDeviceNotifyAllProperties)(void* deviceHandle);
 	OniStatus (ONI_C_DECL* oniDriverDeviceInvoke)(void* deviceHandle, int commandId, const void* data, int dataSize);
-	OniBool (ONI_C_DECL* oniDriverDeviceIsCommandSupported)(void* deviceHandle, int commandId);
+	bool (ONI_C_DECL* oniDriverDeviceIsCommandSupported)(void* deviceHandle, int commandId);
 	OniStatus (ONI_C_DECL* oniDriverDeviceTryManualTrigger)(void* deviceHandle);
-	OniBool (ONI_C_DECL* oniDriverDeviceIsImageRegistrationModeSupported)(void* deviceHandle, OniImageRegistrationMode mode);
+	bool (ONI_C_DECL* oniDriverDeviceIsImageRegistrationModeSupported)(void* deviceHandle, OniImageRegistrationMode mode);
 
 	// As Stream
 	void (ONI_C_DECL* oniDriverStreamSetServices)(void* streamHandle, OniStreamServices* pServices);
 	OniStatus (ONI_C_DECL* oniDriverStreamSetProperty)(void* streamHandle, int propertyId, const void* data, int dataSize);
 	OniStatus (ONI_C_DECL* oniDriverStreamGetProperty)(void* streamHandle, int propertyId, void* data, int* pDataSize);
-	OniBool (ONI_C_DECL* oniDriverStreamIsPropertySupported)(void* streamHandle, int propertyId);
+	bool (ONI_C_DECL* oniDriverStreamIsPropertySupported)(void* streamHandle, int propertyId);
 	void (ONI_C_DECL* oniDriverStreamSetPropertyChangedCallback)(void* streamHandle, OniDriverPropertyChanged handler, void* pCookie);
 	void (ONI_C_DECL* oniDriverStreamNotifyAllProperties)(void* streamHandle);
 	OniStatus (ONI_C_DECL* oniDriverStreamInvoke)(void* streamHandle, int commandId, const void* data, int dataSize);
-	OniBool (ONI_C_DECL* oniDriverStreamIsCommandSupported)(void* streamHandle, int commandId);
+	bool (ONI_C_DECL* oniDriverStreamIsCommandSupported)(void* streamHandle, int commandId);
 
 	OniStatus (ONI_C_DECL* oniDriverStreamStart)(void* streamHandle);
 	void (ONI_C_DECL* oniDriverStreamStop)(void* streamHandle);
@@ -150,7 +150,7 @@ public:
 	{
 		return (*funcs.oniDriverDeviceGetProperty)(deviceHandle, propertyId, data, pDataSize);
 	}
-	OniBool deviceIsPropertySupported(void* deviceHandle, int propertyId) const
+	bool deviceIsPropertySupported(void* deviceHandle, int propertyId) const
 	{
 		return (*funcs.oniDriverDeviceIsPropertySupported)(deviceHandle, propertyId);
 	}
@@ -166,11 +166,11 @@ public:
 	{
 		return (*funcs.oniDriverDeviceInvoke)(deviceHandle, commandId, data, dataSize);
 	}
-	OniBool deviceIsCommandSupported(void* deviceHandle, int commandId) const
+	bool deviceIsCommandSupported(void* deviceHandle, int commandId) const
 	{
 		return (*funcs.oniDriverDeviceIsCommandSupported)(deviceHandle, commandId);
 	}
-	OniBool deviceIsImageRegistrationModeSupported(void* deviceHandle, OniImageRegistrationMode mode) const
+	bool deviceIsImageRegistrationModeSupported(void* deviceHandle, OniImageRegistrationMode mode) const
 	{
 		return (*funcs.oniDriverDeviceIsImageRegistrationModeSupported)(deviceHandle, mode);
 	}
@@ -192,7 +192,7 @@ public:
 	{
 		return (*funcs.oniDriverStreamGetProperty)(streamHandle, propertyId, data, pDataSize);
 	}
-	OniBool streamIsPropertySupported(void* streamHandle, int propertyId) const
+	bool streamIsPropertySupported(void* streamHandle, int propertyId) const
 	{
 		return (*funcs.oniDriverStreamIsPropertySupported)(streamHandle, propertyId);
 	}
@@ -208,7 +208,7 @@ public:
 	{
 		return (*funcs.oniDriverStreamInvoke)(streamHandle, commandId, data, dataSize);
 	}
-	OniBool streamIsCommandSupported(void* streamHandle, int commandId) const
+	bool streamIsCommandSupported(void* streamHandle, int commandId) const
 	{
 		return (*funcs.oniDriverStreamIsCommandSupported)(streamHandle, commandId);
 	}

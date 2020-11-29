@@ -24,9 +24,9 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XN_C_API XnBool xnOSWasKeyboardHit()
+XN_C_API bool xnOSWasKeyboardHit()
 {
-	return (XnBool)_kbhit();
+	return (bool)_kbhit();
 }
 
 XN_C_API XnChar xnOSReadCharFromInput()

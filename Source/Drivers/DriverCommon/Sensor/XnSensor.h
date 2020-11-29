@@ -46,7 +46,7 @@ class XnSensor : public XnDeviceBase
 	friend class XnServerSensorInvoker;
 
 public:
-	XnSensor(XnBool bResetOnStartup = TRUE, XnBool bLeanInit = FALSE);
+	XnSensor(bool bResetOnStartup = true, bool bLeanInit = false);
 	~XnSensor();
 
 	virtual XnStatus InitImpl(const XnDeviceConfig* pDeviceConfig);
@@ -66,8 +66,8 @@ public:
 	XnStatus ConfigPropertyFromFile(XnStringProperty* pProperty, const XnChar* csINIFilePath, const XnChar* csSectionName);
 	XnStatus ConfigPropertyFromFile(XnIntProperty* pProperty, const XnChar* csINIFilePath, const XnChar* csSectionName);
 
-	inline XnBool IsMiscSupported() const { return m_SensorIO.IsMiscEndpointSupported(); }
-	inline XnBool IsLowBandwidth() const { return m_SensorIO.IsLowBandwidth(); }
+	inline bool IsMiscSupported() const { return m_SensorIO.IsMiscEndpointSupported(); }
+	inline bool IsLowBandwidth() const { return m_SensorIO.IsLowBandwidth(); }
 	inline XnSensorUsbInterface GetCurrentUsbInterface() const { return m_SensorIO.GetCurrentInterface(*m_Firmware.GetInfo()); }
 
 	XnStatus GetStream(const XnChar* strStream, XnDeviceStream** ppStream);
@@ -85,9 +85,9 @@ public:
 	XnStatus ConfigureModuleFromGlobalFile(const XnChar* strModule, const XnChar* strSection = NULL);
 
 	const XnChar* GetUSBPath() { return m_SensorIO.GetDevicePath(); }
-	XnBool ShouldUseHostTimestamps() { return (m_HostTimestamps.GetValue() == TRUE); }
-	XnBool HasReadingStarted() { return (m_ReadData.GetValue() == TRUE); }
-	inline XnBool IsTecDebugPring() const { return (XnBool)m_FirmwareTecDebugPrint.GetValue(); }
+	bool ShouldUseHostTimestamps() { return (m_HostTimestamps.GetValue() == true); }
+	bool HasReadingStarted() { return (m_ReadData.GetValue() == true); }
+	inline bool IsTecDebugPring() const { return (bool)m_FirmwareTecDebugPrint.GetValue(); }
 
 	XnStatus SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, uint32_t numStreams);
 
@@ -139,9 +139,9 @@ private:
 	// Setters
 	//---------------------------------------------------------------------------
 	XnStatus SetInterface(XnSensorUsbInterface nInterface);
-	XnStatus SetHostTimestamps(XnBool bHostTimestamps);
+	XnStatus SetHostTimestamps(bool bHostTimestamps);
 	XnStatus SetNumberOfBuffers(uint32_t nCount);
-	XnStatus SetReadData(XnBool bRead);
+	XnStatus SetReadData(bool bRead);
 	XnStatus SetFirmwareParam(const XnInnerParamData* pParam);
 	XnStatus SetCmosBlankingUnits(const XnCmosBlankingUnits* pBlanking);
 	XnStatus SetCmosBlankingTime(const XnCmosBlankingTime* pBlanking);
@@ -151,14 +151,14 @@ private:
 	XnStatus SetImageCmosRegister(const XnControlProcessingData* pRegister);
 	XnStatus WriteAHB(const XnAHBData* pData);
 	XnStatus SetLedState(uint16_t nLedId, uint16_t nState);
-	XnStatus SetEmitterState(XnBool bActive);
-	XnStatus SetFirmwareFrameSync(XnBool bOn);
+	XnStatus SetEmitterState(bool bActive);
+	XnStatus SetFirmwareFrameSync(bool bOn);
 	XnStatus SetI2C(const XnI2CWriteData* pI2CWriteData);
 	XnStatus SetFirmwareLogFilter(uint32_t nFilter);
 	XnStatus SetFirmwareLogInterval(uint32_t nMilliSeconds);
-	XnStatus SetFirmwareLogPrint(XnBool bPrint);
+	XnStatus SetFirmwareLogPrint(bool bPrint);
 	XnStatus SetFirmwareCPUInterval(uint32_t nMilliSeconds);
-	XnStatus SetAPCEnabled(XnBool bEnabled);
+	XnStatus SetAPCEnabled(bool bEnabled);
 	XnStatus DeleteFile(uint16_t nFileID);
 	XnStatus SetTecSetPoint(uint16_t nSetPoint);
 	XnStatus SetEmitterSetPoint(uint16_t nSetPoint);
@@ -166,7 +166,7 @@ private:
 	XnStatus WriteFlashFile(const XnParamFileData* pFile);
 	XnStatus SetProjectorFault(XnProjectorFaultData* pProjectorFaultData);
 	XnStatus RunBIST(uint32_t nTestsMask, uint32_t* pnFailures);
-	XnStatus SetReadAllEndpoints(XnBool bEnabled);
+	XnStatus SetReadAllEndpoints(bool bEnabled);
 
 	//---------------------------------------------------------------------------
 	// Callbacks
@@ -184,7 +184,7 @@ private:
 	static XnStatus XN_CALLBACK_TYPE SetFirmwareModeCallback(XnIntProperty* pSender, uint64_t nValue, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE GetFixedParamsCallback(const XnGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE FrameSyncPropertyChangedCallback(const XnProperty* pSender, void* pCookie);
-	static XnBool XN_CALLBACK_TYPE HasSynchedFrameArrived(void* pCookie);
+	static bool XN_CALLBACK_TYPE HasSynchedFrameArrived(void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE GetFirmwareParamCallback(const XnGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE GetCmosBlankingUnitsCallback(const XnGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE GetCmosBlankingTimeCallback(const XnGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
@@ -291,7 +291,7 @@ private:
 	XnScheduledTask* m_pCPUTask;
 	XnDumpFile* m_FirmwareLogDump;
 	XnDumpFile* m_FrameSyncDump;
-	XnBool m_nFrameSyncEnabled;
+	bool m_nFrameSyncEnabled;
 	typedef struct
 	{
 		XnDeviceStream* pStream;
@@ -301,7 +301,7 @@ private:
 	int m_nFrameSyncLastFrameID;
 	xnl::CriticalSection m_frameSyncCs;
 
-	XnBool m_bInitialized;
+	bool m_bInitialized;
 
 	XnIntPropertySynchronizer m_PropSynchronizer;
 

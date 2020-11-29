@@ -81,13 +81,6 @@ struct XnCallbackHandleImpl;
 typedef struct XnCallbackHandleImpl* XnCallbackHandle;
 typedef int XnStatus;
 
-#ifndef TRUE
-#define TRUE 1
-#endif //TRUE
-#ifndef FALSE
-#define FALSE 0
-#endif //FALSE
-
 #define XN_MIN(a,b)            (((a) < (b)) ? (a) : (b))
 
 #define XN_MAX(a,b)            (((a) > (b)) ? (a) : (b))

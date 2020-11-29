@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 XnLogFileWriter::XnLogFileWriter() :
 	m_fLogFile(XN_INVALID_FILE_HANDLE),
-	m_bWriteLineInfo(TRUE)
+	m_bWriteLineInfo(true)
 {
 	m_strCurrFileName[0] = '\0';
 }
@@ -83,7 +83,7 @@ XnStatus XnLogFileWriter::OpenFile()
 	if (m_fLogFile == XN_INVALID_FILE_HANDLE)
 	{
 		// open file
-		XnStatus nRetVal = xnLogCreateNewFile("log", TRUE, m_strCurrFileName, XN_FILE_MAX_PATH, &m_fLogFile);
+		XnStatus nRetVal = xnLogCreateNewFile("log", true, m_strCurrFileName, XN_FILE_MAX_PATH, &m_fLogFile);
 		if (nRetVal != XN_STATUS_OK)
 		{
 			// we don't have much to do if files can't be open. Logs will not be written to file
@@ -105,7 +105,7 @@ void XnLogFileWriter::CloseFile()
 	}
 }
 
-void XnLogFileWriter::SetLineInfo(XnBool bLineInfo)
+void XnLogFileWriter::SetLineInfo(bool bLineInfo)
 {
 	m_bWriteLineInfo = bLineInfo;
 }

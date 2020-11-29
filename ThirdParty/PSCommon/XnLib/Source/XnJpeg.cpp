@@ -71,7 +71,7 @@ void XnStreamJPEGDecompSkipFunction(struct jpeg_decompress_struct* pjDecompStruc
 boolean XnStreamJPEGDecompDummyFailFunction(struct jpeg_decompress_struct* /*pjDecompStruct*/)
 {
 	// If we ever got to the point we need to allocate more memory, something is wrong!
-	return (FALSE);
+	return (false);
 }
 
 void XnStreamJPEGDecompDummyFunction(struct jpeg_decompress_struct* /*pjDecompStruct*/)
@@ -94,7 +94,7 @@ void  XnStreamJPEGCompDummyFunction(struct jpeg_compress_struct* /*pjCompStruct*
 boolean XnStreamJPEGCompDummyFailFunction(struct jpeg_compress_struct* /*pjCompStruct*/)
 {
 	// If we ever got to the point we need to allocate more memory, something is wrong!
-	return (FALSE);
+	return (false);
 }
 
 XnStatus XnStreamFreeCompressImageJ(XnStreamCompJPEGContext** ppStreamCompJPEGContext)
@@ -142,12 +142,12 @@ XnStatus XnStreamCompressImage8J(XnStreamCompJPEGContext** ppStreamCompJPEGConte
 	pjCompStruct->data_precision = 8;
 	pjCompStruct->input_gamma = 1.0;
 
-	jpeg_set_quality(pjCompStruct, nQuality, FALSE);
+	jpeg_set_quality(pjCompStruct, nQuality, false);
 
 	pjCompStruct->dest->next_output_byte = (JOCTET*)pOutput;
 	pjCompStruct->dest->free_in_buffer = *pnOutputSize;
 
-	jpeg_start_compress(pjCompStruct, TRUE);
+	jpeg_start_compress(pjCompStruct, true);
 
 	for (nYIndex = 0; nYIndex < nYRes; nYIndex++)
 	{
@@ -190,12 +190,12 @@ XnStatus XnStreamCompressImage24J(XnStreamCompJPEGContext** ppStreamCompJPEGCont
 	pjCompStruct->data_precision = 8;
 	pjCompStruct->input_gamma = 1.0;
 
-	jpeg_set_quality(pjCompStruct, nQuality, FALSE);
+	jpeg_set_quality(pjCompStruct, nQuality, false);
 
 	pjCompStruct->dest->next_output_byte = (JOCTET*)pOutput;
 	pjCompStruct->dest->free_in_buffer = *pnOutputSize;
 
-	jpeg_start_compress(pjCompStruct, TRUE);
+	jpeg_start_compress(pjCompStruct, true);
 
 	nScanLineSize = nXRes * 3;
 	for (nYIndex = 0; nYIndex < nYRes; nYIndex++)
@@ -379,7 +379,7 @@ XnStatus XnStreamUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncompJPEG
 		return (XN_STATUS_ERROR);
 	}
 
-	jpeg_read_header(pjDecompStruct, TRUE);
+	jpeg_read_header(pjDecompStruct, true);
 
 	jpeg_start_decompress(pjDecompStruct);
 

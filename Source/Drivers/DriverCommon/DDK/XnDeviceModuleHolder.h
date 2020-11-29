@@ -31,7 +31,7 @@ public:
 	* Creates a new module holder.
 	*
 	* @param	pModule 		[in]	The actual module.
-	* @param	bAllowNewProps	[in]	When TRUE, Init() method will create non-existing properties.
+	* @param	bAllowNewProps	[in]	When true, Init() method will create non-existing properties.
 	*/
 	XnDeviceModuleHolder(XnDeviceModule* pModule);
 	virtual ~XnDeviceModuleHolder();

@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnDumpWriterFileHandle XnDumpFileWriter::OpenFile(const XnChar* /*strDumpName*/, XnBool bSessionDump, const XnChar* strFileName)
+XnDumpWriterFileHandle XnDumpFileWriter::OpenFile(const XnChar* /*strDumpName*/, bool bSessionDump, const XnChar* strFileName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

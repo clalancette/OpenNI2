@@ -65,7 +65,7 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, uint32_t nArgs,
 	nRetVal = xnOSGetDirName(strExecutable, strDirName, XN_FILE_MAX_PATH);
 	XN_IS_STATUS_OK(nRetVal);
 
-	if (0 == CreateProcess(strExecutable, strArguments, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, strDirName, &si, &pi))
+	if (0 == CreateProcess(strExecutable, strArguments, NULL, NULL, false, CREATE_NO_WINDOW, NULL, strDirName, &si, &pi))
 	{
 		xnLogWarning(XN_MASK_OS, "Failed to start process! Win32 error code is %d.", GetLastError());
 		return XN_STATUS_OS_PROCESS_CREATION_FAILED;

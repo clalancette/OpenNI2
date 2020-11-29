@@ -31,8 +31,8 @@ struct Pair
 	Pair(T1 t1, T2 t2) : first(t1), second(t2) {}
 	Pair(const Pair& other) : first(other.first), second(other.second) {}
 	Pair& operator=(const Pair& other) {first = other.first; second = other.second; return *this;}
-	XnBool operator==(const Pair& other) {return first == other.first && second == other.second;}
-	XnBool operator!=(const Pair& other) {return !operator==(other);}
+	bool operator==(const Pair& other) {return first == other.first && second == other.second;}
+	bool operator!=(const Pair& other) {return !operator==(other);}
 
 	T1 first;
 	T2 second;

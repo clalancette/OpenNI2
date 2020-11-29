@@ -152,7 +152,7 @@ void XnOniDriver::deviceClose(oni::driver::DeviceBase* pDevice)
 	}
 
 	// not our device?!
-	XN_ASSERT(FALSE);
+	XN_ASSERT(false);
 }
 
 void* XnOniDriver::enableFrameSync(oni::driver::StreamBase** pStreams, int streamCount)
@@ -263,7 +263,7 @@ void XN_CALLBACK_TYPE XnOniDriver::OnDevicePropertyChanged(const XnChar* ModuleN
 					default:
 					{
 						// Invalid value.
-						XN_ASSERT(FALSE);
+						XN_ASSERT(false);
 					}
 				}
 				pThis->deviceStateChanged(pDevice->GetInfo(), errorStateValue);

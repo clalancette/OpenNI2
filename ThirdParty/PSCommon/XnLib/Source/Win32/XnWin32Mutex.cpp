@@ -35,10 +35,10 @@ XN_C_API XnStatus xnOSCreateMutex(XN_MUTEX_HANDLE* pMutexHandle)
 
 XN_C_API XnStatus xnOSCreateNamedMutex(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName)
 {
-	return xnOSCreateNamedMutexEx(pMutexHandle, cpMutexName, FALSE);
+	return xnOSCreateNamedMutexEx(pMutexHandle, cpMutexName, false);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName, XnBool bAllowOtherUsers)
+XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName, bool bAllowOtherUsers)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -68,7 +68,7 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle
 	}
 
 	// Create a named mutex via the OS
-	*pMutexHandle = CreateMutex(pSecurityAttributes, FALSE, pMutexOSName);
+	*pMutexHandle = CreateMutex(pSecurityAttributes, false, pMutexOSName);
 
 	// Make sure it succeeded (return value is not null)
 	if (*pMutexHandle == NULL)
@@ -83,7 +83,7 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle
 XN_C_API XnStatus xnOSCloseMutex(XN_MUTEX_HANDLE* pMutexHandle)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pMutexHandle);
@@ -97,7 +97,7 @@ XN_C_API XnStatus xnOSCloseMutex(XN_MUTEX_HANDLE* pMutexHandle)
 	bRetVal = CloseHandle(*pMutexHandle);
 
 	// Make sure it succeeded (return value is true)
-	if (bRetVal != TRUE)
+	if (bRetVal != true)
 	{
 		return (XN_STATUS_OS_MUTEX_CLOSE_FAILED);
 	}
@@ -146,7 +146,7 @@ XN_C_API XnStatus xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, uint32_t nMil
 XN_C_API XnStatus xnOSUnLockMutex(const XN_MUTEX_HANDLE MutexHandle)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 
 	// Make sure the actual mutex handle isn't NULL
 	XN_RET_IF_NULL(MutexHandle, XN_STATUS_OS_INVALID_MUTEX);
@@ -155,7 +155,7 @@ XN_C_API XnStatus xnOSUnLockMutex(const XN_MUTEX_HANDLE MutexHandle)
 	bRetVal = ReleaseMutex(MutexHandle);
 
 	// Make sure it succeeded (return value is true)
-	if (bRetVal != TRUE)
+	if (bRetVal != true)
 	{
 		return (XN_STATUS_OS_MUTEX_UNLOCK_FAILED);
 	}

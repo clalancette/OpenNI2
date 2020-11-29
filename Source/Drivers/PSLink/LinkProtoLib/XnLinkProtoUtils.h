@@ -43,7 +43,7 @@ class LinkPacketHeader : private XnLinkPacketHeader
 {
 public:
 	XnStatus Validate(uint32_t nBytesToRead) const;
-	XnBool IsMagicValid() const { return (m_nMagic == XN_LINK_MAGIC); }
+	bool IsMagicValid() const { return (m_nMagic == XN_LINK_MAGIC); }
 	uint16_t GetSize() const { return m_nSize; }
 	uint16_t GetDataSize() const { return (m_nSize - sizeof(XnLinkPacketHeader)); }
 	uint16_t GetMsgType() const { return m_nMsgType; }
@@ -152,7 +152,7 @@ XnStatus xnLinkParseIntProp(XnLinkPropType propType, const void* pValue, uint32_
 		xnLogError(XN_MASK_LINK, "Property type should be %s, but got type %s",
 			xnLinkPropTypeToStr(XN_LINK_PROP_TYPE_INT),
 			xnLinkPropTypeToStr(propType));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_PROP_TYPE;
 	}
 

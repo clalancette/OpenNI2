@@ -50,7 +50,7 @@ public:
 				  XnStreamFragLevel streamFragLevel,
 				  LinkOutputDataEndpoint* pOutputDataEndpoint);
 
-	XnBool IsStreamInitialized(uint16_t nStreamID) const;
+	bool IsStreamInitialized(uint16_t nStreamID) const;
 
 	void ShutdownOutputStream(uint16_t nStreamID);
 	XnStatus SendData(uint16_t nStreamID,

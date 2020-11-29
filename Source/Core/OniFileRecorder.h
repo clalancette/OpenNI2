@@ -44,7 +44,7 @@ public:
 
 	OniStatus initialize(const char* fileName);
 
-	OniStatus attachStream(VideoStream& stream, OniBool allowLossyCompression);
+	OniStatus attachStream(VideoStream& stream, bool allowLossyCompression);
 	OniStatus detachStream(VideoStream& stream);
 
 	OniStatus start() override;
@@ -134,7 +134,7 @@ private:
 		uint32_t       nodeId;
 		uint32_t       frameId;
 		XnCodecBase*   pCodec;
-		OniBool        allowLossyCompression;
+		bool        allowLossyCompression;
 		uint64_t       lastInputTimestamp;
 		uint64_t       lastOutputTimestamp;
 

@@ -295,13 +295,13 @@ void XnIRProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader)
 	{
 		pFrame->cropOriginX = (int)GetStream()->m_FirmwareCropOffsetX.GetValue();
 		pFrame->cropOriginY = (int)GetStream()->m_FirmwareCropOffsetY.GetValue();
-		pFrame->croppingEnabled = TRUE;
+		pFrame->croppingEnabled = true;
 	}
 	else
 	{
 		pFrame->cropOriginX = 0;
 		pFrame->cropOriginY = 0;
-		pFrame->croppingEnabled = FALSE;
+		pFrame->croppingEnabled = false;
 	}
 
 	pFrame->stride = pFrame->width * GetStream()->GetBytesPerPixel();

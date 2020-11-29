@@ -59,7 +59,7 @@ private:
 	XnActualGeneralProperty m_DepthToShiftTable;
 	XnShiftToDepthTables m_ShiftToDepthTables;
 	XnDeviceModule* m_pModule;
-	XnBool m_bPropertiesAdded;
+	bool m_bPropertiesAdded;
 };
 
 #endif // XNSHIFTTODEPTHSTREAMHELPER_H

@@ -28,7 +28,7 @@ namespace xn
 
 LinkOutputStream::LinkOutputStream()
 {
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 	m_nStreamID = XN_LINK_STREAM_ID_INVALID;
 	m_compression = XN_LINK_COMPRESSION_NONE;
 	m_pLinkMsgEncoder = NULL;
@@ -65,11 +65,11 @@ XnStatus LinkOutputStream::Init(uint16_t nStreamID,
 	XN_IS_STATUS_OK_LOG_ERROR("Create link msg encoder", nRetVal);
 	nRetVal = m_pLinkMsgEncoder->Init(nMaxMsgSize, nMaxPacketSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Init link msg encoder", nRetVal);
-	m_bInitialized = TRUE;
+	m_bInitialized = true;
 	return XN_STATUS_OK;
 }
 
-XnBool LinkOutputStream::IsInitialized() const
+bool LinkOutputStream::IsInitialized() const
 {
 	return m_bInitialized;
 }
@@ -80,7 +80,7 @@ void LinkOutputStream::Shutdown()
 	XN_DELETE(m_pLinkMsgEncoder);
 	m_pLinkMsgEncoder = NULL;
 	m_nStreamID = XN_LINK_STREAM_ID_INVALID;
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 }
 
 
@@ -122,7 +122,7 @@ XnStatus LinkOutputStream::CreateLinkMsgEncoder(LinkMsgEncoder*& pLinkMsgEncoder
 	default:
 		{
 			xnLogError(XN_MASK_LINK, "Unknown compression type: %u", m_compression);
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_ERROR;
 		}
 	}

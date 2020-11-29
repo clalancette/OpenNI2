@@ -32,7 +32,7 @@ public:
 	virtual ~IConnection() {}
 	virtual XnStatus Connect() = 0;
 	virtual void Disconnect() = 0;
-	virtual XnBool IsConnected() const = 0;
+	virtual bool IsConnected() const = 0;
 	virtual uint16_t GetMaxPacketSize() const = 0;
 };
 

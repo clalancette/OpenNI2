@@ -32,14 +32,14 @@
 //---------------------------------------------------------------------------
 struct XnPropertySetModuleEnumerator
 {
-	XnBool bFirst;
+	bool bFirst;
 	XnPropertySetData* pModules;
 	XnPropertySetData::ConstIterator it;
 };
 
 struct XnPropertySetEnumerator
 {
-	XnBool bFirst;
+	bool bFirst;
 	XnPropertySetData* pModules;
 	XnPropertySetData::ConstIterator itModule;
 	XnChar strModule[XN_DEVICE_MAX_STRING_LENGTH];
@@ -255,7 +255,7 @@ XnStatus XnPropertySetGetModuleEnumerator(const XnPropertySet* pSet, XnPropertyS
 	XnPropertySetModuleEnumerator* pEnumer;
 	XN_VALIDATE_NEW(pEnumer, XnPropertySetModuleEnumerator);
 
-	pEnumer->bFirst = TRUE;
+	pEnumer->bFirst = true;
 	pEnumer->it = pSet->pData->End();
 	pEnumer->pModules = pSet->pData;
 
@@ -275,7 +275,7 @@ XnStatus XnPropertySetModuleEnumeratorFree(XnPropertySetModuleEnumerator** ppEnu
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetModuleEnumeratorMoveNext(XnPropertySetModuleEnumerator* pEnumerator, XnBool* pbEnd)
+XnStatus XnPropertySetModuleEnumeratorMoveNext(XnPropertySetModuleEnumerator* pEnumerator, bool* pbEnd)
 {
 	XN_VALIDATE_INPUT_PTR(pEnumerator);
 	XN_VALIDATE_OUTPUT_PTR(pbEnd);
@@ -283,7 +283,7 @@ XnStatus XnPropertySetModuleEnumeratorMoveNext(XnPropertySetModuleEnumerator* pE
 	if (pEnumerator->bFirst)
 	{
 		pEnumerator->it = pEnumerator->pModules->Begin();
-		pEnumerator->bFirst = FALSE;
+		pEnumerator->bFirst = false;
 	}
 	else if (pEnumerator->it == pEnumerator->pModules->End())
 	{
@@ -332,7 +332,7 @@ XnStatus XnPropertySetGetEnumerator(const XnPropertySet* pSet, XnPropertySetEnum
 	XnPropertySetEnumerator* pEnumer;
 	XN_VALIDATE_NEW(pEnumer, XnPropertySetEnumerator)
 
-		pEnumer->bFirst = TRUE;
+		pEnumer->bFirst = true;
 	pEnumer->pModules = pSet->pData;
 	if (strModule != NULL)
 	{
@@ -377,7 +377,7 @@ XnStatus XnPropertySetFindProperty(const XnPropertySet* pSet, const XnChar* strM
 	pEnumer->itProp = itProp;
 	pEnumer->pModules = pSet->pData;
 	pEnumer->strModule[0] = '\0';
-	pEnumer->bFirst = FALSE;
+	pEnumer->bFirst = false;
 
 	*ppEnumerator = pEnumer;
 
@@ -395,20 +395,20 @@ XnStatus XnPropertySetEnumeratorFree(XnPropertySetEnumerator** ppEnumerator)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetEnumeratorMoveNext(XnPropertySetEnumerator* pEnumerator, XnBool* pbEnd)
+XnStatus XnPropertySetEnumeratorMoveNext(XnPropertySetEnumerator* pEnumerator, bool* pbEnd)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	XN_VALIDATE_INPUT_PTR(pEnumerator);
 	XN_VALIDATE_OUTPUT_PTR(pbEnd);
 
-	*pbEnd = TRUE;
+	*pbEnd = true;
 
 	if (pEnumerator->strModule[0] != '\0') // single module
 	{
 		if (pEnumerator->bFirst)
 		{
-			pEnumerator->bFirst = FALSE;
+			pEnumerator->bFirst = false;
 
 			// find this module
 			nRetVal = pEnumerator->pModules->Find(pEnumerator->strModule, pEnumerator->itModule);
@@ -436,7 +436,7 @@ XnStatus XnPropertySetEnumeratorMoveNext(XnPropertySetEnumerator* pEnumerator, X
 	{
 		if (pEnumerator->bFirst)
 		{
-			pEnumerator->bFirst = FALSE;
+			pEnumerator->bFirst = false;
 
 			// search for the first modules that has properties
 			pEnumerator->itModule = pEnumerator->pModules->Begin();
@@ -449,11 +449,11 @@ XnStatus XnPropertySetEnumeratorMoveNext(XnPropertySetEnumerator* pEnumerator, X
 			if (pEnumerator->itModule != pEnumerator->pModules->End())
 			{
 				pEnumerator->itProp = pEnumerator->itModule->Value()->Begin();
-				*pbEnd = FALSE;
+				*pbEnd = false;
 			}
 			else
 			{
-				*pbEnd = TRUE;
+				*pbEnd = true;
 			}
 		}
 		else if (pEnumerator->itModule == pEnumerator->pModules->End())
@@ -479,16 +479,16 @@ XnStatus XnPropertySetEnumeratorMoveNext(XnPropertySetEnumerator* pEnumerator, X
 				if (pEnumerator->itModule != pEnumerator->pModules->End())
 				{
 					pEnumerator->itProp = pEnumerator->itModule->Value()->Begin();
-					*pbEnd = FALSE;
+					*pbEnd = false;
 				}
 				else
 				{
-					*pbEnd = TRUE;
+					*pbEnd = true;
 				}
 			}
 			else
 			{
-				*pbEnd = FALSE;
+				*pbEnd = false;
 			}
 		}
 	}

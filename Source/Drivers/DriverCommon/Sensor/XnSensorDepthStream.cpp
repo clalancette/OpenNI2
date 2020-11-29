@@ -50,7 +50,7 @@
 // XnSensorDepthStream class
 //---------------------------------------------------------------------------
 XnSensorDepthStream::XnSensorDepthStream(const XnChar* strName, XnSensorObjects* pObjects) :
-	XnDepthStream(strName, FALSE, XN_DEVICE_SENSOR_MAX_DEPTH_1_MM, XN_SHIFTS_MAX_SHIFT),
+	XnDepthStream(strName, false, XN_DEVICE_SENSOR_MAX_DEPTH_1_MM, XN_SHIFTS_MAX_SHIFT),
 	m_Helper(pObjects),
 	m_InputFormat(XN_STREAM_PROPERTY_INPUT_FORMAT, "InputFormat", XN_DEPTH_STREAM_DEFAULT_INPUT_FORMAT),
 	m_DepthRegistration(XN_STREAM_PROPERTY_REGISTRATION, "Registration", XN_DEPTH_STREAM_DEFAULT_REGISTRATION),
@@ -60,14 +60,14 @@ XnSensorDepthStream::XnSensorDepthStream(const XnChar* strName, XnSensorObjects*
 	m_RegistrationType(XN_STREAM_PROPERTY_REGISTRATION_TYPE, "RegistrationType", XN_DEPTH_STREAM_DEFAULT_REGISTRATION_TYPE),
 	m_CroppingMode(XN_STREAM_PROPERTY_CROPPING_MODE, "CroppingMode", XN_CROPPING_MODE_NORMAL),
 	m_AGCBin(XN_STREAM_PROPERTY_AGC_BIN, "AGCBin", NULL, ReadAGCBinsFromFile),
-	m_FirmwareMirror(0, "FirmwareMirror", FALSE, strName),
-	m_FirmwareRegistration(0, "FirmwareRegistration", FALSE, strName),
+	m_FirmwareMirror(0, "FirmwareMirror", false, strName),
+	m_FirmwareRegistration(0, "FirmwareRegistration", false, strName),
 	m_FirmwareCropSizeX(0, "FirmwareCropSizeX", 0, strName),
 	m_FirmwareCropSizeY(0, "FirmwareCropSizeY", 0, strName),
 	m_FirmwareCropOffsetX(0, "FirmwareCropOffsetX", 0, strName),
 	m_FirmwareCropOffsetY(0, "FirmwareCropOffsetY", 0, strName),
 	m_FirmwareCropMode(0, "FirmwareCropMode", XN_FIRMWARE_CROPPING_MODE_DISABLED, strName),
-	m_ActualRead(XN_STREAM_PROPERTY_ACTUAL_READ_DATA, "ActualReadData", FALSE),
+	m_ActualRead(XN_STREAM_PROPERTY_ACTUAL_READ_DATA, "ActualReadData", false),
 	m_GMCMode(XN_STREAM_PROPERTY_GMC_MODE, "GMCMode", XN_DEPTH_STREAM_DEFAULT_GMC_MODE),
 	m_CloseRange(XN_STREAM_PROPERTY_CLOSE_RANGE, "CloseRange", XN_DEPTH_STREAM_DEFAULT_CLOSE_RANGE),
 	m_PixelRegistration(XN_STREAM_PROPERTY_PIXEL_REGISTRATION, "PixelRegistration"),
@@ -128,12 +128,12 @@ XnStatus XnSensorDepthStream::Init()
 	}
 
 	// make sure default resolution is supported
-	XnBool bResSupported = FALSE;
+	bool bResSupported = false;
 	for (uint8_t i = 0; i < nSupportedModes; ++i)
 	{
 		if (pSupportedModes[i].nResolution == XN_DEPTH_STREAM_DEFAULT_RESOLUTION)
 		{
-			bResSupported = TRUE;
+			bResSupported = true;
 			break;
 		}
 	}
@@ -196,19 +196,19 @@ XnStatus XnSensorDepthStream::Init()
 
 	if (m_Helper.GetFirmwareVersion() < XN_SENSOR_FW_VER_3_0)
 	{
-		nRetVal = m_GMCMode.UnsafeUpdateValue(FALSE);
+		nRetVal = m_GMCMode.UnsafeUpdateValue(false);
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
 	if (m_Helper.GetFirmwareVersion() < XN_SENSOR_FW_VER_5_2)
 	{
-		nRetVal = m_WavelengthCorrection.UnsafeUpdateValue(FALSE);
+		nRetVal = m_WavelengthCorrection.UnsafeUpdateValue(false);
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
 	if (m_Helper.GetFirmwareVersion() < XN_SENSOR_FW_VER_4_0)
 	{
-		nRetVal = m_WhiteBalance.UnsafeUpdateValue(FALSE);
+		nRetVal = m_WhiteBalance.UnsafeUpdateValue(false);
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
@@ -224,7 +224,7 @@ XnStatus XnSensorDepthStream::Init()
 	nRetVal = ResolutionProperty().OnChangeEvent().Register(DecideFirmwareRegistrationCallback, this, hCallbackDummy);
 	XN_IS_STATUS_OK(nRetVal);
 
-	nRetVal = DecideFirmwareRegistration((XnBool)m_DepthRegistration.GetValue(), (XnProcessingType)m_RegistrationType.GetValue(), GetResolution());
+	nRetVal = DecideFirmwareRegistration((bool)m_DepthRegistration.GetValue(), (XnProcessingType)m_RegistrationType.GetValue(), GetResolution());
 	XN_IS_STATUS_OK(nRetVal);
 
 	// data processor
@@ -277,41 +277,41 @@ XnStatus XnSensorDepthStream::MapPropertiesToFirmware()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_Helper.MapFirmwareProperty(m_InputFormat, GetFirmwareParams()->m_DepthFormat, FALSE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_InputFormat, GetFirmwareParams()->m_DepthFormat, false);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(ResolutionProperty(), GetFirmwareParams()->m_DepthResolution, FALSE);
+	nRetVal = m_Helper.MapFirmwareProperty(ResolutionProperty(), GetFirmwareParams()->m_DepthResolution, false);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(FPSProperty(), GetFirmwareParams()->m_DepthFPS, FALSE);
+	nRetVal = m_Helper.MapFirmwareProperty(FPSProperty(), GetFirmwareParams()->m_DepthFPS, false);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_HoleFilter, GetFirmwareParams()->m_DepthHoleFilter, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_HoleFilter, GetFirmwareParams()->m_DepthHoleFilter, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_Gain, GetFirmwareParams()->m_DepthGain, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_Gain, GetFirmwareParams()->m_DepthGain, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_WhiteBalance, GetFirmwareParams()->m_DepthWhiteBalance, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_WhiteBalance, GetFirmwareParams()->m_DepthWhiteBalance, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareMirror, GetFirmwareParams()->m_DepthMirror, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareMirror, GetFirmwareParams()->m_DepthMirror, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareRegistration, GetFirmwareParams()->m_RegistrationEnabled, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareRegistration, GetFirmwareParams()->m_RegistrationEnabled, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeX, GetFirmwareParams()->m_DepthCropSizeX, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeX, GetFirmwareParams()->m_DepthCropSizeX, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeY, GetFirmwareParams()->m_DepthCropSizeY, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeY, GetFirmwareParams()->m_DepthCropSizeY, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetX, GetFirmwareParams()->m_DepthCropOffsetX, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetX, GetFirmwareParams()->m_DepthCropOffsetX, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetY, GetFirmwareParams()->m_DepthCropOffsetY, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetY, GetFirmwareParams()->m_DepthCropOffsetY, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropMode, GetFirmwareParams()->m_DepthCropMode, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropMode, GetFirmwareParams()->m_DepthCropMode, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_GMCMode, GetFirmwareParams()->m_GMCMode, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_GMCMode, GetFirmwareParams()->m_GMCMode, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_CloseRange, GetFirmwareParams()->m_DepthCloseRange, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_CloseRange, GetFirmwareParams()->m_DepthCloseRange, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_GMCDebug, GetFirmwareParams()->m_GMCDebug, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_GMCDebug, GetFirmwareParams()->m_GMCDebug, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_WavelengthCorrection, GetFirmwareParams()->m_WavelengthCorrection, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_WavelengthCorrection, GetFirmwareParams()->m_WavelengthCorrection, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_WavelengthCorrectionDebug, GetFirmwareParams()->m_WavelengthCorrectionDebug, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_WavelengthCorrectionDebug, GetFirmwareParams()->m_WavelengthCorrectionDebug, true);
 	XN_IS_STATUS_OK(nRetVal);;
 
 	return (XN_STATUS_OK);
@@ -323,7 +323,7 @@ XnStatus XnSensorDepthStream::ConfigureStreamImpl()
 
 	xnUSBShutdownReadThread(GetHelper()->GetPrivateData()->pSpecificDepthUsb->pUsbConnection->UsbEp);
 
-	nRetVal = SetActualRead(TRUE);
+	nRetVal = SetActualRead(true);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = m_Helper.ConfigureFirmware(m_InputFormat);
@@ -339,7 +339,7 @@ XnStatus XnSensorDepthStream::ConfigureStreamImpl()
 
 	// we need to turn decimation on when resolution is QVGA, and FPS is different than 60
 	// NOTE: this is ugly as hell. This logic should be moved to firmware.
-	XnBool bDecimation = (GetResolution() == XN_RESOLUTION_QVGA && GetFPS() != 60);
+	bool bDecimation = (GetResolution() == XN_RESOLUTION_QVGA && GetFPS() != 60);
 	nRetVal = GetFirmwareParams()->m_DepthDecimation.SetValue(bDecimation);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -364,11 +364,11 @@ XnStatus XnSensorDepthStream::ConfigureStreamImpl()
 	return XN_STATUS_OK;
 }
 
-XnStatus XnSensorDepthStream::SetActualRead(XnBool bRead)
+XnStatus XnSensorDepthStream::SetActualRead(bool bRead)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	if ((XnBool)m_ActualRead.GetValue() != bRead)
+	if ((bool)m_ActualRead.GetValue() != bRead)
 	{
 		if (bRead)
 		{
@@ -401,7 +401,7 @@ XnStatus XnSensorDepthStream::OpenStreamImpl()
 	// CloseRange
 	if (m_Helper.GetFirmwareVersion() < XN_SENSOR_FW_VER_5_6)
 	{
-		CloseRangeControl((XnBool)m_CloseRange.GetValue());
+		CloseRangeControl((bool)m_CloseRange.GetValue());
 	}
 	else
 	{
@@ -437,7 +437,7 @@ XnStatus XnSensorDepthStream::CloseStreamImpl()
 	nRetVal = GetFirmwareParams()->m_Stream1Mode.SetValue(XN_VIDEO_STREAM_OFF);
 	XN_IS_STATUS_OK(nRetVal);
 
-	nRetVal = SetActualRead(FALSE);
+	nRetVal = SetActualRead(false);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = XnDepthStream::Close();
@@ -482,14 +482,14 @@ XnStatus XnSensorDepthStream::SetOutputFormat(OniPixelFormat nOutputFormat)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::SetMirror(XnBool bIsMirrored)
+XnStatus XnSensorDepthStream::SetMirror(bool bIsMirrored)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	xnOSEnterCriticalSection(GetLock());
 
 	// set firmware mirror
-	XnBool bFirmwareMirror = (bIsMirrored == TRUE && m_Helper.GetFirmwareVersion() >= XN_SENSOR_FW_VER_5_0);
+	bool bFirmwareMirror = (bIsMirrored == true && m_Helper.GetFirmwareVersion() >= XN_SENSOR_FW_VER_5_0);
 
 	nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareMirror, (uint16_t)bFirmwareMirror);
 	if (nRetVal != XN_STATUS_OK)
@@ -582,11 +582,11 @@ XnStatus XnSensorDepthStream::SetInputFormat(XnIODepthFormats nInputFormat)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::SetRegistration(XnBool bRegistration)
+XnStatus XnSensorDepthStream::SetRegistration(bool bRegistration)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	if (bRegistration != (XnBool)m_DepthRegistration.GetValue())
+	if (bRegistration != (bool)m_DepthRegistration.GetValue())
 	{
 		nRetVal = DecideFirmwareRegistration(bRegistration, (XnProcessingType)m_RegistrationType.GetValue(), GetResolution());
 		XN_IS_STATUS_OK(nRetVal);
@@ -598,7 +598,7 @@ XnStatus XnSensorDepthStream::SetRegistration(XnBool bRegistration)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::SetHoleFilter(XnBool bHoleFilter)
+XnStatus XnSensorDepthStream::SetHoleFilter(bool bHoleFilter)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -608,7 +608,7 @@ XnStatus XnSensorDepthStream::SetHoleFilter(XnBool bHoleFilter)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::SetWhiteBalance(XnBool bWhiteBalance)
+XnStatus XnSensorDepthStream::SetWhiteBalance(bool bWhiteBalance)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -634,7 +634,7 @@ XnStatus XnSensorDepthStream::SetRegistrationType(XnProcessingType type)
 
 	if (type != (XnProcessingType)m_RegistrationType.GetValue())
 	{
-		nRetVal = DecideFirmwareRegistration((XnBool)m_DepthRegistration.GetValue(), type, GetResolution());
+		nRetVal = DecideFirmwareRegistration((bool)m_DepthRegistration.GetValue(), type, GetResolution());
 		XN_IS_STATUS_OK(nRetVal);
 
 		nRetVal = m_RegistrationType.UnsafeUpdateValue(type);
@@ -644,7 +644,7 @@ XnStatus XnSensorDepthStream::SetRegistrationType(XnProcessingType type)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::SetGMCMode(XnBool bGMCMode)
+XnStatus XnSensorDepthStream::SetGMCMode(bool bGMCMode)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -654,7 +654,7 @@ XnStatus XnSensorDepthStream::SetGMCMode(XnBool bGMCMode)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::SetCloseRange(XnBool bCloseRange)
+XnStatus XnSensorDepthStream::SetCloseRange(bool bCloseRange)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -689,7 +689,7 @@ XnStatus XnSensorDepthStream::SetCroppingMode(XnCroppingMode mode)
 	return SetCroppingImpl(GetCropping(), mode);
 }
 
-XnStatus XnSensorDepthStream::SetGMCDebug(XnBool bGMCDebug)
+XnStatus XnSensorDepthStream::SetGMCDebug(bool bGMCDebug)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -699,7 +699,7 @@ XnStatus XnSensorDepthStream::SetGMCDebug(XnBool bGMCDebug)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::SetWavelengthCorrection(XnBool bWavelengthCorrection)
+XnStatus XnSensorDepthStream::SetWavelengthCorrection(bool bWavelengthCorrection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -709,7 +709,7 @@ XnStatus XnSensorDepthStream::SetWavelengthCorrection(XnBool bWavelengthCorrecti
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::SetWavelengthCorrectionDebug(XnBool bWavelengthCorrectionDebug)
+XnStatus XnSensorDepthStream::SetWavelengthCorrectionDebug(bool bWavelengthCorrectionDebug)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -840,7 +840,7 @@ XnStatus XnSensorDepthStream::SetCroppingImpl(const OniCropping* pCropping, XnCr
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::CloseRangeControl(XnBool bEnabled)
+XnStatus XnSensorDepthStream::CloseRangeControl(bool bEnabled)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -857,7 +857,7 @@ XnStatus XnSensorDepthStream::CloseRangeControl(XnBool bEnabled)
 	}
 	else
 	{
-		if (m_CloseRange.GetValue() == TRUE)
+		if (m_CloseRange.GetValue() == true)
 		{
 			nRetVal = XnHostProtocolWriteAHB(m_Helper.GetPrivateData(), 0x2a0038d4, 0x190, 0xFFF);
 			XN_IS_STATUS_OK(nRetVal);
@@ -897,7 +897,7 @@ XnStatus XnSensorDepthStream::Mirror(OniFrame* pFrame) const
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// only perform mirror if it's our job. if mirror is performed by FW, we don't need to do anything.
-	if (m_FirmwareMirror.GetValue() == FALSE)
+	if (m_FirmwareMirror.GetValue() == false)
 	{
 		nRetVal = XnDepthStream::Mirror(pFrame);
 		XN_IS_STATUS_OK(nRetVal);
@@ -939,17 +939,17 @@ XnStatus XnSensorDepthStream::CreateDataProcessor(XnDataProcessor** ppProcessor)
 	return XN_STATUS_OK;
 }
 
-XnStatus XnSensorDepthStream::DecideFirmwareRegistration(XnBool bRegistration, XnProcessingType registrationType, XnResolutions nRes)
+XnStatus XnSensorDepthStream::DecideFirmwareRegistration(bool bRegistration, XnProcessingType registrationType, XnResolutions nRes)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// start with request
-	XnBool bFirmwareRegistration = bRegistration;
+	bool bFirmwareRegistration = bRegistration;
 
 	if (bFirmwareRegistration)
 	{
 		// old chip (PS1000) does not support registration for VGA
-		XnBool bHardwareRegistrationSupported =
+		bool bHardwareRegistrationSupported =
 			m_Helper.GetPrivateData()->ChipInfo.nChipVer != XN_SENSOR_CHIP_VER_PS1000 || nRes == XN_RESOLUTION_QVGA;
 
 		switch (registrationType)
@@ -965,7 +965,7 @@ XnStatus XnSensorDepthStream::DecideFirmwareRegistration(XnBool bRegistration, X
 			{
 				XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DEVICE_SENSOR, "Software registration is not supported in 60 FPS mode!");
 			}
-			bFirmwareRegistration = FALSE;
+			bFirmwareRegistration = false;
 			break;
 		case XN_PROCESSING_DONT_CARE:
 			bFirmwareRegistration = bHardwareRegistrationSupported;
@@ -1126,19 +1126,19 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetInputFormatCallback(XnActualIn
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetRegistrationCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
-	return pStream->SetRegistration((XnBool)nValue);
+	return pStream->SetRegistration((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetHoleFilterCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
-	return pStream->SetHoleFilter((XnBool)nValue);
+	return pStream->SetHoleFilter((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetWhiteBalanceCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
-	return pStream->SetWhiteBalance((XnBool)nValue);
+	return pStream->SetWhiteBalance((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetGainCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
@@ -1156,13 +1156,13 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetRegistrationTypeCallback(XnAct
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetGMCModeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
-	return pStream->SetGMCMode((XnBool)nValue);
+	return pStream->SetGMCMode((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetCloseRangeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
-	return pStream->SetCloseRange((XnBool)nValue);
+	return pStream->SetCloseRange((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetCroppingModeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
@@ -1174,19 +1174,19 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetCroppingModeCallback(XnActualI
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetGMCDebugCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
-	return pStream->SetGMCDebug((XnBool)nValue);
+	return pStream->SetGMCDebug((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetWavelengthCorrectionCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
-	return pStream->SetWavelengthCorrection((XnBool)nValue);
+	return pStream->SetWavelengthCorrection((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetWavelengthCorrectionDebugCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
-	return pStream->SetWavelengthCorrectionDebug((XnBool)nValue);
+	return pStream->SetWavelengthCorrectionDebug((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetAGCBinCallback(XnGeneralProperty* /*pSender*/, const OniGeneralBuffer& gbValue, void* pCookie)
@@ -1214,13 +1214,13 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::GetAGCBinCallback(const XnGeneral
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetActualReadCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pThis = (XnSensorDepthStream*)pCookie;
-	return pThis->SetActualRead(nValue == TRUE);
+	return pThis->SetActualRead(nValue == true);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::DecideFirmwareRegistrationCallback(const XnProperty* /*pSender*/, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
-	return pStream->DecideFirmwareRegistration((XnBool)pStream->m_DepthRegistration.GetValue(), (XnProcessingType)pStream->m_RegistrationType.GetValue(), pStream->GetResolution());
+	return pStream->DecideFirmwareRegistration((bool)pStream->m_DepthRegistration.GetValue(), (XnProcessingType)pStream->m_RegistrationType.GetValue(), pStream->GetResolution());
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::DecidePixelSizeFactorCallback(const XnProperty* /*pSender*/, void* pCookie)
@@ -1241,8 +1241,8 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::ReadAGCBinsFromFile(XnGeneralProp
 		XnDepthAGCBin bin;
 		bin.nBin = (uint16_t)nBin;
 
-		XnBool bHasMin = FALSE;
-		XnBool bHasMax = FALSE;
+		bool bHasMin = false;
+		bool bHasMax = false;
 
 		sprintf(csKey, "AGCBin%uMinDepth", nBin);
 
@@ -1250,7 +1250,7 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::ReadAGCBinsFromFile(XnGeneralProp
 		if (nRetVal == XN_STATUS_OK)
 		{
 			bin.nMin = (uint16_t)nValue;
-			bHasMin = TRUE;
+			bHasMin = true;
 		}
 
 		sprintf(csKey, "AGCBin%uMaxDepth", nBin);
@@ -1258,7 +1258,7 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::ReadAGCBinsFromFile(XnGeneralProp
 		if (nRetVal == XN_STATUS_OK)
 		{
 			bin.nMax = (uint16_t)nValue;
-			bHasMax = TRUE;
+			bHasMax = true;
 		}
 
 		if (bHasMax && bHasMin)

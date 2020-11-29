@@ -52,9 +52,6 @@
 //---------------------------------------------------------------------------
 // Basic Types
 //---------------------------------------------------------------------------
-/** Boolean TRUE/FALSE type. */
-typedef	int					XnBool;
-
 /** Signed character for strings. */
 typedef	char				XnChar;
 /** Unsigned character for strings. */

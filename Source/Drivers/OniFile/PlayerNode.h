@@ -58,7 +58,7 @@ public:
 	XnStatus ReadNext();
 	XnStatus SetNodeNotifications(void* pNotificationsCookie, XnNodeNotifications* pNodeNotifications);
 	XnStatus SetNodeCodecFactory(void* pFactoryCookie, PlayerNode::CodecFactory* pPlayerNodeCodecFactory);
-	XnStatus SetRepeat(XnBool bRepeat);
+	XnStatus SetRepeat(bool bRepeat);
 	XnStatus SeekToTimeStamp(int64_t nTimeOffset, XnPlayerSeekOrigin origin);
 
 	XnStatus SeekToFrame(const XnChar* strNodeName, int32_t nFrameOffset, XnPlayerSeekOrigin origin);
@@ -67,7 +67,7 @@ public:
 	uint32_t GetNumFrames(const XnChar* strNodeName, uint32_t& nFrames);
 
 	const XnChar* GetSupportedFormat();
-	XnBool IsEOF();
+	bool IsEOF();
 	XnStatus RegisterToEndOfFileReached(EndOfFileReachedHandler handler, void* pCookie, XnCallbackHandle& hCallback);
 	void UnregisterFromEndOfFileReached(XnCallbackHandle hCallback);
 
@@ -91,25 +91,25 @@ private:
 
 		void Reset();
 
-		XnBool bValid;
+		bool bValid;
 		XnChar strName[XN_MAX_NAME_LENGTH];
 		uint64_t nLastDataPos;
 		XnCodecID compression;
 		uint32_t nFrames;
 		uint32_t nCurFrame;
 		uint64_t nMaxTimeStamp;
-		XnBool bStateReady;
-		XnBool bIsGenerator;
+		bool bStateReady;
+		bool bIsGenerator;
 		XnCodec* pCodec;
 		RecordUndoInfoMap recordUndoInfoMap;
 		RecordUndoInfo newDataUndoInfo;
 		DataIndexEntry* pDataIndex;
 	};
 
-	XnStatus ProcessRecord(XnBool bProcessPayload);
+	XnStatus ProcessRecord(bool bProcessPayload);
 	XnStatus SeekToTimeStampAbsolute(uint64_t nDestTimeStamp);
 	XnStatus SeekToTimeStampRelative(int64_t nOffset);
-	XnStatus UndoRecord(PlayerNode::RecordUndoInfo& undoInfo, uint64_t nDestPos, XnBool& nUndone);
+	XnStatus UndoRecord(PlayerNode::RecordUndoInfo& undoInfo, uint64_t nDestPos, bool& nUndone);
 	XnStatus SeekToFrameAbsolute(uint32_t nNodeID, uint32_t nFrameNumber);
 	XnStatus ProcessEachNodeLastData(uint32_t nIDToProcessLast);
 
@@ -124,9 +124,9 @@ private:
 	uint64_t TellStream();
 	XnStatus CloseStream();
 
-	XnBool IsTypeGenerator(XnProductionNodeType type);
+	bool IsTypeGenerator(XnProductionNodeType type);
 
-	XnStatus HandleRecord(Record& record, XnBool bHandleRecord);
+	XnStatus HandleRecord(Record& record, bool bHandleRecord);
 	XnStatus HandleNodeAddedImpl(uint32_t nNodeID, XnProductionNodeType type, const XnChar* strName, XnCodecID compression, uint32_t nNumberOfFrames, uint64_t nMinTimestamp, uint64_t nMaxTimestamp);
 	XnStatus HandleNodeAddedRecord(NodeAddedRecord record);
 	XnStatus HandleGeneralPropRecord(GeneralPropRecord record);
@@ -136,8 +136,8 @@ private:
 	XnStatus HandleNodeRemovedRecord(NodeRemovedRecord record);
 	XnStatus HandleNodeStateReadyRecord(NodeStateReadyRecord record);
 	XnStatus HandleNodeDataBeginRecord(NodeDataBeginRecord record);
-	XnStatus HandleNewDataRecord(NewDataRecordHeader record, XnBool bHandleRecord);
-	XnStatus HandleDataIndexRecord(DataIndexRecordHeader record, XnBool bReadPayload);
+	XnStatus HandleNewDataRecord(NewDataRecordHeader record, bool bHandleRecord);
+	XnStatus HandleDataIndexRecord(DataIndexRecordHeader record, bool bReadPayload);
 	XnStatus HandleEndRecord(EndRecord record);
 	XnStatus Rewind();
 	XnStatus ProcessUntilFirstData();
@@ -163,8 +163,8 @@ private:
 
 	XnVersion m_fileVersion;
 	XnChar m_strName[XN_MAX_NAME_LENGTH];
-	XnBool m_bOpen;
-	XnBool m_bIs32bitFileFormat;
+	bool m_bOpen;
+	bool m_bIs32bitFileFormat;
 	uint8_t* m_pRecordBuffer;
 	uint8_t* m_pUncompressedData;
 	void* m_pStreamCookie;
@@ -173,9 +173,9 @@ private:
 	XnNodeNotifications* m_pNodeNotifications;
 	void* m_pNodeCodecFactoryCookie;
 	PlayerNode::CodecFactory* m_pNodeCodecFactory;
-	XnBool m_bRepeat;
-	XnBool m_bDataBegun;
-	XnBool m_bEOF;
+	bool m_bRepeat;
+	bool m_bDataBegun;
+	bool m_bEOF;
 
 	uint64_t m_nTimeStamp;
 	uint64_t m_nGlobalMaxTimeStamp;

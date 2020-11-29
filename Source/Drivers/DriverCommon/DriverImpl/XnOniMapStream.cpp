@@ -79,13 +79,13 @@ OniStatus XnOniMapStream::getProperty(int propertyId, void* data, int* pDataSize
 		}
 		case ONI_STREAM_PROPERTY_MIRRORING:
 		{
-			if (*pDataSize != sizeof(OniBool))
+			if (*pDataSize != sizeof(bool))
 			{
-				xnLogError(XN_MASK_DEVICE_SENSOR, "Unexpected size: %d != %d", *pDataSize, sizeof(OniBool));
+				xnLogError(XN_MASK_DEVICE_SENSOR, "Unexpected size: %d != %d", *pDataSize, sizeof(bool));
 				return ONI_STATUS_ERROR;
 			}
 
-			nRetVal = GetMirror((OniBool*)data);
+			nRetVal = GetMirror((bool*)data);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 			break;
 		}
@@ -131,13 +131,13 @@ XnStatus XnOniMapStream::SetPropertyImpl(int propertyId, const void* data, int d
 		}
 		case ONI_STREAM_PROPERTY_MIRRORING:
 		{
-			if (dataSize != sizeof(OniBool))
+			if (dataSize != sizeof(bool))
 			{
-				xnLogError(XN_MASK_DEVICE_SENSOR, "Unexpected size: %d != %d", dataSize, sizeof(OniBool));
+				xnLogError(XN_MASK_DEVICE_SENSOR, "Unexpected size: %d != %d", dataSize, sizeof(bool));
 				return XN_STATUS_DEVICE_PROPERTY_BAD_TYPE;
 			}
 
-			nRetVal = SetMirror((OniBool*)data);
+			nRetVal = SetMirror((bool*)data);
 			XN_IS_STATUS_OK(nRetVal);
 
 			break;
@@ -164,7 +164,7 @@ XnStatus XnOniMapStream::SetPropertyImpl(int propertyId, const void* data, int d
 	return XN_STATUS_OK;
 }
 
-OniBool XnOniMapStream::isPropertySupported(int propertyId)
+bool XnOniMapStream::isPropertySupported(int propertyId)
 {
 	return (
 		propertyId == ONI_STREAM_PROPERTY_VIDEO_MODE ||
@@ -215,7 +215,7 @@ XnStatus XnOniMapStream::GetVideoMode(OniVideoMode* pVideoMode)
 	return XN_STATUS_OK;
 }
 
-XnBool EqualsResFPS(const OniVideoMode* mode1, const OniVideoMode* mode2)
+bool EqualsResFPS(const OniVideoMode* mode1, const OniVideoMode* mode2)
 {
 	return (
 		mode1->resolutionX  == mode2->resolutionX &&
@@ -253,7 +253,7 @@ XnStatus XnOniMapStream::SetVideoMode(OniVideoMode* pVideoMode)
 			if (m_aSupportedModes[i].nInputFormat == nCurrInputFormat)
 			{
 				if(m_sensorType == ONI_SENSOR_COLOR &&
-					XnOniColorStream::IsSupportedInputFormat((XnIOImageFormats)nCurrInputFormat, pVideoMode->pixelFormat) == FALSE)
+					XnOniColorStream::IsSupportedInputFormat((XnIOImageFormats)nCurrInputFormat, pVideoMode->pixelFormat) == false)
 				{
 					continue;
 				}
@@ -318,7 +318,7 @@ XnStatus XnOniMapStream::FillSupportedVideoModes()
 	XN_IS_STATUS_OK(nRetVal);
 
 	// Keep those modes
-	XnBool bOK = TRUE;
+	bool bOK = true;
 	for (uint32_t i = 0; i < m_nSupportedModesCount; ++i)
 	{
 		m_aSupportedModes[i].nInputFormat = aPresets[i].nFormat;
@@ -332,19 +332,19 @@ XnStatus XnOniMapStream::FillSupportedVideoModes()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnOniMapStream::GetMirror(OniBool* pEnabled)
+XnStatus XnOniMapStream::GetMirror(bool* pEnabled)
 {
 	uint64_t intProperty;
 	XnStatus nRetVal = m_pSensor->GetProperty(m_strType, XN_MODULE_PROPERTY_MIRROR, &intProperty);
 	XN_IS_STATUS_OK(nRetVal);
 
-	// Convert the received value back to OniBool.
-	*pEnabled = (OniBool)intProperty;
+	// Convert the received value back to bool.
+	*pEnabled = (bool)intProperty;
 
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnOniMapStream::SetMirror(OniBool* pEnabled)
+XnStatus XnOniMapStream::SetMirror(bool* pEnabled)
 {
 	XnStatus nRetVal = m_pSensor->SetProperty(m_strType, XN_MODULE_PROPERTY_MIRROR, (uint64_t)*pEnabled);
 	XN_IS_STATUS_OK(nRetVal);

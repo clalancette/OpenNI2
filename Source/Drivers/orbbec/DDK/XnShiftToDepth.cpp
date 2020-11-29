@@ -35,7 +35,7 @@ XnStatus XnShiftToDepthInit(XnShiftToDepthTables* pShiftToDepth, const XnShiftTo
 
 	XN_VALIDATE_ALIGNED_CALLOC(pShiftToDepth->pShiftToDepthTable, OniDepthPixel, pConfig->nDeviceMaxShiftValue+1, XN_DEFAULT_MEM_ALIGN);
 	XN_VALIDATE_ALIGNED_CALLOC(pShiftToDepth->pDepthToShiftTable, uint16_t, pConfig->nDeviceMaxDepthValue+1, XN_DEFAULT_MEM_ALIGN);
-	pShiftToDepth->bIsInitialized = TRUE;
+	pShiftToDepth->bIsInitialized = true;
 
 	// store allocation sizes
 	pShiftToDepth->nShiftsCount = pConfig->nDeviceMaxShiftValue + 1;
@@ -160,7 +160,7 @@ XnStatus XnShiftToDepthFree(XnShiftToDepthTables* pShiftToDepth)
 	{
 		XN_ALIGNED_FREE_AND_NULL(pShiftToDepth->pDepthToShiftTable);
 		XN_ALIGNED_FREE_AND_NULL(pShiftToDepth->pShiftToDepthTable);
-		pShiftToDepth->bIsInitialized = FALSE;
+		pShiftToDepth->bIsInitialized = false;
 	}
 
 	return XN_STATUS_OK;

@@ -30,9 +30,9 @@
 //---------------------------------------------------------------------------
 // XnPixelStream
 //---------------------------------------------------------------------------
-XnPixelStream::XnPixelStream(const XnChar* csType, const XnChar* csName, XnBool bAllowCustomResolutions) :
+XnPixelStream::XnPixelStream(const XnChar* csType, const XnChar* csName, bool bAllowCustomResolutions) :
 	XnFrameStream(csType, csName),
-	m_IsPixelStream(XN_STREAM_PROPERTY_IS_PIXEL_BASED, "IsPixelBased", TRUE),
+	m_IsPixelStream(XN_STREAM_PROPERTY_IS_PIXEL_BASED, "IsPixelBased", true),
 	m_Resolution(XN_STREAM_PROPERTY_RESOLUTION, "Resolution", XN_RESOLUTION_VGA),
 	m_XRes(XN_STREAM_PROPERTY_X_RES, "XRes", XN_VGA_X_RES),
 	m_YRes(XN_STREAM_PROPERTY_Y_RES, "YRes", XN_VGA_Y_RES),
@@ -232,7 +232,7 @@ XnStatus XnPixelStream::OnResolutionChanged()
 		uint32_t nYRes;
 		if (!XnDDKGetXYFromResolution(res, &nXRes, &nYRes))
 		{
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 		}
 
 		nRetVal = m_XRes.UnsafeUpdateValue(nXRes);
@@ -300,7 +300,7 @@ XnStatus XnPixelStream::FixCropping()
 		(cropping.originY + cropping.height) > (int)GetYRes())
 	{
 		// disable it
-		cropping.enabled = FALSE;
+		cropping.enabled = false;
 		nRetVal = SetCropping(&cropping);
 		XN_IS_STATUS_OK(nRetVal);
 	}
@@ -469,9 +469,9 @@ XnPixelStream::XnResolutionProperty::XnResolutionProperty(uint32_t propertyId, c
 {
 }
 
-XnBool XnPixelStream::XnResolutionProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
+bool XnPixelStream::XnResolutionProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
 {
 	uint64_t nValue = *(uint64_t*)pValue;
 	strcpy(csValue, XnDDKGetResolutionName((XnResolutions)nValue));
-	return TRUE;
+	return true;
 }

@@ -42,7 +42,7 @@ public:
 				uint16_t nInitialPacketID,
 				LinkOutputDataEndpoint* pOutputDataEndpoint);
 
-	virtual XnBool IsInitialized() const;
+	virtual bool IsInitialized() const;
 	virtual void Shutdown();
 	virtual XnLinkCompressionType GetCompression() const;
 
@@ -56,7 +56,7 @@ protected:
 	virtual XnStatus CreateLinkMsgEncoder(LinkMsgEncoder*& pLinkMsgEncoder);
 
 private:
-	XnBool m_bInitialized;
+	bool m_bInitialized;
 	uint16_t m_nStreamID;
 	XnLinkCompressionType m_compression;
 	LinkMsgEncoder* m_pLinkMsgEncoder;

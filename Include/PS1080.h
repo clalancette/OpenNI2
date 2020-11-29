@@ -545,7 +545,7 @@ typedef struct XnTecData
 	uint16_t m_SetPointVoltage;
 	uint16_t m_CompensationVoltage;
 	uint16_t m_TecDutyCycle; //duty cycle on heater/cooler
-	uint16_t m_HeatMode; //TRUE - heat, FALSE - cool
+	uint16_t m_HeatMode; //true - heat, false - cool
 	int32_t m_ProportionalError;
 	int32_t m_IntegralError;
 	int32_t m_DerivativeError;
@@ -574,8 +574,8 @@ typedef struct XnEmitterData
 	uint16_t m_SetPointClocks; //target cross duty cycle
 	uint16_t m_PD_Reading; //current cross duty cycle in system clocks(high time)
 	uint16_t m_EmitterSet; //duty cycle on emitter set in system clocks (high time).
-	uint16_t m_EmitterSettingLogic; //TRUE = positive logic, FALSE = negative logic
-	uint16_t m_LightMeasureLogic; //TRUE - positive logic, FALSE - negative logic
+	uint16_t m_EmitterSettingLogic; //true = positive logic, false = negative logic
+	uint16_t m_LightMeasureLogic; //true - positive logic, false - negative logic
 	uint16_t m_IsAPCEnabled;
 	uint16_t m_EmitterSetStepSize; // in MilliVolts
 	uint16_t m_ApcTolerance; // in system clocks (only valid up till v5.2)
@@ -624,7 +624,7 @@ typedef struct XnProjectorFaultData
 {
 	uint16_t nMinThreshold;
 	uint16_t nMaxThreshold;
-	int32_t bProjectorFaultEvent;
+	bool bProjectorFaultEvent;
 } XnProjectorFaultData;
 
 typedef struct XnBist

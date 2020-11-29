@@ -53,7 +53,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 		size_t nPacketDataSize = pSrcEnd - pSrc;
 		if (pDst + nPacketDataSize > pDstEnd)
 		{
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 		}
 
@@ -101,7 +101,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Append log file \'%s\': %s", logFileName, xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return (nRetVal);
 		}
 		break;
@@ -111,7 +111,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Open log file \'%s\': %s", logFileName, xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return (nRetVal);
 		}
 		break;
@@ -121,7 +121,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Close log file #%d: %s", fileID, xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return (nRetVal);
 		}
 		break;
@@ -130,13 +130,13 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnLoggerError(XN_LOGGER_RETVAL_CHECKS, "Failed to Write log file #%d: %s", fileID, xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return (nRetVal);
 		}
 		break;
 	default:
 		xnLogWarning(XN_MASK_LINK, "Invalid command: %d", (int)command);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -154,7 +154,7 @@ XnStatus LinkLogParser::OpenLogFile( uint8_t fileID, const XnChar* fileName )
 	if (m_activeLogs.Find(fileID) != m_activeLogs.End())
 	{
 		xnLogWarning(XN_MASK_LINK, "Attempting to open existing log file. ID: %d, name: %s", (int)fileID, fileName);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_PARAM;
 	}
 
@@ -190,7 +190,7 @@ XnStatus LinkLogParser::CloseLogFile( uint8_t fileID )
 	if (fileRecord == m_activeLogs.End())
 	{
 		xnLogWarning(XN_MASK_LINK, "Attempting to close non existing log file. ID: %d", (int)fileID);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_PARAM;
 	}
 
@@ -212,7 +212,7 @@ XnStatus LinkLogParser::WriteToLogFile( uint8_t fileID, const void* pData, uint3
 	if (fileRecord == m_activeLogs.End())
 	{
 		xnLogWarning(XN_MASK_LINK, "Attempting to write to non existing log file. ID: %d", (int)fileID);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_PARAM;
 	}
 

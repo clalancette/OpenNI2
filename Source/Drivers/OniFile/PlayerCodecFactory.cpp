@@ -82,18 +82,18 @@ XnStatus PlayerCodecFactory::Create(XnCodecID nCodecID, PlayerSource* pSource, X
 				return XN_STATUS_ERROR;
 			}
 
-			XnBool bRGB = FALSE;
+			bool bRGB = false;
 
 			switch (videoMode.pixelFormat)
 			{
 				case ONI_PIXEL_FORMAT_GRAY8:
 				{
-					bRGB = FALSE;
+					bRGB = false;
 					break;
 				}
 				case ONI_PIXEL_FORMAT_RGB888:
 				{
-					bRGB = TRUE;
+					bRGB = true;
 					break;
 				}
 				default:

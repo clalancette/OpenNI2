@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnImageStream::XnImageStream(const XnChar* csName, XnBool bAllowCustomResolutions) :
+XnImageStream::XnImageStream(const XnChar* csName, bool bAllowCustomResolutions) :
 	XnPixelStream(XN_STREAM_TYPE_IMAGE, csName, bAllowCustomResolutions)
 {
 }

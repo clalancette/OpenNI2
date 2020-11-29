@@ -142,7 +142,7 @@ void LinkOniDriver::deviceClose(oni::driver::DeviceBase* pDevice)
 	}
 
 	// not our device?!
-	XN_ASSERT(FALSE);
+	XN_ASSERT(false);
 }
 
 void XN_CALLBACK_TYPE LinkOniDriver::OnDevicePropertyChanged(const XnChar* /*ModuleName*/, uint32_t /*nPropertyId*/, void* /*pCookie*/)

@@ -324,7 +324,7 @@ XN_C_API int32_t xnOSStrCmp(const XnChar* cpFirstString, const XnChar* cpSecondS
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	if ((cpFirstString == NULL) || (cpSecondString == NULL))
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return 1;
 	}
 
@@ -336,7 +336,7 @@ XN_C_API int32_t xnOSStrCaseCmp(const XnChar* cpFirstString, const XnChar* cpSec
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	if ((cpFirstString == NULL) || (cpSecondString == NULL))
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return 1;
 	}
 

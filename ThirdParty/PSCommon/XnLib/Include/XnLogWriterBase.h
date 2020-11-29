@@ -33,7 +33,7 @@
 class XnLogWriterBase
 {
 public:
-	XnLogWriterBase() : m_bRegistered(FALSE)
+	XnLogWriterBase() : m_bRegistered(false)
 	{
 		m_cObject.pCookie = this;
 		m_cObject.WriteEntry = WriteEntryCallback;
@@ -62,7 +62,7 @@ public:
 				return (nRetVal);
 			}
 
-			m_bRegistered = TRUE;
+			m_bRegistered = true;
 		}
 
 		return (XN_STATUS_OK);
@@ -73,13 +73,13 @@ public:
 		if (m_bRegistered)
 		{
 			xnLogUnregisterLogWriter(&m_cObject);
-			m_bRegistered = FALSE;
+			m_bRegistered = false;
 
 			OnUnregister();
 		}
 	}
 
-	inline XnBool IsRegistered() { return m_bRegistered; }
+	inline bool IsRegistered() { return m_bRegistered; }
 
 	virtual void WriteEntry(const XnLogEntry* pEntry) = 0;
 	virtual void WriteUnformatted(const XnChar* strMessage) = 0;
@@ -121,7 +121,7 @@ private:
 	}
 
 	XnLogWriter m_cObject;
-	XnBool m_bRegistered;
+	bool m_bRegistered;
 };
 
 #endif // _XN_LOG_WRITER_BASE_H_

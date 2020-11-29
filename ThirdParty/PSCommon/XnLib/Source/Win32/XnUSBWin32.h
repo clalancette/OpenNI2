@@ -47,7 +47,7 @@
 //---------------------------------------------------------------------------
 typedef struct XnUSBDeviceHandle
 {
-	XnBool bValid;
+	bool bValid;
 
 	XnChar cpDeviceName[MAX_DEVICE_STR_LENGTH];
 	HANDLE hUSBDevHandle;
@@ -64,7 +64,7 @@ typedef struct xnUSBBuffersInfo
 
 typedef struct xnUSBReadThreadData
 {
-	XnBool bInUse;
+	bool bInUse;
 
 	XN_USB_EP_HANDLE pEPHandle;
 
@@ -77,7 +77,7 @@ typedef struct xnUSBReadThreadData
 	PVOID pCallbackData;
 
 	XN_THREAD_HANDLE  hReadThread;
-	XnBool			  bKillReadThread;
+	bool			  bKillReadThread;
 
 	xnUSBBuffersInfo* pBuffersInfo;
 	OVERLAPPED* pOvlpIO;
@@ -90,7 +90,7 @@ typedef struct XnUSBEndPointHandle
 {
 	XnChar cpPipeName[MAX_DEVICE_STR_LENGTH];
 
-	XnBool bValid;
+	bool bValid;
 
 	HANDLE hEPHandle;
 	HANDLE hEPHandleOvlp;

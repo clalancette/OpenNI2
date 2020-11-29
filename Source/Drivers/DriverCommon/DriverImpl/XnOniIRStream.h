@@ -36,7 +36,7 @@ class XnOniIRStream final :
 public:
     XnOniIRStream(XnSensor* pSensor, XnOniDevice* pDevice);
     OniStatus getProperty(int propertyId, void* data, int* pDataSize) override;
-    OniBool isPropertySupported(int propertyId) override;
+    bool isPropertySupported(int propertyId) override;
 };
 
 #endif // XNONIIRSTREAM_H

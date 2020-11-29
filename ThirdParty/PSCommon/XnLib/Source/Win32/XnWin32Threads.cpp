@@ -39,7 +39,7 @@ XN_C_API XnStatus xnOSCreateThread(XN_THREAD_PROC_PROTO pThreadProc, const XN_TH
 XN_C_API XnStatus xnOSTerminateThread(XN_THREAD_HANDLE* pThreadHandle)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -52,7 +52,7 @@ XN_C_API XnStatus xnOSTerminateThread(XN_THREAD_HANDLE* pThreadHandle)
 	bRetVal = TerminateThread(*pThreadHandle, 0);
 
 	// Make sure it succeeded (return value is true)
-	if (bRetVal != TRUE)
+	if (bRetVal != true)
 	{
 		return (XN_STATUS_OS_THREAD_TERMINATION_FAILED);
 	}
@@ -68,7 +68,7 @@ XN_C_API XnStatus xnOSTerminateThread(XN_THREAD_HANDLE* pThreadHandle)
 XN_C_API XnStatus xnOSCloseThread(XN_THREAD_HANDLE* pThreadHandle)
 {
 	// Local function variables
-	XnBool bRetVal = FALSE;
+	bool bRetVal = false;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pThreadHandle);
@@ -80,7 +80,7 @@ XN_C_API XnStatus xnOSCloseThread(XN_THREAD_HANDLE* pThreadHandle)
 	bRetVal = CloseHandle(*pThreadHandle);
 
 	// Make sure it succeeded (return value is true)
-	if (bRetVal != TRUE)
+	if (bRetVal != true)
 	{
 		return (XN_STATUS_OS_THREAD_CLOSE_FAILED);
 	}
@@ -140,7 +140,7 @@ XN_C_API XnStatus xnOSSetThreadPriority(XN_THREAD_HANDLE ThreadHandle, XnThreadP
 			nWinPriority = THREAD_PRIORITY_NORMAL;
 			break;
 		default:
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_OS_THREAD_UNSUPPORTED_PRIORITY;
 	}
 
@@ -164,16 +164,16 @@ XN_C_API XnStatus xnOSGetCurrentThreadID(XN_THREAD_ID* pThreadID)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnBool xnOSDoesThreadExistByID(XN_THREAD_ID threadId)
+XN_C_API bool xnOSDoesThreadExistByID(XN_THREAD_ID threadId)
 {
-	HANDLE h = OpenThread(READ_CONTROL, FALSE, threadId);
+	HANDLE h = OpenThread(READ_CONTROL, false, threadId);
 
 	if (h == NULL)
 	{
-		return FALSE;
+		return false;
 	}
 
 	CloseHandle(h);
-	return TRUE;
+	return true;
 
 }

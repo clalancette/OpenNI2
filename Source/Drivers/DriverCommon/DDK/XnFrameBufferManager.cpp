@@ -78,7 +78,7 @@ XnStatus XnFrameBufferManager::Start(oni::driver::StreamServices& services)
 	m_pWorkingBuffer = m_pServices->acquireFrame();
 	if (m_pWorkingBuffer == NULL)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -120,7 +120,7 @@ void XnFrameBufferManager::MarkWriteBufferAsStable(uint32_t* pnFrameID)
 		m_pWorkingBuffer = pStableBuffer;
 		m_pWorkingBuffer->dataSize = 0;
 
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return;
 	}
 

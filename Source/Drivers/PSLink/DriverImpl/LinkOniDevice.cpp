@@ -164,8 +164,8 @@ XnStatus LinkOniDevice::FillSupportedVideoModes()
 
 XnStatus LinkOniDevice::Init(const char* mode)
 {
-	XnBool performReset = TRUE;
-	XnBool leanInit = FALSE;
+	bool performReset = true;
+	bool leanInit = false;
 
 	if (mode != NULL)
 	{
@@ -174,10 +174,10 @@ XnStatus LinkOniDevice::Init(const char* mode)
 			switch (*option)
 			{
 			case 'r':
-				performReset = FALSE;
+				performReset = false;
 				break;
 			case 'l':
-				leanInit = TRUE;
+				leanInit = true;
 				break;
 			default:
 				m_driverServices.errorLoggerAppend("Invalid mode: %c", *option);
@@ -193,7 +193,7 @@ XnStatus LinkOniDevice::Init(const char* mode)
 	if (retVal != XN_STATUS_OK)
 	{
 		xnLogError(XN_MASK_LINK_DEVICE, "Failed to initialize prime client: %s", xnGetStatusString(retVal));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_DELETE(pPrimeClient);
 		return retVal;
 	}
@@ -202,7 +202,7 @@ XnStatus LinkOniDevice::Init(const char* mode)
 	if (retVal != XN_STATUS_OK)
 	{
 		xnLogError(XN_MASK_LINK_DEVICE, "Failed to connect to device: %s", xnGetStatusString(retVal));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_DELETE(pPrimeClient);
 		return retVal;
 	}
@@ -213,7 +213,7 @@ XnStatus LinkOniDevice::Init(const char* mode)
 		if (retVal != XN_STATUS_OK)
 		{
 			xnLogError(XN_MASK_LINK_DEVICE, "Failed to reset device: %s", xnGetStatusString(retVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			XN_DELETE(pPrimeClient);
 			return retVal;
 		}
@@ -242,7 +242,7 @@ XnStatus LinkOniDevice::Init(const char* mode)
 
 	if (XN_STATUS_OK == xnOSReadIntFromINI(m_configFile, CONFIG_DEVICE_SECTION, "FirmwareLog", &value32))
 	{
-		if (value32 == TRUE)
+		if (value32 == true)
 		{
 			retVal = m_pSensor->StartFWLog();
 		}
@@ -260,7 +260,7 @@ XnStatus LinkOniDevice::Init(const char* mode)
 		if (retVal != XN_STATUS_OK)
 		{
 			xnLogError(XN_MASK_LINK_DEVICE, "Failed to read device video modes: %s", xnGetStatusString(retVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			XN_DELETE(pPrimeClient);
 			return retVal;
 		}
@@ -348,7 +348,7 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 		ENSURE_PROP_SIZE_DO(*pDataSize, short)
 		{
 			m_driverServices.errorLoggerAppend("Unexpected size: %d != %d or %d or %d\n", *pDataSize, sizeof(short), sizeof(int), sizeof(uint64_t));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return ONI_STATUS_BAD_PARAMETER;
 		}
 		ASSIGN_PROP_VALUE_INT(data, *pDataSize, m_pSensor->GetHWVersion());
@@ -361,7 +361,7 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 			if (xnOSStrCopy((XnChar*)data, serialNumber, *pDataSize) != XN_STATUS_OK)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", *pDataSize, xnOSStrLen(serialNumber));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 			break;
@@ -371,7 +371,7 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 			EXACT_PROP_SIZE_DO(*pDataSize, OniVersion)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", *pDataSize, sizeof(OniVersion));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 			OniVersion* version = (OniVersion*)data;
@@ -387,7 +387,7 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 		EXACT_PROP_SIZE_DO(*pDataSize, XnDetailedVersion)
 		{
 			m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", *pDataSize, sizeof(XnDetailedVersion));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return ONI_STATUS_BAD_PARAMETER;
 		}
 		*(XnDetailedVersion*)data = m_pSensor->GetFWVersion();
@@ -414,7 +414,7 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 			if (*pDataSize != (int)nExpectedSize)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", *pDataSize, nExpectedSize);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -439,7 +439,7 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 			}
 			else
 			{
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_ERROR;
 			}
 		}
@@ -456,9 +456,9 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 
 	case LINK_PROP_ACC_ENABLED:
 		{
-			ENSURE_PROP_SIZE(*pDataSize, XnBool);
+			ENSURE_PROP_SIZE(*pDataSize, bool);
 
-			XnBool bActive;
+			bool bActive;
 			nRetVal = m_pSensor->GetAccActive(bActive);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
@@ -468,9 +468,9 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 
 	case LINK_PROP_VDD_ENABLED:
 		{
-			ENSURE_PROP_SIZE(*pDataSize, XnBool);
+			ENSURE_PROP_SIZE(*pDataSize, bool);
 
-			XnBool bActive;
+			bool bActive;
 			nRetVal = m_pSensor->GetVDDActive(bActive);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
@@ -480,9 +480,9 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 
 	case LINK_PROP_PERIODIC_BIST_ENABLED:
 		{
-			ENSURE_PROP_SIZE(*pDataSize, XnBool);
+			ENSURE_PROP_SIZE(*pDataSize, bool);
 
-			XnBool bActive;
+			bool bActive;
 			nRetVal = m_pSensor->GetPeriodicBistActive(bActive);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
@@ -518,23 +518,23 @@ OniStatus LinkOniDevice::setProperty(int propertyId, const void* data, int dataS
 	// Internal Link Properties
 	// int props
 	case LINK_PROP_PROJECTOR_ACTIVE:
-		nRetVal = m_pSensor->SetProjectorActive(*(XnBool*)data);
+		nRetVal = m_pSensor->SetProjectorActive(*(bool*)data);
 		XN_IS_STATUS_OK_LOG_ERROR_RET("Set Projector active", nRetVal, ONI_STATUS_ERROR);
 		break;
 
 	// controls if the firmware runs all its control loops (BIST)
 	case LINK_PROP_ACC_ENABLED:
-		nRetVal = m_pSensor->SetAccActive(*(XnBool*)data);
+		nRetVal = m_pSensor->SetAccActive(*(bool*)data);
 		XN_IS_STATUS_OK_LOG_ERROR_RET("Set Acc active", nRetVal, ONI_STATUS_ERROR);
 		break;
 
 	case LINK_PROP_VDD_ENABLED:
-		nRetVal = m_pSensor->SetVDDActive(*(XnBool*)data);
+		nRetVal = m_pSensor->SetVDDActive(*(bool*)data);
 		XN_IS_STATUS_OK_LOG_ERROR_RET("Set VDD active", nRetVal, ONI_STATUS_ERROR);
 		break;
 
 	case LINK_PROP_PERIODIC_BIST_ENABLED:
-		nRetVal = m_pSensor->SetPeriodicBistActive(*(XnBool*)data);
+		nRetVal = m_pSensor->SetPeriodicBistActive(*(bool*)data);
 		XN_IS_STATUS_OK_LOG_ERROR_RET("Set PeriodicBist active", nRetVal, ONI_STATUS_ERROR);
 		break;
 
@@ -578,7 +578,7 @@ OniStatus LinkOniDevice::setProperty(int propertyId, const void* data, int dataS
 	return ONI_STATUS_OK;
 }
 
-OniBool LinkOniDevice::isPropertySupported(int propertyId)
+bool LinkOniDevice::isPropertySupported(int propertyId)
 {
 	switch (propertyId)
 	{
@@ -629,7 +629,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandAHB)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandAHB));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -647,7 +647,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandAHB)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandAHB));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -665,7 +665,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandI2C)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandI2C));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -685,7 +685,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandI2C)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandI2C));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -714,7 +714,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandDebugData)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandDebugData));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -738,7 +738,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandUploadFile)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandUploadFile));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -753,7 +753,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandDownloadFile)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandDownloadFile));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -769,7 +769,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandGetFileList)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandGetFileList));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -777,7 +777,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->files == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Files array must point to valid memory: \n");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -788,7 +788,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->count < files.size())
 			{
 				m_driverServices.errorLoggerAppend("Insufficient memory for files list. available: %d, required: %d\n", pArgs->count, files.size());
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -802,7 +802,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandFormatZone)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandFormatZone));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -817,7 +817,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandDumpEndpoint)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandDumpEndpoint));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -833,7 +833,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandGetI2CDeviceList)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandGetI2CDeviceList));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -841,7 +841,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->devices == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Devices array must point to valid memory: \n");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -852,7 +852,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->count < devices.size())
 			{
 				m_driverServices.errorLoggerAppend("Insufficient memory for device list. available: %d, required: %d\n", pArgs->count, devices.size());
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -872,7 +872,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandGetBistList)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandGetBistList));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -880,7 +880,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->tests == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Bist array must point to valid memory: \n");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -891,7 +891,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->count < tests.size())
 			{
 				m_driverServices.errorLoggerAppend("Insufficient memory for tests list. available: %d, required: %d\n", pArgs->count, tests.size());
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -908,7 +908,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandGetTempList)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandGetTempList));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -916,7 +916,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->pTempInfos == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Temp array must point to valid memory: \n");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -927,7 +927,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->count < tempInfos.size())
 			{
 				m_driverServices.errorLoggerAppend("Insufficient memory for Temperature list. available: %d, required: %d\n", pArgs->pTempInfos, tempInfos.size());
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -945,7 +945,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize,XnCommandTemperatureResponse)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandTemperatureResponse));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 			pArg = reinterpret_cast<XnCommandTemperatureResponse*>(data);
@@ -959,7 +959,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandExecuteBist)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandExecuteBist));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -967,7 +967,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->extraData == NULL)
 			{
 				m_driverServices.errorLoggerAppend("extra data array must point to valid memory: \n");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -981,7 +981,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandUsbTest)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandUsbTest));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -989,7 +989,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->endpoints == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Endpoints array must point to valid memory: \n");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1003,7 +1003,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandGetLogMaskList)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandGetLogMaskList));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1011,7 +1011,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->masks == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Mask array must point to valid memory: \n");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1022,7 +1022,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->count < masks.size())
 			{
 				m_driverServices.errorLoggerAppend("Insufficient memory for masks list. available: %d, required: %d\n", pArgs->count, masks.size());
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1040,7 +1040,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandSetLogMaskState)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandSetLogMaskState));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1076,7 +1076,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandGetFwStreamList)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandGetLogMaskList));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1084,7 +1084,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->streams == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Streams array must point to valid memory: \n");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1095,7 +1095,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->count < streams.size())
 			{
 				m_driverServices.errorLoggerAppend("Insufficient memory for stream list. available: %d, required: %d\n", pArgs->count, streams.size());
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1112,7 +1112,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandCreateStream)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandCreateStream));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1129,7 +1129,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandDestroyStream)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandDestroyStream));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1144,7 +1144,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandStartStream)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandStartStream));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1153,7 +1153,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pInputStream == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d wasn't created\n", pArgs->id);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1167,7 +1167,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandStopStream)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandStopStream));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1176,7 +1176,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pInputStream == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d wasn't created\n", pArgs->id);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1190,7 +1190,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandGetFwStreamVideoModeList)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandGetFwStreamVideoModeList));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1198,7 +1198,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->videoModes == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Streams array must point to valid memory: \n");
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1206,14 +1206,14 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pInputStream == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d wasn't created\n", pArgs->streamId);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
 			if (pInputStream->GetStreamFragLevel() != XN_LINK_STREAM_FRAG_LEVEL_FRAMES)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d is not a frame stream\n", pArgs->streamId);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1222,7 +1222,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pArgs->count < videoModes.size())
 			{
 				m_driverServices.errorLoggerAppend("Insufficient memory for stream list. available: %d, required: %d\n", pArgs->count, videoModes.size());
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1239,7 +1239,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandSetFwStreamVideoMode)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandSetFwStreamVideoMode));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1249,14 +1249,14 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pInputStream == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d wasn't created\n", pArgs->streamId);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
 			if (pInputStream->GetStreamFragLevel() != XN_LINK_STREAM_FRAG_LEVEL_FRAMES)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d is not a frame stream\n", pArgs->streamId);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1271,7 +1271,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandGetFwStreamVideoMode)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandGetFwStreamVideoMode));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1281,14 +1281,14 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			if (pInputStream == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d wasn't created\n", pArgs->streamId);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
 			if (pInputStream->GetStreamFragLevel() != XN_LINK_STREAM_FRAG_LEVEL_FRAMES)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d is not a frame stream\n", pArgs->streamId);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1302,7 +1302,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			EXACT_PROP_SIZE_DO(dataSize, XnCommandSetProjectorPulse)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", dataSize, sizeof(XnCommandSetProjectorPulse));
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
@@ -1326,7 +1326,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 	return ONI_STATUS_OK;
 }
 
-OniBool LinkOniDevice::isCommandSupported(int commandId)
+bool LinkOniDevice::isCommandSupported(int commandId)
 {
 	switch (commandId)
 	{

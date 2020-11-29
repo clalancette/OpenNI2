@@ -47,7 +47,7 @@ XnStatus LinkUnpackedS2DParser::ParsePacketImpl(XnLinkFragmentation /*fragmentat
 
 	if (pDst + nPacketDataSize > pDstEnd)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 

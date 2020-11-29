@@ -94,7 +94,7 @@ XnStatus LinkMsgParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 	size_t nPacketDataSize = pSrcEnd - pSrc;
 	if (pDst + nPacketDataSize > pDstEnd)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 

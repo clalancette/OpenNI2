@@ -68,13 +68,13 @@ public:
 	/// Set property.
 	OniStatus setProperty(int propertyId, const void* data, int dataSize) override;
 
-	OniBool isPropertySupported(int propertyId) override;
+	bool isPropertySupported(int propertyId) override;
 
 	/// @copydoc OniDeviceBase::Invoke(int, void*, int)
 	OniStatus invoke(int commandId, void* data, int dataSize) override;
-	OniBool isCommandSupported(int commandId) override;
+	bool isCommandSupported(int commandId) override;
 
-	OniBool isPlayerEOF() { return m_player.IsEOF(); };
+	bool isPlayerEOF() { return m_player.IsEOF(); };
 
 	typedef void (XN_CALLBACK_TYPE *DriverEOFCallback)(void* pCookie, const char* uri);
 	void SetEOFEventCallback(DriverEOFCallback pFunc, void* pDriverCookie)
@@ -147,12 +147,12 @@ private:
 	XN_THREAD_HANDLE m_threadHandle;
 
 	// Running flag.
-	OniBool m_running;
+	bool m_running;
 
 	// Seek frame.
 	Seek m_seek;
-	OniBool m_isSeeking;
-	OniBool m_seekingFailed;
+	bool m_isSeeking;
+	bool m_seekingFailed;
 
 	// Speed of playback.
 	double m_dPlaybackSpeed;
@@ -160,10 +160,10 @@ private:
 	// Timestamps.
 	uint64_t m_nStartTimestamp;
 	uint64_t m_nStartTime;
-	XnBool m_bHasTimeReference;
+	bool m_bHasTimeReference;
 
 	// Repeat recording in loop.
-	OniBool m_bRepeat;
+	bool m_bRepeat;
 
 	// Player object.
 	PlayerNode m_player;

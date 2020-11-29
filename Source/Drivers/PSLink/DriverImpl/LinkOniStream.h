@@ -55,7 +55,7 @@ public:
 
 	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize);
 	virtual OniStatus setProperty(int propertyId, const void* data, int dataSize);
-	virtual OniBool isPropertySupported(int propertyId);
+	virtual bool isPropertySupported(int propertyId);
 
 	LinkOniDevice* GetDevice() { return m_pDevice; }
 	xn::LinkFrameInputStream* GetDeviceStream() { return m_pInputStream; }
@@ -76,7 +76,7 @@ protected:
 
 private:
 	void destroy();
-	XnBool m_started;
+	bool m_started;
 
 	static void XN_CALLBACK_TYPE OnNewStreamDataEventHandler(const xn::NewFrameEventArgs& args, void* pCookie);
 };

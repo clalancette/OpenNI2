@@ -35,7 +35,7 @@ class LinkOniDepthStream :
 public:
 	LinkOniDepthStream(const char* configFile, xn::PrimeClient* pSensor, LinkOniDevice* pDevice);
 	virtual OniStatus getProperty(int propertyId, void* data, int* pDataSize);
-	virtual OniBool isPropertySupported(int propertyId);
+	virtual bool isPropertySupported(int propertyId);
 	virtual void notifyAllProperties();
 
 protected:

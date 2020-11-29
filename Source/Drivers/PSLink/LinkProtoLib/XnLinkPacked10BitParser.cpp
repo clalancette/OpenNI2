@@ -65,7 +65,7 @@ XnStatus LinkPacked10BitParser::ParsePacketImpl(XnLinkFragmentation fragmentatio
 
 	if ((pDstWord + nPacketDstWords) > pDstWordEnd) //Do we have enough room for this packet?
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 
@@ -97,7 +97,7 @@ XnStatus LinkPacked10BitParser::ParsePacketImpl(XnLinkFragmentation fragmentatio
 				m_nState = 0;
 				break;
 			default:
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 		}
 		pSrc++;
 	}

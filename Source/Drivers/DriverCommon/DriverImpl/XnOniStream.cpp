@@ -32,7 +32,7 @@ XnOniStream::XnOniStream(XnSensor* pSensor, const XnChar* strName, OniSensorType
 	m_pSensor(pSensor),
 	m_strType(strName),
 	m_pDevice(pDevice),
-	m_started(FALSE)
+	m_started(false)
 {
 }
 
@@ -89,7 +89,7 @@ OniStatus XnOniStream::start()
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 		}
 
-		m_started = TRUE;
+		m_started = true;
 	}
 
 	return ONI_STATUS_OK;
@@ -99,7 +99,7 @@ void XnOniStream::stop()
 {
 	if (m_started)
 	{
-		m_started = FALSE;
+		m_started = false;
 
 		// first lock the stream (so that OpenDecRef() and Close() will be an atomic action)
 		xnl::AutoCSLocker locker(*m_pDeviceStream->GetOpenLock());
@@ -155,11 +155,11 @@ XnStatus XnOniStream::SetPropertyImpl(int propertyId, const void* data, int data
 	return m_pDeviceStream->SetProperty(propertyId, data, dataSize);
 }
 
-OniBool XnOniStream::isPropertySupported(int propertyId)
+bool XnOniStream::isPropertySupported(int propertyId)
 {
-	XnBool exists;
+	bool exists;
 	m_pDeviceStream->DoesPropertyExist(propertyId, &exists);
-	return (exists == TRUE);
+	return (exists == true);
 }
 
 void XN_CALLBACK_TYPE XnOniStream::OnNewStreamDataEventHandler(const XnNewStreamDataEventArgs& args, void* pCookie)

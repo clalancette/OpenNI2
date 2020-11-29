@@ -42,7 +42,7 @@ public:
 	// ISyncIOConnection implementation
 	virtual XnStatus Connect();
 	virtual void Disconnect();
-	virtual XnBool IsConnected() const;
+	virtual bool IsConnected() const;
 	virtual uint16_t GetMaxPacketSize() const;
 
 	//nSize is max size on input, actual size on output

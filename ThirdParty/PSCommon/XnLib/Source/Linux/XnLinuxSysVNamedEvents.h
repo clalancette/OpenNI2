@@ -36,7 +36,7 @@
 class XnLinuxSysVNamedEvent : public XnLinuxNamedEvent
 {
 public:
-	XnLinuxSysVNamedEvent(XnBool bManualReset, const XnChar* strName, XnBool bCreate);
+	XnLinuxSysVNamedEvent(bool bManualReset, const XnChar* strName, bool bCreate);
 
 	virtual XnStatus CreateNamed(const XnChar* strName);
 	virtual XnStatus OpenNamed(const XnChar* strName);

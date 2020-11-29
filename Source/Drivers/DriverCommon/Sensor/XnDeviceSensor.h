@@ -131,8 +131,8 @@ typedef enum {
 typedef struct
 {
 	XN_THREAD_HANDLE	hThread;
-	XnBool				bKillThread;
-	XnBool				bThreadAlive;
+	bool				bKillThread;
+	bool				bThreadAlive;
 } XnDeviceSensorThreadContext;
 
 typedef struct XnRegistrationFunctionCoefficients
@@ -148,7 +148,7 @@ typedef struct XnRegistrationFunctionCoefficients
 typedef struct
 {
 	/* Is this the first time timestamp is calculated. */
-	XnBool bFirst;
+	bool bFirst;
 	/* The device TS which we use as reference for calculation. */
 	uint32_t nReferenceTS;
 	/* The time corresponding to the TS in nReferenceTS. */
@@ -250,8 +250,8 @@ typedef struct XnDevicePrivateData
 	XnDeviceSensorThreadContext		LogThread;
 	/** GMC Mode. */
 	uint32_t nGMCMode;
-	XnBool bWavelengthCorrectionEnabled;
-	XnBool bWavelengthCorrectionDebugEnabled;
+	bool bWavelengthCorrectionEnabled;
+	bool bWavelengthCorrectionDebugEnabled;
 
 } XnDevicePrivateData;
 

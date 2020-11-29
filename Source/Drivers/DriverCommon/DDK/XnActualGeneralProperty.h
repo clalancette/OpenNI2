@@ -40,7 +40,7 @@ public:
 	XnActualGeneralProperty(uint32_t propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
 	~XnActualGeneralProperty();
 
-	void SetAsBufferOwner(XnBool bOwner);
+	void SetAsBufferOwner(bool bOwner);
 
 	inline const OniGeneralBuffer& GetValue() const { return m_gbValue; }
 
@@ -75,7 +75,7 @@ private:
 	static XnStatus XN_CALLBACK_TYPE GetCallback(const XnActualGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
 
 	OniGeneralBuffer m_gbValue;
-	XnBool m_bOwner;
+	bool m_bOwner;
 };
 
 #endif // XNACTUALGENERALPROPERTY_H

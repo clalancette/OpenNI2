@@ -65,8 +65,8 @@ typedef XnChar XnUSBConnectionString[XN_FILE_MAX_PATH];
 typedef XnUSBDeviceHandle*  XN_USB_DEV_HANDLE;
 typedef XnUSBEndPointHandle* XN_USB_EP_HANDLE;
 
-typedef XnBool (XN_CALLBACK_TYPE* XnUSBReadCallbackFunctionPtr)(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData);
-typedef XnBool (XN_CALLBACK_TYPE* XnUSBEventCallbackFunctionPtr)(XnUSBEventType USBEventType, XnChar* cpDevPath, void* pCallbackData);
+typedef bool (XN_CALLBACK_TYPE* XnUSBReadCallbackFunctionPtr)(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData);
+typedef bool (XN_CALLBACK_TYPE* XnUSBEventCallbackFunctionPtr)(XnUSBEventType USBEventType, XnChar* cpDevPath, void* pCallbackData);
 
 typedef struct XnUSBEventArgs
 {
@@ -82,7 +82,7 @@ typedef void (XN_CALLBACK_TYPE* XnUSBDeviceCallbackFunctionPtr)(XnUSBEventArgs* 
 XN_C_API XnStatus XN_C_DECL xnUSBInit();
 XN_C_API XnStatus XN_C_DECL xnUSBShutdown();
 
-XN_C_API XnStatus XN_API_DEPRECATED("Use xnUSBEnumerateDevices() instead") XN_C_DECL xnUSBIsDevicePresent(uint16_t nVendorID, uint16_t nProductID, void* pExtraParam, XnBool* pbDevicePresent);
+XN_C_API XnStatus XN_API_DEPRECATED("Use xnUSBEnumerateDevices() instead") XN_C_DECL xnUSBIsDevicePresent(uint16_t nVendorID, uint16_t nProductID, void* pExtraParam, bool* pbDevicePresent);
 
 XN_C_API XnStatus XN_C_DECL xnUSBEnumerateDevices(uint16_t nVendorID, uint16_t nProductID, const XnUSBConnectionString** pastrDevicePaths, uint32_t* pnCount);
 XN_C_API void XN_C_DECL xnUSBFreeDevicesList(const XnUSBConnectionString* astrDevicePaths);

@@ -156,16 +156,16 @@ void PlayerDevice::LoadConfigurationFromIniFile()
 }
 
 PlayerDevice::PlayerDevice(const std::string& filePath) :
-	m_filePath(filePath), m_fileHandle(0), m_threadHandle(NULL), m_running(FALSE), m_isSeeking(FALSE), m_seekingFailed(FALSE),
-	m_dPlaybackSpeed(1.0), m_nStartTimestamp(0), m_nStartTime(0), m_bHasTimeReference(FALSE),
-	m_bRepeat(TRUE), m_player(filePath.c_str()), m_driverEOFCallback(NULL), m_driverCookie(NULL)
+	m_filePath(filePath), m_fileHandle(0), m_threadHandle(NULL), m_running(false), m_isSeeking(false), m_seekingFailed(false),
+	m_dPlaybackSpeed(1.0), m_nStartTimestamp(0), m_nStartTime(0), m_bHasTimeReference(false),
+	m_bRepeat(true), m_player(filePath.c_str()), m_driverEOFCallback(NULL), m_driverCookie(NULL)
 {
 	xnOSMemSet(m_originalDevice, 0, sizeof(m_originalDevice));
 
 	// Create the events.
-	m_readyForDataInternalEvent.Create(FALSE);
-	m_manualTriggerInternalEvent.Create(FALSE);
-	m_SeekCompleteInternalEvent.Create(FALSE);
+	m_readyForDataInternalEvent.Create(false);
+	m_manualTriggerInternalEvent.Create(false);
+	m_SeekCompleteInternalEvent.Create(false);
 }
 
 PlayerDevice::~PlayerDevice()
@@ -251,7 +251,7 @@ OniStatus PlayerDevice::Initialize()
 		return ONI_STATUS_ERROR;
 	}
 
-	XnBool bIsExist = FALSE;
+	bool bIsExist = false;
 	xnOSDoesFileExist(m_iniFilePath, &bIsExist);
 
 	if (bIsExist)
@@ -421,13 +421,13 @@ OniStatus PlayerDevice::getProperty(int propertyId, void* data, int* pDataSize)
 	else if (propertyId == ONI_DEVICE_PROPERTY_PLAYBACK_REPEAT_ENABLED)
 	{
 		// Validate parameter size.
-		if (*pDataSize != sizeof(OniBool))
+		if (*pDataSize != sizeof(bool))
 		{
 			return ONI_STATUS_BAD_PARAMETER;
 		}
 
 		// Return the repeat value.
-		*((OniBool*)data) = m_bRepeat;
+		*((bool*)data) = m_bRepeat;
 	}
 	else
 	{
@@ -457,18 +457,18 @@ OniStatus PlayerDevice::setProperty(int propertyId, const void* data, int dataSi
 		m_dPlaybackSpeed = (double)*((float*)data);
 
 		// Reset the timing reference.
-		m_bHasTimeReference = FALSE;
+		m_bHasTimeReference = false;
 	}
 	else if (propertyId == ONI_DEVICE_PROPERTY_PLAYBACK_REPEAT_ENABLED)
 	{
 		// Validate parameter size.
-		if (dataSize != sizeof(OniBool))
+		if (dataSize != sizeof(bool))
 		{
 			return ONI_STATUS_BAD_PARAMETER;
 		}
 
 		// Update the repeat.
-		m_bRepeat = *((OniBool*)data);
+		m_bRepeat = *((bool*)data);
 		m_player.SetRepeat(m_bRepeat);
 	}
 	else
@@ -481,7 +481,7 @@ OniStatus PlayerDevice::setProperty(int propertyId, const void* data, int dataSi
 	return rc;
 }
 
-OniBool PlayerDevice::isPropertySupported(int propertyId)
+bool PlayerDevice::isPropertySupported(int propertyId)
 {
 	return propertyId == ONI_DEVICE_PROPERTY_PLAYBACK_SPEED ||
 			propertyId == ONI_DEVICE_PROPERTY_PLAYBACK_REPEAT_ENABLED ||
@@ -508,8 +508,8 @@ OniStatus PlayerDevice::invoke(int commandId, void* data, int dataSize)
 		Seek* pSeek = (Seek*)data;
 		m_seek.frameId = pSeek->frameId;
 		m_seek.pStream = pSeek->pStream;
-		m_isSeeking = TRUE;
-        m_seekingFailed = FALSE;
+		m_isSeeking = true;
+        m_seekingFailed = false;
 
 		// Set the ready for data and manual trigger events, to make sure player thread wakes up.
 		m_readyForDataInternalEvent.Set();
@@ -529,7 +529,7 @@ OniStatus PlayerDevice::invoke(int commandId, void* data, int dataSize)
 	return ONI_STATUS_OK;
 }
 
-OniBool PlayerDevice::isCommandSupported(int commandId)
+bool PlayerDevice::isCommandSupported(int commandId)
 {
 	return commandId == ONI_DEVICE_COMMAND_SEEK;
 }
@@ -556,7 +556,7 @@ void PlayerDevice::SleepToTimestamp(uint64_t nTimeStamp)
 	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 
-	XnBool bHasTimeReference = TRUE;
+	bool bHasTimeReference = true;
 	{
 		xnl::AutoCSLocker lock(m_cs);
 		if (!m_bHasTimeReference /*&& (nTimeStamp <= m_nStartTimestamp)*/)
@@ -564,8 +564,8 @@ void PlayerDevice::SleepToTimestamp(uint64_t nTimeStamp)
 			m_nStartTimestamp = nTimeStamp;
 			m_nStartTime = nNow;
 
-			m_bHasTimeReference = TRUE;
-			bHasTimeReference = FALSE;
+			m_bHasTimeReference = true;
+			bHasTimeReference = false;
 		}
 	}
 
@@ -637,7 +637,7 @@ void PlayerDevice::MainLoop()
 			if (xnrc != XN_STATUS_OK)
 			{
 				// Failure to seek.
-				m_seekingFailed = TRUE;
+				m_seekingFailed = true;
 			}
 
 			// Return playback speed to normal.
@@ -648,10 +648,10 @@ void PlayerDevice::MainLoop()
 			m_manualTriggerInternalEvent.Reset();
 
 			// Reset the time reference.
-			m_bHasTimeReference = FALSE;
+			m_bHasTimeReference = false;
 
 			// Mark the seeking flag as false.
-			m_isSeeking = FALSE;
+			m_isSeeking = false;
 
 			// Raise the seek complete event.
 			m_SeekCompleteInternalEvent.Set();
@@ -773,7 +773,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeIntPropChanged(void* pCookie, cons
 		}
 		else if (strcmp(strPropName, XN_PROP_MIRROR) == 0)
 		{
-			OniBool oniValue = (OniBool)nValue;
+			bool oniValue = (bool)nValue;
 			rc = pSource->SetProperty(ONI_STREAM_PROPERTY_MIRRORING, &oniValue, sizeof(oniValue));
 			if (rc != ONI_STATUS_OK)
 			{
@@ -1035,22 +1035,22 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeNewData(void* pCookie, const XnCha
 	if (pSource != NULL)
 	{
 		// Make sure streams are ready to receive the frame.
-		OniBool ready = FALSE;
-		OniBool hasStreams = TRUE;
+		bool ready = false;
+		bool hasStreams = true;
 		while (hasStreams && !ready && pThis->m_running)
 		{
 			// Check if any stream is ready to receive the frames.
 			// NOTE: all the streams have a local 'last frame' buffer, so worst case other streams on source will buffer the frame.
 			{
 				xnl::AutoCSLocker lock(pThis->m_cs);
-				hasStreams = FALSE;
+				hasStreams = false;
 				for (std::list<PlayerStream*>::iterator iter = pThis->m_streams.begin(); iter != pThis->m_streams.end(); iter++)
 				{
 					PlayerStream* pStream = *iter;
 					if (pStream->GetSource() == pSource)
 					{
-						hasStreams = TRUE;
-						ready = TRUE;
+						hasStreams = true;
+						ready = true;
 						break;
 					}
 				}
@@ -1072,7 +1072,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeNewData(void* pCookie, const XnCha
 						}
 						else
 						{
-							ready = FALSE;
+							ready = false;
 						}
 					}
 				}
@@ -1101,7 +1101,7 @@ void XN_CALLBACK_TYPE PlayerDevice::OnEndOfFileReached(void* pCookie)
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 	{
 		xnl::AutoCSLocker lock(pThis->m_cs);
-		pThis->m_bHasTimeReference = FALSE;
+		pThis->m_bHasTimeReference = false;
 	}
 
 	// Notify the driver in case the player has finished playing (no-rewind)

@@ -38,7 +38,7 @@ namespace xnl
 			return fabs(f);
 		}
 		template <class T>
-		XnBool IsZero(T value, T tolerance)
+		bool IsZero(T value, T tolerance)
 		{
 			return Abs(value) < tolerance;
 		}
@@ -81,7 +81,7 @@ namespace xnl
 			return Min(upper, Max(lower, value));
 		}
 		template <class T>
-		XnBool IsBetween(T value, T upper, T lower)
+		bool IsBetween(T value, T upper, T lower)
 		{
 			return value < upper && value > lower;
 		}
@@ -136,7 +136,7 @@ namespace xnl
 			static T OneOverSqrt(T MagSq) {return T(1.0)/Sqrt(MagSq); }
 		};
 		template<class T>
-		inline XnBool IsNaN(const T& scalar)
+		inline bool IsNaN(const T& scalar)
 		{
 #if defined(_WIN32)
 			return _isnan(scalar)!=0;

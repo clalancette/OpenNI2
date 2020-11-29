@@ -136,7 +136,7 @@ ONI_C_API int oniFormatBytesPerPixel(OniPixelFormat format)
 	case ONI_PIXEL_FORMAT_JPEG:
 		return 1;
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return 0;
 	}
 }
@@ -193,7 +193,7 @@ ONI_C_API void oniDeviceDisableDepthColorSync(OniDeviceHandle device)
 	g_Context.clearErrorLogger();
 	device->pDevice->disableDepthColorSync();
 }
-ONI_C_API OniBool oniDeviceGetDepthColorSyncEnabled(OniDeviceHandle device)
+ONI_C_API bool oniDeviceGetDepthColorSyncEnabled(OniDeviceHandle device)
 {
 	g_Context.clearErrorLogger();
 	return device->pDevice->isDepthColorSyncEnabled();
@@ -209,7 +209,7 @@ ONI_C_API OniStatus oniDeviceGetProperty(OniDeviceHandle device, int propertyId,
 	g_Context.clearErrorLogger();
 	return device->pDevice->getProperty(propertyId, data, pDataSize);
 }
-ONI_C_API OniBool oniDeviceIsPropertySupported(OniDeviceHandle device, int propertyId)
+ONI_C_API bool oniDeviceIsPropertySupported(OniDeviceHandle device, int propertyId)
 {
 	g_Context.clearErrorLogger();
 	return device->pDevice->isPropertySupported(propertyId);
@@ -219,12 +219,12 @@ ONI_C_API OniStatus oniDeviceInvoke(OniDeviceHandle device, int commandId, void*
 	g_Context.clearErrorLogger();
 	return device->pDevice->invoke(commandId, data, dataSize);
 }
-ONI_C_API OniBool oniDeviceIsCommandSupported(OniDeviceHandle device, int commandId)
+ONI_C_API bool oniDeviceIsCommandSupported(OniDeviceHandle device, int commandId)
 {
 	g_Context.clearErrorLogger();
 	return device->pDevice->isCommandSupported(commandId);
 }
-ONI_C_API OniBool oniDeviceIsImageRegistrationModeSupported(OniDeviceHandle device, OniImageRegistrationMode mode)
+ONI_C_API bool oniDeviceIsImageRegistrationModeSupported(OniDeviceHandle device, OniImageRegistrationMode mode)
 {
 	g_Context.clearErrorLogger();
 	return device->pDevice->isImageRegistrationModeSupported(mode);
@@ -333,7 +333,7 @@ ONI_C_API OniStatus oniStreamGetProperty(OniStreamHandle stream, int propertyId,
 	g_Context.clearErrorLogger();
 	return stream->pStream->getProperty(propertyId, data, pDataSize);
 }
-ONI_C_API OniBool oniStreamIsPropertySupported(OniStreamHandle stream, int propertyId)
+ONI_C_API bool oniStreamIsPropertySupported(OniStreamHandle stream, int propertyId)
 {
 	g_Context.clearErrorLogger();
 	return stream->pStream->isPropertySupported(propertyId);
@@ -344,7 +344,7 @@ ONI_C_API OniStatus oniStreamInvoke(OniStreamHandle stream, int commandId, void*
 	g_Context.clearErrorLogger();
 	return stream->pStream->invoke(commandId, data, dataSize);
 }
-ONI_C_API OniBool oniStreamIsCommandSupported(OniStreamHandle stream, int commandId)
+ONI_C_API bool oniStreamIsCommandSupported(OniStreamHandle stream, int commandId)
 {
 	g_Context.clearErrorLogger();
 	return stream->pStream->isCommandSupported(commandId);
@@ -387,7 +387,7 @@ ONI_C_API OniStatus oniCreateRecorder(
 ONI_C_API OniStatus oniRecorderAttachStream(
         OniRecorderHandle   recorder,
         OniStreamHandle     stream,
-        OniBool                allowLossyCompression)
+        bool                allowLossyCompression)
 {
 	g_Context.clearErrorLogger();
 
@@ -470,7 +470,7 @@ ONI_C_API OniStatus oniSetLogMinSeverity(int nMinSeverity)
 	return ONI_STATUS_OK;
 }
 
-ONI_C_API OniStatus oniSetLogConsoleOutput(OniBool bConsoleOutput)
+ONI_C_API OniStatus oniSetLogConsoleOutput(bool bConsoleOutput)
 {
 	XnStatus rc = xnLogSetConsoleOutput(bConsoleOutput);
 
@@ -482,7 +482,7 @@ ONI_C_API OniStatus oniSetLogConsoleOutput(OniBool bConsoleOutput)
 	return ONI_STATUS_OK;
 }
 
-ONI_C_API OniStatus oniSetLogFileOutput(OniBool bFileOutput)
+ONI_C_API OniStatus oniSetLogFileOutput(bool bFileOutput)
 {
 	XnStatus rc = xnLogSetFileOutput(bFileOutput);
 

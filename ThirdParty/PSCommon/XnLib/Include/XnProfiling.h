@@ -62,19 +62,19 @@ XN_C_API XnStatus XN_C_DECL xnProfilingInitFromINI(const XnChar* cpINIFileName, 
 XN_C_API XnStatus XN_C_DECL xnProfilingShutdown();
 
 /**
- * Returns TRUE if profiling is active, or FALSE otherwise.
+ * Returns true if profiling is active, or false otherwise.
  */
-XN_C_API XnBool XN_C_DECL xnProfilingIsActive();
+XN_C_API bool XN_C_DECL xnProfilingIsActive();
 
 /**
  * Start a profiled section. This function is not meant to be used directly. Please use the
  * XN_PROFILING_START_SECTION macro.
  *
  * @param	csSectionName	[in]		The name of the profiled section.
- * @param	bMT				[in]		TRUE if this section is multi-threaded, FALSE otherwise.
+ * @param	bMT				[in]		true if this section is multi-threaded, false otherwise.
  * @param	pHandle			[out]		A handle to be used each time this section executes again.
  */
-XN_C_API XnStatus XN_C_DECL xnProfilingSectionStart(const char* csSectionName, XnBool bMT, XnProfilingHandle* pHandle);
+XN_C_API XnStatus XN_C_DECL xnProfilingSectionStart(const char* csSectionName, bool bMT, XnProfilingHandle* pHandle);
 
 /**
  * Ends a profiled section. This function is not meant to be used directly. Please use the
@@ -90,7 +90,7 @@ XN_C_API XnStatus XN_C_DECL xnProfilingSectionEnd(XnProfilingHandle* pHandle);
  * and the following XN_PROFILING_END_SECTION declaration will be time-measured.
  *
  * @param	name		[in]	The name of the section (for printing purposes).
- * @param	mt			[in]	TRUE if this section is multi-threaded, FALSE otherwise.
+ * @param	mt			[in]	true if this section is multi-threaded, false otherwise.
  */
 #define _XN_PROFILING_START_SECTION(name, mt)									\
 	{																			\
@@ -100,8 +100,8 @@ XN_C_API XnStatus XN_C_DECL xnProfilingSectionEnd(XnProfilingHandle* pHandle);
 			xnProfilingSectionStart(name, mt, &__profiling);					\
 		}
 
-#define XN_PROFILING_START_SECTION(name) _XN_PROFILING_START_SECTION(name, FALSE)
-#define XN_PROFILING_START_MT_SECTION(name) _XN_PROFILING_START_SECTION(name, TRUE)
+#define XN_PROFILING_START_SECTION(name) _XN_PROFILING_START_SECTION(name, false)
+#define XN_PROFILING_START_MT_SECTION(name) _XN_PROFILING_START_SECTION(name, true)
 
 /**
  * Ends a profiled section.

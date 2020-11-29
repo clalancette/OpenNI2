@@ -36,7 +36,7 @@ XnProperty::XnProperty(XnPropertyType Type, void* pValueHolder, uint32_t propert
 	m_Type(Type),
 	m_pValueHolder(pValueHolder),
 	m_LogSeverity(XN_LOG_INFO),
-	m_bAlwaysSet(FALSE)
+	m_bAlwaysSet(false)
 {
 	UpdateName(strModule, strName);
 }
@@ -103,13 +103,13 @@ XnStatus XnProperty::UnsafeUpdateValue(const void* pValue /* = NULL */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnBool bValueChanged = TRUE;
+	bool bValueChanged = true;
 
 	if (IsActual())
 	{
 		if (IsEqual(m_pValueHolder, pValue))
 		{
-			bValueChanged = FALSE;
+			bValueChanged = false;
 		}
 		else
 		{
@@ -125,7 +125,7 @@ XnStatus XnProperty::UnsafeUpdateValue(const void* pValue /* = NULL */)
 		if (m_LogSeverity != -1)
 		{
 			XnChar strValue[XN_DEVICE_MAX_STRING_LENGTH];
-			XnBool bValueString = FALSE;
+			bool bValueString = false;
 
 			if (IsActual())
 			{
@@ -144,9 +144,9 @@ XnStatus XnProperty::UnsafeUpdateValue(const void* pValue /* = NULL */)
 	return XN_STATUS_OK;
 }
 
-XnBool XnProperty::ConvertValueToString(XnChar* /*csValue*/, const void* /*pValue*/) const
+bool XnProperty::ConvertValueToString(XnChar* /*csValue*/, const void* /*pValue*/) const
 {
-	return FALSE;
+	return false;
 }
 
 XnStatus XnProperty::ChangeEvent::Raise(const XnProperty* pSender)

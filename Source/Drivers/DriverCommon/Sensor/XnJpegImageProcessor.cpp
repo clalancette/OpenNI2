@@ -29,9 +29,9 @@
 //---------------------------------------------------------------------------
 
 XnJpegImageProcessor::XnJpegImageProcessor(XnSensorImageStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager) :
-	XnImageProcessor(pStream, pHelper, pBufferManager, TRUE)
+	XnImageProcessor(pStream, pHelper, pBufferManager, true)
 {
-	SetAllowDoubleSOFPackets(TRUE);
+	SetAllowDoubleSOFPackets(true);
 }
 
 XnJpegImageProcessor::~XnJpegImageProcessor()

@@ -94,7 +94,7 @@ XnStatus LinkOniMapStream::Init()
 	nRetVal = setIntPropertyFromINI("Compression", LINK_PROP_COMPRESSION);
 	XN_IS_STATUS_OK(nRetVal);
 
-	OniBool bMirror = TRUE;
+	bool bMirror = true;
 	if (XN_STATUS_OK == xnOSReadIntFromINI(m_configFile, m_configSection, "Mirror", &temp32))
 	{
 		bMirror = (temp32 == 1);
@@ -119,8 +119,8 @@ OniStatus LinkOniMapStream::getProperty(int propertyId, void* data, int* pDataSi
 			break;
 
 		case ONI_STREAM_PROPERTY_MIRRORING:
-			EXACT_PROP_SIZE(*pDataSize, OniBool);
-			nRetVal = GetMirror((OniBool*)data);
+			EXACT_PROP_SIZE(*pDataSize, bool);
+			nRetVal = GetMirror((bool*)data);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 			break;
 
@@ -172,8 +172,8 @@ OniStatus LinkOniMapStream::setProperty(int propertyId, const void* data, int da
 			break;
 
 		case ONI_STREAM_PROPERTY_MIRRORING:
-			EXACT_PROP_SIZE(dataSize, OniBool);
-			nRetVal = SetMirror(*(OniBool*)data);
+			EXACT_PROP_SIZE(dataSize, bool);
+			nRetVal = SetMirror(*(bool*)data);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 			break;
 
@@ -218,7 +218,7 @@ OniStatus LinkOniMapStream::setProperty(int propertyId, const void* data, int da
 	return ONI_STATUS_OK;
 }
 
-OniBool LinkOniMapStream::isPropertySupported(int propertyId)
+bool LinkOniMapStream::isPropertySupported(int propertyId)
 {
 	switch (propertyId)
 	{
@@ -304,7 +304,7 @@ XnStatus LinkOniMapStream::SetVideoMode(OniVideoMode* pVideoMode)
 	{
 		xnLogError(XN_MASK_LINK, "Tried to set unsupported mode: %ux%u@%u fps",
 			pVideoMode->resolutionX, pVideoMode->resolutionY, pVideoMode->fps);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_PARAM;
 	}
 
@@ -342,15 +342,15 @@ XnStatus LinkOniMapStream::FillSupportedVideoModes()
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkOniMapStream::GetMirror(OniBool* pEnabled)
+XnStatus LinkOniMapStream::GetMirror(bool* pEnabled)
 {
-	*pEnabled = (OniBool)m_pInputStream->GetMirror();
+	*pEnabled = (bool)m_pInputStream->GetMirror();
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkOniMapStream::SetMirror(OniBool enabled)
+XnStatus LinkOniMapStream::SetMirror(bool enabled)
 {
-	return m_pInputStream->SetMirror((XnBool)enabled);
+	return m_pInputStream->SetMirror((bool)enabled);
 }
 
 XnStatus LinkOniMapStream::GetCropping(OniCropping &cropping)

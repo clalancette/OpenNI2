@@ -39,7 +39,7 @@ typedef struct XnUsbConnection
 {
 	XN_USB_EP_HANDLE UsbEp;
 
-	XnBool bIsOpen;
+	bool bIsOpen;
 	uint8_t* pUSBBuffer;
 	uint32_t nUSBBufferReadOffset;
 	uint32_t nUSBBufferWriteOffset;
@@ -49,7 +49,7 @@ typedef struct XnUsbConnection
 typedef struct XnUsbControlConnection
 {
 	/* When true, control connection is implemented using bulk end points. */
-	XnBool bIsBulk;
+	bool bIsBulk;
 	XN_USB_EP_HANDLE ControlOutConnectionEp;
 	XN_USB_EP_HANDLE ControlInConnectionEp;
 } XnUsbControlConnection;
@@ -82,16 +82,16 @@ public:
 
 	XnStatus CloseDevice();
 
-	inline XnBool IsMiscEndpointSupported() const { return m_bMiscSupported; }
-	inline XnBool IsLowBandwidth() const { return m_bIsLowBandwidth; }
+	inline bool IsMiscEndpointSupported() const { return m_bMiscSupported; }
+	inline bool IsLowBandwidth() const { return m_bIsLowBandwidth; }
 
 	const XnChar* GetDevicePath();
 
 private:
 	XN_SENSOR_HANDLE* m_pSensorHandle;
-	XnBool m_bMiscSupported;
+	bool m_bMiscSupported;
 	XnChar m_strDeviceName[XN_DEVICE_MAX_STRING_LENGTH];
-	XnBool m_bIsLowBandwidth;
+	bool m_bIsLowBandwidth;
 };
 
 #endif // XNDEVICESENSORIO_H

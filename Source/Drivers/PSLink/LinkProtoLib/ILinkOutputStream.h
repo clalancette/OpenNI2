@@ -43,7 +43,7 @@ public:
 				uint16_t nInitialPacketID,
 				LinkOutputDataEndpoint* pOutputDataEndpoint) = 0;
 
-	virtual XnBool IsInitialized() const = 0;
+	virtual bool IsInitialized() const = 0;
 	virtual void Shutdown() = 0;
 	virtual XnLinkCompressionType GetCompression() const = 0;
 

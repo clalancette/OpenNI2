@@ -36,12 +36,12 @@
 //---------------------------------------------------------------------------
 struct XnMutex
 {
-	XnBool bIsNamed;
+	bool bIsNamed;
 	pthread_mutex_t ThreadMutex;
 	int NamedSem;
 	XnChar csSemFileName[XN_FILE_MAX_PATH];
 	int hSemFile;
-	XnBool bIsLocked; // used for named semaphore, to make sure a porcess doesn't unlock more than once (counting semaphore will no longer be a mutex).
+	bool bIsLocked; // used for named semaphore, to make sure a porcess doesn't unlock more than once (counting semaphore will no longer be a mutex).
 };
 
 typedef struct XnMutex XnMutex;
@@ -114,7 +114,7 @@ XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
 	key_t key = ftok(pMutex->csSemFileName, 1);
 
 	// first we try to create it. If we fail, we'll know it already existed
-	XnBool bCreated = TRUE;
+	bool bCreated = true;
 
 	// we created a set of 2 sems - first is the lock, second counts processes
 	pMutex->NamedSem = semget(key, 2, IPC_CREAT | IPC_EXCL | 0666);
@@ -128,7 +128,7 @@ XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
 			return (XN_STATUS_OS_MUTEX_CREATION_FAILED);
 		}
 
-		bCreated = FALSE;
+		bCreated = false;
 	}
 
 	if (bCreated)
@@ -188,7 +188,7 @@ XN_C_API XnStatus xnOSCreateMutex(XN_MUTEX_HANDLE* pMutexHandle)
 
 	XnMutex* pMutex;
 	XN_VALIDATE_CALLOC(pMutex, XnMutex, 1);
-	pMutex->bIsNamed = FALSE;
+	pMutex->bIsNamed = false;
 
 	nRetVal = xnOSUnNamedMutexCreate(pMutex);
 	if (nRetVal != XN_STATUS_OK)
@@ -205,10 +205,10 @@ XN_C_API XnStatus xnOSCreateMutex(XN_MUTEX_HANDLE* pMutexHandle)
 
 XN_C_API XnStatus xnOSCreateNamedMutex(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName)
 {
-	return xnOSCreateNamedMutexEx(pMutexHandle, cpMutexName, FALSE);
+	return xnOSCreateNamedMutexEx(pMutexHandle, cpMutexName, false);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName, XnBool /*bAllowOtherUsers*/)
+XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName, bool /*bAllowOtherUsers*/)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -218,7 +218,7 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle
 
 	XnMutex* pMutex;
 	XN_VALIDATE_CALLOC(pMutex, XnMutex, 1);
-	pMutex->bIsNamed = TRUE;
+	pMutex->bIsNamed = true;
 
 	nRetVal = xnOSNamedMutexCreate(pMutex, cpMutexName);
 	if (nRetVal != XN_STATUS_OK)

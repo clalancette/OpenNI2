@@ -52,7 +52,7 @@ XnStatus LinkInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 	if (!pLinkControlEndpoint->IsConnected())
 	{
 		xnLogError(XN_MASK_LINK, "Link control endpoint is not connected");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -97,7 +97,7 @@ void LinkInputStream::Reset()
 	m_pConnection = NULL;
 	m_nStreamID = XN_LINK_STREAM_ID_INVALID;
 
-	m_bMirror = FALSE;
+	m_bMirror = false;
 	m_streamType = XN_LINK_STREAM_TYPE_NONE;
 	m_outputFormat = XN_FORMAT_PASS_THROUGH_UNPACK;
 }
@@ -120,7 +120,7 @@ XnStatus LinkInputStream::Stop()
 	return XN_STATUS_OK;
 }
 
-XnBool LinkInputStream::IsStreaming() const
+bool LinkInputStream::IsStreaming() const
 {
 	return m_bStreaming;
 }
@@ -131,17 +131,17 @@ uint16_t LinkInputStream::GetStreamID() const
 }
 
 
-XnBool LinkInputStream::IsInterfaceSupported(uint8_t nInterfaceID) const
+bool LinkInputStream::IsInterfaceSupported(uint8_t nInterfaceID) const
 {
 	return m_supportedInterfaces.IsSet(nInterfaceID);
 }
 
-XnBool LinkInputStream::GetMirror() const
+bool LinkInputStream::GetMirror() const
 {
 	return m_bMirror;
 }
 
-XnStatus LinkInputStream::SetMirror(XnBool bMirror)
+XnStatus LinkInputStream::SetMirror(bool bMirror)
 {
 	XnStatus nRetVal = m_pLinkControlEndpoint->SetMirror(m_nStreamID, bMirror);
 	XN_IS_STATUS_OK_LOG_ERROR("Set mirror", nRetVal);
@@ -158,12 +158,12 @@ LinkMsgParser* LinkInputStream::CreateLinkMsgParser()
 	else
 	{
 		xnLogError(XN_MASK_LINK, "Unknown output format: %d", m_outputFormat);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return NULL;
 	}
 }
 
-XnBool LinkInputStream::IsOutputFormatSupported(OniPixelFormat format) const
+bool LinkInputStream::IsOutputFormatSupported(OniPixelFormat format) const
 {
 	return format == XN_FORMAT_PASS_THROUGH_RAW;
 }
@@ -177,7 +177,7 @@ XnStatus LinkInputStream::SetOutputFormat(OniPixelFormat format)
 {
 	if (!IsOutputFormatSupported(format))
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_PARAM;
 	}
 

@@ -72,7 +72,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 		{
 			m_sensors[s].pSupportedVideoModes[writeIndex].pixelFormat = depthFormats[formatIndex];
 			m_sensors[s].pSupportedVideoModes[writeIndex].fps = pSupportedModes[i].nFPS;
-			XnBool bOK = XnDDKGetXYFromResolution(
+			bool bOK = XnDDKGetXYFromResolution(
 				(XnResolutions)pSupportedModes[i].nResolution,
 				(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionX,
 				(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionY
@@ -104,7 +104,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 	// Image
 
 	// first, make sure that our sensor actually supports Image
-	uint64_t nImageSupported = FALSE;
+	uint64_t nImageSupported = false;
 	XnStatus nRetVal = m_sensor.GetProperty(XN_MASK_DEVICE, XN_MODULE_PROPERTY_IMAGE_SUPPORTED, &nImageSupported);
 	XN_IS_STATUS_OK(nRetVal);
 	if (nImageSupported)
@@ -130,7 +130,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 				m_sensors[s].pSupportedVideoModes[writeIndex].pixelFormat = aOniFormats[curOni];
 
 				m_sensors[s].pSupportedVideoModes[writeIndex].fps = pSupportedModes[j].nFPS;
-				XnBool bOK = XnDDKGetXYFromResolution(
+				bool bOK = XnDDKGetXYFromResolution(
 					(XnResolutions)pSupportedModes[j].nResolution,
 					(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionX,
 					(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionY
@@ -177,7 +177,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 		{
 			m_sensors[s].pSupportedVideoModes[writeIndex].pixelFormat = irFormats[fmt];
 			m_sensors[s].pSupportedVideoModes[writeIndex].fps = pSupportedModes[i].nFPS;
-			XnBool bOK = XnDDKGetXYFromResolution(
+			bool bOK = XnDDKGetXYFromResolution(
 				(XnResolutions)pSupportedModes[i].nResolution,
 				(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionX,
 				(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionY
@@ -226,11 +226,11 @@ XnStatus XnOniDevice::Init(const char* mode)
 			switch (mode[i])
 			{
 			case 'L':
-				nRetVal = XnPropertySetAddIntProperty(&initialValues, XN_MODULE_NAME_DEVICE, XN_MODULE_PROPERTY_LEAN_INIT, TRUE);
+				nRetVal = XnPropertySetAddIntProperty(&initialValues, XN_MODULE_NAME_DEVICE, XN_MODULE_PROPERTY_LEAN_INIT, true);
 				XN_IS_STATUS_OK(nRetVal);
 				break;
 			case 'R':
-				nRetVal = XnPropertySetAddIntProperty(&initialValues, XN_MODULE_NAME_DEVICE, XN_MODULE_PROPERTY_RESET_SENSOR_ON_STARTUP, FALSE);
+				nRetVal = XnPropertySetAddIntProperty(&initialValues, XN_MODULE_NAME_DEVICE, XN_MODULE_PROPERTY_RESET_SENSOR_ON_STARTUP, false);
 				XN_IS_STATUS_OK(nRetVal);
 				break;
 			}
@@ -451,7 +451,7 @@ OniStatus XnOniDevice::setProperty(int propertyId, const void* data, int dataSiz
 	}
 	return ONI_STATUS_OK;
 }
-OniBool XnOniDevice::isPropertySupported(int propertyId)
+bool XnOniDevice::isPropertySupported(int propertyId)
 {
 	if (propertyId == ONI_DEVICE_PROPERTY_DRIVER_VERSION ||
 		propertyId == ONI_DEVICE_PROPERTY_IMAGE_REGISTRATION ||
@@ -459,11 +459,11 @@ OniBool XnOniDevice::isPropertySupported(int propertyId)
 		propertyId == ONI_DEVICE_PROPERTY_HARDWARE_VERSION ||
 		propertyId == ONI_DEVICE_PROPERTY_SERIAL_NUMBER)
 	{
-		return TRUE;
+		return true;
 	}
 	else
 	{
-		XnBool propertyExists = FALSE;
+		bool propertyExists = false;
 		m_sensor.DeviceModule()->DoesPropertyExist(propertyId, &propertyExists);
 		return propertyExists;
 	}
@@ -527,7 +527,7 @@ void XnOniDevice::DisableFrameSync()
 	}
 }
 
-OniBool XnOniDevice::isImageRegistrationModeSupported(OniImageRegistrationMode mode)
+bool XnOniDevice::isImageRegistrationModeSupported(OniImageRegistrationMode mode)
 {
 	return (mode == ONI_IMAGE_REGISTRATION_DEPTH_TO_COLOR || mode == ONI_IMAGE_REGISTRATION_OFF);
 }

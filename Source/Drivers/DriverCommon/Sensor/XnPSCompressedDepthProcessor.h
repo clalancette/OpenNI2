@@ -51,7 +51,7 @@ protected:
 	//---------------------------------------------------------------------------
 	XnStatus UncompressDepthPS(const uint8_t* pInput, const uint32_t nInputSize,
 		uint16_t* pDepthOutput, uint32_t* pnOutputSize,
-		uint32_t* pnActualRead, XnBool bLastPart);
+		uint32_t* pnActualRead, bool bLastPart);
 
 private:
 	//---------------------------------------------------------------------------

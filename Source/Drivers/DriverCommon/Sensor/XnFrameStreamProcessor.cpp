@@ -35,8 +35,8 @@ XnFrameStreamProcessor::XnFrameStreamProcessor(XnFrameStream* pStream, XnSensorS
 	m_pTripleBuffer(pBufferManager),
 	m_InDump(NULL),
 	m_InternalDump(NULL),
-	m_bFrameCorrupted(FALSE),
-	m_bAllowDoubleSOF(FALSE),
+	m_bFrameCorrupted(false),
+	m_bAllowDoubleSOF(false),
 	m_nLastSOFPacketID(0),
 	m_nFirstPacketTimestamp(0)
 {
@@ -88,7 +88,7 @@ void XnFrameStreamProcessor::OnPacketLost()
 
 void XnFrameStreamProcessor::OnStartOfFrame(const XnSensorProtocolResponseHeader* /*pHeader*/)
 {
-	m_bFrameCorrupted = FALSE;
+	m_bFrameCorrupted = false;
 	m_pTripleBuffer->GetWriteBuffer()->Reset();
 	if (m_pDevicePrivateData->pSensor->ShouldUseHostTimestamps())
 	{
@@ -151,7 +151,7 @@ void XnFrameStreamProcessor::FrameIsCorrupted()
 	if (!m_bFrameCorrupted)
 	{
 		xnLogWarning(XN_MASK_SENSOR_PROTOCOL, "%s frame is corrupt!", m_csName);
-		m_bFrameCorrupted = TRUE;
+		m_bFrameCorrupted = true;
 	}
 }
 

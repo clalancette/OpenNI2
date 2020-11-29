@@ -158,9 +158,9 @@ XnStatus XnPropertySetModuleEnumeratorFree(XnPropertySetModuleEnumerator** ppEnu
 * Moves the enumerator to the next module. This function must be called *before* getting current.
 *
 * @param	pEnumerator		[in]		The enumerator.
-* @param	pbEnd			[out]		TRUE if the enumerator has reached the end of the collection.
+* @param	pbEnd			[out]		true if the enumerator has reached the end of the collection.
 */
-XnStatus XnPropertySetModuleEnumeratorMoveNext(XnPropertySetModuleEnumerator* pEnumerator, XnBool* pbEnd);
+XnStatus XnPropertySetModuleEnumeratorMoveNext(XnPropertySetModuleEnumerator* pEnumerator, bool* pbEnd);
 
 /**
 * Gets the current module name from the enumerator.
@@ -201,9 +201,9 @@ XnStatus XnPropertySetEnumeratorFree(XnPropertySetEnumerator** ppEnumerator);
 * Moves the enumerator to the next property. This function must be called *before* getting current.
 *
 * @param	pEnumerator		[in]		The enumerator.
-* @param	pbEnd			[out]		TRUE if the enumerator has reached the end of the collection.
+* @param	pbEnd			[out]		true if the enumerator has reached the end of the collection.
 */
-XnStatus XnPropertySetEnumeratorMoveNext(XnPropertySetEnumerator* pEnumerator, XnBool* pbEnd);
+XnStatus XnPropertySetEnumeratorMoveNext(XnPropertySetEnumerator* pEnumerator, bool* pbEnd);
 
 /**
 * Gets information regarding the current property.

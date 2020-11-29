@@ -37,7 +37,7 @@ public:
 
 	virtual XnStatus Init(const XnChar* strConnString, XnTransportType transportType);
 	virtual void Shutdown();
-	virtual XnBool IsInitialized() const;
+	virtual bool IsInitialized() const;
 
 	XnStatus SetUsbAltInterface(uint8_t altInterface);
 	XnStatus GetUsbAltInterface(uint8_t& altInterface) const;
@@ -60,7 +60,7 @@ private:
 	static const uint32_t PRE_CONTROL_RECEIVE_SLEEP;
 
 	//Data members
-	XnBool m_bInitialized;
+	bool m_bInitialized;
 
 	XnCallbackHandle m_hInputInterruptCallback;
 

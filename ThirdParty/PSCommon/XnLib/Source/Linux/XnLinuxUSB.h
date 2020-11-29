@@ -37,7 +37,7 @@
 //---------------------------------------------------------------------------
 typedef struct XnUSBDeviceHandle
 {
-//	XnBool bValid;
+//	bool bValid;
 	libusb_device_handle* hDevice;
 	XnUSBDeviceSpeed nDevSpeed;
 	uint8_t nInterface;
@@ -52,8 +52,8 @@ typedef struct XnUSBBuffersInfo
 	XnUSBReadThreadData* pThreadData;
 	/* transfer object (through which asynch operations take place). */
 	libusb_transfer* transfer;
-	/* TRUE when transfer is queued. */
-	XnBool bIsQueued;
+	/* true when transfer is queued. */
+	bool bIsQueued;
 	/* An event to notify when buffer is ready. */
 	XN_EVENT_HANDLE hEvent;
 	uint32_t nBufferID;
@@ -64,8 +64,8 @@ typedef struct XnUSBBuffersInfo
 /* Information about a thread reading from an endpoint. */
 typedef struct XnUSBReadThreadData
 {
-	/* TRUE when thread is running. */
-	XnBool bIsRunning;
+	/* true when thread is running. */
+	bool bIsRunning;
 	/* Number of buffers allocated. */
 	uint32_t nNumBuffers;
 	/* Array of buffers. */
@@ -80,8 +80,8 @@ typedef struct XnUSBReadThreadData
 	void* pCallbackData;
 	/* Handle to the read thread. */
 	XN_THREAD_HANDLE hReadThread;
-	/* When TRUE, signals the thread to exit. */
-	XnBool bKillReadThread;
+	/* When true, signals the thread to exit. */
+	bool bKillReadThread;
 } XnUSBReadThreadData;
 
 typedef struct XnUSBEndPointHandle

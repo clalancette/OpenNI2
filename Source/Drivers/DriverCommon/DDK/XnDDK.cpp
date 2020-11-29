@@ -51,7 +51,7 @@ XnResolutions XnDDKGetResolutionFromXY(uint32_t nXRes, uint32_t nYRes)
 										      return XN_RESOLUTION_CUSTOM;
 }
 
-XnBool XnDDKGetXYFromResolution(XnResolutions res, uint32_t* pnXRes, uint32_t* pnYRes)
+bool XnDDKGetXYFromResolution(XnResolutions res, uint32_t* pnXRes, uint32_t* pnYRes)
 {
 	switch(res)
 	{
@@ -72,9 +72,9 @@ XnBool XnDDKGetXYFromResolution(XnResolutions res, uint32_t* pnXRes, uint32_t* p
 		// check if this is one of our special resolutions
 		case XN_RESOLUTION_800_448:		*pnXRes = 800;	*pnYRes = 448;	break;
 		case XN_RESOLUTION_1280_960:	*pnXRes = 1280; *pnYRes = 960;	break;
-		case XN_RESOLUTION_CUSTOM:		return FALSE;
+		case XN_RESOLUTION_CUSTOM:		return false;
 	}
-	return TRUE;
+	return true;
 }
 
 const XnChar* XnDDKGetResolutionName(XnResolutions res)
@@ -100,7 +100,7 @@ const XnChar* XnDDKGetResolutionName(XnResolutions res)
 	case XN_RESOLUTION_800_448: return "800x448";
 	case XN_RESOLUTION_1280_960:return "1280x960";
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return "Custom";
 	}
 }

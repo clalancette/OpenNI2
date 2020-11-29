@@ -56,7 +56,7 @@ public:
 	// Return number of streams which are members of the stream group.
 	int getNumStreams() override;
 
-	void setStreamEnabled(VideoStream* /*pStream*/, OniBool /*enabled*/) override;
+	void setStreamEnabled(VideoStream* /*pStream*/, bool /*enabled*/) override;
 
 private:
 

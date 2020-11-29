@@ -40,7 +40,7 @@ VideoStream::VideoStream(Sensor* pSensor, const OniSensorInfo* pSensorInfo, Devi
 	m_frameManager(frameManager),
 	m_pSensor(pSensor),
 	m_hNewFrameEvent(NULL),
-	m_started(FALSE)
+	m_started(false)
 {
 	xnOSCreateEvent(&m_newFrameInternalEvent, false);
 	xnOSCreateEvent(&m_newFrameInternalEventForFrameHolder, false);
@@ -105,7 +105,7 @@ VideoStream::~VideoStream()
 		xnOSCloseThread(&m_newFrameThread);
 	}
 
-	m_pFrameHolder->setStreamEnabled(this, FALSE);
+	m_pFrameHolder->setStreamEnabled(this, false);
 
 	if (m_device.getHandle() != NULL)
 	{
@@ -148,7 +148,7 @@ OniStatus VideoStream::start()
 		++m_pSensor->m_startedStreamCount;
 
 		m_pFrameHolder->setStreamEnabled(this, m_started);
-		m_started = TRUE;
+		m_started = true;
 	}
 
 	return ONI_STATUS_OK;
@@ -161,7 +161,7 @@ void VideoStream::stop()
 		return;
 	}
 
-	m_started = FALSE;
+	m_started = false;
 
 	m_device.refreshDepthColorSyncState();
 
@@ -179,7 +179,7 @@ void VideoStream::stop()
 	m_pFrameHolder->clear();
 }
 
-OniBool VideoStream::isStarted()
+bool VideoStream::isStarted()
 {
 	return m_started;
 }
@@ -235,7 +235,7 @@ OniStatus VideoStream::getProperty(int propertyId, void* data, int* pDataSize)
 	return rc;
 }
 
-OniBool VideoStream::isPropertySupported(int propertyId)
+bool VideoStream::isPropertySupported(int propertyId)
 {
 	return m_driverHandler.streamIsPropertySupported(m_pSensor->streamHandle(), propertyId);
 }
@@ -250,7 +250,7 @@ OniStatus VideoStream::invoke(int commandId, void* data, int dataSize)
 	return m_driverHandler.streamInvoke(m_pSensor->streamHandle(), commandId, data, dataSize);
 }
 
-OniBool VideoStream::isCommandSupported(int commandId)
+bool VideoStream::isCommandSupported(int commandId)
 {
 	return m_driverHandler.streamIsCommandSupported(m_pSensor->streamHandle(), commandId);
 }
@@ -470,7 +470,7 @@ void VideoStream::refreshWorldConversionCache()
 		m_worldConvertCache.zFactor = 0.1f;
 		break;
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 	}
 }
 
@@ -511,7 +511,7 @@ const XnChar* VideoStream::getSensorName(OniSensorType sensorType)
 	case ONI_SENSOR_IR:
 		return "IR";
 	default:
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return "(Unknown)";
 	}
 }

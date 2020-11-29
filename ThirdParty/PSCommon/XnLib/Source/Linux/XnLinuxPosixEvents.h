@@ -23,7 +23,7 @@
 class XnLinuxPosixEvent : public XnLinuxEvent
 {
 public:
-	XnLinuxPosixEvent(XnBool bManualReset);
+	XnLinuxPosixEvent(bool bManualReset);
 
 	virtual XnStatus Init();
 	virtual XnStatus Destroy();

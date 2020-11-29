@@ -60,19 +60,19 @@ public:
 
 	virtual void Reset();
 
-	virtual XnBool IsInitialized() const;
+	virtual bool IsInitialized() const;
 	virtual void Shutdown();
-	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, XnBool& bPacketLoss);
+	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, bool& bPacketLoss);
 
 	virtual void SetDumpName(const XnChar* strDumpName);
-	virtual void SetDumpOn(XnBool bDumpOn);
+	virtual void SetDumpOn(bool bDumpOn);
 
 	virtual XnStreamFragLevel GetStreamFragLevel() const { return XN_LINK_STREAM_FRAG_LEVEL_FRAMES; }
 
 	typedef void (XN_CALLBACK_TYPE* NewFrameEventHandler)(const NewFrameEventArgs& args, void* pCookie);
 	NewFrameEvent::Interface& GetNewFrameEvent() { return m_newFrameEvent; }
 
-	virtual XnBool IsOutputFormatSupported(OniPixelFormat format) const;
+	virtual bool IsOutputFormatSupported(OniPixelFormat format) const;
 
 	virtual const std::vector<XnFwStreamVideoMode>& GetSupportedVideoModes() const;
 	virtual const XnFwStreamVideoMode& GetVideoMode() const;
@@ -121,12 +121,12 @@ private:
 
 	oni::driver::StreamServices* m_pServices;
 
-	volatile XnBool m_bInitialized;
+	volatile bool m_bInitialized;
 
 	NewFrameEvent m_newFrameEvent;
 	OniFrame* m_pCurrFrame;
 
-	XnBool m_currentFrameCorrupt;
+	bool m_currentFrameCorrupt;
 	mutable XN_CRITICAL_SECTION_HANDLE m_hCriticalSection; //Protects buffers info
 
 	uint32_t m_nBufferSize;

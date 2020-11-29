@@ -37,7 +37,7 @@
 class XnPixelStream : public XnFrameStream
 {
 public:
-	XnPixelStream(const XnChar* csType, const XnChar* csName, XnBool bAllowCustomResolutions);
+	XnPixelStream(const XnChar* csType, const XnChar* csName, bool bAllowCustomResolutions);
 	~XnPixelStream() { Free(); }
 
 	//---------------------------------------------------------------------------
@@ -100,7 +100,7 @@ private:
 	{
 	public:
 		XnResolutionProperty(uint32_t propertyId, const XnChar* strName, uint64_t nInitialValue = 0, const XnChar* strModule = "");
-		XnBool ConvertValueToString(XnChar* csValue, const void* pValue) const;
+		bool ConvertValueToString(XnChar* csValue, const void* pValue) const;
 	};
 
 	XnStatus OnResolutionChanged();
@@ -133,7 +133,7 @@ private:
 	XnGeneralProperty m_SupportedModes;
 
 	std::vector<XnCmosPreset> m_supportedModesData;
-	XnBool m_bAllowCustomResolutions;
+	bool m_bAllowCustomResolutions;
 };
 
 #endif // XNPIXELSTREAM_H

@@ -57,7 +57,7 @@ typedef struct XnShiftToDepthConfig
 
 typedef struct XnShiftToDepthTables
 {
-	XnBool bIsInitialized;
+	bool bIsInitialized;
 	/** The shift-to-depth table. */
 	OniDepthPixel* pShiftToDepthTable;
 	/** The number of entries in the shift-to-depth table. */

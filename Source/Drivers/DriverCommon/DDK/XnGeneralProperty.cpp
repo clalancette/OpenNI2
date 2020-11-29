@@ -40,14 +40,14 @@ XnStatus XnGeneralProperty::CopyValueImpl(void* pDest, const void* pSource) cons
 	return XnGeneralBufferCopy((OniGeneralBuffer*)pDest, (const OniGeneralBuffer*)pSource);
 }
 
-XnBool XnGeneralProperty::IsEqual(const void* pValue1, const void* pValue2) const
+bool XnGeneralProperty::IsEqual(const void* pValue1, const void* pValue2) const
 {
 	const OniGeneralBuffer* pgb1 = (const OniGeneralBuffer*)pValue1;
 	const OniGeneralBuffer* pgb2 = (const OniGeneralBuffer*)pValue2;
 
 	if (pgb1->dataSize != pgb2->dataSize)
 	{
-		return FALSE;
+		return false;
 	}
 
 	return (memcmp(pgb1->data, pgb2->data, pgb1->dataSize) == 0);

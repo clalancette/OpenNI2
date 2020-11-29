@@ -42,9 +42,9 @@ ClientUSBConnectionFactory::ClientUSBConnectionFactory(uint16_t nInputConnection
 	m_nAltInterface(0),
 	m_controlEndpoint(nPreControlReceiveSleep),
 	m_hUSBDevice(NULL),
-	m_bInitialized(FALSE),
-	m_bUsbInitialized(FALSE),
-	m_dataOpen(FALSE)
+	m_bInitialized(false),
+	m_bUsbInitialized(false),
+	m_dataOpen(false)
 {
 }
 
@@ -57,7 +57,7 @@ XnStatus ClientUSBConnectionFactory::Init(const XnChar* strConnString)
 {
 	XnStatus nRetVal = xnUSBInit();
 	XN_IS_STATUS_OK_LOG_ERROR("Initialize USB", nRetVal);
-	m_bUsbInitialized = TRUE;
+	m_bUsbInitialized = true;
 
 	nRetVal = xnUSBOpenDeviceByPath(strConnString, &m_hUSBDevice);
 	XN_IS_STATUS_OK_LOG_ERROR("Open USB device", nRetVal);
@@ -66,7 +66,7 @@ XnStatus ClientUSBConnectionFactory::Init(const XnChar* strConnString)
 	nRetVal = m_controlEndpoint.Init(m_hUSBDevice);
 	XN_IS_STATUS_OK_LOG_ERROR("Init usb control endpoint", nRetVal);
 
-	m_bInitialized = TRUE;
+	m_bInitialized = true;
 	return XN_STATUS_OK;
 }
 
@@ -84,10 +84,10 @@ void ClientUSBConnectionFactory::Shutdown()
 	if (m_bUsbInitialized)
 	{
 		xnUSBShutdown();
-		m_bUsbInitialized = FALSE;
+		m_bUsbInitialized = false;
 	}
 
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 }
 
 uint16_t ClientUSBConnectionFactory::GetNumInputDataConnections() const
@@ -100,7 +100,7 @@ uint16_t ClientUSBConnectionFactory::GetNumOutputDataConnections() const
 	return m_nOutputConnections;
 }
 
-XnBool ClientUSBConnectionFactory::IsInitialized() const
+bool ClientUSBConnectionFactory::IsInitialized() const
 {
 	return m_bInitialized;
 }
@@ -132,7 +132,7 @@ XnStatus ClientUSBConnectionFactory::CreateOutputDataConnection(uint16_t /*nID*/
 	{
 		xnLogError(XN_MASK_USB, "Failed to initialize output data endpoint: %s",
 			xnGetStatusString(nRetVal));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_DELETE(pUSBOutDataEndpoint);
 		return nRetVal;
 	}
@@ -158,12 +158,12 @@ XnStatus ClientUSBConnectionFactory::CreateInputDataConnection(uint16_t nID, IAs
 	{
 		xnLogError(XN_MASK_USB, "Failed to initialize input data endpoint %u: %s",
 			nID, xnGetStatusString(nRetVal));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_DELETE(pUSBInDataEndpoint);
 		return nRetVal;
 	}
 	pConn = pUSBInDataEndpoint;
-	m_dataOpen = TRUE;
+	m_dataOpen = true;
 
 	return XN_STATUS_OK;
 }
@@ -196,7 +196,7 @@ XnStatus ClientUSBConnectionFactory::SetUsbAltInterface(uint8_t interfaceNum)
 	if (m_dataOpen)
 	{
 		xnLogWarning(XN_MASK_LINK, "Can't set interface once streaming started");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_PARAM;
 	}
 

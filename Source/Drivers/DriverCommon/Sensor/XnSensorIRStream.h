@@ -33,7 +33,7 @@
 #define XN_IR_STREAM_DEFAULT_FPS				30
 #define XN_IR_STREAM_DEFAULT_RESOLUTION			XN_RESOLUTION_QVGA
 #define XN_IR_STREAM_DEFAULT_OUTPUT_FORMAT		ONI_PIXEL_FORMAT_GRAY16
-#define XN_IR_STREAM_DEFAULT_MIRROR				FALSE
+#define XN_IR_STREAM_DEFAULT_MIRROR				false
 
 //---------------------------------------------------------------------------
 // XnSensorIRStream class
@@ -80,7 +80,7 @@ private:
 	XnStatus SetFPS(uint32_t nFPS) override;
 	XnStatus SetCropping(const OniCropping* pCropping) override;
 	XnStatus SetCroppingMode(XnCroppingMode mode);
-	XnStatus SetActualRead(XnBool bRead);
+	XnStatus SetActualRead(bool bRead);
 
 	XnStatus OnIsMirroredChanged();
 	XnStatus SetCroppingImpl(const OniCropping* pCropping, XnCroppingMode mode);

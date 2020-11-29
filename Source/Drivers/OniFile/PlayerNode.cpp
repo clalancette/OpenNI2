@@ -74,17 +74,17 @@ const XnVersion PlayerNode::OLDEST_SUPPORTED_FILE_FORMAT_VERSION = {1, 0, 0, 4};
 const XnVersion PlayerNode::FIRST_FILESIZE64BIT_FILE_FORMAT_VERSION = {1, 0, 1, 0};
 
 PlayerNode::PlayerNode(const XnChar* strName) :
-	m_bOpen(FALSE),
-	m_bIs32bitFileFormat(FALSE),
+	m_bOpen(false),
+	m_bIs32bitFileFormat(false),
 	m_pRecordBuffer(NULL),
 	m_pUncompressedData(NULL),
 	m_pStreamCookie(NULL),
 	m_pInputStream(NULL),
 	m_pNotificationsCookie(NULL),
 	m_pNodeNotifications(NULL),
-	m_bRepeat(TRUE),
-	m_bDataBegun(FALSE),
-	m_bEOF(FALSE),
+	m_bRepeat(true),
+	m_bDataBegun(false),
+	m_bEOF(false),
 	m_nTimeStamp(0),
 	m_nGlobalMaxTimeStamp(0),
 	m_pNodeInfoMap(NULL),
@@ -167,7 +167,7 @@ XnStatus PlayerNode::SetNodeCodecFactory(void* pPlayerNodeCodecFactoryCookie,
 	return XN_STATUS_OK;
 }
 
-XnStatus PlayerNode::SetRepeat(XnBool bRepeat)
+XnStatus PlayerNode::SetRepeat(bool bRepeat)
 {
 	m_bRepeat = bRepeat;
 	return XN_STATUS_OK;
@@ -185,7 +185,7 @@ XnStatus PlayerNode::SeekToTimeStamp(int64_t /*nTimeOffset*/, XnPlayerSeekOrigin
 		case XN_PLAYER_SEEK_END:
 			return SeekToTimeStampAbsolute(m_nGlobalMaxTimeStamp);
 		default:
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			XN_LOG_ERROR_RETURN(XN_STATUS_BAD_PARAM, XN_MASK_OPEN_NI, "Invalid seek origin: %u", origin);
 	}*/
 	return XN_STATUS_NOT_IMPLEMENTED;
@@ -222,7 +222,7 @@ XnStatus PlayerNode::SeekToFrame(const XnChar* strNodeName, int32_t nFrameOffset
 		}
 		default:
 		{
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			XN_LOG_ERROR_RETURN(XN_STATUS_BAD_PARAM, XN_MASK_OPEN_NI, "Invalid seek origin: %u", origin);
 		}
 	}
@@ -233,11 +233,11 @@ XnStatus PlayerNode::SeekToFrame(const XnChar* strNodeName, int32_t nFrameOffset
 	return XN_STATUS_OK;
 }
 
-XnStatus PlayerNode::UndoRecord(PlayerNode::RecordUndoInfo& undoInfo, uint64_t nDestPos, XnBool& bUndone)
+XnStatus PlayerNode::UndoRecord(PlayerNode::RecordUndoInfo& undoInfo, uint64_t nDestPos, bool& bUndone)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	uint64_t nOriginalPos = TellStream();
-	bUndone = FALSE;
+	bUndone = false;
 	Record record(m_pRecordBuffer, RECORD_MAX_SIZE, m_bIs32bitFileFormat);
 	while ((undoInfo.nRecordPos > nDestPos) && (undoInfo.nUndoRecordPos != 0))
 	{
@@ -255,9 +255,9 @@ XnStatus PlayerNode::UndoRecord(PlayerNode::RecordUndoInfo& undoInfo, uint64_t n
 		  so now we handle it. */
 		nRetVal = ReadRecordFields(record);
 		XN_IS_STATUS_OK(nRetVal);
-		nRetVal = HandleRecord(record, FALSE);
+		nRetVal = HandleRecord(record, false);
 		XN_IS_STATUS_OK(nRetVal);
-		bUndone = TRUE;
+		bUndone = true;
 	}
 	else
 	{
@@ -421,13 +421,13 @@ XnStatus PlayerNode::SeekToFrameAbsolute(uint32_t nNodeID, uint32_t nDestFrame)
 				XN_IS_STATUS_OK(nRetVal);
 				if (record.GetType() != RECORD_NEW_DATA)
 				{
-					XN_ASSERT(FALSE);
+					XN_ASSERT(false);
 					XN_LOG_ERROR_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, "Unexpected record type: %u", record.GetType());
 				}
 
 				if (record.GetNodeID() != nNodeID)
 				{
-					XN_ASSERT(FALSE);
+					XN_ASSERT(false);
 					XN_LOG_ERROR_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, "Unexpected node id: %u", record.GetNodeID());
 				}
 
@@ -439,9 +439,9 @@ XnStatus PlayerNode::SeekToFrameAbsolute(uint32_t nNodeID, uint32_t nDestFrame)
 			} while (record.GetFrameNumber() > nDestFrame);
 
 			//Now handle the frame
-			nRetVal = HandleNewDataRecord(record, FALSE);
+			nRetVal = HandleNewDataRecord(record, false);
 			XN_IS_STATUS_OK(nRetVal);
-			XnBool bUndone = FALSE;
+			bool bUndone = false;
 
 			for (uint32_t i = 0; i < m_nMaxNodes; ++i)
 			{
@@ -489,7 +489,7 @@ XnStatus PlayerNode::SeekToFrameAbsolute(uint32_t nNodeID, uint32_t nDestFrame)
 			//Skip all frames until we get to our frame number, but handle any properties we run into.
 			while (pPlayerNodeInfo->nCurFrame < nDestFrame)
 			{
-				nRetVal = ProcessRecord(FALSE);
+				nRetVal = ProcessRecord(false);
 				XN_IS_STATUS_OK(nRetVal);
 			}
 
@@ -533,7 +533,7 @@ XnStatus PlayerNode::ProcessEachNodeLastData(uint32_t nIDToProcessLast)
 			if (!pni.bValid)
 			{
 				xnLogError(XN_MASK_OPEN_NI, "Node with ID %u is not valid", nItNodeID);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return XN_STATUS_CORRUPT_FILE;
 			}
 
@@ -549,7 +549,7 @@ XnStatus PlayerNode::ProcessEachNodeLastData(uint32_t nIDToProcessLast)
 			{
 				nRetVal = SeekStream(XN_OS_SEEK_SET, pni.nLastDataPos);
 				XN_IS_STATUS_OK(nRetVal);
-				nRetVal = ProcessRecord(TRUE);
+				nRetVal = ProcessRecord(true);
 				XN_IS_STATUS_OK(nRetVal);
 			}
 		}
@@ -571,7 +571,7 @@ XnStatus PlayerNode::TellFrame(const XnChar* strNodeName, uint32_t& nFrameNumber
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_BAD_NODE_NAME);
 	if (!pPlayerNodeInfo->bValid)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_NODE_NAME;
 	}
 
@@ -585,7 +585,7 @@ uint32_t PlayerNode::GetNumFrames(const XnChar* strNodeName, uint32_t& nFrames)
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_BAD_NODE_NAME);
 	if (!pPlayerNodeInfo->bValid)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_NODE_NAME;
 	}
 
@@ -598,7 +598,7 @@ const XnChar* PlayerNode::GetSupportedFormat()
 	return XN_FORMAT_NAME_ONI;
 }
 
-XnBool PlayerNode::IsEOF()
+bool PlayerNode::IsEOF()
 {
 	return m_bEOF;
 }
@@ -651,10 +651,10 @@ XnStatus PlayerNode::ValidateStream(void *pStreamCookie, XnPlayerInputStreamInte
 
 XnStatus PlayerNode::ReadNext()
 {
-	return ProcessRecord(TRUE);
+	return ProcessRecord(true);
 }
 
-XnStatus PlayerNode::ProcessRecord(XnBool bProcessPayload)
+XnStatus PlayerNode::ProcessRecord(bool bProcessPayload)
 {
 	//Read a record and handle it
 	Record record(m_pRecordBuffer, RECORD_MAX_SIZE, m_bIs32bitFileFormat);
@@ -716,9 +716,9 @@ XnStatus PlayerNode::OpenStream()
 	/* Do we need to parse an old 32bit-filesize file? */
 	if (CompareVersions(&header.version, &FIRST_FILESIZE64BIT_FILE_FORMAT_VERSION) >= 0)
 	{
-		m_bIs32bitFileFormat = FALSE;
+		m_bIs32bitFileFormat = false;
 	} else {
-		m_bIs32bitFileFormat = TRUE;
+		m_bIs32bitFileFormat = true;
 	}
 
 	m_fileVersion = header.version;
@@ -731,7 +731,7 @@ XnStatus PlayerNode::OpenStream()
 	XN_VALIDATE_ALLOC_PTR(m_pNodeInfoMap);
 	XN_VALIDATE_CALLOC(m_aSeekTempArray, DataIndexEntry*, m_nMaxNodes);
 
-	m_bOpen = TRUE;
+	m_bOpen = true;
 	nRetVal = ProcessUntilFirstData();
 	if (nRetVal != XN_STATUS_OK)
 	{
@@ -769,7 +769,7 @@ XnStatus PlayerNode::ReadRecordHeader(Record &record)
 
 	if (!record.IsHeaderValid())
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_LOG_ERROR_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, "Invalid record header");
 	}
 	return XN_STATUS_OK;
@@ -817,12 +817,12 @@ XnStatus PlayerNode::CloseStream()
 		m_pInputStream->Close(m_pStreamCookie);
 		m_pInputStream = NULL;
 		m_pStreamCookie = NULL;
-		m_bOpen = FALSE;
+		m_bOpen = false;
 	}
 	return XN_STATUS_OK;
 }
 
-XnStatus PlayerNode::HandleRecord(Record &record, XnBool bHandlePayload)
+XnStatus PlayerNode::HandleRecord(Record &record, bool bHandlePayload)
 {
 	XN_ASSERT(record.IsHeaderValid());
 	switch (record.GetType())
@@ -847,7 +847,7 @@ XnStatus PlayerNode::HandleRecord(Record &record, XnBool bHandlePayload)
 			return HandleNewDataRecord(record, bHandlePayload);
 		case RECORD_SEEK_TABLE:
 			// never process this record (it is processed only during node added)
-			return HandleDataIndexRecord(record, FALSE);
+			return HandleDataIndexRecord(record, false);
 		case RECORD_END:
 			return HandleEndRecord(record);
 
@@ -858,7 +858,7 @@ XnStatus PlayerNode::HandleRecord(Record &record, XnBool bHandlePayload)
 			return HandleNodeAdded_1_0_0_4_Record(record);
 
 		default:
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			XN_LOG_ERROR_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, "Unrecognized record type: %u", record.GetType());
 	}
 }
@@ -868,7 +868,7 @@ PlayerNode::PlayerNodeInfo* PlayerNode::GetPlayerNodeInfo(uint32_t nNodeID)
 	if (nNodeID >= m_nMaxNodes)
 	{
 		xnLogWarning(XN_MASK_OPEN_NI, "Got node ID %u, bigger than said max of %u", nNodeID, m_nMaxNodes);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return NULL;
 	}
 
@@ -904,15 +904,15 @@ XnStatus PlayerNode::RemovePlayerNodeInfo(uint32_t nNodeID)
 	return XN_STATUS_OK;
 }
 
-XnBool PlayerNode::IsTypeGenerator(XnProductionNodeType type)
+bool PlayerNode::IsTypeGenerator(XnProductionNodeType type)
 {
 	if ((type == XN_NODE_TYPE_DEPTH) ||
 		(type == XN_NODE_TYPE_IMAGE) ||
 		(type == XN_NODE_TYPE_IR))
 	{
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 }
 
 XnStatus PlayerNode::HandleNodeAddedImpl(uint32_t nNodeID, XnProductionNodeType type, const XnChar* strName, XnCodecID compression, uint32_t nNumberOfFrames, uint64_t /*nMinTimestamp*/, uint64_t nMaxTimestamp)
@@ -934,22 +934,22 @@ XnStatus PlayerNode::HandleNodeAddedImpl(uint32_t nNodeID, XnProductionNodeType 
 
 	if (IsTypeGenerator(type))
 	{
-		pPlayerNodeInfo->bIsGenerator = TRUE;
+		pPlayerNodeInfo->bIsGenerator = true;
 		pPlayerNodeInfo->nFrames = nNumberOfFrames;
 		pPlayerNodeInfo->nMaxTimeStamp = nMaxTimestamp;
 	}
 
 	//Mark this player node as valid
-	pPlayerNodeInfo->bValid = TRUE;
+	pPlayerNodeInfo->bValid = true;
 
 	//Loop until this node's state is ready.
 	//TODO: Check for eof
 	while (!pPlayerNodeInfo->bStateReady)
 	{
-		nRetVal = ProcessRecord(TRUE);
+		nRetVal = ProcessRecord(true);
 		if (nRetVal != XN_STATUS_OK)
 		{
-			pPlayerNodeInfo->bValid = FALSE;
+			pPlayerNodeInfo->bValid = false;
 			return nRetVal;
 		}
 	}
@@ -1070,7 +1070,7 @@ XnStatus PlayerNode::HandleNodeAddedRecord(NodeAddedRecord record)
 		nRetVal = ReadRecord(seekTableHeader);
 		XN_IS_STATUS_OK(nRetVal);
 
-		nRetVal = HandleDataIndexRecord(seekTableHeader, TRUE);
+		nRetVal = HandleDataIndexRecord(seekTableHeader, true);
 		XN_IS_STATUS_OK(nRetVal);
 
 		// and seek back
@@ -1089,7 +1089,7 @@ XnStatus PlayerNode::SeekToRecordByType(uint32_t nNodeID, RecordType type)
 
 	uint64_t nStartPos = TellStream();
 
-	XnBool bFound = FALSE;
+	bool bFound = false;
 	uint64_t nPosBeforeRecord = 0;
 	while (!bFound && nRetVal == XN_STATUS_OK)
 	{
@@ -1100,7 +1100,7 @@ XnStatus PlayerNode::SeekToRecordByType(uint32_t nNodeID, RecordType type)
 
 		if ((record.GetType() == type) && (record.GetNodeID() == nNodeID))
 		{
-			bFound = TRUE;
+			bFound = true;
 		}
 		else if (record.GetType() == RECORD_END)
 		{
@@ -1140,7 +1140,7 @@ XnStatus PlayerNode::HandleGeneralPropRecord(GeneralPropRecord record)
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_CORRUPT_FILE);
 	if (!pPlayerNodeInfo->bValid)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
@@ -1203,7 +1203,7 @@ XnStatus PlayerNode::HandleIntPropRecord(IntPropRecord record)
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_CORRUPT_FILE);
 	if (!pPlayerNodeInfo->bValid)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
@@ -1213,10 +1213,10 @@ XnStatus PlayerNode::HandleIntPropRecord(IntPropRecord record)
 	// old files workaround: some old files recorded nodes as not generating though having frames.
 	// make them generating.
 	if (strcmp(strPropName, XN_PROP_IS_GENERATING) == 0 &&
-		nValue == FALSE &&
+		nValue == false &&
 		pPlayerNodeInfo->nFrames > 0)
 	{
-		nValue = TRUE;
+		nValue = true;
 	}
 
 	nRetVal = m_pNodeNotifications->OnNodeIntPropChanged(m_pNotificationsCookie,
@@ -1245,7 +1245,7 @@ XnStatus PlayerNode::HandleRealPropRecord(RealPropRecord record)
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_CORRUPT_FILE);
 	if (!pPlayerNodeInfo->bValid)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
@@ -1274,7 +1274,7 @@ XnStatus PlayerNode::HandleStringPropRecord(StringPropRecord record)
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_CORRUPT_FILE);
 	if (!pPlayerNodeInfo->bValid)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
@@ -1304,7 +1304,7 @@ XnStatus PlayerNode::HandleNodeRemovedRecord(NodeRemovedRecord record)
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_CORRUPT_FILE);
 	if (!pPlayerNodeInfo->bValid)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_LOG_ERROR_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, "Got a node removed record for non-existing node %u.", record.GetNodeID());
 	}
 
@@ -1323,7 +1323,7 @@ XnStatus PlayerNode::HandleNodeStateReadyRecord(NodeStateReadyRecord record)
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_CORRUPT_FILE);
 	if (!pPlayerNodeInfo->bValid)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
@@ -1341,7 +1341,7 @@ XnStatus PlayerNode::HandleNodeStateReadyRecord(NodeStateReadyRecord record)
 		// TODO: create codec
 		if (m_pNodeCodecFactory == NULL)
 		{
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_NOT_INIT;
 		}
 
@@ -1353,7 +1353,7 @@ XnStatus PlayerNode::HandleNodeStateReadyRecord(NodeStateReadyRecord record)
 		XN_IS_STATUS_OK_LOG_ERROR("Create codec", nRetVal);
 	}
 
-	pPlayerNodeInfo->bStateReady = TRUE;
+	pPlayerNodeInfo->bStateReady = true;
 	return XN_STATUS_OK;
 }
 
@@ -1367,22 +1367,22 @@ XnStatus PlayerNode::HandleNodeDataBeginRecord(NodeDataBeginRecord record)
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_CORRUPT_FILE);
 	if (!pPlayerNodeInfo->bValid)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
 	if (!pPlayerNodeInfo->bIsGenerator)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_LOG_ERROR_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, "Got data for non-generator node '%s'", pPlayerNodeInfo->strName);
 	}
 
-	m_bDataBegun = TRUE;
+	m_bDataBegun = true;
 
 	return XN_STATUS_OK;
 }
 
-XnStatus PlayerNode::HandleNewDataRecord(NewDataRecordHeader record, XnBool bReadPayload)
+XnStatus PlayerNode::HandleNewDataRecord(NewDataRecordHeader record, bool bReadPayload)
 {
 	XN_VALIDATE_INPUT_PTR(m_pNodeNotifications);
 	XnStatus nRetVal = record.Decode();
@@ -1394,14 +1394,14 @@ XnStatus PlayerNode::HandleNewDataRecord(NewDataRecordHeader record, XnBool bRea
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_CORRUPT_FILE);
 	if (!pPlayerNodeInfo->bValid)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
 	uint32_t nRecordTotalSize = record.GetSize() + record.GetPayloadSize();
 	if (nRecordTotalSize > RECORD_MAX_SIZE)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_LOG_ERROR_RETURN(XN_STATUS_INTERNAL_BUFFER_TOO_SMALL, XN_MASK_OPEN_NI, "Record size %u is larger than player internal buffer", nRecordTotalSize);
 	}
 
@@ -1410,7 +1410,7 @@ XnStatus PlayerNode::HandleNewDataRecord(NewDataRecordHeader record, XnBool bRea
 	pPlayerNodeInfo->newDataUndoInfo.nUndoRecordPos = record.GetUndoRecordPos();
 	if (record.GetFrameNumber() > pPlayerNodeInfo->nFrames)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
@@ -1418,7 +1418,7 @@ XnStatus PlayerNode::HandleNewDataRecord(NewDataRecordHeader record, XnBool bRea
 
 	if (record.GetTimeStamp() > m_nGlobalMaxTimeStamp)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_LOG_ERROR_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, "Record timestamp for record in position %u is larger than reported max timestamp", pPlayerNodeInfo->nLastDataPos);
 	}
 
@@ -1432,7 +1432,7 @@ XnStatus PlayerNode::HandleNewDataRecord(NewDataRecordHeader record, XnBool bRea
 		XN_IS_STATUS_OK(nRetVal);
 		if (nBytesRead < record.GetPayloadSize())
 		{
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			XN_LOG_ERROR_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, "Not enough bytes read");
 		}
 
@@ -1476,7 +1476,7 @@ XnStatus PlayerNode::HandleNewDataRecord(NewDataRecordHeader record, XnBool bRea
 	return XN_STATUS_OK;
 }
 
-XnStatus PlayerNode::HandleDataIndexRecord(DataIndexRecordHeader record, XnBool bReadPayload)
+XnStatus PlayerNode::HandleDataIndexRecord(DataIndexRecordHeader record, bool bReadPayload)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1492,7 +1492,7 @@ XnStatus PlayerNode::HandleDataIndexRecord(DataIndexRecordHeader record, XnBool 
 	uint32_t nRecordTotalSize = record.GetSize() + record.GetPayloadSize();
 	if (nRecordTotalSize > RECORD_MAX_SIZE)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_LOG_ERROR_RETURN(XN_STATUS_INTERNAL_BUFFER_TOO_SMALL, XN_MASK_OPEN_NI, "Record size %u is larger than player internal buffer", nRecordTotalSize);
 	}
 
@@ -1501,7 +1501,7 @@ XnStatus PlayerNode::HandleDataIndexRecord(DataIndexRecordHeader record, XnBool 
 		// make sure node exists
 		if (!pPlayerNodeInfo->bValid)
 		{
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_CORRUPT_FILE;
 		}
 
@@ -1511,7 +1511,7 @@ XnStatus PlayerNode::HandleDataIndexRecord(DataIndexRecordHeader record, XnBool 
 
 		if (record.GetPayloadSize() != (pPlayerNodeInfo->nFrames+1) * DIESize)
 		{
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			XN_LOG_WARNING_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, "Seek table has %u entries, but node has %u frames!", record.GetPayloadSize() / DIESize, pPlayerNodeInfo->nFrames);
 		}
 
@@ -1597,9 +1597,9 @@ XnStatus PlayerNode::Rewind()
 		m_pNodeInfoMap[i].Reset();
 	}
 
-	m_bDataBegun = FALSE;
+	m_bDataBegun = false;
 	m_nTimeStamp = 0;
-	m_bEOF = FALSE;
+	m_bEOF = false;
 
 	//Skip to first data
 	nRetVal = ProcessUntilFirstData();
@@ -1614,7 +1614,7 @@ XnStatus PlayerNode::ProcessUntilFirstData()
 
 	while (!m_bDataBegun)
 	{
-		nRetVal = ProcessRecord(TRUE);
+		nRetVal = ProcessRecord(true);
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
@@ -1643,7 +1643,7 @@ XnStatus PlayerNode::SeekToTimeStampAbsolute(uint64_t nDestTimeStamp)
 	}
 
 	Record record(m_pRecordBuffer, RECORD_MAX_SIZE, m_bIs32bitFileFormat);
-	XnBool bEnd = FALSE;
+	bool bEnd = false;
 	uint32_t nBytesRead = 0;
 
 	while ((nRecordTimeStamp < nDestTimeStamp) && !bEnd)
@@ -1687,7 +1687,7 @@ XnStatus PlayerNode::SeekToTimeStampAbsolute(uint64_t nDestTimeStamp)
 
 			case RECORD_END:
 			{
-				bEnd = TRUE;
+				bEnd = true;
 				break;
 			}
 
@@ -1706,13 +1706,13 @@ XnStatus PlayerNode::SeekToTimeStampAbsolute(uint64_t nDestTimeStamp)
 				nRetVal = Read(m_pRecordBuffer + record.HEADER_SIZE, record.GetSize() - record.HEADER_SIZE, nBytesRead);
 				XN_IS_STATUS_OK(nRetVal);
 				Record record(m_pRecordBuffer, RECORD_MAX_SIZE, m_bIs32bitFileFormat);
-				nRetVal = HandleRecord(record, TRUE);
+				nRetVal = HandleRecord(record, true);
 				XN_IS_STATUS_OK(nRetVal);
 				break;
 			}
 			default:
 			{
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				return XN_STATUS_CORRUPT_FILE;
 			}
 
@@ -1799,11 +1799,11 @@ void PlayerNode::PlayerNodeInfo::Reset()
 	nFrames = 0;
 	nCurFrame = 0;
 	nMaxTimeStamp = 0;
-	bStateReady = FALSE;
-	bIsGenerator = FALSE;
+	bStateReady = false;
+	bIsGenerator = false;
 	recordUndoInfoMap.Clear();
 	newDataUndoInfo.Reset();
-	bValid = FALSE;
+	bValid = false;
 	xnOSFree(pDataIndex);
 	pDataIndex = NULL;
 }

@@ -58,7 +58,7 @@ XN_C_API XnStatus xnOSFreeLibrary(const XN_LIB_HANDLE LibHandle)
 	if (LibHandle == NULL) return XN_STATUS_ERROR;
 
 	// Free the shared library via the OS and make sure it succeeded
-	if (FreeLibrary(LibHandle) != TRUE)
+	if (FreeLibrary(LibHandle) != true)
 	{
 		return (XN_STATUS_OS_CANT_FREE_LIB);
 	}

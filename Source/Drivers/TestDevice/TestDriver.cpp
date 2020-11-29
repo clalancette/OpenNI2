@@ -61,7 +61,7 @@ void TestDriver::deviceClose(oni::driver::DeviceBase* pDevice)
 	}
 
 	// not our device?!
-	XN_ASSERT(FALSE);
+	XN_ASSERT(false);
 }
 
 OniStatus TestDriver::tryDevice(const char* uri)

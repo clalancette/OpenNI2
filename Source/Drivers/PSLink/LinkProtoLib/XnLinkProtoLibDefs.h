@@ -70,8 +70,8 @@ typedef uint32_t XnStreamType;
 typedef struct XnAvailableGesture
 {
 	const XnChar* m_strGesture;
-	XnBool m_bProgressSupported;
-	XnBool m_bCurrentlyActive;
+	bool m_bProgressSupported;
+	bool m_bCurrentlyActive;
 } XnAvailableGesture;
 
 typedef struct XnLeanVersion

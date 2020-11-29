@@ -93,7 +93,7 @@ XnSensorFirmwareParams::XnSensorFirmwareParams(XnFirmwareInfo* pInfo, XnFirmware
 	m_AllFirmwareParams(),
 	m_pInfo(pInfo),
 	m_pCommands(pCommands),
-	m_bInTransaction(FALSE)
+	m_bInTransaction(false)
 {
 	m_ReferenceResolution.SetLogSeverity(XN_LOG_VERBOSE);
 }
@@ -144,7 +144,7 @@ XnStatus XnSensorFirmwareParams::Init()
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_ImageCropOffsetY,			PARAM_IMAGE_CROP_OFFSET_Y,					XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	0);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_ImageCropMode,			PARAM_IMAGE_CROP_MODE,					XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_ImageCropMode,			PARAM_IMAGE_CROP_MODE,					XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_DepthFormat,				PARAM_DEPTH_FORMAT);
 	XN_IS_STATUS_OK(nRetVal);
@@ -156,7 +156,7 @@ XnStatus XnSensorFirmwareParams::Init()
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_DepthHoleFilter,			PARAM_DEPTH_HOLE_FILTER);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_DepthMirror,				PARAM_DEPTH_MIRROR,							XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_DepthMirror,				PARAM_DEPTH_MIRROR,							XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_DepthDecimation,			PARAM_DEPTH_DECIMATION);
 	XN_IS_STATUS_OK(nRetVal);
@@ -168,7 +168,7 @@ XnStatus XnSensorFirmwareParams::Init()
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_DepthCropOffsetY,			PARAM_DEPTH_CROP_OFFSET_Y,					XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	0);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_DepthCropMode,			PARAM_DEPTH_CROP_MODE,						XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_DepthCropMode,			PARAM_DEPTH_CROP_MODE,						XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_IRFormat,					PARAM_IR_FORMAT);
 	XN_IS_STATUS_OK(nRetVal);
@@ -184,45 +184,45 @@ XnStatus XnSensorFirmwareParams::Init()
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_IRCropOffsetY,			PARAM_IR_CROP_OFFSET_Y,						XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	0);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_IRCropMode,			PARAM_IR_CROP_MODE,						XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_IRCropMode,			PARAM_IR_CROP_MODE,						XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_DepthWhiteBalance,		PARAM_DEPTH_WHITE_BALANCE_ENABLE,			XN_SENSOR_FW_VER_4_0,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_DepthWhiteBalance,		PARAM_DEPTH_WHITE_BALANCE_ENABLE,			XN_SENSOR_FW_VER_4_0,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_ImageMirror,				PARAM_IMAGE_MIRROR,							XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_ImageMirror,				PARAM_IMAGE_MIRROR,							XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_IRMirror,					PARAM_IR_MIRROR,							XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_IRMirror,					PARAM_IR_MIRROR,							XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_GMCMode,					PARAM_DEPTH_GMC_MODE,						XN_SENSOR_FW_VER_3_0,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_GMCMode,					PARAM_DEPTH_GMC_MODE,						XN_SENSOR_FW_VER_3_0,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_ImageSharpness,			PARAM_IMAGE_SHARPNESS,						XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	50);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_ImageAutoWhiteBalance,	PARAM_IMAGE_AUTO_WHITE_BALANCE_MODE,		XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_ImageAutoWhiteBalance,	PARAM_IMAGE_AUTO_WHITE_BALANCE_MODE,		XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_ImageColorTemperature,	PARAM_IMAGE_COLOR_TEMPERATURE,				XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	0);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_ImageBacklightCompensation,PARAM_IMAGE_BACK_LIGHT_COMPENSATION,		XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_ImageBacklightCompensation,PARAM_IMAGE_BACK_LIGHT_COMPENSATION,		XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_ImageAutoExposure,		PARAM_IMAGE_AUTO_EXPOSURE_MODE,				XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_ImageAutoExposure,		PARAM_IMAGE_AUTO_EXPOSURE_MODE,				XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_ImageExposureBar,			PARAM_IMAGE_EXPOSURE_BAR,					XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	0);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_ImageLowLightCompensation,PARAM_IMAGE_LOW_LIGHT_COMPENSATION_MODE,	XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_ImageLowLightCompensation,PARAM_IMAGE_LOW_LIGHT_COMPENSATION_MODE,	XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_ImageGain,				PARAM_IMAGE_AGC,							XN_SENSOR_FW_VER_5_4,	XN_SENSOR_FW_VER_UNKNOWN,	0);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_DepthCloseRange,			PARAM_DEPTH_CLOSE_RANGE,					XN_SENSOR_FW_VER_5_6,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_DepthCloseRange,			PARAM_DEPTH_CLOSE_RANGE,					XN_SENSOR_FW_VER_5_6,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_FastZoomCrop,				PARAM_FAST_ZOOM_CROP,						XN_SENSOR_FW_VER_5_9,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_FastZoomCrop,				PARAM_FAST_ZOOM_CROP,						XN_SENSOR_FW_VER_5_9,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
 	nRetVal = AddFirmwareParam(		m_LogFilter,				PARAM_MISC_LOG_FILTER);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_GMCDebug,					PARAM_GMC_DEBUG,							XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_GMCDebug,					PARAM_GMC_DEBUG,							XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_APCEnabled,				PARAM_APC_ENABLE,							XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_APCEnabled,				PARAM_APC_ENABLE,							XN_SENSOR_FW_VER_5_0,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_WavelengthCorrection,		PARAM_WAVELENGTH_CORRECTION_ENABLED,		XN_SENSOR_FW_VER_5_2,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_WavelengthCorrection,		PARAM_WAVELENGTH_CORRECTION_ENABLED,		XN_SENSOR_FW_VER_5_2,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
-	nRetVal = AddFirmwareParam(		m_WavelengthCorrectionDebug,PARAM_WAVELENGTH_CORRECTION_DEBUG_ENABLED,	XN_SENSOR_FW_VER_5_2,	XN_SENSOR_FW_VER_UNKNOWN,	FALSE);
+	nRetVal = AddFirmwareParam(		m_WavelengthCorrectionDebug,PARAM_WAVELENGTH_CORRECTION_DEBUG_ENABLED,	XN_SENSOR_FW_VER_5_2,	XN_SENSOR_FW_VER_UNKNOWN,	false);
 	XN_IS_STATUS_OK(nRetVal);
 
 	// override some props
@@ -275,7 +275,7 @@ XnStatus XnSensorFirmwareParams::AddFirmwareParam(XnActualIntProperty& Property,
 
 	Property.UpdateName("Firmware", csNewName);
 	Property.SetLogSeverity(XN_LOG_VERBOSE);
-	Property.SetAlwaysSet(TRUE);
+	Property.SetAlwaysSet(true);
 	Property.UpdateSetCallback(SetFirmwareParamCallback, this);
 
 	return (XN_STATUS_OK);
@@ -318,7 +318,7 @@ XnStatus XnSensorFirmwareParams::StartTransaction()
 		return XN_STATUS_ERROR;
 	}
 
-	m_bInTransaction = TRUE;
+	m_bInTransaction = true;
 	m_Transaction.Clear();
 	m_TransactionOrder.clear();
 
@@ -335,7 +335,7 @@ XnStatus XnSensorFirmwareParams::CommitTransaction()
 	}
 
 	// we are no longer in transaction, even if we fail to commit.
-	m_bInTransaction = FALSE;
+	m_bInTransaction = false;
 
 	for (std::list<XnActualIntProperty*>::iterator it = m_TransactionOrder.begin(); it != m_TransactionOrder.end(); ++it)
 	{
@@ -365,7 +365,7 @@ XnStatus XnSensorFirmwareParams::CommitTransactionAsBatch()
 	}
 
 	// we are no longer in transaction, even if we fail to commit.
-	m_bInTransaction = FALSE;
+	m_bInTransaction = false;
 
 	if (m_TransactionOrder.size() != 0)
 	{
@@ -449,7 +449,7 @@ XnStatus XnSensorFirmwareParams::RollbackTransaction()
 
 	m_Transaction.Clear();
 	m_TransactionOrder.clear();
-	m_bInTransaction = FALSE;
+	m_bInTransaction = false;
 
 	return (XN_STATUS_OK);
 }

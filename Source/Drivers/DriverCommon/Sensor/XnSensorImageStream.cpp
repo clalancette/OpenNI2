@@ -42,13 +42,13 @@
 // XnSensorImageStream class
 //---------------------------------------------------------------------------
 XnSensorImageStream::XnSensorImageStream(const XnChar* StreamName, XnSensorObjects* pObjects) :
-	XnImageStream(StreamName, FALSE),
+	XnImageStream(StreamName, false),
 	m_Helper(pObjects),
 	m_InputFormat(XN_STREAM_PROPERTY_INPUT_FORMAT, "InputFormat", XN_IMAGE_STREAM_DEFAULT_INPUT_FORMAT),
 	m_AntiFlicker(XN_STREAM_PROPERTY_FLICKER, "Flicker", XN_IMAGE_STREAM_DEFAULT_FLICKER),
 	m_ImageQuality(XN_STREAM_PROPERTY_QUALITY, "Quality", XN_IMAGE_STREAM_DEFAULT_QUALITY),
 	m_CroppingMode(XN_STREAM_PROPERTY_CROPPING_MODE, "CroppingMode", XN_CROPPING_MODE_NORMAL),
-	m_FirmwareMirror(0, "FirmwareMirror", FALSE, StreamName),
+	m_FirmwareMirror(0, "FirmwareMirror", false, StreamName),
 	m_FirmwareCropSizeX(0, "FirmwareCropSizeX", 0, StreamName),
 	m_FirmwareCropSizeY(0, "FirmwareCropSizeY", 0, StreamName),
 	m_FirmwareCropOffsetX(0, "FirmwareCropOffsetX", 0, StreamName),
@@ -62,7 +62,7 @@ XnSensorImageStream::XnSensorImageStream(const XnChar* StreamName, XnSensorObjec
 	m_Gain(ONI_STREAM_PROPERTY_GAIN, "Gain", XN_IMAGE_STREAM_DEFAULT_GAIN),
 	m_FastZoomCrop(XN_STREAM_PROPERTY_FAST_ZOOM_CROP, "FastZoomCrop", false),
 
-	m_ActualRead(XN_STREAM_PROPERTY_ACTUAL_READ_DATA, "ActualReadData", FALSE),
+	m_ActualRead(XN_STREAM_PROPERTY_ACTUAL_READ_DATA, "ActualReadData", false),
 	m_HorizontalFOV(ONI_STREAM_PROPERTY_HORIZONTAL_FOV, "HorizontalFov"),
 	m_VerticalFOV(ONI_STREAM_PROPERTY_VERTICAL_FOV, "VerticalFov")
 {
@@ -130,7 +130,7 @@ XnStatus XnSensorImageStream::Init()
 
 	// check if our current (default) configuration is valid
 	uint16_t nValidInputFormat = XN_IMAGE_STREAM_DEFAULT_INPUT_FORMAT;
-	XnBool bModeFound = FALSE;
+	bool bModeFound = false;
 
 	const std::vector<XnCmosPreset>& aSupportedModes = GetSupportedModes();
 
@@ -142,7 +142,7 @@ XnStatus XnSensorImageStream::Init()
 			// found
 			if (!bModeFound)
 			{
-				bModeFound = TRUE;
+				bModeFound = true;
 				nValidInputFormat = aSupportedModes[i].nFormat;
 			}
 
@@ -186,37 +186,37 @@ XnStatus XnSensorImageStream::MapPropertiesToFirmware()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_Helper.MapFirmwareProperty(m_InputFormat, GetFirmwareParams()->m_ImageFormat, FALSE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_InputFormat, GetFirmwareParams()->m_ImageFormat, false);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(ResolutionProperty(), GetFirmwareParams()->m_ImageResolution, FALSE);
+	nRetVal = m_Helper.MapFirmwareProperty(ResolutionProperty(), GetFirmwareParams()->m_ImageResolution, false);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(FPSProperty(), GetFirmwareParams()->m_ImageFPS, FALSE);
+	nRetVal = m_Helper.MapFirmwareProperty(FPSProperty(), GetFirmwareParams()->m_ImageFPS, false);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_AntiFlicker, GetFirmwareParams()->m_ImageFlickerDetection, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_AntiFlicker, GetFirmwareParams()->m_ImageFlickerDetection, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_ImageQuality, GetFirmwareParams()->m_ImageQuality, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_ImageQuality, GetFirmwareParams()->m_ImageQuality, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareMirror, GetFirmwareParams()->m_ImageMirror, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareMirror, GetFirmwareParams()->m_ImageMirror, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeX, GetFirmwareParams()->m_ImageCropSizeX, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeX, GetFirmwareParams()->m_ImageCropSizeX, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeY, GetFirmwareParams()->m_ImageCropSizeY, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropSizeY, GetFirmwareParams()->m_ImageCropSizeY, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetX, GetFirmwareParams()->m_ImageCropOffsetX, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetX, GetFirmwareParams()->m_ImageCropOffsetX, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetY, GetFirmwareParams()->m_ImageCropOffsetY, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropOffsetY, GetFirmwareParams()->m_ImageCropOffsetY, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropMode, GetFirmwareParams()->m_ImageCropMode, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FirmwareCropMode, GetFirmwareParams()->m_ImageCropMode, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_AutoExposure, GetFirmwareParams()->m_ImageAutoExposure, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_AutoExposure, GetFirmwareParams()->m_ImageAutoExposure, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_AutoWhiteBalance, GetFirmwareParams()->m_ImageAutoWhiteBalance, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_AutoWhiteBalance, GetFirmwareParams()->m_ImageAutoWhiteBalance, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_Exposure, GetFirmwareParams()->m_ImageExposureBar, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_Exposure, GetFirmwareParams()->m_ImageExposureBar, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_Gain, GetFirmwareParams()->m_ImageGain, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_Gain, GetFirmwareParams()->m_ImageGain, true);
 	XN_IS_STATUS_OK(nRetVal);;
-	nRetVal = m_Helper.MapFirmwareProperty(m_FastZoomCrop, GetFirmwareParams()->m_FastZoomCrop, TRUE);
+	nRetVal = m_Helper.MapFirmwareProperty(m_FastZoomCrop, GetFirmwareParams()->m_FastZoomCrop, true);
 	XN_IS_STATUS_OK(nRetVal);;
 
 	return (XN_STATUS_OK);
@@ -273,7 +273,7 @@ XnStatus XnSensorImageStream::ValidateMode()
 		break;
 	default:
 		// we shouldn't have reached here. Theres a check at SetOutputFormat.
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DEVICE_SENSOR, "Unsupported image output format: %d!", nOutputFormat);
 	}
 
@@ -291,7 +291,7 @@ XnStatus XnSensorImageStream::ConfigureStreamImpl()
 
 	xnUSBShutdownReadThread(GetHelper()->GetPrivateData()->pSpecificImageUsb->pUsbConnection->UsbEp);
 
-	nRetVal = SetActualRead(TRUE);
+	nRetVal = SetActualRead(true);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = ValidateMode();
@@ -325,11 +325,11 @@ XnStatus XnSensorImageStream::ConfigureStreamImpl()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorImageStream::SetActualRead(XnBool bRead)
+XnStatus XnSensorImageStream::SetActualRead(bool bRead)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	if ((XnBool)m_ActualRead.GetValue() != bRead)
+	if ((bool)m_ActualRead.GetValue() != bRead)
 	{
 		if (bRead)
 		{
@@ -382,10 +382,10 @@ XnStatus XnSensorImageStream::OpenStreamImpl()
 	}
 	else
 	{
-		nRetVal = SetAutoExposureForOldFirmware(m_AutoExposure.GetValue() == TRUE);
+		nRetVal = SetAutoExposureForOldFirmware(m_AutoExposure.GetValue() == true);
 		XN_IS_STATUS_OK(nRetVal);
 
-		nRetVal = SetAutoWhiteBalanceForOldFirmware(m_AutoWhiteBalance.GetValue() == TRUE);
+		nRetVal = SetAutoWhiteBalanceForOldFirmware(m_AutoWhiteBalance.GetValue() == true);
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
@@ -402,7 +402,7 @@ XnStatus XnSensorImageStream::CloseStreamImpl()
 	nRetVal = GetFirmwareParams()->m_Stream0Mode.SetValue(XN_VIDEO_STREAM_OFF);
 	XN_IS_STATUS_OK(nRetVal);
 
-	nRetVal = SetActualRead(FALSE);
+	nRetVal = SetActualRead(false);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = XnImageStream::Close();
@@ -439,12 +439,12 @@ XnStatus XnSensorImageStream::SetOutputFormat(OniPixelFormat nOutputFormat)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorImageStream::SetMirror(XnBool bIsMirrored)
+XnStatus XnSensorImageStream::SetMirror(bool bIsMirrored)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// set firmware mirror
-	XnBool bFirmwareMirror = (bIsMirrored == TRUE && m_Helper.GetFirmwareVersion() >= XN_SENSOR_FW_VER_5_0);
+	bool bFirmwareMirror = (bIsMirrored == true && m_Helper.GetFirmwareVersion() >= XN_SENSOR_FW_VER_5_0);
 
 	xnOSEnterCriticalSection(GetLock());
 
@@ -635,7 +635,7 @@ XnStatus XnSensorImageStream::SetCroppingMode(XnCroppingMode mode)
 	return SetCroppingImpl(GetCropping(), mode);
 }
 
-XnStatus XnSensorImageStream::SetAutoExposureForOldFirmware(XnBool bAutoExposure)
+XnStatus XnSensorImageStream::SetAutoExposureForOldFirmware(bool bAutoExposure)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	uint16_t nCmosRegValue;
@@ -661,7 +661,7 @@ XnStatus XnSensorImageStream::SetAutoExposureForOldFirmware(XnBool bAutoExposure
 	return XN_STATUS_OK;
 }
 
-XnStatus XnSensorImageStream::SetAutoExposure(XnBool bAutoExposure)
+XnStatus XnSensorImageStream::SetAutoExposure(bool bAutoExposure)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -682,7 +682,7 @@ XnStatus XnSensorImageStream::SetAutoExposure(XnBool bAutoExposure)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorImageStream::SetAutoWhiteBalanceForOldFirmware(XnBool bAutoWhiteBalance)
+XnStatus XnSensorImageStream::SetAutoWhiteBalanceForOldFirmware(bool bAutoWhiteBalance)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	uint16_t nCmosRegValue;
@@ -708,7 +708,7 @@ XnStatus XnSensorImageStream::SetAutoWhiteBalanceForOldFirmware(XnBool bAutoWhit
 	return XN_STATUS_OK;
 }
 
-XnStatus XnSensorImageStream::SetAutoWhiteBalance(XnBool bAutoWhiteBalance)
+XnStatus XnSensorImageStream::SetAutoWhiteBalance(bool bAutoWhiteBalance)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -757,7 +757,7 @@ XnStatus XnSensorImageStream::SetGain(uint64_t nValue)
 
 	return (XN_STATUS_OK);
 }
-XnStatus XnSensorImageStream::SetFastZoomCrop(XnBool bFastZoomCrop)
+XnStatus XnSensorImageStream::SetFastZoomCrop(bool bFastZoomCrop)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -785,7 +785,7 @@ XnStatus XnSensorImageStream::Mirror(OniFrame* pFrame) const
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// only perform mirror if it's our job. if mirror is performed by FW, we don't need to do anything.
-	if (m_FirmwareMirror.GetValue() == FALSE)
+	if (m_FirmwareMirror.GetValue() == false)
 	{
 		nRetVal = XnImageStream::Mirror(pFrame);
 		XN_IS_STATUS_OK(nRetVal);
@@ -920,7 +920,7 @@ XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetImageQualityCallback(XnActualI
 XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetActualReadCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pThis = (XnSensorImageStream*)pCookie;
-	return pThis->SetActualRead(nValue == TRUE);
+	return pThis->SetActualRead(nValue == true);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetCroppingModeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
@@ -932,13 +932,13 @@ XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetCroppingModeCallback(XnActualI
 XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetAutoExposureCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pStream = (XnSensorImageStream*)pCookie;
-	return pStream->SetAutoExposure((XnBool)nValue);
+	return pStream->SetAutoExposure((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetAutoWhiteBalanceCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pStream = (XnSensorImageStream*)pCookie;
-	return pStream->SetAutoWhiteBalance((XnBool)nValue);
+	return pStream->SetAutoWhiteBalance((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetExposureCallback(XnActualIntProperty*, uint64_t nValue, void* pCookie)
@@ -955,5 +955,5 @@ XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetGainCallback(XnActualIntProper
 XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetFastZoomCropCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pStream = (XnSensorImageStream*)pCookie;
-	return pStream->SetFastZoomCrop((XnBool)nValue);
+	return pStream->SetFastZoomCrop((bool)nValue);
 }

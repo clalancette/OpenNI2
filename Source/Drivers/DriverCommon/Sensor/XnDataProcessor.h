@@ -58,7 +58,7 @@ public:
 	 */
 	void ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
 
-	inline XnBool ShouldUseHostTimestamps() { return m_bUseHostTimestamps; }
+	inline bool ShouldUseHostTimestamps() { return m_bUseHostTimestamps; }
 
 protected:
 	//---------------------------------------------------------------------------
@@ -93,7 +93,7 @@ protected:
 private:
 	/* Data used for calculating timestamps. */
 	XnTimeStampData m_TimeStampData;
-	XnBool m_bUseHostTimestamps;
+	bool m_bUseHostTimestamps;
 };
 
 #endif // XNDATAPROCESSOR_H

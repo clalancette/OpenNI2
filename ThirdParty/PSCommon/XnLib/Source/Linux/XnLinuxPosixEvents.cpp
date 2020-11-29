@@ -20,7 +20,7 @@
 *****************************************************************************/
 #include "XnLinuxPosixEvents.h"
 
-XnLinuxPosixEvent::XnLinuxPosixEvent(XnBool bManualReset) : XnLinuxEvent(bManualReset)
+XnLinuxPosixEvent::XnLinuxPosixEvent(bool bManualReset) : XnLinuxEvent(bManualReset)
 {
 
 }
@@ -63,7 +63,7 @@ XnStatus XnLinuxPosixEvent::Set()
 	}
 
 	// signal the condition
-	m_bSignaled = TRUE;
+	m_bSignaled = true;
 
 	// wake other threads
 	if (0 != pthread_cond_broadcast(&m_cond))
@@ -83,7 +83,7 @@ XnStatus XnLinuxPosixEvent::Set()
 
 XnStatus XnLinuxPosixEvent::Reset()
 {
-	m_bSignaled = FALSE;
+	m_bSignaled = false;
 
 	return (XN_STATUS_OK);
 }
@@ -141,7 +141,7 @@ XnStatus XnLinuxPosixEvent::Wait(uint32_t nMilliseconds)
 	if (!m_bManualReset)
 	{
 		// auto-reset the event
-		m_bSignaled = FALSE;
+		m_bSignaled = false;
 	}
 
 	// unlock the mutex

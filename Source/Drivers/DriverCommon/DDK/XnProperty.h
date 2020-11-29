@@ -57,8 +57,8 @@ public:
 	inline uint32_t GetId() const { return m_propertyId; }
 	inline const XnChar* GetName() const { return m_strName; }
 	inline const XnChar* GetModule() const { return m_strModule; }
-	inline XnBool IsActual() const { return (m_pValueHolder != NULL); }
-	virtual XnBool IsReadOnly() const = 0;
+	inline bool IsActual() const { return (m_pValueHolder != NULL); }
+	virtual bool IsReadOnly() const = 0;
 	inline XnPropertyType GetType() const { return m_Type; }
 
 	inline ChangeEventInterface& OnChangeEvent() { return m_OnChangeEvent; }
@@ -75,8 +75,8 @@ public:
 	/** Sets the log severity under which changes to the property are printed. */
 	inline void SetLogSeverity(int32_t nSeverity) { m_LogSeverity = nSeverity; }
 
-	/** When TRUE, the property will always call the set callback, even if value hasn't changed. */
-	inline void SetAlwaysSet(XnBool bAlwaysSet) { m_bAlwaysSet = bAlwaysSet; }
+	/** When true, the property will always call the set callback, even if value hasn't changed. */
+	inline void SetAlwaysSet(bool bAlwaysSet) { m_bAlwaysSet = bAlwaysSet; }
 
 protected:
 	/** Sets the property value. */
@@ -89,10 +89,10 @@ protected:
 	XnStatus UnsafeUpdateValue(const void* pValue = NULL);
 
 	virtual XnStatus CopyValueImpl(void* pDest, const void* pSource) const = 0;
-	virtual XnBool IsEqual(const void* pValue1, const void* pValue2) const = 0;
+	virtual bool IsEqual(const void* pValue1, const void* pValue2) const = 0;
 	virtual XnStatus CallSetCallback(const void* pValue) = 0;
 	virtual XnStatus CallGetCallback(void* pValue) const = 0;
-	virtual XnBool ConvertValueToString(XnChar* csValue, const void* pValue) const;
+	virtual bool ConvertValueToString(XnChar* csValue, const void* pValue) const;
 
 	inline void* Value() const { return m_pValueHolder; }
 
@@ -113,7 +113,7 @@ private:
 	ChangeEvent m_OnChangeEvent;
 
 	int32_t m_LogSeverity;
-	XnBool m_bAlwaysSet;
+	bool m_bAlwaysSet;
 };
 
 /** A hash table, mapping property name to the property */

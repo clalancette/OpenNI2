@@ -47,7 +47,7 @@ public:
 
 	XnStatus Remove(uint32_t propertyId);
 	XnStatus Remove(ConstIterator where);
-	inline XnBool IsEmpty() const { return m_Hash.IsEmpty(); }
+	inline bool IsEmpty() const { return m_Hash.IsEmpty(); }
 	XnStatus Clear();
 
 	inline XnStatus Find(uint32_t propertyId, Iterator& iter) { return m_Hash.Find(propertyId, iter); }

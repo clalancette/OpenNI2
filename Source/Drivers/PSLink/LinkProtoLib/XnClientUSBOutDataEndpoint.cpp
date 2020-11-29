@@ -36,7 +36,7 @@ ClientUSBOutDataEndpoint::ClientUSBOutDataEndpoint(XnUSBEndPointType endpointTyp
 	m_hUSBDevice = NULL;
 	m_nMaxPacketSize = 0;
 	m_endpointType = endpointType;
-	m_bConnected = FALSE;
+	m_bConnected = false;
 }
 
 ClientUSBOutDataEndpoint::~ClientUSBOutDataEndpoint()
@@ -71,11 +71,11 @@ XnStatus ClientUSBOutDataEndpoint::Connect()
 		if (nTempMaxPacketSize > XN_MAX_UINT16)
 		{
 			xnLogError(XN_MASK_USB, "Max packet size exceeds max uint16 value ?!");
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return XN_STATUS_ERROR;
 		}
 		m_nMaxPacketSize = static_cast<uint16_t>(nTempMaxPacketSize);
-		m_bConnected = TRUE;
+		m_bConnected = true;
 	}
 	return XN_STATUS_OK;
 }
@@ -118,7 +118,7 @@ uint16_t ClientUSBOutDataEndpoint::GetMaxPacketSize() const
 	return m_nMaxPacketSize;
 }
 
-XnBool ClientUSBOutDataEndpoint::IsConnected() const
+bool ClientUSBOutDataEndpoint::IsConnected() const
 {
 	return m_bConnected;
 }

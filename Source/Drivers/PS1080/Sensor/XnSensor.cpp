@@ -40,8 +40,8 @@
 //---------------------------------------------------------------------------
 #define XN_SENSOR_MAX_STREAM_COUNT						5
 #define XN_SENSOR_FRAME_SYNC_MAX_DIFF					3
-#define XN_SENSOR_DEFAULT_CLOSE_STREAMS_ON_SHUTDOWN		TRUE
-#define XN_SENSOR_DEFAULT_HOST_TIMESTAMPS				FALSE
+#define XN_SENSOR_DEFAULT_CLOSE_STREAMS_ON_SHUTDOWN		true
+#define XN_SENSOR_DEFAULT_HOST_TIMESTAMPS				false
 #define XN_GLOBAL_CONFIG_FILE_NAME						"PS1080.ini"
 
 #define FRAME_SYNC_MAX_FRAME_TIME_DIFF					3000
@@ -67,16 +67,16 @@ typedef struct XnWaitForSycnhedFrameData
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnSensor::XnSensor(XnBool bResetOnStartup /* = TRUE */, XnBool bLeanInit /* = FALSE */) :
+XnSensor::XnSensor(bool bResetOnStartup /* = true */, bool bLeanInit /* = false */) :
 	XnDeviceBase(),
 	m_hDisconnectedCallback(NULL),
 	m_ErrorState(XN_MODULE_PROPERTY_ERROR_STATE, "ErrorState", XN_STATUS_OK),
 	m_ResetSensorOnStartup(XN_MODULE_PROPERTY_RESET_SENSOR_ON_STARTUP, "ResetOnStartup", bResetOnStartup),
 	m_LeanInit(XN_MODULE_PROPERTY_LEAN_INIT, "LeanInit", bLeanInit),
 	m_Interface(XN_MODULE_PROPERTY_USB_INTERFACE, "UsbInterface", bResetOnStartup ? XN_SENSOR_DEFAULT_USB_INTERFACE : XN_SENSOR_USB_INTERFACE_DEFAULT),
-	m_ReadData(0, "ReadData", FALSE),
-	m_FrameSync(XN_MODULE_PROPERTY_FRAME_SYNC, "FrameSync", FALSE),
-	m_FirmwareFrameSync(XN_MODULE_PROPERTY_FIRMWARE_FRAME_SYNC, "FirmwareFrameSync", FALSE),
+	m_ReadData(0, "ReadData", false),
+	m_FrameSync(XN_MODULE_PROPERTY_FRAME_SYNC, "FrameSync", false),
+	m_FirmwareFrameSync(XN_MODULE_PROPERTY_FIRMWARE_FRAME_SYNC, "FirmwareFrameSync", false),
 	m_CloseStreamsOnShutdown(XN_MODULE_PROPERTY_CLOSE_STREAMS_ON_SHUTDOWN, "CloseStreamsOnShutdown", XN_SENSOR_DEFAULT_CLOSE_STREAMS_ON_SHUTDOWN),
 	m_HostTimestamps(XN_MODULE_PROPERTY_HOST_TIMESTAMPS, "HostTimestamps", XN_SENSOR_DEFAULT_HOST_TIMESTAMPS),
 	m_FirmwareParam(XN_MODULE_PROPERTY_FIRMWARE_PARAM, "FirmwareParam", NULL),
@@ -98,10 +98,10 @@ XnSensor::XnSensor(XnBool bResetOnStartup /* = TRUE */, XnBool bLeanInit /* = FA
 	m_EmitterEnabled(XN_MODULE_PROPERTY_EMITTER_STATE, "EmitterState", NULL),
 	m_FirmwareLogFilter(XN_MODULE_PROPERTY_FIRMWARE_LOG_FILTER, "FirmwareLogFilter", 0),
 	m_FirmwareLogInterval(XN_MODULE_PROPERTY_FIRMWARE_LOG_INTERVAL, "FirmwareLogInterval", 0),
-	m_FirmwareLogPrint(XN_MODULE_PROPERTY_PRINT_FIRMWARE_LOG, "PrintFirmwareLog", FALSE),
+	m_FirmwareLogPrint(XN_MODULE_PROPERTY_PRINT_FIRMWARE_LOG, "PrintFirmwareLog", false),
 	m_FirmwareCPUInterval(XN_MODULE_PROPERTY_FIRMWARE_CPU_INTERVAL, "FirmwareCPUInterval", 0),
-	m_APCEnabled(XN_MODULE_PROPERTY_APC_ENABLED, "APCEnabled", TRUE),
-	m_FirmwareTecDebugPrint(XN_MODULE_PROPERTY_FIRMWARE_TEC_DEBUG_PRINT, "TecDebugPrint", FALSE),
+	m_APCEnabled(XN_MODULE_PROPERTY_APC_ENABLED, "APCEnabled", true),
+	m_FirmwareTecDebugPrint(XN_MODULE_PROPERTY_FIRMWARE_TEC_DEBUG_PRINT, "TecDebugPrint", false),
 	m_ReadAllEndpoints(XN_MODULE_PROPERTY_READ_ALL_ENDPOINTS, "ReadAllEndpoints", 0),
 	m_I2C(XN_MODULE_PROPERTY_I2C, "I2C", NULL),
 	m_DeleteFile(XN_MODULE_PROPERTY_DELETE_FILE, "DeleteFile"),
@@ -127,7 +127,7 @@ XnSensor::XnSensor(XnBool bResetOnStartup /* = TRUE */, XnBool bLeanInit /* = FA
 	m_pCPUTask(NULL),
 	m_FirmwareLogDump(NULL),
 	m_FrameSyncDump(NULL),
-	m_bInitialized(FALSE)
+	m_bInitialized(false)
 {
 	// reset all data
 	xnOSMemSet(&m_DevicePrivateData, 0, sizeof(XnDevicePrivateData));
@@ -184,7 +184,7 @@ XnSensor::XnSensor(XnBool bResetOnStartup /* = TRUE */, XnBool bLeanInit /* = FA
 	m_ReadAllEndpoints.UpdateSetCallback(SetReadAllEndpointsCallback, this);
 
 	// Clear the frame-synced streams.
-	m_nFrameSyncEnabled = FALSE;
+	m_nFrameSyncEnabled = false;
 	m_nFrameSyncLastFrameID = 0;
 }
 
@@ -258,9 +258,9 @@ XnStatus XnSensor::InitSensor(const XnDeviceConfig* pDeviceConfig)
 	XN_IS_STATUS_OK(nRetVal);
 
 	// init firmware
-	nRetVal = m_Firmware.Init((XnBool)m_ResetSensorOnStartup.GetValue(), (XnBool)m_LeanInit.GetValue());
+	nRetVal = m_Firmware.Init((bool)m_ResetSensorOnStartup.GetValue(), (bool)m_LeanInit.GetValue());
 	XN_IS_STATUS_OK(nRetVal);
-	m_bInitialized = TRUE;
+	m_bInitialized = true;
 
 	m_ResetSensorOnStartup.UpdateSetCallback(NULL, NULL);
 	m_LeanInit.UpdateSetCallback(NULL, NULL);
@@ -305,7 +305,7 @@ XnStatus XnSensor::Destroy()
 	// close Commands.txt thread
 	if (pDevicePrivateData->LogThread.hThread != NULL)
 	{
-		pDevicePrivateData->LogThread.bKillThread = TRUE;
+		pDevicePrivateData->LogThread.bKillThread = true;
 
 		xnLogVerbose(XN_MASK_DEVICE_SENSOR, "Shutting down Sensor commands.txt thread...");
 		xnOSWaitAndTerminateThread(&pDevicePrivateData->LogThread.hThread, XN_DEVICE_SENSOR_THREAD_KILL_TIMEOUT);
@@ -313,8 +313,8 @@ XnStatus XnSensor::Destroy()
 	}
 
 	// if needed, close the streams
-	if (m_bInitialized && m_CloseStreamsOnShutdown.GetValue() == TRUE &&
-		m_ReadData.GetValue() == TRUE && m_ErrorState.GetValue() != XN_STATUS_DEVICE_NOT_CONNECTED)
+	if (m_bInitialized && m_CloseStreamsOnShutdown.GetValue() == true &&
+		m_ReadData.GetValue() == true && m_ErrorState.GetValue() != XN_STATUS_DEVICE_NOT_CONNECTED)
 	{
 		m_Firmware.GetParams()->m_Stream0Mode.SetValue(XN_VIDEO_STREAM_OFF);
 		m_Firmware.GetParams()->m_Stream1Mode.SetValue(XN_VIDEO_STREAM_OFF);
@@ -323,7 +323,7 @@ XnStatus XnSensor::Destroy()
 
 	// close IO (including all reading threads)
 	m_SensorIO.CloseDevice();
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 
 	// shutdown scheduler
 	if (m_pScheduler != NULL)
@@ -422,7 +422,7 @@ XnStatus XnSensor::CreateStreamModule(const XnChar* StreamType, const XnChar* St
 	// make sure reading from streams is turned on
 	if (!m_ReadData.GetValue())
 	{
-		nRetVal = m_ReadData.SetValue(TRUE);
+		nRetVal = m_ReadData.SetValue(true);
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
@@ -453,7 +453,7 @@ XnStatus XnSensor::CreateStreamModule(const XnChar* StreamType, const XnChar* St
 	}
 	else if (strcmp(StreamType, XN_STREAM_TYPE_AUDIO) == 0)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		pStream = NULL;
 		pHelper = NULL;
 	}
@@ -636,7 +636,7 @@ XnStatus XnSensor::InitReading()
 
 	// NOTE: when we go up, some streams might be open, and so we'll receive lots of garbage.
 	// wait till streams are turned off, and then start reading.
-//	pDevicePrivateData->bIgnoreDataPackets = TRUE;
+//	pDevicePrivateData->bIgnoreDataPackets = true;
 
 	// open input threads
 	nRetVal = XnDeviceSensorOpenInputThreads(GetDevicePrivateData());
@@ -707,7 +707,7 @@ XnStatus XnSensor::ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32_t n
 		rc = xnOSAppendFilePath(strTempFileName, XN_GLOBAL_CONFIG_FILE_NAME, sizeof(strTempFileName));
 		XN_IS_STATUS_OK(rc);
 
-		XnBool bExists;
+		bool bExists;
 		xnOSDoesFileExist(strTempFileName, &bExists);
 
 		if (bExists)
@@ -745,7 +745,7 @@ XnStatus XnSensor::SetGlobalConfigFile(const XnChar* strConfigFile)
 	nRetVal = xnOSStrCopy(m_strGlobalConfigFile, strConfigFile, XN_FILE_MAX_PATH);
 	XN_IS_STATUS_OK(nRetVal);
 
-	XnBool bExists;
+	bool bExists;
 	nRetVal = xnOSDoesFileExist(m_strGlobalConfigFile, &bExists);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -806,12 +806,12 @@ XnStatus XnSensor::SetLedState(uint16_t nLedId, uint16_t nState)
 	return XnHostProtocolSetLedState(&m_DevicePrivateData, nLedId, nState);
 }
 
-XnStatus XnSensor::SetEmitterState(XnBool bActive)
+XnStatus XnSensor::SetEmitterState(bool bActive)
 {
 	return XnHostProtocolSetEmitterState(&m_DevicePrivateData, bActive);
 }
 
-XnStatus XnSensor::SetFirmwareFrameSync(XnBool bOn)
+XnStatus XnSensor::SetFirmwareFrameSync(bool bOn)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1092,7 +1092,7 @@ XnStatus XnSensor::RunBIST(uint32_t nTestsMask, uint32_t* pnFailures)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetReadAllEndpoints(XnBool bEnabled)
+XnStatus XnSensor::SetReadAllEndpoints(bool bEnabled)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1155,7 +1155,7 @@ XnStatus XnSensor::SetInterface(XnSensorUsbInterface nInterface)
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// we don't allow change if requested value is specific and different than current
-	if (m_ReadData.GetValue() == TRUE &&
+	if (m_ReadData.GetValue() == true &&
 		nInterface != XN_SENSOR_USB_INTERFACE_DEFAULT &&
 		nInterface != GetCurrentUsbInterface())
 	{
@@ -1168,13 +1168,13 @@ XnStatus XnSensor::SetInterface(XnSensorUsbInterface nInterface)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetHostTimestamps(XnBool bHostTimestamps)
+XnStatus XnSensor::SetHostTimestamps(bool bHostTimestamps)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// we don't allow change if requested value is specific and different than current
-	if (m_ReadData.GetValue() == TRUE &&
-		bHostTimestamps != (XnBool)m_HostTimestamps.GetValue())
+	if (m_ReadData.GetValue() == true &&
+		bHostTimestamps != (bool)m_HostTimestamps.GetValue())
 	{
 		return (XN_STATUS_DEVICE_PROPERTY_READ_ONLY);
 	}
@@ -1185,7 +1185,7 @@ XnStatus XnSensor::SetHostTimestamps(XnBool bHostTimestamps)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetReadData(XnBool bRead)
+XnStatus XnSensor::SetReadData(bool bRead)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1198,7 +1198,7 @@ XnStatus XnSensor::SetReadData(XnBool bRead)
 		nRetVal = InitReading();
 		XN_IS_STATUS_OK(nRetVal);
 
-		nRetVal = m_ReadData.UnsafeUpdateValue(TRUE);
+		nRetVal = m_ReadData.UnsafeUpdateValue(true);
 		XN_IS_STATUS_OK(nRetVal);
 
 		// no longer needed
@@ -1273,13 +1273,13 @@ XnStatus XnSensor::SetFirmwareLogInterval(uint32_t nMilliSeconds)
 	}
 	else
 	{
-		m_FirmwareLogDump = xnDumpFileOpenEx("FirmwareLog", TRUE, TRUE, "Sensor.log");
+		m_FirmwareLogDump = xnDumpFileOpenEx("FirmwareLog", true, true, "Sensor.log");
 	}
 
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetFirmwareLogPrint(XnBool bPrint)
+XnStatus XnSensor::SetFirmwareLogPrint(bool bPrint)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1302,7 +1302,7 @@ XnStatus XnSensor::SetFirmwareCPUInterval(uint32_t nMilliSeconds)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetAPCEnabled(XnBool bEnabled)
+XnStatus XnSensor::SetAPCEnabled(bool bEnabled)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1491,11 +1491,11 @@ XnStatus XnSensor::OnFrameSyncPropertyChanged()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	if (m_ReadData.GetValue() == TRUE)
+	if (m_ReadData.GetValue() == true)
 	{
 		// decide firmware frame sync - both streams are on, and user asked for it
-		XnBool bFrameSync = (
-			m_FrameSync.GetValue() == TRUE &&
+		bool bFrameSync = (
+			m_FrameSync.GetValue() == true &&
 			GetFirmware()->GetParams()->m_Stream0Mode.GetValue() == XN_VIDEO_STREAM_COLOR &&
 			GetFirmware()->GetParams()->m_Stream1Mode.GetValue() == XN_VIDEO_STREAM_DEPTH
 			);
@@ -1627,7 +1627,7 @@ XnStatus XnSensor::SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, uint32
 
 	// Set the frame sync property in the device.
 	XnStatus rc = SetProperty(XN_MODULE_NAME_DEVICE, XN_MODULE_PROPERTY_FRAME_SYNC,
-							  (uint64_t)((numStreams > 0) ? TRUE : FALSE));
+							  (uint64_t)((numStreams > 0) ? true : false));
 	if (rc != XN_STATUS_OK)
 	{
 		// Unlock critical section.
@@ -1690,7 +1690,7 @@ XnStatus XN_CALLBACK_TYPE XnSensor::SetHostTimestampsCallback(XnActualIntPropert
 XnStatus XN_CALLBACK_TYPE XnSensor::SetReadDataCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->XnSensor::SetReadData((XnBool)nValue);
+	return pThis->XnSensor::SetReadData((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareParamCallback(XnGeneralProperty* /*pSender*/, const OniGeneralBuffer& gbValue, void* pCookie)
@@ -1850,13 +1850,13 @@ XnStatus XN_CALLBACK_TYPE XnSensor::SetLedStateCallback(XnGeneralProperty* /*pSe
 XnStatus XN_CALLBACK_TYPE XnSensor::SetEmitterStateCallback(XnIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->SetEmitterState(nValue == TRUE);
+	return pThis->SetEmitterState(nValue == true);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareFrameSyncCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->SetFirmwareFrameSync(nValue == TRUE);
+	return pThis->SetFirmwareFrameSync(nValue == true);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogFilterCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
@@ -1874,7 +1874,7 @@ XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogIntervalCallback(XnActualIntPr
 XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogPrintCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->SetFirmwareLogPrint((XnBool)nValue);
+	return pThis->SetFirmwareLogPrint((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareCPUIntervalCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
@@ -1886,13 +1886,13 @@ XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareCPUIntervalCallback(XnActualIntPr
 XnStatus XN_CALLBACK_TYPE XnSensor::SetReadAllEndpointsCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->SetReadAllEndpoints((XnBool)nValue);
+	return pThis->SetReadAllEndpoints((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetAPCEnabledCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->SetAPCEnabled((XnBool)nValue);
+	return pThis->SetAPCEnabled((bool)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetI2CCallback(XnGeneralProperty* /*pSender*/, const OniGeneralBuffer& gbValue, void* pCookie)

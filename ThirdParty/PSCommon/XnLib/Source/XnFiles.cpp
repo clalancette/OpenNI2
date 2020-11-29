@@ -117,7 +117,7 @@ XN_C_API XnStatus xnOSStripDirSep(XnChar* strDirName)
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnBool xnOSIsDirSep(XnChar c)
+XN_C_API bool xnOSIsDirSep(XnChar c)
 {
 	return (c != '\0') && (strchr(XN_FILE_DIR_SEPS, c) != NULL);
 }

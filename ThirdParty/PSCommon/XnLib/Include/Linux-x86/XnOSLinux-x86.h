@@ -145,7 +145,7 @@ typedef struct _XnSemaphore *XN_SEMAPHORE_HANDLE;
 typedef struct XnOSTimer
 {
 	struct timespec tStartTime;
-	XnBool bHighRes;
+	bool bHighRes;
 } XnOSTimer;
 
 //---------------------------------------------------------------------------

@@ -31,7 +31,7 @@
 XnActualGeneralProperty::XnActualGeneralProperty(uint32_t propertyId, const XnChar* strName, void* pData, uint32_t nDataSize, ReadValueFromFileFuncPtr pReadFromFileFunc /* = NULL */, const XnChar* strModule /* = "" */) :
 	XnGeneralProperty(propertyId, strName, &m_gbValue, pReadFromFileFunc, strModule),
 	m_gbValue(XnGeneralBufferPack(pData, nDataSize)),
-	m_bOwner(FALSE)
+	m_bOwner(false)
 {
 	// set a callback for get operations
 	UpdateGetCallback(GetCallback, this);
@@ -40,7 +40,7 @@ XnActualGeneralProperty::XnActualGeneralProperty(uint32_t propertyId, const XnCh
 XnActualGeneralProperty::XnActualGeneralProperty(uint32_t propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue, ReadValueFromFileFuncPtr pReadFromFileFunc /* = NULL */, const XnChar* strModule /* = "" */) :
 	XnGeneralProperty(propertyId, strName, &m_gbValue, pReadFromFileFunc, strModule),
 	m_gbValue(gbValue),
-	m_bOwner(FALSE)
+	m_bOwner(false)
 {
 	// set a callback for get operations
 	UpdateGetCallback(GetCallback, this);
@@ -54,7 +54,7 @@ XnActualGeneralProperty::~XnActualGeneralProperty()
 	}
 }
 
-void XnActualGeneralProperty::SetAsBufferOwner(XnBool bOwner)
+void XnActualGeneralProperty::SetAsBufferOwner(bool bOwner)
 {
 	m_bOwner = bOwner;
 }

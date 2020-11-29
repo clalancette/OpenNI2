@@ -47,12 +47,12 @@ void XnGMCDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeade
 {
 	XN_PROFILING_START_SECTION("XnGMCDebugProcessor::ProcessPacketChunk")
 
-	m_DumpTxt = xnDumpFileOpenEx("GMCDebug", TRUE, TRUE, "GMC_Points.%d.txt", m_nGMCTime);
+	m_DumpTxt = xnDumpFileOpenEx("GMCDebug", true, true, "GMC_Points.%d.txt", m_nGMCTime);
 	xnDumpFileWriteString(m_DumpTxt, "X,Y,DX,DY\n");
 
 	if (pHeader->nType == XN_SENSOR_PROTOCOL_RESPONSE_GMC_DEBUG)
 	{
-		m_DumpBin = xnDumpFileOpenEx("GMCDebug", TRUE, TRUE, "GMC_Points.%d.xydxdy.bin", m_nGMCTime);
+		m_DumpBin = xnDumpFileOpenEx("GMCDebug", true, true, "GMC_Points.%d.xydxdy.bin", m_nGMCTime);
 
 		uint32_t nNumOfPoints = pHeader->nBufSize / sizeof(XnHostProtocolGMCPoint_1080);
 

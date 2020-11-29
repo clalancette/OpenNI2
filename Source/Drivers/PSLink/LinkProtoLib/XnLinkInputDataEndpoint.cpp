@@ -35,7 +35,7 @@ LinkInputDataEndpoint::LinkInputDataEndpoint()
 {
 	m_pConnection = NULL;
 	m_pConnectionFactory = NULL;
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 	m_nConnected = 0;
 	m_pNotifications = NULL;
 	m_nEndpointID = 0;
@@ -70,13 +70,13 @@ XnStatus LinkInputDataEndpoint::Init(uint16_t nEndpointID,
 		XN_IS_STATUS_OK_LOG_ERROR("Create critical section", nRetVal);
 
 		//We are initialized :)
-		m_bInitialized = TRUE;
+		m_bInitialized = true;
 	}
 
 	return XN_STATUS_OK;
 }
 
-XnBool LinkInputDataEndpoint::IsInitialized() const
+bool LinkInputDataEndpoint::IsInitialized() const
 {
 	return m_bInitialized;
 }
@@ -87,7 +87,7 @@ void LinkInputDataEndpoint::Shutdown()
 	XN_DELETE(m_pConnection);
 	m_pConnection = NULL;
 	xnOSCloseCriticalSection(&m_hCriticalSection);
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 }
 
 XnStatus LinkInputDataEndpoint::Connect()
@@ -145,7 +145,7 @@ void LinkInputDataEndpoint::Disconnect()
 	}
 }
 
-XnBool LinkInputDataEndpoint::IsConnected() const
+bool LinkInputDataEndpoint::IsConnected() const
 {
 	xnl::AutoCSLocker lock(m_hCriticalSection);
 	return (m_nConnected > 0);

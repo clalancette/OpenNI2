@@ -47,7 +47,7 @@ void XnTecDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeade
 {
 	if (m_Dump == NULL)
 	{
-		m_Dump = xnDumpFileOpenEx("TecDebug", TRUE, TRUE, "TecDebug.csv");
+		m_Dump = xnDumpFileOpenEx("TecDebug", true, true, "TecDebug.csv");
 	}
 
 	xnDumpFileWriteString(m_Dump, "%S\n", (XnChar*)pData);

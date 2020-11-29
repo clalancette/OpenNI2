@@ -67,9 +67,9 @@ public:
 	// Getters
 	//---------------------------------------------------------------------------
 	inline const XnChar* GetType() const { return m_Type.GetValue(); }
-	inline XnBool IsOpen() const { return (XnBool)m_IsOpen.GetValue(); }
+	inline bool IsOpen() const { return (bool)m_IsOpen.GetValue(); }
 	inline OniPixelFormat GetOutputFormat() const { return (OniPixelFormat)m_OutputFormat.GetValue(); }
-	inline XnBool IsMirrored() const { return (XnBool)m_IsMirrored.GetValue(); }
+	inline bool IsMirrored() const { return (bool)m_IsMirrored.GetValue(); }
 	inline uint32_t GetRequiredDataSize() const { return (uint32_t)m_RequiredSize.GetValue(); }
 	inline uint32_t GetLastFrameID() const { return m_nFrameID; }
 
@@ -79,7 +79,7 @@ public:
 	virtual XnStatus Open();
 	virtual XnStatus Close();
 	virtual XnStatus SetOutputFormat(OniPixelFormat nOutputFormat);
-	virtual XnStatus SetMirror(XnBool bIsMirrored);
+	virtual XnStatus SetMirror(bool bIsMirrored);
 
 	inline XN_CRITICAL_SECTION_HANDLE* GetOpenLock() { return &m_hOpenLock; }
 

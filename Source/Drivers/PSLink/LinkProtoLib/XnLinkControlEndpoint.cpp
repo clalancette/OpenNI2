@@ -50,8 +50,8 @@ LinkControlEndpoint::LinkControlEndpoint()
 	m_pConnection = NULL;
 	m_pIncomingResponse = NULL;
 	m_nMaxResponseSize = 0;
-	m_bInitialized = FALSE;
-	m_bConnected = FALSE;
+	m_bInitialized = false;
+	m_bConnected = false;
 	m_nPacketID = BASE_PACKET_ID;
 	m_nMaxPacketSize = 0;
 	m_hMutex = NULL;
@@ -79,10 +79,10 @@ XnStatus LinkControlEndpoint::Init(uint32_t nMaxOutMsgSize, IConnectionFactory* 
 
 		/* Initialize supported msg types array with commands that must always be supported */
 		m_supportedMsgTypes.resize(XN_LINK_INTERFACE_PROPS + 1);
-		nRetVal = m_supportedMsgTypes[XN_LINK_INTERFACE_PROPS].Set(XN_LINK_MSG_GET_PROP & 0xFF, TRUE);
+		nRetVal = m_supportedMsgTypes[XN_LINK_INTERFACE_PROPS].Set(XN_LINK_MSG_GET_PROP & 0xFF, true);
 		XN_IS_STATUS_OK_LOG_ERROR("Add to supported msg types", nRetVal);
 
-		m_bInitialized = TRUE;
+		m_bInitialized = true;
 	}
 
 	return XN_STATUS_OK;
@@ -102,7 +102,7 @@ void LinkControlEndpoint::Shutdown()
 		m_hMutex = NULL;
 	}
 
-	m_bInitialized = FALSE;
+	m_bInitialized = false;
 }
 
 XnStatus LinkControlEndpoint::Connect()
@@ -128,7 +128,7 @@ XnStatus LinkControlEndpoint::Connect()
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnLogError(XN_MASK_LINK, "LINK: Failed to init msg encoder: %s", xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			Disconnect();
 			return nRetVal;
 		}
@@ -137,7 +137,7 @@ XnStatus LinkControlEndpoint::Connect()
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnLogError(XN_MASK_LINK, "LINK: Failed to init msg parser: %s", xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			Disconnect();
 			return nRetVal;
 		}
@@ -146,7 +146,7 @@ XnStatus LinkControlEndpoint::Connect()
 		if (m_pIncomingRawPacket == NULL)
 		{
 			xnLogError(XN_MASK_LINK, "LINK: Failed to allocate incoming packet");
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			Disconnect();
 			return XN_STATUS_ALLOC_FAILED;
 		}
@@ -155,7 +155,7 @@ XnStatus LinkControlEndpoint::Connect()
 		if (m_pIncomingResponse == NULL)
 		{
 			xnLogError(XN_MASK_LINK, "LINK: Failed to allocate incoming response");
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			Disconnect();
 			return XN_STATUS_ALLOC_FAILED;
 		}
@@ -164,7 +164,7 @@ XnStatus LinkControlEndpoint::Connect()
 		nRetVal = GetSupportedMsgTypes(m_supportedMsgTypes);
 		XN_IS_STATUS_OK_LOG_ERROR("Get supported msg types", nRetVal);
 
-		m_bConnected = TRUE;
+		m_bConnected = true;
 	}
 
 	return XN_STATUS_OK;
@@ -182,10 +182,10 @@ void LinkControlEndpoint::Disconnect()
 	m_pIncomingResponse = NULL;
 
 	//We don't disconnect the actual connection cuz it is cached and doesn't belong to us.
-	m_bConnected = FALSE;
+	m_bConnected = false;
 }
 
-XnBool LinkControlEndpoint::IsConnected() const
+bool LinkControlEndpoint::IsConnected() const
 {
 	return m_bConnected;
 }
@@ -196,14 +196,14 @@ XnStatus LinkControlEndpoint::ExecuteCommand(uint16_t nMsgType,
 											 uint32_t nCmdSize,
 											 void* pResponseData,
 											 uint32_t& nResponseSize,
-											 XnBool* pIsLast /*= NULL*/)
+											 bool* pIsLast /*= NULL*/)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	xnl::AutoMutexLocker mutexLocker(m_hMutex, MUTEX_TIMEOUT);
 	XN_IS_STATUS_OK_LOG_ERROR("Lock mutex", mutexLocker.GetStatus());
 
-	XnBool autoContinue = (pIsLast == NULL);
-	XnBool isLast;
+	bool autoContinue = (pIsLast == NULL);
+	bool isLast;
 
 	/*XN_LINK_FRAG_SINGLE in this case indicates a single 'block' of data, not necessarily a single
 	  packet. */
@@ -228,7 +228,7 @@ XN_MUTEX_HANDLE LinkControlEndpoint::GetMutex() const
 	return m_hMutex;
 }
 
-XnBool LinkControlEndpoint::IsMsgTypeSupported(uint16_t nMsgType)
+bool LinkControlEndpoint::IsMsgTypeSupported(uint16_t nMsgType)
 {
 	uint8_t nMsgTypeHi = ((nMsgType >> 8) & 0xFF);
 	uint8_t nMsgTypeLo = (nMsgType & 0xFF);
@@ -249,7 +249,7 @@ XnStatus LinkControlEndpoint::GetFWVersion(XnLinkDetailedVersion& version)
 	if (nPropSize != sizeof(linkVersion))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of FW version property: %u instead of %u", nPropSize, sizeof(linkVersion));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -274,7 +274,7 @@ XnStatus LinkControlEndpoint::GetProtocolVersion(XnLeanVersion& version)
 	if (nPropSize != sizeof(linkVersion))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of protocol version property: %u instead of %u", nPropSize, sizeof(linkVersion));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -316,7 +316,7 @@ XnStatus LinkControlEndpoint::GetSerialNumber(XnChar* strSerialNumber, uint32_t 
 	if (nPropSize != sizeof(linkSerial))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of serial version property: %u instead of %u", nPropSize, sizeof(linkSerial));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -346,7 +346,7 @@ XnStatus LinkControlEndpoint::GetComponentsVersions(std::vector<XnComponentVersi
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOverrideFactorySettings)
+XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, bool bOverrideFactorySettings)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_FILE_HANDLE hFile = XN_INVALID_FILE_HANDLE;
@@ -373,7 +373,7 @@ XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOver
 	{
 		xnOSCloseFile(&hFile);
 		xnLogError(XN_MASK_LINK, "LINK: Failed to allocate buffer of %u bytes for loading file", nCunkSize);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ALLOC_FAILED;
 	}
 
@@ -399,7 +399,7 @@ XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOver
 			xnOSFreeAligned(pChunk);
 			xnLogError(XN_MASK_LINK, "LINK: Failed to read from file: %s",
 				(nBytesRead == 0) ? "0 bytes read" : xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return nRetVal;
 		}
 
@@ -414,14 +414,14 @@ XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOver
 		xnLogVerbose(XN_MASK_LINK, "LINK: Sending file chunk...");
 
 		uint32_t nResponseSize = m_nMaxResponseSize;
-		XnBool isLast;
-		nRetVal = ExecuteImpl(XN_LINK_MSG_UPLOAD_FILE, XN_LINK_STREAM_ID_NONE, pChunk, nBytesInChunk, fragmentation, m_pIncomingResponse, nResponseSize, TRUE, isLast);
+		bool isLast;
+		nRetVal = ExecuteImpl(XN_LINK_MSG_UPLOAD_FILE, XN_LINK_STREAM_ID_NONE, pChunk, nBytesInChunk, fragmentation, m_pIncomingResponse, nResponseSize, true, isLast);
 		if (nRetVal != XN_STATUS_OK)
 		{
 			xnOSCloseFile(&hFile);
 			xnOSFreeAligned(pChunk);
 			xnLogError(XN_MASK_LINK, "LINK: Failed to send data: %s", xnGetStatusString(nRetVal));
-			XN_ASSERT(FALSE);
+			XN_ASSERT(false);
 			return nRetVal;
 		}
 
@@ -455,7 +455,7 @@ XnStatus LinkControlEndpoint::GetFileList(std::vector<XnFwFileEntry>& files)
 	if (nResponseSize < sizeof(pGetFileListResponse->m_nCount))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of 'get file list' response: %u (should be at least %u)", nResponseSize, sizeof(pGetFileListResponse->m_nCount));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -463,7 +463,7 @@ XnStatus LinkControlEndpoint::GetFileList(std::vector<XnFwFileEntry>& files)
 	if (nResponseSize < sizeof(pGetFileListResponse->m_nCount) + nCount*sizeof(XnLinkFileEntry))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of 'get file list' response: %u (should be at least %u)", nResponseSize, sizeof(pGetFileListResponse->m_nCount) + nCount*sizeof(XnLinkFileEntry));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -509,7 +509,7 @@ XnStatus LinkControlEndpoint::DownloadFile(uint16_t zone, const XnChar* fwFileNa
 	xnOSGetHighResTimeStamp(&nStartTime);
 	uint32_t nFileSize = 0;
 
-	XnBool isLast = FALSE;
+	bool isLast = false;
 	uint32_t nResponseSize = m_nMaxResponseSize;
 	nRetVal = ExecuteCommand(XN_LINK_MSG_DOWNLOAD_FILE, 0, &downloadFileParams, sizeof(downloadFileParams), m_pIncomingResponse, nResponseSize, &isLast);
 	if (nRetVal != XN_STATUS_OK)
@@ -605,28 +605,28 @@ XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(uint16_t& nMaxPacketSize)
 	if (pResponseHeader->m_responseInfo.m_nResponseCode != XN_PREPARE_VAR16_IN_BUFFER(XN_LINK_RESPONSE_OK))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got response for get logical control max packet size: '%s' (%u)", xnLinkResponseCodeToStr(nResponseCode));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return xnLinkResponseCodeToStatus(nResponseCode);
 	}
 
 	if (pGetPropResponse->m_header.m_nPropID != pGetPropParams->m_nPropID)
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad prop id in response for get logical control max packet size");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
 	if (pGetPropResponse->m_header.m_nPropType != pGetPropParams->m_nPropType)
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad prop type in response for get logical control max packet size");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
 	if (pGetPropResponse->m_header.m_nValueSize != XN_PREPARE_VAR32_IN_BUFFER(sizeof(uint64_t)))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad value size in response for get logical control max packet size");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -634,7 +634,7 @@ XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(uint16_t& nMaxPacketSize)
 	if (nTempPropValue > XN_MAX_UINT16)
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad value for logical max packet size");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_ERROR;
 	}
 
@@ -651,8 +651,8 @@ XnStatus LinkControlEndpoint::ExecuteImpl(uint16_t nMsgType,
 										   XnLinkFragmentation fragmentation,
 										   void* pResponseData,
 										   uint32_t& nResponseSize,
-										   XnBool autoContinue,
-										   XnBool& isLast)
+										   bool autoContinue,
+										   bool& isLast)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	uint32_t nReceivedResponsePacketSize = 0;
@@ -663,7 +663,7 @@ XnStatus LinkControlEndpoint::ExecuteImpl(uint16_t nMsgType,
 	if (!IsMsgTypeSupported(nMsgType))
 	{
 		xnLogWarning(XN_MASK_LINK, "LINK: Msg type 0x%04X is not in supported msg types", nMsgType);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_CMD_NOT_SUPPORTED;
 	}
 
@@ -702,14 +702,14 @@ XnStatus LinkControlEndpoint::ExecuteImpl(uint16_t nMsgType,
 			if (responseFragmentation != XN_LINK_FRAG_SINGLE)
 			{
 				xnLogWarning(XN_MASK_LINK, "LINK: Got unexpected responseFragmentation flag of 0x%X in response when there are still more packets to be sent as part of current command", responseFragmentation);
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				//This is just a warning - we keep going.
 			}
 
 			if (m_responseMsgParser.GetParsedSize() > 0)
 			{
 				xnLogWarning(XN_MASK_LINK, "LINK: Got unexpected response packet size of %u in response when there are still more packets to be sent as part of current command", m_responseMsgParser.GetParsedSize());
-				XN_ASSERT(FALSE);
+				XN_ASSERT(false);
 				//This is just a warning - we keep going.
 			}
 		}
@@ -737,7 +737,7 @@ XnStatus LinkControlEndpoint::ExecuteImpl(uint16_t nMsgType,
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::ContinueResponseImpl(uint16_t originalMsgType, uint16_t streamID, void* pResponseData, uint32_t& nResponseSize, XnBool& outLastPacket)
+XnStatus LinkControlEndpoint::ContinueResponseImpl(uint16_t originalMsgType, uint16_t streamID, void* pResponseData, uint32_t& nResponseSize, bool& outLastPacket)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1043,7 +1043,7 @@ XnStatus LinkControlEndpoint::ReadI2C(uint8_t nDeviceID, uint8_t nAddressSize, u
 	if (nResponseSize != sizeof(XnLinkReadI2CResponse))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of readI2C response: %u instead of %u", nResponseSize, sizeof(XnLinkReadI2CResponse));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 	nValue = XN_PREPARE_VAR32_IN_BUFFER(pReadI2CResponse->m_nValue);
@@ -1090,7 +1090,7 @@ XnStatus LinkControlEndpoint::ReadAHB(uint32_t nAddress, uint8_t nBitOffset, uin
 	if (nResponseSize != sizeof(XnLinkReadAHBResponse))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of ReadAHB response: %u instead of %u", nResponseSize, sizeof(XnLinkReadAHBResponse));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 	nValue = XN_PREPARE_VAR32_IN_BUFFER(pReadAHBResponse->m_nValue);
@@ -1150,7 +1150,7 @@ XnStatus LinkControlEndpoint::GetVideoMode(uint16_t nStreamID, XnFwStreamVideoMo
 	if (nPropSize != sizeof(linkVideoMode))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of link map output mode: %u instead of %u", nPropSize, sizeof(linkVideoMode));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_INVALID_BUFFER_SIZE;
 	}
 
@@ -1184,7 +1184,7 @@ XnStatus LinkControlEndpoint::GetSupportedVideoModes(uint16_t nStreamID,
 	if (nPropSize != nExpectedPropSize)
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of 'supported map output modes' property: %u instead of %u", nPropSize, nExpectedPropSize);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -1216,7 +1216,7 @@ XnStatus LinkControlEndpoint::EnumerateStreams(std::vector<XnFwStreamInfo>& aStr
 	if (nResponseSize < sizeof(pEnumerateNodesResponse->m_nNumStreams))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got insufficient bytes in enumerate nodes response");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 	nNumNodes = XN_PREPARE_VAR32_IN_BUFFER(pEnumerateNodesResponse->m_nNumStreams);
@@ -1226,7 +1226,7 @@ XnStatus LinkControlEndpoint::EnumerateStreams(std::vector<XnFwStreamInfo>& aStr
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got incorrect size of enumerate nodes response: expected %u but got %u",
 			nExpectedResponseSize, nResponseSize);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -1261,7 +1261,7 @@ XnStatus LinkControlEndpoint::CreateInputStream(XnStreamType streamType, const X
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got incorrect size of create nodes response: got %u but expected %u.",
 			nResponseSize, sizeof(*pCreateStreamResponse));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -1328,7 +1328,7 @@ XnStatus LinkControlEndpoint::GetProperty(uint16_t nStreamID, XnLinkPropType pro
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got incorrect size for property: got %u but expected a max of %u.",
 			nValueSize, nSize);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -1357,7 +1357,7 @@ XnStatus LinkControlEndpoint::GetIntProperty(uint16_t nStreamID, XnLinkPropID pr
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got incorrect size for int property: got %u but expected %u.",
 			nValueSize, sizeof(nProtocolValue));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -1385,7 +1385,7 @@ XnStatus LinkControlEndpoint::GetRealProperty(uint16_t nStreamID, XnLinkPropID p
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got incorrect size for int property: got %u but expected %u.",
 			nValueSize, sizeof(dProtocolValue));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -1430,7 +1430,7 @@ XnStatus LinkControlEndpoint::GetBitSetProperty(uint16_t nStreamID, XnLinkPropID
 	if (nSize < sizeof(pBitSet->m_nSize))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Bad property value - bit set has no header!");
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -1440,7 +1440,7 @@ XnStatus LinkControlEndpoint::GetBitSetProperty(uint16_t nStreamID, XnLinkPropID
 	if ((nSize - sizeof(pBitSet->m_nSize)) < nBitSetSize)
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Bad property value - bit set size should be %u, but got only %u.", nBitSetSize, nSize - sizeof(pBitSet->m_nSize));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -1465,7 +1465,7 @@ XnStatus LinkControlEndpoint::GetCameraIntrinsics(uint16_t nStreamID, XnLinkCame
 	if (nResponseSize != sizeof(XnLinkCameraIntrinsics))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of get fov response: %u instead of %u", nResponseSize, sizeof(XnLinkCameraIntrinsics));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 
@@ -1488,14 +1488,14 @@ XnStatus LinkControlEndpoint::ValidateResponsePacket(const LinkPacketHeader* pPa
 	if (pPacketHeader->GetMsgType() != nExpectedMsgType)
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Expected msg type of 0x%X but got 0x%X", nExpectedMsgType, pPacketHeader->GetMsgType());
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_RESPONSE_MSG_TYPE_MISMATCH;
 	}
 
 	if (pPacketHeader->GetStreamID() != nExpectedStreamID)
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got response packet for stream %u but expected stream %u", pPacketHeader->GetStreamID(), nExpectedStreamID);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_STREAM_ID;
 	}
 
@@ -1503,7 +1503,7 @@ XnStatus LinkControlEndpoint::ValidateResponsePacket(const LinkPacketHeader* pPa
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Expected packet ID of %u in response but got %u on stream %u",
 			m_nPacketID, pPacketHeader->GetPacketID(), pPacketHeader->GetStreamID());
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_PACKETS_LOST;
 	}
 
@@ -1511,7 +1511,7 @@ XnStatus LinkControlEndpoint::ValidateResponsePacket(const LinkPacketHeader* pPa
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Response packet size of %u is too small - min response packet size is %u",
 			pPacketHeader->GetSize(), sizeof(XnLinkResponseHeader));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_HEADER_SIZE;
 	}
 
@@ -1586,7 +1586,7 @@ XnStatus LinkControlEndpoint::GetCropping(uint16_t nStreamID, OniCropping& cropp
 	if (nPropSize != sizeof(linkCropping))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Incorrect size of cropping data: expected %u but got %u", sizeof(linkCropping), nPropSize);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_INVALID_BUFFER_SIZE;
 	}
 
@@ -1644,7 +1644,7 @@ XnStatus LinkControlEndpoint::GetSupportedInterfaces(uint16_t nStreamID, xnl::Bi
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetProjectorActive(XnBool bActive)
+XnStatus LinkControlEndpoint::SetProjectorActive(bool bActive)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1659,7 +1659,7 @@ XnStatus LinkControlEndpoint::SetProjectorActive(XnBool bActive)
 }
 
 // Enables/Disables the BIST
-XnStatus LinkControlEndpoint::SetAccActive(XnBool bActive)
+XnStatus LinkControlEndpoint::SetAccActive(bool bActive)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1673,7 +1673,7 @@ XnStatus LinkControlEndpoint::SetAccActive(XnBool bActive)
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::GetAccActive(XnBool& bActive)
+XnStatus LinkControlEndpoint::GetAccActive(bool& bActive)
 {
 	uint64_t nValue;
 
@@ -1682,7 +1682,7 @@ XnStatus LinkControlEndpoint::GetAccActive(XnBool& bActive)
 	XnStatus nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_ACC_ENABLED, nValue);
 	XN_IS_STATUS_OK(nRetVal);
 
-	bActive = (nValue == TRUE);
+	bActive = (nValue == true);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Acc is %s", bActive ?  "on" : "off");
 
@@ -1690,7 +1690,7 @@ XnStatus LinkControlEndpoint::GetAccActive(XnBool& bActive)
 }
 
 // Enables/Disables the BIST
-XnStatus LinkControlEndpoint::SetVDDActive(XnBool bActive)
+XnStatus LinkControlEndpoint::SetVDDActive(bool bActive)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1706,7 +1706,7 @@ XnStatus LinkControlEndpoint::SetVDDActive(XnBool bActive)
 
 // Enables/Disables the VDD - Valid Depth Detect (XN_LINK_PROP_ID_VDD_ENABLED)
 //on - Safety mechanism is on | off - reduce power
-XnStatus LinkControlEndpoint::GetVDDActive(XnBool& bActive)
+XnStatus LinkControlEndpoint::GetVDDActive(bool& bActive)
 {
 	uint64_t nValue;
 
@@ -1715,7 +1715,7 @@ XnStatus LinkControlEndpoint::GetVDDActive(XnBool& bActive)
 	XnStatus nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_VDD_ENABLED, nValue);
 	XN_IS_STATUS_OK(nRetVal);
 
-	bActive = (nValue == TRUE);
+	bActive = (nValue == true);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: VDD is %s", bActive ?  "on" : "off");
 
@@ -1723,7 +1723,7 @@ XnStatus LinkControlEndpoint::GetVDDActive(XnBool& bActive)
 }
 
 // Enables/Disables the Periodic BIST - monitors the
-XnStatus LinkControlEndpoint::SetPeriodicBistActive(XnBool bActive)
+XnStatus LinkControlEndpoint::SetPeriodicBistActive(bool bActive)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1737,7 +1737,7 @@ XnStatus LinkControlEndpoint::SetPeriodicBistActive(XnBool bActive)
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::GetPeriodicBistActive(XnBool& bActive)
+XnStatus LinkControlEndpoint::GetPeriodicBistActive(bool& bActive)
 {
 	uint64_t nValue;
 
@@ -1746,7 +1746,7 @@ XnStatus LinkControlEndpoint::GetPeriodicBistActive(XnBool& bActive)
 	XnStatus nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PERIODIC_BIST_ENABLED, nValue);
 	XN_IS_STATUS_OK(nRetVal);
 
-	bActive = (nValue == TRUE);
+	bActive = (nValue == true);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Periodic BIST is %s", bActive ?  "on" : "off");
 
@@ -1769,7 +1769,7 @@ XnStatus LinkControlEndpoint::GetStreamFragLevel(uint16_t nStreamID, XnStreamFra
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetMirror(uint16_t nStreamID, XnBool& bMirror)
+XnStatus LinkControlEndpoint::GetMirror(uint16_t nStreamID, bool& bMirror)
 {
 	uint64_t nValue;
 
@@ -1777,14 +1777,14 @@ XnStatus LinkControlEndpoint::GetMirror(uint16_t nStreamID, XnBool& bMirror)
 
 	XnStatus nRetVal = GetIntProperty(nStreamID, XN_LINK_PROP_ID_MIRROR, nValue);
 	XN_IS_STATUS_OK(nRetVal);
-	bMirror = (nValue == TRUE);
+	bMirror = (nValue == true);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Stream %u is %smirrored", nStreamID, bMirror ? "" : "not ");
 
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetMirror(uint16_t nStreamID, XnBool bMirror)
+XnStatus LinkControlEndpoint::SetMirror(uint16_t nStreamID, bool bMirror)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1897,7 +1897,7 @@ XnStatus LinkControlEndpoint::CloseFWLogFile(uint8_t logID, uint16_t nLogStreamI
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetProjectorPulse(XnBool enabled, float delay, float width, float cycle)
+XnStatus LinkControlEndpoint::SetProjectorPulse(bool enabled, float delay, float width, float cycle)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1917,7 +1917,7 @@ XnStatus LinkControlEndpoint::SetProjectorPulse(XnBool enabled, float delay, flo
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip)
+XnStatus LinkControlEndpoint::GetProjectorPulse(bool& enabled, float& delay, float& width, float& framesToskip)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1931,7 +1931,7 @@ XnStatus LinkControlEndpoint::GetProjectorPulse(XnBool& enabled, float& delay, f
 	if (nPropSize != sizeof(pulse))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad size of projector pulse property: %u instead of %u", nPropSize, sizeof(pulse));
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_BAD_RESPONSE_SIZE;
 	}
 

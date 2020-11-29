@@ -32,7 +32,7 @@ XnJpegToRGBImageProcessor::XnJpegToRGBImageProcessor(XnSensorImageStream* pStrea
 : XnImageProcessor(pStream, pHelper, pBufferManager)
 , mp_JPEGContext(NULL)
 {
-	SetAllowDoubleSOFPackets(TRUE);
+	SetAllowDoubleSOFPackets(true);
 }
 
 XnJpegToRGBImageProcessor::~XnJpegToRGBImageProcessor()

@@ -40,7 +40,7 @@ XnStatus LinkResponseMsgParser::ParsePacketImpl(XnLinkFragmentation /*fragmentat
 	size_t nPacketDataSize = pSrcEnd - pSrc;
 	if (nPacketDataSize < sizeof(XnLinkResponseInfo))
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_LINK_MISSING_RESPONSE_INFO;
 	}
 	uint16_t nResponseCode = XN_PREPARE_VAR16_IN_BUFFER(((XnLinkResponseInfo*)pSrc)->m_nResponseCode);
@@ -50,7 +50,7 @@ XnStatus LinkResponseMsgParser::ParsePacketImpl(XnLinkFragmentation /*fragmentat
 
 	if (pDst + nPacketDataSize > pDstEnd)
 	{
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 
@@ -65,7 +65,7 @@ XnStatus LinkResponseMsgParser::ParsePacketImpl(XnLinkFragmentation /*fragmentat
 		xnLogWriteBinaryData(XN_MASK_LINK, XN_LOG_WARNING,
 			__FILE__, __LINE__, (XnUChar*)pSrc, (uint32_t)nPacketDataSize, "Response extra data: ");
 
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return nRetVal;
 	}
 

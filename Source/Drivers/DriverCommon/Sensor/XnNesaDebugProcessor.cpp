@@ -47,7 +47,7 @@ void XnNesaDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHead
 {
 	if (m_Dump == NULL)
 	{
-		m_Dump = xnDumpFileOpenEx("NesaDebug", TRUE, TRUE, "NesaDebug.txt");
+		m_Dump = xnDumpFileOpenEx("NesaDebug", true, true, "NesaDebug.txt");
 	}
 
 	xnDumpFileWriteString(m_Dump, "%S\n", (XnChar*)pData);

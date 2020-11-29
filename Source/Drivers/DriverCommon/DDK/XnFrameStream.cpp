@@ -29,7 +29,7 @@
 XnFrameStream::XnFrameStream(const XnChar* csType, const XnChar* csName) :
 	XnDeviceStream(csType, csName),
 	m_nLastReadFrame(0),
-	m_IsFrameStream(XN_STREAM_PROPERTY_IS_FRAME_BASED, "IsFrameBased", TRUE),
+	m_IsFrameStream(XN_STREAM_PROPERTY_IS_FRAME_BASED, "IsFrameBased", true),
 	m_FPS(XN_STREAM_PROPERTY_FPS, "FPS", 0)
 {
 	m_FPS.UpdateSetCallback(SetFPSCallback, this);

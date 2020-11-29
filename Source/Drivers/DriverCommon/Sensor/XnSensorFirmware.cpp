@@ -36,7 +36,7 @@ XnSensorFirmware::XnSensorFirmware(XnDevicePrivateData* pDevicePrivateData) :
 {
 }
 
-XnStatus XnSensorFirmware::Init(XnBool bReset, XnBool bLeanInit)
+XnStatus XnSensorFirmware::Init(bool bReset, bool bLeanInit)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

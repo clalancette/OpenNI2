@@ -102,7 +102,7 @@ struct XnUSBDevice
 {
 	const XnUSBDeviceDescriptorHolder* pDescriptors;
 	int deviceFD;
-	XnBool bShutdown;
+	bool bShutdown;
 	XN_THREAD_HANDLE hThread;
 	XN_CRITICAL_SECTION_HANDLE hLock;
 	XN_EVENT_HANDLE hReplyEvent;
@@ -256,7 +256,7 @@ static int openEndpointFile(struct usb_endpoint_descriptor* pDesc)
 	return fd;
 }
 
-static XnBool configureEndpoints(XnUSBDevice* pDevice, int nConfigID)
+static bool configureEndpoints(XnUSBDevice* pDevice, int nConfigID)
 {
 	// first of all, we need to close all previous open endpoints
 	for (int i = 0; i < XN_USB_DEVICE_ENDPOINT_MAX_COUNT; ++i)
@@ -276,7 +276,7 @@ static XnBool configureEndpoints(XnUSBDevice* pDevice, int nConfigID)
 	if (nConfigID == 0)
 	{
 		// device is unconfigured
-		return TRUE;
+		return true;
 	}
 
 	XnUSBInterfaceDescriptorHolder* pInterface = pDevice->pDescriptors->aConfigurations[0]->aInterfaces[0];
@@ -287,7 +287,7 @@ static XnBool configureEndpoints(XnUSBDevice* pDevice, int nConfigID)
 		pDevice->endpoints[nAddress].fd = openEndpointFile(pInterface->aEndpoints[i]);
 		if (pDevice->endpoints[nAddress].fd == -1)
 		{
-			return FALSE;
+			return false;
 		}
 
 		xnOSMemSet(pDevice->endpoints[nAddress].txs, 0, sizeof(pDevice->endpoints[nAddress].txs));
@@ -300,18 +300,18 @@ static XnBool configureEndpoints(XnUSBDevice* pDevice, int nConfigID)
 			pDevice->endpoints[nAddress].txs[j].pBuffer = (XnUChar*)xnOSMallocAligned(pDevice->endpoints[nAddress].nBufferSize, XN_DEFAULT_MEM_ALIGN);
 			if (pDevice->endpoints[nAddress].txs[j].pBuffer == NULL)
 			{
-				return FALSE;
+				return false;
 			}
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 //---------------------------------------------------------------------------
 // EP0 Handling
 //---------------------------------------------------------------------------
-static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *setup);
+static bool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *setup);
 
 static inline void put_unaligned_le16(__u16 val, __u16 *cp)
 {
@@ -401,11 +401,11 @@ fail:
 	return -1;
 }
 
-static XnBool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, __u16 lang, __u8 nIndex)
+static bool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, __u16 lang, __u8 nIndex)
 {
 	if (nIndex != 0 && lang != USB_LANGUAGE_ENGLISH_US)
 	{
-		return FALSE;
+		return false;
 	}
 
 	XnUChar buf[256];
@@ -433,7 +433,7 @@ static XnBool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, 
 
 		if (strString == NULL)
 		{
-			return FALSE;
+			return false;
 		}
 
 		int len = strlen(strString);
@@ -444,7 +444,7 @@ static XnBool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, 
 		len = utf8_to_utf16le(strString, (__u16 *)&buf[2], len);
 		if (len < 0)
 		{
-			return FALSE;
+			return false;
 		}
 		buf [0] = (len + 1) * 2;
 		buf [1] = USB_DT_STRING;
@@ -468,10 +468,10 @@ static XnBool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, 
 		fprintf (stderr, "short string write, %d\n", status);
 	}
 
-	return TRUE;
+	return true;
 }
 
-static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlrequest *setup)
+static bool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlrequest *setup)
 {
 	__u16 value = __le16_to_cpu(setup->wValue);
 	__u16 index = __le16_to_cpu(setup->wIndex);
@@ -483,12 +483,12 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 		{
 			if (setup->bRequestType != USB_DIR_IN)
 			{
-				return FALSE;
+				return false;
 			}
 
 			if ((value >> 8) != USB_DT_STRING)
 			{
-				return FALSE;
+				return false;
 			}
 
 			// index is language index and string index is last byte
@@ -499,7 +499,7 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 		{
 			if (setup->bRequestType != USB_DIR_OUT)
 			{
-				return FALSE;
+				return false;
 			}
 
 			__u8 nConfigID = value;
@@ -507,12 +507,12 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 			// make sure this is the only supported configuration
 			if (nConfigID != 0 && nConfigID != pDevice->pDescriptors->aConfigurations[0]->descriptor.bConfigurationValue)
 			{
-				return FALSE;
+				return false;
 			}
 
 			if (!configureEndpoints(pDevice, value))
 			{
-				return FALSE;
+				return false;
 			}
 
 			pDevice->nConfigID = value;
@@ -531,7 +531,7 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 				index != pDevice->nInterfaceID ||
 				length > 1)
 			{
-				return FALSE;
+				return false;
 			}
 
 			__u8 nAlt = pDevice->nAltInterfaceID;
@@ -561,24 +561,24 @@ static XnBool handleChapter9Requests(XnUSBDevice* pDevice, struct usb_ctrlreques
 
 			if (setup->bRequestType != USB_RECIP_INTERFACE)
 			{
-				return FALSE;
+				return false;
 			}
 
 			// make sure this is the only interface
 			if (nInt != 0 || nAlt != 0)
 			{
-				return FALSE;
+				return false;
 			}
 		}
 		break;
 	default:
-		return FALSE;
+		return false;
 	}
 
-	return TRUE;
+	return true;
 }
 
-static XnBool handleControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *setup)
+static bool handleControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *setup)
 {
 	if ((setup->bRequestType & USB_TYPE_MASK) == USB_TYPE_VENDOR)
 	{
@@ -744,7 +744,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* p
 		return (nRetVal);
 	}
 
-	nRetVal = xnOSCreateEvent(&pDevice->hReplyEvent, FALSE);
+	nRetVal = xnOSCreateEvent(&pDevice->hReplyEvent, false);
 	if (nRetVal != XN_STATUS_OK)
 	{
 		xnLogError(XN_MASK_OS, "Failed to create device event: %s", xnGetStatusString(nRetVal));
@@ -771,7 +771,7 @@ XN_C_API void XN_C_DECL xnUSBDeviceShutdown(XnUSBDevice* pDevice)
 {
 	XN_ASSERT(pDevice != NULL);
 
-	pDevice->bShutdown = TRUE;
+	pDevice->bShutdown = true;
 
 	if (pDevice->hThread != NULL)
 	{
@@ -809,11 +809,11 @@ XN_C_API void XN_C_DECL xnUSBDeviceShutdown(XnUSBDevice* pDevice)
 //---------------------------------------------------------------------------
 // Handling Vendor Controls
 //---------------------------------------------------------------------------
-XN_C_API XnBool XN_C_DECL xnUSBDeviceIsControlRequestPending(XnUSBDevice* pDevice)
+XN_C_API bool XN_C_DECL xnUSBDeviceIsControlRequestPending(XnUSBDevice* pDevice)
 {
 	XN_ASSERT(pDevice != NULL);
 	if (pDevice == NULL)
-		return FALSE;
+		return false;
 
 	xnl::AutoCSLocker locker(pDevice->hLock);
 	return (pDevice->eDeviceControlState == DEVICE_CONTROL_REQUEST_RECEIVED);
@@ -926,11 +926,11 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, co
 	return (XN_STATUS_OK);
 }
 
-static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *setup)
+static bool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *setup)
 {
 	__u16 length = __le16_to_cpu(setup->wLength);
 
-	XnBool bHostRequest = (setup->bRequestType & USB_DIR_IN) ? 0 : 1;
+	bool bHostRequest = (setup->bRequestType & USB_DIR_IN) ? 0 : 1;
 
 	if (bHostRequest)
 	{
@@ -938,20 +938,20 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 		if (length == 0)
 		{
 			xnLogError(XN_MASK_OS, "Got a control message with size 0!");
-			return FALSE;
+			return false;
 		}
 
 		if (length > pDevice->nControlMessageMaxSize)
 		{
 			xnLogError(XN_MASK_OS, "Got a control message bigger than max allowed size!");
-			return FALSE;
+			return false;
 		}
 
 		xnl::AutoCSLocker locker(pDevice->hLock);
 		if (pDevice->eDeviceControlState != DEVICE_CONTROL_CLEAR)
 		{
 			xnLogError(XN_MASK_OS, "Got a control request before previous one was replied!");
-			return FALSE;
+			return false;
 		}
 
 		// read the data
@@ -961,17 +961,17 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 			if (errno == EIDRM)
 			{
 				xnLogWarning(XN_MASK_OS, "control request was aborted. Ignoring it...");
-				return TRUE;
+				return true;
 			}
 			else if (errno == ECANCELED)
 			{
 				xnLogWarning(XN_MASK_OS, "control request was canceled. Ignoring it...");
-				return TRUE;
+				return true;
 			}
 			else
 			{
 				xnLogError(XN_MASK_OS, "Got a control request but failed to read its data (length was %u, errorcode is %d)!", length, errno);
-				return FALSE;
+				return false;
 			}
 		}
 
@@ -1004,7 +1004,7 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 		{
 			xnDumpFileWriteString(pDevice->pDump, "%llu,%s,%s,HostIn,,,Host asks for reply, but no request was received!\n", nNow, GetHostStateName(prevHost), GetDeviceStateName(prevDevice));
 			xnLogError(XN_MASK_OS, "Host asks for reply, but no request was received!");
-			return FALSE;
+			return false;
 		}
 
 		switch (pDevice->eDeviceControlState)
@@ -1015,7 +1015,7 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 				int status = write(pDevice->deviceFD, pDevice->pControlBuffer, pDevice->nControlSize);
 				if (status < 0)
 				{
-					return FALSE;
+					return false;
 				}
 
 				if (pDevice->nControlSize > 0)
@@ -1048,7 +1048,7 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 				{
 					xnLogError(XN_MASK_OS, "control command did not finish in %u milliseconds!", XN_USB_CONTROL_TIMEOUT);
 					pDevice->eHostControlState = HOST_CONTROL_REQUEST_RECEIVED;
-					return FALSE;
+					return false;
 				}
 
 				break;
@@ -1056,11 +1056,11 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 		default:
 			// bad state
 			xnLogError(XN_MASK_OS, "Bad device state: %d", pDevice->eDeviceControlState);
-			return FALSE;
+			return false;
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceSetNewControlRequestCallback(XnUSBDevice* pDevice, XnUSBDeviceNewControlRequestCallback pFunc, void* pCookie)
@@ -1099,7 +1099,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, uint8
 	if ((nEndpointID & 0x7F) >= XN_USB_DEVICE_ENDPOINT_MAX_COUNT)
 	{
 		xnLogError(XN_MASK_OS, "Got bad endpoint ID: 0x%X", nEndpointID);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_PARAM;
 	}
 
@@ -1162,7 +1162,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceResetEndpoint(XnUSBDevice* pDevice, uint8
 	if ((nEndpointID & 0x7F) >= XN_USB_DEVICE_ENDPOINT_MAX_COUNT)
 	{
 		xnLogError(XN_MASK_OS, "Got bad endpoint ID: 0x%X", nEndpointID);
-		XN_ASSERT(FALSE);
+		XN_ASSERT(false);
 		return XN_STATUS_BAD_PARAM;
 	}
 
