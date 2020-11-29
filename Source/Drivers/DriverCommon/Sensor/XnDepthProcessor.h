@@ -57,7 +57,7 @@ protected:
 	//---------------------------------------------------------------------------
 	virtual void OnStartOfFrame(const XnSensorProtocolResponseHeader* pHeader);
 	virtual void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader);
-	virtual void OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS);
+	virtual void OnFrameReady(uint32_t nFrameID, uint64_t nFrameTS);
 
 	//---------------------------------------------------------------------------
 	// Helper Functions

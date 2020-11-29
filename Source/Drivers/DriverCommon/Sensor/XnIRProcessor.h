@@ -45,8 +45,8 @@ private:
 	//---------------------------------------------------------------------------
 	void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) override;
 	void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader) override;
-	XnUInt64 CreateTimestampFromDevice(uint32_t nDeviceTimeStamp) override;
-	void OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS) override;
+	uint64_t CreateTimestampFromDevice(uint32_t nDeviceTimeStamp) override;
+	void OnFrameReady(uint32_t nFrameID, uint64_t nFrameTS) override;
 
 	//---------------------------------------------------------------------------
 	// Internal Functions
@@ -63,7 +63,7 @@ private:
 	/* A buffer to store bytes till we have enough to unpack. */
 	XnBuffer m_ContinuousBuffer;
 	XnBuffer m_UnpackedBuffer;
-	XnUInt64 m_nRefTimestamp; // needed for firmware bug workaround
+	uint64_t m_nRefTimestamp; // needed for firmware bug workaround
 	XnDepthCMOSType m_DepthCMOSType;
 };
 

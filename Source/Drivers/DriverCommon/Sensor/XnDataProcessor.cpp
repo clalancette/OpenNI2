@@ -68,7 +68,7 @@ void XnDataProcessor::ProcessData(const XnSensorProtocolResponseHeader* pHeader,
 		m_nLastPacketID = pHeader->nPacketID;
 
 		// log packet arrival
-		XnUInt64 nNow;
+		uint64_t nNow;
 		xnOSGetHighResTimeStamp(&nNow);
 		xnDumpFileWriteString(m_pDevicePrivateData->MiniPacketsDump, "%llu,0x%hx,0x%hx,0x%hx,%u\n", nNow, pHeader->nType, pHeader->nPacketID, pHeader->nBufSize, pHeader->nTimeStamp);
 	}
@@ -81,9 +81,9 @@ void XnDataProcessor::ProcessData(const XnSensorProtocolResponseHeader* pHeader,
 void XnDataProcessor::OnPacketLost()
 {}
 
-XnUInt64 XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
+uint64_t XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 {
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 
 	// we register the first TS calculated as time-zero. Every stream's TS data will be
@@ -99,8 +99,8 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 		xnOSLeaveCriticalSection(&m_pDevicePrivateData->hEndPointsCS);
 	}
 
-	const XnUInt64 nWrapPoint = ((XnUInt64)XN_MAX_UINT32) + 1;
-	XnUInt64 nResultInTicks;
+	const uint64_t nWrapPoint = ((uint64_t)XN_MAX_UINT32) + 1;
+	uint64_t nResultInTicks;
 	const uint32_t nDumpCommentMaxLength = 200;
 	XnChar csDumpComment[nDumpCommentMaxLength] = "";
 	XnBool bCheckSanity = TRUE;
@@ -125,7 +125,7 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 		*/
 
 		// estimate the number of wraparound that occurred using OS time
-		XnUInt64 nOSTime = nNow - m_pDevicePrivateData->nGlobalReferenceOSTime;
+		uint64_t nOSTime = nNow - m_pDevicePrivateData->nGlobalReferenceOSTime;
 
 		// calculate wraparound length
 		XnDouble fWrapAroundInMicroseconds = nWrapPoint / (XnDouble)m_pDevicePrivateData->fDeviceFrequency;
@@ -163,7 +163,7 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 		m_TimeStampData.nLastDeviceTS = 0;
 		m_TimeStampData.bFirst = FALSE;
 		bCheckSanity = FALSE; // no need.
-		sprintf(csDumpComment, "Init. Total Ticks in Ref TS: %llu", m_TimeStampData.nTotalTicksAtReferenceTS);
+		sprintf(csDumpComment, "Init. Total Ticks in Ref TS: %" PRIu64, m_TimeStampData.nTotalTicksAtReferenceTS);
 	}
 
 	if (nDeviceTimeStamp > m_TimeStampData.nLastDeviceTS) // this is the normal case
@@ -177,7 +177,7 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 		// mark reference timestamp
 		m_TimeStampData.nReferenceTS = nDeviceTimeStamp;
 
-		sprintf(csDumpComment, "Wrap around. Refernce TS: %u / TotalTicksAtReference: %llu", m_TimeStampData.nReferenceTS, m_TimeStampData.nTotalTicksAtReferenceTS);
+		sprintf(csDumpComment, "Wrap around. Refernce TS: %u / TotalTicksAtReference: %" PRIu64, m_TimeStampData.nReferenceTS, m_TimeStampData.nTotalTicksAtReferenceTS);
 
 		nResultInTicks = m_TimeStampData.nTotalTicksAtReferenceTS;
 	}
@@ -188,7 +188,7 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 	// NOTE: Intel compiler does too much optimization, and we loose up to 5 milliseconds. We perform
 	// the entire calculation in XnDouble as a workaround
 	XnDouble dResultTimeMicroSeconds = (XnDouble)nResultInTicks / (XnDouble)m_pDevicePrivateData->fDeviceFrequency;
-	XnUInt64 nResultTimeMilliSeconds = (XnUInt64)(dResultTimeMicroSeconds / 1000.0);
+	uint64_t nResultTimeMilliSeconds = (uint64_t)(dResultTimeMicroSeconds / 1000.0);
 
 	XnBool bIsSane = TRUE;
 
@@ -199,7 +199,7 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 		xnOSStrAppend(csDumpComment, ",Didn't pass sanity. Will try to re-sync.", nDumpCommentMaxLength);
 	}
 
-	XnUInt64 nResult = (XnUInt64)dResultTimeMicroSeconds;
+	uint64_t nResult = (uint64_t)dResultTimeMicroSeconds;
 
 	// dump it
 	xnDumpFileWriteString(m_pDevicePrivateData->TimestampsDump, "%llu,%s,%u,%llu,%s\n", nNow, m_TimeStampData.csStreamName, nDeviceTimeStamp, nResult, csDumpComment);
@@ -217,9 +217,9 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 	}
 }
 
-XnUInt64 XnDataProcessor::GetHostTimestamp()
+uint64_t XnDataProcessor::GetHostTimestamp()
 {
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 
 	// we register the first TS calculated as time-zero. Every stream's TS data will be
@@ -235,6 +235,6 @@ XnUInt64 XnDataProcessor::GetHostTimestamp()
 		xnOSLeaveCriticalSection(&m_pDevicePrivateData->hEndPointsCS);
 	}
 
-	XnUInt64 nResultTimeMicroseconds = nNow - m_pDevicePrivateData->nGlobalReferenceOSTime;
+	uint64_t nResultTimeMicroseconds = nNow - m_pDevicePrivateData->nGlobalReferenceOSTime;
 	return nResultTimeMicroseconds;
 }

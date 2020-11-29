@@ -93,8 +93,8 @@ protected:
 
 private:
 	// callbacks
-	static XnStatus XN_CALLBACK_TYPE SetMinDepthCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetMaxDepthCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetMinDepthCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetMaxDepthCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 
 	//---------------------------------------------------------------------------
 	// Members

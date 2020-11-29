@@ -192,7 +192,7 @@ void XnOniMapStream::notifyAllProperties()
 XnStatus XnOniMapStream::GetVideoMode(OniVideoMode* pVideoMode)
 {
 	XnStatus nRetVal;
-	XnUInt64 nValue;
+	uint64_t nValue;
 
 	// output format
 	nRetVal = m_pSensor->GetProperty(m_strType, XN_STREAM_PROPERTY_OUTPUT_FORMAT, &nValue);
@@ -239,7 +239,7 @@ XnStatus XnOniMapStream::SetVideoMode(OniVideoMode* pVideoMode)
 
 	// check if this mode is supported. If it is, make sure current input format is OK
 	// note: in case of color stream, the chosen InputFormat should also suit the desired OutputFormat!
-	XnUInt64 nCurrInputFormat;
+	uint64_t nCurrInputFormat;
 	nRetVal = m_pSensor->GetProperty(m_strType, XN_STREAM_PROPERTY_INPUT_FORMAT, &nCurrInputFormat);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -302,7 +302,7 @@ XnStatus XnOniMapStream::FillSupportedVideoModes()
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// get supported modes
-	XnUInt64 nCount;
+	uint64_t nCount;
 	nRetVal = m_pSensor->GetProperty(m_strType, XN_STREAM_PROPERTY_SUPPORT_MODES_COUNT, &nCount);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -334,7 +334,7 @@ XnStatus XnOniMapStream::FillSupportedVideoModes()
 
 XnStatus XnOniMapStream::GetMirror(OniBool* pEnabled)
 {
-	XnUInt64 intProperty;
+	uint64_t intProperty;
 	XnStatus nRetVal = m_pSensor->GetProperty(m_strType, XN_MODULE_PROPERTY_MIRROR, &intProperty);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -346,7 +346,7 @@ XnStatus XnOniMapStream::GetMirror(OniBool* pEnabled)
 
 XnStatus XnOniMapStream::SetMirror(OniBool* pEnabled)
 {
-	XnStatus nRetVal = m_pSensor->SetProperty(m_strType, XN_MODULE_PROPERTY_MIRROR, (XnUInt64)*pEnabled);
+	XnStatus nRetVal = m_pSensor->SetProperty(m_strType, XN_MODULE_PROPERTY_MIRROR, (uint64_t)*pEnabled);
 	XN_IS_STATUS_OK(nRetVal);
 
 	return (XN_STATUS_OK);

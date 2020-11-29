@@ -67,7 +67,7 @@ void RecordAssembler::initialize()
 	XnSizeT maxHeaderSize_bytes =
 		/* size of header POD   = */ sizeof(RecordHeaderData) +
 		/* size of node name    = */ (ONI_MAX_STR + 1) +
-		/* size of time stamp   = */ sizeof(XnUInt64) +
+		/* size of time stamp   = */ sizeof(uint64_t) +
 		/* size of frame number = */ sizeof(uint32_t);
 
 	m_bufferSize_bytes = (XnSizeT)(maxHeaderSize_bytes +
@@ -98,7 +98,7 @@ OniStatus RecordAssembler::serialize(XN_FILE_HANDLE file)
 		if (0 == m_bufferSize_bytes) { return __VA_ARGS__; } \
 	} while (0)
 
-void RecordAssembler::emitCommonHeader(uint32_t recordType, uint32_t nodeId, XnUInt64 undoRecordPos)
+void RecordAssembler::emitCommonHeader(uint32_t recordType, uint32_t nodeId, uint64_t undoRecordPos)
 {
 	MUST_BE_INITIALIZED();
 	xnOSMemSet(m_header, 0, sizeof(*m_header));
@@ -168,8 +168,8 @@ OniStatus RecordAssembler::emit_RECORD_NODE_ADDED_1_0_0_5(
 	uint32_t nodeId,
 	uint32_t codecId,
 	uint32_t numberOfFrames,
-	XnUInt64 minTimeStamp,
-	XnUInt64 maxTimeStamp)
+	uint64_t minTimeStamp,
+	uint64_t maxTimeStamp)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 
@@ -212,9 +212,9 @@ OniStatus RecordAssembler::emit_RECORD_NODE_ADDED(
 	uint32_t nodeId,
 	uint32_t codecId,
 	uint32_t numberOfFrames,
-	XnUInt64 minTimeStamp,
-	XnUInt64 maxTimeStamp,
-	XnUInt64 seekTablePosition)
+	uint64_t minTimeStamp,
+	uint64_t maxTimeStamp,
+	uint64_t seekTablePosition)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 
@@ -253,7 +253,7 @@ OniStatus RecordAssembler::emit_RECORD_NODE_STATE_READY(uint32_t nodeId)
 	return ONI_STATUS_OK;
 }
 
-OniStatus RecordAssembler::emit_RECORD_NODE_REMOVED(uint32_t nodeId, XnUInt64 nodeAddedPos)
+OniStatus RecordAssembler::emit_RECORD_NODE_REMOVED(uint32_t nodeId, uint64_t nodeAddedPos)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 	emitCommonHeader(RECORD_NODE_REMOVED, nodeId, /*undoRecordPos*/ nodeAddedPos);
@@ -308,7 +308,7 @@ OniStatus RecordAssembler::emit_RECORD_END()
 OniStatus RecordAssembler::emit_RECORD_NODE_DATA_BEGIN(
 	uint32_t nodeId,
 	uint32_t framesCount,
-	XnUInt64 maxTimeStamp)
+	uint64_t maxTimeStamp)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 
@@ -333,8 +333,8 @@ OniStatus RecordAssembler::emit_RECORD_NODE_DATA_BEGIN(
 
 OniStatus RecordAssembler::emit_RECORD_NEW_DATA(
 	uint32_t    nodeId,
-	XnUInt64    undoRecordPos,
-	XnUInt64    timeStamp,
+	uint64_t    undoRecordPos,
+	uint64_t    timeStamp,
 	uint32_t    frameId,
 	const void* data,
 	XnSizeT     dataSize_bytes)
@@ -373,7 +373,7 @@ OniStatus RecordAssembler::emit_RECORD_NEW_DATA(
 
 OniStatus RecordAssembler::emit_RECORD_GENERAL_PROPERTY(
 	uint32_t    nodeId,
-	XnUInt64    undoRecordPos,
+	uint64_t    undoRecordPos,
 	const char* propertyName,
 	const void* data,
 	XnSizeT     dataSize_bytes)
@@ -413,9 +413,9 @@ OniStatus RecordAssembler::emit_RECORD_GENERAL_PROPERTY(
 
 OniStatus RecordAssembler::emit_RECORD_INT_PROPERTY(
         uint32_t    nodeId,
-        XnUInt64    undoRecordPos,
+        uint64_t    undoRecordPos,
         const char* propertyName,
-        XnUInt64    data)
+        uint64_t    data)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 
@@ -434,7 +434,7 @@ OniStatus RecordAssembler::emit_RECORD_INT_PROPERTY(
 
 OniStatus RecordAssembler::emit_RECORD_REAL_PROPERTY(
 	uint32_t    nodeId,
-	XnUInt64    undoRecordPos,
+	uint64_t    undoRecordPos,
 	const char* propertyName,
 	XnDouble    data)
 {

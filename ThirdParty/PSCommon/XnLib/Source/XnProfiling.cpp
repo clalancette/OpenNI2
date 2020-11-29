@@ -41,8 +41,8 @@ typedef struct
 	XnChar csName[MAX_SECTION_NAME];
 	XnBool bMultiThreaded;
 	XN_CRITICAL_SECTION_HANDLE hLock;
-	XnUInt64 nCurrStartTime;
-	XnUInt64 nTotalTime;
+	uint64_t nCurrStartTime;
+	uint64_t nTotalTime;
 	uint32_t nTimesExecuted;
 	uint32_t nIndentation;
 } XnProfiledSection;
@@ -73,14 +73,14 @@ XN_THREAD_PROC xnProfilingThread(XN_THREAD_PARAM /*pThreadParam*/)
 	XnChar csReport[4096];
 	int nReportChars;
 
-	XnUInt64 nLastTime;
+	uint64_t nLastTime;
 	xnOSGetHighResTimeStamp(&nLastTime);
 
 	while (!g_ProfilingData.bKillThread)
 	{
 		xnOSSleep(g_ProfilingData.nProfilingInterval);
 
-		XnUInt64 nNow;
+		uint64_t nNow;
 		xnOSGetHighResTimeStamp(&nNow);
 
 		// print profiled sections
@@ -89,13 +89,13 @@ XN_THREAD_PROC xnProfilingThread(XN_THREAD_PARAM /*pThreadParam*/)
 		nReportChars += sprintf(csReport + nReportChars, "%-*s %-5s %-6s %-9s %-7s\n", (int)g_ProfilingData.nMaxSectionName, "TaskName", "Times", "% Time", "TotalTime", "AvgTime");
 		nReportChars += sprintf(csReport + nReportChars, "%-*s %-5s %-6s %-9s %-7s\n", (int)g_ProfilingData.nMaxSectionName, "========", "=====", "======", "=========", "=======");
 
-		XnUInt64 nTotalTime = 0;
+		uint64_t nTotalTime = 0;
 
 		for (uint32_t i = 0; i < g_ProfilingData.nSectionCount; ++i)
 		{
 			XnProfiledSection* pSection = &g_ProfilingData.aSections[i];
 
-			XnUInt64 nAvgTime = 0;
+			uint64_t nAvgTime = 0;
 			XnDouble dCPUPercentage = ((XnDouble)pSection->nTotalTime) / (nNow - nLastTime) * 100.0;
 
 			if (pSection->nTimesExecuted != 0)
@@ -103,7 +103,7 @@ XN_THREAD_PROC xnProfilingThread(XN_THREAD_PARAM /*pThreadParam*/)
 				nAvgTime = pSection->nTotalTime / pSection->nTimesExecuted;
 			}
 
-			nReportChars += sprintf(csReport + nReportChars, "%-*s %5u %6.2f %9llu %7llu\n", (int)g_ProfilingData.nMaxSectionName,
+			nReportChars += sprintf(csReport + nReportChars, "%-*s %5u %6.2f %9" PRIu64 " %7" PRIu64 "\n", (int)g_ProfilingData.nMaxSectionName,
 				pSection->csName, pSection->nTimesExecuted, dCPUPercentage, pSection->nTotalTime, nAvgTime);
 
 			if (pSection->nIndentation == 0)
@@ -116,7 +116,7 @@ XN_THREAD_PROC xnProfilingThread(XN_THREAD_PARAM /*pThreadParam*/)
 
 		// print total
 		XnDouble dCPUPercentage = ((XnDouble)nTotalTime) / (nNow - nLastTime) * 100.0;
-		sprintf(csReport + nReportChars, "%-*s %5s %6.2f %9llu %7s\n",
+		sprintf(csReport + nReportChars, "%-*s %5s %6.2f %9" PRIu64 " %7s\n",
 			(int)g_ProfilingData.nMaxSectionName, "*** Total ***", "-", dCPUPercentage, nTotalTime, "-");
 
 		xnLogVerbose(XN_MASK_PROFILING, "%s", csReport);
@@ -247,7 +247,7 @@ XN_C_API XnStatus xnProfilingSectionEnd(XnProfilingHandle* pHandle)
 	if (!g_ProfilingData.bInitialized)
 		return XN_STATUS_OK;
 
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 
 	XnProfiledSection* pSection = &g_ProfilingData.aSections[*pHandle];

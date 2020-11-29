@@ -247,9 +247,9 @@ void XnPSCompressedDepthProcessor::ProcessFramePacketChunk(const XnSensorProtoco
 	{
 		FrameIsCorrupted();
 
-		static XnUInt64 nLastPrinted = 0;
+		static uint64_t nLastPrinted = 0;
 
-		XnUInt64 nCurrTime;
+		uint64_t nCurrTime;
 		xnOSGetTimeStamp(&nCurrTime);
 
 		if (nOutputSize != 0 || (nCurrTime - nLastPrinted) > 1000)

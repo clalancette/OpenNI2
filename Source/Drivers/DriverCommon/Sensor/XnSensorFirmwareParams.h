@@ -134,20 +134,20 @@ private:
 
 	XnStatus UpdateProperty(XnFirmwareParam* pParam);
 
-	XnStatus SetFirmwareParam(XnActualIntProperty* pProperty, XnUInt64 nValue);
-	XnStatus SetFirmwareAudioParam(XnActualIntProperty* pProperty, XnUInt64 nValue);
-	XnStatus SetImageFormat(XnUInt64 nValue);
-	XnStatus SetStreamMode(XnActualIntProperty* pProperty, XnUInt64 nValue);
+	XnStatus SetFirmwareParam(XnActualIntProperty* pProperty, uint64_t nValue);
+	XnStatus SetFirmwareAudioParam(XnActualIntProperty* pProperty, uint64_t nValue);
+	XnStatus SetImageFormat(uint64_t nValue);
+	XnStatus SetStreamMode(XnActualIntProperty* pProperty, uint64_t nValue);
 	XnStatus RecalculateReferenceResolution();
 	XnStatus GetFirmwareParam(XnActualIntProperty* pProperty, XnFirmwareParam** ppParam);
 
-	XnStatus SetFirmwareParamImpl(XnActualIntProperty* pProperty, XnUInt64 nValue);
-	XnStatus CheckFirmwareParam(XnActualIntProperty* pProperty, XnUInt64 nValue, XnFirmwareParam** ppParam);
+	XnStatus SetFirmwareParamImpl(XnActualIntProperty* pProperty, uint64_t nValue);
+	XnStatus CheckFirmwareParam(XnActualIntProperty* pProperty, uint64_t nValue, XnFirmwareParam** ppParam);
 
-	static XnStatus XN_CALLBACK_TYPE SetFirmwareParamCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetFirmwareAudioParamCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetImageFormatCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetStreamModeCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetFirmwareParamCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetFirmwareAudioParamCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetImageFormatCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetStreamModeCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE ReferenceResolutionPropertyValueChanged(const XnProperty* pSender, void* pCookie);
 
 	XnFirmwareParamsHash m_AllFirmwareParams;

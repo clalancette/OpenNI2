@@ -110,8 +110,8 @@ protected:
 	XnStatus SetActualRead(XnBool bRead);
 	virtual XnStatus SetAutoExposure(XnBool bAutoExposure);
 	virtual XnStatus SetAutoWhiteBalance(XnBool bAutoWhiteBalance);
-	virtual XnStatus SetExposure(XnUInt64 nValue);
-	virtual XnStatus SetGain(XnUInt64 nValue);
+	virtual XnStatus SetExposure(uint64_t nValue);
+	virtual XnStatus SetGain(uint64_t nValue);
 	virtual XnStatus SetFastZoomCrop(XnBool bFastZoomCrop);
 private:
 	XnStatus ValidateMode();
@@ -119,16 +119,16 @@ private:
 	XnStatus SetAutoExposureForOldFirmware(XnBool bAutoExposure);
 	XnStatus SetAutoWhiteBalanceForOldFirmware(XnBool bAutoWhiteBalance);
 
-	static XnStatus XN_CALLBACK_TYPE SetInputFormatCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetAntiFlickerCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetImageQualityCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetActualReadCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetCroppingModeCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetAutoExposureCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetAutoWhiteBalanceCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetExposureCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetGainCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetFastZoomCropCallback(XnActualIntProperty* pSendoer, XnUInt64 nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetInputFormatCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetAntiFlickerCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetImageQualityCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetActualReadCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetCroppingModeCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetAutoExposureCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetAutoWhiteBalanceCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetExposureCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetGainCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetFastZoomCropCallback(XnActualIntProperty* pSendoer, uint64_t nValue, void* pCookie);
 
 	//---------------------------------------------------------------------------
 	// Members

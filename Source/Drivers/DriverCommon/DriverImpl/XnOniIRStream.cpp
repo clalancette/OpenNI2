@@ -41,7 +41,7 @@ OniStatus XnOniIRStream::getProperty(int propertyId, void* data, int* pDataSize)
 	    return ONI_STATUS_BAD_PARAMETER;
 	}
 
-	XnUInt64 nValue;
+	uint64_t nValue;
 	m_pSensor->GetProperty(m_strType, XN_STREAM_PROPERTY_DEVICE_MAX_IR, &nValue);
 
 	*(int*)data = (int)nValue;

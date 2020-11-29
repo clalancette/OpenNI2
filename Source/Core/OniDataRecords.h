@@ -50,7 +50,7 @@ struct FileHeaderData
 		XnUInt16 maintenance;
 		uint32_t build;
 	} version;
-	XnUInt64 maxTimeStamp;
+	uint64_t maxTimeStamp;
 	uint32_t maxNodeId;
 };
 
@@ -62,7 +62,7 @@ struct RecordHeaderData
 	uint32_t nodeId;
 	uint32_t fieldsSize;
 	uint32_t payloadSize;
-	XnUInt64 undoRecordPos;
+	uint64_t undoRecordPos;
 };
 
 struct VideoModeData
@@ -75,9 +75,9 @@ struct VideoModeData
 /// An entry for a frame in the SeekTable
 typedef struct DataIndexEntry
 {
-	XnUInt64 nTimestamp;
+	uint64_t nTimestamp;
 	uint32_t nConfigurationID;
-	XnUInt64 nSeekPos;
+	uint64_t nSeekPos;
 } DataIndexEntry;
 
 /// Enumerates known record types.
@@ -145,21 +145,21 @@ public:
 		uint32_t nodeId,
 		uint32_t codecId,
 		uint32_t numberOfFrames,
-		XnUInt64 minTimeStamp,
-		XnUInt64 maxTimeStamp);
+		uint64_t minTimeStamp,
+		uint64_t maxTimeStamp);
 
 	OniStatus emit_RECORD_NODE_ADDED(
 		uint32_t nodeType,
 		uint32_t nodeId,
 		uint32_t codecId,
 		uint32_t numberOfFrames,
-		XnUInt64 minTimeStamp,
-		XnUInt64 maxTimeStamp,
-		XnUInt64 seekTablePosition);
+		uint64_t minTimeStamp,
+		uint64_t maxTimeStamp,
+		uint64_t seekTablePosition);
 
 	OniStatus emit_RECORD_NODE_STATE_READY(uint32_t nodeId);
 
-	OniStatus emit_RECORD_NODE_REMOVED(uint32_t nodeId, XnUInt64 nodeAddedPos);
+	OniStatus emit_RECORD_NODE_REMOVED(uint32_t nodeId, uint64_t nodeAddedPos);
 
 	OniStatus emit_RECORD_SEEK_TABLE(
 		uint32_t nodeId,
@@ -171,36 +171,36 @@ public:
 	OniStatus emit_RECORD_NODE_DATA_BEGIN(
 		uint32_t nodeId,
 		uint32_t framesCount,
-		XnUInt64 maxTimeStamp);
+		uint64_t maxTimeStamp);
 
 	OniStatus emit_RECORD_NEW_DATA(
 		uint32_t    nodeId,
-		XnUInt64    undoRecordPos,
-		XnUInt64    timeStamp,
+		uint64_t    undoRecordPos,
+		uint64_t    timeStamp,
 		uint32_t    frameId,
 		const void* data,
 	XnSizeT     dataSize_bytes);
 
 	OniStatus emit_RECORD_GENERAL_PROPERTY(
 		uint32_t    nodeId,
-		XnUInt64    undoRecordPos,
+		uint64_t    undoRecordPos,
 		const char* propertyName,
 		const void* data,
 		XnSizeT     dataSize_bytes);
 
 	OniStatus emit_RECORD_INT_PROPERTY(
 		uint32_t    nodeId,
-		XnUInt64    undoRecordPos,
+		uint64_t    undoRecordPos,
 		const char* propertyName,
-		XnUInt64    data);
+		uint64_t    data);
 	OniStatus emit_RECORD_REAL_PROPERTY(
 		uint32_t    nodeId,
-		XnUInt64    undoRecordPos,
+		uint64_t    undoRecordPos,
 		const char* propertyName,
 		XnDouble    data);
 
 private:
-	void emitCommonHeader(uint32_t recordType, uint32_t nodeId, XnUInt64 undoRecordPos);
+	void emitCommonHeader(uint32_t recordType, uint32_t nodeId, uint64_t undoRecordPos);
 	OniStatus emitString(const XnChar* pStr, XnSizeT& totalFieldsSize_bytes);
 	OniStatus emitData(const void* pData, XnSizeT dataSize_bytes);
 

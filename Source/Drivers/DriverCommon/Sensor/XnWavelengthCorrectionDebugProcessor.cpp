@@ -46,7 +46,7 @@ void XnWavelengthCorrectionDebugProcessor::ProcessWholePacket(const XnSensorProt
 
 	XnWavelengthCorrectionDebugPacket* pPacket = (XnWavelengthCorrectionDebugPacket*)pData;
 
-	XnUInt64 nTimestamp = 0;
+	uint64_t nTimestamp = 0;
 	xnOSGetHighResTimeStamp(&nTimestamp);
 
 	xnDumpFileWriteString(m_DumpTxt, "%llu,%hu,%f,%f,%hu,%x,%hu,%hu,%u,%hu,%hu,%u,%d,%hu,%u,%d\n",

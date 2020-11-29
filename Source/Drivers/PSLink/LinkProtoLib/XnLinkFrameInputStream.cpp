@@ -206,19 +206,19 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 		}
 
 		// take timestamp
-		if (header.GetDataSize() < sizeof(XnUInt64))
+		if (header.GetDataSize() < sizeof(uint64_t))
 		{
 			m_currentFrameCorrupt = TRUE;
 			xnLogWarning(XN_MASK_LINK, "Got a BEGIN packet with no timestamp!");
 			XN_ASSERT(FALSE);
 			return XN_STATUS_LINK_MISSING_TIMESTAMP;
 		}
-		m_pCurrFrame->timestamp = *(XnUInt64*)pData;
-		pData += sizeof(XnUInt64);
-		header.SetSize(header.GetSize() - sizeof(XnUInt64));
+		m_pCurrFrame->timestamp = *(uint64_t*)pData;
+		pData += sizeof(uint64_t);
+		header.SetSize(header.GetSize() - sizeof(uint64_t));
 
 		// TEMP: inject the host's timestamp. Firmware can't produce timestamps yet
-		XnUInt64 nTimestamp;
+		uint64_t nTimestamp;
 		nRetVal = xnOSGetHighResTimeStamp(&nTimestamp);
 		if (nRetVal != XN_STATUS_OK)
 		{

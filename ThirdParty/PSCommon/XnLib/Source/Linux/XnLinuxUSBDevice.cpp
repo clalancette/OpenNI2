@@ -827,7 +827,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevic
 
 	xnl::AutoCSLocker locker(pDevice->hLock);
 
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 	xnDumpFileWriteString(pDevice->pDump, "%llu,%s,%s,DeviceReadRequest,%s,%s\n", nNow, GetHostStateName(pDevice->eHostControlState), GetDeviceStateName(pDevice->eDeviceControlState), GetHostStateName(pDevice->eHostControlState), GetDeviceStateName(DEVICE_CONTROL_REQUEST_READ));
 
@@ -860,7 +860,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, co
 	HostControlState prevHost = pDevice->eHostControlState;
 	DeviceControlState prevDevice = pDevice->eDeviceControlState;
 
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 
 	if (pDevice->nControlSize != 0 || pDevice->eDeviceControlState != DEVICE_CONTROL_REPLY_READY)
@@ -979,7 +979,7 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 		pDevice->eDeviceControlState = DEVICE_CONTROL_REQUEST_RECEIVED;
 		pDevice->eHostControlState = HOST_CONTROL_REQUEST_RECEIVED;
 
-		XnUInt64 nNow;
+		uint64_t nNow;
 		xnOSGetHighResTimeStamp(&nNow);
 		xnDumpFileWriteString(pDevice->pDump, "%llu,%s,%s,HostOut,%s,%s\n", nNow, GetHostStateName(HOST_CONTROL_CLEAR), GetDeviceStateName(DEVICE_CONTROL_CLEAR), GetHostStateName(pDevice->eHostControlState), GetDeviceStateName(pDevice->eDeviceControlState));
 
@@ -997,7 +997,7 @@ static XnBool handleVendorControl(XnUSBDevice* pDevice, struct usb_ctrlrequest *
 		HostControlState prevHost = pDevice->eHostControlState;
 		DeviceControlState prevDevice = pDevice->eDeviceControlState;
 
-		XnUInt64 nNow;
+		uint64_t nNow;
 		xnOSGetHighResTimeStamp(&nNow);
 
 		if (pDevice->eHostControlState != HOST_CONTROL_REQUEST_RECEIVED)

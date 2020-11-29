@@ -53,7 +53,7 @@ public:
 	*/
 	XnStatus RegisterDataProcessorProperty(XnActualIntProperty& Property);
 
-	typedef XnStatus (*ConvertCallback)(XnUInt64 nSource, XnUInt64* pnDest);
+	typedef XnStatus (*ConvertCallback)(uint64_t nSource, uint64_t* pnDest);
 
 	/**
 	* Maps a stream property to a firmware property. Later on, such a property can be used

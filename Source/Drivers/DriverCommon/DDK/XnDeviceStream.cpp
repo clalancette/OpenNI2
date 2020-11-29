@@ -180,7 +180,7 @@ XnStatus XN_CALLBACK_TYPE XnDeviceStream::UpdateRequiredSizeCallback(const XnPro
 	return pStream->UpdateRequiredSize();
 }
 
-XnStatus XN_CALLBACK_TYPE XnDeviceStream::SetIsOpenCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnDeviceStream::SetIsOpenCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDeviceStream* pStream = (XnDeviceStream*)pCookie;
 	if (nValue == TRUE)
@@ -193,13 +193,13 @@ XnStatus XN_CALLBACK_TYPE XnDeviceStream::SetIsOpenCallback(XnActualIntProperty*
 	}
 }
 
-XnStatus XN_CALLBACK_TYPE XnDeviceStream::SetOutputFormatCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnDeviceStream::SetOutputFormatCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDeviceStream* pStream = (XnDeviceStream*)pCookie;
 	return pStream->SetOutputFormat((OniPixelFormat)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnDeviceStream::SetIsMirrorCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnDeviceStream::SetIsMirrorCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDeviceStream* pStream = (XnDeviceStream*)pCookie;
 	return pStream->SetMirror((XnBool)nValue);

@@ -47,7 +47,7 @@ public:
 	// New data event.
 	typedef struct
 	{
-		XnUInt64 nTimeStamp;
+		uint64_t nTimeStamp;
 		uint32_t nFrameId;
 		void* pData;
 		uint32_t nSize;
@@ -74,7 +74,7 @@ public:
 	OniStatus SetProperty(int propertyId, const void* data, int dataSize);
 
 	// Process new data.
-	void ProcessNewData(XnUInt64 nTimeStamp, uint32_t nFrameId, void* pData, uint32_t nSize);
+	void ProcessNewData(uint64_t nTimeStamp, uint32_t nFrameId, void* pData, uint32_t nSize);
 
 	// Register for new data event.
 	OniStatus RegisterNewDataEvent(NewDataCallback callback, void* pCookie, OniCallbackHandle& handle);

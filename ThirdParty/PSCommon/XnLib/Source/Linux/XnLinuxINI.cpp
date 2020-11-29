@@ -59,7 +59,7 @@ static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, cons
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// get file size
-	XnUInt64 nFileSize;
+	uint64_t nFileSize;
 	nRetVal = xnOSGetFileSize64(cpINIFile, &nFileSize);
 	XN_IS_STATUS_OK(nRetVal);
 

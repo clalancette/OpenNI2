@@ -90,11 +90,11 @@ public:
 	virtual XnStatus UnregisterFromNewStreamData(XnCallbackHandle hCallback);
 	virtual XnStatus DoesPropertyExist(const XnChar* ModuleName, uint32_t propertyId, XnBool* pbDoesExist);
 	virtual XnStatus GetPropertyType(const XnChar* ModuleName, uint32_t propertyId, XnPropertyType* pnType);
-	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, XnUInt64 nValue);
+	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, uint64_t nValue);
 	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, XnDouble dValue);
 	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, const XnChar* csValue);
 	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, const OniGeneralBuffer& Value);
-	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnUInt64* pnValue);
+	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, uint64_t* pnValue);
 	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnDouble* pdValue);
 	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnChar* csValue);
 	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, const OniGeneralBuffer& pValue);
@@ -199,7 +199,7 @@ private:
 	void FreeModuleRegisteredProperties(const XnChar* strModule);
 
 	static XnStatus XN_CALLBACK_TYPE PropertyValueChangedCallback(const XnProperty* pSender, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetMirrorCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetMirrorCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 
 	static void NewStreamDataCallback(XnDeviceStream* pSender, OniFrame* pFrame, void* pCookie);
 

@@ -41,8 +41,8 @@ public:
 	XnStatus Init() override;
 	XnStatus Free() override;
 
-	XnStatus Tell(XnUInt64* pnOffset);
-	XnStatus Seek(XnUInt64 nOffset);
+	XnStatus Tell(uint64_t* pnOffset);
+	XnStatus Seek(uint64_t nOffset);
 
 private:
 	const XnChar* m_pcsFileName;

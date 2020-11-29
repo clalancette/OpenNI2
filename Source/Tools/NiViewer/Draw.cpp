@@ -1373,8 +1373,8 @@ void drawPointerMode(IntPair* pPointer)
 	if (pPointer != NULL)
 	{
 		// Print the pointer text
-		XnUInt64 nCutOffMin = 0;
-		XnUInt64 nCutOffMax = (pDepthMD != NULL) ? g_nMaxDepth : 0;
+		uint64_t nCutOffMin = 0;
+		uint64_t nCutOffMax = (pDepthMD != NULL) ? g_nMaxDepth : 0;
 
 		XnChar sPointerValue[100];
 		if (nPointerValue != g_nMaxDepth)
@@ -1482,7 +1482,7 @@ void drawUserMessage()
 		drawCenteredMessage(GLUT_BITMAP_TIMES_ROMAN_24, g_NonFullWinSize.Y * 4 / 5, getCurrentKeyboardInputMessage(), 0, 1, 0);
 	}
 
-	static XnUInt64 nStartShowMessage = 0;
+	static uint64_t nStartShowMessage = 0;
 
 	if (g_DrawConfig.bShowMessage)
 	{
@@ -1490,7 +1490,7 @@ void drawUserMessage()
 		xnOSGetTimeStamp(&nStartShowMessage);
 	}
 
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetTimeStamp(&nNow);
 
 	if (nNow - nStartShowMessage < 3000)

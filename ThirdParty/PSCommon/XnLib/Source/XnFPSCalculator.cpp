@@ -30,7 +30,7 @@
 struct XnFPSDataImpl
 {
 	/** An array of the time of each frame. */
-	XnUInt64* anTimes;
+	uint64_t* anTimes;
 	/** The size of the array. */
 	uint32_t nArraySize;
 	/** Index of the next place to write to. */
@@ -51,14 +51,14 @@ XnStatus xnFPSInit(XnFPSData* pFPS, uint32_t nSamplesCount)
 	XnFPSDataImpl* pData = *pFPS;
 
 	// Allocate array
-	XN_VALIDATE_ALIGNED_CALLOC(pData->anTimes, XnUInt64, nSamplesCount, XN_DEFAULT_MEM_ALIGN);
+	XN_VALIDATE_ALIGNED_CALLOC(pData->anTimes, uint64_t, nSamplesCount, XN_DEFAULT_MEM_ALIGN);
 
 	pData->nArraySize = nSamplesCount;
 
 	return XN_STATUS_OK;
 }
 
-XnStatus xnFPSMarkFrame(XnFPSData* pFPS, XnUInt64 nNow /* = 0 */)
+XnStatus xnFPSMarkFrame(XnFPSData* pFPS, uint64_t nNow /* = 0 */)
 {
 	XN_VALIDATE_INPUT_PTR(pFPS);
 	XnFPSDataImpl* pData = *pFPS;
@@ -80,7 +80,7 @@ XnStatus xnFPSMarkFrame(XnFPSData* pFPS, XnUInt64 nNow /* = 0 */)
 	return XN_STATUS_OK;
 }
 
-XnDouble xnFPSCalc(XnFPSData* pFPS, uint32_t nAverageOver /* = 3000 */, XnUInt64 nNow /* = 0 */)
+XnDouble xnFPSCalc(XnFPSData* pFPS, uint32_t nAverageOver /* = 3000 */, uint64_t nNow /* = 0 */)
 {
 	XN_VALIDATE_INPUT_PTR(pFPS);
 	XnFPSDataImpl* pData = *pFPS;
@@ -90,7 +90,7 @@ XnDouble xnFPSCalc(XnFPSData* pFPS, uint32_t nAverageOver /* = 3000 */, XnUInt64
 		xnOSGetHighResTimeStamp(&nNow);
 	}
 
-	XnUInt64 nSince = nNow - nAverageOver*1000;
+	uint64_t nSince = nNow - nAverageOver*1000;
 
 	// search for first index
 	uint32_t nFirst = pData->nCurrIndex;

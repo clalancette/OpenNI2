@@ -32,7 +32,7 @@ XnStatus xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, uint32_t nMilli
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// take read start time (for timeout purposes)
-	XnUInt64 nStarted;
+	uint64_t nStarted;
 	nRetVal = xnOSGetTimeStamp(&nStarted);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -42,7 +42,7 @@ XnStatus xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, uint32_t nMilli
 	while (!pConditionFunc(pConditionData))
 	{
 		// check if timeout occurred
-		XnUInt64 nNow;
+		uint64_t nNow;
 		nRetVal = xnOSGetTimeStamp(&nNow);
 		XN_IS_STATUS_OK(nRetVal);
 

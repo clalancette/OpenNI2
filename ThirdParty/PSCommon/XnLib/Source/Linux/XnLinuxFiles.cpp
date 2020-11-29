@@ -384,7 +384,7 @@ XN_C_API XnStatus xnOSTellFile(const XN_FILE_HANDLE File, uint32_t* pnFilePos)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSTellFile64(const XN_FILE_HANDLE File, XnUInt64* pnFilePos)
+XN_C_API XnStatus xnOSTellFile64(const XN_FILE_HANDLE File, uint64_t* pnFilePos)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_OUTPUT_PTR(pnFilePos);
@@ -410,7 +410,7 @@ XN_C_API XnStatus xnOSTellFile64(const XN_FILE_HANDLE File, XnUInt64* pnFilePos)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSTruncateFile64(const XN_FILE_HANDLE File, XnUInt64 nFilePos)
+XN_C_API XnStatus xnOSTruncateFile64(const XN_FILE_HANDLE File, uint64_t nFilePos)
 {
     // Make sure the actual file handle isn't invalid
     if (File == XN_INVALID_FILE_HANDLE)
@@ -419,7 +419,7 @@ XN_C_API XnStatus xnOSTruncateFile64(const XN_FILE_HANDLE File, XnUInt64 nFilePo
     }
 
     // Obtain current file position.
-    XnUInt64 oldFilePos;
+    uint64_t oldFilePos;
     XnStatus status = xnOSTellFile64(File, &oldFilePos);
     if (XN_STATUS_OK != status)
     {
@@ -504,7 +504,7 @@ XN_C_API XnStatus xnOSGetFileSize(const XnChar* cpFileName, uint32_t* pnFileSize
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetFileSize64(const XnChar* cpFileName, XnUInt64* pnFileSize)
+XN_C_API XnStatus xnOSGetFileSize64(const XnChar* cpFileName, uint64_t* pnFileSize)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);

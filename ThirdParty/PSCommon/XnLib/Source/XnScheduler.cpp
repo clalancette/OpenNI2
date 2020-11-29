@@ -35,13 +35,13 @@
 typedef struct XnScheduledTask
 {
 	/* The interval in which this task should run. */
-	XnUInt64 nInterval;
+	uint64_t nInterval;
 	/* The callback function to be called when interval is reached. */
 	XnTaskCallbackFuncPtr pCallback;
 	/* An argument to be passed to the callback function. */
 	void* pCallbackArg;
 	/* The next time this task should run. */
-	XnUInt64 nNextTime;
+	uint64_t nNextTime;
 	/* A pointer to the next task in the queue. */
 	XnScheduledTask* pNextTask;
 } XnScheduledTask;
@@ -93,11 +93,11 @@ XN_THREAD_PROC xnSchedulerThreadFunc(XN_THREAD_PARAM pThreadParam)
 {
 	XnScheduler* pScheduler = (XnScheduler*)pThreadParam;
 
-	XnUInt64 nNow;
+	uint64_t nNow;
 	while (!pScheduler->bStopThread)
 	{
 		// check when next task should be executed
-		XnUInt64 nWait = XN_WAIT_INFINITE;
+		uint64_t nWait = XN_WAIT_INFINITE;
 
 		XnScheduledTask* pTask = NULL;
 		XnTaskCallbackFuncPtr pCallback = NULL;
@@ -239,7 +239,7 @@ XN_C_API XnStatus xnSchedulerShutdown(XnScheduler** ppScheduler)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnSchedulerAddTask(XnScheduler* pScheduler, XnUInt64 nInterval, XnTaskCallbackFuncPtr pCallback, void* pCallbackArg, XnScheduledTask** ppTask)
+XN_C_API XnStatus xnSchedulerAddTask(XnScheduler* pScheduler, uint64_t nInterval, XnTaskCallbackFuncPtr pCallback, void* pCallbackArg, XnScheduledTask** ppTask)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -256,7 +256,7 @@ XN_C_API XnStatus xnSchedulerAddTask(XnScheduler* pScheduler, XnUInt64 nInterval
 	pTask->pCallbackArg = pCallbackArg;
 
 	// calculate next execution
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetTimeStamp(&nNow);
 	pTask->nNextTime = nNow + nInterval;
 	pTask->pNextTask = NULL;
@@ -351,7 +351,7 @@ XN_C_API XnStatus xnSchedulerRemoveTask(XnScheduler* pScheduler, XnScheduledTask
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnSchedulerRescheduleTask(XnScheduler* pScheduler, XnScheduledTask* pTask, XnUInt64 nInterval)
+XN_C_API XnStatus xnSchedulerRescheduleTask(XnScheduler* pScheduler, XnScheduledTask* pTask, uint64_t nInterval)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -368,7 +368,7 @@ XN_C_API XnStatus xnSchedulerRescheduleTask(XnScheduler* pScheduler, XnScheduled
 	pTask->nInterval = nInterval;
 
 	// update its next execution
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetTimeStamp(&nNow);
 	pTask->nNextTime = nNow + nInterval;
 

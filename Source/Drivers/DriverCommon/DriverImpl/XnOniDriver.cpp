@@ -235,7 +235,7 @@ void XN_CALLBACK_TYPE XnOniDriver::OnDevicePropertyChanged(const XnChar* ModuleN
 		XnSensor* pSensor = (XnSensor*)pDevice->GetSensor();
 
 		// Get the property value.
-		XnUInt64 errorState = 0;
+		uint64_t errorState = 0;
 		XnStatus nRetVal = pSensor->GetProperty(ModuleName, XN_MODULE_PROPERTY_ERROR_STATE, &errorState);
 		if (nRetVal == XN_STATUS_OK)
 		{

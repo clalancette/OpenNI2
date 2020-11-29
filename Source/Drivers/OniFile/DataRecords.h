@@ -47,13 +47,13 @@ enum RecordType
 };
 
 #define INVALID_NODE_ID ((uint32_t)-1)
-#define INVALID_TIMESTAMP ((XnUInt64)-1)
+#define INVALID_TIMESTAMP ((uint64_t)-1)
 
 struct RecordingHeader
 {
 	XnChar headerMagic[HEADER_MAGIC_SIZE];
 	XnVersion version;
-	XnUInt64 nGlobalMaxTimeStamp;
+	uint64_t nGlobalMaxTimeStamp;
 	uint32_t nMaxNodeID;
 };
 
@@ -68,11 +68,11 @@ public:
 	uint32_t GetNodeID() const;
 	uint32_t GetSize() const; //GetSize() returns just the fields' size, not including the payload
 	uint32_t GetPayloadSize() const;
-	XnUInt64 GetUndoRecordPos() const;
+	uint64_t GetUndoRecordPos() const;
 
 	void SetNodeID(uint32_t nNodeID);
 	void SetPayloadSize(uint32_t nPayloadSize);
-	void SetUndoRecordPos(XnUInt64 nUndoRecordPos);
+	void SetUndoRecordPos(uint64_t nUndoRecordPos);
 
 	XnUInt8* GetData(); //GetData() returns the entire encoded record
 	const XnUInt8* GetData() const; //GetData() returns the entire encoded record
@@ -118,7 +118,7 @@ private:
 		uint32_t m_nNodeID;
 		uint32_t m_nFieldsSize;
 		uint32_t m_nPayloadSize;
-		XnUInt64 m_nUndoRecordPos;
+		uint64_t m_nUndoRecordPos;
 	};
 
 	union
@@ -173,12 +173,12 @@ public:
 	NodeAdded_1_0_0_5_Record(const Record& record);
 
 	void SetNumberOfFrames(uint32_t nNumberOfFrames);
-	void SetMinTimestamp(XnUInt64 nMinTimestamp);
-	void SetMaxTimestamp(XnUInt64 nMaxTimestamp);
+	void SetMinTimestamp(uint64_t nMinTimestamp);
+	void SetMaxTimestamp(uint64_t nMaxTimestamp);
 
 	uint32_t GetNumberOfFrames() const;
-	XnUInt64 GetMinTimestamp() const;
-	XnUInt64 GetMaxTimestamp() const;
+	uint64_t GetMinTimestamp() const;
+	uint64_t GetMaxTimestamp() const;
 
 	XnStatus Encode();
 	XnStatus Decode();
@@ -190,8 +190,8 @@ protected:
 
 private:
 	uint32_t m_nNumberOfFrames;
-	XnUInt64 m_nMinTimestamp;
-	XnUInt64 m_nMaxTimestamp;
+	uint64_t m_nMinTimestamp;
+	uint64_t m_nMaxTimestamp;
 };
 
 class NodeAddedRecord final : public NodeAdded_1_0_0_5_Record
@@ -200,16 +200,16 @@ public:
 	NodeAddedRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	NodeAddedRecord(const Record& record);
 
-	void SetSeekTablePosition(XnUInt64 nPos);
+	void SetSeekTablePosition(uint64_t nPos);
 
-	XnUInt64 GetSeekTablePosition();
+	uint64_t GetSeekTablePosition();
 
 	XnStatus Encode();
 	XnStatus Decode();
 	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 private:
-	XnUInt64 m_nSeekTablePosition;
+	uint64_t m_nSeekTablePosition;
 };
 
 class NodeRemovedRecord final : public Record
@@ -252,12 +252,12 @@ class IntPropRecord final : public GeneralPropRecord
 public:
 	IntPropRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	IntPropRecord(const Record& record);
-	void SetValue(XnUInt64 nValue);
-	XnUInt64 GetValue() const;
+	void SetValue(uint64_t nValue);
+	uint64_t GetValue() const;
 	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 private:
-	XnUInt64 m_nValue;
+	uint64_t m_nValue;
 };
 
 class RealPropRecord final : public GeneralPropRecord
@@ -286,7 +286,7 @@ public:
 struct SeekInfo
 {
 	uint32_t m_nFrames;
-	XnUInt64 m_nMaxTimeStamp;
+	uint64_t m_nMaxTimeStamp;
 };
 
 class NodeDataBeginRecord final : public Record
@@ -296,7 +296,7 @@ public:
 	NodeDataBeginRecord(const Record& record);
 
 	uint32_t GetNumFrames() const;
-	XnUInt64 GetMaxTimeStamp() const;
+	uint64_t GetMaxTimeStamp() const;
 
 	XnStatus Encode();
 	XnStatus Decode();
@@ -323,15 +323,15 @@ class NewDataRecordHeader final : public Record
 public:
 	enum {MAX_SIZE = Record::HEADER_SIZE_current + //Record header
 	             (XN_MAX_NAME_LENGTH + 1) + //Max node name + terminating null
-	             sizeof(XnUInt64) + //Data timestamp
+	             sizeof(uint64_t) + //Data timestamp
 				 sizeof(uint32_t)}; //Frame number
 
 	NewDataRecordHeader(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	NewDataRecordHeader(const Record& record);
-	void SetTimeStamp(XnUInt64 nTimeStamp);
+	void SetTimeStamp(uint64_t nTimeStamp);
 	void SetFrameNumber(uint32_t nFrameNumber);
 
-	XnUInt64 GetTimeStamp() const;
+	uint64_t GetTimeStamp() const;
 	uint32_t GetFrameNumber() const;
 
 	XnStatus Encode();
@@ -339,22 +339,22 @@ public:
 	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 private:
-	XnUInt64 m_nTimeStamp;
+	uint64_t m_nTimeStamp;
 	uint32_t m_nFrameNumber;
 };
 
 typedef struct
 {
-	XnUInt64 nTimestamp;
+	uint64_t nTimestamp;
 	uint32_t nConfigurationID;
 	uint32_t nSeekPos;
 } DataIndexEntry_old32;
 
 typedef struct _DataIndexEntry
 {
-	XnUInt64 nTimestamp;
+	uint64_t nTimestamp;
 	uint32_t nConfigurationID;
-	XnUInt64 nSeekPos;
+	uint64_t nSeekPos;
 
 	static void FillFromOld32Entry(struct _DataIndexEntry *newEntry, DataIndexEntry_old32 *old32Entry)
 	{

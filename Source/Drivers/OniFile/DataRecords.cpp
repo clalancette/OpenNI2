@@ -84,7 +84,7 @@ uint32_t Record::GetPayloadSize() const
 	return m_pHeader->m_nPayloadSize;
 }
 
-XnUInt64 Record::GetUndoRecordPos() const
+uint64_t Record::GetUndoRecordPos() const
 {
 	if (m_bUseOld32Header)
 	{
@@ -106,7 +106,7 @@ void Record::SetPayloadSize(uint32_t nPayloadSize)
 	m_pHeader->m_nPayloadSize = nPayloadSize;
 }
 
-void Record::SetUndoRecordPos(XnUInt64 nUndoRecordPos)
+void Record::SetUndoRecordPos(uint64_t nUndoRecordPos)
 {
 	m_pHeader->m_nUndoRecordPos = nUndoRecordPos;
 }
@@ -403,12 +403,12 @@ void NodeAdded_1_0_0_5_Record::SetNumberOfFrames(uint32_t nNumberOfFrames)
 	m_nNumberOfFrames = nNumberOfFrames;
 }
 
-void NodeAdded_1_0_0_5_Record::SetMinTimestamp(XnUInt64 nMinTimestamp)
+void NodeAdded_1_0_0_5_Record::SetMinTimestamp(uint64_t nMinTimestamp)
 {
 	m_nMinTimestamp = nMinTimestamp;
 }
 
-void NodeAdded_1_0_0_5_Record::SetMaxTimestamp(XnUInt64 nMaxTimestamp)
+void NodeAdded_1_0_0_5_Record::SetMaxTimestamp(uint64_t nMaxTimestamp)
 {
 	m_nMaxTimestamp = nMaxTimestamp;
 }
@@ -418,12 +418,12 @@ uint32_t NodeAdded_1_0_0_5_Record::GetNumberOfFrames() const
 	return m_nNumberOfFrames;
 }
 
-XnUInt64 NodeAdded_1_0_0_5_Record::GetMinTimestamp() const
+uint64_t NodeAdded_1_0_0_5_Record::GetMinTimestamp() const
 {
 	return m_nMinTimestamp;
 }
 
-XnUInt64 NodeAdded_1_0_0_5_Record::GetMaxTimestamp() const
+uint64_t NodeAdded_1_0_0_5_Record::GetMaxTimestamp() const
 {
 	return m_nMaxTimestamp;
 }
@@ -507,12 +507,12 @@ NodeAddedRecord::NodeAddedRecord(const Record& record) :
 {
 }
 
-void NodeAddedRecord::SetSeekTablePosition(XnUInt64 nPos)
+void NodeAddedRecord::SetSeekTablePosition(uint64_t nPos)
 {
 	m_nSeekTablePosition = nPos;
 }
 
-XnUInt64 NodeAddedRecord::GetSeekTablePosition()
+uint64_t NodeAddedRecord::GetSeekTablePosition()
 {
 	return m_nSeekTablePosition;
 }
@@ -669,7 +669,7 @@ XnStatus GeneralPropRecord::Decode()
 
 #if (XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
 	// under ARM we have some alignment issues. Move this buffer so it will be aligned.
-	XnUInt64 nAlignFix = XN_DEFAULT_MEM_ALIGN - ((XnUInt64)pData % XN_DEFAULT_MEM_ALIGN);
+	uint64_t nAlignFix = XN_DEFAULT_MEM_ALIGN - ((uint64_t)pData % XN_DEFAULT_MEM_ALIGN);
 	if (nAlignFix != 0)
 	{
 		xnOSMemMove(pData + nAlignFix, pData, m_nPropDataSize);
@@ -712,17 +712,17 @@ IntPropRecord::IntPropRecord(const Record &record) :
 {
 }
 
-void IntPropRecord::SetValue(XnUInt64 nValue)
+void IntPropRecord::SetValue(uint64_t nValue)
 {
 	m_nValue = nValue;
 	SetPropData(&m_nValue);
 	SetPropDataSize(sizeof(m_nValue));
 }
 
-XnUInt64 IntPropRecord::GetValue() const
+uint64_t IntPropRecord::GetValue() const
 {
-	XN_ASSERT(GetPropDataSize() == sizeof(XnUInt64));
-	return *(XnUInt64*)GetPropData();
+	XN_ASSERT(GetPropDataSize() == sizeof(uint64_t));
+	return *(uint64_t*)GetPropData();
 }
 
 XnStatus IntPropRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
@@ -835,7 +835,7 @@ uint32_t NodeDataBeginRecord::GetNumFrames() const
 	return m_seekInfo.m_nFrames;
 }
 
-XnUInt64 NodeDataBeginRecord::GetMaxTimeStamp() const
+uint64_t NodeDataBeginRecord::GetMaxTimeStamp() const
 {
 	return m_seekInfo.m_nMaxTimeStamp;
 }
@@ -931,7 +931,7 @@ NewDataRecordHeader::NewDataRecordHeader(const Record &record) :
 {
 }
 
-void NewDataRecordHeader::SetTimeStamp(XnUInt64 nTimeStamp)
+void NewDataRecordHeader::SetTimeStamp(uint64_t nTimeStamp)
 {
 	m_nTimeStamp = nTimeStamp;
 }
@@ -941,7 +941,7 @@ void NewDataRecordHeader::SetFrameNumber(uint32_t nFrameNumber)
 	m_nFrameNumber = nFrameNumber;
 }
 
-XnUInt64 NewDataRecordHeader::GetTimeStamp() const
+uint64_t NewDataRecordHeader::GetTimeStamp() const
 {
 	return m_nTimeStamp;
 }

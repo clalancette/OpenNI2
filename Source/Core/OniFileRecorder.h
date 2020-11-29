@@ -115,7 +115,7 @@ private:
 	void onAttach(uint32_t nodeId, VideoStream* pStream);
 	void onDetach(uint32_t nodeId);
 	void onStart (uint32_t nodeId);
-	void onRecord(uint32_t nodeId, XnCodecBase* pCodec, const OniFrame* pFrame, uint32_t frameId, XnUInt64 timestamp);
+	void onRecord(uint32_t nodeId, XnCodecBase* pCodec, const OniFrame* pFrame, uint32_t frameId, uint64_t timestamp);
 	void onRecordProperty(
 		uint32_t    nodeId,
 		uint32_t    propertyId,
@@ -135,17 +135,17 @@ private:
 		uint32_t       frameId;
 		XnCodecBase*   pCodec;
 		OniBool        allowLossyCompression;
-		XnUInt64       lastInputTimestamp;
-		XnUInt64       lastOutputTimestamp;
+		uint64_t       lastInputTimestamp;
+		uint64_t       lastOutputTimestamp;
 
 		// needed for overriding the NODE_ADDED record when detaching the stream
-		XnUInt64       nodeAddedRecordPosition;
+		uint64_t       nodeAddedRecordPosition;
 		uint32_t       nodeType;
 		uint32_t       codecId;
 
 		// needed for keeping track of undoRecordPos field
-		XnUInt64       lastNewDataRecordPosition;
-		xnl::Hash<const char *, XnUInt64> lastPropertyRecordPosition;
+		uint64_t       lastNewDataRecordPosition;
+		xnl::Hash<const char *, uint64_t> lastPropertyRecordPosition;
 
 		// needed for generating the SeekTable in the end
 		std::list<DataIndexEntry> dataIndex;
@@ -158,7 +158,7 @@ private:
 	AttachedStreams m_streams;
 
 	// A helper function for the properties' undoRecordPos
-	XnUInt64 getLastPropertyRecordPos(uint32_t nodeId, const char *propName, XnUInt64 newRecordPos);
+	uint64_t getLastPropertyRecordPos(uint32_t nodeId, const char *propName, uint64_t newRecordPos);
 
 	// The maximum ID of a stream. This number grows with the every next stream
 	// attached to this Recorder and never decreases.

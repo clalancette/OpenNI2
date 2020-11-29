@@ -192,9 +192,9 @@ private:
 class Time
 {
 public:
-	static XnUInt64 Now()
+	static uint64_t Now()
 	{
-		XnUInt64 now;
+		uint64_t now;
 		xnOSGetTimeStamp(&now);
 		return now;
 	}

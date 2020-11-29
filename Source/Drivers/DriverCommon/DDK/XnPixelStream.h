@@ -99,7 +99,7 @@ private:
 	class XnResolutionProperty : public XnActualIntProperty
 	{
 	public:
-		XnResolutionProperty(uint32_t propertyId, const XnChar* strName, XnUInt64 nInitialValue = 0, const XnChar* strModule = "");
+		XnResolutionProperty(uint32_t propertyId, const XnChar* strName, uint64_t nInitialValue = 0, const XnChar* strModule = "");
 		XnBool ConvertValueToString(XnChar* csValue, const void* pValue) const;
 	};
 
@@ -108,9 +108,9 @@ private:
 	XnStatus FixCropping();
 	XnStatus GetSupportedModes(XnCmosPreset* aPresets, uint32_t& nCount);
 
-	static XnStatus XN_CALLBACK_TYPE SetResolutionCallback(XnActualIntProperty* pSenser, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetXResCallback(XnActualIntProperty* pSenser, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetYResCallback(XnActualIntProperty* pSenser, XnUInt64 nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetResolutionCallback(XnActualIntProperty* pSenser, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetXResCallback(XnActualIntProperty* pSenser, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetYResCallback(XnActualIntProperty* pSenser, uint64_t nValue, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE SetCroppingCallback(XnActualGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE ResolutionValueChangedCallback(const XnProperty* pSenser, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE OutputFormatValueChangedCallback(const XnProperty* pSenser, void* pCookie);

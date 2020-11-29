@@ -325,7 +325,7 @@ bool DeleteFile(openni::Device& Device, std::vector<std::string>& Command)
 	}
 	printf("Deleting file id %d: ", nId);
 
-	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_DELETE_FILE, (XnUInt64)nId);
+	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_DELETE_FILE, (uint64_t)nId);
 	if (rc != openni::STATUS_OK)
 	{
 		printf("Failed: %s\n", openni::OpenNI::getExtendedError());
@@ -575,7 +575,7 @@ bool Reset(openni::Device& Device, std::vector<std::string>& Command)
 		return true;
 	}
 
-	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_RESET, (XnUInt64)Type);
+	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_RESET, (uint64_t)Type);
 	if (rc != openni::STATUS_OK)
 	{
 		printf("Error: %s\n", openni::OpenNI::getExtendedError());
@@ -1017,7 +1017,7 @@ bool Filter(openni::Device& Device, std::vector<std::string>& Command)
 
 	if (Command[1] == "get")
 	{
-		XnUInt64 nValue;
+		uint64_t nValue;
 		rc = Device.getProperty(XN_MODULE_PROPERTY_FIRMWARE_LOG_FILTER, &nValue);
 		if (rc == openni::STATUS_OK)
 		{
@@ -1041,7 +1041,7 @@ bool Filter(openni::Device& Device, std::vector<std::string>& Command)
 			printf("Can't understand %s as filter\n", Command[2].c_str());
 			return true;
 		}
-		rc = Device.setProperty(XN_MODULE_PROPERTY_FIRMWARE_LOG_FILTER, (XnUInt64)nFilter);
+		rc = Device.setProperty(XN_MODULE_PROPERTY_FIRMWARE_LOG_FILTER, (uint64_t)nFilter);
 		if(rc == openni::STATUS_OK)
 		{
 			printf("Done.\n");
@@ -1385,7 +1385,7 @@ bool CalibrateTec(openni::Device& Device, std::vector<std::string>& Command)
 		return true;
 	}
 
-	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_TEC_SET_POINT, (XnUInt64)nSetPoint);
+	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_TEC_SET_POINT, (uint64_t)nSetPoint);
 	if (rc != openni::STATUS_OK)
 	{
 		printf("%s\n", openni::OpenNI::getExtendedError());
@@ -1508,7 +1508,7 @@ bool CalibrateEmitter(openni::Device& Device, std::vector<std::string>& Command)
 		return true;
 	}
 
-	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_EMITTER_SET_POINT, (XnUInt64)nSetPoint);
+	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_EMITTER_SET_POINT, (uint64_t)nSetPoint);
 	if (rc != openni::STATUS_OK)
 	{
 		printf("%s\n", openni::OpenNI::getExtendedError());
@@ -1566,7 +1566,7 @@ bool Emitter(openni::Device& Device, std::vector<std::string>& Command)
 		}
 		else if (Command[1] == "on")
 		{
-			openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_EMITTER_STATE, (XnUInt64)TRUE);
+			openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_EMITTER_STATE, (uint64_t)TRUE);
 			if (rc != openni::STATUS_OK)
 			{
 				printf("Error: %s\n", openni::OpenNI::getExtendedError());
@@ -1575,7 +1575,7 @@ bool Emitter(openni::Device& Device, std::vector<std::string>& Command)
 		}
 		else if (Command[1] == "off")
 		{
-			openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_EMITTER_STATE, (XnUInt64)FALSE);
+			openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_EMITTER_STATE, (uint64_t)FALSE);
 			if (rc != openni::STATUS_OK)
 			{
 				printf("Error: %s\n", openni::OpenNI::getExtendedError());
@@ -1654,7 +1654,7 @@ bool StartReadData(openni::Device& Device, std::vector<std::string>& Command)
 		}
 	}
 
-	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_USB_INTERFACE, (XnUInt64)usbInterface);
+	openni::Status rc = Device.setProperty(XN_MODULE_PROPERTY_USB_INTERFACE, (uint64_t)usbInterface);
 	if (rc != openni::STATUS_OK)
 	{
 		printf("Can't set USB interface: %s\n", openni::OpenNI::getExtendedError());

@@ -163,8 +163,8 @@ private:
 					uint32_t nBytesToRead);
 
 	/* Properties */
-	XnStatus SetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnUInt64 nValue);
-	XnStatus GetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnUInt64& nValue);
+	XnStatus SetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint64_t nValue);
+	XnStatus GetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint64_t& nValue);
 	XnStatus SetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnDouble dValue);
 	XnStatus GetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnDouble& dValue);
 	XnStatus SetStringProperty(XnUInt16 nStreamID, XnLinkPropID propID, const XnChar* strValue);

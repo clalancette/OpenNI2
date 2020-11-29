@@ -421,8 +421,8 @@ XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSSeekFile64() instead") XN_C_DECL
 XN_C_API XnStatus XN_C_DECL xnOSSeekFile64(const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const XnInt64 nOffset);
 XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSTellFile64() instead") XN_C_DECL
 			    xnOSTellFile  (const XN_FILE_HANDLE File, uint32_t* nFilePos);
-XN_C_API XnStatus XN_C_DECL xnOSTellFile64(const XN_FILE_HANDLE File, XnUInt64* nFilePos);
-XN_C_API XnStatus XN_C_DECL xnOSTruncateFile64(const XN_FILE_HANDLE File, XnUInt64 nFilePos);
+XN_C_API XnStatus XN_C_DECL xnOSTellFile64(const XN_FILE_HANDLE File, uint64_t* nFilePos);
+XN_C_API XnStatus XN_C_DECL xnOSTruncateFile64(const XN_FILE_HANDLE File, uint64_t nFilePos);
 XN_C_API XnStatus XN_C_DECL xnOSFlushFile(const XN_FILE_HANDLE File);
 XN_C_API XnStatus XN_C_DECL xnOSDoesFileExist(const XnChar* cpFileName, XnBool* pbResult);
 XN_C_API XnStatus XN_C_DECL xnOSDoesDirectoryExist(const XnChar* cpDirName, XnBool* pbResult);
@@ -431,7 +431,7 @@ XN_C_API XnStatus XN_C_DECL xnOSSaveFile(const XnChar* cpFileName, const void* p
 XN_C_API XnStatus XN_C_DECL xnOSAppendFile(const XnChar* cpFileName, const void* pBuffer, const uint32_t nBufferSize);
 XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSGetFileSize64() instead") XN_C_DECL
 			    xnOSGetFileSize  (const XnChar* cpFileName, uint32_t* pnFileSize);
-XN_C_API XnStatus XN_C_DECL xnOSGetFileSize64(const XnChar* cpFileName, XnUInt64* pnFileSize);
+XN_C_API XnStatus XN_C_DECL xnOSGetFileSize64(const XnChar* cpFileName, uint64_t* pnFileSize);
 XN_C_API XnStatus XN_C_DECL xnOSCreateDirectory(const XnChar* cpDirName);
 XN_C_API XnStatus XN_C_DECL xnOSGetDirName(const XnChar* cpFilePath, XnChar* cpDirName, const uint32_t nBufferSize);
 XN_C_API XnStatus XN_C_DECL xnOSGetFileName(const XnChar* cpFilePath, XnChar* cpFileName, const uint32_t nBufferSize);
@@ -493,12 +493,12 @@ struct timespec;
 
 // Time
 XN_C_API XnStatus XN_C_DECL xnOSGetEpochTime(uint32_t* nEpochTime);
-XN_C_API XnStatus XN_C_DECL xnOSGetTimeStamp(XnUInt64* nTimeStamp);
-XN_C_API XnStatus XN_C_DECL xnOSGetHighResTimeStamp(XnUInt64* nTimeStamp);
+XN_C_API XnStatus XN_C_DECL xnOSGetTimeStamp(uint64_t* nTimeStamp);
+XN_C_API XnStatus XN_C_DECL xnOSGetHighResTimeStamp(uint64_t* nTimeStamp);
 XN_C_API XnStatus XN_C_DECL xnOSSleep(uint32_t nMilliseconds);
 XN_C_API XnStatus XN_C_DECL xnOSStartTimer(XnOSTimer* pTimer);
 XN_C_API XnStatus XN_C_DECL xnOSStartHighResTimer(XnOSTimer* pTimer);
-XN_C_API XnStatus XN_C_DECL xnOSQueryTimer(XnOSTimer Timer, XnUInt64* pnTimeSinceStart);
+XN_C_API XnStatus XN_C_DECL xnOSQueryTimer(XnOSTimer Timer, uint64_t* pnTimeSinceStart);
 XN_C_API XnStatus XN_C_DECL xnOSStopTimer(XnOSTimer* pTimer);
 XN_C_API XnStatus XN_C_DECL xnOSGetMonoTime(struct timespec* pTime);
 XN_C_API XnStatus XN_C_DECL xnOSGetTimeout(struct timespec* pTime, uint32_t nMilliseconds);

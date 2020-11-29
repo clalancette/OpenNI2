@@ -78,8 +78,6 @@ typedef	int					XnInt32;
 
 /** 64-bit signed integer. */
 typedef	long long			XnInt64;
-/** 64-bit unsigned integer. */
-typedef	unsigned long long	XnUInt64;
 
 /** natural signed integer. */
 typedef	int					XnInt;

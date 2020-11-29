@@ -483,13 +483,13 @@ XnStatus XnSensorIRStream::IsMirroredChangedCallback(const XnProperty* /*pSender
 	return pThis->OnIsMirroredChanged();
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorIRStream::SetActualReadCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorIRStream::SetActualReadCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorIRStream* pThis = (XnSensorIRStream*)pCookie;
 	return pThis->SetActualRead(nValue == TRUE);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorIRStream::SetCroppingModeCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorIRStream::SetCroppingModeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorIRStream* pStream = (XnSensorIRStream*)pCookie;
 	return pStream->SetCroppingMode((XnCroppingMode)nValue);

@@ -291,7 +291,7 @@ XnStatus LinkControlEndpoint::GetHardwareVersion(uint32_t& version)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting hardware version...");
 
-	XnUInt64 linkVersion;
+	uint64_t linkVersion;
 	nRetVal = GetIntProperty(XN_LINK_PROP_ID_NONE, XN_LINK_PROP_ID_HW_VERSION, linkVersion);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute get hardware version command", nRetVal);
 
@@ -350,11 +350,11 @@ XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOver
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_FILE_HANDLE hFile = XN_INVALID_FILE_HANDLE;
-	XnUInt64 nFileSize = 0;
+	uint64_t nFileSize = 0;
 	uint32_t nBytesRead = 0;
 	uint32_t nCunkSize = m_msgEncoder.GetMaxMsgSize();
 	XnUInt8* pChunk = NULL;
-	XnUInt64 nBytesToSend = 0;
+	uint64_t nBytesToSend = 0;
 	uint32_t nBytesInChunk = 0;
 	XnLinkFragmentation fragmentation = XN_LINK_FRAG_BEGIN;
 
@@ -505,7 +505,7 @@ XnStatus LinkControlEndpoint::DownloadFile(XnUInt16 zone, const XnChar* fwFileNa
 	nRetVal = xnOSOpenFile(targetFile, XN_OS_FILE_WRITE | XN_OS_FILE_TRUNCATE, &hTargetFile);
 	XN_IS_STATUS_OK_LOG_ERROR("Open target file", nRetVal);
 
-	XnUInt64 nStartTime;
+	uint64_t nStartTime;
 	xnOSGetHighResTimeStamp(&nStartTime);
 	uint32_t nFileSize = 0;
 
@@ -550,7 +550,7 @@ XnStatus LinkControlEndpoint::DownloadFile(XnUInt16 zone, const XnChar* fwFileNa
 		}
 	}
 
-	XnUInt64 nEndTime;
+	uint64_t nEndTime;
 	xnOSGetHighResTimeStamp(&nEndTime);
 
 	XnDouble totalTime = (nEndTime - nStartTime)/1e3;
@@ -574,8 +574,8 @@ XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(XnUInt16& nMaxPacketSize)
 
 	XnLinkResponseHeader* pResponseHeader = reinterpret_cast<XnLinkResponseHeader*>(response);
 	XnLinkGetPropResponse* pGetPropResponse = reinterpret_cast<XnLinkGetPropResponse*>(response + sizeof(XnLinkResponseHeader));
-	XnUInt64* pPropValue = reinterpret_cast<XnUInt64*>(response + sizeof(XnLinkResponseHeader) + sizeof(XnLinkPropValHeader));
-	XnUInt64 nTempPropValue = 0;
+	uint64_t* pPropValue = reinterpret_cast<uint64_t*>(response + sizeof(XnLinkResponseHeader) + sizeof(XnLinkPropValHeader));
+	uint64_t nTempPropValue = 0;
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Link control endpoint - getting logical max packet size...");
 
@@ -623,7 +623,7 @@ XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(XnUInt16& nMaxPacketSize)
 		return XN_STATUS_ERROR;
 	}
 
-	if (pGetPropResponse->m_header.m_nValueSize != XN_PREPARE_VAR32_IN_BUFFER(sizeof(XnUInt64)))
+	if (pGetPropResponse->m_header.m_nValueSize != XN_PREPARE_VAR32_IN_BUFFER(sizeof(uint64_t)))
 	{
 		xnLogError(XN_MASK_LINK, "LINK: Got bad value size in response for get logical control max packet size");
 		XN_ASSERT(FALSE);
@@ -1338,17 +1338,17 @@ XnStatus LinkControlEndpoint::GetProperty(XnUInt16 nStreamID, XnLinkPropType pro
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnUInt64 nValue)
+XnStatus LinkControlEndpoint::SetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint64_t nValue)
 {
-	XnUInt64 nProtocolValue = XN_PREPARE_VAR64_IN_BUFFER(nValue);
+	uint64_t nProtocolValue = XN_PREPARE_VAR64_IN_BUFFER(nValue);
 	return SetProperty(nStreamID, XN_LINK_PROP_TYPE_INT, propID, sizeof(nProtocolValue), &nProtocolValue);
 }
 
-XnStatus LinkControlEndpoint::GetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnUInt64& nValue)
+XnStatus LinkControlEndpoint::GetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint64_t& nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnUInt64 nProtocolValue;
+	uint64_t nProtocolValue;
 	uint32_t nValueSize = sizeof(nProtocolValue);
 	nRetVal = GetProperty(nStreamID, XN_LINK_PROP_TYPE_INT, propID, nValueSize, &nProtocolValue);
 	XN_IS_STATUS_OK(nRetVal);
@@ -1650,7 +1650,7 @@ XnStatus LinkControlEndpoint::SetProjectorActive(XnBool bActive)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Turning Projector %s...", bActive ? "on" : "off");
 
-	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PROJECTOR_ENABLED, XnUInt64(bActive));
+	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PROJECTOR_ENABLED, uint64_t(bActive));
 	XN_IS_STATUS_OK(nRetVal);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Projector was turned %s", bActive ? "on" : "off");
@@ -1665,7 +1665,7 @@ XnStatus LinkControlEndpoint::SetAccActive(XnBool bActive)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Turning Acc %s...", bActive ? "on" : "off");
 
-	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_ACC_ENABLED, XnUInt64(bActive));
+	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_ACC_ENABLED, uint64_t(bActive));
 	XN_IS_STATUS_OK(nRetVal);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Acc was turned %s", bActive ? "on" : "off");
@@ -1675,7 +1675,7 @@ XnStatus LinkControlEndpoint::SetAccActive(XnBool bActive)
 
 XnStatus LinkControlEndpoint::GetAccActive(XnBool& bActive)
 {
-	XnUInt64 nValue;
+	uint64_t nValue;
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting Acc ...");
 
@@ -1696,7 +1696,7 @@ XnStatus LinkControlEndpoint::SetVDDActive(XnBool bActive)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Turning VDD %s...", bActive ? "on" : "off");
 
-	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_VDD_ENABLED, XnUInt64(bActive));
+	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_VDD_ENABLED, uint64_t(bActive));
 	XN_IS_STATUS_OK(nRetVal);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: VDD was turned %s", bActive ? "on" : "off");
@@ -1708,7 +1708,7 @@ XnStatus LinkControlEndpoint::SetVDDActive(XnBool bActive)
 //on - Safety mechanism is on | off - reduce power
 XnStatus LinkControlEndpoint::GetVDDActive(XnBool& bActive)
 {
-	XnUInt64 nValue;
+	uint64_t nValue;
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting VDD ...");
 
@@ -1729,7 +1729,7 @@ XnStatus LinkControlEndpoint::SetPeriodicBistActive(XnBool bActive)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Turning Periodic BIST %s...", bActive ? "on" : "off");
 
-	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PERIODIC_BIST_ENABLED, XnUInt64(bActive));
+	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PERIODIC_BIST_ENABLED, uint64_t(bActive));
 	XN_IS_STATUS_OK(nRetVal);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Periodic BIST was turned %s", bActive ? "on" : "off");
@@ -1739,7 +1739,7 @@ XnStatus LinkControlEndpoint::SetPeriodicBistActive(XnBool bActive)
 
 XnStatus LinkControlEndpoint::GetPeriodicBistActive(XnBool& bActive)
 {
-	XnUInt64 nValue;
+	uint64_t nValue;
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting Periodic BIST ...");
 
@@ -1759,7 +1759,7 @@ XnStatus LinkControlEndpoint::GetStreamFragLevel(XnUInt16 nStreamID, XnStreamFra
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting stream %u fragmentation level...", nStreamID);
 
-	XnUInt64 nTempStreamFragLevel = 0;
+	uint64_t nTempStreamFragLevel = 0;
 	nRetVal = GetIntProperty(nStreamID, XN_LINK_PROP_ID_STREAM_FRAG_LEVEL, nTempStreamFragLevel);
 	XN_IS_STATUS_OK_LOG_ERROR("Get int property", nRetVal);
 	streamFragLevel = XnStreamFragLevel(nTempStreamFragLevel);
@@ -1771,7 +1771,7 @@ XnStatus LinkControlEndpoint::GetStreamFragLevel(XnUInt16 nStreamID, XnStreamFra
 
 XnStatus LinkControlEndpoint::GetMirror(XnUInt16 nStreamID, XnBool& bMirror)
 {
-	XnUInt64 nValue;
+	uint64_t nValue;
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Checking if stream %u is mirrored...", nStreamID);
 
@@ -1790,7 +1790,7 @@ XnStatus LinkControlEndpoint::SetMirror(XnUInt16 nStreamID, XnBool bMirror)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Turning stream %u mirror %s...", nStreamID, bMirror ? "on" : "off");
 
-	nRetVal = SetIntProperty(nStreamID, XN_LINK_PROP_ID_MIRROR, static_cast<XnUInt64>(bMirror));
+	nRetVal = SetIntProperty(nStreamID, XN_LINK_PROP_ID_MIRROR, static_cast<uint64_t>(bMirror));
 	XN_IS_STATUS_OK(nRetVal);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Stream %u mirror was turned %s", nStreamID, bMirror ? "on" : "off");
@@ -1949,7 +1949,7 @@ XnStatus LinkControlEndpoint::SetProjectorPower(XnUInt16 power)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Setting Projector power to %u...", power);
 
-	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PROJECTOR_POWER, XnUInt64(power));
+	nRetVal = SetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PROJECTOR_POWER, uint64_t(power));
 	XN_IS_STATUS_OK(nRetVal);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Projector power was set to %u", power);
@@ -1963,7 +1963,7 @@ XnStatus LinkControlEndpoint::GetProjectorPower(XnUInt16& power)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting projector power...");
 
-	XnUInt64 power64 = 0;
+	uint64_t power64 = 0;
 	nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PROJECTOR_POWER, power64);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -1980,7 +1980,7 @@ XnStatus LinkControlEndpoint::SetGain(XnUInt16 streamID, XnUInt16 gain)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Setting stream %u gain to %u...", streamID, gain);
 
-	nRetVal = SetIntProperty(streamID, XN_LINK_PROP_ID_GAIN, XnUInt64(gain));
+	nRetVal = SetIntProperty(streamID, XN_LINK_PROP_ID_GAIN, uint64_t(gain));
 	XN_IS_STATUS_OK(nRetVal);
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Stream %u gain was set to %u", streamID, gain);
@@ -1994,7 +1994,7 @@ XnStatus LinkControlEndpoint::GetGain(XnUInt16 streamID, XnUInt16& gain)
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting stream %u gain...", streamID);
 
-	XnUInt64 gain64 = 0;
+	uint64_t gain64 = 0;
 	nRetVal = GetIntProperty(streamID, XN_LINK_PROP_ID_GAIN, gain64);
 	XN_IS_STATUS_OK(nRetVal);
 

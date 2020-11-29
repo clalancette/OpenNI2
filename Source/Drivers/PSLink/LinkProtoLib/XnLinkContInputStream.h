@@ -49,10 +49,10 @@ public:
 	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const XnUInt8* pData, XnBool& bPacketLoss);
 	virtual const void* GetData() const;
 	virtual uint32_t GetDataSize() const;
-	virtual XnUInt64 GetTimestamp() const { return 0; }
+	virtual uint64_t GetTimestamp() const { return 0; }
 	virtual const void* GetNextData() const;
 	virtual uint32_t GetNextDataSize() const;
-	virtual XnUInt64 GetNextTimestamp() const { return 0; }
+	virtual uint64_t GetNextTimestamp() const { return 0; }
 	virtual XnBool IsNewDataAvailable() const;
 	virtual XnStatus UpdateData();
 

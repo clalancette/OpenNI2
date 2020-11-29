@@ -107,7 +107,7 @@ void XnFrameStreamProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* 
 	if (!m_bFrameCorrupted)
 	{
 		// mark the buffer as stable
-		XnUInt64 nTimestamp;
+		uint64_t nTimestamp;
 		if (m_pDevicePrivateData->pSensor->ShouldUseHostTimestamps())
 		{
 			// use the host timestamp of the first packet
@@ -135,7 +135,7 @@ void XnFrameStreamProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* 
 	}
 
 	// log bandwidth
-	XnUInt64 nSysTime;
+	uint64_t nSysTime;
 	xnOSGetTimeStamp(&nSysTime);
 	xnDumpFileWriteString(m_pDevicePrivateData->BandwidthDump, "%llu,%s,%d,%d\n",
 		nSysTime, m_csName, GetCurrentFrameID(), m_nBytesReceived);

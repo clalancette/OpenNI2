@@ -113,9 +113,9 @@ private:
 	XnStatus UpdateRequiredSize();
 
 	static XnStatus XN_CALLBACK_TYPE UpdateRequiredSizeCallback(const XnProperty* pSenser, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetIsOpenCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetOutputFormatCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetIsMirrorCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetIsOpenCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetOutputFormatCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetIsMirrorCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 
 	//---------------------------------------------------------------------------
 	// Members

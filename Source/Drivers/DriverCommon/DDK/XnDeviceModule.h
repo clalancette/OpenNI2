@@ -57,19 +57,19 @@ public:
 
 	XnStatus GetProperty(uint32_t propertyId, XnProperty** ppProperty) const;
 
-	virtual XnStatus GetProperty(uint32_t propertyId, XnUInt64* pnValue) const;
+	virtual XnStatus GetProperty(uint32_t propertyId, uint64_t* pnValue) const;
 	virtual XnStatus GetProperty(uint32_t propertyId, XnDouble* pdValue) const;
 	virtual XnStatus GetProperty(uint32_t propertyId, XnChar* csValue) const;
 	virtual XnStatus GetProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue) const;
 	virtual XnStatus GetProperty(uint32_t propertyId, void* data, int* pDataSize) const;
 
-	virtual XnStatus SetProperty(uint32_t propertyId, XnUInt64 nValue);
+	virtual XnStatus SetProperty(uint32_t propertyId, uint64_t nValue);
 	virtual XnStatus SetProperty(uint32_t propertyId, XnDouble dValue);
 	virtual XnStatus SetProperty(uint32_t propertyId, const XnChar* strValue);
 	virtual XnStatus SetProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue);
 	virtual XnStatus SetProperty(uint32_t propertyId, const void* data, int dataSize);
 
-	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, XnUInt64 nValue);
+	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, uint64_t nValue);
 	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, XnDouble dValue);
 	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, const XnChar* strValue);
 	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue);
@@ -97,7 +97,7 @@ private:
 
 	XnStatus SetLockState(XnBool bLocked);
 
-	static XnStatus XN_CALLBACK_TYPE SetLockStateCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetLockStateCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 
 	XnChar m_strName[XN_DEVICE_MAX_STRING_LENGTH];
 

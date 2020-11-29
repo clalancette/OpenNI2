@@ -43,7 +43,7 @@ OniStatus XnOniDepthStream::getProperty(int propertyId, void* data, int* pDataSi
 			return ONI_STATUS_BAD_PARAMETER;
 		}
 
-		XnUInt64 nValue;
+		uint64_t nValue;
 		m_pSensor->GetProperty(m_strType, XN_STREAM_PROPERTY_DEVICE_MAX_DEPTH, &nValue);
 
 		*(int*)data = (int)nValue;

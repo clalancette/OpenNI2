@@ -159,7 +159,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnProperty **ppPropert
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnUInt64* pnValue) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, uint64_t* pnValue) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -228,7 +228,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 	{
 	case XN_PROPERTY_TYPE_INTEGER:
 		{
-			XnUInt64 nValue;
+			uint64_t nValue;
 			nRetVal = GetProperty(propertyId, &nValue);
 			if (nRetVal != XN_STATUS_OK)
 			{
@@ -236,9 +236,9 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 				return XN_STATUS_ERROR;
 			}
 
-			if (*pDataSize == sizeof(XnUInt64))
+			if (*pDataSize == sizeof(uint64_t))
 			{
-				*(XnUInt64*)data = nValue;
+				*(uint64_t*)data = nValue;
 			}
 			else if (*pDataSize == sizeof(uint32_t))
 			{
@@ -320,7 +320,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, XnUInt64 nValue)
+XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -388,11 +388,11 @@ XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const void* data, int 
 	{
 	case XN_PROPERTY_TYPE_INTEGER:
 		{
-			XnUInt64 nValue;
+			uint64_t nValue;
 
-			if (dataSize == sizeof(XnUInt64))
+			if (dataSize == sizeof(uint64_t))
 			{
-				nValue = *(XnUInt64*)data;
+				nValue = *(uint64_t*)data;
 			}
 			else if (dataSize == sizeof(uint32_t))
 			{
@@ -462,7 +462,7 @@ XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const void* data, int 
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, XnUInt64 nValue)
+XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -731,7 +731,7 @@ XnStatus XnDeviceModule::SetLockState(XnBool bLocked)
 	return (nRetVal);
 }
 
-XnStatus XnDeviceModule::SetLockStateCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XnDeviceModule::SetLockStateCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDeviceModule* pThis = (XnDeviceModule*)pCookie;
 	return pThis->SetLockState(nValue != FALSE);

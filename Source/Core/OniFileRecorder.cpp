@@ -170,7 +170,7 @@ public:
 	/**
 	 * An easy way to get the current position of the file. (and save for later use)
 	 */
-	XnUInt64 GetPosition()
+	uint64_t GetPosition()
 	{
 		return m_offset;
 	}
@@ -178,7 +178,7 @@ public:
 	/**
 	 * An easey way to get the current position of the file. (for later use)
 	*/
-	void SetPosition(XnUInt64 pos)
+	void SetPosition(uint64_t pos)
 	{
 		if (m_pRecorder != NULL)
 		{
@@ -188,7 +188,7 @@ public:
 
 private:
 	FileRecorder* m_pRecorder;
-	XnUInt64  m_offset;
+	uint64_t  m_offset;
 	XnBool    m_needRollback;
 };
 
@@ -409,7 +409,7 @@ void FileRecorder::messagePump()
 					XnCodecBase* pCodec = m_streams[msg.pStream].pCodec;
 					uint32_t frameId    = ++m_frameIds[msg.pStream];
 					++m_streams[msg.pStream].frameId;
-					XnUInt64 timestamp  = 0;
+					uint64_t timestamp  = 0;
 					if (frameId > 1)
 					{
 						timestamp = m_streams[msg.pStream].lastOutputTimestamp + (msg.pFrame->timestamp - m_streams[msg.pStream].lastInputTimestamp);
@@ -513,9 +513,9 @@ FileRecorder::AttachedStreamInfo *FileRecorder::findAttachedStreamInfo(uint32_t 
 	return pInfo;
 }
 
-XnUInt64 FileRecorder::getLastPropertyRecordPos(uint32_t nodeId, const char *propName, XnUInt64 newRecordPos)
+uint64_t FileRecorder::getLastPropertyRecordPos(uint32_t nodeId, const char *propName, uint64_t newRecordPos)
 {
-	XnUInt64 pos = 0;
+	uint64_t pos = 0;
 	xnl::LockGuard<AttachedStreams> guard(m_streams);
 	AttachedStreamInfo *pInfo = findAttachedStreamInfo(nodeId);
 	if (!pInfo)
@@ -535,7 +535,7 @@ void FileRecorder::onTerminate()
 {
 	// Truncate the file to it's last offset, so that undone records
 	// will not be serialized.
-	XnUInt64 truncationOffset = XN_UINT64_C(0);
+	uint64_t truncationOffset = XN_UINT64_C(0);
 	if (XN_STATUS_OK == xnOSTellFile64(m_file, &truncationOffset))
 	{
 		xnOSTruncateFile64(m_file, truncationOffset);
@@ -933,7 +933,7 @@ void FileRecorder::onDetach(uint32_t nodeId)
 	undoPoint.Release();
 
 	undoPoint.Reuse();
-	XnUInt64 nSeekTablePos = undoPoint.GetPosition();
+	uint64_t nSeekTablePos = undoPoint.GetPosition();
 	// write the seek table
 	EMIT(RECORD_SEEK_TABLE(
 		nodeId,
@@ -979,7 +979,7 @@ void FileRecorder::onStart(uint32_t nodeId)
 	undoPoint.Release();
 }
 
-void FileRecorder::onRecord(uint32_t nodeId, XnCodecBase* pCodec, const OniFrame* pFrame, uint32_t frameId, XnUInt64 timestamp)
+void FileRecorder::onRecord(uint32_t nodeId, XnCodecBase* pCodec, const OniFrame* pFrame, uint32_t frameId, uint64_t timestamp)
 {
 	if (0 == nodeId || NULL == pFrame)
 	{

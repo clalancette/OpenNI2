@@ -69,7 +69,7 @@ XN_C_API XnStatus XN_C_DECL xnSchedulerShutdown(XnScheduler** ppScheduler);
  * @param	pCallbackArg	[in]	The argument that will be passed to the callback method.
  * @param	ppTask			[out]	Upon successful return, holds a handle to the started task.
  */
-XN_C_API XnStatus XN_C_DECL xnSchedulerAddTask(XnScheduler* pScheduler, XnUInt64 nInterval, XnTaskCallbackFuncPtr pCallback, void* pCallbackArg, XnScheduledTask** ppTask);
+XN_C_API XnStatus XN_C_DECL xnSchedulerAddTask(XnScheduler* pScheduler, uint64_t nInterval, XnTaskCallbackFuncPtr pCallback, void* pCallbackArg, XnScheduledTask** ppTask);
 
 /**
  * Removes a task from the scheduler.
@@ -86,6 +86,6 @@ XN_C_API XnStatus XN_C_DECL xnSchedulerRemoveTask(XnScheduler* pScheduler, XnSch
  * @param	pTask		[in]	The task to be removed from the scheduler.
  * @param	nInterval	[in]	The new interval to be used.
  */
-XN_C_API XnStatus XN_C_DECL xnSchedulerRescheduleTask(XnScheduler* pScheduler, XnScheduledTask* pTask, XnUInt64 nInterval);
+XN_C_API XnStatus XN_C_DECL xnSchedulerRescheduleTask(XnScheduler* pScheduler, XnScheduledTask* pTask, uint64_t nInterval);
 
 #endif //_XN_SCHEDULER_H_

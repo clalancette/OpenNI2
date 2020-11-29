@@ -107,8 +107,6 @@ typedef	int					XnInt32;
 
 /** 64-bit signed integer. */
 typedef	__int64				XnInt64;
-/** 64-bit unsigned integer. */
-typedef	unsigned __int64	XnUInt64;
 
 /** natural signed integer. */
 typedef	int					XnInt;

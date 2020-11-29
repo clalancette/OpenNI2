@@ -49,7 +49,7 @@ XN_C_API XnStatus xnOSGetEpochTime(uint32_t* nEpochTime)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetTimeStamp(XnUInt64* nTimeStamp)
+XN_C_API XnStatus xnOSGetTimeStamp(uint64_t* nTimeStamp)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -65,7 +65,7 @@ XN_C_API XnStatus xnOSGetTimeStamp(XnUInt64* nTimeStamp)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetHighResTimeStamp(XnUInt64* nTimeStamp)
+XN_C_API XnStatus xnOSGetHighResTimeStamp(uint64_t* nTimeStamp)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -130,7 +130,7 @@ XnStatus xnOSTimeInit()
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSQueryTimer(XnOSTimer Timer, XnUInt64* pnTimeSinceStart)
+XN_C_API XnStatus xnOSQueryTimer(XnOSTimer Timer, uint64_t* pnTimeSinceStart)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_OUTPUT_PTR(pnTimeSinceStart);

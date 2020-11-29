@@ -41,17 +41,17 @@ public:
 	XnSensorFPS();
 	~XnSensorFPS();
 
-	inline void MarkDepth(uint32_t nFrameID, XnUInt64 nTS) { Mark(&m_depth, "DepthInput", nFrameID, nTS); }
-	inline void MarkColor(uint32_t nFrameID, XnUInt64 nTS) { Mark(&m_color, "ImageInput", nFrameID, nTS); }
-	inline void MarkIr(uint32_t nFrameID, XnUInt64 nTS) {Mark(&m_ir, "IrInput", nFrameID, nTS);}
+	inline void MarkDepth(uint32_t nFrameID, uint64_t nTS) { Mark(&m_depth, "DepthInput", nFrameID, nTS); }
+	inline void MarkColor(uint32_t nFrameID, uint64_t nTS) { Mark(&m_color, "ImageInput", nFrameID, nTS); }
+	inline void MarkIr(uint32_t nFrameID, uint64_t nTS) {Mark(&m_ir, "IrInput", nFrameID, nTS);}
 private:
-	void Mark(XnFPSData* pFPS, const XnChar* csName, uint32_t nFrameID, XnUInt64 nTS);
+	void Mark(XnFPSData* pFPS, const XnChar* csName, uint32_t nFrameID, uint64_t nTS);
 
 	XnFPSData m_depth;
 	XnFPSData m_color;
 	XnFPSData m_ir;
 
-	XnUInt64 m_nLastPrint;
+	uint64_t m_nLastPrint;
 	XnDumpFile* m_FramesDump;
 };
 

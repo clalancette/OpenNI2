@@ -104,7 +104,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 	// Image
 
 	// first, make sure that our sensor actually supports Image
-	XnUInt64 nImageSupported = FALSE;
+	uint64_t nImageSupported = FALSE;
 	XnStatus nRetVal = m_sensor.GetProperty(XN_MASK_DEVICE, XN_MODULE_PROPERTY_IMAGE_SUPPORTED, &nImageSupported);
 	XN_IS_STATUS_OK(nRetVal);
 	if (nImageSupported)
@@ -379,7 +379,7 @@ OniStatus XnOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 				}
 
 				// Set the mode in the depth stream.
-				XnUInt64 val;
+				uint64_t val;
 				xnrc = pDepth->GetProperty(XN_STREAM_PROPERTY_REGISTRATION, &val);
 				if (xnrc != XN_STATUS_OK)
 				{
@@ -427,7 +427,7 @@ OniStatus XnOniDevice::setProperty(int propertyId, const void* data, int dataSiz
 				}
 
 				// Set the mode in the depth stream.
-				XnUInt64 val = (*mode == ONI_IMAGE_REGISTRATION_DEPTH_TO_COLOR) ? 1 : 0;
+				uint64_t val = (*mode == ONI_IMAGE_REGISTRATION_DEPTH_TO_COLOR) ? 1 : 0;
 				xnrc = pDepth->SetProperty(XN_STREAM_PROPERTY_REGISTRATION, val);
 				if (xnrc != XN_STATUS_OK)
 				{

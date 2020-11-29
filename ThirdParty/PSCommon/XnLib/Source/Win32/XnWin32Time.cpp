@@ -38,7 +38,7 @@ XN_C_API XnStatus xnOSGetEpochTime(uint32_t* nEpochTime)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetTimeStamp(XnUInt64* nTimeStamp)
+XN_C_API XnStatus xnOSGetTimeStamp(uint64_t* nTimeStamp)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -54,7 +54,7 @@ XN_C_API XnStatus xnOSGetTimeStamp(XnUInt64* nTimeStamp)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetHighResTimeStamp(XnUInt64* nTimeStamp)
+XN_C_API XnStatus xnOSGetHighResTimeStamp(uint64_t* nTimeStamp)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -128,7 +128,7 @@ XnStatus xnOSTimeInit()
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSQueryTimer(XnOSTimer Timer, XnUInt64* pnTimeSinceStart)
+XN_C_API XnStatus xnOSQueryTimer(XnOSTimer Timer, uint64_t* pnTimeSinceStart)
 {
 	// Local function variables
 	XnBool bRetVal = FALSE;
@@ -145,7 +145,7 @@ XN_C_API XnStatus xnOSQueryTimer(XnOSTimer Timer, XnUInt64* pnTimeSinceStart)
 	bRetVal = QueryPerformanceCounter(&nCurrTick);
 	XN_IS_BOOL_OK_RET(bRetVal, XN_STATUS_ERROR);
 
-	*pnTimeSinceStart = XnUInt64((nCurrTick.QuadPart - Timer.nStartTick.QuadPart) / Timer.dTicksPerTimeUnit);
+	*pnTimeSinceStart = uint64_t((nCurrTick.QuadPart - Timer.nStartTick.QuadPart) / Timer.dTicksPerTimeUnit);
 
 	// All is good...
 	return (XN_STATUS_OK);

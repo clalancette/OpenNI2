@@ -89,7 +89,7 @@ private:
 	PlayerSource* FindSource(const XnChar* strNodeName);
 
 	// Wake up when timestamp is valid.
-	void SleepToTimestamp(XnUInt64 nTimeStamp);
+	void SleepToTimestamp(uint64_t nTimeStamp);
 
 	void LoadConfigurationFromIniFile();
 
@@ -110,12 +110,12 @@ private:
 
 	static XnStatus XN_CALLBACK_TYPE OnNodeAdded(void* pCookie, const XnChar* strNodeName, XnProductionNodeType type, XnCodecID compression, uint32_t nNumberOfFrames);
 	static XnStatus XN_CALLBACK_TYPE OnNodeRemoved(void* pCookie, const XnChar* strNodeName);
-	static XnStatus XN_CALLBACK_TYPE OnNodeIntPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, XnUInt64 nValue);
+	static XnStatus XN_CALLBACK_TYPE OnNodeIntPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, uint64_t nValue);
 	static XnStatus XN_CALLBACK_TYPE OnNodeRealPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, XnDouble dValue);
 	static XnStatus XN_CALLBACK_TYPE OnNodeStringPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, const XnChar* strValue);
 	static XnStatus XN_CALLBACK_TYPE OnNodeGeneralPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
 	static XnStatus XN_CALLBACK_TYPE OnNodeStateReady(void* pCookie, const XnChar* strNodeName);
-	static XnStatus XN_CALLBACK_TYPE OnNodeNewData(void* pCookie, const XnChar* strNodeName, XnUInt64 nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize);
+	static XnStatus XN_CALLBACK_TYPE OnNodeNewData(void* pCookie, const XnChar* strNodeName, uint64_t nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize);
 	static void		XN_CALLBACK_TYPE OnEndOfFileReached(void* pCookie);
 	XnStatus AddPrivateProperty(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
 	XnStatus AddPrivateProperty_PS1080(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
@@ -127,7 +127,7 @@ private:
 	static uint32_t XN_CALLBACK_TYPE FileTell(void* pCookie);
 	static void     XN_CALLBACK_TYPE FileClose(void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE FileSeek64(void* pCookie, XnOSSeekType seekType, const XnInt64 nOffset);
-	static XnUInt64 XN_CALLBACK_TYPE FileTell64(void* pCookie);
+	static uint64_t XN_CALLBACK_TYPE FileTell64(void* pCookie);
 
 	static XnStatus XN_CALLBACK_TYPE CodecCreate(void* pCookie, const char* strNodeName, XnCodecID nCodecId, XnCodec** ppCodec);
 	static void     XN_CALLBACK_TYPE CodecDestroy(void* pCookie, XnCodec* pCodec);
@@ -158,8 +158,8 @@ private:
 	XnDouble m_dPlaybackSpeed;
 
 	// Timestamps.
-	XnUInt64 m_nStartTimestamp;
-	XnUInt64 m_nStartTime;
+	uint64_t m_nStartTimestamp;
+	uint64_t m_nStartTime;
 	XnBool m_bHasTimeReference;
 
 	// Repeat recording in loop.

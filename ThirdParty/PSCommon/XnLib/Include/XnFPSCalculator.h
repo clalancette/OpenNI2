@@ -50,7 +50,7 @@ XN_C_API XnStatus XN_C_DECL xnFPSInit(XnFPSData* pFPS, uint32_t nSamplesCount);
  * @param	pFPS	[in]	A pointer to an XnFPSData struct.
  * @param	nNow	[in]	Optional. Current time. When not provided, function will take it itself.
  */
-XN_C_API XnStatus XN_C_DECL xnFPSMarkFrame(XnFPSData* pFPS, XnUInt64 nNow = 0);
+XN_C_API XnStatus XN_C_DECL xnFPSMarkFrame(XnFPSData* pFPS, uint64_t nNow = 0);
 
 /**
  * This function calculates the average FPS over the last frames.
@@ -59,7 +59,7 @@ XN_C_API XnStatus XN_C_DECL xnFPSMarkFrame(XnFPSData* pFPS, XnUInt64 nNow = 0);
  * @param	nAverageOver	[in]	The number of milliseconds to average over.
  * @param	nNow			[in]	Optional. Current time. When not provided, function will take it itself.
  */
-XN_C_API XnDouble XN_C_DECL xnFPSCalc(XnFPSData* pFPS, uint32_t nAverageOver = 3000, XnUInt64 nNow = 0);
+XN_C_API XnDouble XN_C_DECL xnFPSCalc(XnFPSData* pFPS, uint32_t nAverageOver = 3000, uint64_t nNow = 0);
 
 /**
  * This function frees the FPS calculator.

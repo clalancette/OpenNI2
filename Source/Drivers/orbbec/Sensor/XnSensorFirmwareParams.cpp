@@ -485,7 +485,7 @@ XnStatus XnSensorFirmwareParams::UpdateProperty(XnFirmwareParam* pParam)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorFirmwareParams::SetFirmwareParam(XnActualIntProperty* pProperty, XnUInt64 nValue)
+XnStatus XnSensorFirmwareParams::SetFirmwareParam(XnActualIntProperty* pProperty, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -505,7 +505,7 @@ XnStatus XnSensorFirmwareParams::SetFirmwareParam(XnActualIntProperty* pProperty
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorFirmwareParams::SetFirmwareAudioParam(XnActualIntProperty* pProperty, XnUInt64 nValue)
+XnStatus XnSensorFirmwareParams::SetFirmwareAudioParam(XnActualIntProperty* pProperty, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -521,7 +521,7 @@ XnStatus XnSensorFirmwareParams::SetFirmwareAudioParam(XnActualIntProperty* pPro
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorFirmwareParams::SetImageFormat(XnUInt64 nValue)
+XnStatus XnSensorFirmwareParams::SetImageFormat(uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -538,7 +538,7 @@ XnStatus XnSensorFirmwareParams::SetImageFormat(XnUInt64 nValue)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorFirmwareParams::CheckFirmwareParam(XnActualIntProperty* pProperty, XnUInt64 nValue, XnFirmwareParam** ppParam)
+XnStatus XnSensorFirmwareParams::CheckFirmwareParam(XnActualIntProperty* pProperty, uint64_t nValue, XnFirmwareParam** ppParam)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -567,7 +567,7 @@ XnStatus XnSensorFirmwareParams::CheckFirmwareParam(XnActualIntProperty* pProper
 	return XN_STATUS_OK;
 }
 
-XnStatus XnSensorFirmwareParams::SetFirmwareParamImpl(XnActualIntProperty* pProperty, XnUInt64 nValue)
+XnStatus XnSensorFirmwareParams::SetFirmwareParamImpl(XnActualIntProperty* pProperty, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -589,7 +589,7 @@ XnStatus XnSensorFirmwareParams::SetFirmwareParamImpl(XnActualIntProperty* pProp
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorFirmwareParams::SetStreamMode(XnActualIntProperty* pProperty, XnUInt64 nValue)
+XnStatus XnSensorFirmwareParams::SetStreamMode(XnActualIntProperty* pProperty, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -631,25 +631,25 @@ XnStatus XnSensorFirmwareParams::RecalculateReferenceResolution()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorFirmwareParams::SetFirmwareParamCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorFirmwareParams::SetFirmwareParamCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie)
 {
 	XnSensorFirmwareParams* pThis = (XnSensorFirmwareParams*)pCookie;
 	return pThis->SetFirmwareParam(pSender, nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorFirmwareParams::SetFirmwareAudioParamCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorFirmwareParams::SetFirmwareAudioParamCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie)
 {
 	XnSensorFirmwareParams* pThis = (XnSensorFirmwareParams*)pCookie;
 	return pThis->SetFirmwareAudioParam(pSender, nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorFirmwareParams::SetImageFormatCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorFirmwareParams::SetImageFormatCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorFirmwareParams* pThis = (XnSensorFirmwareParams*)pCookie;
 	return pThis->SetImageFormat(nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorFirmwareParams::SetStreamModeCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorFirmwareParams::SetStreamModeCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie)
 {
 	XnSensorFirmwareParams* pThis = (XnSensorFirmwareParams*)pCookie;
 	return pThis->SetStreamMode(pSender, nValue);

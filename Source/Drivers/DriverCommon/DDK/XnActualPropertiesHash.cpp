@@ -40,7 +40,7 @@ XnActualPropertiesHash::~XnActualPropertiesHash()
 	}
 }
 
-XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName, XnUInt64 nValue)
+XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

@@ -775,8 +775,8 @@ XnStatus XnHostProtocolUSBReceive(const XnDevicePrivateData* pDevicePrivateData,
 								  XnUChar* pBuffer, XnUInt nSize, uint32_t& nRead, uint32_t nTimeOut, XnBool bForceBulk, uint32_t nFailTimeout)
 {
 	XnStatus nRetVal;
-	XnUInt64 nMaxTime;
-	XnUInt64 nCurrTime;
+	uint64_t nMaxTime;
+	uint64_t nCurrTime;
 
 	const XnUsbControlConnection* pCtrlConnection = &pDevicePrivateData->SensorHandle.ControlConnection;
 
@@ -803,8 +803,8 @@ XnStatus XnHostProtocolUSBReceive(const XnDevicePrivateData* pDevicePrivateData,
 
 		if (nFailTimeout != 0)
 		{
-			XnUInt64 nNow;
-			XnUInt64 nNow2;
+			uint64_t nNow;
+			uint64_t nNow2;
 			xnOSGetHighResTimeStamp(&nNow);
 			xnOSGetHighResTimeStamp(&nNow2);
 			while (nNow2 - nNow < nFailTimeout)
@@ -1056,7 +1056,7 @@ XnStatus XnHostProtocolReceiveReply(const XnDevicePrivateData* pDevicePrivateDat
 {
 	XnStatus rc = XN_STATUS_OK;
 
-	XnUInt64 nStartWaitingTime;
+	uint64_t nStartWaitingTime;
 	xnOSGetTimeStamp(&nStartWaitingTime);
 
 	for (;;) // loop until timeout expires
@@ -1083,7 +1083,7 @@ XnStatus XnHostProtocolReceiveReply(const XnDevicePrivateData* pDevicePrivateDat
 			}
 		} while (rc == XN_STATUS_DEVICE_PROTOCOL_WRONG_ID);
 
-		XnUInt64 nNow;
+		uint64_t nNow;
 		xnOSGetTimeStamp(&nNow);
 
 		if (rc != XN_STATUS_OK && rc != XN_STATUS_DEVICE_PROTOCOL_BAD_MAGIC)
@@ -1150,8 +1150,8 @@ XnStatus XnHostProtocolExecute(const XnDevicePrivateData* pDevicePrivateData,
 		// Sleep before sending the control
 		if (nOpcode == pDevicePrivateData->FWInfo.nOpcodeWriteFileUpload)
 		{
-			XnUInt64 nNow;
-			XnUInt64 nNow2;
+			uint64_t nNow;
+			uint64_t nNow2;
 			xnOSGetHighResTimeStamp(&nNow);
 			xnOSGetHighResTimeStamp(&nNow2);
 			while (nNow2 - nNow < XN_USB_HOST_PROTOCOL_FILE_UPLOAD_PRE_DELAY)
@@ -2182,7 +2182,7 @@ XnStatus XnHostProtocolFileUpload(XnDevicePrivateData* pDevicePrivateData, uint3
 								  const XnChar* strFileName, XnUInt16 nAttributes)
 {
 	XnStatus rc;
-	XnUInt64 nFileSize;
+	uint64_t nFileSize;
 	XN_FILE_HANDLE UploadFile;
 
 	rc = xnOSGetFileSize64(strFileName, &nFileSize);
@@ -2196,7 +2196,7 @@ XnStatus XnHostProtocolFileUpload(XnDevicePrivateData* pDevicePrivateData, uint3
 
 	uint32_t nNextOffset;
 
-	XnUInt64 nBefore;
+	uint64_t nBefore;
 	xnOSGetTimeStamp(&nBefore);
 
 	rc = XnHostProtocolInitUpload(pDevicePrivateData, nOffset, nAttributes, (uint32_t)nFileSize/sizeof(XnUInt16), UploadFile, nNextOffset);
@@ -2206,7 +2206,7 @@ XnStatus XnHostProtocolFileUpload(XnDevicePrivateData* pDevicePrivateData, uint3
 		return (rc);
 	}
 
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetTimeStamp(&nNow);
 
 	xnLogVerbose(XN_MASK_SENSOR_PROTOCOL, "Initialized upload of %llu bytes in %llu ms", nFileSize, nNow - nBefore);

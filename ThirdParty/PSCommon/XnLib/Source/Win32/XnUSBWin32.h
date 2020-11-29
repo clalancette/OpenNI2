@@ -83,7 +83,7 @@ typedef struct xnUSBReadThreadData
 	OVERLAPPED* pOvlpIO;
 
 	uint32_t nTotalBytesSinceLastPrint;
-	XnUInt64 nLastPrint;
+	uint64_t nLastPrint;
 } xnUSBReadThreadData;
 
 typedef struct XnUSBEndPointHandle

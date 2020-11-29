@@ -378,19 +378,19 @@ XnStatus XN_CALLBACK_TYPE XnPixelStream::FixCroppingCallback(const XnProperty* /
 	return pStream->FixCropping();
 }
 
-XnStatus XN_CALLBACK_TYPE XnPixelStream::SetResolutionCallback(XnActualIntProperty* /*pSenser*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnPixelStream::SetResolutionCallback(XnActualIntProperty* /*pSenser*/, uint64_t nValue, void* pCookie)
 {
 	XnPixelStream* pStream = (XnPixelStream*)pCookie;
 	return pStream->SetResolution((XnResolutions)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnPixelStream::SetXResCallback(XnActualIntProperty* /*pSenser*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnPixelStream::SetXResCallback(XnActualIntProperty* /*pSenser*/, uint64_t nValue, void* pCookie)
 {
 	XnPixelStream* pStream = (XnPixelStream*)pCookie;
 	return pStream->SetXRes((uint32_t)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnPixelStream::SetYResCallback(XnActualIntProperty* /*pSenser*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnPixelStream::SetYResCallback(XnActualIntProperty* /*pSenser*/, uint64_t nValue, void* pCookie)
 {
 	XnPixelStream* pStream = (XnPixelStream*)pCookie;
 	return pStream->SetYRes((uint32_t)nValue);
@@ -464,14 +464,14 @@ XnStatus XN_CALLBACK_TYPE XnPixelStream::GetSupportedModesCallback(const XnGener
 //---------------------------------------------------------------------------
 // XnResolutionProperty
 //---------------------------------------------------------------------------
-XnPixelStream::XnResolutionProperty::XnResolutionProperty(uint32_t propertyId, const XnChar* strName, XnUInt64 nInitialValue /* = 0 */, const XnChar* strModule /* = "" */) :
+XnPixelStream::XnResolutionProperty::XnResolutionProperty(uint32_t propertyId, const XnChar* strName, uint64_t nInitialValue /* = 0 */, const XnChar* strModule /* = "" */) :
 	XnActualIntProperty(propertyId, strName, nInitialValue, strModule)
 {
 }
 
 XnBool XnPixelStream::XnResolutionProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
 {
-	XnUInt64 nValue = *(XnUInt64*)pValue;
+	uint64_t nValue = *(uint64_t*)pValue;
 	strcpy(csValue, XnDDKGetResolutionName((XnResolutions)nValue));
 	return TRUE;
 }

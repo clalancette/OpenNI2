@@ -729,7 +729,7 @@ XnStatus XnSensorImageStream::SetAutoWhiteBalance(XnBool bAutoWhiteBalance)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorImageStream::SetExposure(XnUInt64 nValue)
+XnStatus XnSensorImageStream::SetExposure(uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -743,7 +743,7 @@ XnStatus XnSensorImageStream::SetExposure(XnUInt64 nValue)
 
 	return (XN_STATUS_OK);
 }
-XnStatus XnSensorImageStream::SetGain(XnUInt64 nValue)
+XnStatus XnSensorImageStream::SetGain(uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -899,60 +899,60 @@ XnStatus XnSensorImageStream::CreateDataProcessor(XnDataProcessor** ppProcessor)
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetInputFormatCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetInputFormatCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pThis = (XnSensorImageStream*)pCookie;
 	return pThis->SetInputFormat((XnIOImageFormats)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetAntiFlickerCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetAntiFlickerCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pThis = (XnSensorImageStream*)pCookie;
 	return pThis->SetAntiFlicker((uint32_t)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetImageQualityCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetImageQualityCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pThis = (XnSensorImageStream*)pCookie;
 	return pThis->SetImageQuality((uint32_t)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetActualReadCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetActualReadCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pThis = (XnSensorImageStream*)pCookie;
 	return pThis->SetActualRead(nValue == TRUE);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetCroppingModeCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetCroppingModeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pStream = (XnSensorImageStream*)pCookie;
 	return pStream->SetCroppingMode((XnCroppingMode)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetAutoExposureCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetAutoExposureCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pStream = (XnSensorImageStream*)pCookie;
 	return pStream->SetAutoExposure((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetAutoWhiteBalanceCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetAutoWhiteBalanceCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pStream = (XnSensorImageStream*)pCookie;
 	return pStream->SetAutoWhiteBalance((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetExposureCallback(XnActualIntProperty*, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetExposureCallback(XnActualIntProperty*, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pStream = (XnSensorImageStream*)pCookie;
 	return pStream->SetExposure(nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetGainCallback(XnActualIntProperty*, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetGainCallback(XnActualIntProperty*, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pStream = (XnSensorImageStream*)pCookie;
 	return pStream->SetGain(nValue);
 }
-XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetFastZoomCropCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetFastZoomCropCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorImageStream* pStream = (XnSensorImageStream*)pCookie;
 	return pStream->SetFastZoomCrop((XnBool)nValue);

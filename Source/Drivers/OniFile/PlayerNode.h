@@ -62,7 +62,7 @@ public:
 	XnStatus SeekToTimeStamp(XnInt64 nTimeOffset, XnPlayerSeekOrigin origin);
 
 	XnStatus SeekToFrame(const XnChar* strNodeName, XnInt32 nFrameOffset, XnPlayerSeekOrigin origin);
-	XnStatus TellTimestamp(XnUInt64& nTimestamp);
+	XnStatus TellTimestamp(uint64_t& nTimestamp);
 	XnStatus TellFrame(const XnChar* strNodeName, uint32_t& nFrameNumber);
 	uint32_t GetNumFrames(const XnChar* strNodeName, uint32_t& nFrames);
 
@@ -78,8 +78,8 @@ private:
 	{
 		RecordUndoInfo() { Reset(); }
 		void Reset() { nRecordPos = 0; nUndoRecordPos = 0; }
-		XnUInt64 nRecordPos;
-		XnUInt64 nUndoRecordPos;
+		uint64_t nRecordPos;
+		uint64_t nUndoRecordPos;
 	};
 
 	typedef xnl::XnStringsHashT<RecordUndoInfo> RecordUndoInfoMap;
@@ -93,11 +93,11 @@ private:
 
 		XnBool bValid;
 		XnChar strName[XN_MAX_NAME_LENGTH];
-		XnUInt64 nLastDataPos;
+		uint64_t nLastDataPos;
 		XnCodecID compression;
 		uint32_t nFrames;
 		uint32_t nCurFrame;
-		XnUInt64 nMaxTimeStamp;
+		uint64_t nMaxTimeStamp;
 		XnBool bStateReady;
 		XnBool bIsGenerator;
 		XnCodec* pCodec;
@@ -107,9 +107,9 @@ private:
 	};
 
 	XnStatus ProcessRecord(XnBool bProcessPayload);
-	XnStatus SeekToTimeStampAbsolute(XnUInt64 nDestTimeStamp);
+	XnStatus SeekToTimeStampAbsolute(uint64_t nDestTimeStamp);
 	XnStatus SeekToTimeStampRelative(XnInt64 nOffset);
-	XnStatus UndoRecord(PlayerNode::RecordUndoInfo& undoInfo, XnUInt64 nDestPos, XnBool& nUndone);
+	XnStatus UndoRecord(PlayerNode::RecordUndoInfo& undoInfo, uint64_t nDestPos, XnBool& nUndone);
 	XnStatus SeekToFrameAbsolute(uint32_t nNodeID, uint32_t nFrameNumber);
 	XnStatus ProcessEachNodeLastData(uint32_t nIDToProcessLast);
 
@@ -121,13 +121,13 @@ private:
 	//ReadRecord reads just the fields of the record, not the payload.
 	XnStatus ReadRecord(Record& record);
 	XnStatus SeekStream(XnOSSeekType seekType, XnInt64 nOffset);
-	XnUInt64 TellStream();
+	uint64_t TellStream();
 	XnStatus CloseStream();
 
 	XnBool IsTypeGenerator(XnProductionNodeType type);
 
 	XnStatus HandleRecord(Record& record, XnBool bHandleRecord);
-	XnStatus HandleNodeAddedImpl(uint32_t nNodeID, XnProductionNodeType type, const XnChar* strName, XnCodecID compression, uint32_t nNumberOfFrames, XnUInt64 nMinTimestamp, XnUInt64 nMaxTimestamp);
+	XnStatus HandleNodeAddedImpl(uint32_t nNodeID, XnProductionNodeType type, const XnChar* strName, XnCodecID compression, uint32_t nNumberOfFrames, uint64_t nMinTimestamp, uint64_t nMaxTimestamp);
 	XnStatus HandleNodeAddedRecord(NodeAddedRecord record);
 	XnStatus HandleGeneralPropRecord(GeneralPropRecord record);
 	XnStatus HandleIntPropRecord(IntPropRecord record);
@@ -145,19 +145,19 @@ private:
 	XnStatus RemovePlayerNodeInfo(uint32_t nNodeID);
 	uint32_t GetPlayerNodeIDByName(const XnChar* strNodeName);
 	PlayerNodeInfo* GetPlayerNodeInfoByName(const XnChar* strNodeName);
-	XnStatus SaveRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const XnChar* strPropName, XnUInt64 nRecordPos, XnUInt64 nUndoRecordPos);
-	XnStatus GetRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const XnChar* strPropName, XnUInt64& nRecordPos, XnUInt64& nUndoRecordPos);
+	XnStatus SaveRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const XnChar* strPropName, uint64_t nRecordPos, uint64_t nUndoRecordPos);
+	XnStatus GetRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const XnChar* strPropName, uint64_t& nRecordPos, uint64_t& nUndoRecordPos);
 	XnStatus SkipRecordPayload(Record record);
 	XnStatus SeekToRecordByType(uint32_t nNodeID, RecordType type);
-	DataIndexEntry* FindTimestampInDataIndex(uint32_t nNodeID, XnUInt64 nTimestamp);
+	DataIndexEntry* FindTimestampInDataIndex(uint32_t nNodeID, uint64_t nTimestamp);
 	DataIndexEntry** GetSeekLocationsFromDataIndex(uint32_t nNodeID, uint32_t nDestFrame);
 
 	// BC functions
 	XnStatus HandleNodeAdded_1_0_0_5_Record(NodeAdded_1_0_0_5_Record record);
 	XnStatus HandleNodeAdded_1_0_0_4_Record(NodeAdded_1_0_0_4_Record record);
 
-	static const XnUInt64 DATA_MAX_SIZE;
-	static const XnUInt64 RECORD_MAX_SIZE;
+	static const uint64_t DATA_MAX_SIZE;
+	static const uint64_t RECORD_MAX_SIZE;
 	static const XnVersion OLDEST_SUPPORTED_FILE_FORMAT_VERSION;
 	static const XnVersion FIRST_FILESIZE64BIT_FILE_FORMAT_VERSION;
 
@@ -177,8 +177,8 @@ private:
 	XnBool m_bDataBegun;
 	XnBool m_bEOF;
 
-	XnUInt64 m_nTimeStamp;
-	XnUInt64 m_nGlobalMaxTimeStamp;
+	uint64_t m_nTimeStamp;
+	uint64_t m_nGlobalMaxTimeStamp;
 
 	xnl::EventNoArgs m_eofReachedEvent;
 

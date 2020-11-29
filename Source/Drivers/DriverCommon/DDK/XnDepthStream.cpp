@@ -120,13 +120,13 @@ XnStatus XnDepthStream::ValidateDepthValue(OniDepthPixel nDepth)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XN_CALLBACK_TYPE XnDepthStream::SetMinDepthCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnDepthStream::SetMinDepthCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDepthStream* pStream = (XnDepthStream*)pCookie;
 	return pStream->SetMinDepth((OniDepthPixel)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnDepthStream::SetMaxDepthCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnDepthStream::SetMaxDepthCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDepthStream* pStream = (XnDepthStream*)pCookie;
 	return pStream->SetMaxDepth((OniDepthPixel)nValue);

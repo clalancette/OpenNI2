@@ -59,7 +59,7 @@ protected:
 	virtual XnStatus SetReadChunkSize(uint32_t nChunkSize);
 
 private:
-	static XnStatus XN_CALLBACK_TYPE SetReadChunkSizeCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetReadChunkSizeCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 
 	//---------------------------------------------------------------------------
 	// Members

@@ -259,9 +259,9 @@ typedef struct XnPlayerInputStreamInterface
 	 * @param	pCookie		[in]	A cookie that was received with this interface.
 	 * @param	pPos		[out]	The position of the stream.
 	 *
-	 * @returns (XnUInt64)-1 on error.
+	 * @returns (uint64_t)-1 on error.
 	 */
-	XnUInt64 (XN_CALLBACK_TYPE* Tell64)(void* pCookie);
+	uint64_t (XN_CALLBACK_TYPE* Tell64)(void* pCookie);
 
 } XnPlayerInputStreamInterface;
 
@@ -299,7 +299,7 @@ typedef struct XnNodeNotifications
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeIntPropChanged)
 		(void* pCookie, const XnChar* strNodeName,
-		const XnChar* strPropName, XnUInt64 nValue);
+		const XnChar* strPropName, uint64_t nValue);
 
 	/**
 	 * Notifies the object that a real type property has changed.
@@ -358,7 +358,7 @@ typedef struct XnNodeNotifications
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeNewData)
 		(void* pCookie, const XnChar* strNodeName,
-		XnUInt64 nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize);
+		uint64_t nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize);
 
 } XnNodeNotifications;
 

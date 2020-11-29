@@ -1370,7 +1370,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 		return (XN_STATUS_ERROR);
 	}
 
-	XnUInt64 nLastPrint;
+	uint64_t nLastPrint;
 	xnOSGetHighResTimeStamp(&nLastPrint);
 	uint32_t nTotalBytesSinceLastPrint = 0;
 
@@ -1440,7 +1440,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 		// Re-queue the request
 		bResult = ReadFile(hEPOvlp, pBuffersInfo[nOVIdx].pBuffer, nBufferSize, NULL, pFinishedOV);
 
-		XnUInt64 nNow;
+		uint64_t nNow;
 		xnOSGetHighResTimeStamp(&nNow);
 		if (nNow - nLastPrint > 1000000)
 		{

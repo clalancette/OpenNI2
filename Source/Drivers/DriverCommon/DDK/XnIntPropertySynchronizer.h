@@ -31,7 +31,7 @@
 //---------------------------------------------------------------------------
 // Types
 //---------------------------------------------------------------------------
-typedef XnStatus (XN_CALLBACK_TYPE* XnIntPropertyConvertCallback)(XnUInt64 nSourceValue, XnUInt64* pnDestValue);
+typedef XnStatus (XN_CALLBACK_TYPE* XnIntPropertyConvertCallback)(uint64_t nSourceValue, uint64_t* pnDestValue);
 
 class XnIntSynchronizerCookie; // forward declaration
 

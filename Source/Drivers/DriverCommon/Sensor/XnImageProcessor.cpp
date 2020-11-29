@@ -131,7 +131,7 @@ void XnImageProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 	XnFrameStreamProcessor::OnEndOfFrame(pHeader);
 }
 
-void XnImageProcessor::OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS)
+void XnImageProcessor::OnFrameReady(uint32_t nFrameID, uint64_t nFrameTS)
 {
 	XnFrameStreamProcessor::OnFrameReady(nFrameID, nFrameTS);
 

@@ -98,7 +98,7 @@ XnStatus XnPropertySetRemoveModule(XnPropertySet* pSet, const XnChar* strModuleN
 * @param	strModuleName	[in]		Name of the property to add.
 * @param	nValue			[in]		Value for that property.
 */
-XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, XnUInt64 nValue);
+XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, uint64_t nValue);
 
 /**
 * Adds an real property to the property set.
@@ -221,7 +221,7 @@ XnStatus XnPropertySetEnumeratorGetCurrentPropertyInfo(const XnPropertySetEnumer
 * @param	pEnumerator			[in]		The enumerator.
 * @param	pnValue 			[out]		The value of the property.
 */
-XnStatus XnPropertySetEnumeratorGetIntValue(const XnPropertySetEnumerator* pEnumerator, XnUInt64* pnValue);
+XnStatus XnPropertySetEnumeratorGetIntValue(const XnPropertySetEnumerator* pEnumerator, uint64_t* pnValue);
 
 /**
 * Gets the current real property.

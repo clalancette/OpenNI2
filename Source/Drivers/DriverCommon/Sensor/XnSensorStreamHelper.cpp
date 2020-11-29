@@ -195,7 +195,7 @@ XnStatus XnSensorStreamHelper::ConfigureFirmware(XnActualIntProperty& Property)
 	nRetVal = m_FirmwareProperties.Get(&Property, pPropData);
 	XN_IS_STATUS_OK(nRetVal);
 
-	XnUInt64 nFirmwareValue = Property.GetValue();
+	uint64_t nFirmwareValue = Property.GetValue();
 
 	if (pPropData->pStreamToFirmwareFunc != NULL)
 	{
@@ -236,7 +236,7 @@ XnStatus XnSensorStreamHelper::BeforeSettingFirmwareParam(XnActualIntProperty& P
 			}
 
 			// OK. change the value
-			XnUInt64 nFirmwareValue = nValue;
+			uint64_t nFirmwareValue = nValue;
 
 			if (pPropData->pStreamToFirmwareFunc != NULL)
 			{

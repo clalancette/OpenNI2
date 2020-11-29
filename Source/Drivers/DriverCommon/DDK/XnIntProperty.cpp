@@ -29,7 +29,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnIntProperty::XnIntProperty(uint32_t propertyId, const XnChar* strName, XnUInt64* pValueHolder /* = NULL */, const XnChar* strModule /* = "" */ ) :
+XnIntProperty::XnIntProperty(uint32_t propertyId, const XnChar* strName, uint64_t* pValueHolder /* = NULL */, const XnChar* strModule /* = "" */ ) :
 	XnProperty(XN_PROPERTY_TYPE_INTEGER, pValueHolder, propertyId, strName, strModule)
 {
 }
@@ -52,13 +52,13 @@ XnStatus XnIntProperty::ReadValueFromFile(const XnChar* csINIFile, const XnChar*
 
 XnStatus XnIntProperty::CopyValueImpl(void* pDest, const void* pSource) const
 {
-	(*(XnUInt64*)pDest) = (*(const XnUInt64*)pSource);
+	(*(uint64_t*)pDest) = (*(const uint64_t*)pSource);
 	return XN_STATUS_OK;
 }
 
 XnBool XnIntProperty::IsEqual(const void* pValue1, const void* pValue2) const
 {
-	return (*(XnUInt64*)pValue1) == (*(XnUInt64*)pValue2);
+	return (*(uint64_t*)pValue1) == (*(uint64_t*)pValue2);
 }
 
 XnStatus XnIntProperty::CallSetCallback(const void* pValue)
@@ -67,7 +67,7 @@ XnStatus XnIntProperty::CallSetCallback(const void* pValue)
 	{
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_PROPERTY_READ_ONLY, XN_MASK_DDK, "Property %s.%s is read only.", GetModule(), GetName());
 	}
-	return m_pSetCallback(this, *(const XnUInt64*)pValue, m_pSetCallbackCookie);
+	return m_pSetCallback(this, *(const uint64_t*)pValue, m_pSetCallbackCookie);
 }
 
 XnStatus XnIntProperty::CallGetCallback(void* pValue) const
@@ -76,12 +76,12 @@ XnStatus XnIntProperty::CallGetCallback(void* pValue) const
 	{
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_PROPERTY_WRITE_ONLY, XN_MASK_DDK, "Property %s.%s is write only.", GetModule(), GetName());
 	}
-	return m_pGetCallback(this, (XnUInt64*)pValue, m_pGetCallbackCookie);
+	return m_pGetCallback(this, (uint64_t*)pValue, m_pGetCallbackCookie);
 }
 
 XnBool XnIntProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
 {
-	sprintf(csValue, "%llu", *(XnUInt64*)pValue);
+	sprintf(csValue, "%" PRIu64, *(uint64_t*)pValue);
 	return TRUE;
 }
 
@@ -89,7 +89,7 @@ XnStatus XnIntProperty::AddToPropertySet(XnPropertySet* pSet)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnUInt64 nValue;
+	uint64_t nValue;
 	nRetVal = GetValue(&nValue);
 	XN_IS_STATUS_OK(nRetVal);
 

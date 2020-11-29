@@ -460,7 +460,7 @@ XnStatus XnDeviceBase::GetPropertyType(const XnChar* ModuleName, uint32_t proper
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, XnUInt64 nValue)
+XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -516,7 +516,7 @@ XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnUInt64* pnValue)
+XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, uint64_t* pnValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -765,7 +765,7 @@ XnBool XnDeviceBase::IsStream(XnDeviceModule* pModule)
 
 	XnIntProperty* pIntProperty = (XnIntProperty*)pProperty;
 
-	XnUInt64 nValue;
+	uint64_t nValue;
 	nRetVal = pIntProperty->GetValue(&nValue);
 	if (nRetVal != XN_STATUS_OK)
 	{
@@ -1118,7 +1118,7 @@ XnStatus XnDeviceBase::RaiseNewStreamDataEvent(const XnChar* StreamName, OniFram
 
 void XnDeviceBase::OnNewStreamData(XnDeviceStream* pStream, OniFrame* pFrame)
 {
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 	xnDumpFileWriteString(m_StreamsDataDump, "%llu,%s,%llu,%u\n", nNow, pStream->GetName(), pFrame->timestamp, pFrame->frameIndex);
 
@@ -1141,7 +1141,7 @@ XnStatus XN_CALLBACK_TYPE XnDeviceBase::PropertyValueChangedCallback(const XnPro
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE XnDeviceBase::SetMirrorCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnDeviceBase::SetMirrorCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnDeviceBase* pThis = (XnDeviceBase*)pCookie;
 	return pThis->SetMirror((XnBool)nValue);

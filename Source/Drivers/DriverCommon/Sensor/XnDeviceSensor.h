@@ -152,11 +152,11 @@ typedef struct
 	/* The device TS which we use as reference for calculation. */
 	uint32_t nReferenceTS;
 	/* The time corresponding to the TS in nReferenceTS. */
-	XnUInt64 nTotalTicksAtReferenceTS;
+	uint64_t nTotalTicksAtReferenceTS;
 	/* The last device TS received. */
 	uint32_t nLastDeviceTS;
 	/* The last result time calculated. */
-	XnUInt64 nLastResultTime;
+	uint64_t nLastResultTime;
 	/* Stream name - for debug purposes. */
 	const XnChar* csStreamName;
 } XnTimeStampData;
@@ -198,7 +198,7 @@ typedef struct XnDeviceAudioBuffer
 	/** A single (big) buffer for audio. */
 	XnUInt8* pAudioBuffer;
 	/** An array of pointers into the audio buffer. */
-	XnUInt64* pAudioPacketsTimestamps;
+	uint64_t* pAudioPacketsTimestamps;
 	/** The index of the next packet that should be written. */
 	volatile uint32_t nAudioWriteIndex;
 	/** The index of the next packet that can be read. */
@@ -231,7 +231,7 @@ typedef struct XnDevicePrivateData
 	/** Keeps the global reference TS (the one marking time-zero). */
 	uint32_t nGlobalReferenceTS;
 	/** Keeps the OS time of global reference TS. */
-	XnUInt64 nGlobalReferenceOSTime;
+	uint64_t nGlobalReferenceOSTime;
 
 	/** A general critical section used to synch end-points threads. */
 	XN_CRITICAL_SECTION_HANDLE hEndPointsCS;

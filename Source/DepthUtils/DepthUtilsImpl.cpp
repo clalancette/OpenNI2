@@ -328,7 +328,7 @@ void DepthUtilsImpl::BuildDepthToShiftTable(XnUInt16* pRGBRegDepthToShiftTable, 
 
 	XnDouble dPlanePixelSize = m_blob.params1080.zpps;
 
-	XnUInt64 nPlaneDsr = m_blob.params1080.zpd;
+	uint64_t nPlaneDsr = m_blob.params1080.zpd;
 	XnDouble dPlaneDsr = (XnDouble)nPlaneDsr;
 
 	XnDouble dDCRCDist = m_blob.params1080.dcrcdist;

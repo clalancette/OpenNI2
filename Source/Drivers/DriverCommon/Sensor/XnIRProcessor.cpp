@@ -312,9 +312,9 @@ void XnIRProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader)
 	XN_PROFILING_END_SECTION
 }
 
-XnUInt64 XnIRProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
+uint64_t XnIRProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 {
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 
 	// There's a firmware bug, causing IR timestamps not to advance if depth stream is off.
@@ -330,7 +330,7 @@ XnUInt64 XnIRProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 	}
 	else
 	{
-		XnUInt64 nResult = XnFrameStreamProcessor::CreateTimestampFromDevice(nDeviceTimeStamp);
+		uint64_t nResult = XnFrameStreamProcessor::CreateTimestampFromDevice(nDeviceTimeStamp);
 
 		// keep it as ref so that if depth is turned off, we'll continue from there
 		m_nRefTimestamp = nNow - nResult;
@@ -339,7 +339,7 @@ XnUInt64 XnIRProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 	}
 }
 
-void XnIRProcessor::OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS)
+void XnIRProcessor::OnFrameReady(uint32_t nFrameID, uint64_t nFrameTS)
 {
 	XnFrameStreamProcessor::OnFrameReady(nFrameID, nFrameTS);
 

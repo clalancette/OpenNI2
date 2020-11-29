@@ -215,7 +215,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 
 		const XnChar* csFileName = "commands.txt";
 
-		XnUInt64 nFileSize = 0;
+		uint64_t nFileSize = 0;
 		rc = xnOSGetFileSize64(csFileName, &nFileSize);
 		if (rc != XN_STATUS_OK)
 		{
@@ -300,7 +300,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 						if (nLogEvery != 0)
 							printf("* Will log every %u milliseconds\n", nLogEvery);
 
-						rc = pSensor->SetProperty(XN_MODULE_NAME_DEVICE, XN_MODULE_PROPERTY_FIRMWARE_LOG_INTERVAL, (XnUInt64)nLogEvery);
+						rc = pSensor->SetProperty(XN_MODULE_NAME_DEVICE, XN_MODULE_PROPERTY_FIRMWARE_LOG_INTERVAL, (uint64_t)nLogEvery);
 						if (rc != XN_STATUS_OK)
 						{
 							printf("** Set log interval failed: %s\n", xnGetStatusString(rc));

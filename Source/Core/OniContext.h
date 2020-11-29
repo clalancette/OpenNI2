@@ -154,7 +154,7 @@ private:
 	std::vector<std::string> m_driversList;
 
 	int m_initializationCounter;
-	XnUInt64 m_lastFPSPrint;
+	uint64_t m_lastFPSPrint;
 };
 
 ONI_NAMESPACE_IMPLEMENTATION_END

@@ -197,7 +197,7 @@ void XnDepthProcessor::PadPixels(uint32_t nPixels)
 	pWriteBuffer->UnsafeUpdateSize(nPixels * sizeof(OniDepthPixel));
 }
 
-void XnDepthProcessor::OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS)
+void XnDepthProcessor::OnFrameReady(uint32_t nFrameID, uint64_t nFrameTS)
 {
 	XnFrameStreamProcessor::OnFrameReady(nFrameID, nFrameTS);
 

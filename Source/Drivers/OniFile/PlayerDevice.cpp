@@ -551,9 +551,9 @@ PlayerSource* PlayerDevice::FindSource(const XnChar* strNodeName)
 	return NULL;
 }
 
-void PlayerDevice::SleepToTimestamp(XnUInt64 nTimeStamp)
+void PlayerDevice::SleepToTimestamp(uint64_t nTimeStamp)
 {
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 
 	XnBool bHasTimeReference = TRUE;
@@ -746,7 +746,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeRemoved(void* /*pCookie*/, const X
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeIntPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, XnUInt64 nValue)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeIntPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, uint64_t nValue)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -1020,7 +1020,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeStateReady(void* /*pCookie*/, cons
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeNewData(void* pCookie, const XnChar* strNodeName, XnUInt64 nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeNewData(void* pCookie, const XnChar* strNodeName, uint64_t nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 
@@ -1201,10 +1201,10 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::FileSeek64(void* pCookie, XnOSSeekType s
 	return xnOSSeekFile64(pThis->m_fileHandle, seekType, nOffset);
 }
 
-XnUInt64 XN_CALLBACK_TYPE PlayerDevice::FileTell64(void* pCookie)
+uint64_t XN_CALLBACK_TYPE PlayerDevice::FileTell64(void* pCookie)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
-	XnUInt64 pos = 0xffffffff;
+	uint64_t pos = 0xffffffff;
 	XnStatus rc = xnOSTellFile64(pThis->m_fileHandle, &pos);
 	if (rc == XN_STATUS_OK)
 	{

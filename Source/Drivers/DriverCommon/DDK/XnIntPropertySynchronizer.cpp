@@ -65,13 +65,13 @@ XnStatus XN_CALLBACK_TYPE IntPropertyValueChangedCallback(const XnProperty* pSen
 	// get the property current value
 	XnIntProperty* pIntProp = (XnIntProperty*)pSender;
 
-	XnUInt64 nNewValue;
+	uint64_t nNewValue;
 	nRetVal = pIntProp->GetValue(&nNewValue);
 	XN_IS_STATUS_OK(nRetVal);
 
 	XnIntSynchronizerCookie* pSynchData = (XnIntSynchronizerCookie*)pCookie;
 
-	XnUInt64 nDestValue;
+	uint64_t nDestValue;
 
 	// convert the value if needed
 	if (pSynchData->pConvertFunc != NULL)

@@ -83,7 +83,7 @@ XnStatus XnFrameStream::SetFPS(uint32_t nFPS)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XN_CALLBACK_TYPE XnFrameStream::SetFPSCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnFrameStream::SetFPSCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnFrameStream* pThis = (XnFrameStream*)pCookie;
 	return pThis->SetFPS((uint32_t)nValue);

@@ -57,7 +57,7 @@ typedef struct XnLogger
 
 typedef struct XnLogEntry
 {
-	XnUInt64 nTimestamp;
+	uint64_t nTimestamp;
 	XnLogSeverity nSeverity;
 	const XnChar* strSeverity;
 	const XnChar* strMask;

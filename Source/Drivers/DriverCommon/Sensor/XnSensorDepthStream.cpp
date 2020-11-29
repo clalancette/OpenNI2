@@ -138,7 +138,7 @@ XnStatus XnSensorDepthStream::Init()
 		}
 	}
 
-	XnUInt64 nDefaultResolution = XN_DEPTH_STREAM_DEFAULT_RESOLUTION;
+	uint64_t nDefaultResolution = XN_DEPTH_STREAM_DEFAULT_RESOLUTION;
 	if (!bResSupported)
 	{
 		// QVGA was always supported
@@ -1066,7 +1066,7 @@ XnStatus XnSensorDepthStream::PopulateSensorCalibrationInfo()
 	XnDouble dPlanePixelSize;
 	GetProperty(XN_STREAM_PROPERTY_ZERO_PLANE_PIXEL_SIZE, &dPlanePixelSize);
 
-	XnUInt64 nPlaneDsr;
+	uint64_t nPlaneDsr;
 	GetProperty(XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE, &nPlaneDsr);
 
 	XnDouble dDCRCDist;
@@ -1117,73 +1117,73 @@ XnStatus XnSensorDepthStream::PopulateSensorCalibrationInfo()
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetInputFormatCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetInputFormatCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetInputFormat((XnIODepthFormats)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetRegistrationCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetRegistrationCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetRegistration((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetHoleFilterCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetHoleFilterCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetHoleFilter((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetWhiteBalanceCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetWhiteBalanceCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetWhiteBalance((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetGainCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetGainCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetGain((uint32_t)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetRegistrationTypeCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetRegistrationTypeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetRegistrationType((XnProcessingType)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetGMCModeCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetGMCModeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetGMCMode((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetCloseRangeCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetCloseRangeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetCloseRange((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetCroppingModeCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetCroppingModeCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetCroppingMode((XnCroppingMode)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetGMCDebugCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetGMCDebugCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetGMCDebug((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetWavelengthCorrectionCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetWavelengthCorrectionCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetWavelengthCorrection((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetWavelengthCorrectionDebugCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetWavelengthCorrectionDebugCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
 	return pStream->SetWavelengthCorrectionDebug((XnBool)nValue);
@@ -1211,7 +1211,7 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::GetAGCBinCallback(const XnGeneral
 	return pStream->GetAGCBin((XnDepthAGCBin*)gbValue.data);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetActualReadCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetActualReadCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensorDepthStream* pThis = (XnSensorDepthStream*)pCookie;
 	return pThis->SetActualRead(nValue == TRUE);

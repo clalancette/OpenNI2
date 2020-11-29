@@ -67,12 +67,12 @@ XnStatus XnIOFileStream::ReadData(XnUChar *pData, uint32_t nDataSize)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnIOFileStream::Tell(XnUInt64* pnOffset)
+XnStatus XnIOFileStream::Tell(uint64_t* pnOffset)
 {
 	return xnOSTellFile64(m_hFile, pnOffset);
 }
 
-XnStatus XnIOFileStream::Seek(XnUInt64 nOffset)
+XnStatus XnIOFileStream::Seek(uint64_t nOffset)
 {
 	return xnOSSeekFile64(m_hFile, XN_OS_SEEK_SET, nOffset);
 }

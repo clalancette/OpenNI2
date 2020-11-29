@@ -774,7 +774,7 @@ OniStatus Context::waitForStreams(OniStreamHandle* pStreams, int streamCount, in
 
 	XN_EVENT_HANDLE hEvent = getThreadEvent();
 
-	XnUInt64 passedTime;
+	uint64_t passedTime;
 	XnOSTimer workTimer;
 	uint32_t timeToWait = timeout;
 	xnOSStartTimer(&workTimer);
@@ -1125,7 +1125,7 @@ void Context::addToLogger(const XnChar* cpFormat, ...)
 
 void Context::onNewFrame()
 {
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 	nNow /= 1000000;
 

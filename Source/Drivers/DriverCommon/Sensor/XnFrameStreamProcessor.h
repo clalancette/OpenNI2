@@ -93,7 +93,7 @@ protected:
 	* @param	nFrameID	[in]	ID of this frame.
 	* @param	nFrameTS	[in]	Timestamp of this frame.
 	*/
-	virtual void OnFrameReady(uint32_t /*nFrameID*/, XnUInt64 /*nFrameTS*/) {}
+	virtual void OnFrameReady(uint32_t /*nFrameID*/, uint64_t /*nFrameTS*/) {}
 
 	//---------------------------------------------------------------------------
 	// Utility Functions
@@ -177,7 +177,7 @@ private:
 	XnBool m_bFrameCorrupted;
 	XnBool m_bAllowDoubleSOF;
 	XnUInt16 m_nLastSOFPacketID;
-	XnUInt64 m_nFirstPacketTimestamp;
+	uint64_t m_nFirstPacketTimestamp;
 };
 
 #endif // XNFRAMESTREAMPROCESSOR_H

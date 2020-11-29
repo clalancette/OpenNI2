@@ -221,7 +221,7 @@ void captureStart(int nDelay)
 		return;
 	}
 
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetTimeStamp(&nNow);
 	nNow /= 1000;
 
@@ -253,7 +253,7 @@ void captureRun()
 		return;
 	}
 
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetTimeStamp(&nNow);
 	nNow /= 1000;
 
@@ -321,7 +321,7 @@ void getCaptureMessage(char* pMessage)
 	{
 	case SHOULD_CAPTURE:
 		{
-			XnUInt64 nNow;
+			uint64_t nNow;
 			xnOSGetTimeStamp(&nNow);
 			nNow /= 1000;
 			sprintf(pMessage, "Capturing will start in %u seconds...", g_Capture.nStartOn - (uint32_t)nNow);

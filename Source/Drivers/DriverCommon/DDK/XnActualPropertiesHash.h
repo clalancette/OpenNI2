@@ -40,7 +40,7 @@ public:
 	typedef XnPropertiesHash::Iterator Iterator;
 	typedef XnPropertiesHash::ConstIterator ConstIterator;
 
-	XnStatus Add(uint32_t propertyId, const XnChar* strName, XnUInt64 nValue);
+	XnStatus Add(uint32_t propertyId, const XnChar* strName, uint64_t nValue);
 	XnStatus Add(uint32_t propertyId, const XnChar* strName, XnDouble dValue);
 	XnStatus Add(uint32_t propertyId, const XnChar* strName, const XnChar* strValue);
 	XnStatus Add(uint32_t propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue);

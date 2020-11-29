@@ -36,23 +36,23 @@
 class XnIntProperty : public XnProperty
 {
 public:
-	XnIntProperty(uint32_t propertyId, const XnChar* strName, XnUInt64* pValueHolder = NULL, const XnChar* strModule = "");
+	XnIntProperty(uint32_t propertyId, const XnChar* strName, uint64_t* pValueHolder = NULL, const XnChar* strModule = "");
 
-	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnIntProperty* pSender, XnUInt64* pnValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnIntProperty* pSender, uint64_t nValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnIntProperty* pSender, uint64_t* pnValue, void* pCookie);
 
-	inline XnStatus SetValue(XnUInt64 nValue)
+	inline XnStatus SetValue(uint64_t nValue)
 	{
 		return XnProperty::SetValue(&nValue);
 	}
 
-	inline XnStatus GetValue(XnUInt64* pnValue) const
+	inline XnStatus GetValue(uint64_t* pnValue) const
 	{
 		XN_VALIDATE_OUTPUT_PTR(pnValue);
 		return XnProperty::GetValue(pnValue);
 	}
 
-	XnStatus UnsafeUpdateValue(XnUInt64 nValue)
+	XnStatus UnsafeUpdateValue(uint64_t nValue)
 	{
 		return XnProperty::UnsafeUpdateValue(&nValue);
 	}

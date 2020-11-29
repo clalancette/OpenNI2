@@ -150,7 +150,7 @@ XnStatus XnPropertySetRemoveModule(XnPropertySet* pSet, const XnChar* strModuleN
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, XnUInt64 nValue)
+XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -511,7 +511,7 @@ XnStatus XnPropertySetEnumeratorGetCurrentPropertyInfo(const XnPropertySetEnumer
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetEnumeratorGetIntValue(const XnPropertySetEnumerator* pEnumerator, XnUInt64* pnValue)
+XnStatus XnPropertySetEnumeratorGetIntValue(const XnPropertySetEnumerator* pEnumerator, uint64_t* pnValue)
 {
 	XN_VALIDATE_INPUT_PTR(pEnumerator);
 	XN_VALIDATE_OUTPUT_PTR(pnValue);

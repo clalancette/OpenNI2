@@ -88,8 +88,8 @@ private:
 	XnStatus FixFirmwareBug();
 
 	static XnStatus XN_CALLBACK_TYPE IsMirroredChangedCallback(const XnProperty* pSender, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetActualReadCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE SetCroppingModeCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetActualReadCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetCroppingModeCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 
 	XnActualIntProperty m_InputFormat;
 	XnActualIntProperty m_CroppingMode;

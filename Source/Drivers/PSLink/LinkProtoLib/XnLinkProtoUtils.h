@@ -156,7 +156,7 @@ XnStatus xnLinkParseIntProp(XnLinkPropType propType, const void* pValue, uint32_
 		return XN_STATUS_LINK_BAD_PROP_TYPE;
 	}
 
-	nParsedVal = static_cast<T>(XN_PREPARE_VAR64_IN_BUFFER(*reinterpret_cast<const XnUInt64*>(pValue)));
+	nParsedVal = static_cast<T>(XN_PREPARE_VAR64_IN_BUFFER(*reinterpret_cast<const uint64_t*>(pValue)));
 	return XN_STATUS_OK;
 }
 

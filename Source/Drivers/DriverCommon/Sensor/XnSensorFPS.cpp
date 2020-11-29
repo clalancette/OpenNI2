@@ -47,12 +47,12 @@ XnSensorFPS::~XnSensorFPS()
 	xnDumpFileClose(m_FramesDump);
 }
 
-void XnSensorFPS::Mark(XnFPSData* /*pFPS*/, const XnChar* csName, uint32_t nFrameID, XnUInt64 nTS)
+void XnSensorFPS::Mark(XnFPSData* /*pFPS*/, const XnChar* csName, uint32_t nFrameID, uint64_t nTS)
 {
 	if (!xnLogIsEnabled(XN_MASK_SENSOR_FPS, XN_LOG_VERBOSE))
 		return;
 
-	XnUInt64 nNow;
+	uint64_t nNow;
 	xnOSGetHighResTimeStamp(&nNow);
 
 	xnDumpFileWriteString(m_FramesDump, "%llu,%s,%u,%llu\n", nNow, csName, nFrameID, nTS);

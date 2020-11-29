@@ -36,12 +36,12 @@
 class XnActualIntProperty : public XnIntProperty
 {
 public:
-	XnActualIntProperty(uint32_t propertyId, const XnChar* strName, XnUInt64 nInitialValue = 0, const XnChar* strModule = "");
+	XnActualIntProperty(uint32_t propertyId, const XnChar* strName, uint64_t nInitialValue = 0, const XnChar* strModule = "");
 
-	inline XnUInt64 GetValue() const { return m_nValue; }
+	inline uint64_t GetValue() const { return m_nValue; }
 
-	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnActualIntProperty* pSender, XnUInt64* pnValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnActualIntProperty* pSender, uint64_t* pnValue, void* pCookie);
 
 	inline void UpdateSetCallback(SetFuncPtr pFunc, void* pCookie)
 	{
@@ -59,10 +59,10 @@ public:
 	}
 
 private:
-	static XnStatus XN_CALLBACK_TYPE SetCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE GetCallback(const XnActualIntProperty* pSender, XnUInt64* pnValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE GetCallback(const XnActualIntProperty* pSender, uint64_t* pnValue, void* pCookie);
 
-	XnUInt64 m_nValue;
+	uint64_t m_nValue;
 };
 
 #endif // XNACTUALINTPROPERTY_H

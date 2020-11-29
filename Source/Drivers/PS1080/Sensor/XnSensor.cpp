@@ -852,7 +852,7 @@ void XnSensor::ReadFirmwareCPU()
 	}
 
 	// sum it all up
-	XnUInt64 nSum = 0;
+	uint64_t nSum = 0;
 	for (uint32_t nIndex = 0; nIndex < nTasksCount; ++nIndex)
 		nSum += aTasks[nIndex].nTimeInMicroSeconds;
 
@@ -1096,7 +1096,7 @@ XnStatus XnSensor::SetReadAllEndpoints(XnBool bEnabled)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	if (m_ReadAllEndpoints.GetValue() == (XnUInt64)bEnabled)
+	if (m_ReadAllEndpoints.GetValue() == (uint64_t)bEnabled)
 	{
 		return XN_STATUS_OK;
 	}
@@ -1143,7 +1143,7 @@ XnStatus XnSensor::SetErrorState(XnStatus errorState)
 			xnLogError(XN_MASK_DEVICE_SENSOR, "Device has entered error mode: %s", xnGetStatusString(errorState));
 		}
 
-		nRetVal = m_ErrorState.UnsafeUpdateValue((XnUInt64)errorState);
+		nRetVal = m_ErrorState.UnsafeUpdateValue((uint64_t)errorState);
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
@@ -1545,7 +1545,7 @@ void XnSensor::OnNewStreamData(XnDeviceStream* pStream, OniFrame* pFrame)
 		else if (m_FrameSyncedStreams[i].pFrame != NULL)
 		{
 			// Check if there is a stored frame which has older timestamp than allowed.
-			XnUInt64 diff = (pFrame->timestamp > m_FrameSyncedStreams[i].pFrame->timestamp) ?
+			uint64_t diff = (pFrame->timestamp > m_FrameSyncedStreams[i].pFrame->timestamp) ?
 							 pFrame->timestamp - m_FrameSyncedStreams[i].pFrame->timestamp  :
 							 m_FrameSyncedStreams[i].pFrame->timestamp - pFrame->timestamp;
 			if (diff > FRAME_SYNC_MAX_FRAME_TIME_DIFF)
@@ -1627,7 +1627,7 @@ XnStatus XnSensor::SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, uint32
 
 	// Set the frame sync property in the device.
 	XnStatus rc = SetProperty(XN_MODULE_NAME_DEVICE, XN_MODULE_PROPERTY_FRAME_SYNC,
-							  (XnUInt64)((numStreams > 0) ? TRUE : FALSE));
+							  (uint64_t)((numStreams > 0) ? TRUE : FALSE));
 	if (rc != XN_STATUS_OK)
 	{
 		// Unlock critical section.
@@ -1675,19 +1675,19 @@ XnStatus XnSensor::SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, uint32
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetInterfaceCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetInterfaceCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->XnSensor::SetInterface((XnSensorUsbInterface)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetHostTimestampsCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetHostTimestampsCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->XnSensor::SetHostTimestamps(nValue == 1);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetReadDataCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetReadDataCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->XnSensor::SetReadData((XnBool)nValue);
@@ -1714,13 +1714,13 @@ XnStatus XN_CALLBACK_TYPE XnSensor::SetCmosBlankingTimeCallback(XnGeneralPropert
 	return pThis->SetCmosBlankingTime((const XnCmosBlankingTime*)gbValue.data);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::ResetCallback(XnIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::ResetCallback(XnIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->Reset((XnParamResetType)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareModeCallback(XnIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareModeCallback(XnIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetFirmwareMode((XnParamCurrentMode)nValue);
@@ -1747,7 +1747,7 @@ XnStatus XN_CALLBACK_TYPE XnSensor::GetCmosBlankingTimeCallback(const XnGeneralP
 	return pThis->GetCmosBlankingTime((XnCmosBlankingTime*)gbValue.data);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::GetFirmwareModeCallback(const XnIntProperty* /*pSender*/, XnUInt64* pnValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::GetFirmwareModeCallback(const XnIntProperty* /*pSender*/, uint64_t* pnValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	XnParamCurrentMode nMode;
@@ -1758,14 +1758,14 @@ XnStatus XN_CALLBACK_TYPE XnSensor::GetFirmwareModeCallback(const XnIntProperty*
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::GetAudioSupportedCallback(const XnIntProperty* /*pSender*/, XnUInt64* pnValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::GetAudioSupportedCallback(const XnIntProperty* /*pSender*/, uint64_t* pnValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	*pnValue = pThis->m_Firmware.GetInfo()->bAudioSupported;
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::GetImageSupportedCallback(const XnIntProperty* /*pSender*/, XnUInt64* pnValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::GetImageSupportedCallback(const XnIntProperty* /*pSender*/, uint64_t* pnValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	*pnValue = pThis->m_Firmware.GetInfo()->bImageSupported;
@@ -1847,49 +1847,49 @@ XnStatus XN_CALLBACK_TYPE XnSensor::SetLedStateCallback(XnGeneralProperty* /*pSe
 	return pThis->SetLedState(pLedState->nLedID, pLedState->nState);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetEmitterStateCallback(XnIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetEmitterStateCallback(XnIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetEmitterState(nValue == TRUE);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareFrameSyncCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareFrameSyncCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetFirmwareFrameSync(nValue == TRUE);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogFilterCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogFilterCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetFirmwareLogFilter((uint32_t)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogIntervalCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogIntervalCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetFirmwareLogInterval((uint32_t)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogPrintCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogPrintCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetFirmwareLogPrint((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareCPUIntervalCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareCPUIntervalCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetFirmwareCPUInterval((uint32_t)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetReadAllEndpointsCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetReadAllEndpointsCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetReadAllEndpoints((XnBool)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetAPCEnabledCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetAPCEnabledCallback(XnActualIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetAPCEnabled((XnBool)nValue);
@@ -1902,19 +1902,19 @@ XnStatus XN_CALLBACK_TYPE XnSensor::SetI2CCallback(XnGeneralProperty* /*pSender*
 	return pThis->SetI2C((const XnI2CWriteData*)gbValue.data);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::DeleteFileCallback(XnIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::DeleteFileCallback(XnIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->DeleteFile((XnUInt16)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetTecSetPointCallback(XnIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetTecSetPointCallback(XnIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetTecSetPoint((XnUInt16)nValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensor::SetEmitterSetPointCallback(XnIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
+XnStatus XN_CALLBACK_TYPE XnSensor::SetEmitterSetPointCallback(XnIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
 	return pThis->SetEmitterSetPoint((XnUInt16)nValue);

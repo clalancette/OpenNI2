@@ -110,7 +110,7 @@ XN_C_API void xnOSMemMove(void* pDest, const void* pSource, XnSizeT nCount)
 	memmove(pDest, pSource, nCount);
 }
 
-XN_C_API XnUInt64  xnOSEndianSwapUINT64(XnUInt64 nValue)
+XN_C_API uint64_t  xnOSEndianSwapUINT64(uint64_t nValue)
 {
 	return ((nValue >> 56) ) | ((nValue >> 40) & 0x000000000000ff00ULL) |
 		((nValue >> 24) & 0x0000000000ff0000ULL) | ((nValue >> 8 ) & 0x00000000ff000000ULL) |

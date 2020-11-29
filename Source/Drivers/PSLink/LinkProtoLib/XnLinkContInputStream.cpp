@@ -182,7 +182,7 @@ uint32_t LinkContInputStream::GetDataSize() const
 
 const void* LinkContInputStream::GetNextData() const
 {
-	static const XnUInt64 nDummy = 0;
+	static const uint64_t nDummy = 0;
 	//TODO: Implement this properly for timestamps...
 	XN_ASSERT(FALSE);
 	return &nDummy;
