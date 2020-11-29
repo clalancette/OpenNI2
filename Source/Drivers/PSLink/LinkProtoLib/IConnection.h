@@ -29,6 +29,7 @@ namespace xn
 class IConnection
 {
 public:
+	virtual ~IConnection() {}
 	virtual XnStatus Connect() = 0;
 	virtual void Disconnect() = 0;
 	virtual XnBool IsConnected() const = 0;

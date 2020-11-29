@@ -48,6 +48,7 @@ public:
 	class Listener
 	{
 	public:
+		virtual ~Listener() {}
 		virtual void readyForNextData(ClosestPoint*) = 0;
 	};
 
