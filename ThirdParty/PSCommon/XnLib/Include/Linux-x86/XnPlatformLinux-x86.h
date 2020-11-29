@@ -76,9 +76,6 @@ typedef	unsigned short		XnUInt16;
 /** 32-bit signed integer. */
 typedef	int					XnInt32;
 
-/** 64-bit signed integer. */
-typedef	long long			XnInt64;
-
 /** natural signed integer. */
 typedef	int					XnInt;
 /** natural unsigned integer. */

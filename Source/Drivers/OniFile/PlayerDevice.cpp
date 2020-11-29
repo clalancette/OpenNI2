@@ -572,15 +572,15 @@ void PlayerDevice::SleepToTimestamp(uint64_t nTimeStamp)
 	if (bHasTimeReference && (m_dPlaybackSpeed > 0.0f))
 	{
 		// check this data timestamp compared to when we started
-		XnInt64 nTimestampDiff = nTimeStamp - m_nStartTimestamp;
+		int64_t nTimestampDiff = nTimeStamp - m_nStartTimestamp;
 
 		// in some recordings, frames are not ordered by timestamp. Make sure this does not break the mechanism
 		if (nTimestampDiff > 0)
 		{
-			XnInt64 nTimeDiff = nNow - m_nStartTime;
+			int64_t nTimeDiff = nNow - m_nStartTime;
 
 			// check if we need to wait some time
-			XnInt64 nRequestedTimeDiff = (XnInt64)(nTimestampDiff / m_dPlaybackSpeed);
+			int64_t nRequestedTimeDiff = (int64_t)(nTimestampDiff / m_dPlaybackSpeed);
 			if (nTimeDiff < nRequestedTimeDiff)
 			{
 				uint32_t nSleep = uint32_t((nRequestedTimeDiff - nTimeDiff)/1000);
@@ -1195,7 +1195,7 @@ void XN_CALLBACK_TYPE PlayerDevice::FileClose(void* pCookie)
 	pThis->m_fileHandle = 0;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::FileSeek64(void* pCookie, XnOSSeekType seekType, const XnInt64 nOffset)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::FileSeek64(void* pCookie, XnOSSeekType seekType, const int64_t nOffset)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 	return xnOSSeekFile64(pThis->m_fileHandle, seekType, nOffset);

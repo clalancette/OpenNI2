@@ -258,7 +258,7 @@ void captureRun()
 	nNow /= 1000;
 
 	// check if time has arrived
-	if ((XnInt64)nNow >= g_Capture.nStartOn)
+	if ((int64_t)nNow >= g_Capture.nStartOn)
 	{
 		// check if we need to discard first frame
 		if (g_Capture.bSkipFirstFrame)

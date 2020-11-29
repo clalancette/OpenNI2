@@ -126,7 +126,7 @@ private:
 	static XnStatus XN_CALLBACK_TYPE FileSeek(void* pCookie, XnOSSeekType seekType, const XnInt32 nOffset);
 	static uint32_t XN_CALLBACK_TYPE FileTell(void* pCookie);
 	static void     XN_CALLBACK_TYPE FileClose(void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE FileSeek64(void* pCookie, XnOSSeekType seekType, const XnInt64 nOffset);
+	static XnStatus XN_CALLBACK_TYPE FileSeek64(void* pCookie, XnOSSeekType seekType, const int64_t nOffset);
 	static uint64_t XN_CALLBACK_TYPE FileTell64(void* pCookie);
 
 	static XnStatus XN_CALLBACK_TYPE CodecCreate(void* pCookie, const char* strNodeName, XnCodecID nCodecId, XnCodec** ppCodec);

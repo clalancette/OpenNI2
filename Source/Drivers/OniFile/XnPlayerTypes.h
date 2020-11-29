@@ -251,7 +251,7 @@ typedef struct XnPlayerInputStreamInterface
 	 * @param	seekType	 [in]	Specifies how to seek - according to current position, end or beginning.
 	 * @param	nOffset		 [in]	Specifies how many bytes to move
 	 */
-	XnStatus (XN_CALLBACK_TYPE* Seek64)(void* pCookie, XnOSSeekType seekType, const XnInt64 nOffset);
+	XnStatus (XN_CALLBACK_TYPE* Seek64)(void* pCookie, XnOSSeekType seekType, const int64_t nOffset);
 
 	/**
 	 * Tells the current position in the stream. (64bit version, for large files)

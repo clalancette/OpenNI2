@@ -337,7 +337,7 @@ XN_C_API XnStatus xnOSSeekFile(const XN_FILE_HANDLE File, const XnOSSeekType See
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSSeekFile64(const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const XnInt64 nOffset)
+XN_C_API XnStatus xnOSSeekFile64(const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const int64_t nOffset)
 {
 	// Local function variables
 	DWORD nRealSeekType = 0;

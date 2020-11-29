@@ -59,7 +59,7 @@ public:
 	XnStatus SetNodeNotifications(void* pNotificationsCookie, XnNodeNotifications* pNodeNotifications);
 	XnStatus SetNodeCodecFactory(void* pFactoryCookie, PlayerNode::CodecFactory* pPlayerNodeCodecFactory);
 	XnStatus SetRepeat(XnBool bRepeat);
-	XnStatus SeekToTimeStamp(XnInt64 nTimeOffset, XnPlayerSeekOrigin origin);
+	XnStatus SeekToTimeStamp(int64_t nTimeOffset, XnPlayerSeekOrigin origin);
 
 	XnStatus SeekToFrame(const XnChar* strNodeName, XnInt32 nFrameOffset, XnPlayerSeekOrigin origin);
 	XnStatus TellTimestamp(uint64_t& nTimestamp);
@@ -108,7 +108,7 @@ private:
 
 	XnStatus ProcessRecord(XnBool bProcessPayload);
 	XnStatus SeekToTimeStampAbsolute(uint64_t nDestTimeStamp);
-	XnStatus SeekToTimeStampRelative(XnInt64 nOffset);
+	XnStatus SeekToTimeStampRelative(int64_t nOffset);
 	XnStatus UndoRecord(PlayerNode::RecordUndoInfo& undoInfo, uint64_t nDestPos, XnBool& nUndone);
 	XnStatus SeekToFrameAbsolute(uint32_t nNodeID, uint32_t nFrameNumber);
 	XnStatus ProcessEachNodeLastData(uint32_t nIDToProcessLast);
@@ -120,7 +120,7 @@ private:
 	XnStatus ReadRecordFields(Record& record);
 	//ReadRecord reads just the fields of the record, not the payload.
 	XnStatus ReadRecord(Record& record);
-	XnStatus SeekStream(XnOSSeekType seekType, XnInt64 nOffset);
+	XnStatus SeekStream(XnOSSeekType seekType, int64_t nOffset);
 	uint64_t TellStream();
 	XnStatus CloseStream();
 

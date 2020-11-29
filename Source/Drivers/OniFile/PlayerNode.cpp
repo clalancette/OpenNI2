@@ -173,7 +173,7 @@ XnStatus PlayerNode::SetRepeat(XnBool bRepeat)
 	return XN_STATUS_OK;
 }
 
-XnStatus PlayerNode::SeekToTimeStamp(XnInt64 /*nTimeOffset*/, XnPlayerSeekOrigin /*origin*/)
+XnStatus PlayerNode::SeekToTimeStamp(int64_t /*nTimeOffset*/, XnPlayerSeekOrigin /*origin*/)
 {
 	/*
 	switch (origin)
@@ -202,7 +202,7 @@ XnStatus PlayerNode::SeekToFrame(const XnChar* strNodeName, XnInt32 nFrameOffset
 
 	PlayerNodeInfo* pPlayerNodeInfo = &m_pNodeInfoMap[nNodeID];
 
-	XnInt64 nOriginFrame = 0;
+	int64_t nOriginFrame = 0;
 	switch (origin)
 	{
 		case XN_PLAYER_SEEK_SET:
@@ -797,7 +797,7 @@ XnStatus PlayerNode::ReadRecord(Record &record)
 	return XN_STATUS_OK;
 }
 
-XnStatus PlayerNode::SeekStream(XnOSSeekType seekType, XnInt64 nOffset)
+XnStatus PlayerNode::SeekStream(XnOSSeekType seekType, int64_t nOffset)
 {
 	XN_VALIDATE_INPUT_PTR(m_pInputStream);
 	return m_pInputStream->Seek64(m_pStreamCookie, seekType, nOffset);
@@ -1728,7 +1728,7 @@ XnStatus PlayerNode::SeekToTimeStampAbsolute(uint64_t nDestTimeStamp)
 	return XN_STATUS_OK;
 }//function
 
-XnStatus PlayerNode::SeekToTimeStampRelative(XnInt64 nOffset)
+XnStatus PlayerNode::SeekToTimeStampRelative(int64_t nOffset)
 {
 	//TODO: Implement more efficiently
 	return SeekToTimeStampAbsolute(m_nTimeStamp + nOffset);
