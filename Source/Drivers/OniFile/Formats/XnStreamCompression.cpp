@@ -201,8 +201,8 @@ XnStatus XnStreamUncompressDepth16ZWithEmbTable(const uint8_t* pInput, const uin
 	uint16_t nLastFullValue = 0;
 	uint8_t cInput = 0;
 	uint8_t cZeroCounter = 0;
-	XnInt8 cInData1 = 0;
-	XnInt8 cInData2 = 0;
+	int8_t cInData1 = 0;
+	int8_t cInData2 = 0;
 	uint8_t cInData3 = 0;
 	uint16_t* pEmbTable = NULL;
 	uint16_t nEmbTableIdx = 0;
@@ -493,8 +493,8 @@ XnStatus XnStreamUncompressDepth16Z(const uint8_t* pInput, const uint32_t nInput
 	uint16_t nLastFullValue = 0;
 	uint8_t cInput = 0;
 	uint8_t cZeroCounter = 0;
-	XnInt8 cInData1 = 0;
-	XnInt8 cInData2 = 0;
+	int8_t cInData1 = 0;
+	int8_t cInData2 = 0;
 	uint8_t cInData3 = 0;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -634,7 +634,7 @@ XnStatus XnStreamCompressImage8Z(const uint8_t* pInput, const uint32_t nInputSiz
 	uint8_t nCurrValue = 0;
 	uint8_t nLastValue = 0;
 	uint8_t nAbsDiffValue = 0;
-	XnInt8 nDiffValue = 0;
+	int8_t nDiffValue = 0;
 	uint8_t cOutStage = 0;
 	uint8_t cOutChar = 0;
 	uint8_t cZeroCounter = 0;
@@ -770,8 +770,8 @@ XnStatus XnStreamUncompressImage8Z(const uint8_t* pInput, const uint32_t nInputS
 	uint8_t nLastFullValue = 0;
 	uint8_t cInput = 0;
 	uint8_t cZeroCounter = 0;
-	XnInt8 cInData1 = 0;
-	XnInt8 cInData2 = 0;
+	int8_t cInData1 = 0;
+	int8_t cInData2 = 0;
 
 	// Note: this function does not make sure it stay within the output memory boundaries!
 

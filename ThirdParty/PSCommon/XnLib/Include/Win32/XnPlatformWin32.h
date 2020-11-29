@@ -92,9 +92,6 @@ typedef	unsigned char		XnUChar;
 /** Signed wide character for strings. */
 typedef	wchar_t				XnWChar;
 
-/** 8-bit signed integer. */
-typedef	signed char			XnInt8;
-
 /** natural signed integer. */
 typedef	int					XnInt;
 /** natural unsigned integer. */

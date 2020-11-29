@@ -155,7 +155,7 @@ XnStatus Link24zYuv422Parser::Uncompress24z(const uint8_t* pInput, XnSizeT nInpu
 			{
 				// take high_element only
 				// diffs are between -6 and 6 (0x0 to 0xc)
-				nLastFullValue[nChannel] += XnInt8((cInput >> 4) - 6);
+				nLastFullValue[nChannel] += int8_t((cInput >> 4) - 6);
 			}
 			else if (cInput < 0xe0) // 0xd is dummy
 			{
@@ -184,7 +184,7 @@ XnStatus Link24zYuv422Parser::Uncompress24z(const uint8_t* pInput, XnSizeT nInpu
 			if (cInput < 0xd) // 0x0 to 0xc are diffs
 			{
 				// diffs are between -6 and 6 (0x0 to 0xc)
-				nLastFullValue[nChannel] += (XnInt8)(cInput - 6);
+				nLastFullValue[nChannel] += (int8_t)(cInput - 6);
 			}
 			else if (cInput < 0xe) // 0xd is dummy
 			{
