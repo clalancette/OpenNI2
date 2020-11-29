@@ -142,7 +142,7 @@ XnStatus LinkControlEndpoint::Connect()
 			return nRetVal;
 		}
 
-		m_pIncomingRawPacket = reinterpret_cast<XnUInt8*>(xnOSMallocAligned(m_nMaxPacketSize, XN_DEFAULT_MEM_ALIGN));
+		m_pIncomingRawPacket = reinterpret_cast<uint8_t*>(xnOSMallocAligned(m_nMaxPacketSize, XN_DEFAULT_MEM_ALIGN));
 		if (m_pIncomingRawPacket == NULL)
 		{
 			xnLogError(XN_MASK_LINK, "LINK: Failed to allocate incoming packet");
@@ -151,7 +151,7 @@ XnStatus LinkControlEndpoint::Connect()
 			return XN_STATUS_ALLOC_FAILED;
 		}
 		m_nMaxResponseSize = MAX_RESPONSE_NUM_PACKETS * m_nMaxPacketSize;
-		m_pIncomingResponse = reinterpret_cast<XnUInt8*>(xnOSMallocAligned(m_nMaxResponseSize, XN_DEFAULT_MEM_ALIGN));
+		m_pIncomingResponse = reinterpret_cast<uint8_t*>(xnOSMallocAligned(m_nMaxResponseSize, XN_DEFAULT_MEM_ALIGN));
 		if (m_pIncomingResponse == NULL)
 		{
 			xnLogError(XN_MASK_LINK, "LINK: Failed to allocate incoming response");
@@ -230,8 +230,8 @@ XN_MUTEX_HANDLE LinkControlEndpoint::GetMutex() const
 
 XnBool LinkControlEndpoint::IsMsgTypeSupported(uint16_t nMsgType)
 {
-	XnUInt8 nMsgTypeHi = ((nMsgType >> 8) & 0xFF);
-	XnUInt8 nMsgTypeLo = (nMsgType & 0xFF);
+	uint8_t nMsgTypeHi = ((nMsgType >> 8) & 0xFF);
+	uint8_t nMsgTypeLo = (nMsgType & 0xFF);
 	return (nMsgTypeHi < m_supportedMsgTypes.size()) && (m_supportedMsgTypes[nMsgTypeHi].IsSet(nMsgTypeLo));
 }
 
@@ -353,7 +353,7 @@ XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOver
 	uint64_t nFileSize = 0;
 	uint32_t nBytesRead = 0;
 	uint32_t nCunkSize = m_msgEncoder.GetMaxMsgSize();
-	XnUInt8* pChunk = NULL;
+	uint8_t* pChunk = NULL;
 	uint64_t nBytesToSend = 0;
 	uint32_t nBytesInChunk = 0;
 	XnLinkFragmentation fragmentation = XN_LINK_FRAG_BEGIN;
@@ -368,7 +368,7 @@ XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, XnBool bOver
 	nRetVal = xnOSGetFileSize64(strFileName, &nFileSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Get file size", nRetVal);
 	nBytesToSend = nFileSize + sizeof(XnLinkUploadFileHeader);
-	pChunk = (XnUInt8*)xnOSMallocAligned(nCunkSize, XN_DEFAULT_MEM_ALIGN);
+	pChunk = (uint8_t*)xnOSMallocAligned(nCunkSize, XN_DEFAULT_MEM_ALIGN);
 	if (pChunk == NULL)
 	{
 		xnOSCloseFile(&hFile);
@@ -565,8 +565,8 @@ XnStatus LinkControlEndpoint::DownloadFile(uint16_t zone, const XnChar* fwFileNa
 XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(uint16_t& nMaxPacketSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt8 command[64];
-	XnUInt8 response[64];
+	uint8_t command[64];
+	uint8_t response[64];
 	uint32_t nResponseSize = 0;
 	uint16_t nResponseCode = 0;
 	xn::LinkPacketHeader* pCommandHeader = reinterpret_cast<xn::LinkPacketHeader*>(command);
@@ -674,7 +674,7 @@ XnStatus LinkControlEndpoint::ExecuteImpl(uint16_t nMsgType,
 	m_msgEncoder.EndEncoding(XnLinkFragmentation(fragmentation & XN_LINK_FRAG_END));
 
 	uint32_t nBytesLeftToSend = m_msgEncoder.GetEncodedSize();
-	const XnUInt8* pRawCommandPacket = reinterpret_cast<const XnUInt8*>(m_msgEncoder.GetEncodedData());
+	const uint8_t* pRawCommandPacket = reinterpret_cast<const uint8_t*>(m_msgEncoder.GetEncodedData());
 
 	/* Second step - Send each packet and get a response for it. */
 	while (nBytesLeftToSend > 0)
@@ -719,7 +719,7 @@ XnStatus LinkControlEndpoint::ExecuteImpl(uint16_t nMsgType,
 	}
 
 	uint32_t nTotalResponseSize = m_responseMsgParser.GetParsedSize();
-	XnUInt8* pResponseBytes = reinterpret_cast<XnUInt8*>(pResponseData);
+	uint8_t* pResponseBytes = reinterpret_cast<uint8_t*>(pResponseData);
 
 	/* Third step - If needed, continue receiving the rest of the response, in separate packets. */
 	isLast = ((responseFragmentation & XN_LINK_FRAG_END) == XN_LINK_FRAG_END);
@@ -1000,7 +1000,7 @@ XnStatus LinkControlEndpoint::ExecuteBistTests(uint32_t nID, uint32_t& errorCode
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t nValue, uint32_t nMask)
+XnStatus LinkControlEndpoint::WriteI2C(uint8_t nDeviceID, uint8_t nAddressSize, uint32_t nAddress, uint8_t nValueSize, uint32_t nValue, uint32_t nMask)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1024,7 +1024,7 @@ XnStatus LinkControlEndpoint::WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, 
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t& nValue)
+XnStatus LinkControlEndpoint::ReadI2C(uint8_t nDeviceID, uint8_t nAddressSize, uint32_t nAddress, uint8_t nValueSize, uint32_t& nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1053,7 +1053,7 @@ XnStatus LinkControlEndpoint::ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, u
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::WriteAHB(uint32_t nAddress, uint32_t nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth)
+XnStatus LinkControlEndpoint::WriteAHB(uint32_t nAddress, uint32_t nValue, uint8_t nBitOffset, uint8_t nBitWidth)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1073,7 +1073,7 @@ XnStatus LinkControlEndpoint::WriteAHB(uint32_t nAddress, uint32_t nValue, XnUIn
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::ReadAHB(uint32_t nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, uint32_t& nValue)
+XnStatus LinkControlEndpoint::ReadAHB(uint32_t nAddress, uint8_t nBitOffset, uint8_t nBitWidth, uint32_t& nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1170,7 +1170,7 @@ XnStatus LinkControlEndpoint::GetSupportedVideoModes(uint16_t nStreamID,
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting supported video modes for stream %u...", nStreamID);
 
-	XnUInt8 supportedMapOutputModesBuff[MAX_PROP_SIZE];
+	uint8_t supportedMapOutputModesBuff[MAX_PROP_SIZE];
 	uint32_t nPropSize = sizeof(supportedMapOutputModesBuff);
 	XnLinkSupportedVideoModes* pLinkSupportedMapOutputModes = reinterpret_cast<XnLinkSupportedVideoModes*>(supportedMapOutputModesBuff);
 	uint32_t nModes = 0;
@@ -1555,7 +1555,7 @@ XnStatus LinkControlEndpoint::SetCropping(uint16_t nStreamID, const OniCropping&
 	xnLogVerbose(XN_MASK_LINK, "LINK: Setting cropping for stream %u...", nStreamID);
 
 	XnLinkCropping linkCropping;
-	linkCropping.m_bEnabled = XnUInt8(cropping.enabled);
+	linkCropping.m_bEnabled = uint8_t(cropping.enabled);
 	linkCropping.m_nReserved1 = 0;
 	linkCropping.m_nReserved2 = 0;
 	linkCropping.m_nReserved3 = 0;
@@ -1605,7 +1605,7 @@ XnStatus LinkControlEndpoint::GetSupportedMsgTypes(std::vector<xnl::BitSet>& sup
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting supported message types...");
 
-	XnUInt8 supportedMsgTypesBuff[MAX_PROP_SIZE];
+	uint8_t supportedMsgTypesBuff[MAX_PROP_SIZE];
 	uint32_t nBufferSize = sizeof(supportedMsgTypesBuff);
 	nRetVal = GetGeneralProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_SUPPORTED_MSG_TYPES, nBufferSize, supportedMsgTypesBuff);
 	XN_IS_STATUS_OK_LOG_ERROR("Get supported msg types property", nRetVal);
@@ -1620,7 +1620,7 @@ XnStatus LinkControlEndpoint::GetSupportedProperties(std::vector<xnl::BitSet>& s
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting supported properties...");
 
-	XnUInt8 supportedPropsBuff[MAX_PROP_SIZE];
+	uint8_t supportedPropsBuff[MAX_PROP_SIZE];
 	uint32_t nBufferSize = sizeof(supportedPropsBuff);
 	nRetVal = GetGeneralProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_SUPPORTED_PROPS, nBufferSize, supportedPropsBuff);
 	XN_IS_STATUS_OK_LOG_ERROR("Get supported msg types property", nRetVal);
@@ -1635,7 +1635,7 @@ XnStatus LinkControlEndpoint::GetSupportedInterfaces(uint16_t nStreamID, xnl::Bi
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Getting supported interfaces for stream %u...", nStreamID);
 
-	XnUInt8 supportedInterfacesBuff[MAX_PROP_SIZE];
+	uint8_t supportedInterfacesBuff[MAX_PROP_SIZE];
 	uint32_t nBufferSize = sizeof(supportedInterfacesBuff);
 	nRetVal = GetGeneralProperty(nStreamID, XN_LINK_PROP_ID_STREAM_SUPPORTED_INTERFACES, nBufferSize, supportedInterfacesBuff);
 	XN_IS_STATUS_OK_LOG_ERROR("Get supported interfaces", nRetVal);
@@ -1798,7 +1798,7 @@ XnStatus LinkControlEndpoint::SetMirror(uint16_t nStreamID, XnBool bMirror)
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::FormatZone(XnUInt8 nZone)
+XnStatus LinkControlEndpoint::FormatZone(uint8_t nZone)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1861,7 +1861,7 @@ XnStatus LinkControlEndpoint::GetBootStatus(XnBootStatus& bootStatus)
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::OpenFWLogFile(XnUInt8 logID, uint16_t nLogStreamID)
+XnStatus LinkControlEndpoint::OpenFWLogFile(uint8_t logID, uint16_t nLogStreamID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1879,7 +1879,7 @@ XnStatus LinkControlEndpoint::OpenFWLogFile(XnUInt8 logID, uint16_t nLogStreamID
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::CloseFWLogFile(XnUInt8 logID, uint16_t nLogStreamID)
+XnStatus LinkControlEndpoint::CloseFWLogFile(uint8_t logID, uint16_t nLogStreamID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

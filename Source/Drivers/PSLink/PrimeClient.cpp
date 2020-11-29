@@ -233,22 +233,22 @@ XnStatus PrimeClient::ReadDebugData(XnCommandDebugData& commandDebugData)
 	return m_linkControlEndpoint.ReadDebugData(commandDebugData);
 }
 
-XnStatus PrimeClient::WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t nValue, uint32_t nMask)
+XnStatus PrimeClient::WriteI2C(uint8_t nDeviceID, uint8_t nAddressSize, uint32_t nAddress, uint8_t nValueSize, uint32_t nValue, uint32_t nMask)
 {
 	return m_linkControlEndpoint.WriteI2C(nDeviceID, nAddressSize, nAddress, nValueSize, nValue, nMask);
 }
 
-XnStatus PrimeClient::ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t& nValue)
+XnStatus PrimeClient::ReadI2C(uint8_t nDeviceID, uint8_t nAddressSize, uint32_t nAddress, uint8_t nValueSize, uint32_t& nValue)
 {
 	return m_linkControlEndpoint.ReadI2C(nDeviceID, nAddressSize, nAddress, nValueSize, nValue);
 }
 
-XnStatus PrimeClient::WriteAHB(uint32_t nAddress, uint32_t nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth)
+XnStatus PrimeClient::WriteAHB(uint32_t nAddress, uint32_t nValue, uint8_t nBitOffset, uint8_t nBitWidth)
 {
 	return m_linkControlEndpoint.WriteAHB(nAddress, nValue, nBitOffset, nBitWidth);
 }
 
-XnStatus PrimeClient::ReadAHB(uint32_t nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, uint32_t& nValue)
+XnStatus PrimeClient::ReadAHB(uint32_t nAddress, uint8_t nBitOffset, uint8_t nBitWidth, uint32_t& nValue)
 {
 	return m_linkControlEndpoint.ReadAHB(nAddress, nBitOffset, nBitWidth, nValue);
 }
@@ -328,7 +328,7 @@ XnStatus PrimeClient::UploadFileOnControlEP(const XnChar* strFileName, XnBool bO
 	return m_linkControlEndpoint.UploadFile(strFileName, bOverrideFactorySettings);
 }
 
-XnStatus PrimeClient::FormatZone(XnUInt8 nZone)
+XnStatus PrimeClient::FormatZone(uint8_t nZone)
 {
 	return m_linkControlEndpoint.FormatZone(nZone);
 }
@@ -406,7 +406,7 @@ void PrimeClient::LogVersions()
 	}
 }
 
-XnStatus PrimeClient::OpenFWLogFile(XnUInt8 logID)
+XnStatus PrimeClient::OpenFWLogFile(uint8_t logID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -432,7 +432,7 @@ XnStatus PrimeClient::OpenFWLogFile(XnUInt8 logID)
 	return nRetVal;
 }
 
-XnStatus PrimeClient::CloseFWLogFile(XnUInt8 logID)
+XnStatus PrimeClient::CloseFWLogFile(uint8_t logID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -598,8 +598,8 @@ XnStatus PrimeClient::RunPresetFile(const XnChar* strFileName)
 
 	uint32_t nAddress;
 	uint32_t nValue;
-	XnUInt8 nBitOffset;
-	XnUInt8 nBitWidth;
+	uint8_t nBitOffset;
+	uint8_t nBitWidth;
 
 	for (;;)
 	{
@@ -650,12 +650,12 @@ XnStatus PrimeClient::RunPresetFile(const XnChar* strFileName)
 		// bit offset
 		pToken = strtok(NULL, ",");
 		CHECK_TOKEN(pToken, strLine, pFile);
-		nBitOffset = (XnUInt8)atoi(pToken);
+		nBitOffset = (uint8_t)atoi(pToken);
 
 		// bit width
 		pToken = strtok(NULL, ",");
 		CHECK_TOKEN(pToken, strLine, pFile);
-		nBitWidth = (XnUInt8)atoi(pToken);
+		nBitWidth = (uint8_t)atoi(pToken);
 
 		// value
 		pToken = strtok(NULL, ",");

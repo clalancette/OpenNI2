@@ -52,7 +52,7 @@ typedef struct XnUSBDeviceHandle
 	XnChar cpDeviceName[MAX_DEVICE_STR_LENGTH];
 	HANDLE hUSBDevHandle;
 
-	XnUInt8 nAltInterface;
+	uint8_t nAltInterface;
 
 	XnUSBDeviceSpeed nDevSpeed;
 } xnUSBDevHandle;

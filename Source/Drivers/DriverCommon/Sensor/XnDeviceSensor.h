@@ -196,7 +196,7 @@ typedef struct XnDeviceAudioBuffer
 {
 	XN_CRITICAL_SECTION_HANDLE hLock;
 	/** A single (big) buffer for audio. */
-	XnUInt8* pAudioBuffer;
+	uint8_t* pAudioBuffer;
 	/** An array of pointers into the audio buffer. */
 	uint64_t* pAudioPacketsTimestamps;
 	/** The index of the next packet that should be written. */

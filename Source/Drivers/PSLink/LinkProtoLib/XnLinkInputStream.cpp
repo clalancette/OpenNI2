@@ -131,7 +131,7 @@ uint16_t LinkInputStream::GetStreamID() const
 }
 
 
-XnBool LinkInputStream::IsInterfaceSupported(XnUInt8 nInterfaceID) const
+XnBool LinkInputStream::IsInterfaceSupported(uint8_t nInterfaceID) const
 {
 	return m_supportedInterfaces.IsSet(nInterfaceID);
 }

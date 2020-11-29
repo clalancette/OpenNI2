@@ -49,7 +49,7 @@ protected:
 	//---------------------------------------------------------------------------
 	// Internal Functions
 	//---------------------------------------------------------------------------
-	XnStatus Unpack11to16(const XnUInt8* pcInput, const uint32_t nInputSize, uint32_t* pnActualRead);
+	XnStatus Unpack11to16(const uint8_t* pcInput, const uint32_t nInputSize, uint32_t* pnActualRead);
 
 	//---------------------------------------------------------------------------
 	// Class Members

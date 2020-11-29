@@ -39,8 +39,8 @@ public:
 	virtual void Shutdown();
 	virtual XnBool IsInitialized() const;
 
-	XnStatus SetUsbAltInterface(XnUInt8 altInterface);
-	XnStatus GetUsbAltInterface(XnUInt8& altInterface) const;
+	XnStatus SetUsbAltInterface(uint8_t altInterface);
+	XnStatus GetUsbAltInterface(uint8_t& altInterface) const;
 
 	virtual XnStatus UsbTest(uint32_t nSeconds, uint32_t& endpointsCount, XnUsbTestEndpointResult* endpoints);
 

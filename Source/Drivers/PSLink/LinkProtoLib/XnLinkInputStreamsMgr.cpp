@@ -279,7 +279,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	}
 
 	// the data is immediately after the header
-	const XnUInt8* pPacketData = reinterpret_cast<const XnUInt8*>(pLinkPacketHeader + 1);
+	const uint8_t* pPacketData = reinterpret_cast<const uint8_t*>(pLinkPacketHeader + 1);
 	XnStatus nRetVal = pStreamInfo->pInputStream->HandlePacket(*pLinkPacketHeader, pPacketData, pStreamInfo->packetLoss);
 	if (nRetVal != XN_STATUS_OK)
 	{
@@ -296,7 +296,7 @@ XnStatus LinkInputStreamsMgr::HandleData(const void* pData, uint32_t nSize)
 
 	XN_PROFILING_START_SECTION("LinkInputStreamsMgr::HandleData()");
 
-	const XnUInt8* pRawLinkPacket = reinterpret_cast<const XnUInt8*>(pData);
+	const uint8_t* pRawLinkPacket = reinterpret_cast<const uint8_t*>(pData);
 
 	while (nBytesToRead > 0)
 	{

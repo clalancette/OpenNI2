@@ -175,7 +175,7 @@ void LinkFrameInputStream::Shutdown()
 	xnOSLeaveCriticalSection(&m_hCriticalSection);
 }
 
-XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, const XnUInt8* pData, XnBool& bPacketLoss)
+XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, const uint8_t* pData, XnBool& bPacketLoss)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	xnl::AutoCSLocker csLock(m_hCriticalSection);
@@ -251,7 +251,7 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 
 		//Write new data to dump (if it's on)
 		xnDumpFileWriteBuffer(m_pDumpFile,
-			reinterpret_cast<const XnUInt8*>(m_pLinkMsgParser->GetParsedData()) + nPrevSize,
+			reinterpret_cast<const uint8_t*>(m_pLinkMsgParser->GetParsedData()) + nPrevSize,
 			m_pLinkMsgParser->GetParsedSize() - nPrevSize);
 	}
 

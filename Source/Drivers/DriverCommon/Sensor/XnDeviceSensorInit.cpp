@@ -137,17 +137,17 @@ XnStatus XnDeviceSensorOpenInputThreads(XnDevicePrivateData* pDevicePrivateData)
 
 XnStatus XnDeviceSensorAllocateBuffers(XnDevicePrivateData* pDevicePrivateData)
 {
-	pDevicePrivateData->SensorHandle.DepthConnection.pUSBBuffer = (XnUInt8*)xnOSCallocAligned(XN_SENSOR_PROTOCOL_USB_BUFFER_SIZE, sizeof(XnUInt8), XN_DEFAULT_MEM_ALIGN);
+	pDevicePrivateData->SensorHandle.DepthConnection.pUSBBuffer = (uint8_t*)xnOSCallocAligned(XN_SENSOR_PROTOCOL_USB_BUFFER_SIZE, sizeof(uint8_t), XN_DEFAULT_MEM_ALIGN);
 	pDevicePrivateData->SensorHandle.DepthConnection.nUSBBufferReadOffset = 0;
 	pDevicePrivateData->SensorHandle.DepthConnection.nUSBBufferWriteOffset = 0;
 
-	pDevicePrivateData->SensorHandle.ImageConnection.pUSBBuffer = (XnUInt8*)xnOSCallocAligned(XN_SENSOR_PROTOCOL_USB_BUFFER_SIZE, sizeof(XnUInt8), XN_DEFAULT_MEM_ALIGN);
+	pDevicePrivateData->SensorHandle.ImageConnection.pUSBBuffer = (uint8_t*)xnOSCallocAligned(XN_SENSOR_PROTOCOL_USB_BUFFER_SIZE, sizeof(uint8_t), XN_DEFAULT_MEM_ALIGN);
 	pDevicePrivateData->SensorHandle.ImageConnection.nUSBBufferReadOffset = 0;
 	pDevicePrivateData->SensorHandle.ImageConnection.nUSBBufferWriteOffset = 0;
 
 	if (pDevicePrivateData->pSensor->IsMiscSupported())
 	{
-		pDevicePrivateData->SensorHandle.MiscConnection.pUSBBuffer = (XnUInt8*)xnOSCallocAligned(XN_SENSOR_PROTOCOL_USB_BUFFER_SIZE, sizeof(XnUInt8), XN_DEFAULT_MEM_ALIGN);
+		pDevicePrivateData->SensorHandle.MiscConnection.pUSBBuffer = (uint8_t*)xnOSCallocAligned(XN_SENSOR_PROTOCOL_USB_BUFFER_SIZE, sizeof(uint8_t), XN_DEFAULT_MEM_ALIGN);
 		pDevicePrivateData->SensorHandle.MiscConnection.nUSBBufferReadOffset = 0;
 		pDevicePrivateData->SensorHandle.MiscConnection.nUSBBufferWriteOffset = 0;
 	}

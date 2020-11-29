@@ -64,8 +64,8 @@ typedef struct XnUSBConnectedDevice
 	uint16_t nVendorID;
 	uint16_t nProductID;
 
-	XnUInt8 nBusNum;
-	XnUInt8 nDevNum;
+	uint8_t nBusNum;
+	uint8_t nDevNum;
 
 	// /dev/bus/usb/001/016
 	XnChar strNode[XN_FILE_MAX_PATH + 1];
@@ -729,8 +729,8 @@ XN_C_API XnStatus xnUSBOpenDeviceByPath(const XnUSBConnectionString strDevicePat
 	// parse connection string
 	uint16_t nVendorID = 0;
 	uint16_t nProductID = 0;
-	XnUInt8 nBus = 0;
-	XnUInt8 nAddress = 0;
+	uint8_t nBus = 0;
+	uint8_t nAddress = 0;
 	sscanf(strDevicePath, "%hx/%hx@%hhu/%hhu", &nVendorID, &nProductID, &nBus, &nAddress);
 
 	if (nVendorID == 0 || nProductID == 0 || nBus == 0 || nAddress == 0)
@@ -808,17 +808,17 @@ XN_C_API XnStatus xnUSBGetDeviceSpeed(XN_USB_DEV_HANDLE pDevHandle, XnUSBDeviceS
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBSetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, XnUInt8 /*nConfig*/)
+XN_C_API XnStatus xnUSBSetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, uint8_t /*nConfig*/)
 {
 	return (XN_STATUS_OS_UNSUPPORTED_FUNCTION);
 }
 
-XN_C_API XnStatus xnUSBGetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, XnUInt8* /*pnConfig*/)
+XN_C_API XnStatus xnUSBGetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, uint8_t* /*pnConfig*/)
 {
 	return (XN_STATUS_OS_UNSUPPORTED_FUNCTION);
 }
 
-XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8 nInterface, XnUInt8 nAltInterface)
+XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, uint8_t nInterface, uint8_t nAltInterface)
 {
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
@@ -836,9 +836,9 @@ XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8 nInter
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8* pnInterface, XnUInt8* pnAltInterface)
+XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, uint8_t* pnInterface, uint8_t* pnAltInterface)
 {
-	XnUInt8 nAltInterface;
+	uint8_t nAltInterface;
 	int rc = libusb_control_transfer(pDevHandle->hDevice,
 		LIBUSB_ENDPOINT_IN | LIBUSB_REQUEST_TYPE_STANDARD | LIBUSB_RECIPIENT_INTERFACE,
 		LIBUSB_REQUEST_GET_INTERFACE, 0, 0, &nAltInterface, 1, 1000);
@@ -1035,7 +1035,7 @@ XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/)
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, uint8_t nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
@@ -1088,7 +1088,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, uint8_t nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// validate parameters
 	XN_VALIDATE_USB_INIT();

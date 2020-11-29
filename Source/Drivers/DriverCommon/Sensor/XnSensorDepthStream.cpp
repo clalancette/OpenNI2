@@ -129,7 +129,7 @@ XnStatus XnSensorDepthStream::Init()
 
 	// make sure default resolution is supported
 	XnBool bResSupported = FALSE;
-	for (XnUInt8 i = 0; i < nSupportedModes; ++i)
+	for (uint8_t i = 0; i < nSupportedModes; ++i)
 	{
 		if (pSupportedModes[i].nResolution == XN_DEPTH_STREAM_DEFAULT_RESOLUTION)
 		{

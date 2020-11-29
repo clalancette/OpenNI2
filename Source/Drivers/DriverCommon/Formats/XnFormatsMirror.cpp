@@ -38,12 +38,12 @@
 XnStatus XnMirrorOneBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
-	XnUInt8* pSrc = pBuffer;
-	XnUInt8 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
-	XnUInt8* pSrcEnd = pSrc + nBufferSize;
-	XnUInt8* pDest = NULL;
-	XnUInt8* pDestVal = &pLineBuffer[nLineSize - 1];
-	XnUInt8* pDestEnd = &pLineBuffer[0];
+	uint8_t* pSrc = pBuffer;
+	uint8_t pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
+	uint8_t* pSrcEnd = pSrc + nBufferSize;
+	uint8_t* pDest = NULL;
+	uint8_t* pDestVal = &pLineBuffer[nLineSize - 1];
+	uint8_t* pDestEnd = &pLineBuffer[0];
 
 	if (nLineSize > XN_MIRROR_MAX_LINE_SIZE)
 	{
@@ -71,12 +71,12 @@ XnStatus XnMirrorOneBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t 
 XnStatus XnMirrorTwoBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
-	XnUInt8* pSrc = pBuffer;
-	XnUInt8 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
-	XnUInt8* pSrcEnd = pSrc + nBufferSize;
-	XnUInt8* pDest = NULL;
-	XnUInt8* pDestVal = &pLineBuffer[nLineSize * 2 - 1];
-	XnUInt8* pDestEnd = &pLineBuffer[0];
+	uint8_t* pSrc = pBuffer;
+	uint8_t pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
+	uint8_t* pSrcEnd = pSrc + nBufferSize;
+	uint8_t* pDest = NULL;
+	uint8_t* pDestVal = &pLineBuffer[nLineSize * 2 - 1];
+	uint8_t* pDestEnd = &pLineBuffer[0];
 	uint16_t nMemCpyLineSize = (uint16_t)(nLineSize * 2);
 
 	if (nLineSize > XN_MIRROR_MAX_LINE_SIZE)
@@ -106,12 +106,12 @@ XnStatus XnMirrorTwoBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t 
 XnStatus XnMirrorThreeBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
-	XnUInt8* pSrc = pBuffer;
-	XnUInt8 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
-	XnUInt8* pSrcEnd = pSrc + nBufferSize;
-	XnUInt8* pDest = NULL;
-	XnUInt8* pDestVal = &pLineBuffer[nLineSize * 3 - 1];
-	XnUInt8* pDestEnd = &pLineBuffer[0];
+	uint8_t* pSrc = pBuffer;
+	uint8_t pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
+	uint8_t* pSrcEnd = pSrc + nBufferSize;
+	uint8_t* pDest = NULL;
+	uint8_t* pDestVal = &pLineBuffer[nLineSize * 3 - 1];
+	uint8_t* pDestEnd = &pLineBuffer[0];
 	uint16_t nMemCpyLineSize = (uint16_t)(nLineSize * 3);
 
 	if (nMemCpyLineSize > XN_MIRROR_MAX_LINE_SIZE)
@@ -142,12 +142,12 @@ XnStatus XnMirrorThreeBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_
 XnStatus XnMirrorYUV422Pixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
-	XnUInt8* pSrc = pBuffer;
-	XnUInt8 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
-	XnUInt8* pSrcEnd = (XnUInt8*)pSrc + nBufferSize;
-	XnUInt8* pDest = NULL;
-	XnUInt8* pDestVal = &pLineBuffer[(nLineSize/2-1)*sizeof(uint32_t)]; // last element
-	XnUInt8* pDestEnd = &pLineBuffer[0]; // first element
+	uint8_t* pSrc = pBuffer;
+	uint8_t pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
+	uint8_t* pSrcEnd = (uint8_t*)pSrc + nBufferSize;
+	uint8_t* pDest = NULL;
+	uint8_t* pDestVal = &pLineBuffer[(nLineSize/2-1)*sizeof(uint32_t)]; // last element
+	uint8_t* pDestEnd = &pLineBuffer[0]; // first element
 	uint32_t nMemCpyLineSize = nLineSize/2*sizeof(uint32_t);
 
 	if (nMemCpyLineSize > XN_MIRROR_MAX_LINE_SIZE)
@@ -179,12 +179,12 @@ XnStatus XnMirrorYUV422Pixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t n
 XnStatus XnMirrorYUYVPixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
-	XnUInt8* pSrc = pBuffer;
-	XnUInt8 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
-	XnUInt8* pSrcEnd = (XnUInt8*)pSrc + nBufferSize;
-	XnUInt8* pDest = NULL;
-	XnUInt8* pDestVal = &pLineBuffer[(nLineSize/2-1)*sizeof(uint32_t)]; // last element
-	XnUInt8* pDestEnd = &pLineBuffer[0]; // first element
+	uint8_t* pSrc = pBuffer;
+	uint8_t pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
+	uint8_t* pSrcEnd = (uint8_t*)pSrc + nBufferSize;
+	uint8_t* pDest = NULL;
+	uint8_t* pDestVal = &pLineBuffer[(nLineSize/2-1)*sizeof(uint32_t)]; // last element
+	uint8_t* pDestEnd = &pLineBuffer[0]; // first element
 	uint32_t nMemCpyLineSize = nLineSize/2*sizeof(uint32_t);
 
 	if (nMemCpyLineSize > XN_MIRROR_MAX_LINE_SIZE)

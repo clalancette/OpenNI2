@@ -36,10 +36,10 @@ Link6BitParser::~Link6BitParser()
 }
 
 XnStatus Link6BitParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
-						const XnUInt8* pSrc,
-						const XnUInt8* pSrcEnd,
-						XnUInt8*& pDst,
-						const XnUInt8* pDstEnd)
+						const uint8_t* pSrc,
+						const uint8_t* pSrcEnd,
+						uint8_t*& pDst,
+						const uint8_t* pDstEnd)
 {
 	OniDepthPixel*& pDstPixel = reinterpret_cast<OniDepthPixel*&>(pDst);
 	const OniDepthPixel* pDstPixelEnd = reinterpret_cast<const OniDepthPixel*>(pDstEnd);

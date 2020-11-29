@@ -40,18 +40,18 @@ public:
 
 protected:
 	virtual XnStatus ParsePacketImpl(XnLinkFragmentation fragmentation,
-						const XnUInt8* pSrc,
-						const XnUInt8* pSrcEnd,
-						XnUInt8*& pDst,
-						const XnUInt8* pDstEnd);
+						const uint8_t* pSrc,
+						const uint8_t* pSrcEnd,
+						uint8_t*& pDst,
+						const uint8_t* pDstEnd);
 
 private:
-	XnStatus Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest, const uint32_t nInputSize, uint32_t* pnActualRead, uint32_t* pnActualWritten);
-	uint32_t ProcessFramePacketChunk(const XnUInt8* pData,XnUInt8* pDest, uint32_t nDataSize);
+	XnStatus Unpack12to16(const uint8_t* pcInput,uint8_t* pDest, const uint32_t nInputSize, uint32_t* pnActualRead, uint32_t* pnActualWritten);
+	uint32_t ProcessFramePacketChunk(const uint8_t* pData,uint8_t* pDest, uint32_t nDataSize);
 
 	const OniDepthPixel* m_pShiftToDepth;
 	uint32_t m_ContinuousBufferSize;
-	XnUInt8 m_ContinuousBuffer[XN_INPUT_ELEMENT_SIZE];
+	uint8_t m_ContinuousBuffer[XN_INPUT_ELEMENT_SIZE];
 };
 
 }

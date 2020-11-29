@@ -103,9 +103,9 @@ PlayerNode::~PlayerNode()
 
 XnStatus PlayerNode::Init()
 {
-	m_pRecordBuffer = XN_NEW_ARR(XnUInt8, RECORD_MAX_SIZE);
+	m_pRecordBuffer = XN_NEW_ARR(uint8_t, RECORD_MAX_SIZE);
 	XN_VALIDATE_ALLOC_PTR(m_pRecordBuffer);
-	m_pUncompressedData = XN_NEW_ARR(XnUInt8, DATA_MAX_SIZE);
+	m_pUncompressedData = XN_NEW_ARR(uint8_t, DATA_MAX_SIZE);
 	XN_VALIDATE_ALLOC_PTR(m_pUncompressedData);
 	return XN_STATUS_OK;
 }
@@ -1436,9 +1436,9 @@ XnStatus PlayerNode::HandleNewDataRecord(NewDataRecordHeader record, XnBool bRea
 			XN_LOG_ERROR_RETURN(XN_STATUS_CORRUPT_FILE, XN_MASK_OPEN_NI, "Not enough bytes read");
 		}
 
-		const XnUInt8* pCompressedData = record.GetPayload(); //The new (compressed) data is right at the end of the header
+		const uint8_t* pCompressedData = record.GetPayload(); //The new (compressed) data is right at the end of the header
 		uint32_t nCompressedDataSize = record.GetPayloadSize();
-		const XnUInt8* pUncompressedData = NULL;
+		const uint8_t* pUncompressedData = NULL;
 		uint32_t nUncompressedDataSize = 0;
 		XnCodecID compression = (pPlayerNodeInfo->pCodec == NULL) ? XN_CODEC_NULL :
 								 pPlayerNodeInfo->pCodec->GetCodecID();

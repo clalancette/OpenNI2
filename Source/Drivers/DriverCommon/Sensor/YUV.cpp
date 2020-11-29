@@ -39,8 +39,8 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-void YUV444ToRGB888(XnUInt8 cY, XnUInt8 cU, XnUInt8 cV,
-					XnUInt8& cR, XnUInt8& cG, XnUInt8& cB)
+void YUV444ToRGB888(uint8_t cY, uint8_t cU, uint8_t cV,
+					uint8_t& cR, uint8_t& cG, uint8_t& cB)
 {
 	int32_t nC = cY - 16;
 	int16_t nD = cU - 128;
@@ -48,19 +48,19 @@ void YUV444ToRGB888(XnUInt8 cY, XnUInt8 cU, XnUInt8 cV,
 
 	nC = nC * 298 + 128;
 
-	cR = (XnUInt8)XN_MIN(XN_MAX((nC 	   + 409 * nE) >> 8, 0), 255);
-	cG = (XnUInt8)XN_MIN(XN_MAX((nC - 100 * nD - 208 * nE) >> 8, 0), 255);
-	cB = (XnUInt8)XN_MIN(XN_MAX((nC + 516 * nD	     ) >> 8, 0), 255);
+	cR = (uint8_t)XN_MIN(XN_MAX((nC 	   + 409 * nE) >> 8, 0), 255);
+	cG = (uint8_t)XN_MIN(XN_MAX((nC - 100 * nD - 208 * nE) >> 8, 0), 255);
+	cB = (uint8_t)XN_MIN(XN_MAX((nC + 516 * nD	     ) >> 8, 0), 255);
 }
 
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 
-void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
+void YUV422ToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
 {
-	const XnUInt8* pYUVLast = pYUVImage + nYUVSize - 8;
-	const XnUInt8* pYUVOrig = pYUVImage;
-	const XnUInt8* pRGBOrig = pRGBImage;
-	const XnUInt8* pRGBLast = pRGBImage + *pnRGBSize - 12;
+	const uint8_t* pYUVLast = pYUVImage + nYUVSize - 8;
+	const uint8_t* pYUVOrig = pYUVImage;
+	const uint8_t* pRGBOrig = pRGBImage;
+	const uint8_t* pRGBLast = pRGBImage + *pnRGBSize - 12;
 
 	const __m128 minus128 = _mm_set_ps1(-128);
 	const __m128 plus113983 = _mm_set_ps1(1.13983F);
@@ -141,21 +141,21 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVS
 		// extract the 4 pixels RGB values.
 		// because we made sure values are between 0 and 255, we can just take the lower byte
 		// of each INT16
-		pRGBImage[0] = (XnUInt8)piR[0];
-		pRGBImage[1] = (XnUInt8)piG[0];
-		pRGBImage[2] = (XnUInt8)piB[0];
+		pRGBImage[0] = (uint8_t)piR[0];
+		pRGBImage[1] = (uint8_t)piG[0];
+		pRGBImage[2] = (uint8_t)piB[0];
 
-		pRGBImage[3] = (XnUInt8)piR[1];
-		pRGBImage[4] = (XnUInt8)piG[1];
-		pRGBImage[5] = (XnUInt8)piB[1];
+		pRGBImage[3] = (uint8_t)piR[1];
+		pRGBImage[4] = (uint8_t)piG[1];
+		pRGBImage[5] = (uint8_t)piB[1];
 
-		pRGBImage[6] = (XnUInt8)piR[2];
-		pRGBImage[7] = (XnUInt8)piG[2];
-		pRGBImage[8] = (XnUInt8)piB[2];
+		pRGBImage[6] = (uint8_t)piR[2];
+		pRGBImage[7] = (uint8_t)piG[2];
+		pRGBImage[8] = (uint8_t)piB[2];
 
-		pRGBImage[9] = (XnUInt8)piR[3];
-		pRGBImage[10] = (XnUInt8)piG[3];
-		pRGBImage[11] = (XnUInt8)piB[3];
+		pRGBImage[9] = (uint8_t)piR[3];
+		pRGBImage[10] = (uint8_t)piG[3];
+		pRGBImage[11] = (uint8_t)piB[3];
 
 		// advance the streams
 		pYUVImage += 8;
@@ -168,14 +168,14 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVS
 
 #else // not Win32
 
-void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
+void YUV422ToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
 {
-	const XnUInt8* pOrigYUV = pYUVImage;
-	const XnUInt8* pCurrYUV = pYUVImage;
-	const XnUInt8* pOrigRGB = pRGBImage;
-	XnUInt8* pCurrRGB = pRGBImage;
-	const XnUInt8* pLastYUV = pYUVImage + nYUVSize - YUV422_BPP;
-	const XnUInt8* pLastRGB = pRGBImage + *pnRGBSize - YUV_RGB_BPP;
+	const uint8_t* pOrigYUV = pYUVImage;
+	const uint8_t* pCurrYUV = pYUVImage;
+	const uint8_t* pOrigRGB = pRGBImage;
+	uint8_t* pCurrRGB = pRGBImage;
+	const uint8_t* pLastYUV = pYUVImage + nYUVSize - YUV422_BPP;
+	const uint8_t* pLastRGB = pRGBImage + *pnRGBSize - YUV_RGB_BPP;
 
 	while (pCurrYUV <= pLastYUV && pCurrRGB <= pLastRGB)
 	{
@@ -196,12 +196,12 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVS
 
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 
-void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
+void YUYVToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
 {
-	const XnUInt8* pYUVLast = pYUVImage + nYUVSize - 8;
-	const XnUInt8* pYUVOrig = pYUVImage;
-	const XnUInt8* pRGBOrig = pRGBImage;
-	const XnUInt8* pRGBLast = pRGBImage + *pnRGBSize - 12;
+	const uint8_t* pYUVLast = pYUVImage + nYUVSize - 8;
+	const uint8_t* pYUVOrig = pYUVImage;
+	const uint8_t* pRGBOrig = pRGBImage;
+	const uint8_t* pRGBLast = pRGBImage + *pnRGBSize - 12;
 
 	const __m128 minus128 = _mm_set_ps1(-128);
 	const __m128 plus113983 = _mm_set_ps1(1.13983F);
@@ -282,21 +282,21 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSiz
 		// extract the 4 pixels RGB values.
 		// because we made sure values are between 0 and 255, we can just take the lower byte
 		// of each INT16
-		pRGBImage[0] = (XnUInt8)piR[0];
-		pRGBImage[1] = (XnUInt8)piG[0];
-		pRGBImage[2] = (XnUInt8)piB[0];
+		pRGBImage[0] = (uint8_t)piR[0];
+		pRGBImage[1] = (uint8_t)piG[0];
+		pRGBImage[2] = (uint8_t)piB[0];
 
-		pRGBImage[3] = (XnUInt8)piR[1];
-		pRGBImage[4] = (XnUInt8)piG[1];
-		pRGBImage[5] = (XnUInt8)piB[1];
+		pRGBImage[3] = (uint8_t)piR[1];
+		pRGBImage[4] = (uint8_t)piG[1];
+		pRGBImage[5] = (uint8_t)piB[1];
 
-		pRGBImage[6] = (XnUInt8)piR[2];
-		pRGBImage[7] = (XnUInt8)piG[2];
-		pRGBImage[8] = (XnUInt8)piB[2];
+		pRGBImage[6] = (uint8_t)piR[2];
+		pRGBImage[7] = (uint8_t)piG[2];
+		pRGBImage[8] = (uint8_t)piB[2];
 
-		pRGBImage[9] = (XnUInt8)piR[3];
-		pRGBImage[10] = (XnUInt8)piG[3];
-		pRGBImage[11] = (XnUInt8)piB[3];
+		pRGBImage[9] = (uint8_t)piR[3];
+		pRGBImage[10] = (uint8_t)piG[3];
+		pRGBImage[11] = (uint8_t)piB[3];
 
 		// advance the streams
 		pYUVImage += 8;
@@ -309,14 +309,14 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSiz
 
 #else // not Win32
 
-void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
+void YUYVToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
 {
-	const XnUInt8* pOrigYUV = pYUVImage;
-	const XnUInt8* pCurrYUV = pYUVImage;
-	const XnUInt8* pOrigRGB = pRGBImage;
-	XnUInt8* pCurrRGB = pRGBImage;
-	const XnUInt8* pLastYUV = pYUVImage + nYUVSize - YUYV_BPP;
-	const XnUInt8* pLastRGB = pRGBImage + *pnRGBSize - YUV_RGB_BPP;
+	const uint8_t* pOrigYUV = pYUVImage;
+	const uint8_t* pCurrYUV = pYUVImage;
+	const uint8_t* pOrigRGB = pRGBImage;
+	uint8_t* pCurrRGB = pRGBImage;
+	const uint8_t* pLastYUV = pYUVImage + nYUVSize - YUYV_BPP;
+	const uint8_t* pLastRGB = pRGBImage + *pnRGBSize - YUV_RGB_BPP;
 
 	while (pCurrYUV <= pLastYUV && pCurrRGB <= pLastRGB)
 	{
@@ -335,9 +335,9 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSiz
 
 #endif
 
-void YUV420ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t /*nRGBSize*/)
+void YUV420ToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBImage, uint32_t nYUVSize, uint32_t /*nRGBSize*/)
 {
-	const XnUInt8* pLastYUV = pYUVImage + nYUVSize - YUV420_BPP;
+	const uint8_t* pLastYUV = pYUVImage + nYUVSize - YUV420_BPP;
 
 	while (pYUVImage < pLastYUV && pRGBImage < pYUVImage)
 	{

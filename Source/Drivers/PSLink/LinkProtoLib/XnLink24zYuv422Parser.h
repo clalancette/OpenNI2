@@ -37,24 +37,24 @@ public:
 protected:
 	virtual XnStatus ParsePacketImpl(
 		XnLinkFragmentation fragmentation,
-		const XnUInt8* pSrc,
-		const XnUInt8* pSrcEnd,
-		XnUInt8*& pDst,
-		const XnUInt8* pDstEnd);
+		const uint8_t* pSrc,
+		const uint8_t* pSrcEnd,
+		uint8_t*& pDst,
+		const uint8_t* pDstEnd);
 
 private:
 	XnStatus Uncompress24z(
-		const XnUInt8* pInput, XnSizeT nInputSize,
-		XnUInt8* pOutput, XnSizeT* pnOutputSize, uint32_t nLineSize,
+		const uint8_t* pInput, XnSizeT nInputSize,
+		uint8_t* pOutput, XnSizeT* pnOutputSize, uint32_t nLineSize,
 		XnSizeT* pnActualRead, XnBool bLastPart);
 
-	XnUInt8* m_dataFromPrevPacket;
+	uint8_t* m_dataFromPrevPacket;
 	XnSizeT m_dataFromPrevPacketBytes;
 	uint32_t m_lineWidthBytes;
 	uint32_t m_rgbFrameSize;
 	uint32_t m_expectedFrameSize;
 	XnBool m_transformToRGB;
-	XnUInt8* m_tempYuvImage; // hold Yuv Image, when transform is required
+	uint8_t* m_tempYuvImage; // hold Yuv Image, when transform is required
 	uint32_t m_tempYuvImageBytes;
 };
 

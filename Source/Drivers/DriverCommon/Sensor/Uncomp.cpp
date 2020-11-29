@@ -42,30 +42,30 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const uint32_t nInputSize,
-										  XnUInt8* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
+XnStatus XnStreamUncompressYUVImagePS(const uint8_t* pInput, const uint32_t nInputSize,
+										  uint8_t* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
 										  uint32_t* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
-	const XnUInt8* pInputOrig = pInput;
-	const XnUInt8* pInputEnd = pInput + nInputSize;
-	XnUInt8* pOrigOutput = pOutput;
-	XnUInt8* pOutputEnd = pOutput + (*pnOutputSize);
-	XnUInt8 nLastFullValue[4] = {0};
+	const uint8_t* pInputOrig = pInput;
+	const uint8_t* pInputEnd = pInput + nInputSize;
+	uint8_t* pOrigOutput = pOutput;
+	uint8_t* pOutputEnd = pOutput + (*pnOutputSize);
+	uint8_t nLastFullValue[4] = {0};
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
 	uint32_t nTempValue = 0;
 	uint32_t cInput = 0;
 	XnBool bReadByte = TRUE;
 
-	if (nInputSize < sizeof(XnUInt8))
+	if (nInputSize < sizeof(uint8_t))
 	{
 		printf("Buffer too small!\n");
 		return (XN_STATUS_IO_COMPRESSED_BUFFER_TOO_SMALL);
 	}
 
-	const XnUInt8* pInputLastPossibleStop = pInputOrig;
-	XnUInt8* pOutputLastPossibleStop = pOrigOutput;
+	const uint8_t* pInputLastPossibleStop = pInputOrig;
+	uint8_t* pOutputLastPossibleStop = pOrigOutput;
 
 	*pnActualRead = 0;
 	*pnOutputSize = 0;
@@ -101,7 +101,7 @@ XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const uint32_t nInp
 					break;
 
 				nTempValue += (*pInput >> 4);
-				nLastFullValue[nChannel] = (XnUInt8)nTempValue;
+				nLastFullValue[nChannel] = (uint8_t)nTempValue;
 			}
 		}
 		else
@@ -166,43 +166,43 @@ XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const uint32_t nInp
 
 	if (bLastPart == TRUE)
 	{
-		*pnOutputSize = (uint32_t)(pOutput - pOrigOutput) * sizeof(XnUInt8);
-		*pnActualRead += (uint32_t)(pInput - pInputOrig) * sizeof(XnUInt8);
+		*pnOutputSize = (uint32_t)(pOutput - pOrigOutput) * sizeof(uint8_t);
+		*pnActualRead += (uint32_t)(pInput - pInputOrig) * sizeof(uint8_t);
 	}
 	else if ((pOutputLastPossibleStop != pOrigOutput) && (pInputLastPossibleStop != pInputOrig))
 	{
-		*pnOutputSize = (uint32_t)(pOutputLastPossibleStop - pOrigOutput) * sizeof(XnUInt8);
-		*pnActualRead += (uint32_t)(pInputLastPossibleStop - pInputOrig) * sizeof(XnUInt8);
+		*pnOutputSize = (uint32_t)(pOutputLastPossibleStop - pOrigOutput) * sizeof(uint8_t);
+		*pnActualRead += (uint32_t)(pInputLastPossibleStop - pInputOrig) * sizeof(uint8_t);
 	}
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const uint32_t nInputSize,
-									XnUInt8* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
+XnStatus XnStreamUncompressImageNew(const uint8_t* pInput, const uint32_t nInputSize,
+									uint8_t* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
 									uint32_t* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
-	const XnUInt8* pInputOrig = pInput;
-	const XnUInt8* pInputEnd = pInput + nInputSize;
-	XnUInt8* pOrigOutput = pOutput;
-	XnUInt8* pOutputEnd = pOutput + (*pnOutputSize);
-	XnUInt8 nLastFullValue[4] = {0};
+	const uint8_t* pInputOrig = pInput;
+	const uint8_t* pInputEnd = pInput + nInputSize;
+	uint8_t* pOrigOutput = pOutput;
+	uint8_t* pOutputEnd = pOutput + (*pnOutputSize);
+	uint8_t nLastFullValue[4] = {0};
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
 	uint32_t nTempValue = 0;
 	uint32_t cInput = 0;
 	XnBool bReadByte = TRUE;
 
-	if (nInputSize < sizeof(XnUInt8))
+	if (nInputSize < sizeof(uint8_t))
 	{
 		printf("Buffer too small!\n");
 		return (XN_STATUS_IO_COMPRESSED_BUFFER_TOO_SMALL);
 	}
 
-	const XnUInt8* pInputLastPossibleStop = pInputOrig;
-	XnUInt8* pOutputLastPossibleStop = pOrigOutput;
+	const uint8_t* pInputLastPossibleStop = pInputOrig;
+	uint8_t* pOutputLastPossibleStop = pOrigOutput;
 
 	*pnActualRead = 0;
 	*pnOutputSize = 0;
@@ -238,7 +238,7 @@ XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const uint32_t nInput
 					break;
 
 				nTempValue += (*pInput >> 4);
-				nLastFullValue[nChannel] = (XnUInt8)nTempValue;
+				nLastFullValue[nChannel] = (uint8_t)nTempValue;
 			}
 		}
 		else
@@ -299,13 +299,13 @@ XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const uint32_t nInput
 
 	if (bLastPart == TRUE)
 	{
-		*pnOutputSize = (uint32_t)(pOutput - pOrigOutput) * sizeof(XnUInt8);
-		*pnActualRead += (uint32_t)(pInput - pInputOrig) * sizeof(XnUInt8);
+		*pnOutputSize = (uint32_t)(pOutput - pOrigOutput) * sizeof(uint8_t);
+		*pnActualRead += (uint32_t)(pInput - pInputOrig) * sizeof(uint8_t);
 	}
 	else if ((pOutputLastPossibleStop != pOrigOutput) && (pInputLastPossibleStop != pInputOrig))
 	{
-		*pnOutputSize = (uint32_t)(pOutputLastPossibleStop - pOrigOutput) * sizeof(XnUInt8);
-		*pnActualRead += (uint32_t)(pInputLastPossibleStop - pInputOrig) * sizeof(XnUInt8);
+		*pnOutputSize = (uint32_t)(pOutputLastPossibleStop - pOrigOutput) * sizeof(uint8_t);
+		*pnActualRead += (uint32_t)(pInputLastPossibleStop - pInputOrig) * sizeof(uint8_t);
 	}
 
 	// All is good...

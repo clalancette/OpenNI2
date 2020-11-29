@@ -46,7 +46,7 @@ R =     Y + 1.13983 V
 G =     Y - 0.39466 U - 0.58060 V
 B =     Y + 2.03211 U
 */
-XnStatus LinkYuvToRgb::Yuv422ToRgb888(const XnUInt8* pSrc, XnSizeT srcSize, XnUInt8* pDst, XnSizeT& dstSize)
+XnStatus LinkYuvToRgb::Yuv422ToRgb888(const uint8_t* pSrc, XnSizeT srcSize, uint8_t* pDst, XnSizeT& dstSize)
 {
 	if (dstSize < srcSize * RGB_888_BYTES_PER_PIXEL / YUV_422_BYTES_PER_PIXEL)
 	{
@@ -54,7 +54,7 @@ XnStatus LinkYuvToRgb::Yuv422ToRgb888(const XnUInt8* pSrc, XnSizeT srcSize, XnUI
 	}
 
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
-	const XnUInt8* pYUVLast = pSrc + srcSize - 8;
+	const uint8_t* pYUVLast = pSrc + srcSize - 8;
 
 	const __m128 minus128 = _mm_set_ps1(-128);
 	const __m128 plus113983 = _mm_set_ps1(1.13983F);
@@ -124,42 +124,42 @@ XnStatus LinkYuvToRgb::Yuv422ToRgb888(const XnUInt8* pSrc, XnSizeT srcSize, XnUI
 		// extract the 4 pixels RGB values.
 		// because we made sure values are between 0 and 255, we can just take the lower byte
 		// of each INT16
-		pDst[0] = (XnUInt8)piR[0];
-		pDst[1] = (XnUInt8)piG[0];
-		pDst[2] = (XnUInt8)piB[0];
+		pDst[0] = (uint8_t)piR[0];
+		pDst[1] = (uint8_t)piG[0];
+		pDst[2] = (uint8_t)piB[0];
 
-		pDst[3] = (XnUInt8)piR[1];
-		pDst[4] = (XnUInt8)piG[1];
-		pDst[5] = (XnUInt8)piB[1];
+		pDst[3] = (uint8_t)piR[1];
+		pDst[4] = (uint8_t)piG[1];
+		pDst[5] = (uint8_t)piB[1];
 
-		pDst[6] = (XnUInt8)piR[2];
-		pDst[7] = (XnUInt8)piG[2];
-		pDst[8] = (XnUInt8)piB[2];
+		pDst[6] = (uint8_t)piR[2];
+		pDst[7] = (uint8_t)piG[2];
+		pDst[8] = (uint8_t)piB[2];
 
-		pDst[9] = (XnUInt8)piR[3];
-		pDst[10] = (XnUInt8)piG[3];
-		pDst[11] = (XnUInt8)piB[3];
+		pDst[9] = (uint8_t)piR[3];
+		pDst[10] = (uint8_t)piG[3];
+		pDst[11] = (uint8_t)piB[3];
 
 		// advance the streams
 		pSrc += 8;
 		pDst += 12;
 	}
 #else
-	const XnUInt8* pCurrYUV = pSrc;
-	XnUInt8* pCurrRGB = pDst;
-	const XnUInt8* pLastYUV = pSrc + srcSize - YUV_422_BYTES_PER_PIXEL;
+	const uint8_t* pCurrYUV = pSrc;
+	uint8_t* pCurrRGB = pDst;
+	const uint8_t* pLastYUV = pSrc + srcSize - YUV_422_BYTES_PER_PIXEL;
 
 	while (pCurrYUV <= pLastYUV)
 	{
-		pCurrRGB[RGB888_RED]   = XnUInt8(pCurrYUV[YUV422_Y1]                                + 1.13983 * pCurrYUV[YUV422_V] + 0.5);
-		pCurrRGB[RGB888_GREEN] = XnUInt8(pCurrYUV[YUV422_Y1] - 0.39466 * pCurrYUV[YUV422_U] - 0.58060 * pCurrYUV[YUV422_V] + 0.5);
-		pCurrRGB[RGB888_BLUE]  = XnUInt8(pCurrYUV[YUV422_Y1] + 2.03211 * pCurrYUV[YUV422_U]                                + 0.5);
+		pCurrRGB[RGB888_RED]   = uint8_t(pCurrYUV[YUV422_Y1]                                + 1.13983 * pCurrYUV[YUV422_V] + 0.5);
+		pCurrRGB[RGB888_GREEN] = uint8_t(pCurrYUV[YUV422_Y1] - 0.39466 * pCurrYUV[YUV422_U] - 0.58060 * pCurrYUV[YUV422_V] + 0.5);
+		pCurrRGB[RGB888_BLUE]  = uint8_t(pCurrYUV[YUV422_Y1] + 2.03211 * pCurrYUV[YUV422_U]                                + 0.5);
 
 		pCurrRGB += RGB_888_BYTES_PER_PIXEL;
 
-		pCurrRGB[RGB888_RED]   = XnUInt8(pCurrYUV[YUV422_Y2]                                + 1.13983 * pCurrYUV[YUV422_V] + 0.5);
-		pCurrRGB[RGB888_GREEN] = XnUInt8(pCurrYUV[YUV422_Y2] - 0.39466 * pCurrYUV[YUV422_U] - 0.58060 * pCurrYUV[YUV422_V] + 0.5);
-		pCurrRGB[RGB888_BLUE]  = XnUInt8(pCurrYUV[YUV422_Y2] + 2.03211 * pCurrYUV[YUV422_U]                                + 0.5);
+		pCurrRGB[RGB888_RED]   = uint8_t(pCurrYUV[YUV422_Y2]                                + 1.13983 * pCurrYUV[YUV422_V] + 0.5);
+		pCurrRGB[RGB888_GREEN] = uint8_t(pCurrYUV[YUV422_Y2] - 0.39466 * pCurrYUV[YUV422_U] - 0.58060 * pCurrYUV[YUV422_V] + 0.5);
+		pCurrRGB[RGB888_BLUE]  = uint8_t(pCurrYUV[YUV422_Y2] + 2.03211 * pCurrYUV[YUV422_U]                                + 0.5);
 
 		pCurrRGB += RGB_888_BYTES_PER_PIXEL;
 		pCurrYUV += YUV_422_BYTES_PER_PIXEL;

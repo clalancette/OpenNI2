@@ -62,7 +62,7 @@ public:
 
 	virtual XnBool IsInitialized() const;
 	virtual void Shutdown();
-	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const XnUInt8* pData, XnBool& bPacketLoss);
+	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, XnBool& bPacketLoss);
 
 	virtual void SetDumpName(const XnChar* strDumpName);
 	virtual void SetDumpOn(XnBool bDumpOn);

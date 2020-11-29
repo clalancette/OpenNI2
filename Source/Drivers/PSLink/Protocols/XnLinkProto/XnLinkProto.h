@@ -57,7 +57,7 @@ typedef struct XnLinkPacketHeader
 typedef struct XnLinkPacket
 {
 	XnLinkPacketHeader m_packetHeader;
-	XnUInt8 m_data[1];
+	uint8_t m_data[1];
 } XnLinkPacket;
 
 typedef struct XnLinkDataHeader
@@ -72,8 +72,8 @@ typedef struct XnLinkDataHeader
 //-----------------------------------------------------------------------
 typedef struct XnLinkLogParam
 {
-	XnUInt8 m_ID;       // 0 for normal log, 1,2... for other logType
-	XnUInt8 command;    // from XnLinkLogCommand.
+	uint8_t m_ID;       // 0 for normal log, 1,2... for other logType
+	uint8_t command;    // from XnLinkLogCommand.
 						// 0- write data to file  with m_ID,
 						// 1- open the file with m_ID and Name logFileName
 						// 2- for close file with m_ID and Name logFileName
@@ -83,7 +83,7 @@ typedef struct XnLinkLogParam
 
 typedef struct XnLinkLogFileParam
 {
-	XnUInt8 logFileName[XN_LINK_MAX_LOG_FILE_NAME_LENGTH];
+	uint8_t logFileName[XN_LINK_MAX_LOG_FILE_NAME_LENGTH];
 }XnLinkLogFileParam;
 
 //-----------------------------------------------------------------------
@@ -94,8 +94,8 @@ typedef struct XnLinkVideoMode
 	uint16_t m_nXRes;
 	uint16_t m_nYRes;
 	uint16_t m_nFPS;
-	XnUInt8 m_nPixelFormat; // from XnLinkPixelFormat
-	XnUInt8 m_nCompression; // from XnLinkCompressionType
+	uint8_t m_nPixelFormat; // from XnLinkPixelFormat
+	uint8_t m_nCompression; // from XnLinkCompressionType
 } XnLinkVideoMode;
 
 typedef struct
@@ -148,7 +148,7 @@ typedef struct XnLinkBoundingBox3D
 typedef struct XnLinkBitSet
 {
 	uint32_t m_nSize; //Size in bytes of encoded data
-	XnUInt8 m_aData[1];
+	uint8_t m_aData[1];
 } XnLinkBitSet;
 
 typedef struct XnLinkStreamInfo
@@ -237,7 +237,7 @@ typedef struct XnLinkUserDataElementHeader
 typedef struct XnLinkUserDataElement
 {
 	XnLinkUserDataElementHeader m_header;
-	XnUInt8 m_elementData[1];
+	uint8_t m_elementData[1];
 } XnLinkUserDataElement;
 
 typedef struct XnLinkUserDataHeader
@@ -289,24 +289,24 @@ typedef struct XnLinkIDSetHeader
 
 typedef struct XnLinkIDSetGroupHeader
 {
-	XnUInt8 m_nGroupID;
-	XnUInt8 m_nSize;
+	uint8_t m_nGroupID;
+	uint8_t m_nSize;
 } XnLinkIDSetGroupHeader;
 
 typedef struct XnLinkIDSetGroup
 {
 	XnLinkIDSetGroupHeader m_header;
-	XnUInt8 m_idsBitmap[1]; //Contains a bit of 1 for every id in the set, 0 for id not in the set
+	uint8_t m_idsBitmap[1]; //Contains a bit of 1 for every id in the set, 0 for id not in the set
 } XnLinkIDSetGroup;
 
 typedef struct XnLinkCropping
 {
 	/** TRUE if cropping is turned on, FALSE otherwise. */
-	XnUInt8 m_bEnabled;
+	uint8_t m_bEnabled;
 
-	XnUInt8 m_nReserved1;
-	XnUInt8 m_nReserved2;
-	XnUInt8 m_nReserved3;
+	uint8_t m_nReserved1;
+	uint8_t m_nReserved2;
+	uint8_t m_nReserved3;
 
 	/** Offset in the X-axis, in pixels. */
 	uint16_t m_nXOffset;
@@ -336,14 +336,14 @@ typedef struct XnLinkPropValHeader
 typedef struct XnLinkPropVal
 {
 	XnLinkPropValHeader m_header;
-	XnUInt8 m_value[1];
+	uint8_t m_value[1];
 } XnLinkPropVal;
 
 typedef struct XnLinkPropSet
 {
 	uint32_t m_nNumProps;
 	//Followed by a number of XnLinkPropVal's
-	XnUInt8 m_aData[1];
+	uint8_t m_aData[1];
 } XnLinkPropSet;
 
 typedef struct XnLinkBistTest
@@ -365,15 +365,15 @@ typedef struct XnLinkUploadFileHeader
 
 typedef struct XnLinkLeanVersion
 {
-	XnUInt8 m_nMajor;
-	XnUInt8 m_nMinor;
+	uint8_t m_nMajor;
+	uint8_t m_nMinor;
 	uint16_t m_nReserved;
 } XnLinkLeanVersion;
 
 typedef struct XnLinkDetailedVersion
 {
-	XnUInt8 m_nMajor;
-	XnUInt8 m_nMinor;
+	uint8_t m_nMajor;
+	uint8_t m_nMinor;
 	uint16_t m_nMaintenance;
 	uint32_t m_nBuild;
 	XnChar m_strModifier[XN_LINK_MAX_VERSION_MODIFIER_LENGTH];
@@ -381,10 +381,10 @@ typedef struct XnLinkDetailedVersion
 
 typedef struct XnLinkFileVersion
 {
-	XnUInt8 m_nMajor;
-	XnUInt8 m_nMinor;
-	XnUInt8 m_nMaintenance;
-	XnUInt8 m_nBuild;
+	uint8_t m_nMajor;
+	uint8_t m_nMinor;
+	uint8_t m_nMaintenance;
+	uint8_t m_nBuild;
 } XnLinkFileVersion;
 
 typedef struct XnLinkFileEntry
@@ -395,10 +395,10 @@ typedef struct XnLinkFileEntry
 	uint32_t m_nSize;
 	uint16_t m_nCRC;
 	uint16_t m_nZone;
-	XnUInt8 m_nFlags; // bitmap of values from XnLinkFileFlags
-	XnUInt8 m_nReserved1;
-	XnUInt8 m_nReserved2;
-	XnUInt8 m_nReserved3;
+	uint8_t m_nFlags; // bitmap of values from XnLinkFileFlags
+	uint8_t m_nReserved1;
+	uint8_t m_nReserved2;
+	uint8_t m_nReserved3;
 } XnLinkFileEntry;
 
 typedef struct XnLinkComponentVersion
@@ -438,8 +438,8 @@ typedef struct XnLinkCameraIntrinsics
 
 typedef struct XnLinkI2CDevice
 {
-	XnUInt8 m_nMasterID;
-	XnUInt8 m_nSlaveID;
+	uint8_t m_nMasterID;
+	uint8_t m_nSlaveID;
 	uint16_t m_nReserved;
 	uint32_t m_nID;
 	XnChar m_strName[XN_LINK_MAX_I2C_DEVICE_NAME_LENGTH];
@@ -453,7 +453,7 @@ typedef struct XnLinkSupportedI2CDevices
 
 typedef struct XnLinkLogFile
 {
-	XnUInt8 m_nID;
+	uint8_t m_nID;
 	XnChar m_strName[XN_LINK_MAX_LOG_FILE_NAME_LENGTH];
 } XnLinkLogFile;
 
@@ -475,7 +475,7 @@ typedef struct XnLinkProjectorPulse
 typedef struct XnLinkTemperatureSensor
 {
 	uint32_t m_nID;
-	XnUInt8 m_strName[XN_LINK_MAX_SENSOR_NAME_LENGTH];
+	uint8_t m_strName[XN_LINK_MAX_SENSOR_NAME_LENGTH];
 } XnLinkTemperatureSensor;
 
 typedef struct XnLinkTemperatureSensorsList{
@@ -500,10 +500,10 @@ typedef struct XnLinkContinueReponseParams
 
 typedef struct XnLinkWriteI2CParams
 {
-	XnUInt8 m_nDeviceID;
-	XnUInt8 m_nAddressSize;
-	XnUInt8 m_nValueSize;
-	XnUInt8 m_nReserved;
+	uint8_t m_nDeviceID;
+	uint8_t m_nAddressSize;
+	uint8_t m_nValueSize;
+	uint8_t m_nReserved;
 	uint32_t m_nAddress;
 	uint32_t m_nValue;
 	uint32_t m_nMask;
@@ -511,10 +511,10 @@ typedef struct XnLinkWriteI2CParams
 
 typedef struct XnLinkReadI2CParams
 {
-	XnUInt8 m_nDeviceID;
-	XnUInt8 m_nAddressSize;
-	XnUInt8 m_nValueSize;
-	XnUInt8 m_nReserved;
+	uint8_t m_nDeviceID;
+	uint8_t m_nAddressSize;
+	uint8_t m_nValueSize;
+	uint8_t m_nReserved;
 	uint32_t m_nAddress;
 } XnLinkReadI2CParams;
 
@@ -522,16 +522,16 @@ typedef struct XnLinkWriteAHBParams
 {
 	uint32_t m_nAddress;
 	uint32_t m_nValue;
-	XnUInt8 m_nBitOffset; //Offset in bits of value to write within address
-	XnUInt8 m_nBitWidth; //Width in bits of value to write
+	uint8_t m_nBitOffset; //Offset in bits of value to write within address
+	uint8_t m_nBitWidth; //Width in bits of value to write
 	uint16_t m_nReserved;
 } XnLinkWriteAHBParams;
 
 typedef struct XnLinkReadAHBParams
 {
 	uint32_t m_nAddress;
-	XnUInt8 m_nBitOffset; //Offset in bits of value to read within address
-	XnUInt8 m_nBitWidth; //Width in bits of value to read
+	uint8_t m_nBitOffset; //Offset in bits of value to read within address
+	uint8_t m_nBitWidth; //Width in bits of value to read
 	uint16_t m_nReserved;
 } XnLinkReadAHBParams;
 
@@ -561,7 +561,7 @@ typedef struct XnLinkSetMultiPropsParams
 {
 	uint32_t m_nNumProps;
 	//Followed by a number of XnLinkSetPropParams
-	XnUInt8 m_aData[1];
+	uint8_t m_aData[1];
 } XnLinkSetMultiPropsParams;
 
 typedef struct XnLinkStartTrackingHandParams
@@ -597,7 +597,7 @@ typedef struct XnLinkFormatZoneParams
 
 typedef struct XnLinkLogOpenCloseParams
 {
-	XnUInt8 m_nID;
+	uint8_t m_nID;
 } XnLinkLogOpenCloseParams;
 
 typedef struct XnLinkGetTemperatureParams
@@ -634,7 +634,7 @@ typedef struct XnLinkResponseHeader
 typedef struct XnLinkResponsePacket
 {
 	XnLinkResponseHeader m_responseHeader;
-	XnUInt8 m_data[1];
+	uint8_t m_data[1];
 } XnLinkResponsePacket;
 
 typedef struct XnLinkReadI2CResponse
@@ -776,7 +776,7 @@ typedef struct XnLinkSetSkeletonCalibrationDataParamsHeader
 typedef struct XnLinkSetSkeletonCalibrationDataParams
 {
 	XnLinkSetSkeletonCalibrationDataParamsHeader m_header;
-	XnUInt8 m_aData[1];
+	uint8_t m_aData[1];
 } XnLinkSetSkeletonCalibrationDataParams;
 
 typedef struct XnLinkSetLogMaskSeverityParams
@@ -817,13 +817,13 @@ typedef struct XnLinkDebugDataResponseHeader
 typedef struct XnLinkDebugDataResponse
 {
 	XnLinkDebugDataResponseHeader m_header;
-	XnUInt8 m_data[1];
+	uint8_t m_data[1];
 } XnLinkDebugDataResponse;
 
 typedef struct XnLinkBootStatus
 {
-	XnUInt8  m_nZone;		    //Values come from XnLinkBootZone
-	XnUInt8  m_nErrorCode;	    //Values come from XnLinkBootErrorCode
+	uint8_t  m_nZone;		    //Values come from XnLinkBootZone
+	uint8_t  m_nErrorCode;	    //Values come from XnLinkBootErrorCode
 	uint16_t m_nReserved;
 } XnLinkBootStatus;
 

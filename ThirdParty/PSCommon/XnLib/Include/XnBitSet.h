@@ -55,9 +55,9 @@ public:
 	{
 		uint32_t nArrayIndex = (nIndex / 8);
 		uint32_t nBitIndex = (nIndex % 8);
-		XnUInt8 nMask = (1 << nBitIndex);
-		XnUInt8 nOldVal = nArrayIndex < m_array.size() ? m_array[nArrayIndex] : 0;
-		XnUInt8 nNewVal = bValue ? (nOldVal | nMask) : (nOldVal & (~nMask));
+		uint8_t nMask = (1 << nBitIndex);
+		uint8_t nOldVal = nArrayIndex < m_array.size() ? m_array[nArrayIndex] : 0;
+		uint8_t nNewVal = bValue ? (nOldVal | nMask) : (nOldVal & (~nMask));
 		m_array.resize(nArrayIndex + 1);
 		m_array[nArrayIndex] = nNewVal;
 		m_nSize = XN_MAX(m_nSize, nIndex + 1);
@@ -77,7 +77,7 @@ public:
 	}
 
 	/** Copies raw data from a buffer of bytes to this bitset. **/
-	XnStatus SetData(const XnUInt8* pData, uint32_t nSizeInBytes)
+	XnStatus SetData(const uint8_t* pData, uint32_t nSizeInBytes)
 	{
 		m_array.resize(nSizeInBytes);
 		memcpy(&m_array[0], pData, nSizeInBytes);
@@ -88,13 +88,13 @@ public:
 	}
 
 	/** @returns The raw data of this bitset as a buffer of bytes. **/
-	const XnUInt8* GetData() const
+	const uint8_t* GetData() const
 	{
 		return m_array.data();
 	}
 
 	/** @returns The raw data of this bitset as a buffer of bytes. Allows modification of underlying data. **/
-	XnUInt8* GetData()
+	uint8_t* GetData()
 	{
 		return m_array.data();
 	}
@@ -125,7 +125,7 @@ public:
 	}
 
 private:
-	std::vector<XnUInt8> m_array;
+	std::vector<uint8_t> m_array;
 	uint32_t m_nSize;
 };
 

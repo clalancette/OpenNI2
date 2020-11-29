@@ -45,7 +45,7 @@ XnStatus xn::LinkPacketHeader::Validate(uint32_t nBytesToRead) const
 		for (uint32_t i = 0; i < XN_MIN(nBytesToRead, 10); ++i)
 		{
 			XnChar s[10];
-			sprintf(s, "%02X ", ((XnUInt8*)this)[i]);
+			sprintf(s, "%02X ", ((uint8_t*)this)[i]);
 			xnOSStrAppend(strData, s, sizeof(strData));
 		}
 		xnLogError(XN_MASK_LINK, "Got bad packet magic. size: %u. Beginning of packet data was: %s", nBytesToRead, strData);
@@ -335,12 +335,12 @@ XnStatus xnLinkGetEPDumpName(uint16_t nEPID, XnChar* strDumpName, uint32_t nDump
 XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pLinkIDSet, uint32_t nSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	const XnUInt8* pSource = reinterpret_cast<const XnUInt8*>(pLinkIDSet);
-	const XnUInt8* pNextSource = NULL;
-	const XnUInt8* pSourceEnd = pSource + nSize;
+	const uint8_t* pSource = reinterpret_cast<const uint8_t*>(pLinkIDSet);
+	const uint8_t* pNextSource = NULL;
+	const uint8_t* pSourceEnd = pSource + nSize;
 	const XnLinkIDSetHeader* pHeader = reinterpret_cast<const XnLinkIDSetHeader*>(pSource);
 	const XnLinkIDSetGroup* pLinkIDBitSet = NULL;
-	XnUInt8 nGroupID = 0;
+	uint8_t nGroupID = 0;
 	uint32_t nGroupSize = 0;
 
 	if (nSize < sizeof(*pHeader))
@@ -379,17 +379,17 @@ XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pLinkIDSe
 
 XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const uint16_t* pIDs, uint32_t nNumIDs)
 {
-	XnUInt8 nGroupID = 0xFF;
-	XnUInt8 nNewGroupID = 0xFF;
+	uint8_t nGroupID = 0xFF;
+	uint8_t nNewGroupID = 0xFF;
 	const uint16_t* pMsgType = pIDs;
 	const uint16_t* pMsgTypesEnd = pIDs + nNumIDs;
 	uint32_t nMaxEncodedSize = *pnEncodedSize;
 	uint32_t nMsgTypeLow = 0;
 	uint32_t nByteIndex = 0;
 	XnLinkIDSetHeader* pHeader = (XnLinkIDSetHeader*)pIDSet;
-	XnLinkIDSetGroup* pIDSetGroup = (XnLinkIDSetGroup*)((XnUInt8*)pIDSet + sizeof(*pHeader));
-	XnUInt8* pIDSetEnd = (XnUInt8*)pIDSet + nMaxEncodedSize;
-	XnUInt8 nGroupSize = 0;
+	XnLinkIDSetGroup* pIDSetGroup = (XnLinkIDSetGroup*)((uint8_t*)pIDSet + sizeof(*pHeader));
+	uint8_t* pIDSetEnd = (uint8_t*)pIDSet + nMaxEncodedSize;
+	uint8_t nGroupSize = 0;
 	uint16_t nNumGroups = 0;
 
 	if (nMaxEncodedSize < sizeof(*pHeader))
@@ -415,8 +415,8 @@ XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const uint16_t
 			//Encountered a new group ID
 			nNumGroups++;
 			//Advance group pointer to next group
-			pIDSetGroup = (XnLinkIDSetGroup*)((XnUInt8*)pIDSetGroup + pIDSetGroup->m_header.m_nSize);
-			if (((XnUInt8*)pIDSetGroup + sizeof(pIDSetGroup->m_header)) > pIDSetEnd)
+			pIDSetGroup = (XnLinkIDSetGroup*)((uint8_t*)pIDSetGroup + pIDSetGroup->m_header.m_nSize);
+			if (((uint8_t*)pIDSetGroup + sizeof(pIDSetGroup->m_header)) > pIDSetEnd)
 			{
 				//Not enough room in output buffer to encode this group's header
 				return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
@@ -426,13 +426,13 @@ XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const uint16_t
 			nGroupID = nNewGroupID;
 		}
 
-		if (((XnUInt8*)pIDSetGroup + sizeof(pIDSetGroup->m_header) + nByteIndex) > pIDSetEnd)
+		if (((uint8_t*)pIDSetGroup + sizeof(pIDSetGroup->m_header) + nByteIndex) > pIDSetEnd)
 		{
 			//Not enough room to add a bit for this msg type
 			return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 		}
 
-		nGroupSize = (sizeof(pIDSetGroup->m_header) + (XnUInt8)nByteIndex + 1);
+		nGroupSize = (sizeof(pIDSetGroup->m_header) + (uint8_t)nByteIndex + 1);
 		if (nGroupSize > pIDSetGroup->m_header.m_nSize)
 		{
 			//Update size of this group
@@ -445,7 +445,7 @@ XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const uint16_t
 	}
 
 	pHeader->m_nNumGroups = XN_PREPARE_VAR16_IN_BUFFER(nNumGroups);
-	*pnEncodedSize = uint32_t((XnUInt8*)pIDSetGroup + pIDSetGroup->m_header.m_nSize - (XnUInt8*)pIDSet);
+	*pnEncodedSize = uint32_t((uint8_t*)pIDSetGroup + pIDSetGroup->m_header.m_nSize - (uint8_t*)pIDSet);
 
 	return XN_STATUS_OK; //Success
 }
@@ -526,7 +526,7 @@ XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& compo
 /*static struct
 {
 	const XnChar* m_strCapabilityName;
-	XnUInt8 m_nInterfaceID;
+	uint8_t m_nInterfaceID;
 } CAP_NAME_TO_LINK_INTERFACE_ID[] = {
 	{XN_CAPABILITY_MIRROR,					XN_LINK_INTERFACE_MIRROR},
 	{XN_CAPABILITY_ALTERNATIVE_VIEW_POINT,	XN_LINK_INTERFACE_ALTERNATIVE_VIEW_POINT},
@@ -559,7 +559,7 @@ XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& compo
 	{XN_CAPABILITY_HAND_TOUCHING_FOV_EDGE, 	XN_LINK_INTERFACE_HAND_TOUCHING_FOV_EDGE},
 };
 
-XnUInt8 xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName)
+uint8_t xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName)
 {
 	for (uint32_t i = 0; i < sizeof(CAP_NAME_TO_LINK_INTERFACE_ID) / sizeof(CAP_NAME_TO_LINK_INTERFACE_ID[0]); i++)
 	{
@@ -572,7 +572,7 @@ XnUInt8 xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName)
 	return XN_LINK_INTERFACE_INVALID;
 }
 
-const XnChar* xnLinkInterfaceIDToNICapability(XnUInt8 nInterfaceID)
+const XnChar* xnLinkInterfaceIDToNICapability(uint8_t nInterfaceID)
 {
 	for (uint32_t i = 0; i < sizeof(CAP_NAME_TO_LINK_INTERFACE_ID) / sizeof(CAP_NAME_TO_LINK_INTERFACE_ID[0]); i++)
 	{
@@ -684,8 +684,8 @@ void xnLinkEncodeVideoMode(XnLinkVideoMode& linkVideoMode, const XnFwStreamVideo
 	linkVideoMode.m_nXRes = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)videoMode.m_nXRes);
 	linkVideoMode.m_nYRes = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)videoMode.m_nYRes);
 	linkVideoMode.m_nFPS = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)videoMode.m_nFPS);
-	linkVideoMode.m_nPixelFormat = (XnUInt8)videoMode.m_nPixelFormat;
-	linkVideoMode.m_nCompression = (XnUInt8)videoMode.m_nCompression;
+	linkVideoMode.m_nPixelFormat = (uint8_t)videoMode.m_nPixelFormat;
+	linkVideoMode.m_nCompression = (uint8_t)videoMode.m_nCompression;
 }
 
 XnStatus xnLinkParseSupportedVideoModes(std::vector<XnFwStreamVideoMode>& aModes,
@@ -800,7 +800,7 @@ void xnLinkParseCropping(OniCropping& cropping, const XnLinkCropping& linkCroppi
 
 void xnLinkEncodeCropping(XnLinkCropping& linkCropping, const OniCropping& cropping)
 {
-	linkCropping.m_bEnabled = XnUInt8(cropping.enabled);
+	linkCropping.m_bEnabled = uint8_t(cropping.enabled);
 	linkCropping.m_nReserved1 = 0;
 	linkCropping.m_nReserved2 = 0;
 	linkCropping.m_nReserved3 = 0;

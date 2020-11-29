@@ -63,7 +63,7 @@
 
 #define MAX_PACKET_SIZE 512
 
-inline int32_t CompareVersion(XnUInt8 nMajor1, XnUInt8 nMinor1, uint16_t nBuild1, XnUInt8 nMajor2, XnUInt8 nMinor2, uint16_t nBuild2)
+inline int32_t CompareVersion(uint8_t nMajor1, uint8_t nMinor1, uint16_t nBuild1, uint8_t nMajor2, uint8_t nMinor2, uint16_t nBuild2)
 {
 	int32_t nResult = nMajor1 - nMajor2;
 
@@ -80,7 +80,7 @@ inline int32_t CompareVersion(XnUInt8 nMajor1, XnUInt8 nMinor1, uint16_t nBuild1
 	return (nResult);
 }
 
-static XnFWVer GetFWVersion(XnUInt8 nMajor, XnUInt8 nMinor, uint16_t nBuild)
+static XnFWVer GetFWVersion(uint8_t nMajor, uint8_t nMinor, uint16_t nBuild)
 {
 	if (CompareVersion(nMajor, nMinor, nBuild, 5, 9, 0) >= 0)
 	{
@@ -199,7 +199,7 @@ XnStatus XnHostProtocolUpdateSupportedImageModes(XnDevicePrivateData* pDevicePri
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnUInt8 nMajor, XnUInt8 nMinor, uint16_t nBuild, XnHostProtocolUsbCore usb, XnBool bGuessed)
+XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, uint8_t nMajor, uint8_t nMinor, uint16_t nBuild, XnHostProtocolUsbCore usb, XnBool bGuessed)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -276,7 +276,7 @@ XnStatus XnHostProtocolInitFWParams(XnDevicePrivateData* pDevicePrivateData, XnU
 	pDevicePrivateData->FWInfo.bIncreasedFpsCropSupported = FALSE;
 	pDevicePrivateData->FWInfo.bHasFilesystemLock = FALSE;
 
-	pDevicePrivateData->FWInfo.nISOLowDepthAlternativeInterface = (XnUInt8)(-1);
+	pDevicePrivateData->FWInfo.nISOLowDepthAlternativeInterface = (uint8_t)(-1);
 
 	// depth cmos modes
 	pDevicePrivateData->FWInfo.depthModes.clear();
@@ -2334,8 +2334,8 @@ XnStatus XnHostProtocolGetFlashMap(XnDevicePrivateData* pDevicePrivateData)
 		uint32_t nSizeInWords;
 		struct
 		{
-			XnUInt8 nMajor;
-			XnUInt8 nMinor;
+			uint8_t nMajor;
+			uint8_t nMinor;
 			uint16_t nBuild;
 		} Version;
 	} XnFlashEntry;
@@ -2378,10 +2378,10 @@ typedef struct XnAlgorithmParamRequest
 
 typedef struct XnAlgorithmParamRequestV4
 {
-	XnUInt8 nResolution;
-	XnUInt8 nFPS;
-	XnUInt8 nFormat;
-	XnUInt8 nParamID;
+	uint8_t nResolution;
+	uint8_t nFPS;
+	uint8_t nFormat;
+	uint8_t nParamID;
 	uint16_t nOffset;
 } XnAlgorithmParamRequestV4;
 #pragma pack (pop)
@@ -2425,9 +2425,9 @@ XnStatus XnHostProtocolAlgorithmParams(XnDevicePrivateData* pDevicePrivateData,
 		else
 		{
 			XnAlgorithmParamRequestV4* pRequest = (XnAlgorithmParamRequestV4*)pDataBuf;
-			pRequest->nParamID = (XnUInt8)eAlgorithmType;
+			pRequest->nParamID = (uint8_t)eAlgorithmType;
 			pRequest->nFormat = 0;
-			pRequest->nResolution = (XnUInt8)nResolution;
+			pRequest->nResolution = (uint8_t)nResolution;
 			pRequest->nFPS = 0;
 			pRequest->nOffset = XN_PREPARE_VAR16_IN_BUFFER(nDataRead / sizeof(uint16_t));
 			nRequestSize = sizeof(XnAlgorithmParamRequestV4);

@@ -69,7 +69,7 @@ typedef enum XnUSBDeviceConnectionState
 
 typedef struct XnUSBStringDescriptor
 {
-	XnUInt8 nID;
+	uint8_t nID;
 	const XnChar* strString;
 } XnUSBStringDescriptor;
 
@@ -90,7 +90,7 @@ typedef struct XnUSBDeviceDescriptorHolder
 	XnUSBDeviceDescriptor descriptor;
 	XnUSBConfigDescriptorHolder** aConfigurations;
 	XnUSBStringDescriptor* aStrings;
-	XnUInt8 nStrings;
+	uint8_t nStrings;
 } XnUSBDeviceDescriptorHolder;
 
 struct XnUSBDevice;
@@ -111,7 +111,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevic
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, const XnUChar* pBuffer, uint32_t nReplySize);
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceSetNewControlRequestCallback(XnUSBDevice* pDevice, XnUSBDeviceNewControlRequestCallback pFunc, void* pCookie);
 XN_C_API XnStatus XN_C_DECL xnUSBDeviceSetConnectivityChangedCallback(XnUSBDevice* pDevice, XnUSBDeviceConnectivityChangedCallback pFunc, void* pCookie);
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, XnUInt8 nAddress, const XnUChar* pData, uint32_t nDataSize);
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceResetEndpoint(XnUSBDevice* pDevice, XnUInt8 nAddress);
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, uint8_t nAddress, const XnUChar* pData, uint32_t nDataSize);
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceResetEndpoint(XnUSBDevice* pDevice, uint8_t nAddress);
 
 #endif

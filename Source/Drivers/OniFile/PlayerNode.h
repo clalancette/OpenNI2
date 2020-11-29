@@ -165,8 +165,8 @@ private:
 	XnChar m_strName[XN_MAX_NAME_LENGTH];
 	XnBool m_bOpen;
 	XnBool m_bIs32bitFileFormat;
-	XnUInt8* m_pRecordBuffer;
-	XnUInt8* m_pUncompressedData;
+	uint8_t* m_pRecordBuffer;
+	uint8_t* m_pUncompressedData;
 	void* m_pStreamCookie;
 	XnPlayerInputStreamInterface* m_pInputStream;
 	void* m_pNotificationsCookie;

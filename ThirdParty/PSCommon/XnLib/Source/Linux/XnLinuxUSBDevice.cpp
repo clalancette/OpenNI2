@@ -109,9 +109,9 @@ struct XnUSBDevice
 	XnUSBDeviceConnectionState connectionState;
 	enum usb_device_speed speed;
 	uint32_t nControlMessageMaxSize;
-	XnUInt8 nConfigID;
-	XnUInt8 nInterfaceID;
-	XnUInt8 nAltInterfaceID;
+	uint8_t nConfigID;
+	uint8_t nInterfaceID;
+	uint8_t nAltInterfaceID;
 	XnUSBDeviceEndpoint endpoints[XN_USB_DEVICE_ENDPOINT_MAX_COUNT];
 
 	// all control members should be accessed with a lock. They can be modified either from the user thread
@@ -1091,7 +1091,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceSetConnectivityChangedCallback(XnUSBDevic
 // Writing Data
 //---------------------------------------------------------------------------
 
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, XnUInt8 nEndpointID, const XnUChar* pData, uint32_t nDataSize)
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, uint8_t nEndpointID, const XnUChar* pData, uint32_t nDataSize)
 {
 	XN_VALIDATE_INPUT_PTR(pDevice);
 	XN_VALIDATE_INPUT_PTR(pData);
@@ -1155,7 +1155,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, XnUIn
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceResetEndpoint(XnUSBDevice* pDevice, XnUInt8 nEndpointID)
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceResetEndpoint(XnUSBDevice* pDevice, uint8_t nEndpointID)
 {
 	XN_VALIDATE_INPUT_PTR(pDevice);
 

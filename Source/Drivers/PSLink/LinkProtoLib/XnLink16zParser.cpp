@@ -59,10 +59,10 @@ inline OniDepthPixel Link16zParser<false>::TranslatePixel(uint32_t nShift)
 
 template<bool TS2D>
 XnStatus Link16zParser<TS2D>::ParsePacketImpl(XnLinkFragmentation fragmentation,
-						const XnUInt8* pSrc,
-						const XnUInt8* pSrcEnd,
-						XnUInt8*& pDst,
-						const XnUInt8* pDstEnd)
+						const uint8_t* pSrc,
+						const uint8_t* pSrcEnd,
+						uint8_t*& pDst,
+						const uint8_t* pDstEnd)
 {
 	OniDepthPixel*& pDstPixel = reinterpret_cast<OniDepthPixel*&>(pDst); //Reference to pointer - moving pDstPixel affects pDst also.
 	const OniDepthPixel* pDstPixelEnd = reinterpret_cast<const OniDepthPixel*>(pDstEnd);

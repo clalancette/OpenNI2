@@ -45,8 +45,8 @@ public:
 	virtual void Shutdown();
 	virtual XnBool IsInitialized() const;
 
-	XnStatus SetUsbAltInterface(XnUInt8 interfaceNum);
-	XnStatus GetUsbAltInterface(XnUInt8* pInterfaceNum) const;
+	XnStatus SetUsbAltInterface(uint8_t interfaceNum);
+	XnStatus GetUsbAltInterface(uint8_t* pInterfaceNum) const;
 
 	virtual uint16_t GetNumOutputDataConnections() const;
 	virtual uint16_t GetNumInputDataConnections() const;
@@ -62,7 +62,7 @@ private:
 	uint16_t m_nInputConnections;
 	uint16_t m_nOutputConnections;
 	uint32_t m_nPreControlReceiveSleep;
-	XnUInt8 m_nAltInterface;
+	uint8_t m_nAltInterface;
 
 	ClientUSBControlEndpoint m_controlEndpoint;
 	static const uint16_t NUM_INPUT_CONNECTIONS;

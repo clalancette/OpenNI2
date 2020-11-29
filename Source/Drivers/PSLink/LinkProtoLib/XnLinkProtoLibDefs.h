@@ -76,8 +76,8 @@ typedef struct XnAvailableGesture
 
 typedef struct XnLeanVersion
 {
-	XnUInt8 m_nMajor;
-	XnUInt8 m_nMinor;
+	uint8_t m_nMajor;
+	uint8_t m_nMinor;
 } XnLeanVersion;
 
 typedef struct XnComponentVersion

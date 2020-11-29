@@ -32,7 +32,7 @@ LinkLogParser::LinkLogParser() : m_copyDataToOutput(false)
 LinkLogParser::~LinkLogParser()
 {
 	//Close any open log files
-	for (xnl::Hash<XnUInt8, XnDumpFile*>::Iterator iter = m_activeLogs.Begin(); iter!=m_activeLogs.End(); ++iter)
+	for (xnl::Hash<uint8_t, XnDumpFile*>::Iterator iter = m_activeLogs.Begin(); iter!=m_activeLogs.End(); ++iter)
 	{
 		xnDumpFileClose(iter->Value());
 	}
@@ -41,10 +41,10 @@ LinkLogParser::~LinkLogParser()
 }
 
 XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
-	const XnUInt8* pSrc,
-	const XnUInt8* pSrcEnd,
-	XnUInt8*& pDst,
-	const XnUInt8* pDstEnd)
+	const uint8_t* pSrc,
+	const uint8_t* pSrcEnd,
+	uint8_t*& pDst,
+	const uint8_t* pDstEnd)
 {
 	//Copy data to output buffer if needed (The log dumps data anyway, so most time we wont need it and save the memcopy
 	//Otherwise, we do not advance pDst, so Data size remains 0
@@ -65,7 +65,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 	XnLinkLogParam* logHeader = (XnLinkLogParam*)pSrc;
 
 	//Parsed data
-	XnUInt8 fileID;
+	uint8_t fileID;
 	XnLinkLogCommand command;
 	XnChar logFileName[XN_LINK_MAX_LOG_FILE_NAME_LENGTH];
 
@@ -81,7 +81,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 	if (command == XN_LINK_LOG_COMMAND_OPEN || command == XN_LINK_LOG_COMMAND_OPEN_APPEND)
 	{
 		//Copy file name to our XnChar array
-		XnUInt8* inputFileName = ((XnLinkLogFileParam*)pSrc)->logFileName;
+		uint8_t* inputFileName = ((XnLinkLogFileParam*)pSrc)->logFileName;
 		int i = 0;
 		for(; i < XN_LINK_MAX_LOG_FILE_NAME_LENGTH && *inputFileName != '\0'; ++i, ++inputFileName)
 		{
@@ -145,7 +145,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 
 
 
-XnStatus LinkLogParser::OpenLogFile( XnUInt8 fileID, const XnChar* fileName )
+XnStatus LinkLogParser::OpenLogFile( uint8_t fileID, const XnChar* fileName )
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XnDumpFile* pTargetFile;
@@ -180,12 +180,12 @@ XnStatus LinkLogParser::OpenLogFile( XnUInt8 fileID, const XnChar* fileName )
 	return nRetVal;
 }
 
-XnStatus LinkLogParser::CloseLogFile( XnUInt8 fileID )
+XnStatus LinkLogParser::CloseLogFile( uint8_t fileID )
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	//We should have a file with this ID
-	xnl::Hash<XnUInt8, XnDumpFile*>::Iterator fileRecord = m_activeLogs.Find(fileID);
+	xnl::Hash<uint8_t, XnDumpFile*>::Iterator fileRecord = m_activeLogs.Find(fileID);
 
 	if (fileRecord == m_activeLogs.End())
 	{
@@ -204,10 +204,10 @@ XnStatus LinkLogParser::CloseLogFile( XnUInt8 fileID )
 
 }
 
-XnStatus LinkLogParser::WriteToLogFile( XnUInt8 fileID, const void* pData, uint32_t dataLength )
+XnStatus LinkLogParser::WriteToLogFile( uint8_t fileID, const void* pData, uint32_t dataLength )
 {
 	//We should have a file with this ID
-	xnl::Hash<XnUInt8, XnDumpFile*>::Iterator fileRecord = m_activeLogs.Find(fileID);
+	xnl::Hash<uint8_t, XnDumpFile*>::Iterator fileRecord = m_activeLogs.Find(fileID);
 
 	if (fileRecord == m_activeLogs.End())
 	{

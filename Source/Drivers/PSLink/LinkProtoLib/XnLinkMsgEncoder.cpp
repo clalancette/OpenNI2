@@ -67,7 +67,7 @@ XnStatus LinkMsgEncoder::Init(uint32_t nMaxMsgSize, uint16_t nMaxPacketSize)
 		m_nMaxNumPackets++;
 	}
 	m_nBufferSize = m_nMaxNumPackets * m_nMaxPacketSize;
-	m_pOutputBuffer = reinterpret_cast<XnUInt8*>(xnOSMallocAligned(m_nBufferSize, XN_DEFAULT_MEM_ALIGN));
+	m_pOutputBuffer = reinterpret_cast<uint8_t*>(xnOSMallocAligned(m_nBufferSize, XN_DEFAULT_MEM_ALIGN));
 	XN_VALIDATE_ALLOC_PTR(m_pOutputBuffer);
 
 	return XN_STATUS_OK;
@@ -111,7 +111,7 @@ void LinkMsgEncoder::EncodeData(const void* pSourceData, uint32_t nSize)
 	uint16_t nPacketRemainingSpace = 0; //Remaining space in current packet in each iteration
 	uint16_t nPacketBytesToCopy = 0; //Number of bytes to copy to current packet in each iteration
 	uint32_t nBytesLeftToCopy = nSize; //Total number of bytes left to copy
-	const XnUInt8* pCurrData = reinterpret_cast<const XnUInt8*>(pSourceData); //Current source data pointer
+	const uint8_t* pCurrData = reinterpret_cast<const uint8_t*>(pSourceData); //Current source data pointer
 	while (nBytesLeftToCopy > 0)
 	{
 		if (m_pCurrPacket->GetSize() == m_nMaxPacketSize)

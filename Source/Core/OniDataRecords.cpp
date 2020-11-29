@@ -76,7 +76,7 @@ void RecordAssembler::initialize()
 		/* max video mode bits per pixel  = */ 3    *
 		/* worst case compression rate    = */ 1.2);
 
-	m_pEmitPtr = m_pBuffer = XN_NEW_ARR(XnUInt8, m_bufferSize_bytes);
+	m_pEmitPtr = m_pBuffer = XN_NEW_ARR(uint8_t, m_bufferSize_bytes);
 	if (NULL == m_pBuffer)
 	{
 		m_bufferSize_bytes = 0;

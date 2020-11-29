@@ -46,19 +46,19 @@ Link24zYuv422Parser::~Link24zYuv422Parser()
 
 XnStatus Link24zYuv422Parser::Init()
 {
-	m_dataFromPrevPacket = (XnUInt8*)xnOSMallocAligned(m_lineWidthBytes, XN_DEFAULT_MEM_ALIGN);
+	m_dataFromPrevPacket = (uint8_t*)xnOSMallocAligned(m_lineWidthBytes, XN_DEFAULT_MEM_ALIGN);
 	XN_VALIDATE_ALLOC_PTR(m_dataFromPrevPacket);
 
 	if (m_transformToRGB)
 	{
-		m_tempYuvImage = (XnUInt8*)xnOSMallocAligned(m_rgbFrameSize, XN_DEFAULT_MEM_ALIGN);
+		m_tempYuvImage = (uint8_t*)xnOSMallocAligned(m_rgbFrameSize, XN_DEFAULT_MEM_ALIGN);
 		XN_VALIDATE_ALLOC_PTR(m_tempYuvImage);
 	}
 
 	return XN_STATUS_OK;
 }
 
-XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation, const XnUInt8* pSrc, const XnUInt8* pSrcEnd, XnUInt8*& pDst, const XnUInt8* pDstEnd)
+XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation, const uint8_t* pSrc, const uint8_t* pSrcEnd, uint8_t*& pDst, const uint8_t* pDstEnd)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -68,7 +68,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 		m_tempYuvImageBytes = 0;
 	}
 
-	const XnUInt8* pInput = pSrc;
+	const uint8_t* pInput = pSrc;
 	XnSizeT inputSize = pSrcEnd - pSrc;
 
 	// if there's data left from previous packet, append new data to it
@@ -86,7 +86,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 		inputSize = m_dataFromPrevPacketBytes + inputSize;
 	}
 
-	XnUInt8* pOutput = pDst;
+	uint8_t* pOutput = pDst;
 	XnSizeT outputSize = pDstEnd - pDst;
 
 	if (m_transformToRGB)
@@ -118,24 +118,24 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 	return (XN_STATUS_OK);
 }
 
-XnStatus Link24zYuv422Parser::Uncompress24z(const XnUInt8* pInput, XnSizeT nInputSize,
-	XnUInt8* pOutput, XnSizeT* pnOutputSize, uint32_t nLineSize,
+XnStatus Link24zYuv422Parser::Uncompress24z(const uint8_t* pInput, XnSizeT nInputSize,
+	uint8_t* pOutput, XnSizeT* pnOutputSize, uint32_t nLineSize,
 	XnSizeT* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
-	const XnUInt8* pInputOrig = pInput;
-	const XnUInt8* pInputEnd = pInput + nInputSize;
-	XnUInt8* pOrigOutput = pOutput;
-	XnUInt8* pOutputEnd = pOutput + (*pnOutputSize);
-	XnUInt8 nLastFullValue[4] = {0};
+	const uint8_t* pInputOrig = pInput;
+	const uint8_t* pInputEnd = pInput + nInputSize;
+	uint8_t* pOrigOutput = pOutput;
+	uint8_t* pOutputEnd = pOutput + (*pnOutputSize);
+	uint8_t nLastFullValue[4] = {0};
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
 	uint32_t nTempValue = 0;
 	uint32_t cInput = 0;
 	XnBool bReadByte = TRUE;
 
-	const XnUInt8* pInputLastPossibleStop = pInputOrig;
-	XnUInt8* pOutputLastPossibleStop = pOrigOutput;
+	const uint8_t* pInputLastPossibleStop = pInputOrig;
+	uint8_t* pOutputLastPossibleStop = pOrigOutput;
 
 	*pnActualRead = 0;
 	*pnOutputSize = 0;
@@ -171,7 +171,7 @@ XnStatus Link24zYuv422Parser::Uncompress24z(const XnUInt8* pInput, XnSizeT nInpu
 					break;
 
 				nTempValue += (*pInput >> 4);
-				nLastFullValue[nChannel] = (XnUInt8)nTempValue;
+				nLastFullValue[nChannel] = (uint8_t)nTempValue;
 			}
 		}
 		else

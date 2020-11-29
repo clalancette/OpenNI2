@@ -100,7 +100,7 @@ XnStatus ClientUSBOutDataEndpoint::Send(const void* pData, uint32_t nSize)
 		{
 			xnLogVerbose(XN_MASK_USB, "Temporary USB patch: rounded up size to %u (instead of %u) before sending data", nSize + nBlockSize - nRemainderSize, nSize);
 			// memset rest of buffer (otherwise it will contain old headers)
-			xnOSMemSet((XnUInt8*)pData + nSize, 0, nBlockSize - nRemainderSize);
+			xnOSMemSet((uint8_t*)pData + nSize, 0, nBlockSize - nRemainderSize);
 			nSize += (nBlockSize - nRemainderSize);
 		}
 	}

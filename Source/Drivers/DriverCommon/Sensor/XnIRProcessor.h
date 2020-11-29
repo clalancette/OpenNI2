@@ -51,7 +51,7 @@ private:
 	//---------------------------------------------------------------------------
 	// Internal Functions
 	//---------------------------------------------------------------------------
-	XnStatus Unpack10to16(const XnUInt8* pcInput, const uint32_t nInputSize, uint16_t* pnOutput, uint32_t* pnActualRead, uint32_t* pnOutputSize);
+	XnStatus Unpack10to16(const uint8_t* pcInput, const uint32_t nInputSize, uint16_t* pnOutput, uint32_t* pnActualRead, uint32_t* pnOutputSize);
 	inline XnSensorIRStream* GetStream()
 	{
 		return (XnSensorIRStream*)XnFrameStreamProcessor::GetStream();

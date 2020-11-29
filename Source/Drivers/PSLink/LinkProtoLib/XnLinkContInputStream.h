@@ -46,7 +46,7 @@ public:
     //LinkInputStream methods
     virtual XnBool IsInitialized() const;
 	virtual void Shutdown();
-	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const XnUInt8* pData, XnBool& bPacketLoss);
+	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, XnBool& bPacketLoss);
 	virtual const void* GetData() const;
 	virtual uint32_t GetDataSize() const;
 	virtual uint64_t GetTimestamp() const { return 0; }
@@ -83,10 +83,10 @@ private:
 	
 	uint32_t m_nUserBufferMaxSize;
 	uint32_t m_nUserBufferCurrentSize;
-	XnUInt8* m_pUserBuffer;
+	uint8_t* m_pUserBuffer;
 
 	uint32_t m_nWorkingBufferCurrentSize;
-	XnUInt8* m_pWorkingBuffer;
+	uint8_t* m_pWorkingBuffer;
 
 	XnChar m_strDumpName[XN_FILE_MAX_PATH];
 	XnDumpFile* m_pDumpFile;

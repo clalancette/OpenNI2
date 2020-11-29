@@ -80,7 +80,7 @@ XnStatus LinkContInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 	m_nUserBufferMaxSize = CONT_STREAM_PREDEFINED_BUFFER_SIZE;
 	m_nUserBufferCurrentSize = m_nWorkingBufferCurrentSize = 0;
 	//Allocate buffers
-	m_pUserBuffer = reinterpret_cast<XnUInt8*>(xnOSCallocAligned(1, m_nUserBufferMaxSize, XN_DEFAULT_MEM_ALIGN));
+	m_pUserBuffer = reinterpret_cast<uint8_t*>(xnOSCallocAligned(1, m_nUserBufferMaxSize, XN_DEFAULT_MEM_ALIGN));
 	if (m_pUserBuffer == NULL)
 	{
 		Shutdown();
@@ -88,7 +88,7 @@ XnStatus LinkContInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 		XN_ASSERT(FALSE);
 		return XN_STATUS_ALLOC_FAILED;
 	}
-	m_pWorkingBuffer = reinterpret_cast<XnUInt8*>(xnOSCallocAligned(1, CONT_STREAM_PREDEFINED_BUFFER_SIZE, XN_DEFAULT_MEM_ALIGN));
+	m_pWorkingBuffer = reinterpret_cast<uint8_t*>(xnOSCallocAligned(1, CONT_STREAM_PREDEFINED_BUFFER_SIZE, XN_DEFAULT_MEM_ALIGN));
 	if (m_pWorkingBuffer == NULL)
 	{
 		Shutdown();
@@ -130,7 +130,7 @@ void LinkContInputStream::Shutdown()
 	xnOSLeaveCriticalSection(&m_hCriticalSection);
 }
 
-XnStatus LinkContInputStream::HandlePacket(const LinkPacketHeader& header, const XnUInt8* pData, XnBool& bPacketLoss)
+XnStatus LinkContInputStream::HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, XnBool& bPacketLoss)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	xnl::AutoCSLocker csLock(m_hCriticalSection);
@@ -156,7 +156,7 @@ XnStatus LinkContInputStream::HandlePacket(const LinkPacketHeader& header, const
 	
 	//Write new data to dump (if it's on)
 	xnDumpFileWriteBuffer(m_pDumpFile, 
-		reinterpret_cast<const XnUInt8*>(m_logParser.GetParsedData()), 
+		reinterpret_cast<const uint8_t*>(m_logParser.GetParsedData()), 
 		m_logParser.GetParsedSize());
 
 	if (header.GetFragmentationFlags() & XN_LINK_FRAG_END)

@@ -42,11 +42,11 @@ static const XnSizeT IDENTITY_SIZE = 4;
 /// The structure of ONI file's file header.
 struct FileHeaderData
 {
-	XnUInt8 identity[IDENTITY_SIZE];
+	uint8_t identity[IDENTITY_SIZE];
 	struct Version
 	{
-		XnUInt8  major;
-		XnUInt8  minor;
+		uint8_t  major;
+		uint8_t  minor;
 		uint16_t maintenance;
 		uint32_t build;
 	} version;
@@ -210,13 +210,13 @@ private:
 	// Union of a buffer and a record header.
 	union
 	{
-		XnUInt8*          m_pBuffer;
+		uint8_t*          m_pBuffer;
 		RecordHeaderData* m_header;
 	};
 	// Size of the buffer in bytes.
 	XnSizeT m_bufferSize_bytes;
 	// Pointer into the buffer for emit operations.
-	XnUInt8* m_pEmitPtr;
+	uint8_t* m_pEmitPtr;
 };
 
 #pragma pack(pop)

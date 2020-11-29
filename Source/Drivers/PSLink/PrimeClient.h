@@ -68,10 +68,10 @@ public:
 	/* Global Device Commands */
 	virtual	XnStatus GetBootStatus(XnBootStatus& bootStatus);
 	virtual	XnStatus GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supportedDevices);
-	virtual XnStatus WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t nValue, uint32_t nMask);
-	virtual XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t& nValue);
-	virtual XnStatus WriteAHB(uint32_t nAddress, uint32_t nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth);
-	virtual XnStatus ReadAHB(uint32_t nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, uint32_t& nValue);
+	virtual XnStatus WriteI2C(uint8_t nDeviceID, uint8_t nAddressSize, uint32_t nAddress, uint8_t nValueSize, uint32_t nValue, uint32_t nMask);
+	virtual XnStatus ReadI2C(uint8_t nDeviceID, uint8_t nAddressSize, uint32_t nAddress, uint8_t nValueSize, uint32_t& nValue);
+	virtual XnStatus WriteAHB(uint32_t nAddress, uint32_t nValue, uint8_t nBitOffset, uint8_t nBitWidth);
+	virtual XnStatus ReadAHB(uint32_t nAddress, uint8_t nBitOffset, uint8_t nBitWidth, uint32_t& nValue);
 	virtual XnStatus SoftReset();
 	virtual XnStatus HardReset();
 	virtual XnStatus ReadDebugData(XnCommandDebugData& commandDebugData);
@@ -84,8 +84,8 @@ public:
 	virtual XnStatus GetPeriodicBistActive(XnBool& bActive);
 	virtual XnStatus StartFWLog();
 	virtual XnStatus StopFWLog();
-	virtual XnStatus OpenFWLogFile(XnUInt8 logID);
-	virtual	XnStatus CloseFWLogFile(XnUInt8 logID);
+	virtual XnStatus OpenFWLogFile(uint8_t logID);
+	virtual	XnStatus CloseFWLogFile(uint8_t logID);
 	virtual XnStatus GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles);
 
 	virtual XnStatus RunPresetFile(const XnChar* strFileName);
@@ -93,7 +93,7 @@ public:
 	virtual XnStatus GetSupportedTempList(std::vector<XnTempInfo>& supportedTempList);
 	virtual XnStatus GetTemperature(XnCommandTemperatureResponse& temp);
 	virtual XnStatus ExecuteBist(uint32_t nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData);
-	virtual XnStatus FormatZone(XnUInt8 nZone);
+	virtual XnStatus FormatZone(uint8_t nZone);
 	//TODO: Implement Get emitter active
 
 	/* Stream Management */

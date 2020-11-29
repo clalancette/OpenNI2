@@ -55,10 +55,10 @@ Link12BitS2DParser::~Link12BitS2DParser()
 }
 
 XnStatus Link12BitS2DParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
-						 const XnUInt8* pSrc,
-						 const XnUInt8* pSrcEnd,
-						 XnUInt8*& pDst,
-						 const XnUInt8* pDstEnd)
+						 const uint8_t* pSrc,
+						 const uint8_t* pSrcEnd,
+						 uint8_t*& pDst,
+						 const uint8_t* pDstEnd)
 {
 	XN_ASSERT(m_pShiftToDepth != NULL);
 	OniDepthPixel*& pDstPixel = reinterpret_cast<OniDepthPixel*&>(pDst);
@@ -82,7 +82,7 @@ XnStatus Link12BitS2DParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 	return XN_STATUS_OK;
 }
 
-uint32_t Link12BitS2DParser::ProcessFramePacketChunk(const XnUInt8* pData,XnUInt8* pDest, uint32_t nDataSize)
+uint32_t Link12BitS2DParser::ProcessFramePacketChunk(const uint8_t* pData,uint8_t* pDest, uint32_t nDataSize)
 {
 
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -135,9 +135,9 @@ uint32_t Link12BitS2DParser::ProcessFramePacketChunk(const XnUInt8* pData,XnUInt
 	return totalWrite; //return total written bytes
 }
 
-XnStatus Link12BitS2DParser::Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest, const uint32_t nInputSize, uint32_t* pnActualRead, uint32_t* pnActualWritten)
+XnStatus Link12BitS2DParser::Unpack12to16(const uint8_t* pcInput,uint8_t* pDest, const uint32_t nInputSize, uint32_t* pnActualRead, uint32_t* pnActualWritten)
 {
-	const XnUInt8* pOrigInput = (XnUInt8*)pcInput;
+	const uint8_t* pOrigInput = (uint8_t*)pcInput;
 
 	uint32_t nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored
 
@@ -194,7 +194,7 @@ XnStatus Link12BitS2DParser::Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest,
 	}
 
 	*pnActualRead = (uint32_t)(pcInput - pOrigInput); // total bytes
-	*pnActualWritten = (uint32_t)((XnUInt8*)pnOutput - pDest);
+	*pnActualWritten = (uint32_t)((uint8_t*)pnOutput - pDest);
 
 	return XN_STATUS_OK;
 }

@@ -40,8 +40,8 @@ typedef struct XnUSBDeviceHandle
 //	XnBool bValid;
 	libusb_device_handle* hDevice;
 	XnUSBDeviceSpeed nDevSpeed;
-	XnUInt8 nInterface;
-	XnUInt8 nAltSetting;
+	uint8_t nInterface;
+	uint8_t nAltSetting;
 } XnUSBDevHandle;
 
 struct XnUSBReadThreadData; // Forward declaration

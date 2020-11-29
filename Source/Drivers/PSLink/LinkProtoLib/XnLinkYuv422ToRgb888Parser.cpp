@@ -34,7 +34,7 @@ LinkYuv422ToRgb888Parser::~LinkYuv422ToRgb888Parser()
 
 }
 
-XnStatus LinkYuv422ToRgb888Parser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/, const XnUInt8* pSrc, const XnUInt8* pSrcEnd, XnUInt8*& pDst, const XnUInt8* pDstEnd)
+XnStatus LinkYuv422ToRgb888Parser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/, const uint8_t* pSrc, const uint8_t* pSrcEnd, uint8_t*& pDst, const uint8_t* pDstEnd)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

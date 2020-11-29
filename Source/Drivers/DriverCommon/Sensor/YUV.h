@@ -62,8 +62,8 @@
 //---------------------------------------------------------------------------
 // Functions Declaration
 //---------------------------------------------------------------------------
-void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize);
-void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize);
-void YUV420ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t nRGBSize);
+void YUV422ToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize);
+void YUYVToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize);
+void YUV420ToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBImage, uint32_t nYUVSize, uint32_t nRGBSize);
 
 #endif // YUV_H

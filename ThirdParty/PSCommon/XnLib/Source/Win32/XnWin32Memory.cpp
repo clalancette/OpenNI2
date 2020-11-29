@@ -100,7 +100,7 @@ XN_C_API int32_t xnOSMemCmp(const void *pBuf1, const void *pBuf2, XnSizeT nCount
 	return memcmp(pBuf1, pBuf2, nCount);
 }
 
-XN_C_API void xnOSMemSet(void* pDest, XnUInt8 nValue, XnSizeT nCount)
+XN_C_API void xnOSMemSet(void* pDest, uint8_t nValue, XnSizeT nCount)
 {
 	memset(pDest, nValue, nCount);
 }

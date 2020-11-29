@@ -46,7 +46,7 @@ public:
 	TValue& Value() {return second;}
 };
 
-typedef XnUInt8 HashCode;
+typedef uint8_t HashCode;
 
 template <class TKey>
 class DefaultKeyManager

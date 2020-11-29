@@ -661,17 +661,17 @@ XN_C_API XnStatus xnUSBGetDeviceSpeed(XN_USB_DEV_HANDLE pDevHandle, XnUSBDeviceS
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBSetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, XnUInt8 /*nConfig*/)
+XN_C_API XnStatus xnUSBSetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, uint8_t /*nConfig*/)
 {
 	return (XN_STATUS_OS_UNSUPPORTED_FUNCTION);
 }
 
-XN_C_API XnStatus xnUSBGetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, XnUInt8* /*pnConfig*/)
+XN_C_API XnStatus xnUSBGetConfig(XN_USB_DEV_HANDLE /*pDevHandle*/, uint8_t* /*pnConfig*/)
 {
 	return (XN_STATUS_OS_UNSUPPORTED_FUNCTION);
 }
 
-XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8 /*nInterface*/, XnUInt8 nAltInterface)
+XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, uint8_t /*nInterface*/, uint8_t nAltInterface)
 {
 	// Local variables
 	XnBool bResult = FALSE;
@@ -698,7 +698,7 @@ XN_C_API XnStatus xnUSBSetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8 /*nInt
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8* pnInterface, XnUInt8* pnAltInterface)
+XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, uint8_t* pnInterface, uint8_t* pnAltInterface)
 {
 	// Local variables
 	XnBool bResult = FALSE;
@@ -1003,7 +1003,7 @@ XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE pEPHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, uint8_t nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
 	XnBool bResult = FALSE;
@@ -1049,7 +1049,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, uint8_t nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// Local variables
 	XnBool bResult = FALSE;

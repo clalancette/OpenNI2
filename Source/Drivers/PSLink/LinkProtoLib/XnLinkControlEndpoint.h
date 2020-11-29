@@ -92,10 +92,10 @@ public:
 	XnStatus StartUsbTest();
 	XnStatus StopUsbTest();
 	XnStatus GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supporteddevices);
-	XnStatus WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t nValue, uint32_t nMask);
-	XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t& nValue);
-	XnStatus WriteAHB(uint32_t nAddress, uint32_t nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth);
-	XnStatus ReadAHB(uint32_t nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, uint32_t& nValue);
+	XnStatus WriteI2C(uint8_t nDeviceID, uint8_t nAddressSize, uint32_t nAddress, uint8_t nValueSize, uint32_t nValue, uint32_t nMask);
+	XnStatus ReadI2C(uint8_t nDeviceID, uint8_t nAddressSize, uint32_t nAddress, uint8_t nValueSize, uint32_t& nValue);
+	XnStatus WriteAHB(uint32_t nAddress, uint32_t nValue, uint8_t nBitOffset, uint8_t nBitWidth);
+	XnStatus ReadAHB(uint32_t nAddress, uint8_t nBitOffset, uint8_t nBitWidth, uint32_t& nValue);
 	XnStatus GetShiftToDepthConfig(uint16_t nStreamID, XnShiftToDepthConfig& shiftToDepthConfig);
 	XnStatus SetVideoMode(uint16_t nStreamID, const XnFwStreamVideoMode& videoMode);
 	XnStatus GetVideoMode(uint16_t nStreamID, XnFwStreamVideoMode& videoMode);
@@ -113,8 +113,8 @@ public:
 	XnStatus SetPeriodicBistActive(XnBool bActive);
 	XnStatus GetPeriodicBistActive(XnBool& bActive);
 	XnStatus GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles);
-	XnStatus OpenFWLogFile(XnUInt8 logID, uint16_t nLogStreamID);
-	XnStatus CloseFWLogFile(XnUInt8 logID, uint16_t nLogStreamID);
+	XnStatus OpenFWLogFile(uint8_t logID, uint16_t nLogStreamID);
+	XnStatus CloseFWLogFile(uint8_t logID, uint16_t nLogStreamID);
 	XnStatus SetProjectorPulse(XnBool enabled, float delay, float width, float cycle);
 	XnStatus GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip);
 	XnStatus SetProjectorPower(uint16_t power);
@@ -129,7 +129,7 @@ public:
 
 	XnStatus BeginUpload();
 	XnStatus EndUpload();
-	XnStatus FormatZone(XnUInt8 nZone);
+	XnStatus FormatZone(uint8_t nZone);
 
 	/*DepthGenerator commands */
 	XnStatus GetCameraIntrinsics(uint16_t nStreamID, XnLinkCameraIntrinsics& cameraIntrinsics);
@@ -178,7 +178,7 @@ private:
 
 	union
 	{
-		XnUInt8* m_pIncomingRawPacket; //Holds one packet, used for receiving from connection
+		uint8_t* m_pIncomingRawPacket; //Holds one packet, used for receiving from connection
 		LinkPacketHeader* m_pIncomingPacket;
 	};
 
@@ -186,7 +186,7 @@ private:
 	ISyncIOConnection* m_pConnection;
 	LinkMsgEncoder m_msgEncoder;
 	LinkResponseMsgParser m_responseMsgParser;
-	XnUInt8* m_pIncomingResponse; //Holds complete parsed response (without link headers)
+	uint8_t* m_pIncomingResponse; //Holds complete parsed response (without link headers)
 	uint32_t m_nMaxResponseSize;
 	XnBool m_bInitialized;
 	XnBool m_bConnected;

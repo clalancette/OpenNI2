@@ -75,9 +75,9 @@ XnPacked12DepthProcessor::~XnPacked12DepthProcessor()
 {
 }
 
-XnStatus XnPacked12DepthProcessor::Unpack12to16(const XnUInt8* pcInput, const uint32_t nInputSize, uint32_t* pnActualRead)
+XnStatus XnPacked12DepthProcessor::Unpack12to16(const uint8_t* pcInput, const uint32_t nInputSize, uint32_t* pnActualRead)
 {
-	const XnUInt8* pOrigInput = pcInput;
+	const uint8_t* pOrigInput = pcInput;
 
 	uint32_t nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored
 	uint32_t nNeededOutput = nElements * XN_OUTPUT_ELEMENT_SIZE;

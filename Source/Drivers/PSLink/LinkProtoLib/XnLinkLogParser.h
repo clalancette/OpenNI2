@@ -37,16 +37,16 @@ public:
 
 protected:
 	virtual XnStatus ParsePacketImpl(XnLinkFragmentation fragmentation,
-					const XnUInt8* pSrc,
-	                                const XnUInt8* pSrcEnd,
-					XnUInt8*& pDst,
-					const XnUInt8* pDstEnd);
+					const uint8_t* pSrc,
+	                                const uint8_t* pSrcEnd,
+					uint8_t*& pDst,
+					const uint8_t* pDstEnd);
 
-	XnStatus WriteToLogFile(XnUInt8 fileID, const void* pData, uint32_t dataLength);
-	XnStatus CloseLogFile(XnUInt8 fileID);
-	XnStatus OpenLogFile(XnUInt8 fileID, const XnChar* fileName);
+	XnStatus WriteToLogFile(uint8_t fileID, const void* pData, uint32_t dataLength);
+	XnStatus CloseLogFile(uint8_t fileID);
+	XnStatus OpenLogFile(uint8_t fileID, const XnChar* fileName);
 private:
-	xnl::Hash<XnUInt8, XnDumpFile*> m_activeLogs;
+	xnl::Hash<uint8_t, XnDumpFile*> m_activeLogs;
 	bool m_copyDataToOutput;
 };
 

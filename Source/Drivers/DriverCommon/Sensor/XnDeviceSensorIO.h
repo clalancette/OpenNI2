@@ -40,7 +40,7 @@ typedef struct XnUsbConnection
 	XN_USB_EP_HANDLE UsbEp;
 
 	XnBool bIsOpen;
-	XnUInt8* pUSBBuffer;
+	uint8_t* pUSBBuffer;
 	uint32_t nUSBBufferReadOffset;
 	uint32_t nUSBBufferWriteOffset;
 	uint32_t nMaxPacketSize;
@@ -62,7 +62,7 @@ typedef struct XN_SENSOR_HANDLE
 	XnUsbConnection DepthConnection;
 	XnUsbConnection ImageConnection;
 	XnUsbConnection MiscConnection;
-	XnUInt8 nBoardVer;
+	uint8_t nBoardVer;
 } XN_SENSOR_HANDLE;
 
 //---------------------------------------------------------------------------

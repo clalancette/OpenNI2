@@ -83,7 +83,7 @@ XnStatus XnSensorIO::OpenDevice(const XnChar* strPath)
 XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const XnFirmwareInfo& fwInfo)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt8 nAlternativeInterface = 0;
+	uint8_t nAlternativeInterface = 0;
 
 	// try to set requested interface
 	if (nInterface != XN_SENSOR_USB_INTERFACE_DEFAULT)
@@ -104,7 +104,7 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 			XN_LOG_WARNING_RETURN(XN_STATUS_USB_INTERFACE_NOT_SUPPORTED, XN_MASK_DEVICE_IO, "Unknown interface type: %d", nInterface);
 		}
 
-		if (nAlternativeInterface == (XnUInt8)-1)
+		if (nAlternativeInterface == (uint8_t)-1)
 		{
 			XN_ASSERT(FALSE);
 			XN_LOG_WARNING_RETURN(XN_STATUS_USB_INTERFACE_NOT_SUPPORTED, XN_MASK_DEVICE_IO, "Interface %d is not supported by firmware", nInterface);
@@ -317,8 +317,8 @@ const XnChar* XnSensorIO::GetDevicePath()
 
 XnSensorUsbInterface XnSensorIO::GetCurrentInterface(const XnFirmwareInfo& fwInfo) const
 {
-	XnUInt8 nActualInterface = 0;
-	XnUInt8 nAlternativeInterface = 0;
+	uint8_t nActualInterface = 0;
+	uint8_t nAlternativeInterface = 0;
 	XnStatus nRetVal = xnUSBGetInterface(m_pSensorHandle->USBDevice, &nActualInterface, &nAlternativeInterface);
 	if (nRetVal != XN_STATUS_OK)
 	{

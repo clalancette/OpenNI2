@@ -116,9 +116,9 @@ typedef struct XnTextureMap
 // --------------------------------
 static DrawConfig g_DrawConfig;
 
-static XnUInt8 PalletIntsR [256] = {0};
-static XnUInt8 PalletIntsG [256] = {0};
-static XnUInt8 PalletIntsB [256] = {0};
+static uint8_t PalletIntsR [256] = {0};
+static uint8_t PalletIntsG [256] = {0};
+static uint8_t PalletIntsB [256] = {0};
 
 /* Histograms */
 static float* g_pDepthHist = NULL;
@@ -639,10 +639,10 @@ void calculateHistogram()
 // --------------------------------
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 
-void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, uint32_t nYUVSize, uint32_t nRGBSize)
+void YUV422ToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBAImage, uint32_t nYUVSize, uint32_t nRGBSize)
 {
-	const XnUInt8* pYUVLast = pYUVImage + nYUVSize - 8;
-	XnUInt8* pRGBLast = pRGBAImage + nRGBSize - 16;
+	const uint8_t* pYUVLast = pYUVImage + nYUVSize - 8;
+	uint8_t* pRGBLast = pRGBAImage + nRGBSize - 16;
 
 	const __m128 minus128 = _mm_set_ps1(-128);
 	const __m128 plus113983 = _mm_set_ps1(1.13983F);
@@ -751,8 +751,8 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, uint32_t nYUV
 
 #else // not Win32
 
-void YUV444ToRGBA(XnUInt8 cY, XnUInt8 cU, XnUInt8 cV,
-					XnUInt8& cR, XnUInt8& cG, XnUInt8& cB, XnUInt8& cA)
+void YUV444ToRGBA(uint8_t cY, uint8_t cU, uint8_t cV,
+					uint8_t& cR, uint8_t& cG, uint8_t& cB, uint8_t& cA)
 {
 	int32_t nC = cY - 16;
 	int16_t nD = cU - 128;
@@ -766,12 +766,12 @@ void YUV444ToRGBA(XnUInt8 cY, XnUInt8 cU, XnUInt8 cV,
 	cA = 255;
 }
 
-void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t nRGBSize)
+void YUV422ToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBImage, uint32_t nYUVSize, uint32_t nRGBSize)
 {
-	const XnUInt8* pCurrYUV = pYUVImage;
-	XnUInt8* pCurrRGB = pRGBImage;
-	const XnUInt8* pLastYUV = pYUVImage + nYUVSize - YUV422_BPP;
-	XnUInt8* pLastRGB = pRGBImage + nRGBSize - YUV_RGBA_BPP;
+	const uint8_t* pCurrYUV = pYUVImage;
+	uint8_t* pCurrRGB = pRGBImage;
+	const uint8_t* pLastYUV = pYUVImage + nYUVSize - YUV422_BPP;
+	uint8_t* pLastRGB = pRGBImage + nRGBSize - YUV_RGBA_BPP;
 
 	while (pCurrYUV <= pLastYUV && pCurrRGB <= pLastRGB)
 	{
@@ -789,10 +789,10 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVS
 
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 
-void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, uint32_t nYUVSize, uint32_t nRGBSize)
+void YUYVToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBAImage, uint32_t nYUVSize, uint32_t nRGBSize)
 {
-	const XnUInt8* pYUVLast = pYUVImage + nYUVSize - 8;
-	XnUInt8* pRGBLast = pRGBAImage + nRGBSize - 16;
+	const uint8_t* pYUVLast = pYUVImage + nYUVSize - 8;
+	uint8_t* pRGBLast = pRGBAImage + nRGBSize - 16;
 
 	const __m128 minus128 = _mm_set_ps1(-128);
 	const __m128 plus113983 = _mm_set_ps1(1.13983F);
@@ -901,12 +901,12 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, uint32_t nYUVSi
 
 #else // not Win32
 
-void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t nRGBSize)
+void YUYVToRGB888(const uint8_t* pYUVImage, uint8_t* pRGBImage, uint32_t nYUVSize, uint32_t nRGBSize)
 {
-	const XnUInt8* pCurrYUV = pYUVImage;
-	XnUInt8* pCurrRGB = pRGBImage;
-	const XnUInt8* pLastYUV = pYUVImage + nYUVSize - YUYV_BPP;
-	XnUInt8* pLastRGB = pRGBImage + nRGBSize - YUV_RGBA_BPP;
+	const uint8_t* pCurrYUV = pYUVImage;
+	uint8_t* pCurrRGB = pRGBImage;
+	const uint8_t* pLastYUV = pYUVImage + nYUVSize - YUYV_BPP;
+	uint8_t* pLastRGB = pRGBImage + nRGBSize - YUV_RGBA_BPP;
 
 	while (pCurrYUV <= pLastYUV && pCurrRGB <= pLastRGB)
 	{
@@ -989,7 +989,7 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
 	int originX = colorMD.getCropOriginX();
 	int originY = colorMD.getCropOriginY();
 
-	XnUInt8* pColor = (XnUInt8*)colorMD.getData();
+	uint8_t* pColor = (uint8_t*)colorMD.getData();
 	bool useDepth = false;
 	openni::PixelFormat format = colorMD.getVideoMode().getPixelFormat();
 
@@ -1028,7 +1028,7 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
 
 	for (uint16_t nY = 0; nY < height; nY++)
 	{
-		XnUInt8* pTexture = TextureMapGetLine(&g_texColor, nY + originY) + originX*4;
+		uint8_t* pTexture = TextureMapGetLine(&g_texColor, nY + originY) + originX*4;
 
 		if (format == openni::PIXEL_FORMAT_YUV422)
  		{
@@ -1081,7 +1081,7 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
  					break;
 				case openni::PIXEL_FORMAT_GRAY16:
 					p16 = (uint16_t*)pColor;
-					pTexture[0] = pTexture[1] = pTexture[2] = (XnUInt8)((*p16) * grayscale16Factor);
+					pTexture[0] = pTexture[1] = pTexture[2] = (uint8_t)((*p16) * grayscale16Factor);
  					pColor+=2;
  					break;
 				default:
@@ -1145,13 +1145,13 @@ void drawDepth(IntRect* pLocation, IntPair* pPointer)
 		// copy depth into texture-map
 		for (uint16_t nY = originY; nY < height + originY; nY++)
 		{
-			XnUInt8* pTexture = TextureMapGetLine(&g_texDepth, nY) + originX*4;
+			uint8_t* pTexture = TextureMapGetLine(&g_texDepth, nY) + originX*4;
 			for (uint16_t nX = 0; nX < width; nX++, pDepth++, pTexture+=4)
 			{
-				XnUInt8 nRed = 0;
-				XnUInt8 nGreen = 0;
-				XnUInt8 nBlue = 0;
-				XnUInt8 nAlpha = g_DrawConfig.Streams.Depth.fTransparency*255;
+				uint8_t nRed = 0;
+				uint8_t nGreen = 0;
+				uint8_t nBlue = 0;
+				uint8_t nAlpha = g_DrawConfig.Streams.Depth.fTransparency*255;
 
 				uint16_t nColIndex;
 

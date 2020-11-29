@@ -117,10 +117,10 @@ XnStatus XnStreamFreeCompressImageJ(XnStreamCompJPEGContext** ppStreamCompJPEGCo
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamCompressImage8J(XnStreamCompJPEGContext** ppStreamCompJPEGContext, const XnUInt8* pInput, XnUInt8* pOutput, uint32_t* pnOutputSize, const uint32_t nXRes, const uint32_t nYRes, const uint32_t nQuality)
+XnStatus XnStreamCompressImage8J(XnStreamCompJPEGContext** ppStreamCompJPEGContext, const uint8_t* pInput, uint8_t* pOutput, uint32_t* pnOutputSize, const uint32_t nXRes, const uint32_t nYRes, const uint32_t nQuality)
 {
 	// Local function variables
-	XnUInt8* pCurrScanline = (XnUInt8*)pInput;
+	uint8_t* pCurrScanline = (uint8_t*)pInput;
 	uint32_t nYIndex = 0;
 	jpeg_compress_struct* pjCompStruct = NULL;
 
@@ -164,10 +164,10 @@ XnStatus XnStreamCompressImage8J(XnStreamCompJPEGContext** ppStreamCompJPEGConte
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamCompressImage24J(XnStreamCompJPEGContext** ppStreamCompJPEGContext, const XnUInt8* pInput, XnUInt8* pOutput, uint32_t* pnOutputSize, const uint32_t nXRes, const uint32_t nYRes, const uint32_t nQuality)
+XnStatus XnStreamCompressImage24J(XnStreamCompJPEGContext** ppStreamCompJPEGContext, const uint8_t* pInput, uint8_t* pOutput, uint32_t* pnOutputSize, const uint32_t nXRes, const uint32_t nYRes, const uint32_t nQuality)
 {
 	// Local function variables
-	XnUInt8* pCurrScanline = (XnUChar*)pInput;
+	uint8_t* pCurrScanline = (XnUChar*)pInput;
 	uint32_t nYIndex = 0;
 	uint32_t nScanLineSize = 0;
 	jpeg_compress_struct* pjCompStruct = NULL;
@@ -338,12 +338,12 @@ XnStatus XnStreamFreeUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncomp
 #pragma warning(disable: 4611)
 #endif
 
-XnStatus XnStreamUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncompJPEGContext, const XnUInt8* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
+XnStatus XnStreamUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncompJPEGContext, const uint8_t* pInput, const uint32_t nInputSize, uint8_t* pOutput, uint32_t* pnOutputSize)
 {
 	// Local function variables
-	XnUInt8* pCurrScanline = pOutput;
-	XnUInt8* pNextScanline = NULL;
-	XnUInt8* pOutputEnd = 0;
+	uint8_t* pCurrScanline = pOutput;
+	uint8_t* pNextScanline = NULL;
+	uint8_t* pOutputEnd = 0;
 	uint32_t nScanLineSize = 0;
 	uint32_t nOutputSize = 0;
 	jpeg_decompress_struct* pjDecompStruct = NULL;

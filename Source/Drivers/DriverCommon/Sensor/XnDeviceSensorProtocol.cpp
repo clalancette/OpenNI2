@@ -82,8 +82,8 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t
 		case XN_LOOKING_FOR_MAGIC:
 			nMagic = XN_PREPARE_VAR16_IN_BUFFER(pDevicePrivateData->FWInfo.nFWMagic);
 
-			if (pCurrState->nMissingBytesInState == sizeof(XnUInt8) && // first byte already found
-				pBuffer[0] == ((XnUInt8*)&nMagic)[1])	// we have here second byte
+			if (pCurrState->nMissingBytesInState == sizeof(uint8_t) && // first byte already found
+				pBuffer[0] == ((uint8_t*)&nMagic)[1])	// we have here second byte
 			{
 				// move to next byte
 				pBuffer++;
@@ -112,7 +112,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t
 			}
 
 			if (pBuffer == pBufEnd &&					// magic wasn't found
-				pBuffer[-1] == ((XnUInt8*)&nMagic)[0])	// last byte in buffer is first in magic
+				pBuffer[-1] == ((uint8_t*)&nMagic)[0])	// last byte in buffer is first in magic
 			{
 				// mark that we found first one
 				pCurrState->nMissingBytesInState--;

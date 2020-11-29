@@ -97,12 +97,12 @@ const ClientUSBConnectionFactory* PS1200Device::GetConnectionFactory() const
 	return (const ClientUSBConnectionFactory*)m_pConnectionFactory;
 }
 
-XnStatus PS1200Device::SetUsbAltInterface(XnUInt8 altInterface)
+XnStatus PS1200Device::SetUsbAltInterface(uint8_t altInterface)
 {
 	return GetConnectionFactory()->SetUsbAltInterface(altInterface);
 }
 
-XnStatus PS1200Device::GetUsbAltInterface(XnUInt8& altInterface) const
+XnStatus PS1200Device::GetUsbAltInterface(uint8_t& altInterface) const
 {
 	return GetConnectionFactory()->GetUsbAltInterface(&altInterface);
 }
@@ -121,8 +121,8 @@ public:
 	{
 		m_nTotalBytes += nSize;
 
-		const XnUInt8* pCurData = (const XnUInt8*)pData;
-		const XnUInt8* pEndData = pCurData + nSize;
+		const uint8_t* pCurData = (const uint8_t*)pData;
+		const uint8_t* pEndData = pCurData + nSize;
 
 		while (pCurData < pEndData)
 		{

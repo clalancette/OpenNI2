@@ -89,14 +89,14 @@ XnPSCompressedDepthProcessor::~XnPSCompressedDepthProcessor()
 
 #define GET_INPUT_READ_BYTES (__pCurrInput - __pInputOrig);
 
-XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, const uint32_t nInputSize,
+XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const uint8_t* pInput, const uint32_t nInputSize,
 								   uint16_t* pDepthOutput, uint32_t* pnOutputSize,
 								   uint32_t* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
-	const XnUInt8* __pInputOrig = pInput;
-	const XnUInt8* __pCurrInput = pInput;
-	const XnUInt8* __pInputEnd = pInput + nInputSize;
+	const uint8_t* __pInputOrig = pInput;
+	const uint8_t* __pCurrInput = pInput;
+	const uint8_t* __pInputEnd = pInput + nInputSize;
 	/** True if input is in a steady state (not in the middle of a byte) */
 	XnBool __bShouldReadByte = TRUE;
 	uint32_t __nLastByte = 0;
@@ -104,10 +104,10 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, 
 	uint16_t* pOutputEnd = pDepthOutput + (*pnOutputSize / sizeof(OniDepthPixel));
 	uint16_t nLastValue = 0;
 
-	const XnUInt8* pInputOrig = pInput;
+	const uint8_t* pInputOrig = pInput;
 	uint16_t* pOutputOrig = pDepthOutput;
 
-	const XnUInt8* pInputLastPossibleStop = pInputOrig;
+	const uint8_t* pInputLastPossibleStop = pInputOrig;
 	uint16_t* pOutputLastPossibleStop = pOutputOrig;
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
@@ -196,7 +196,7 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, 
 	else
 	{
 		*pnOutputSize = (uint32_t)(pOutputLastPossibleStop - pOutputOrig) * sizeof(uint16_t);
-		*pnActualRead = (uint32_t)(pInputLastPossibleStop - pInputOrig) * sizeof(XnUInt8);
+		*pnActualRead = (uint32_t)(pInputLastPossibleStop - pInputOrig) * sizeof(uint8_t);
 	}
 
 	// All is good...

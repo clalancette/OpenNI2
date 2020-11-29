@@ -37,13 +37,13 @@ typedef enum
 	EdgeAwareWeighted
 } DebayeringMethod;
 
-void fillRGB(unsigned width, unsigned height, const XnUInt8* bayer_pixel, unsigned char* rgb_buffer, DebayeringMethod debayering_method, uint32_t nDownSampleStep)
+void fillRGB(unsigned width, unsigned height, const uint8_t* bayer_pixel, unsigned char* rgb_buffer, DebayeringMethod debayering_method, uint32_t nDownSampleStep)
 {
 	unsigned rgb_line_step = width * 3;
 	unsigned rgb_line_skip = rgb_line_step - width * 3;
 	if (nDownSampleStep == 1)
 	{
-		//register const XnUInt8 *bayer_pixel = image_md_->Data ();
+		//register const uint8_t *bayer_pixel = image_md_->Data ();
 		register unsigned yIdx, xIdx;
 
 		int bayer_line_step = width;
@@ -1132,7 +1132,7 @@ void fillRGB(unsigned width, unsigned height, const XnUInt8* bayer_pixel, unsign
 		register unsigned bayerYSkip = (nDownSampleStep - 1) * width;
 
 		// Downsampling and debayering at once
-		register const XnUInt8* bayer_buffer = bayer_pixel;
+		register const uint8_t* bayer_buffer = bayer_pixel;
 
 		for (register unsigned yIdx = 0; yIdx < height; ++yIdx, bayer_buffer += bayerYSkip, rgb_buffer += rgb_line_skip) // skip a line
 		{
@@ -1146,7 +1146,7 @@ void fillRGB(unsigned width, unsigned height, const XnUInt8* bayer_pixel, unsign
 	}
 }
 
-void Bayer2RGB888(const XnUInt8* pBayerImage, XnUInt8* pRGBImage, uint32_t nXRes, uint32_t nYRes, uint32_t nDownSampleStep)
+void Bayer2RGB888(const uint8_t* pBayerImage, uint8_t* pRGBImage, uint32_t nXRes, uint32_t nYRes, uint32_t nDownSampleStep)
 {
 	fillRGB(nXRes, nYRes, pBayerImage, pRGBImage, DebayeringMethod(1), nDownSampleStep); // DebayeringMethod(0) == bilinear, (1) == edge aware, (2) == edge aware weighted
 }

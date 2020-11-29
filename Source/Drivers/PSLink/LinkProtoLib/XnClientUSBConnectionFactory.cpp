@@ -189,7 +189,7 @@ void ClientUSBConnectionFactory::FreeConnStringsList(XnConnectionString* astrCon
 	xnUSBFreeDevicesList(astrConnStrings);
 }
 
-XnStatus ClientUSBConnectionFactory::SetUsbAltInterface(XnUInt8 interfaceNum)
+XnStatus ClientUSBConnectionFactory::SetUsbAltInterface(uint8_t interfaceNum)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -208,7 +208,7 @@ XnStatus ClientUSBConnectionFactory::SetUsbAltInterface(XnUInt8 interfaceNum)
 	return (XN_STATUS_OK);
 }
 
-XnStatus ClientUSBConnectionFactory::GetUsbAltInterface(XnUInt8* pInterfaceNum) const
+XnStatus ClientUSBConnectionFactory::GetUsbAltInterface(uint8_t* pInterfaceNum) const
 {
 	*pInterfaceNum = m_nAltInterface;
 	return XN_STATUS_OK;

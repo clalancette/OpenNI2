@@ -97,7 +97,7 @@ XnStatus ClientUSBControlEndpoint::Receive(void* pData, uint32_t& nSize)
 XnStatus ClientUSBControlEndpoint::Send(const void* pData, uint32_t nSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	nRetVal = xnUSBSendControl(m_hUSBDevice, XN_USB_CONTROL_TYPE_VENDOR, 0, 0, 0, (XnUInt8*)pData, nSize, SEND_TIMEOUT);
+	nRetVal = xnUSBSendControl(m_hUSBDevice, XN_USB_CONTROL_TYPE_VENDOR, 0, 0, 0, (uint8_t*)pData, nSize, SEND_TIMEOUT);
 	XN_IS_STATUS_OK_LOG_ERROR("Send USB control data", nRetVal);
 	return XN_STATUS_OK;
 }

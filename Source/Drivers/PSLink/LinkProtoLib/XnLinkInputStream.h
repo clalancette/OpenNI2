@@ -54,7 +54,7 @@ public:
 
 	typedef void (XN_CALLBACK_TYPE* NewDataAvailableHandler)(void* pCookie);
 
-	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const XnUInt8* pData, XnBool& bPacketLoss) = 0;
+	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, XnBool& bPacketLoss) = 0;
 
 	virtual void SetDumpName(const XnChar* strDumpName) = 0;
 	virtual void SetDumpOn(XnBool bDumpOn) = 0;
@@ -64,7 +64,7 @@ public:
 	virtual OniPixelFormat GetOutputFormat() const;
 	virtual XnStatus SetOutputFormat(OniPixelFormat format);
 
-	virtual XnBool IsInterfaceSupported(XnUInt8 nInterfaceID) const;
+	virtual XnBool IsInterfaceSupported(uint8_t nInterfaceID) const;
 
 	virtual XnStreamFragLevel GetStreamFragLevel() const = 0;
 

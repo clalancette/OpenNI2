@@ -65,12 +65,12 @@ private:
 	uint32_t m_nBufferSize;
 
 	/******* This points to the actual encoded data ******/
-	XnUInt8* m_pOutputBuffer;
+	uint8_t* m_pOutputBuffer;
 	/*****************************************************/
 
 	union
 	{
-		XnUInt8* m_pCurrPacketBuffer;
+		uint8_t* m_pCurrPacketBuffer;
 		LinkPacketHeader* m_pCurrPacket;
 	};
 	LinkPacketHeader m_packetHeader;

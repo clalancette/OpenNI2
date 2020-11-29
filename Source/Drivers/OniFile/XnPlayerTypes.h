@@ -109,8 +109,8 @@ typedef enum XnPredefinedProductionNodeType
  */
 typedef struct XnVersion
 {
-	XnUInt8 nMajor;
-	XnUInt8 nMinor;
+	uint8_t nMajor;
+	uint8_t nMinor;
 	uint16_t nMaintenance;
 	uint32_t nBuild;
 } XnVersion;

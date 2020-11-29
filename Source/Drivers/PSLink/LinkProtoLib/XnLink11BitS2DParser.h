@@ -35,10 +35,10 @@ public:
 
 protected:
 	virtual XnStatus ParsePacketImpl(XnLinkFragmentation fragmentation,
-						const XnUInt8* pSrc,
-						const XnUInt8* pSrcEnd,
-						XnUInt8*& pDst,
-						const XnUInt8* pDstEnd);
+						const uint8_t* pSrc,
+						const uint8_t* pSrcEnd,
+						uint8_t*& pDst,
+						const uint8_t* pDstEnd);
 
 private:
 	uint32_t m_nState;

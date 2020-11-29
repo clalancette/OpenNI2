@@ -424,18 +424,18 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 
 	case PS_PROPERTY_USB_INTERFACE:
 		{
-			ENSURE_PROP_SIZE(*pDataSize, XnUInt8);
+			ENSURE_PROP_SIZE(*pDataSize, uint8_t);
 			ASSIGN_PROP_VALUE_INT(data, *pDataSize, 0);
-			XnUInt8 nInterface = 0;
+			uint8_t nInterface = 0;
 			nRetVal = m_pSensor->GetUsbAltInterface(nInterface);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 			if (nInterface == 0)
 			{
-				*(XnUInt8*)data = PS_USB_INTERFACE_ISO_ENDPOINTS;
+				*(uint8_t*)data = PS_USB_INTERFACE_ISO_ENDPOINTS;
 			}
 			else if (nInterface == 1)
 			{
-				*(XnUInt8*)data = PS_USB_INTERFACE_BULK_ENDPOINTS;
+				*(uint8_t*)data = PS_USB_INTERFACE_BULK_ENDPOINTS;
 			}
 			else
 			{
@@ -546,8 +546,8 @@ OniStatus LinkOniDevice::setProperty(int propertyId, const void* data, int dataS
 
 	case PS_PROPERTY_USB_INTERFACE:
 		{
-			ENSURE_PROP_SIZE(dataSize, XnUInt8);
-			XnUsbInterfaceType type = (XnUsbInterfaceType)*(XnUInt8*)data;
+			ENSURE_PROP_SIZE(dataSize, uint8_t);
+			XnUsbInterfaceType type = (XnUsbInterfaceType)*(uint8_t*)data;
 			if (type == PS_USB_INTERFACE_ISO_ENDPOINTS)
 			{
 				nRetVal = m_pSensor->SetUsbAltInterface(0);
@@ -612,7 +612,7 @@ void LinkOniDevice::notifyAllProperties()
 	getProperty(LINK_PROP_FW_VERSION, &version, &size);
 	raisePropertyChanged(LINK_PROP_FW_VERSION, &version, size);
 
-	XnUInt8 altusb;
+	uint8_t altusb;
 	size = sizeof(altusb);
 	getProperty(PS_PROPERTY_USB_INTERFACE, &altusb, &size);
 	raisePropertyChanged(PS_PROPERTY_USB_INTERFACE, &altusb, size);
@@ -635,8 +635,8 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 
 			XnCommandAHB* pPropReadAHB = reinterpret_cast<XnCommandAHB*>(data);
 			nRetVal = m_pSensor->ReadAHB(pPropReadAHB->address,
-				static_cast<XnUInt8>(pPropReadAHB->offsetInBits),
-				static_cast<XnUInt8>(pPropReadAHB->widthInBits),
+				static_cast<uint8_t>(pPropReadAHB->offsetInBits),
+				static_cast<uint8_t>(pPropReadAHB->widthInBits),
 				pPropReadAHB->value);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Read AHB", nRetVal, ONI_STATUS_ERROR);
 			break;
@@ -654,8 +654,8 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			XnCommandAHB* pPropWriteAHB = reinterpret_cast<XnCommandAHB*>(data);
 			nRetVal = m_pSensor->WriteAHB(pPropWriteAHB->address,
 				pPropWriteAHB->value,
-				static_cast<XnUInt8>(pPropWriteAHB->offsetInBits),
-				static_cast<XnUInt8>(pPropWriteAHB->widthInBits));
+				static_cast<uint8_t>(pPropWriteAHB->offsetInBits),
+				static_cast<uint8_t>(pPropWriteAHB->widthInBits));
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Write AHB", nRetVal, ONI_STATUS_ERROR);
 			break;
 		}
@@ -671,10 +671,10 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 
 			XnCommandI2C* pPropReadI2C = reinterpret_cast<XnCommandI2C*>(data);
 			nRetVal = m_pSensor->ReadI2C(
-				static_cast<XnUInt8>(pPropReadI2C->deviceID),
-				static_cast<XnUInt8>(pPropReadI2C->addressSize),
+				static_cast<uint8_t>(pPropReadI2C->deviceID),
+				static_cast<uint8_t>(pPropReadI2C->addressSize),
 				pPropReadI2C->address,
-				static_cast<XnUInt8>(pPropReadI2C->valueSize),
+				static_cast<uint8_t>(pPropReadI2C->valueSize),
 				pPropReadI2C->value);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Read I2C", nRetVal, ONI_STATUS_ERROR);
 			break;
@@ -690,10 +690,10 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandI2C* pPropWriteI2C = reinterpret_cast<XnCommandI2C*>(data);
-			nRetVal = m_pSensor->WriteI2C(static_cast<XnUInt8>(pPropWriteI2C->deviceID),
-				static_cast<XnUInt8>(pPropWriteI2C->addressSize),
+			nRetVal = m_pSensor->WriteI2C(static_cast<uint8_t>(pPropWriteI2C->deviceID),
+				static_cast<uint8_t>(pPropWriteI2C->addressSize),
 				pPropWriteI2C->address,
-				static_cast<XnUInt8>(pPropWriteI2C->valueSize),
+				static_cast<uint8_t>(pPropWriteI2C->valueSize),
 				pPropWriteI2C->value,
 				pPropWriteI2C->mask);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Write I2C", nRetVal, ONI_STATUS_ERROR);
@@ -1047,11 +1047,11 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			XnCommandSetLogMaskState* pArgs = reinterpret_cast<XnCommandSetLogMaskState*>(data);
 			if (pArgs->enabled)
 			{
-				nRetVal = m_pSensor->OpenFWLogFile((XnUInt8)pArgs->mask);
+				nRetVal = m_pSensor->OpenFWLogFile((uint8_t)pArgs->mask);
 			}
 			else
 			{
-				nRetVal = m_pSensor->CloseFWLogFile((XnUInt8)pArgs->mask);
+				nRetVal = m_pSensor->CloseFWLogFile((uint8_t)pArgs->mask);
 			}
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Set log mask state", nRetVal, ONI_STATUS_ERROR);
 		}

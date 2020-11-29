@@ -107,9 +107,9 @@ public:
 	uint16_t nUSBDelaySetParamStream1Mode;
 	uint16_t nUSBDelaySetParamStream2Mode;
 
-	XnUInt8 nISOAlternativeInterface;
-	XnUInt8 nBulkAlternativeInterface;
-	XnUInt8 nISOLowDepthAlternativeInterface;
+	uint8_t nISOAlternativeInterface;
+	uint8_t nBulkAlternativeInterface;
+	uint8_t nISOLowDepthAlternativeInterface;
 
 	XnBool bGetImageCmosTypeSupported;
 	XnBool bImageSupported;

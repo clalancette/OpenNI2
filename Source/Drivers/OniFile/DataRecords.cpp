@@ -38,7 +38,7 @@ const RecordingHeader DEFAULT_RECORDING_HEADER =
 
 const uint32_t Record::MAGIC = 0x0052494E; //It reads "NIR\0"
 
-Record::Record(XnUInt8* pData, XnSizeT nMaxSize, XnBool bUseOld32Header) :
+Record::Record(uint8_t* pData, XnSizeT nMaxSize, XnBool bUseOld32Header) :
 	m_pData(pData),
 	m_nReadOffset(0),
 	m_nMaxSize((uint32_t)nMaxSize),
@@ -111,23 +111,23 @@ void Record::SetUndoRecordPos(uint64_t nUndoRecordPos)
 	m_pHeader->m_nUndoRecordPos = nUndoRecordPos;
 }
 
-XnUInt8* Record::GetData()
+uint8_t* Record::GetData()
 {
 	return m_pData;
 }
 
-const XnUInt8* Record::GetData() const
+const uint8_t* Record::GetData() const
 {
 	return m_pData;
 }
 
-void Record::SetData(XnUInt8* pData, uint32_t nMaxSize)
+void Record::SetData(uint8_t* pData, uint32_t nMaxSize)
 {
 	m_pData = pData;
 	m_nMaxSize = nMaxSize;
 }
 
-const XnUInt8* Record::GetWritePos() const
+const uint8_t* Record::GetWritePos() const
 {
 	return m_pData + m_pHeader->m_nFieldsSize;
 }
@@ -216,18 +216,18 @@ XnStatus Record::ReadString(const XnChar* &strDest) const
 	return XN_STATUS_OK;
 }
 
-const XnUInt8* Record::GetReadPos() const
+const uint8_t* Record::GetReadPos() const
 {
 	return (m_pData + m_nReadOffset);
 }
 
-const XnUInt8* Record::GetPayload() const
+const uint8_t* Record::GetPayload() const
 {
 	XN_ASSERT(m_pHeader->m_nPayloadSize != 0);
 	return (m_pData + m_pHeader->m_nFieldsSize);
 }
 
-XnUInt8* Record::GetPayload()
+uint8_t* Record::GetPayload()
 {
 	XN_ASSERT(m_pHeader->m_nPayloadSize != 0);
 	return (m_pData + m_pHeader->m_nFieldsSize);
@@ -276,7 +276,7 @@ XnStatus Record::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritt
 /****************************/
 /* NodeAdded_1_0_0_4_Record */
 /****************************/
-NodeAdded_1_0_0_4_Record::NodeAdded_1_0_0_4_Record(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+NodeAdded_1_0_0_4_Record::NodeAdded_1_0_0_4_Record(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	Record(pData, nMaxSize, bUseOld32Header), m_strNodeName(NULL), m_type(XnProductionNodeType(0)), m_compression(XN_CODEC_NULL)
 {
 	xnOSMemSet(&m_compression, 0, sizeof(m_compression));
@@ -387,7 +387,7 @@ XnStatus NodeAdded_1_0_0_4_Record::AsString(XnChar* strDest, uint32_t nSize, uin
 /****************************/
 /* NodeAdded_1_0_0_5_Record */
 /****************************/
-NodeAdded_1_0_0_5_Record::NodeAdded_1_0_0_5_Record(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+NodeAdded_1_0_0_5_Record::NodeAdded_1_0_0_5_Record(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	NodeAdded_1_0_0_4_Record(pData, nMaxSize, bUseOld32Header), m_nNumberOfFrames(0), m_nMinTimestamp(0), m_nMaxTimestamp(0)
 {
 }
@@ -497,7 +497,7 @@ XnStatus NodeAdded_1_0_0_5_Record::AsString(XnChar* strDest, uint32_t nSize, uin
 /****************************/
 /* NodeAddedRecord          */
 /****************************/
-NodeAddedRecord::NodeAddedRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+NodeAddedRecord::NodeAddedRecord(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	NodeAdded_1_0_0_5_Record(pData, nMaxSize, bUseOld32Header), m_nSeekTablePosition(0)
 {
 }
@@ -561,7 +561,7 @@ XnStatus NodeAddedRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nC
 /*********************/
 /* NodeRemovedRecord */
 /*********************/
-NodeRemovedRecord::NodeRemovedRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+NodeRemovedRecord::NodeRemovedRecord(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	Record(pData, nMaxSize, bUseOld32Header)
 {
 }
@@ -592,7 +592,7 @@ XnStatus NodeRemovedRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& 
 /*********************/
 /* GeneralPropRecord */
 /*********************/
-GeneralPropRecord::GeneralPropRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header, uint32_t nPropRecordType /*= RECORD_GENERAL_PROPERTY*/) :
+GeneralPropRecord::GeneralPropRecord(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header, uint32_t nPropRecordType /*= RECORD_GENERAL_PROPERTY*/) :
 	Record(pData, nMaxSize, bUseOld32Header),
 	m_nPropRecordType(nPropRecordType),
 	m_strPropName(NULL),
@@ -665,7 +665,7 @@ XnStatus GeneralPropRecord::Decode()
 	XN_IS_STATUS_OK(nRetVal);
 
 	// The property data is not copied but just pointed to
-	XnUInt8* pData = const_cast<XnUInt8*>(GetReadPos());
+	uint8_t* pData = const_cast<uint8_t*>(GetReadPos());
 
 #if (XN_PLATFORM == XN_PLATFORM_LINUX_ARM)
 	// under ARM we have some alignment issues. Move this buffer so it will be aligned.
@@ -700,7 +700,7 @@ XnStatus GeneralPropRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& 
 /*****************/
 /* IntPropRecord */
 /*****************/
-IntPropRecord::IntPropRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+IntPropRecord::IntPropRecord(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	GeneralPropRecord(pData, nMaxSize, bUseOld32Header, RECORD_INT_PROPERTY),
 	m_nValue(0)
 {
@@ -741,7 +741,7 @@ XnStatus IntPropRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCha
 /******************/
 /* RealPropRecord */
 /******************/
-RealPropRecord::RealPropRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+RealPropRecord::RealPropRecord(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	GeneralPropRecord(pData, nMaxSize, bUseOld32Header, RECORD_REAL_PROPERTY),
 	m_dValue(0)
 {
@@ -782,7 +782,7 @@ XnStatus RealPropRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCh
 /********************/
 /* StringPropRecord */
 /********************/
-StringPropRecord::StringPropRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+StringPropRecord::StringPropRecord(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	GeneralPropRecord(pData, nMaxSize, bUseOld32Header, RECORD_STRING_PROPERTY)
 {
 }
@@ -819,7 +819,7 @@ XnStatus StringPropRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& n
 /***********************/
 /* NodeDataBeginRecord */
 /***********************/
-NodeDataBeginRecord::NodeDataBeginRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+NodeDataBeginRecord::NodeDataBeginRecord(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	Record(pData, nMaxSize, bUseOld32Header)
 {
 	xnOSMemSet(&m_seekInfo, 0, sizeof(m_seekInfo));
@@ -877,7 +877,7 @@ XnStatus NodeDataBeginRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t
 /************************/
 /* NodeStateReadyRecord */
 /************************/
-NodeStateReadyRecord::NodeStateReadyRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+NodeStateReadyRecord::NodeStateReadyRecord(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	Record(pData, nMaxSize, bUseOld32Header)
 {
 
@@ -917,7 +917,7 @@ XnStatus NodeStateReadyRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_
 /***********************/
 /* NewDataRecordHeader */
 /***********************/
-NewDataRecordHeader::NewDataRecordHeader(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+NewDataRecordHeader::NewDataRecordHeader(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	Record(pData, nMaxSize, bUseOld32Header),
 	m_nTimeStamp(0),
 	m_nFrameNumber(0)
@@ -995,7 +995,7 @@ XnStatus NewDataRecordHeader::AsString(XnChar* strDest, uint32_t nSize, uint32_t
 /*******************/
 /* DataIndexRecordHeader */
 /*******************/
-DataIndexRecordHeader::DataIndexRecordHeader(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+DataIndexRecordHeader::DataIndexRecordHeader(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	Record(pData, nMaxSize, bUseOld32Header)
 {
 }
@@ -1034,7 +1034,7 @@ XnStatus DataIndexRecordHeader::AsString(XnChar* strDest, uint32_t nSize, uint32
 /*************/
 /* EndRecord */
 /*************/
-EndRecord::EndRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
+EndRecord::EndRecord(uint8_t* pData, uint32_t nMaxSize, XnBool bUseOld32Header) :
 	Record(pData, nMaxSize, bUseOld32Header)
 {
 }

@@ -900,7 +900,7 @@ XnStatus GetI2CDeviceIDFromName(const char* deviceName, uint32_t* result)
 		if(xnOSStrCaseCmp(devices[i].name, deviceName) == 0)
 		{
 			nRetVal = XN_STATUS_OK;
-			*result = (XnUInt8)devices[i].id;
+			*result = (uint8_t)devices[i].id;
 		}
 	}
 
@@ -1079,7 +1079,7 @@ int ReadDebugData(int argc, const char* argv[])
 		return -1;
 	}
 
-	XnUInt8 debugData[1024];
+	uint8_t debugData[1024];
 	commandDebugData.dataID = (uint16_t)MyAtoi(argv[1]);
 	commandDebugData.dataSize = sizeof(debugData);
 	commandDebugData.data = debugData;
@@ -1262,7 +1262,7 @@ XnStatus GetLogIDFromName(const char* mask, uint32_t* result)
 		if (xnOSStrCaseCmp(masks[i].name, mask) == 0)
 		{
 			nRetVal = XN_STATUS_OK;
-			*result = (XnUInt8)masks[i].id;
+			*result = (uint8_t)masks[i].id;
 		}
 	}
 
@@ -1287,7 +1287,7 @@ int Log(int argc, const char* argv[])
 		uint32_t logID = 0;
 		if (GetLogIDFromName(argv[1], &logID) == XN_STATUS_NO_MATCH)
 		{
-			logID = (XnUInt8)MyAtoi(argv[2]);
+			logID = (uint8_t)MyAtoi(argv[2]);
 		}
 
 		//Start command
@@ -1483,7 +1483,7 @@ int RunBist(int argc, const char* argv[])
 	}
 	}
 
-	XnUInt8 response[512];
+	uint8_t response[512];
 	XnCommandExecuteBist args;
 	args.extraData = response;
 

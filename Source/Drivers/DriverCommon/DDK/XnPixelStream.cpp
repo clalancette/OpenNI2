@@ -262,7 +262,7 @@ XnStatus XnPixelStream::OnOutputFormatChanged()
 		nBytesPerPixel = sizeof(OniDepthPixel);
 		break;
 	case ONI_PIXEL_FORMAT_GRAY8:
-		nBytesPerPixel = sizeof(XnUInt8);
+		nBytesPerPixel = sizeof(uint8_t);
 		break;
 	case ONI_PIXEL_FORMAT_GRAY16:
 		nBytesPerPixel = sizeof(uint16_t);

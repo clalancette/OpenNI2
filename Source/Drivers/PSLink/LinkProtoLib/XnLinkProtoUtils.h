@@ -51,8 +51,8 @@ public:
 	uint16_t GetStreamID() const { return m_nStreamID; }
 	uint16_t GetPacketID() const { return m_nPacketID; }
 	uint16_t GetCID() const { return m_nCID; }
-	const XnUInt8* GetPacketData() const {return (reinterpret_cast<const XnUInt8*>(this) + sizeof(XnLinkPacketHeader)); }
-	XnUInt8* GetPacketData() {return (reinterpret_cast<XnUInt8*>(this) + sizeof(XnLinkPacketHeader)); }
+	const uint8_t* GetPacketData() const {return (reinterpret_cast<const uint8_t*>(this) + sizeof(XnLinkPacketHeader)); }
+	uint8_t* GetPacketData() {return (reinterpret_cast<uint8_t*>(this) + sizeof(XnLinkPacketHeader)); }
 
 	void SetMagic() { m_nMagic = XN_LINK_MAGIC; }
 	void SetSize(uint16_t nSize) { m_nSize = nSize; }
@@ -106,8 +106,8 @@ XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, uint32_t& nBu
 XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& componentVersions, const XnLinkComponentVersionsList* pLinkList, uint32_t nBufferSize);
 
 /*
-XnUInt8 xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName);
-const XnChar* xnLinkInterfaceIDToNICapability(XnUInt8 nInterfaceID);
+uint8_t xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName);
+const XnChar* xnLinkInterfaceIDToNICapability(uint8_t nInterfaceID);
 XnProductionNodeType xnLinkStreamTypeToNINodeType(XnLinkStreamType streamType);
 XnLinkStreamType xnLinkNINodeTypeToStreamType(XnProductionNodeType  nodeType);
 */

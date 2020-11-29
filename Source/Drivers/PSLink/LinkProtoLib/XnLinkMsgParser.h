@@ -36,7 +36,7 @@ public:
 	virtual void Shutdown();
 
 	XnStatus BeginParsing(void* pDestBuffer, uint32_t nDestBufferSize);
-	XnStatus ParsePacket(const LinkPacketHeader& header, const XnUInt8* pData);
+	XnStatus ParsePacket(const LinkPacketHeader& header, const uint8_t* pData);
 
 	const void* GetParsedData() const;
 	uint32_t GetParsedSize() const;
@@ -44,15 +44,15 @@ public:
 
 protected:
 	virtual XnStatus ParsePacketImpl(XnLinkFragmentation fragmentation,
-					const XnUInt8* pSrc,
-	                                const XnUInt8* pSrcEnd,
-					XnUInt8*& pDst,
-					const XnUInt8* pDstEnd);
+					const uint8_t* pSrc,
+	                                const uint8_t* pSrcEnd,
+					uint8_t*& pDst,
+					const uint8_t* pDstEnd);
 
 private:
-	XnUInt8* m_pDestBuffer;
-	XnUInt8* m_pCurrDest;
-	XnUInt8* m_pDestEnd;
+	uint8_t* m_pDestBuffer;
+	uint8_t* m_pCurrDest;
+	uint8_t* m_pDestEnd;
 };
 
 }

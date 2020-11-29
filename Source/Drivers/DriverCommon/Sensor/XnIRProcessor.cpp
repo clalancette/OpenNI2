@@ -73,10 +73,10 @@ XnStatus XnIRProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnIRProcessor::Unpack10to16(const XnUInt8* pcInput, const uint32_t nInputSize, uint16_t* pnOutput, uint32_t* pnActualRead, uint32_t* pnOutputSize)
+XnStatus XnIRProcessor::Unpack10to16(const uint8_t* pcInput, const uint32_t nInputSize, uint16_t* pnOutput, uint32_t* pnActualRead, uint32_t* pnOutputSize)
 {
 	int32_t cInput = 0;
-	const XnUInt8* pOrigInput = pcInput;
+	const uint8_t* pOrigInput = pcInput;
 
 	uint32_t nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored
 	uint32_t nNeededOutput = nElements * XN_OUTPUT_ELEMENT_SIZE;
@@ -193,15 +193,15 @@ void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader
 	XN_PROFILING_END_SECTION
 }
 
-void IRto888(uint16_t* pInput, uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
+void IRto888(uint16_t* pInput, uint32_t nInputSize, uint8_t* pOutput, uint32_t* pnOutputSize)
 {
 	uint16_t* pInputEnd = pInput + nInputSize;
-	XnUInt8* pOutputOrig = pOutput;
-	XnUInt8* pOutputEnd = pOutput + *pnOutputSize;
+	uint8_t* pOutputOrig = pOutput;
+	uint8_t* pOutputEnd = pOutput + *pnOutputSize;
 
 	while (pInput != pInputEnd && pOutput < pOutputEnd)
 	{
-		*pOutput = (XnUInt8)((*pInput)>>2);
+		*pOutput = (uint8_t)((*pInput)>>2);
 		*(pOutput+1) = *pOutput;
 		*(pOutput+2) = *pOutput;
 

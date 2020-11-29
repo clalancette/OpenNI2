@@ -94,8 +94,6 @@ typedef	wchar_t				XnWChar;
 
 /** 8-bit signed integer. */
 typedef	signed char			XnInt8;
-/** 8-bit unsigned integer. */
-typedef	unsigned char		XnUInt8;
 
 /** natural signed integer. */
 typedef	int					XnInt;

@@ -276,7 +276,7 @@ XN_C_API void XN_C_DECL _xnDumpFileWriteString(XnDumpFile* pFile, const XnChar* 
 	XN_REFERENCE_VARIABLE(nRetVal);
 	va_end(args);
 
-	_xnDumpFileWriteBuffer(pFile, (const XnUInt8*)strBuffer, nCharsWritten);
+	_xnDumpFileWriteBuffer(pFile, (const uint8_t*)strBuffer, nCharsWritten);
 }
 
 XN_C_API void XN_C_DECL _xnDumpFileClose(XnDumpFile* pFile)

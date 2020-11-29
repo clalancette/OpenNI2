@@ -36,10 +36,10 @@ LinkPacked10BitParser::~LinkPacked10BitParser()
 }
 
 XnStatus LinkPacked10BitParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
-						const XnUInt8* pSrc,
-						const XnUInt8* pSrcEnd,
-						XnUInt8*& pDst,
-						const XnUInt8* pDstEnd)
+						const uint8_t* pSrc,
+						const uint8_t* pSrcEnd,
+						uint8_t*& pDst,
+						const uint8_t* pDstEnd)
 {
 	//pDstWord always points to same address as pDst.
 	uint16_t*& pDstWord = reinterpret_cast<uint16_t*&>(pDst);
