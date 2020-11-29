@@ -39,7 +39,7 @@
 namespace xn
 {
 
-class LinkPacketHeader : private XnLinkPacketHeader
+class LinkPacketHeader final : private XnLinkPacketHeader
 {
 public:
 	XnStatus Validate(uint32_t nBytesToRead) const;
@@ -105,12 +105,6 @@ XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<uint16_t>& frameSyncStreamIDs
 XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, uint32_t& nBufferSize, const std::vector<uint16_t>& frameSyncStreamIDs);
 XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& componentVersions, const XnLinkComponentVersionsList* pLinkList, uint32_t nBufferSize);
 
-/*
-uint8_t xnLinkNICapabilityToInterfaceID(const char* strCapabilityName);
-const char* xnLinkInterfaceIDToNICapability(uint8_t nInterfaceID);
-XnProductionNodeType xnLinkStreamTypeToNINodeType(XnLinkStreamType streamType);
-XnLinkStreamType xnLinkNINodeTypeToStreamType(XnProductionNodeType  nodeType);
-*/
 void xnLinkParseVideoMode(XnFwStreamVideoMode& videoMode, const XnLinkVideoMode& linkVideoMode);
 void xnLinkEncodeVideoMode(XnLinkVideoMode& linkVideoMode, const XnFwStreamVideoMode& videoMode);
 

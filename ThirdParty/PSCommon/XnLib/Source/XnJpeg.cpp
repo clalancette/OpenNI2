@@ -33,7 +33,6 @@
 // Definitions
 //---------------------------------------------------------------------------
 #define XN_MASK_JPEG "JPEG"
-#define XN_STREAM_STRING_BAD_FORMAT -1
 
 //---------------------------------------------------------------------------
 // Types
@@ -50,14 +49,14 @@ XN_PRAGMA_STOP_DISABLED_WARNING_SECTION;
 typedef struct XnStreamCompJPEGContext
 {
 	jpeg_compress_struct		jCompStruct;
-	jpeg_error_mgr				jErrMgr;
+	jpeg_error_mgr			jErrMgr;
 	struct jpeg_destination_mgr	jDestMgr;
 } XnStreamCompJPEGContext;
 
 typedef struct XnStreamUncompJPEGContext
 {
 	jpeg_decompress_struct	jDecompStruct;
-	XnLibJpegErrorMgr		jErrMgr;
+	XnLibJpegErrorMgr	jErrMgr;
 	struct jpeg_source_mgr	jSrcMgr;
 } XnStreamUncompJPEGContext;
 
