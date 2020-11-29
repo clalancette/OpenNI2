@@ -59,16 +59,16 @@ private:
 		int64_t dYdYdX0, int64_t dYdYdY0,
 		uint32_t startingBetaX, uint32_t startingBetaY);
 	void CreateDXDYTablesInternal(XnDouble* RegXTable, XnDouble* RegYTable,
-		XnInt32 resX, XnInt32 resY,
+		int32_t resX, int32_t resY,
 		int64_t AX6, int64_t BX6, int64_t CX2, int64_t DX2,
-		XnInt32 deltaBetaX,
+		int32_t deltaBetaX,
 		int64_t AY6, int64_t BY6, int64_t CY2, int64_t DY2,
-		XnInt32 deltaBetaY,
+		int32_t deltaBetaY,
 		int64_t dX0, int64_t dY0,
 		int64_t dXdX0, int64_t dXdY0, int64_t dYdX0, int64_t dYdY0,
 		int64_t dXdXdX0, int64_t dYdXdX0, int64_t dYdXdY0, int64_t dXdXdY0,
 		int64_t dYdYdX0, int64_t dYdYdY0,
-		XnInt32 betaX, XnInt32 betaY);
+		int32_t betaX, int32_t betaY);
 
 	DepthUtilsSensorCalibrationInfo m_blob;
 

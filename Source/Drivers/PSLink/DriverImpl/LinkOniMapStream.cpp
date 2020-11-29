@@ -67,7 +67,7 @@ XnStatus LinkOniMapStream::Init()
 	GetDefaultVideoMode(&videoMode);
 
 	// override with INI config
-	XnInt32 temp32;
+	int32_t temp32;
 	if (XN_STATUS_OK == xnOSReadIntFromINI(m_configFile, videoModeSection, "XResolution", &temp32))
 	{
 		videoMode.resolutionX = (int)temp32;
@@ -279,7 +279,7 @@ XnStatus LinkOniMapStream::SetVideoMode(OniVideoMode* pVideoMode)
 
 	// now look for the first mode that matches
 	const std::vector<XnFwStreamVideoMode>& supportedModes = m_pInputStream->GetSupportedVideoModes();
-	XnInt32 selectedIndex = -1;
+	int32_t selectedIndex = -1;
 	for (uint32_t i = 0; i < supportedModes.size(); ++i)
 	{
 		if (pVideoMode->resolutionX == (int)supportedModes[i].m_nXRes &&

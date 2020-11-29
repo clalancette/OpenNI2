@@ -38,7 +38,7 @@ XnStatus XnIntProperty::ReadValueFromFile(const XnChar* csINIFile, const XnChar*
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnInt32 nValue;
+	int32_t nValue;
 
 	nRetVal = xnOSReadIntFromINI(csINIFile, csSection, GetName(), &nValue);
 	if (nRetVal == XN_STATUS_OK)

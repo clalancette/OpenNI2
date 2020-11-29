@@ -472,7 +472,7 @@ bool Sleep(openni::Device& /*Device*/, std::vector<std::string>& Command)
 		return true;
 	}
 
-	XnInt32 nMilliSeconds;
+	int32_t nMilliSeconds;
 	if (!atoi2(Command[1].c_str(), &nMilliSeconds))
 	{
 		printf("%s doesn't describe a time quantity in milliseconds\n", Command[1].c_str());
@@ -1012,7 +1012,7 @@ bool Filter(openni::Device& Device, std::vector<std::string>& Command)
 		return true;
 	}
 
-	XnInt32 nFilter;
+	int32_t nFilter;
 	openni::Status rc;
 
 	if (Command[1] == "get")
@@ -1021,7 +1021,7 @@ bool Filter(openni::Device& Device, std::vector<std::string>& Command)
 		rc = Device.getProperty(XN_MODULE_PROPERTY_FIRMWARE_LOG_FILTER, &nValue);
 		if (rc == openni::STATUS_OK)
 		{
-			nFilter = (XnInt32)nValue;
+			nFilter = (int32_t)nValue;
 			printf("Filter 0x%04x\n", nFilter);
 		}
 		else

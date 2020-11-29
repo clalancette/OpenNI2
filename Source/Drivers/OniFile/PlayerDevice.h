@@ -123,7 +123,7 @@ private:
 
 	static XnStatus XN_CALLBACK_TYPE FileOpen(void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE FileRead(void* pCookie, void* pBuffer, uint32_t nSize, uint32_t* pnBytesRead);
-	static XnStatus XN_CALLBACK_TYPE FileSeek(void* pCookie, XnOSSeekType seekType, const XnInt32 nOffset);
+	static XnStatus XN_CALLBACK_TYPE FileSeek(void* pCookie, XnOSSeekType seekType, const int32_t nOffset);
 	static uint32_t XN_CALLBACK_TYPE FileTell(void* pCookie);
 	static void     XN_CALLBACK_TYPE FileClose(void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE FileSeek64(void* pCookie, XnOSSeekType seekType, const int64_t nOffset);

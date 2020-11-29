@@ -30,7 +30,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, XnInt32* pnFrames)
+XN_C_API XnStatus xnOSGetCurrentCallStack(int32_t nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, int32_t* pnFrames)
 {
 	if (*pnFrames == 0 || nMaxNameLength == 0)
 	{
@@ -69,7 +69,7 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFr
 
 #else
 
-XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, XnInt32* pnFrames)
+XN_C_API XnStatus xnOSGetCurrentCallStack(int32_t nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, int32_t* pnFrames)
 {
 	*pnFrames = 0;
 	return (XN_STATUS_OK);

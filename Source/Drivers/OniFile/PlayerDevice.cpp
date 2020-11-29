@@ -136,7 +136,7 @@ void PlayerDevice::LoadConfigurationFromIniFile()
 {
 	XnStatus nRetVal;
 	XnDouble dSpeed = 0;
-	XnInt32 nRepearMode = 0;
+	int32_t nRepearMode = 0;
 
 	nRetVal = xnOSReadDoubleFromINI(m_iniFilePath,ONI_INIFILE_SECTION_PLAYER, ONI_INIFILE_ENTRY_SPEED, &dSpeed);
 
@@ -1178,7 +1178,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::FileRead(void* pCookie, void* pBuffer, u
 	return rc;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::FileSeek(void* pCookie, XnOSSeekType seekType, const XnInt32 nOffset)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::FileSeek(void* pCookie, XnOSSeekType seekType, const int32_t nOffset)
 {
 	return PlayerDevice::FileSeek64(pCookie, seekType, nOffset);
 }

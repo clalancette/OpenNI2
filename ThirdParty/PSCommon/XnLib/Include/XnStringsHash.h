@@ -44,7 +44,7 @@ public:
 		return nCRC % (1 << (sizeof(xnl::HashCode)*8));
 	}
 
-	static XnInt32 Compare(const XnChar* const& key1, const XnChar* const& key2)
+	static int32_t Compare(const XnChar* const& key1, const XnChar* const& key2)
 	{
 		return strcmp(key1, key2);
 	}

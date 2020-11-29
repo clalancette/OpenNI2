@@ -69,7 +69,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	XnDouble dPlanePixelSize = pConfig->fZeroPlanePixelSize;
 	XnDouble dPlaneDsr = pConfig->nZeroPlaneDistance;
 	XnDouble dPlaneDcl = pConfig->fEmitterDCmosDistance;
-	XnInt32 nConstShift = pConfig->nParamCoeff * pConfig->nConstShift;
+	int32_t nConstShift = pConfig->nParamCoeff * pConfig->nConstShift;
 	XnDouble dDepthScale = (pConfig->dDepthScale == 0) ? 1.0 : pConfig->dDepthScale;
 
 	dPlanePixelSize *= pConfig->nPixelSizeFactor;

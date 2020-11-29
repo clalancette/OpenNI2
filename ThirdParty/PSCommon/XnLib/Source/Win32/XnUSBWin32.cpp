@@ -733,7 +733,7 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 	// Local variables
 	XnBool bResult = TRUE;
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnInt32 nRetBytes = 0;
+	int32_t nRetBytes = 0;
 	XnChar pConfigDescBuf[MAX_CONFIG_DESC_SIZE];
 	XnChar* pBuf = NULL;
 	PUSB_CONFIGURATION_DESCRIPTOR pUSBConfigDesc = NULL;

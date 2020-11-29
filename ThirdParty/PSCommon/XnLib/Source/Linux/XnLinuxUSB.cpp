@@ -1400,7 +1400,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 						XnBool bCompletePacket;
 
 						// some packets may return empty or partial, aggregate as many consequent packets as possible, and then send them to processing
-						for (XnInt32 i = 0; i < pTransfer->num_iso_packets; ++i)
+						for (int32_t i = 0; i < pTransfer->num_iso_packets; ++i)
 						{
 							struct libusb_iso_packet_descriptor* pPacket = &pTransfer->iso_packet_desc[i];
 

@@ -75,7 +75,7 @@ XnStatus XnIRProcessor::Init()
 
 XnStatus XnIRProcessor::Unpack10to16(const XnUInt8* pcInput, const uint32_t nInputSize, XnUInt16* pnOutput, uint32_t* pnActualRead, uint32_t* pnOutputSize)
 {
-	XnInt32 cInput = 0;
+	int32_t cInput = 0;
 	const XnUInt8* pOrigInput = pcInput;
 
 	uint32_t nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored

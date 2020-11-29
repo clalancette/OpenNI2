@@ -248,12 +248,12 @@ XN_C_API XnStatus xnOSStrFormatV(XnChar* cpDestString, const uint32_t nDestLengt
 
 	*pnCharsWritten = 0;
 
-	XnInt32 nRes = vsnprintf(cpDestString, nDestLength, cpFormat, args);
+	int32_t nRes = vsnprintf(cpDestString, nDestLength, cpFormat, args);
 
 	// nRes is the number of bytes written, not including NULL termination
 
 	if ((nRes == -1) ||	// string was truncated
-		(nRes == (XnInt32)nDestLength && cpDestString[nRes] != '\0')) // no space for the NULL termination
+		(nRes == (int32_t)nDestLength && cpDestString[nRes] != '\0')) // no space for the NULL termination
 	{
 		return (XN_STATUS_INTERNAL_BUFFER_TOO_SMALL);
 	}
@@ -265,7 +265,7 @@ XN_C_API XnStatus xnOSStrFormatV(XnChar* cpDestString, const uint32_t nDestLengt
 	return (XN_STATUS_OK);
 }
 
-XN_C_API void xnOSItoA(XnInt32 nValue, XnChar* cpStr, XnInt32 nBase)
+XN_C_API void xnOSItoA(int32_t nValue, XnChar* cpStr, int32_t nBase)
 {
 	_itoa(nValue, cpStr, nBase);
 }
@@ -319,7 +319,7 @@ XN_C_API XnStatus xnOSExpandEnvironmentStrings(const XnChar* strSrc, XnChar* str
 	}
 }
 
-XN_C_API XnInt32 xnOSStrCmp(const XnChar* cpFirstString, const XnChar* cpSecondString)
+XN_C_API int32_t xnOSStrCmp(const XnChar* cpFirstString, const XnChar* cpSecondString)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	if ((cpFirstString == NULL) || (cpSecondString == NULL))
@@ -331,7 +331,7 @@ XN_C_API XnInt32 xnOSStrCmp(const XnChar* cpFirstString, const XnChar* cpSecondS
 	return strcmp(cpFirstString, cpSecondString);
 }
 
-XN_C_API XnInt32 xnOSStrCaseCmp(const XnChar* cpFirstString, const XnChar* cpSecondString)
+XN_C_API int32_t xnOSStrCaseCmp(const XnChar* cpFirstString, const XnChar* cpSecondString)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	if ((cpFirstString == NULL) || (cpSecondString == NULL))

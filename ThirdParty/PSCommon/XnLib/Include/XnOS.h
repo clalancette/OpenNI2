@@ -410,14 +410,14 @@ XN_C_API void XN_C_DECL xnOSWriteMemoryReport(const XnChar* csFileName);
 #endif
 
 // Files
-XN_C_API XnStatus XN_C_DECL xnOSCountFiles(const XnChar* cpSearchPattern, XnInt32* pnFoundFiles);
-XN_C_API XnStatus XN_C_DECL xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* cpPrefixPath, XnChar cpFileList[][XN_FILE_MAX_PATH], const XnInt32 nMaxFiles, XnInt32* pnFoundFiles);
+XN_C_API XnStatus XN_C_DECL xnOSCountFiles(const XnChar* cpSearchPattern, int32_t* pnFoundFiles);
+XN_C_API XnStatus XN_C_DECL xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* cpPrefixPath, XnChar cpFileList[][XN_FILE_MAX_PATH], const int32_t nMaxFiles, int32_t* pnFoundFiles);
 XN_C_API XnStatus XN_C_DECL xnOSOpenFile(const XnChar* cpFileName, const uint32_t nFlags, XN_FILE_HANDLE* pFile);
 XN_C_API XnStatus XN_C_DECL xnOSCloseFile(XN_FILE_HANDLE* pFile);
 XN_C_API XnStatus XN_C_DECL xnOSReadFile(const XN_FILE_HANDLE File, void* pBuffer, uint32_t* pnBufferSize);
 XN_C_API XnStatus XN_C_DECL xnOSWriteFile(const XN_FILE_HANDLE File, const void* pBuffer, const uint32_t nBufferSize);
 XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSSeekFile64() instead") XN_C_DECL
-			    xnOSSeekFile  (const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const XnInt32 nOffset);
+			    xnOSSeekFile  (const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const int32_t nOffset);
 XN_C_API XnStatus XN_C_DECL xnOSSeekFile64(const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const int64_t nOffset);
 XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSTellFile64() instead") XN_C_DECL
 			    xnOSTellFile  (const XN_FILE_HANDLE File, uint32_t* nFilePos);
@@ -470,11 +470,11 @@ XN_C_API XnStatus XN_C_DECL xnOSDeleteDirectoryTree(const XnChar* strDirName);
 XN_C_API XnStatus XN_C_DECL xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnChar* cpDest, const uint32_t nDestLength);
 XN_C_API XnStatus XN_C_DECL xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnFloat* fDest);
 XN_C_API XnStatus XN_C_DECL xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnDouble* fDest);
-XN_C_API XnStatus XN_C_DECL xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnInt32* nDest);
+XN_C_API XnStatus XN_C_DECL xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, int32_t* nDest);
 XN_C_API XnStatus XN_C_DECL xnOSWriteStringToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnChar* cpSrc);
 XN_C_API XnStatus XN_C_DECL xnOSWriteFloatToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnFloat fSrc);
 XN_C_API XnStatus XN_C_DECL xnOSWriteDoubleToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnDouble fSrc);
-XN_C_API XnStatus XN_C_DECL xnOSWriteIntToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnInt32 nSrc);
+XN_C_API XnStatus XN_C_DECL xnOSWriteIntToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const int32_t nSrc);
 
 // Shared libraries
 XN_C_API XnStatus XN_C_DECL xnOSLoadLibrary(const XnChar* cpFileName, XN_LIB_HANDLE* pLibHandle);
@@ -614,7 +614,7 @@ XN_C_API XnBool XN_C_DECL xnOSWasKeyboardHit();
 XN_C_API XnChar XN_C_DECL xnOSReadCharFromInput();
 
 // Debug Utilities
-XN_C_API XnStatus XN_C_DECL xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, XnInt32* pnFrames);
+XN_C_API XnStatus XN_C_DECL xnOSGetCurrentCallStack(int32_t nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, int32_t* pnFrames);
 XN_C_API XnStatus XN_C_DECL xnOSPrintCurrentCallstack();
 
 

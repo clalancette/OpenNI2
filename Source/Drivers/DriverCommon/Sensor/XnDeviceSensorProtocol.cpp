@@ -230,7 +230,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 			xnOSSleep(7000);
 
 			XnChar* pFile = pcsCommandsFile;
-			XnInt32 nRead = 0;
+			int32_t nRead = 0;
 
 			// Parse commands file
 			while (*pFile != '\0' && !pDevicePrivateData->LogThread.bKillThread)

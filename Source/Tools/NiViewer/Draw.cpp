@@ -754,7 +754,7 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, uint32_t nYUV
 void YUV444ToRGBA(XnUInt8 cY, XnUInt8 cU, XnUInt8 cV,
 					XnUInt8& cR, XnUInt8& cG, XnUInt8& cB, XnUInt8& cA)
 {
-	XnInt32 nC = cY - 16;
+	int32_t nC = cY - 16;
 	XnInt16 nD = cU - 128;
 	XnInt16 nE = cV - 128;
 
@@ -1043,17 +1043,17 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
  		else
 		{
 			XnDouble dRealY = (nY + originY) / (XnDouble)fullHeight;
-			XnInt32 nDepthY = dRealY * depthFullHeight - depthOriginY;
+			int32_t nDepthY = dRealY * depthFullHeight - depthOriginY;
 
 			for (XnUInt16 nX = 0; nX < width; nX++, pTexture+=4)
 			{
-				XnInt32 nDepthIndex = 0;
+				int32_t nDepthIndex = 0;
 
 				if (useDepth)
 				{
 					XnDouble dRealX = (nX + originX) / (XnDouble)fullWidth;
 
-					XnInt32 nDepthX = dRealX * depthFullWidth - depthOriginX;
+					int32_t nDepthX = dRealX * depthFullWidth - depthOriginX;
 
 					if (nDepthX >= depthWidth || nDepthY >= depthHeight || nDepthX < 0 || nDepthY < 0)
 					{
@@ -1402,8 +1402,8 @@ void drawCenteredMessage(void* font, int y, const char* message, float fRed, flo
 	uint32_t anLinesWidths[nMaxLines];
 	uint32_t nLine = 0;
 	uint32_t nLineLengthChars = 0;
-	XnInt32 nLineLengthPixels = 0;
-	XnInt32 nMaxLineLength = 0;
+	int32_t nLineLengthPixels = 0;
+	int32_t nMaxLineLength = 0;
 
 	aLines[0] = buf;
 

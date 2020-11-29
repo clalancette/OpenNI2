@@ -279,7 +279,7 @@ XnStatus XnShiftToDepthStreamHelper::OnDeviceS2DTablesSizeChanged()
 
 XnStatus XnShiftToDepthStreamHelper::GetShiftToDepthTableImpl(const OniGeneralBuffer& gbValue) const
 {
-	XnInt32 nTableSize = m_ShiftToDepthTables.nShiftsCount * sizeof(OniDepthPixel);
+	int32_t nTableSize = m_ShiftToDepthTables.nShiftsCount * sizeof(OniDepthPixel);
 	if (gbValue.dataSize < nTableSize)
 	{
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
@@ -291,7 +291,7 @@ XnStatus XnShiftToDepthStreamHelper::GetShiftToDepthTableImpl(const OniGeneralBu
 
 XnStatus XnShiftToDepthStreamHelper::GetDepthToShiftTableImpl(const OniGeneralBuffer& gbValue) const
 {
-	XnInt32 nTableSize = m_ShiftToDepthTables.nDepthsCount * sizeof(XnUInt16);
+	int32_t nTableSize = m_ShiftToDepthTables.nDepthsCount * sizeof(XnUInt16);
 	if (gbValue.dataSize < nTableSize)
 	{
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;

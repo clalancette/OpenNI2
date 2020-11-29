@@ -1613,11 +1613,11 @@ int ReadTemps(int argc, const char* argv[])
 	}
 	else
 	{
-		XnInt32 argInt = (argv[1][0] >= '0' && argv[1][0] <= '9') ? MyAtoi(argv[1]) : -1;
+		int32_t argInt = (argv[1][0] >= '0' && argv[1][0] <= '9') ? MyAtoi(argv[1]) : -1;
 		for (uint32_t i = 0; i < supportedTempList.count; ++i)
 		{
 			if ((xnOSStrCaseCmp(argv[1],supportedTempList.pTempInfos[i].name) == 0)
-				|| (argInt == (XnInt32)supportedTempList.pTempInfos[i].id) )
+				|| (argInt == (int32_t)supportedTempList.pTempInfos[i].id) )
 			{
 				response.id = supportedTempList.pTempInfos[i].id;
 				nRetVal = g_device.invoke(PS_COMMAND_READ_TEMPERATURE, response);
@@ -1922,7 +1922,7 @@ int main(int argc, char* argv[])
 	const char** commandArgv = NULL;
 	int commandArgc = 0;
 
-	XnInt32 nArgIndex = 1;
+	int32_t nArgIndex = 1;
 	while (nArgIndex < argc)
 	{
 		if (argv[nArgIndex][0] == '-')
@@ -1983,7 +1983,7 @@ int main(int argc, char* argv[])
 
 	while (uri == NULL && nWaitTimeRemaining > 0)
 	{
-		nWaitTimeRemaining = XN_MAX(0, (XnInt32)(nWaitTimeRemaining - WAIT_FOR_DEVICE_CHECK_INTERVAL_MS));
+		nWaitTimeRemaining = XN_MAX(0, (int32_t)(nWaitTimeRemaining - WAIT_FOR_DEVICE_CHECK_INTERVAL_MS));
 
 		// check if the requested device is connected
 		for (int i = 0; i < devices.getSize(); ++i)

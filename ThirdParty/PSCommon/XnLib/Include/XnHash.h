@@ -56,9 +56,9 @@ public:
 	{
 		return ((XnSizeT)key) & 0xff;
 	}
-	static XnInt32 Compare(const TKey& key1, const TKey& key2)
+	static int32_t Compare(const TKey& key1, const TKey& key2)
 	{
-		return XnInt32(XnSizeT(key1)-XnSizeT(key2));
+		return int32_t(XnSizeT(key1)-XnSizeT(key2));
 	}
 };
 
@@ -113,7 +113,7 @@ public:
 			}
 			return *this;
 		}
-		ConstIterator operator++(XnInt32)
+		ConstIterator operator++(int32_t)
 		{
 			ConstIterator retVal(*this);
 			++*this;
@@ -160,7 +160,7 @@ public:
 			++(*(ConstIterator*)this);
 			return *this;
 		}
-		Iterator operator++(XnInt32)
+		Iterator operator++(int32_t)
 		{
 			Iterator retVal(*this);
 			++*this;
@@ -171,7 +171,7 @@ public:
 			--(*(ConstIterator*)this);
 			return *this;
 		}
-		Iterator operator--(XnInt32)
+		Iterator operator--(int32_t)
 		{
 			Iterator retVal(*this);
 			--*this;

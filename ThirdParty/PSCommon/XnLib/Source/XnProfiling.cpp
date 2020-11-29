@@ -161,7 +161,7 @@ XN_C_API XnStatus xnProfilingInitFromINI(const XnChar* cpINIFileName, const XnCh
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnInt32 nProfilingInterval = 0;
+	int32_t nProfilingInterval = 0;
 	xnOSReadIntFromINI(cpINIFileName, cpSectionName, "ProfilingInterval", &nProfilingInterval);
 
 	nRetVal = xnProfilingInit(nProfilingInterval);

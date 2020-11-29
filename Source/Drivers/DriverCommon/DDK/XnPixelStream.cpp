@@ -416,11 +416,11 @@ XnStatus XN_CALLBACK_TYPE XnPixelStream::ReadCroppingFromFileCallback(XnGeneralP
 	sprintf(csCroppingSection, "%s.Cropping", csSection);
 
 	// read cropping values
-	XnInt32 nOffsetX;
-	XnInt32 nOffsetY;
-	XnInt32 nSizeX;
-	XnInt32 nSizeY;
-	XnInt32 bEnabled;
+	int32_t nOffsetX;
+	int32_t nOffsetY;
+	int32_t nSizeX;
+	int32_t nSizeY;
+	int32_t bEnabled;
 
 	// only if all values are here
 	if (XN_STATUS_OK == xnOSReadIntFromINI(csINIFile, csCroppingSection, "OffsetX", &nOffsetX) &&

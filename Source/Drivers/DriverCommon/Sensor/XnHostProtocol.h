@@ -283,7 +283,7 @@ typedef struct XnBestTecConf
 {
 	XnUInt16 nBestHopsCount; // Lowest hops count among all unstable points
 	uint32_t nBestSetPoint;  // The TEC set point that gave m_BestHopsCount
-	XnInt32  nBestStep;	 // The TEC scan step that gave m_BestHopsCount
+	int32_t  nBestStep;	 // The TEC scan step that gave m_BestHopsCount
 } XnBestTecConf;
 
 typedef struct XnWavelengthCorrectionDebugPacket
@@ -299,7 +299,7 @@ typedef struct XnWavelengthCorrectionDebugPacket
 	XnBestTecConf BestConf;
 	XnUInt16 nIsTotallyUnstable; //whole scan no stable point
 	uint32_t nConfiguredTecSetPoint; // 0 if not configured
-	XnInt32 nCurrentStep;
+	int32_t nCurrentStep;
 } XnWavelengthCorrectionDebugPacket;
 
 #pragma pack(pop)

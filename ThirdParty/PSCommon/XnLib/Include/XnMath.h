@@ -29,7 +29,7 @@ namespace xnl
 
 	namespace Math
 	{
-		inline XnInt32 Abs(XnInt32 i)
+		inline int32_t Abs(int32_t i)
 		{
 			return abs(i);
 		}
@@ -86,23 +86,23 @@ namespace xnl
 			return value < upper && value > lower;
 		}
 		template<class T>
-		XnInt32 ArgMax(const T a, const T b) {
+		int32_t ArgMax(const T a, const T b) {
 			return (a>b) ? 0 : 1;
 		}
 		template<class T>
-		XnInt32 ArgMax(const T a, const T b, const T c) {
+		int32_t ArgMax(const T a, const T b, const T c) {
 			return (a>b) ? ((a>c) ? 0 : 2) : ((b>c) ? 1 : 2);
 		}
 		template<class T>
-		XnInt32 ArgMax(const T a, const T b, const T c, const T d) {
+		int32_t ArgMax(const T a, const T b, const T c, const T d) {
 			return (a>d) ? ArgMax(a,b,c) : ArgMax(b,c,d)+1;
 		}
 		template<class T>
-		XnInt32 ArgMin(const T a, const T b) {
+		int32_t ArgMin(const T a, const T b) {
 			return (a<b) ? 0 : 1;
 		}
 		template<class T>
-		XnInt32 ArgMin(const T a, const T b, const T c) {
+		int32_t ArgMin(const T a, const T b, const T c) {
 			return (a<b) ? ((a<c) ? 0 : 2) : ((b<c) ? 1 : 2);
 		}
 
@@ -145,7 +145,7 @@ namespace xnl
 #endif
 		}
 
-#define round(x) ((XnInt32)floor((x)+0.5f))
+#define round(x) ((int32_t)floor((x)+0.5f))
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846

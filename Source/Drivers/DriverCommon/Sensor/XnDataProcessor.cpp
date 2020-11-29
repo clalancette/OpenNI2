@@ -131,7 +131,7 @@ uint64_t XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 		XnDouble fWrapAroundInMicroseconds = nWrapPoint / (XnDouble)m_pDevicePrivateData->fDeviceFrequency;
 
 		// perform a rough estimation
-		XnInt32 nWraps = (XnInt32)(nOSTime / fWrapAroundInMicroseconds);
+		int32_t nWraps = (int32_t)(nOSTime / fWrapAroundInMicroseconds);
 
 		// now fix the estimation by clipping TS to the correct wraparounds
 		int64_t nEstimatedTicks =

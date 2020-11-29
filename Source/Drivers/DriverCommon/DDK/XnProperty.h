@@ -73,7 +73,7 @@ public:
 	virtual XnStatus AddToPropertySet(XnPropertySet* pSet) = 0;
 
 	/** Sets the log severity under which changes to the property are printed. */
-	inline void SetLogSeverity(XnInt32 nSeverity) { m_LogSeverity = nSeverity; }
+	inline void SetLogSeverity(int32_t nSeverity) { m_LogSeverity = nSeverity; }
 
 	/** When TRUE, the property will always call the set callback, even if value hasn't changed. */
 	inline void SetAlwaysSet(XnBool bAlwaysSet) { m_bAlwaysSet = bAlwaysSet; }
@@ -112,7 +112,7 @@ private:
 
 	ChangeEvent m_OnChangeEvent;
 
-	XnInt32 m_LogSeverity;
+	int32_t m_LogSeverity;
 	XnBool m_bAlwaysSet;
 };
 

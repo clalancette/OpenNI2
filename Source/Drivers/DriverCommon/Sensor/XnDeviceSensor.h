@@ -260,177 +260,177 @@ typedef struct XnDevicePrivateData
 typedef struct XnFixedParams
 {
 	// Misc
-	XnInt32 nSerialNumber;
-	XnInt32 nWatchDogTimeout;
+	int32_t nSerialNumber;
+	int32_t nWatchDogTimeout;
 
 	// Flash
-	XnInt32 nFlashType;
-	XnInt32 nFlashSize;
-	XnInt32 nFlashBurstEnable;
-	XnInt32 nFmifReadBurstCycles;
-	XnInt32 nFmifReadAccessCycles;
-	XnInt32 nFmifReadRecoverCycles;
-	XnInt32 nFmifWriteAccessCycles;
-	XnInt32 nFmifWriteRecoverCycles;
-	XnInt32 nFmifWriteAssertionCycles;
+	int32_t nFlashType;
+	int32_t nFlashSize;
+	int32_t nFlashBurstEnable;
+	int32_t nFmifReadBurstCycles;
+	int32_t nFmifReadAccessCycles;
+	int32_t nFmifReadRecoverCycles;
+	int32_t nFmifWriteAccessCycles;
+	int32_t nFmifWriteRecoverCycles;
+	int32_t nFmifWriteAssertionCycles;
 
 	// Audio
-	XnInt32 nI2SLogicClockPolarity;
+	int32_t nI2SLogicClockPolarity;
 
 	// Depth
-	XnInt32 nDepthCiuHorizontalSyncPolarity;
-	XnInt32 nDepthCiuVerticalSyncPolarity;
-	XnInt32 nDepthCmosType;
-	XnInt32 nDepthCmosI2CAddress;
-	XnInt32 nDepthCmosI2CBus;
+	int32_t nDepthCiuHorizontalSyncPolarity;
+	int32_t nDepthCiuVerticalSyncPolarity;
+	int32_t nDepthCmosType;
+	int32_t nDepthCmosI2CAddress;
+	int32_t nDepthCmosI2CBus;
 
 	// Image
-	XnInt32 nImageCiuHorizontalSyncPolarity;
-	XnInt32 nImageCiuVerticalSyncPolarity;
-	XnInt32 nImageCmosType;
-	XnInt32 nImageCmosI2CAddress;
-	XnInt32 nImageCmosI2CBus;
+	int32_t nImageCiuHorizontalSyncPolarity;
+	int32_t nImageCiuVerticalSyncPolarity;
+	int32_t nImageCmosType;
+	int32_t nImageCmosI2CAddress;
+	int32_t nImageCmosI2CBus;
 
 	// Geometry
-	XnInt32 nIrCmosCloseToProjector;
+	int32_t nIrCmosCloseToProjector;
 	XnFloat fDCmosEmitterDistance;
 	XnFloat fDCmosRCmosDistance;
 	XnFloat fReferenceDistance;
 	XnFloat fReferencePixelSize;
 
 	// Clocks
-	XnInt32 nPllValue;
-	XnInt32 nSystemClockDivider;
-	XnInt32 nRCmosClockDivider;
-	XnInt32 nDCmosClockDivider;
-	XnInt32 nAdcClocDivider;
-	XnInt32 nI2CStandardSpeedHCount;
-	XnInt32 nI2CStandardSpeedLCount;
+	int32_t nPllValue;
+	int32_t nSystemClockDivider;
+	int32_t nRCmosClockDivider;
+	int32_t nDCmosClockDivider;
+	int32_t nAdcClocDivider;
+	int32_t nI2CStandardSpeedHCount;
+	int32_t nI2CStandardSpeedLCount;
 
-	XnInt32 nI2CHoldFixDelay;
+	int32_t nI2CHoldFixDelay;
 
-	XnInt32 nSensorType;
-	XnInt32 nDebugMode;
-	XnInt32 nUseExtPhy;
-	XnInt32 bProjectorProtectionEnabled;
-	XnInt32 nProjectorDACOutputVoltage;
-	XnInt32 nProjectorDACOutputVoltage2;
-	XnInt32 nTecEmitterDelay;
+	int32_t nSensorType;
+	int32_t nDebugMode;
+	int32_t nUseExtPhy;
+	int32_t bProjectorProtectionEnabled;
+	int32_t nProjectorDACOutputVoltage;
+	int32_t nProjectorDACOutputVoltage2;
+	int32_t nTecEmitterDelay;
 } XnFixedParams;
 
 typedef struct XnFixedParamsV26
 {
 	// Misc
-	XnInt32 nSerialNumber;
-	XnInt32 nWatchDogTimeout;
+	int32_t nSerialNumber;
+	int32_t nWatchDogTimeout;
 
 	// Flash
-	XnInt32 nFlashType;
-	XnInt32 nFlashSize;
-	XnInt32 nFlashBurstEnable;
-	XnInt32 nFmifReadBurstCycles;
-	XnInt32 nFmifReadAccessCycles;
-	XnInt32 nFmifReadRecoverCycles;
-	XnInt32 nFmifWriteAccessCycles;
-	XnInt32 nFmifWriteRecoverCycles;
-	XnInt32 nFmifWriteAssertionCycles;
+	int32_t nFlashType;
+	int32_t nFlashSize;
+	int32_t nFlashBurstEnable;
+	int32_t nFmifReadBurstCycles;
+	int32_t nFmifReadAccessCycles;
+	int32_t nFmifReadRecoverCycles;
+	int32_t nFmifWriteAccessCycles;
+	int32_t nFmifWriteRecoverCycles;
+	int32_t nFmifWriteAssertionCycles;
 
 	// Audio
-	XnInt32 nI2SLogicClockPolarity;
+	int32_t nI2SLogicClockPolarity;
 
 	// Depth
-	XnInt32 nDepthCiuHorizontalSyncPolarity;
-	XnInt32 nDepthCiuVerticalSyncPolarity;
-	XnInt32 nDepthCmosType;
-	XnInt32 nDepthCmosI2CAddress;
-	XnInt32 nDepthCmosI2CBus;
+	int32_t nDepthCiuHorizontalSyncPolarity;
+	int32_t nDepthCiuVerticalSyncPolarity;
+	int32_t nDepthCmosType;
+	int32_t nDepthCmosI2CAddress;
+	int32_t nDepthCmosI2CBus;
 
 	// Image
-	XnInt32 nImageCiuHorizontalSyncPolarity;
-	XnInt32 nImageCiuVerticalSyncPolarity;
-	XnInt32 nImageCmosType;
-	XnInt32 nImageCmosI2CAddress;
-	XnInt32 nImageCmosI2CBus;
+	int32_t nImageCiuHorizontalSyncPolarity;
+	int32_t nImageCiuVerticalSyncPolarity;
+	int32_t nImageCmosType;
+	int32_t nImageCmosI2CAddress;
+	int32_t nImageCmosI2CBus;
 
 	// Geometry
-	XnInt32 nIrCmosCloseToProjector;
+	int32_t nIrCmosCloseToProjector;
 	XnFloat fDCmosEmitterDistance;
 	XnFloat fDCmosRCmosDistance;
 	XnFloat fReferenceDistance;
 	XnFloat fReferencePixelSize;
 
 	// Clocks
-	XnInt32 nPllValue;
-	XnInt32 nSystemClockDivider;
-	XnInt32 nRCmosClockDivider;
-	XnInt32 nDCmosClockDivider;
-	XnInt32 nAdcClocDivider;
-	XnInt32 nI2CStandardSpeedHCount;
-	XnInt32 nI2CStandardSpeedLCount;
+	int32_t nPllValue;
+	int32_t nSystemClockDivider;
+	int32_t nRCmosClockDivider;
+	int32_t nDCmosClockDivider;
+	int32_t nAdcClocDivider;
+	int32_t nI2CStandardSpeedHCount;
+	int32_t nI2CStandardSpeedLCount;
 
-	XnInt32 nI2CHoldFixDelay;
+	int32_t nI2CHoldFixDelay;
 
-	XnInt32 nSensorType;
-	XnInt32 nDebugMode;
-	XnInt32 nTecEmitterDelay;
-	XnInt32 nUseExtPhy;
+	int32_t nSensorType;
+	int32_t nDebugMode;
+	int32_t nTecEmitterDelay;
+	int32_t nUseExtPhy;
 } XnFixedParamsV26;
 
 typedef struct XnFixedParamsV20
 {
 	// Misc
-	XnInt32 nSerialNumber;
-	XnInt32 nWatchDogTimeout;
+	int32_t nSerialNumber;
+	int32_t nWatchDogTimeout;
 
 	// Flash
-	XnInt32 nFlashType;
-	XnInt32 nFlashSize;
-	XnInt32 nFlashBurstEnable;
-	XnInt32 nFmifReadBurstCycles;
-	XnInt32 nFmifReadAccessCycles;
-	XnInt32 nFmifReadRecoverCycles;
-	XnInt32 nFmifWriteAccessCycles;
-	XnInt32 nFmifWriteRecoverCycles;
-	XnInt32 nFmifWriteAssertionCycles;
+	int32_t nFlashType;
+	int32_t nFlashSize;
+	int32_t nFlashBurstEnable;
+	int32_t nFmifReadBurstCycles;
+	int32_t nFmifReadAccessCycles;
+	int32_t nFmifReadRecoverCycles;
+	int32_t nFmifWriteAccessCycles;
+	int32_t nFmifWriteRecoverCycles;
+	int32_t nFmifWriteAssertionCycles;
 
 	// Audio
-	XnInt32 nI2SLogicClockPolarity;
+	int32_t nI2SLogicClockPolarity;
 
 	// Depth
-	XnInt32 nDepthCiuHorizontalSyncPolarity;
-	XnInt32 nDepthCiuVerticalSyncPolarity;
-	XnInt32 nDepthCmosType;
-	XnInt32 nDepthCmosI2CAddress;
-	XnInt32 nDepthCmosI2CBus;
+	int32_t nDepthCiuHorizontalSyncPolarity;
+	int32_t nDepthCiuVerticalSyncPolarity;
+	int32_t nDepthCmosType;
+	int32_t nDepthCmosI2CAddress;
+	int32_t nDepthCmosI2CBus;
 
 	// Image
-	XnInt32 nImageCiuHorizontalSyncPolarity;
-	XnInt32 nImageCiuVerticalSyncPolarity;
-	XnInt32 nImageCmosType;
-	XnInt32 nImageCmosI2CAddress;
-	XnInt32 nImageCmosI2CBus;
+	int32_t nImageCiuHorizontalSyncPolarity;
+	int32_t nImageCiuVerticalSyncPolarity;
+	int32_t nImageCmosType;
+	int32_t nImageCmosI2CAddress;
+	int32_t nImageCmosI2CBus;
 
 	// Geometry
-	XnInt32 nIrCmosCloseToProjector;
+	int32_t nIrCmosCloseToProjector;
 	XnFloat fDCmosEmitterDistance;
 	XnFloat fDCmosRCmosDistance;
 	XnFloat fReferenceDistance;
 	XnFloat fReferencePixelSize;
 
 	// Clocks
-	XnInt32 nPllValue;
-	XnInt32 nSystemClockDivider;
-	XnInt32 nRCmosClockDivider;
-	XnInt32 nDCmosClockDivider;
-	XnInt32 nAdcClocDivider;
-	XnInt32 nI2CStandardSpeedHCount;
-	XnInt32 nI2CStandardSpeedLCount;
+	int32_t nPllValue;
+	int32_t nSystemClockDivider;
+	int32_t nRCmosClockDivider;
+	int32_t nDCmosClockDivider;
+	int32_t nAdcClocDivider;
+	int32_t nI2CStandardSpeedHCount;
+	int32_t nI2CStandardSpeedLCount;
 
-	XnInt32 nI2CHoldFixDelay;
+	int32_t nI2CHoldFixDelay;
 
-	XnInt32 nSensorType;
-	XnInt32 nDebugMode;
-	XnInt32 nTecEmitterDelay;
+	int32_t nSensorType;
+	int32_t nDebugMode;
+	int32_t nTecEmitterDelay;
 } XnFixedParamsV20;
 
 typedef struct XnRegistrationInformation1000
@@ -442,35 +442,35 @@ typedef struct XnRegistrationInformation1000
 
 typedef struct XnRegistrationInformation1080
 {
-	XnInt32 nRGS_DX_CENTER;
-	XnInt32 nRGS_AX;
-	XnInt32 nRGS_BX;
-	XnInt32 nRGS_CX;
-	XnInt32 nRGS_DX;
-	XnInt32 nRGS_DX_START;
-	XnInt32 nRGS_AY;
-	XnInt32 nRGS_BY;
-	XnInt32 nRGS_CY;
-	XnInt32 nRGS_DY;
-	XnInt32 nRGS_DY_START;
-	XnInt32 nRGS_DX_BETA_START;
-	XnInt32 nRGS_DY_BETA_START;
-	XnInt32 nRGS_ROLLOUT_BLANK;
-	XnInt32 nRGS_ROLLOUT_SIZE;
-	XnInt32 nRGS_DX_BETA_INC;
-	XnInt32 nRGS_DY_BETA_INC;
-	XnInt32 nRGS_DXDX_START;
-	XnInt32 nRGS_DXDY_START;
-	XnInt32 nRGS_DYDX_START;
-	XnInt32 nRGS_DYDY_START;
-	XnInt32 nRGS_DXDXDX_START;
-	XnInt32 nRGS_DYDXDX_START;
-	XnInt32 nRGS_DXDXDY_START;
-	XnInt32 nRGS_DYDXDY_START;
-	XnInt32 nBACK_COMP1;
-	XnInt32 nRGS_DYDYDX_START;
-	XnInt32 nBACK_COMP2;
-	XnInt32 nRGS_DYDYDY_START;
+	int32_t nRGS_DX_CENTER;
+	int32_t nRGS_AX;
+	int32_t nRGS_BX;
+	int32_t nRGS_CX;
+	int32_t nRGS_DX;
+	int32_t nRGS_DX_START;
+	int32_t nRGS_AY;
+	int32_t nRGS_BY;
+	int32_t nRGS_CY;
+	int32_t nRGS_DY;
+	int32_t nRGS_DY_START;
+	int32_t nRGS_DX_BETA_START;
+	int32_t nRGS_DY_BETA_START;
+	int32_t nRGS_ROLLOUT_BLANK;
+	int32_t nRGS_ROLLOUT_SIZE;
+	int32_t nRGS_DX_BETA_INC;
+	int32_t nRGS_DY_BETA_INC;
+	int32_t nRGS_DXDX_START;
+	int32_t nRGS_DXDY_START;
+	int32_t nRGS_DYDX_START;
+	int32_t nRGS_DYDY_START;
+	int32_t nRGS_DXDXDX_START;
+	int32_t nRGS_DYDXDX_START;
+	int32_t nRGS_DXDXDY_START;
+	int32_t nRGS_DYDXDY_START;
+	int32_t nBACK_COMP1;
+	int32_t nRGS_DYDYDX_START;
+	int32_t nBACK_COMP2;
+	int32_t nRGS_DYDYDY_START;
 } XnRegistrationInformation1080;
 
 typedef struct XnRegistrationPaddingInformation
@@ -499,6 +499,6 @@ typedef struct XnAudioSharedBuffer
 
 #pragma pack (pop)
 
-XnStatus XnDeviceSensorSetParam(XnDevicePrivateData* pDevicePrivateData, const XnChar* cpParamName, const XnInt32 nValue);
+XnStatus XnDeviceSensorSetParam(XnDevicePrivateData* pDevicePrivateData, const XnChar* cpParamName, const int32_t nValue);
 
 #endif // XNDEVICESENSOR_H

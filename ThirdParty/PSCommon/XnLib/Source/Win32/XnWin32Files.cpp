@@ -30,12 +30,12 @@
 // Code
 //---------------------------------------------------------------------------
 
-XN_C_API XnStatus xnOSCountFiles(const XnChar* cpSearchPattern, XnInt32* pnFoundFiles)
+XN_C_API XnStatus xnOSCountFiles(const XnChar* cpSearchPattern, int32_t* pnFoundFiles)
 {
 	// Local function variables
 	WIN32_FIND_DATA FindFileData;
 	XN_HANDLE hFind = NULL;
-	XnInt32 nFoundFiles = 0;
+	int32_t nFoundFiles = 0;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpSearchPattern);
@@ -71,12 +71,12 @@ XN_C_API XnStatus xnOSCountFiles(const XnChar* cpSearchPattern, XnInt32* pnFound
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* cpPrefixPath, XnChar cpFileList[][XN_FILE_MAX_PATH], const XnInt32 nMaxFiles, XnInt32* pnFoundFiles)
+XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* cpPrefixPath, XnChar cpFileList[][XN_FILE_MAX_PATH], const int32_t nMaxFiles, int32_t* pnFoundFiles)
 {
 	// Local function variables
 	WIN32_FIND_DATA FindFileData;
 	XN_HANDLE hFind = NULL;
-	XnInt32 nFoundFiles = 0;
+	int32_t nFoundFiles = 0;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpSearchPattern);
@@ -296,7 +296,7 @@ XN_C_API XnStatus xnOSWriteFile(const XN_FILE_HANDLE File, const void* pBuffer, 
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSSeekFile(const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const XnInt32 nOffset)
+XN_C_API XnStatus xnOSSeekFile(const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const int32_t nOffset)
 {
 	// Local function variables
 	DWORD nRealSeekType = 0;

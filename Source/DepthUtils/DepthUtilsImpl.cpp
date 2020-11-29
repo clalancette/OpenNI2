@@ -21,17 +21,17 @@
 
 #include "DepthUtilsImpl.h"
 
-static XnInt32 GetFieldValueSigned(uint32_t regValue, XnInt32 fieldWidth, XnInt32 fieldOffset)
+static int32_t GetFieldValueSigned(uint32_t regValue, int32_t fieldWidth, int32_t fieldOffset)
 {
-	XnInt32 val = (int)(regValue>>fieldOffset);
+	int32_t val = (int)(regValue>>fieldOffset);
 	val = (val<<(32-fieldWidth))>>(32-fieldWidth);
 	return val;
 }
 
-static void incrementalFitting50(int64_t dPrev, int64_t ddPrev, int64_t dddPrev, int64_t coeff, XnInt32 betaPrev, XnInt32 dBeta, int64_t &dCurr, int64_t &ddCurr, int64_t &dddCurr, XnInt32 &betaCurr);
-static void incrementalFitting50(int64_t ddPrev, int64_t dddPrev, int64_t coeff, int64_t &ddCurr, int64_t &dddCurr) { int64_t dummy1; XnInt32 dummy2; incrementalFitting50(0, ddPrev, dddPrev, coeff, 0, 0, dummy1, ddCurr, dddCurr, dummy2); }
-static void incrementalFitting50(int64_t dddPrev, int64_t coeff, int64_t &dddCurr) { int64_t dummy1, dummy2; XnInt32 dummy3; incrementalFitting50(0, 0, dddPrev, coeff, 0, 0, dummy1, dummy2, dddCurr, dummy3); }
-static void incrementalFitting50(int64_t dPrev, int64_t ddPrev, int64_t dddPrev, int64_t coeff, XnInt32 betaPrev, XnInt32 dBeta, int64_t &dCurr, int64_t &ddCurr, int64_t &dddCurr, XnInt32 &betaCurr)
+static void incrementalFitting50(int64_t dPrev, int64_t ddPrev, int64_t dddPrev, int64_t coeff, int32_t betaPrev, int32_t dBeta, int64_t &dCurr, int64_t &ddCurr, int64_t &dddCurr, int32_t &betaCurr);
+static void incrementalFitting50(int64_t ddPrev, int64_t dddPrev, int64_t coeff, int64_t &ddCurr, int64_t &dddCurr) { int64_t dummy1; int32_t dummy2; incrementalFitting50(0, ddPrev, dddPrev, coeff, 0, 0, dummy1, ddCurr, dddCurr, dummy2); }
+static void incrementalFitting50(int64_t dddPrev, int64_t coeff, int64_t &dddCurr) { int64_t dummy1, dummy2; int32_t dummy3; incrementalFitting50(0, 0, dddPrev, coeff, 0, 0, dummy1, dummy2, dddCurr, dummy3); }
+static void incrementalFitting50(int64_t dPrev, int64_t ddPrev, int64_t dddPrev, int64_t coeff, int32_t betaPrev, int32_t dBeta, int64_t &dCurr, int64_t &ddCurr, int64_t &dddCurr, int32_t &betaCurr)
 {
 	dCurr = dPrev+(ddPrev>>6);
 	ddCurr = ddPrev+(dddPrev>>8);
@@ -395,9 +395,9 @@ XnStatus DepthUtilsImpl::BuildRegistrationTable(XnUInt16* pRegTable, Registratio
 		);
 
 	// Pre-process the table, do sanity checks and convert it from double to ints (for better performance)
-	for (XnInt32 nY = 0; nY < nDepthYRes; nY++)
+	for (int32_t nY = 0; nY < nDepthYRes; nY++)
 	{
-		for (XnInt32 nX = 0; nX < nDepthXRes; nX++)
+		for (int32_t nX = 0; nX < nDepthXRes; nX++)
 		{
 			nNewX = (nX + *pRegXTable + m_blob.params1080.sensorWinOffsetX) * m_blob.params1080.rgbRegXValScale;
 			nNewY = (nY + *pRegYTable + m_blob.params1080.sensorWinOffsetY);
@@ -467,20 +467,20 @@ void DepthUtilsImpl::CreateDXDYTables (XnDouble* RegXTable, XnDouble* RegYTable,
 }
 
 void DepthUtilsImpl::CreateDXDYTablesInternal(XnDouble* RegXTable, XnDouble* RegYTable,
-	XnInt32 resX, XnInt32 resY,
+	int32_t resX, int32_t resY,
 	int64_t AX6, int64_t BX6, int64_t CX2, int64_t DX2,
-	XnInt32 deltaBetaX,
+	int32_t deltaBetaX,
 	int64_t AY6, int64_t BY6, int64_t CY2, int64_t DY2,
-	XnInt32 deltaBetaY,
+	int32_t deltaBetaY,
 	int64_t dX0, int64_t dY0,
 	int64_t dXdX0, int64_t dXdY0, int64_t dYdX0, int64_t dYdY0,
 	int64_t dXdXdX0, int64_t dYdXdX0, int64_t dYdXdY0, int64_t dXdXdY0,
 	int64_t dYdYdX0, int64_t dYdYdY0,
-	XnInt32 betaX, XnInt32 betaY)
+	int32_t betaX, int32_t betaY)
 {
-	XnInt32 tOffs = 0;
+	int32_t tOffs = 0;
 
-	for (XnInt32 row = 0; row < resY; row++)
+	for (int32_t row = 0; row < resY; row++)
 	{
 		incrementalFitting50(dXdXdX0, CX2, dXdXdX0);
 		incrementalFitting50(dXdX0, dYdXdX0, DX2, dXdX0, dYdXdX0);
@@ -488,7 +488,7 @@ void DepthUtilsImpl::CreateDXDYTablesInternal(XnDouble* RegXTable, XnDouble* Reg
 		incrementalFitting50(dX0, dYdX0, dYdYdX0, BX6, betaX, 0, dX0, dYdX0, dYdYdX0, betaX);
 
 		int64_t coldXdXdX0 = dXdXdX0, coldXdX0 = dXdX0, coldX0 = dX0;
-		XnInt32 colBetaX = betaX;
+		int32_t colBetaX = betaX;
 
 		incrementalFitting50(dXdXdY0, CY2, dXdXdY0);
 		incrementalFitting50(dXdY0, dYdXdY0, DY2, dXdY0, dYdXdY0);
@@ -496,9 +496,9 @@ void DepthUtilsImpl::CreateDXDYTablesInternal(XnDouble* RegXTable, XnDouble* Reg
 		incrementalFitting50(dY0, dYdY0, dYdYdY0, BY6, betaY, deltaBetaY, dY0, dYdY0, dYdYdY0, betaY);
 
 		int64_t coldXdXdY0 = dXdXdY0, coldXdY0 = dXdY0, coldY0 = dY0;
-		XnInt32 colBetaY = betaY;
+		int32_t colBetaY = betaY;
 
-		for (XnInt32 col = 0; col < resX; col++, tOffs++)
+		for (int32_t col = 0; col < resX; col++, tOffs++)
 		{
 			RegXTable[tOffs] = coldX0 * (1.0/(1<<17));
 			RegYTable[tOffs] = coldY0 * (1.0/(1<<17));

@@ -118,7 +118,7 @@ XN_C_API void xnOSMemCopy(void* pDest, const void* pSource, XnSizeT nCount)
 	memcpy(pDest, pSource, nCount);
 }
 
-XN_C_API XnInt32 xnOSMemCmp(const void *pBuf1, const void *pBuf2, XnSizeT nCount)
+XN_C_API int32_t xnOSMemCmp(const void *pBuf1, const void *pBuf2, XnSizeT nCount)
 {
 	return memcmp(pBuf1, pBuf2, nCount);
 }

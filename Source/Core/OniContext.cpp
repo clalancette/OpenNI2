@@ -235,7 +235,7 @@ XnStatus Context::loadLibraries()
 	if (m_driversList.empty())
 	{
 		// search repo for drivers
-		XnInt32 nFileCount = 0;
+		int32_t nFileCount = 0;
 		XnChar cpSearchString[XN_FILE_MAX_PATH] = "";
 
 		xnLogVerbose(XN_MASK_ONI_CONTEXT, "Looking for drivers at '%s'", m_driverRepo);

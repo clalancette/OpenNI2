@@ -390,7 +390,7 @@ static XnStatus xnLogReadMasksFromINI(const XnChar* cpINIFileName, const XnChar*
 XN_C_API XnStatus xnLogInitFromINIFile(const XnChar* cpINIFileName, const XnChar* cpSectionName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnInt32 nTemp;
+	int32_t nTemp;
 
 	// read filters
 	xnLogReadMasksFromINI(cpINIFileName, cpSectionName, "LogMasks", xnLogBCSetMaskState);

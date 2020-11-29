@@ -46,7 +46,7 @@ typedef struct
 	const XnChar* csFile;
 	uint32_t nLine;
 	const XnChar* csAdditional;
-	XnInt32 nFrames;
+	int32_t nFrames;
 	XnFrame aFrames[XN_MEM_PROF_MAX_FRAMES];
 } XnMemBlockData;
 

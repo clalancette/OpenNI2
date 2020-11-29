@@ -191,7 +191,7 @@ XnStatus PlayerNode::SeekToTimeStamp(int64_t /*nTimeOffset*/, XnPlayerSeekOrigin
 	return XN_STATUS_NOT_IMPLEMENTED;
 }
 
-XnStatus PlayerNode::SeekToFrame(const XnChar* strNodeName, XnInt32 nFrameOffset, XnPlayerSeekOrigin origin)
+XnStatus PlayerNode::SeekToFrame(const XnChar* strNodeName, int32_t nFrameOffset, XnPlayerSeekOrigin origin)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	uint32_t nNodeID = GetPlayerNodeIDByName(strNodeName);
@@ -665,9 +665,9 @@ XnStatus PlayerNode::ProcessRecord(XnBool bProcessPayload)
 	return XN_STATUS_OK;
 }
 
-XnInt32 PlayerNode::CompareVersions(const XnVersion* pV0, const XnVersion* pV1)
+int32_t PlayerNode::CompareVersions(const XnVersion* pV0, const XnVersion* pV1)
 {
-	XnInt32 comparison = 0;
+	int32_t comparison = 0;
 	comparison = pV0->nMajor - pV1->nMajor;
 	if (0 != comparison)
 	{
@@ -1672,7 +1672,7 @@ XnStatus PlayerNode::SeekToTimeStampAbsolute(uint64_t nDestTimeStamp)
 				if (nRecordTimeStamp >= nDestTimeStamp)
 				{
 					//We're done - move back to beginning of record
-					nRetVal = SeekStream(XN_OS_SEEK_CUR, -XnInt32(nBytesRead));
+					nRetVal = SeekStream(XN_OS_SEEK_CUR, -int32_t(nBytesRead));
 					XN_IS_STATUS_OK(nRetVal);
 				}
 				else

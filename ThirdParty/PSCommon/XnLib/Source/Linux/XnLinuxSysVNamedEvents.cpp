@@ -233,7 +233,7 @@ XnStatus XnLinuxSysVNamedEvent::Wait(uint32_t nMilliseconds)
 	op[1].sem_op = 1;
 	op[1].sem_flg = 0;
 
-	XnInt32 nOpsCount = m_bManualReset ? 2 : 1;
+	int32_t nOpsCount = m_bManualReset ? 2 : 1;
 
 	if (XN_WAIT_INFINITE != nMilliseconds)
 	{

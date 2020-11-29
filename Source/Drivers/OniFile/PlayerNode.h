@@ -61,7 +61,7 @@ public:
 	XnStatus SetRepeat(XnBool bRepeat);
 	XnStatus SeekToTimeStamp(int64_t nTimeOffset, XnPlayerSeekOrigin origin);
 
-	XnStatus SeekToFrame(const XnChar* strNodeName, XnInt32 nFrameOffset, XnPlayerSeekOrigin origin);
+	XnStatus SeekToFrame(const XnChar* strNodeName, int32_t nFrameOffset, XnPlayerSeekOrigin origin);
 	XnStatus TellTimestamp(uint64_t& nTimestamp);
 	XnStatus TellFrame(const XnChar* strNodeName, uint32_t& nFrameNumber);
 	uint32_t GetNumFrames(const XnChar* strNodeName, uint32_t& nFrames);
@@ -113,7 +113,7 @@ private:
 	XnStatus SeekToFrameAbsolute(uint32_t nNodeID, uint32_t nFrameNumber);
 	XnStatus ProcessEachNodeLastData(uint32_t nIDToProcessLast);
 
-	static XnInt32 CompareVersions(const XnVersion* pV0, const XnVersion* pV1);
+	static int32_t CompareVersions(const XnVersion* pV0, const XnVersion* pV1);
 	XnStatus OpenStream();
 	XnStatus Read(void* pData, uint32_t nSize, uint32_t& nBytesRead);
 	XnStatus ReadRecordHeader(Record& record);

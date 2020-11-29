@@ -227,7 +227,7 @@ XnStatus LinkOniDevice::Init(const char* mode)
 		usbType = XN_DEFAULT_USB_INTERFACE;
 	}
 
-	XnInt32 value32;
+	int32_t value32;
 	if (XN_STATUS_OK == xnOSReadIntFromINI(m_configFile, CONFIG_DEVICE_SECTION, "UsbInterface", &value32))
 	{
 		usbType = (XnUsbInterfaceType)value32;

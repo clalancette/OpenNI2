@@ -171,7 +171,7 @@ void XN_CALLBACK_TYPE LinkOniStream::OnNewStreamDataEventHandler(const xn::NewFr
 
 XnStatus LinkOniStream::setIntPropertyFromINI(const char* key, int propertyId)
 {
-	XnInt32 value;
+	int32_t value;
 	if (XN_STATUS_OK == xnOSReadIntFromINI(m_configFile, m_configSection, key, &value))
 	{
 		if (ONI_STATUS_OK != setProperty(propertyId, &value, sizeof(value)))

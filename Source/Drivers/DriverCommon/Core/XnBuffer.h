@@ -126,7 +126,7 @@ public:
 	*/
 	inline uint32_t GetFreeSpaceInBuffer()
 	{
-		return XN_MAX(0, (XnInt32)(m_nMaxSize - m_nSize));
+		return XN_MAX(0, (int32_t)(m_nMaxSize - m_nSize));
 	}
 
 	/*

@@ -48,7 +48,7 @@
 /**
  * Type of the production node.
  */
-typedef XnInt32 XnProductionNodeType;
+typedef int32_t XnProductionNodeType;
 
 /**
  * Predefined types of production nodes.
@@ -226,7 +226,7 @@ typedef struct XnPlayerInputStreamInterface
 	 * @param	seekType	 [in]	Specifies how to seek - according to current position, end or beginning.
 	 * @param	nOffset		 [in]	Specifies how many bytes to move
 	 */
-	XnStatus (XN_CALLBACK_TYPE* Seek)(void* pCookie, XnOSSeekType seekType, const XnInt32 nOffset);
+	XnStatus (XN_CALLBACK_TYPE* Seek)(void* pCookie, XnOSSeekType seekType, const int32_t nOffset);
 
 	/**
 	 * Tells the current stream position

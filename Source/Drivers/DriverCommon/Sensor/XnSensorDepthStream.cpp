@@ -1236,7 +1236,7 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::ReadAGCBinsFromFile(XnGeneralProp
 	for (uint32_t nBin = 0; nBin < XN_DEPTH_STREAM_AGC_NUMBER_OF_BINS; ++nBin)
 	{
 		XnChar csKey[XN_INI_MAX_LEN];
-		XnInt32 nValue;
+		int32_t nValue;
 
 		XnDepthAGCBin bin;
 		bin.nBin = (XnUInt16)nBin;

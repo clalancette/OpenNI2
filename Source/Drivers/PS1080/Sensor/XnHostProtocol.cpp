@@ -63,9 +63,9 @@
 
 #define MAX_PACKET_SIZE 512
 
-inline XnInt32 CompareVersion(XnUInt8 nMajor1, XnUInt8 nMinor1, XnUInt16 nBuild1, XnUInt8 nMajor2, XnUInt8 nMinor2, XnUInt16 nBuild2)
+inline int32_t CompareVersion(XnUInt8 nMajor1, XnUInt8 nMinor1, XnUInt16 nBuild1, XnUInt8 nMajor2, XnUInt8 nMinor2, XnUInt16 nBuild2)
 {
-	XnInt32 nResult = nMajor1 - nMajor2;
+	int32_t nResult = nMajor1 - nMajor2;
 
 	if (nResult == 0)
 	{
@@ -1200,7 +1200,7 @@ XnStatus XnHostProtocolExecute(const XnDevicePrivateData* pDevicePrivateData,
 		return XN_STATUS_OK;
 
 	// Get rest of data
-	XnInt32 nCur = nRead; // Read so far
+	int32_t nCur = nRead; // Read so far
 
 	nRead -= (pDevicePrivateData->FWInfo.nProtocolHeaderSize+sizeof(XnHostProtocolReplyHeader)); // Data read so far
 
@@ -1634,7 +1634,7 @@ XnStatus XnHostProtocolSetParam(XnDevicePrivateData* pDevicePrivateData, XnUInt1
 
 	XnUInt16 nDataSize;
 
-	XnInt32 nTimesLeft = 5;
+	int32_t nTimesLeft = 5;
 	XnStatus rc = XN_STATUS_ERROR;
 	while (nTimesLeft > 0)
 	{
@@ -2869,7 +2869,7 @@ XnStatus XnHostProtocolSetMultipleParams(XnDevicePrivateData* pDevicePrivateData
 
 	XnUInt16 nDataSize;
 
-	XnInt32 nTimesLeft = 5;
+	int32_t nTimesLeft = 5;
 	XnStatus rc = XN_STATUS_ERROR;
 	while (rc != XN_STATUS_OK && rc != XN_STATUS_DEVICE_PROTOCOL_BAD_PARAMS &&
 		rc != XN_STATUS_DEVICE_PROTOCOL_INVALID_COMMAND && nTimesLeft > 0)

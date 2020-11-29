@@ -223,7 +223,7 @@ XN_C_API XnStatus xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* c
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnInt32* nDest)
+XN_C_API XnStatus xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, int32_t* nDest)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XnBool bINIFileExists = FALSE;
@@ -262,7 +262,7 @@ XN_C_API XnStatus xnOSWriteDoubleToINI(const XnChar* /*cpINIFile*/, const XnChar
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnOSWriteIntToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const XnInt32 /*nSrc*/)
+XN_C_API XnStatus xnOSWriteIntToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const int32_t /*nSrc*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }

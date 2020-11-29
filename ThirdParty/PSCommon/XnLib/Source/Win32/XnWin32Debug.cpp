@@ -89,7 +89,7 @@ static void Init()
 		(g_pSymGetModuleBase64 != NULL);
 }
 
-XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, XnInt32* pnFrames)
+XN_C_API XnStatus xnOSGetCurrentCallStack(int32_t nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, int32_t* pnFrames)
 {
 	if (*pnFrames == 0 || nMaxNameLength == 0)
 	{
@@ -148,8 +148,8 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFr
 #error "Platform not supported!"
 #endif
 
-	XnInt32 nFrames = 0;
-	XnInt32 iFrame = 0;
+	int32_t nFrames = 0;
+	int32_t iFrame = 0;
 	const uint32_t BUFFER_SIZE = 1024;
 	XnChar symbolBuffer[BUFFER_SIZE];
 	SYMBOL_INFO* pSymbolInfo = (SYMBOL_INFO*)symbolBuffer;

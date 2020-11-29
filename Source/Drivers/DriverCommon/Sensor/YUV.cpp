@@ -42,7 +42,7 @@
 void YUV444ToRGB888(XnUInt8 cY, XnUInt8 cU, XnUInt8 cV,
 					XnUInt8& cR, XnUInt8& cG, XnUInt8& cB)
 {
-	XnInt32 nC = cY - 16;
+	int32_t nC = cY - 16;
 	XnInt16 nD = cU - 128;
 	XnInt16 nE = cV - 128;
 
