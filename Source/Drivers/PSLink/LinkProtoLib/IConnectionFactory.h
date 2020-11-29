@@ -35,7 +35,7 @@ class IConnectionFactory
 {
 public:
 	virtual ~IConnectionFactory() {}
-	virtual XnStatus Init(const XnChar* strConnString) = 0;
+	virtual XnStatus Init(const char* strConnString) = 0;
 	virtual void Shutdown() = 0;
 	virtual bool IsInitialized() const = 0;
 	virtual uint16_t GetNumInputDataConnections() const = 0;

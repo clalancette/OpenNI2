@@ -37,9 +37,9 @@
 class XnGeneralProperty : public XnProperty
 {
 public:
-	typedef XnStatus (XN_CALLBACK_TYPE* ReadValueFromFileFuncPtr)(XnGeneralProperty* pSender, const XnChar* csINIFile, const XnChar* csSection);
+	typedef XnStatus (XN_CALLBACK_TYPE* ReadValueFromFileFuncPtr)(XnGeneralProperty* pSender, const char* csINIFile, const char* csSection);
 
-	XnGeneralProperty(uint32_t propertyId, const XnChar* strName, OniGeneralBuffer* pValueHolder = NULL, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
+	XnGeneralProperty(uint32_t propertyId, const char* strName, OniGeneralBuffer* pValueHolder = NULL, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const char* strModule = "");
 
 	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
 	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
@@ -83,7 +83,7 @@ protected:
 	virtual bool IsEqual(const void* pValue1, const void* pValue2) const override;
 	virtual XnStatus CallSetCallback(const void* pValue) override;
 	virtual XnStatus CallGetCallback(void* pValue) const override;
-	virtual XnStatus ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection) override;
+	virtual XnStatus ReadValueFromFile(const char* csINIFile, const char* csSection) override;
 
 private:
 	ReadValueFromFileFuncPtr m_pReadFromFileFunc;

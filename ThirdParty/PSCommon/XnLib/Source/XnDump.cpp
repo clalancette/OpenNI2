@@ -92,7 +92,7 @@ XnStatus _register_status = g_fileWriter.Register();
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XN_C_API XnStatus xnDumpSetMaskState(const XnChar* csMask, bool bEnabled)
+XN_C_API XnStatus xnDumpSetMaskState(const char* csMask, bool bEnabled)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -111,7 +111,7 @@ XN_C_API XnStatus xnDumpSetMaskState(const XnChar* csMask, bool bEnabled)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API bool XN_C_DECL xnLogIsDumpMaskEnabled(const XnChar* strDumpMask)
+XN_C_API bool XN_C_DECL xnLogIsDumpMaskEnabled(const char* strDumpMask)
 {
 	if (strDumpMask == NULL)
 	{
@@ -152,7 +152,7 @@ XN_C_API XnStatus XN_C_DECL xnDumpSetFilesOutput(bool bOn)
 	return XN_STATUS_OK;
 }
 
-XnDumpFile* xnDumpFileOpenImpl(const XnChar* strDumpName, bool bForce, bool bSessionDump, const XnChar* strNameFormat, va_list args)
+XnDumpFile* xnDumpFileOpenImpl(const char* strDumpName, bool bForce, bool bSessionDump, const char* strNameFormat, va_list args)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -173,7 +173,7 @@ XnDumpFile* xnDumpFileOpenImpl(const XnChar* strDumpName, bool bForce, bool bSes
 	}
 
 	// format file name
-	XnChar strFileName[XN_FILE_MAX_PATH];
+	char strFileName[XN_FILE_MAX_PATH];
 	uint32_t nChars;
 	nRetVal = xnOSStrFormatV(strFileName, XN_FILE_MAX_PATH, &nChars, strNameFormat, args);
 	if (nRetVal != XN_STATUS_OK)
@@ -210,7 +210,7 @@ XnDumpFile* xnDumpFileOpenImpl(const XnChar* strDumpName, bool bForce, bool bSes
 	return pFile;
 }
 
-XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpen(const XnChar* strDumpName, const XnChar* strNameFormat, ...)
+XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpen(const char* strDumpName, const char* strNameFormat, ...)
 {
 	if (strDumpName == NULL || strNameFormat == NULL)
 	{
@@ -226,7 +226,7 @@ XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpen(const XnChar* strDumpName, const X
 	return pFile;
 }
 
-XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpenEx(const XnChar* strDumpName, bool bForce, bool bSessionDump, const XnChar* strNameFormat, ...)
+XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpenEx(const char* strDumpName, bool bForce, bool bSessionDump, const char* strNameFormat, ...)
 {
 	if (strNameFormat == NULL)
 	{
@@ -259,7 +259,7 @@ XN_C_API void XN_C_DECL _xnDumpFileWriteBuffer(XnDumpFile* pFile, const void* pB
 	}
 }
 
-XN_C_API void XN_C_DECL _xnDumpFileWriteString(XnDumpFile* pFile, const XnChar* strFormat, ...)
+XN_C_API void XN_C_DECL _xnDumpFileWriteString(XnDumpFile* pFile, const char* strFormat, ...)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_REFERENCE_VARIABLE(nRetVal);
@@ -270,7 +270,7 @@ XN_C_API void XN_C_DECL _xnDumpFileWriteString(XnDumpFile* pFile, const XnChar* 
 	}
 
 	// format string
-	XnChar strBuffer[XN_DUMP_MAX_FORMATTED_STRING_LENGTH];
+	char strBuffer[XN_DUMP_MAX_FORMATTED_STRING_LENGTH];
 	uint32_t nCharsWritten;
 	va_list args;
 	va_start(args, strFormat);
@@ -306,16 +306,16 @@ XN_C_API void XN_C_DECL _xnDumpFileClose(XnDumpFile* pFile)
 //---------------------------------------------------------------------------
 #ifndef __XN_NO_BC__
 
-XnStatus xnDumpCreate(XnDump* pDump, const XnChar* csHeader, const XnChar* csFileNameFormat, va_list args)
+XnStatus xnDumpCreate(XnDump* pDump, const char* csHeader, const char* csFileNameFormat, va_list args)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnChar strFileName[XN_FILE_MAX_PATH];
+	char strFileName[XN_FILE_MAX_PATH];
 	uint32_t nChars;
 	nRetVal = xnOSStrFormatV(strFileName, XN_FILE_MAX_PATH, &nChars, csFileNameFormat, args);
 	XN_IS_STATUS_OK(nRetVal);
 
-	XnChar strFullPath[XN_FILE_MAX_PATH];
+	char strFullPath[XN_FILE_MAX_PATH];
 	nRetVal = xnLogCreateNewFile(strFileName, true, strFullPath, XN_FILE_MAX_PATH, &pDump->hFile);
 	if (nRetVal != XN_STATUS_OK)
 	{
@@ -333,7 +333,7 @@ XnStatus xnDumpCreate(XnDump* pDump, const XnChar* csHeader, const XnChar* csFil
 	return XN_STATUS_OK;
 }
 
-XN_C_API void xnDumpInit(XnDump* pDump, const XnChar* csDumpMask, const XnChar* csHeader, const XnChar* csFileNameFormat, ...)
+XN_C_API void xnDumpInit(XnDump* pDump, const char* csDumpMask, const char* csHeader, const char* csFileNameFormat, ...)
 {
 	if (pDump->hFile == XN_INVALID_FILE_HANDLE && xnLogIsDumpMaskEnabled(csDumpMask))
 	{
@@ -344,7 +344,7 @@ XN_C_API void xnDumpInit(XnDump* pDump, const XnChar* csDumpMask, const XnChar* 
 	}
 }
 
-XN_C_API void xnDumpForceInit(XnDump* pDump, const XnChar* csHeader, const XnChar* csFileNameFormat, ...)
+XN_C_API void xnDumpForceInit(XnDump* pDump, const char* csHeader, const char* csFileNameFormat, ...)
 {
 	if (pDump->hFile == XN_INVALID_FILE_HANDLE)
 	{
@@ -372,12 +372,12 @@ XN_C_API void xnDumpWriteBufferImpl(XnDump dump, const void* pBuffer, uint32_t n
 	}
 }
 
-XN_C_API void xnDumpWriteStringImpl(XnDump dump, const XnChar* csFormat, ...)
+XN_C_API void xnDumpWriteStringImpl(XnDump dump, const char* csFormat, ...)
 {
 	if (dump.hFile != XN_INVALID_FILE_HANDLE)
 	{
 		const uint32_t nStringLength = 1024;
-		XnChar csString[1024];
+		char csString[1024];
 
 		va_list args;
 		va_start(args, csFormat);

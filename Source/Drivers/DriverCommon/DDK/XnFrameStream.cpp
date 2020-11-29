@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnFrameStream::XnFrameStream(const XnChar* csType, const XnChar* csName) :
+XnFrameStream::XnFrameStream(const char* csType, const char* csName) :
 	XnDeviceStream(csType, csName),
 	m_nLastReadFrame(0),
 	m_IsFrameStream(XN_STREAM_PROPERTY_IS_FRAME_BASED, "IsFrameBased", true),

@@ -225,12 +225,12 @@ public:
 		return xnOSCreateEvent(&m_hEvent, bManualReset);
 	}
 
-	XnStatus Create(const XnChar* strName, bool bManualReset, bool bAllowOtherUsers = false)
+	XnStatus Create(const char* strName, bool bManualReset, bool bAllowOtherUsers = false)
 	{
 		return xnOSCreateNamedEventEx(&m_hEvent, strName, bManualReset, bAllowOtherUsers);
 	}
 
-	XnStatus Open(const XnChar* strName, bool bEnableOtherUsers = false)
+	XnStatus Open(const char* strName, bool bEnableOtherUsers = false)
 	{
 		return xnOSOpenNamedEventEx(&m_hEvent, strName, bEnableOtherUsers);
 	}

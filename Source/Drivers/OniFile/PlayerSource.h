@@ -56,7 +56,7 @@ public:
 	typedef void (ONI_CALLBACK_TYPE* NewDataCallback)(const NewDataEventArgs& newDataEventArgs, void* pCookie);
 
 	/// Constructor.
-	PlayerSource(const XnChar* strNodeName, OniSensorType sensorType);
+	PlayerSource(const char* strNodeName, OniSensorType sensorType);
 
 	/// Destructor.
 	~PlayerSource();
@@ -65,7 +65,7 @@ public:
 	OniSensorInfo* GetInfo();
 
 	/// Return the node name for the source.
-	const XnChar* GetNodeName();
+	const char* GetNodeName();
 
 	/// Get property.
 	OniStatus GetProperty(int propertyId, void* data, int* pDataSize);

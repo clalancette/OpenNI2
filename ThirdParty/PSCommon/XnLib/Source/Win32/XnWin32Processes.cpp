@@ -39,7 +39,7 @@ XN_C_API XnStatus xnOSGetCurrentProcessID(XN_PROCESS_ID* pProcID)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, uint32_t nArgs, const XnChar** pstrArgs, XN_PROCESS_ID* pProcID)
+XN_C_API XnStatus xnOSCreateProcess(const char* strExecutable, uint32_t nArgs, const char** pstrArgs, XN_PROCESS_ID* pProcID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -49,7 +49,7 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, uint32_t nArgs,
 	ZeroMemory(&pi, sizeof(pi));
 
 	const uint32_t nSize = 1024;
-	XnChar strArguments[nSize] = "";
+	char strArguments[nSize] = "";
 	uint32_t nDummy = 0;
 	xnOSStrFormat(strArguments, nSize, &nDummy, "\"%s\"", strExecutable);
 
@@ -61,7 +61,7 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, uint32_t nArgs,
 	}
 
 	// let it start in the executable dir
-	XnChar strDirName[XN_FILE_MAX_PATH];
+	char strDirName[XN_FILE_MAX_PATH];
 	nRetVal = xnOSGetDirName(strExecutable, strDirName, XN_FILE_MAX_PATH);
 	XN_IS_STATUS_OK(nRetVal);
 

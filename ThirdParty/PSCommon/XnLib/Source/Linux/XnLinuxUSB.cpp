@@ -68,9 +68,9 @@ typedef struct XnUSBConnectedDevice
 	uint8_t nDevNum;
 
 	// /dev/bus/usb/001/016
-	XnChar strNode[XN_FILE_MAX_PATH + 1];
+	char strNode[XN_FILE_MAX_PATH + 1];
 	// id27/0601@1/16
-	XnChar strDevicePath[XN_FILE_MAX_PATH + 1];
+	char strDevicePath[XN_FILE_MAX_PATH + 1];
 } XnUSBConnectedDevice;
 
 static std::list<XnUSBConnectedDevice*> g_connectedDevices;
@@ -323,7 +323,7 @@ XN_THREAD_PROC xnUSBUDEVEventsThread(XN_THREAD_PARAM /*pThreadParam*/)
 			dev = udev_monitor_receive_device(mon);
 			if (dev)
 			{
-				const XnChar *action = udev_device_get_action(dev);
+				const char *action = udev_device_get_action(dev);
 
 				if (!xnOSStrCmp(action, "add"))
 				{

@@ -38,7 +38,7 @@
 class XnDeviceStream : public XnDeviceModule
 {
 public:
-	XnDeviceStream(const XnChar* csType, const XnChar* csName);
+	XnDeviceStream(const char* csType, const char* csName);
 	~XnDeviceStream() { Free(); }
 
 	virtual XnStatus Init() override;
@@ -66,7 +66,7 @@ public:
 	//---------------------------------------------------------------------------
 	// Getters
 	//---------------------------------------------------------------------------
-	inline const XnChar* GetType() const { return m_Type.GetValue(); }
+	inline const char* GetType() const { return m_Type.GetValue(); }
 	inline bool IsOpen() const { return (bool)m_IsOpen.GetValue(); }
 	inline OniPixelFormat GetOutputFormat() const { return (OniPixelFormat)m_OutputFormat.GetValue(); }
 	inline bool IsMirrored() const { return (bool)m_IsMirrored.GetValue(); }

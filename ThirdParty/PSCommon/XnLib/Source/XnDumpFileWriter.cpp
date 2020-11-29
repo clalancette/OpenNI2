@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnDumpWriterFileHandle XnDumpFileWriter::OpenFile(const XnChar* /*strDumpName*/, bool bSessionDump, const XnChar* strFileName)
+XnDumpWriterFileHandle XnDumpFileWriter::OpenFile(const char* /*strDumpName*/, bool bSessionDump, const char* strFileName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -39,7 +39,7 @@ XnDumpWriterFileHandle XnDumpFileWriter::OpenFile(const XnChar* /*strDumpName*/,
 		return result;
 	}
 
-	XnChar strFullPath[XN_FILE_MAX_PATH];
+	char strFullPath[XN_FILE_MAX_PATH];
 	nRetVal = xnLogCreateNewFile(strFileName, bSessionDump, strFullPath, XN_FILE_MAX_PATH, phFile);
 	if (nRetVal != XN_STATUS_OK)
 	{

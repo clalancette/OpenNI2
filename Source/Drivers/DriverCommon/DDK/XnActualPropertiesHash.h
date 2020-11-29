@@ -34,16 +34,16 @@
 class XnActualPropertiesHash
 {
 public:
-	XnActualPropertiesHash(const XnChar* strName);
+	XnActualPropertiesHash(const char* strName);
 	~XnActualPropertiesHash();
 
 	typedef XnPropertiesHash::Iterator Iterator;
 	typedef XnPropertiesHash::ConstIterator ConstIterator;
 
-	XnStatus Add(uint32_t propertyId, const XnChar* strName, uint64_t nValue);
-	XnStatus Add(uint32_t propertyId, const XnChar* strName, double dValue);
-	XnStatus Add(uint32_t propertyId, const XnChar* strName, const XnChar* strValue);
-	XnStatus Add(uint32_t propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue);
+	XnStatus Add(uint32_t propertyId, const char* strName, uint64_t nValue);
+	XnStatus Add(uint32_t propertyId, const char* strName, double dValue);
+	XnStatus Add(uint32_t propertyId, const char* strName, const char* strValue);
+	XnStatus Add(uint32_t propertyId, const char* strName, const OniGeneralBuffer& gbValue);
 
 	XnStatus Remove(uint32_t propertyId);
 	XnStatus Remove(ConstIterator where);
@@ -63,7 +63,7 @@ public:
 
 protected:
 	XnPropertiesHash m_Hash;
-	XnChar m_strName[XN_DEVICE_MAX_STRING_LENGTH];
+	char m_strName[XN_DEVICE_MAX_STRING_LENGTH];
 };
 
 #endif // XNACTUALPROPERTIESHASH_H

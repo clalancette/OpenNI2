@@ -86,7 +86,7 @@ public:
 
 	const char* getOriginalDevice() {return m_originalDevice;}
 private:
-	PlayerSource* FindSource(const XnChar* strNodeName);
+	PlayerSource* FindSource(const char* strNodeName);
 
 	// Wake up when timestamp is valid.
 	void SleepToTimestamp(uint64_t nTimeStamp);
@@ -108,18 +108,18 @@ private:
 	static void     ONI_CALLBACK_TYPE ReadyForDataCallback(const PlayerStream::ReadyForDataEventArgs& newDataEventArgs, void* pCookie);
 	static void     ONI_CALLBACK_TYPE StreamDestroyCallback(const PlayerStream::DestroyEventArgs& destroyEventArgs, void* pCookie);
 
-	static XnStatus XN_CALLBACK_TYPE OnNodeAdded(void* pCookie, const XnChar* strNodeName, XnProductionNodeType type, XnCodecID compression, uint32_t nNumberOfFrames);
-	static XnStatus XN_CALLBACK_TYPE OnNodeRemoved(void* pCookie, const XnChar* strNodeName);
-	static XnStatus XN_CALLBACK_TYPE OnNodeIntPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, uint64_t nValue);
-	static XnStatus XN_CALLBACK_TYPE OnNodeRealPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, double dValue);
-	static XnStatus XN_CALLBACK_TYPE OnNodeStringPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, const XnChar* strValue);
-	static XnStatus XN_CALLBACK_TYPE OnNodeGeneralPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
-	static XnStatus XN_CALLBACK_TYPE OnNodeStateReady(void* pCookie, const XnChar* strNodeName);
-	static XnStatus XN_CALLBACK_TYPE OnNodeNewData(void* pCookie, const XnChar* strNodeName, uint64_t nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize);
+	static XnStatus XN_CALLBACK_TYPE OnNodeAdded(void* pCookie, const char* strNodeName, XnProductionNodeType type, XnCodecID compression, uint32_t nNumberOfFrames);
+	static XnStatus XN_CALLBACK_TYPE OnNodeRemoved(void* pCookie, const char* strNodeName);
+	static XnStatus XN_CALLBACK_TYPE OnNodeIntPropChanged(void* pCookie, const char* strNodeName, const char* strPropName, uint64_t nValue);
+	static XnStatus XN_CALLBACK_TYPE OnNodeRealPropChanged(void* pCookie, const char* strNodeName, const char* strPropName, double dValue);
+	static XnStatus XN_CALLBACK_TYPE OnNodeStringPropChanged(void* pCookie, const char* strNodeName, const char* strPropName, const char* strValue);
+	static XnStatus XN_CALLBACK_TYPE OnNodeGeneralPropChanged(void* pCookie, const char* strNodeName, const char* strPropName, uint32_t nBufferSize, const void* pBuffer);
+	static XnStatus XN_CALLBACK_TYPE OnNodeStateReady(void* pCookie, const char* strNodeName);
+	static XnStatus XN_CALLBACK_TYPE OnNodeNewData(void* pCookie, const char* strNodeName, uint64_t nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize);
 	static void		XN_CALLBACK_TYPE OnEndOfFileReached(void* pCookie);
-	XnStatus AddPrivateProperty(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
-	XnStatus AddPrivateProperty_PS1080(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
-	XnStatus AddPrivateProperty_PSLink(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
+	XnStatus AddPrivateProperty(PlayerSource* pSource, const char* strPropName, uint32_t nBufferSize, const void* pBuffer);
+	XnStatus AddPrivateProperty_PS1080(PlayerSource* pSource, const char* strPropName, uint32_t nBufferSize, const void* pBuffer);
+	XnStatus AddPrivateProperty_PSLink(PlayerSource* pSource, const char* strPropName, uint32_t nBufferSize, const void* pBuffer);
 
 	static XnStatus XN_CALLBACK_TYPE FileOpen(void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE FileRead(void* pCookie, void* pBuffer, uint32_t nSize, uint32_t* pnBytesRead);
@@ -132,7 +132,7 @@ private:
 	static XnStatus XN_CALLBACK_TYPE CodecCreate(void* pCookie, const char* strNodeName, XnCodecID nCodecId, XnCodec** ppCodec);
 	static void     XN_CALLBACK_TYPE CodecDestroy(void* pCookie, XnCodec* pCodec);
 
-	static XnStatus ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32_t nBufSize, const XnChar* strConfigDir);
+	static XnStatus ResolveGlobalConfigFileName(char* strConfigFile, uint32_t nBufSize, const char* strConfigDir);
 
 	// Name of the node (used for identifying the device in the callbacks).
 	std::string m_nodeName;

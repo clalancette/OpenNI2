@@ -56,7 +56,7 @@ PrimeClient::~PrimeClient()
 	Shutdown();
 }
 
-XnStatus PrimeClient::Init(const XnChar* strConnString, XnTransportType transportType)
+XnStatus PrimeClient::Init(const char* strConnString, XnTransportType transportType)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	m_pConnectionFactory = CreateConnectionFactory(transportType);
@@ -189,7 +189,7 @@ const XnLeanVersion& PrimeClient::GetDeviceProtocolVersion() const
 	return m_protocolVersion;
 }
 
-const XnChar* PrimeClient::GetSerialNumber() const
+const char* PrimeClient::GetSerialNumber() const
 {
 	return m_strSerialNumber;
 }
@@ -277,7 +277,7 @@ XnStatus PrimeClient::EnumerateStreams(XnStreamType streamType, std::vector<XnFw
 	return XN_STATUS_OK;
 }
 
-XnStatus PrimeClient::CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID)
+XnStatus PrimeClient::CreateInputStream(XnStreamType streamType, const char* strCreationInfo, uint16_t& nStreamID)
 {
 	if (!m_linkInputStreamsMgr.HasStreamOfType(streamType,strCreationInfo, nStreamID))
 	{
@@ -323,7 +323,7 @@ XnStatus PrimeClient::EndUploadFileOnControlEP()
 	return m_linkControlEndpoint.EndUpload();
 }
 
-XnStatus PrimeClient::UploadFileOnControlEP(const XnChar* strFileName, bool bOverrideFactorySettings)
+XnStatus PrimeClient::UploadFileOnControlEP(const char* strFileName, bool bOverrideFactorySettings)
 {
 	return m_linkControlEndpoint.UploadFile(strFileName, bOverrideFactorySettings);
 }
@@ -351,7 +351,7 @@ XnStatus PrimeClient::GetFileList(std::vector<XnFwFileEntry>& files)
 	return m_linkControlEndpoint.GetFileList(files);
 }
 
-XnStatus PrimeClient::DownloadFile(uint16_t zone, const XnChar* strFirmwareFileName, const XnChar* strTargetFile)
+XnStatus PrimeClient::DownloadFile(uint16_t zone, const char* strFirmwareFileName, const char* strTargetFile)
 {
 	return m_linkControlEndpoint.DownloadFile(zone, strFirmwareFileName, strTargetFile);
 }
@@ -528,7 +528,7 @@ XnStatus PrimeClient::StopFWLog()
 	return XN_STATUS_OK;
 }
 
-XnStatus PrimeClient::CreateInputStreamImpl(XnLinkStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID)
+XnStatus PrimeClient::CreateInputStreamImpl(XnLinkStreamType streamType, const char* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -567,7 +567,7 @@ XnStatus PrimeClient::CreateInputStreamImpl(XnLinkStreamType streamType, const X
 		return XN_STATUS_CORRUPT_FILE;																				\
 	}
 
-XnStatus PrimeClient::RunPresetFile(const XnChar* strFileName)
+XnStatus PrimeClient::RunPresetFile(const char* strFileName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -587,7 +587,7 @@ XnStatus PrimeClient::RunPresetFile(const XnChar* strFileName)
 	FILE* pFile = fopen(strFileName, "r");
 	XN_ASSERT(pFile != NULL);
 
-	XnChar strLine[1024];
+	char strLine[1024];
 
 	// read header
 	if (NULL == fgets(strLine, sizeof(strLine), pFile))
@@ -631,7 +631,7 @@ XnStatus PrimeClient::RunPresetFile(const XnChar* strFileName)
 		}
 
 		// block name
-		XnChar* pToken = strtok(strLine, ",");
+		char* pToken = strtok(strLine, ",");
 		CHECK_TOKEN(pToken, strLine, pFile);
 
 		// reg name

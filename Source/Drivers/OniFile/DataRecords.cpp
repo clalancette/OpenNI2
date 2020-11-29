@@ -160,7 +160,7 @@ XnStatus Record::Write(const void* pData, uint32_t nSize)
 	return XN_STATUS_OK;
 }
 
-XnStatus Record::WriteString(const XnChar* str)
+XnStatus Record::WriteString(const char* str)
 {
 	XN_VALIDATE_INPUT_PTR(str);
 	uint32_t nStrSize = (uint32_t)strlen(str) + 1; //+1 for terminating '\0'
@@ -197,7 +197,7 @@ XnStatus Record::Read(void* pDest, uint32_t nSize) const
 	return XN_STATUS_OK;
 }
 
-XnStatus Record::ReadString(const XnChar* &strDest) const
+XnStatus Record::ReadString(const char* &strDest) const
 {
 	uint32_t nStrSize = 0;
 	// Get size
@@ -209,7 +209,7 @@ XnStatus Record::ReadString(const XnChar* &strDest) const
 		XN_LOG_ERROR_RETURN(XN_STATUS_INPUT_BUFFER_OVERFLOW, XN_MASK_OPEN_NI, "Record buffer too small");
 	}
 	// Point destination string to current position
-	strDest = (const XnChar*)(m_pData + m_nReadOffset);
+	strDest = (const char*)(m_pData + m_nReadOffset);
 	// Skip string
 	m_nReadOffset += nStrSize;
 
@@ -265,7 +265,7 @@ XnStatus Record::FinishRead()
 	return XN_STATUS_OK;
 }
 
-XnStatus Record::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus Record::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	return xnOSStrFormat(strDest, nSize, &nCharsWritten,
 		"type=%u ID=%u fieldsSize=%u payloadSize=%u undoRecordPos=%u",
@@ -288,7 +288,7 @@ NodeAdded_1_0_0_4_Record::NodeAdded_1_0_0_4_Record(const Record& record) :
 
 }
 
-void NodeAdded_1_0_0_4_Record::SetNodeName(const XnChar* strNodeName)
+void NodeAdded_1_0_0_4_Record::SetNodeName(const char* strNodeName)
 {
 	m_strNodeName = strNodeName;
 }
@@ -303,7 +303,7 @@ void NodeAdded_1_0_0_4_Record::SetCompression(XnCodecID compression)
 	m_compression = compression;
 }
 
-const XnChar* NodeAdded_1_0_0_4_Record::GetNodeName() const
+const char* NodeAdded_1_0_0_4_Record::GetNodeName() const
 {
 	return m_strNodeName;
 }
@@ -370,7 +370,7 @@ XnStatus NodeAdded_1_0_0_4_Record::DecodeImpl()
 	return (XN_STATUS_OK);
 }
 
-XnStatus NodeAdded_1_0_0_4_Record::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus NodeAdded_1_0_0_4_Record::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -480,7 +480,7 @@ XnStatus NodeAdded_1_0_0_5_Record::DecodeImpl()
 	return (XN_STATUS_OK);
 }
 
-XnStatus NodeAdded_1_0_0_5_Record::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus NodeAdded_1_0_0_5_Record::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -544,7 +544,7 @@ XnStatus NodeAddedRecord::Decode()
 	return XN_STATUS_OK;
 }
 
-XnStatus NodeAddedRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus NodeAddedRecord::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -580,7 +580,7 @@ XnStatus NodeRemovedRecord::Decode()
 	return StartRead();
 }
 
-XnStatus NodeRemovedRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus NodeRemovedRecord::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -610,7 +610,7 @@ GeneralPropRecord::GeneralPropRecord(const Record& record) :
 {
 }
 
-void GeneralPropRecord::SetPropName(const XnChar* strPropName)
+void GeneralPropRecord::SetPropName(const char* strPropName)
 {
 	m_strPropName = strPropName;
 }
@@ -625,7 +625,7 @@ void GeneralPropRecord::SetPropData(const void* pPropData)
 	m_pPropData = const_cast<void*>(pPropData);
 }
 
-const XnChar* GeneralPropRecord::GetPropName() const
+const char* GeneralPropRecord::GetPropName() const
 {
 	return m_strPropName;
 }
@@ -683,7 +683,7 @@ XnStatus GeneralPropRecord::Decode()
 	return XN_STATUS_OK;
 }
 
-XnStatus GeneralPropRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus GeneralPropRecord::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -725,7 +725,7 @@ uint64_t IntPropRecord::GetValue() const
 	return *(uint64_t*)GetPropData();
 }
 
-XnStatus IntPropRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus IntPropRecord::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -766,7 +766,7 @@ double RealPropRecord::GetValue() const
 	return *(double*)GetPropData();
 }
 
-XnStatus RealPropRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus RealPropRecord::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -791,18 +791,18 @@ StringPropRecord::StringPropRecord(const Record &record) : GeneralPropRecord(rec
 {
 }
 
-void StringPropRecord::SetValue(const XnChar* strValue)
+void StringPropRecord::SetValue(const char* strValue)
 {
 	SetPropDataSize((uint32_t)strlen(strValue)+1);
-	SetPropData(const_cast<XnChar*>(strValue));
+	SetPropData(const_cast<char*>(strValue));
 }
 
-const XnChar* StringPropRecord::GetValue() const
+const char* StringPropRecord::GetValue() const
 {
-	return (const XnChar*)GetPropData();
+	return (const char*)GetPropData();
 }
 
-XnStatus StringPropRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus StringPropRecord::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -860,7 +860,7 @@ XnStatus NodeDataBeginRecord::Decode()
 	return XN_STATUS_OK;
 }
 
-XnStatus NodeDataBeginRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus NodeDataBeginRecord::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -905,7 +905,7 @@ XnStatus NodeStateReadyRecord::Decode()
 	return XN_STATUS_OK;
 }
 
-XnStatus NodeStateReadyRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus NodeStateReadyRecord::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -978,7 +978,7 @@ XnStatus NewDataRecordHeader::Decode()
 	return XN_STATUS_OK;
 }
 
-XnStatus NewDataRecordHeader::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus NewDataRecordHeader::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -1021,7 +1021,7 @@ XnStatus DataIndexRecordHeader::Decode()
 	return XN_STATUS_OK;
 }
 
-XnStatus DataIndexRecordHeader::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus DataIndexRecordHeader::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;
@@ -1061,7 +1061,7 @@ XnStatus EndRecord::Decode()
 	return XN_STATUS_OK;
 }
 
-XnStatus EndRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)
+XnStatus EndRecord::AsString(char* strDest, uint32_t nSize, uint32_t& nCharsWritten)
 {
 	uint32_t nTempCharsWritten = 0;
 	nCharsWritten = 0;

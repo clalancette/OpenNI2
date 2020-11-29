@@ -34,7 +34,7 @@
 class XnDataProcessor
 {
 public:
-	XnDataProcessor(XnDevicePrivateData* pDevicePrivateData, const XnChar* csName);
+	XnDataProcessor(XnDevicePrivateData* pDevicePrivateData, const char* csName);
 	virtual ~XnDataProcessor();
 
 	//---------------------------------------------------------------------------
@@ -88,7 +88,7 @@ protected:
 	/* Stores last packet ID */
 	uint16_t m_nLastPacketID;
 	/* The name of the stream. */
-	const XnChar* m_csName;
+	const char* m_csName;
 
 private:
 	/* Data used for calculating timestamps. */

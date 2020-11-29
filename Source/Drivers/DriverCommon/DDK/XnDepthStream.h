@@ -35,7 +35,7 @@
 class XnDepthStream : public XnPixelStream
 {
 public:
-	XnDepthStream(const XnChar* csName, bool bAllowCustomResolutions, OniDepthPixel nDeviceMaxDepth, uint16_t nDeviceMaxShift);
+	XnDepthStream(const char* csName, bool bAllowCustomResolutions, OniDepthPixel nDeviceMaxDepth, uint16_t nDeviceMaxShift);
 	~XnDepthStream() { Free(); }
 
 	//---------------------------------------------------------------------------

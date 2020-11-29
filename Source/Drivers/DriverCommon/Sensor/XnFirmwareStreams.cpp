@@ -128,7 +128,7 @@ XnStatus XnFirmwareStreams::Init()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnFirmwareStreams::CheckClaimStream(const XnChar* strType, XnResolutions nRes, uint32_t nFPS, XnDeviceStream* pOwner)
+XnStatus XnFirmwareStreams::CheckClaimStream(const char* strType, XnResolutions nRes, uint32_t nFPS, XnDeviceStream* pOwner)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -217,7 +217,7 @@ XnStatus XnFirmwareStreams::CheckClaimStream(const XnChar* strType, XnResolution
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnFirmwareStreams::ClaimStream(const XnChar* strType, XnResolutions nRes, uint32_t nFPS, XnDeviceStream* pOwner)
+XnStatus XnFirmwareStreams::ClaimStream(const char* strType, XnResolutions nRes, uint32_t nFPS, XnDeviceStream* pOwner)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -240,7 +240,7 @@ XnStatus XnFirmwareStreams::ClaimStream(const XnChar* strType, XnResolutions nRe
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnFirmwareStreams::ReleaseStream(const XnChar* strType, XnDeviceStream* pOwner)
+XnStatus XnFirmwareStreams::ReleaseStream(const char* strType, XnDeviceStream* pOwner)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -263,7 +263,7 @@ XnStatus XnFirmwareStreams::ReleaseStream(const XnChar* strType, XnDeviceStream*
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnFirmwareStreams::LockStreamProcessor(const XnChar* strType, XnDeviceStream* pOwner)
+XnStatus XnFirmwareStreams::LockStreamProcessor(const char* strType, XnDeviceStream* pOwner)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -282,7 +282,7 @@ XnStatus XnFirmwareStreams::LockStreamProcessor(const XnChar* strType, XnDeviceS
 	return XN_STATUS_OK;
 }
 
-XnStatus XnFirmwareStreams::UnlockStreamProcessor(const XnChar* strType, XnDeviceStream* pOwner)
+XnStatus XnFirmwareStreams::UnlockStreamProcessor(const char* strType, XnDeviceStream* pOwner)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -301,7 +301,7 @@ XnStatus XnFirmwareStreams::UnlockStreamProcessor(const XnChar* strType, XnDevic
 	return XN_STATUS_OK;
 }
 
-XnStatus XnFirmwareStreams::ReplaceStreamProcessor(const XnChar* strType, XnDeviceStream* pOwner, XnDataProcessor* pProcessor)
+XnStatus XnFirmwareStreams::ReplaceStreamProcessor(const char* strType, XnDeviceStream* pOwner, XnDataProcessor* pProcessor)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -322,7 +322,7 @@ XnStatus XnFirmwareStreams::ReplaceStreamProcessor(const XnChar* strType, XnDevi
 	return (XN_STATUS_OK);
 }
 
-bool XnFirmwareStreams::IsClaimed(const XnChar* strType, XnDeviceStream* pStream)
+bool XnFirmwareStreams::IsClaimed(const char* strType, XnDeviceStream* pStream)
 {
 	XnFirmwareStreamData* pData = NULL;
 	if (XN_STATUS_OK == m_FirmwareStreams.Get(strType, pData) && pData->pOwner == pStream)

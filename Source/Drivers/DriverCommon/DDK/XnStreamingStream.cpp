@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStreamingStream::XnStreamingStream(const XnChar* csType, const XnChar* csName) :
+XnStreamingStream::XnStreamingStream(const char* csType, const char* csName) :
 	XnDeviceStream(csType, csName),
 	m_IsStreamingStream(XN_STREAM_PROPERTY_IS_STREAMING, "IsStreaming", true),
 	m_ReadChunkSize(XN_STREAM_PROPERTY_READ_CHUNK_SIZE, "ReadChunkSize")

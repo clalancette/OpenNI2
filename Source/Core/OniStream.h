@@ -71,7 +71,7 @@ public:
 	const OniSensorInfo* getSensorInfo() const;
 
 	Device& getDevice();
-	const XnChar* getSensorName() { return m_sensorName; }
+	const char* getSensorName() { return m_sensorName; }
 
 	void* getHandle() const;
 
@@ -117,7 +117,7 @@ private:
 	static void ONI_CALLBACK_TYPE stream_PropertyChanged(void* streamHandle, int propertyId, const void* data, int dataSize, void* pCookie);
 
 	void refreshWorldConversionCache();
-	static const XnChar* getSensorName(OniSensorType sensorType);
+	static const char* getSensorName(OniSensorType sensorType);
 
 	NewFrameFuncPtr m_newFrameCallback;
 	void* m_newFrameCookie;
@@ -136,7 +136,7 @@ private:
 	typedef xnl::Lockable<xnl::Hash<Recorder*, Recorder*> > Recorders;
 	Recorders m_recorders;
 	XnFPSData m_FPS;
-	XnChar m_sensorName[80];
+	char m_sensorName[80];
 
 	struct WorldConversionCache
 	{

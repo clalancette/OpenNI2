@@ -52,7 +52,7 @@ public:
 	void ClearDevice(const char* uri);
 
 protected:
-	static void XN_CALLBACK_TYPE OnDevicePropertyChanged(const XnChar* ModuleName, uint32_t nPropertyId, void* pCookie);
+	static void XN_CALLBACK_TYPE OnDevicePropertyChanged(const char* ModuleName, uint32_t nPropertyId, void* pCookie);
 	static void XN_CALLBACK_TYPE OnDeviceConnected(const OniDeviceInfo& deviceInfo, void* pCookie);
 	static void XN_CALLBACK_TYPE OnDeviceDisconnected(const OniDeviceInfo& deviceInfo, void* pCookie);
 
@@ -65,7 +65,7 @@ private:
 	public:
 		XnOpenNILogWriter(OniDriverServices* pDriverServices);
 		virtual void WriteEntry(const XnLogEntry* pEntry);
-		virtual void WriteUnformatted(const XnChar* strMessage);
+		virtual void WriteUnformatted(const char* strMessage);
 
 	private:
 		OniDriverServices* m_pDriverServices;

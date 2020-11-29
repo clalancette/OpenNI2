@@ -54,14 +54,14 @@ public:
 	inline double GetEmitterDCmosDistance() const { return m_dEmitterDCmosDistance; }
 	inline double GetDCmosRCmosDistance() const { return m_dDCmosRCmosDistance; }
 
-	inline const XnChar* GetSensorSerial() const { return m_strSensorSerial; }
+	inline const char* GetSensorSerial() const { return m_strSensorSerial; }
 
 	inline XnImageCMOSType GetImageCmosType() const { return (XnImageCMOSType)m_nImageCmosType; }
 	inline XnDepthCMOSType GetDepthCmosType() const { return (XnDepthCMOSType)m_nDepthCmosType; }
 
-	inline const XnChar* GetDeviceName() const { return m_deviceInfo.strDeviceName; }
-	inline const XnChar* GetVendorData() const { return m_deviceInfo.strVendorData; }
-	inline const XnChar* GetPlatformString() const { return m_strPlatformString; }
+	inline const char* GetDeviceName() const { return m_deviceInfo.strDeviceName; }
+	inline const char* GetVendorData() const { return m_deviceInfo.strVendorData; }
+	inline const char* GetPlatformString() const { return m_strPlatformString; }
 
 private:
 	XnDevicePrivateData* m_pDevicePrivateData;
@@ -79,9 +79,9 @@ private:
 	uint32_t m_nImageCmosType;
 	uint32_t m_nDepthCmosType;
 
-	XnChar m_strSensorSerial[XN_DEVICE_MAX_STRING_LENGTH];
+	char m_strSensorSerial[XN_DEVICE_MAX_STRING_LENGTH];
 	XnDeviceInformation m_deviceInfo;
-	XnChar m_strPlatformString[XN_DEVICE_MAX_STRING_LENGTH];
+	char m_strPlatformString[XN_DEVICE_MAX_STRING_LENGTH];
 };
 
 #endif // XNSENSORFIXEDPARAMS_H

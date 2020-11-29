@@ -54,7 +54,7 @@ protected:
 class XnLinuxNamedEvent : public XnLinuxEvent
 {
 public:
-	XnLinuxNamedEvent(bool bManualReset, const XnChar* strName, bool bCreate) : XnLinuxEvent(bManualReset), m_bCreate(bCreate), m_strName(strName) {}
+	XnLinuxNamedEvent(bool bManualReset, const char* strName, bool bCreate) : XnLinuxEvent(bManualReset), m_bCreate(bCreate), m_strName(strName) {}
 
 	virtual XnStatus Init()
 	{
@@ -69,12 +69,12 @@ public:
 	}
 
 protected:
-	virtual XnStatus CreateNamed(const XnChar* strName) = 0;
-	virtual XnStatus OpenNamed(const XnChar* strName) = 0;
+	virtual XnStatus CreateNamed(const char* strName) = 0;
+	virtual XnStatus OpenNamed(const char* strName) = 0;
 
 private:
 	bool m_bCreate;
-	const XnChar* m_strName; // Valid only on creation
+	const char* m_strName; // Valid only on creation
 };
 
 #endif // __LINUX_EVENTS_H__

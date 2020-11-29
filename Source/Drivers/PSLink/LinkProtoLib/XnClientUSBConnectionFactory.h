@@ -41,7 +41,7 @@ public:
 					uint32_t nPreControlReceiveSleep);
 
 	virtual ~ClientUSBConnectionFactory();
-	virtual XnStatus Init(const XnChar* strConnString);
+	virtual XnStatus Init(const char* strConnString);
 	virtual void Shutdown();
 	virtual bool IsInitialized() const;
 

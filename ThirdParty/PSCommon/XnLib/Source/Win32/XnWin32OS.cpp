@@ -88,7 +88,7 @@ static XnStatus GetOSName(xnOSInfo* pOSInfo)
 
 #else
 
-static const XnChar* GetOSName(OSVERSIONINFOEX& osVersionInfo)
+static const char* GetOSName(OSVERSIONINFOEX& osVersionInfo)
 {
 	if (osVersionInfo.dwMajorVersion == 4)
 	{
@@ -244,7 +244,7 @@ static XnStatus GetOSName(xnOSInfo* pOSInfo)
 
 #endif
 
-static void GetCPUName(XnChar* csName)
+static void GetCPUName(char* csName)
 {
 	int CPUInfo[4] = {-1};
 	xnOSMemSet(csName, 0, XN_MAX_OS_NAME_LENGTH);
@@ -332,19 +332,19 @@ XN_C_API XnStatus xnOSGetInfo(xnOSInfo* pOSInfo)
 	return (XN_STATUS_OK);
 }
 
-XnStatus xnWin32CreateKernelObjectName(XnChar* strDest, const uint32_t nDestLength, const XnChar* strSource, bool bAllowOtherUsers)
+XnStatus xnWin32CreateKernelObjectName(char* strDest, const uint32_t nDestLength, const char* strSource, bool bAllowOtherUsers)
 {
-	XnChar* pDest = strDest;
-	XnChar* pDestEnd = strDest + nDestLength;
+	char* pDest = strDest;
+	char* pDestEnd = strDest + nDestLength;
 
 	if (bAllowOtherUsers)
 	{
-		static const XnChar strGlobal[] = "Global\\";
+		static const char strGlobal[] = "Global\\";
 		strcpy(strDest, strGlobal);
 		pDest = strDest + sizeof(strGlobal) - 1;
 	}
 
-	const XnChar* pSource = strSource;
+	const char* pSource = strSource;
 
 	while (pDest < pDestEnd && *pSource != '\0')
 	{

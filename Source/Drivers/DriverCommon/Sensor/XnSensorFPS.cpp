@@ -47,7 +47,7 @@ XnSensorFPS::~XnSensorFPS()
 	xnDumpFileClose(m_FramesDump);
 }
 
-void XnSensorFPS::Mark(XnFPSData* /*pFPS*/, const XnChar* csName, uint32_t nFrameID, uint64_t nTS)
+void XnSensorFPS::Mark(XnFPSData* /*pFPS*/, const char* csName, uint32_t nFrameID, uint64_t nTS)
 {
 	if (!xnLogIsEnabled(XN_MASK_SENSOR_FPS, XN_LOG_VERBOSE))
 		return;

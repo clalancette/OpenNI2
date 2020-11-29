@@ -38,7 +38,7 @@ class XnOniStream :
 	public oni::driver::StreamBase
 {
 public:
-	XnOniStream(XnSensor* pSensor, const XnChar* strName, OniSensorType sensorType, XnOniDevice* pDevice);
+	XnOniStream(XnSensor* pSensor, const char* strName, OniSensorType sensorType, XnOniDevice* pDevice);
 	~XnOniStream();
 
 	virtual XnStatus Init();
@@ -62,7 +62,7 @@ protected:
 
 	OniSensorType m_sensorType;
 	XnSensor* m_pSensor;
-	const XnChar* m_strType;
+	const char* m_strType;
 	XnDeviceStream* m_pDeviceStream;
 	XnOniDevice* m_pDevice;
 	XnCallbackHandle m_hNewDataCallback;

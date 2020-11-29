@@ -36,12 +36,12 @@
 class XnActualStringProperty final : public XnStringProperty
 {
 public:
-	XnActualStringProperty(uint32_t propertyId, const XnChar* strName, const XnChar* strInitialValue = "", const XnChar* strModule = "");
+	XnActualStringProperty(uint32_t propertyId, const char* strName, const char* strInitialValue = "", const char* strModule = "");
 
-	inline const XnChar* GetValue() const { return m_strValue; }
+	inline const char* GetValue() const { return m_strValue; }
 
-	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnActualStringProperty* pSender, const XnChar* strValue, void* pCookie);
-	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnActualStringProperty* pSender, XnChar* csValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnActualStringProperty* pSender, const char* strValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnActualStringProperty* pSender, char* csValue, void* pCookie);
 
 	inline void UpdateSetCallback(SetFuncPtr pFunc, void* pCookie)
 	{
@@ -59,10 +59,10 @@ public:
 	}
 
 private:
-	static XnStatus XN_CALLBACK_TYPE SetCallback(XnActualStringProperty* pSender, const XnChar* strValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE GetCallback(const XnActualStringProperty* pSender, XnChar* csValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetCallback(XnActualStringProperty* pSender, const char* strValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE GetCallback(const XnActualStringProperty* pSender, char* csValue, void* pCookie);
 
-	XnChar m_strValue[XN_DEVICE_MAX_STRING_LENGTH];
+	char m_strValue[XN_DEVICE_MAX_STRING_LENGTH];
 };
 
 #endif // XNACTUALSTRINGPROPERTY_H

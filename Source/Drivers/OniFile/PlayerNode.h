@@ -46,7 +46,7 @@ public:
 		void     (XN_CALLBACK_TYPE* Destroy)(void* pCookie, XnCodec* pCodec);
 	} CodecFactory;
 
-	PlayerNode(const XnChar* strName);
+	PlayerNode(const char* strName);
 	~PlayerNode();
 
 	//public functions
@@ -61,12 +61,12 @@ public:
 	XnStatus SetRepeat(bool bRepeat);
 	XnStatus SeekToTimeStamp(int64_t nTimeOffset, XnPlayerSeekOrigin origin);
 
-	XnStatus SeekToFrame(const XnChar* strNodeName, int32_t nFrameOffset, XnPlayerSeekOrigin origin);
+	XnStatus SeekToFrame(const char* strNodeName, int32_t nFrameOffset, XnPlayerSeekOrigin origin);
 	XnStatus TellTimestamp(uint64_t& nTimestamp);
-	XnStatus TellFrame(const XnChar* strNodeName, uint32_t& nFrameNumber);
-	uint32_t GetNumFrames(const XnChar* strNodeName, uint32_t& nFrames);
+	XnStatus TellFrame(const char* strNodeName, uint32_t& nFrameNumber);
+	uint32_t GetNumFrames(const char* strNodeName, uint32_t& nFrames);
 
-	const XnChar* GetSupportedFormat();
+	const char* GetSupportedFormat();
 	bool IsEOF();
 	XnStatus RegisterToEndOfFileReached(EndOfFileReachedHandler handler, void* pCookie, XnCallbackHandle& hCallback);
 	void UnregisterFromEndOfFileReached(XnCallbackHandle hCallback);
@@ -92,7 +92,7 @@ private:
 		void Reset();
 
 		bool bValid;
-		XnChar strName[XN_MAX_NAME_LENGTH];
+		char strName[XN_MAX_NAME_LENGTH];
 		uint64_t nLastDataPos;
 		XnCodecID compression;
 		uint32_t nFrames;
@@ -127,7 +127,7 @@ private:
 	bool IsTypeGenerator(XnProductionNodeType type);
 
 	XnStatus HandleRecord(Record& record, bool bHandleRecord);
-	XnStatus HandleNodeAddedImpl(uint32_t nNodeID, XnProductionNodeType type, const XnChar* strName, XnCodecID compression, uint32_t nNumberOfFrames, uint64_t nMinTimestamp, uint64_t nMaxTimestamp);
+	XnStatus HandleNodeAddedImpl(uint32_t nNodeID, XnProductionNodeType type, const char* strName, XnCodecID compression, uint32_t nNumberOfFrames, uint64_t nMinTimestamp, uint64_t nMaxTimestamp);
 	XnStatus HandleNodeAddedRecord(NodeAddedRecord record);
 	XnStatus HandleGeneralPropRecord(GeneralPropRecord record);
 	XnStatus HandleIntPropRecord(IntPropRecord record);
@@ -143,10 +143,10 @@ private:
 	XnStatus ProcessUntilFirstData();
 	PlayerNodeInfo* GetPlayerNodeInfo(uint32_t nNodeID);
 	XnStatus RemovePlayerNodeInfo(uint32_t nNodeID);
-	uint32_t GetPlayerNodeIDByName(const XnChar* strNodeName);
-	PlayerNodeInfo* GetPlayerNodeInfoByName(const XnChar* strNodeName);
-	XnStatus SaveRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const XnChar* strPropName, uint64_t nRecordPos, uint64_t nUndoRecordPos);
-	XnStatus GetRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const XnChar* strPropName, uint64_t& nRecordPos, uint64_t& nUndoRecordPos);
+	uint32_t GetPlayerNodeIDByName(const char* strNodeName);
+	PlayerNodeInfo* GetPlayerNodeInfoByName(const char* strNodeName);
+	XnStatus SaveRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const char* strPropName, uint64_t nRecordPos, uint64_t nUndoRecordPos);
+	XnStatus GetRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const char* strPropName, uint64_t& nRecordPos, uint64_t& nUndoRecordPos);
 	XnStatus SkipRecordPayload(Record record);
 	XnStatus SeekToRecordByType(uint32_t nNodeID, RecordType type);
 	DataIndexEntry* FindTimestampInDataIndex(uint32_t nNodeID, uint64_t nTimestamp);
@@ -162,7 +162,7 @@ private:
 	static const XnVersion FIRST_FILESIZE64BIT_FILE_FORMAT_VERSION;
 
 	XnVersion m_fileVersion;
-	XnChar m_strName[XN_MAX_NAME_LENGTH];
+	char m_strName[XN_MAX_NAME_LENGTH];
 	bool m_bOpen;
 	bool m_bIs32bitFileFormat;
 	uint8_t* m_pRecordBuffer;

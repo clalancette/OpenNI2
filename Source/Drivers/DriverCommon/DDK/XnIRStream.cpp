@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnIRStream::XnIRStream(const XnChar* csName, bool bAllowCustomResolutions, OniIRPixel nDeviceMaxIR) :
+XnIRStream::XnIRStream(const char* csName, bool bAllowCustomResolutions, OniIRPixel nDeviceMaxIR) :
 	XnPixelStream(XN_STREAM_TYPE_IR, csName, bAllowCustomResolutions),
     m_DeviceMaxIR(XN_STREAM_PROPERTY_DEVICE_MAX_IR, "DeviceMaxIR", nDeviceMaxIR)
 {

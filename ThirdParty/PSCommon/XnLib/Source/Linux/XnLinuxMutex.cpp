@@ -39,7 +39,7 @@ struct XnMutex
 	bool bIsNamed;
 	pthread_mutex_t ThreadMutex;
 	int NamedSem;
-	XnChar csSemFileName[XN_FILE_MAX_PATH];
+	char csSemFileName[XN_FILE_MAX_PATH];
 	int hSemFile;
 	bool bIsLocked; // used for named semaphore, to make sure a porcess doesn't unlock more than once (counting semaphore will no longer be a mutex).
 };
@@ -75,7 +75,7 @@ XnStatus xnOSUnNamedMutexCreate(XnMutex* pMutex)
 	return (XN_STATUS_OK);
 }
 
-XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
+XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const char* csMutexName)
 {
 	int rc;
 
@@ -85,7 +85,7 @@ XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
 #else
 
 	// remove bad chars from name
-	XnChar strMutexOSName[XN_FILE_MAX_PATH];
+	char strMutexOSName[XN_FILE_MAX_PATH];
 	int i = 0;
 	for (; (i < XN_FILE_MAX_PATH) && (csMutexName[i] != '\0'); ++i)
 		strMutexOSName[i] = csMutexName[i] == '/' ? '_' : csMutexName[i];
@@ -203,12 +203,12 @@ XN_C_API XnStatus xnOSCreateMutex(XN_MUTEX_HANDLE* pMutexHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSCreateNamedMutex(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName)
+XN_C_API XnStatus xnOSCreateNamedMutex(XN_MUTEX_HANDLE* pMutexHandle, const char* cpMutexName)
 {
 	return xnOSCreateNamedMutexEx(pMutexHandle, cpMutexName, false);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName, bool /*bAllowOtherUsers*/)
+XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const char* cpMutexName, bool /*bAllowOtherUsers*/)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;

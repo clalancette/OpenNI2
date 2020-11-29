@@ -31,24 +31,24 @@
 #include <XnPropertySet.h>
 #include <Core/XnBuffer.h>
 
-typedef XnChar XnConnectionString[XN_DEVICE_MAX_STRING_LENGTH];
+typedef char XnConnectionString[XN_DEVICE_MAX_STRING_LENGTH];
 
 /** This structure defines the Xiron device configuration (when opening a new device). */
 typedef struct XnDeviceConfig
 {
 	/** The connection string (depending on the device this could mean: file name, IP, sensor serial, etc...). */
-	const XnChar* cpConnectionString;
+	const char* cpConnectionString;
 	/** Optional. A set of initial values to be used. */
 	const XnPropertySet* pInitialValues;
 } XnDeviceConfig;
 
 typedef struct XnNewStreamDataEventArgs
 {
-	const XnChar* strStreamName;
+	const char* strStreamName;
 	OniFrame* pFrame;
 } XnNewStreamDataEventArgs;
 
-typedef void (XN_CALLBACK_TYPE* XnDeviceOnPropertyChangedEventHandler)(const XnChar* ModuleName, uint32_t nPropertyId, void* pCookie);
+typedef void (XN_CALLBACK_TYPE* XnDeviceOnPropertyChangedEventHandler)(const char* ModuleName, uint32_t nPropertyId, void* pCookie);
 typedef void (XN_CALLBACK_TYPE* XnDeviceOnNewStreamDataEventHandler)(const XnNewStreamDataEventArgs& args, void* pCookie);
 
 

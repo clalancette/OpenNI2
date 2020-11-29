@@ -170,8 +170,8 @@ private:
 	/* A pointer to the triple frame buffer of this stream. */
 	XnFrameBufferManager* m_pTripleBuffer;
 
-	XnChar m_csInDumpMask[XN_DEVICE_MAX_STRING_LENGTH + 2];
-	XnChar m_csInternalDumpMask[XN_DEVICE_MAX_STRING_LENGTH + 8];
+	char m_csInDumpMask[XN_DEVICE_MAX_STRING_LENGTH + 2];
+	char m_csInternalDumpMask[XN_DEVICE_MAX_STRING_LENGTH + 8];
 	XnDumpFile* m_InDump;
 	XnDumpFile* m_InternalDump;
 	bool m_bFrameCorrupted;

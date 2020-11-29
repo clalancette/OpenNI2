@@ -129,7 +129,7 @@ typedef struct XnLinkShiftToDepthConfig
 
 typedef struct XnLinkSerialNumber
 {
-	XnChar m_strSerialNumber[XN_LINK_SERIAL_NUMBER_SIZE];
+	char m_strSerialNumber[XN_LINK_SERIAL_NUMBER_SIZE];
 } XnLinkSerialNumber;
 
 typedef struct XnLinkPoint3D
@@ -154,7 +154,7 @@ typedef struct XnLinkBitSet
 typedef struct XnLinkStreamInfo
 {
 	uint32_t m_nStreamType;
-	XnChar m_strCreationInfo[XN_LINK_MAX_CREATION_INFO_LENGTH];
+	char m_strCreationInfo[XN_LINK_MAX_CREATION_INFO_LENGTH];
 } XnLinkStreamInfo;
 
 typedef struct XnLinkHandData
@@ -349,7 +349,7 @@ typedef struct XnLinkPropSet
 typedef struct XnLinkBistTest
 {
 	uint32_t m_nID;
-	XnChar m_strName[XN_LINK_MAX_BIST_NAME_LENGTH];
+	char m_strName[XN_LINK_MAX_BIST_NAME_LENGTH];
 } XnLinkBistTest;
 
 typedef struct XnLinkSupportedBistTests
@@ -376,7 +376,7 @@ typedef struct XnLinkDetailedVersion
 	uint8_t m_nMinor;
 	uint16_t m_nMaintenance;
 	uint32_t m_nBuild;
-	XnChar m_strModifier[XN_LINK_MAX_VERSION_MODIFIER_LENGTH];
+	char m_strModifier[XN_LINK_MAX_VERSION_MODIFIER_LENGTH];
 } XnLinkDetailedVersion;
 
 typedef struct XnLinkFileVersion
@@ -389,7 +389,7 @@ typedef struct XnLinkFileVersion
 
 typedef struct XnLinkFileEntry
 {
-	XnChar m_strName[XN_LINK_MAX_FILE_NAME_LENGTH];
+	char m_strName[XN_LINK_MAX_FILE_NAME_LENGTH];
 	XnLinkFileVersion m_nVersion;
 	uint32_t m_nAddress;
 	uint32_t m_nSize;
@@ -403,8 +403,8 @@ typedef struct XnLinkFileEntry
 
 typedef struct XnLinkComponentVersion
 {
-	XnChar m_strName[XN_LINK_MAX_COMPONENT_NAME_LENGTH];
-	XnChar m_strVersion[XN_LINK_MAX_VERSION_LENGTH];
+	char m_strName[XN_LINK_MAX_COMPONENT_NAME_LENGTH];
+	char m_strVersion[XN_LINK_MAX_VERSION_LENGTH];
 } XnLinkComponentVersion;
 
 typedef struct XnLinkComponentVersionsList
@@ -442,7 +442,7 @@ typedef struct XnLinkI2CDevice
 	uint8_t m_nSlaveID;
 	uint16_t m_nReserved;
 	uint32_t m_nID;
-	XnChar m_strName[XN_LINK_MAX_I2C_DEVICE_NAME_LENGTH];
+	char m_strName[XN_LINK_MAX_I2C_DEVICE_NAME_LENGTH];
 } XnLinkI2CDevice;
 
 typedef struct XnLinkSupportedI2CDevices
@@ -454,7 +454,7 @@ typedef struct XnLinkSupportedI2CDevices
 typedef struct XnLinkLogFile
 {
 	uint8_t m_nID;
-	XnChar m_strName[XN_LINK_MAX_LOG_FILE_NAME_LENGTH];
+	char m_strName[XN_LINK_MAX_LOG_FILE_NAME_LENGTH];
 } XnLinkLogFile;
 
 typedef struct XnLinkSupportedLogFiles
@@ -490,7 +490,7 @@ typedef struct XnLinkDownloadFileParams
 {
 	uint16_t m_nZone = 0;
 	uint16_t m_nReserved1 = 0;
-	XnChar m_strName[XN_LINK_MAX_FILE_NAME_LENGTH];
+	char m_strName[XN_LINK_MAX_FILE_NAME_LENGTH];
 } XnLinkDownloadFileParams;
 
 typedef struct XnLinkContinueReponseParams
@@ -546,7 +546,7 @@ typedef struct XnLinkSetVideoModeParams
 typedef struct XnLinkCreateStreamParams
 {
 	uint32_t m_nStreamType = 0;
-	XnChar m_strCreationInfo[XN_LINK_MAX_CREATION_INFO_LENGTH];
+	char m_strCreationInfo[XN_LINK_MAX_CREATION_INFO_LENGTH];
 } XnLinkCreateStreamParams;
 
 typedef XnLinkPropVal XnLinkSetPropParams;
@@ -781,13 +781,13 @@ typedef struct XnLinkSetSkeletonCalibrationDataParams
 
 typedef struct XnLinkSetLogMaskSeverityParams
 {
-	XnChar m_strMask[XN_LINK_MAX_LOG_MASK_LENGTH];
+	char m_strMask[XN_LINK_MAX_LOG_MASK_LENGTH];
 	uint32_t m_nMinSeverity; // values from XnLogSeverity
 } XnLinkSetLogMaskSeverityParams;
 
 typedef struct XnLinkGetLogMaskSeverityParams
 {
-	XnChar m_strMask[XN_LINK_MAX_LOG_MASK_LENGTH];
+	char m_strMask[XN_LINK_MAX_LOG_MASK_LENGTH];
 } XnLinkGetLogMaskSeverityParams;
 
 typedef struct XnLinkGetLogMaskSeverityResponse

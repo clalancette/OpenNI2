@@ -33,13 +33,13 @@ public:
 	static XnStatus Initialize();
 	static void Shutdown();
 
-	static OniDeviceInfo* GetDeviceInfo(const XnChar* uri);
+	static OniDeviceInfo* GetDeviceInfo(const char* uri);
 
 	static DeviceConnectivityEvent::Interface& ConnectedEvent();
 	static DeviceConnectivityEvent::Interface& DisconnectedEvent();
 
 	static XnStatus EnumerateSensors(OniDeviceInfo* aDevices, uint32_t* pnCount);
-	static XnStatus IsSensorLowBandwidth(const XnChar* connectionString, bool* pbIsLowband);
+	static XnStatus IsSensorLowBandwidth(const char* connectionString, bool* pbIsLowband);
 };
 
 #endif // XNDEVICEENUMERATION_H

@@ -93,7 +93,7 @@ void LinkInputDataEndpoint::Shutdown()
 XnStatus LinkInputDataEndpoint::Connect()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnChar strDumpName[XN_FILE_MAX_PATH] = "";
+	char strDumpName[XN_FILE_MAX_PATH] = "";
 	xnl::AutoCSLocker lock(m_hCriticalSection);
 
 	if (!m_bInitialized)

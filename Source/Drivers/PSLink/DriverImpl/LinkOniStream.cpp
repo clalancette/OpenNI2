@@ -120,7 +120,7 @@ OniStatus LinkOniStream::getProperty(int propertyId, void* data, int* pDataSize)
 	{
 	case PS_PROPERTY_DUMP_DATA:
 		{
-			XnChar strDumpName[XN_FILE_MAX_PATH] = "";
+			char strDumpName[XN_FILE_MAX_PATH] = "";
 			xnLinkGetStreamDumpName(m_streamId, strDumpName, sizeof(strDumpName));
 			bool bEnabled = xnLogIsDumpMaskEnabled(strDumpName);
 			ENSURE_PROP_SIZE(*pDataSize, bool);
@@ -143,7 +143,7 @@ OniStatus LinkOniStream::setProperty(int propertyId, const void* data, int dataS
 			int val;
 			GET_PROP_VALUE_INT(val, data, dataSize);
 
-			XnChar strDumpName[XN_FILE_MAX_PATH] = "";
+			char strDumpName[XN_FILE_MAX_PATH] = "";
 			xnLinkGetStreamDumpName(m_streamId, strDumpName, sizeof(strDumpName));
 			xnDumpSetMaskState(strDumpName, val == 1);
 		}

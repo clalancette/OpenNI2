@@ -163,11 +163,11 @@ bool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t n
 	return true;
 }
 
-XnStatus XnDeviceSensorProtocolFindStreamOfType(XnDevicePrivateData* pDevicePrivateData, const XnChar* strType, const XnChar** ppStreamName)
+XnStatus XnDeviceSensorProtocolFindStreamOfType(XnDevicePrivateData* pDevicePrivateData, const char* strType, const char** ppStreamName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	const XnChar* strNames[100];
+	const char* strNames[100];
 	uint32_t nCount = 100;
 
 	nRetVal = pDevicePrivateData->pSensor->GetStreamNames(strNames, &nCount);
@@ -175,7 +175,7 @@ XnStatus XnDeviceSensorProtocolFindStreamOfType(XnDevicePrivateData* pDevicePriv
 
 	for (uint32_t i = 0; i < nCount; ++i)
 	{
-		XnChar strCurType[XN_DEVICE_MAX_STRING_LENGTH];
+		char strCurType[XN_DEVICE_MAX_STRING_LENGTH];
 		nRetVal = pDevicePrivateData->pSensor->GetProperty(strNames[i], XN_STREAM_PROPERTY_TYPE, strCurType);
 		XN_IS_STATUS_OK(nRetVal);
 
@@ -210,10 +210,10 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 
 //	if (false /* pDevicePrivateData->bConfigure*/)
 	{
-		XnChar which;
+		char which;
 		uint32_t address, value, mask;
 
-		const XnChar* csFileName = "commands.txt";
+		const char* csFileName = "commands.txt";
 
 		uint64_t nFileSize = 0;
 		rc = xnOSGetFileSize64(csFileName, &nFileSize);
@@ -223,13 +223,13 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 		}
 
 		// read file
-		XnChar* pcsCommandsFile = (XnChar*)xnOSCalloc((size_t)(nFileSize + 1), sizeof(XnChar));
+		char* pcsCommandsFile = (char*)xnOSCalloc((size_t)(nFileSize + 1), sizeof(char));
 		rc = xnOSLoadFile(csFileName, pcsCommandsFile, (uint32_t)nFileSize);
 		if (rc == XN_STATUS_OK)
 		{
 			xnOSSleep(7000);
 
-			XnChar* pFile = pcsCommandsFile;
+			char* pFile = pcsCommandsFile;
 			int32_t nRead = 0;
 
 			// Parse commands file
@@ -270,9 +270,9 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					}
 				case 'L':
 					{
-						XnChar LogBuffer[XN_MAX_LOG_SIZE];
+						char LogBuffer[XN_MAX_LOG_SIZE];
 						XnHostProtocolGetLog(pDevicePrivateData, LogBuffer, XN_MAX_LOG_SIZE);
-						printf("%s", (XnChar*)LogBuffer);
+						printf("%s", (char*)LogBuffer);
 						break;
 					}
 				case 'F':
@@ -393,7 +393,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					break;
 				case 'U':
 					{
-						XnChar filename[80] = {0};
+						char filename[80] = {0};
 						uint32_t nType;
 						sscanf(pFile, "%u %s\n%n", &nType, filename, &nRead);
 						pFile += nRead;
@@ -412,7 +412,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					break;
 				case 'D':
 					{
-						XnChar filename[80] = {0};
+						char filename[80] = {0};
 						uint32_t nType;
 						sscanf(pFile, "%u %s\n%n", &nType, filename, &nRead);
 						pFile += nRead;

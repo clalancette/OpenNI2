@@ -26,7 +26,7 @@
 #include "XnActualGeneralProperty.h"
 #include <XnCore.h>
 
-XnActualPropertiesHash::XnActualPropertiesHash(const XnChar* strName)
+XnActualPropertiesHash::XnActualPropertiesHash(const char* strName)
 {
 	strncpy(m_strName, strName, XN_DEVICE_MAX_STRING_LENGTH);
 }
@@ -40,7 +40,7 @@ XnActualPropertiesHash::~XnActualPropertiesHash()
 	}
 }
 
-XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName, uint64_t nValue)
+XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const char* strName, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -65,7 +65,7 @@ XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName,
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName, double dValue)
+XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const char* strName, double dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -90,7 +90,7 @@ XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName,
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName, const XnChar* strValue)
+XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const char* strName, const char* strValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -115,7 +115,7 @@ XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName,
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue)
+XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const char* strName, const OniGeneralBuffer& gbValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

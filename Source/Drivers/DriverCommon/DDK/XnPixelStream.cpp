@@ -30,7 +30,7 @@
 //---------------------------------------------------------------------------
 // XnPixelStream
 //---------------------------------------------------------------------------
-XnPixelStream::XnPixelStream(const XnChar* csType, const XnChar* csName, bool bAllowCustomResolutions) :
+XnPixelStream::XnPixelStream(const char* csType, const char* csName, bool bAllowCustomResolutions) :
 	XnFrameStream(csType, csName),
 	m_IsPixelStream(XN_STREAM_PROPERTY_IS_PIXEL_BASED, "IsPixelBased", true),
 	m_Resolution(XN_STREAM_PROPERTY_RESOLUTION, "Resolution", XN_RESOLUTION_VGA),
@@ -407,12 +407,12 @@ XnStatus XN_CALLBACK_TYPE XnPixelStream::SetCroppingCallback(XnActualGeneralProp
 	return pStream->SetCropping((OniCropping*)gbValue.data);
 }
 
-XnStatus XN_CALLBACK_TYPE XnPixelStream::ReadCroppingFromFileCallback(XnGeneralProperty* pSender, const XnChar* csINIFile, const XnChar* csSection)
+XnStatus XN_CALLBACK_TYPE XnPixelStream::ReadCroppingFromFileCallback(XnGeneralProperty* pSender, const char* csINIFile, const char* csSection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// read section name
-	XnChar csCroppingSection[XN_FILE_MAX_PATH];
+	char csCroppingSection[XN_FILE_MAX_PATH];
 	sprintf(csCroppingSection, "%s.Cropping", csSection);
 
 	// read cropping values
@@ -464,12 +464,12 @@ XnStatus XN_CALLBACK_TYPE XnPixelStream::GetSupportedModesCallback(const XnGener
 //---------------------------------------------------------------------------
 // XnResolutionProperty
 //---------------------------------------------------------------------------
-XnPixelStream::XnResolutionProperty::XnResolutionProperty(uint32_t propertyId, const XnChar* strName, uint64_t nInitialValue /* = 0 */, const XnChar* strModule /* = "" */) :
+XnPixelStream::XnResolutionProperty::XnResolutionProperty(uint32_t propertyId, const char* strName, uint64_t nInitialValue /* = 0 */, const char* strModule /* = "" */) :
 	XnActualIntProperty(propertyId, strName, nInitialValue, strModule)
 {
 }
 
-bool XnPixelStream::XnResolutionProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
+bool XnPixelStream::XnResolutionProperty::ConvertValueToString(char* csValue, const void* pValue) const
 {
 	uint64_t nValue = *(uint64_t*)pValue;
 	strcpy(csValue, XnDDKGetResolutionName((XnResolutions)nValue));

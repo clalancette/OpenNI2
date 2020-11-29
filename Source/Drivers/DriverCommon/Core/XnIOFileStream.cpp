@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnIOFileStream::XnIOFileStream(const XnChar* pcsFileName, uint32_t nFlags) :
+XnIOFileStream::XnIOFileStream(const char* pcsFileName, uint32_t nFlags) :
 	m_pcsFileName(pcsFileName), m_nFlags(nFlags)
 {
 }

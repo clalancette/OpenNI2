@@ -77,32 +77,32 @@ public:
 	//---------------------------------------------------------------------------
 	virtual XnStatus Init(const XnDeviceConfig* pDeviceConfig);
 	virtual XnStatus Destroy();
-	virtual XnStatus GetSupportedStreams(const XnChar** aStreamNames, uint32_t* pnStreamNamesCount);
-	virtual XnStatus CreateStream(const XnChar* StreamType, const XnChar* StreamName = NULL, const XnPropertySet* pInitialValues = NULL);
-	virtual XnStatus DestroyStream(const XnChar* StreamName);
-	virtual XnStatus OpenStream(const XnChar* StreamName);
-	virtual XnStatus CloseStream(const XnChar* StreamName);
-	virtual XnStatus GetStreamNames(const XnChar** pstrNames, uint32_t* pnNamesCount);
-	virtual XnStatus DoesModuleExist(const XnChar* ModuleName, bool* pbDoesExist);
+	virtual XnStatus GetSupportedStreams(const char** aStreamNames, uint32_t* pnStreamNamesCount);
+	virtual XnStatus CreateStream(const char* StreamType, const char* StreamName = NULL, const XnPropertySet* pInitialValues = NULL);
+	virtual XnStatus DestroyStream(const char* StreamName);
+	virtual XnStatus OpenStream(const char* StreamName);
+	virtual XnStatus CloseStream(const char* StreamName);
+	virtual XnStatus GetStreamNames(const char** pstrNames, uint32_t* pnNamesCount);
+	virtual XnStatus DoesModuleExist(const char* ModuleName, bool* pbDoesExist);
 	virtual XnStatus OpenAllStreams();
 	virtual XnStatus CloseAllStreams();
 	virtual XnStatus RegisterToNewStreamData(XnDeviceOnNewStreamDataEventHandler Handler, void* pCookie, XnCallbackHandle& hCallback);
 	virtual XnStatus UnregisterFromNewStreamData(XnCallbackHandle hCallback);
-	virtual XnStatus DoesPropertyExist(const XnChar* ModuleName, uint32_t propertyId, bool* pbDoesExist);
-	virtual XnStatus GetPropertyType(const XnChar* ModuleName, uint32_t propertyId, XnPropertyType* pnType);
-	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, uint64_t nValue);
-	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, double dValue);
-	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, const XnChar* csValue);
-	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, const OniGeneralBuffer& Value);
-	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, uint64_t* pnValue);
-	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, double* pdValue);
-	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnChar* csValue);
-	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, const OniGeneralBuffer& pValue);
-	virtual XnStatus LoadConfigFromFile(const XnChar* csINIFilePath, const XnChar* csSectionName);
+	virtual XnStatus DoesPropertyExist(const char* ModuleName, uint32_t propertyId, bool* pbDoesExist);
+	virtual XnStatus GetPropertyType(const char* ModuleName, uint32_t propertyId, XnPropertyType* pnType);
+	virtual XnStatus SetProperty(const char* ModuleName, uint32_t propertyId, uint64_t nValue);
+	virtual XnStatus SetProperty(const char* ModuleName, uint32_t propertyId, double dValue);
+	virtual XnStatus SetProperty(const char* ModuleName, uint32_t propertyId, const char* csValue);
+	virtual XnStatus SetProperty(const char* ModuleName, uint32_t propertyId, const OniGeneralBuffer& Value);
+	virtual XnStatus GetProperty(const char* ModuleName, uint32_t propertyId, uint64_t* pnValue);
+	virtual XnStatus GetProperty(const char* ModuleName, uint32_t propertyId, double* pdValue);
+	virtual XnStatus GetProperty(const char* ModuleName, uint32_t propertyId, char* csValue);
+	virtual XnStatus GetProperty(const char* ModuleName, uint32_t propertyId, const OniGeneralBuffer& pValue);
+	virtual XnStatus LoadConfigFromFile(const char* csINIFilePath, const char* csSectionName);
 	virtual XnStatus BatchConfig(const XnPropertySet* pChangeSet);
-	virtual XnStatus GetAllProperties(XnPropertySet* pSet, bool bNoStreams = false, const XnChar* strModule = NULL);
-	virtual XnStatus RegisterToPropertyChange(const XnChar* Module, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler Handler, void* pCookie, XnCallbackHandle& hCallback);
-	virtual XnStatus UnregisterFromPropertyChange(const XnChar* Module, uint32_t propertyId, XnCallbackHandle hCallback);
+	virtual XnStatus GetAllProperties(XnPropertySet* pSet, bool bNoStreams = false, const char* strModule = NULL);
+	virtual XnStatus RegisterToPropertyChange(const char* Module, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler Handler, void* pCookie, XnCallbackHandle& hCallback);
+	virtual XnStatus UnregisterFromPropertyChange(const char* Module, uint32_t propertyId, XnCallbackHandle hCallback);
 
 	typedef xnl::Event<XnNewStreamDataEventArgs> NewStreamDataEvent;
 	NewStreamDataEvent::Interface& OnNewStreamDataEvent() { return m_OnNewStreamDataEvent; }
@@ -110,13 +110,13 @@ public:
 	/**
 	* Finds a stream (a module which has the IS_STREAM property set to true).
 	*/
-	XnStatus FindStream(const XnChar* StreamName, XnDeviceStream** ppStream);
+	XnStatus FindStream(const char* StreamName, XnDeviceStream** ppStream);
 
 protected:
 	virtual XnStatus InitImpl(const XnDeviceConfig* pDeviceConfig);
-	virtual XnStatus CreateStreamImpl(const XnChar* strType, const XnChar* strName, const XnActualPropertiesHash* pInitialSet);
+	virtual XnStatus CreateStreamImpl(const char* strType, const char* strName, const XnActualPropertiesHash* pInitialSet);
 
-	virtual XnStatus CreateModule(const XnChar* strName, XnDeviceModuleHolder** ppModuleHolder);
+	virtual XnStatus CreateModule(const char* strName, XnDeviceModuleHolder** ppModuleHolder);
 	virtual XnStatus CreateDeviceModule(XnDeviceModuleHolder** ppModuleHolder);
 	virtual void DestroyModule(XnDeviceModuleHolder* pModuleHolder);
 
@@ -130,17 +130,17 @@ protected:
 	/**
 	* Removes a module from the device modules.
 	*/
-	XnStatus RemoveModule(const XnChar* ModuleName);
+	XnStatus RemoveModule(const char* ModuleName);
 
 	/**
 	* Finds a module.
 	*/
-	XnStatus FindModule(const XnChar* ModuleName, XnDeviceModule** ppModule);
+	XnStatus FindModule(const char* ModuleName, XnDeviceModule** ppModule);
 
 	/**
 	* Finds a module.
 	*/
-	XnStatus FindModule(const XnChar* ModuleName, XnDeviceModuleHolder** ppModuleHolder);
+	XnStatus FindModule(const char* ModuleName, XnDeviceModuleHolder** ppModuleHolder);
 
 	/**
 	* Checks if a module is a stream.
@@ -150,12 +150,12 @@ protected:
 	/**
 	* Finds a stream holder (a module which has the IS_STREAM property set to true).
 	*/
-	XnStatus FindStream(const XnChar* StreamName, XnDeviceModuleHolder** ppStreamHolder);
+	XnStatus FindStream(const char* StreamName, XnDeviceModuleHolder** ppStreamHolder);
 
 	/**
 	* Adds a stream to the list of supported streams.
 	*/
-	XnStatus AddSupportedStream(const XnChar* StreamType);
+	XnStatus AddSupportedStream(const char* StreamType);
 
 	/**
 	* Creates a stream.
@@ -163,14 +163,14 @@ protected:
 	* @param	StreamType	[in]	Type of the stream to create.
 	* @param	StreamName	[in]	The name of the new stream.
 	*/
-	virtual XnStatus CreateStreamModule(const XnChar* StreamType, const XnChar* StreamName, XnDeviceModuleHolder** ppStreamHolder) = 0;
+	virtual XnStatus CreateStreamModule(const char* StreamType, const char* StreamName, XnDeviceModuleHolder** ppStreamHolder) = 0;
 
 	virtual void DestroyStreamModule(XnDeviceModuleHolder* pStreamHolder) = 0;
 
 	/**
 	* Gets the required output size of a stream.
 	*/
-	XnStatus GetStreamRequiredDataSize(const XnChar* StreamName, uint32_t* pnRequiredSize);
+	XnStatus GetStreamRequiredDataSize(const char* StreamName, uint32_t* pnRequiredSize);
 
 	/**
 	* Gets the list of modules the device supports.
@@ -188,15 +188,15 @@ protected:
 	*
 	* @param	StreamName	[in]	The name of the stream with new data.
 	*/
-	XnStatus RaiseNewStreamDataEvent(const XnChar* StreamName, OniFrame* pFrame);
+	XnStatus RaiseNewStreamDataEvent(const char* StreamName, OniFrame* pFrame);
 
 	/** Gets called when a stream has new data. */
 	virtual void OnNewStreamData(XnDeviceStream* pStream, OniFrame* pFrame);
 
-	XnStatus ValidateOnlyModule(const XnPropertySet* pSet, const XnChar* StreamName);
+	XnStatus ValidateOnlyModule(const XnPropertySet* pSet, const char* StreamName);
 
 private:
-	void FreeModuleRegisteredProperties(const XnChar* strModule);
+	void FreeModuleRegisteredProperties(const char* strModule);
 
 	static XnStatus XN_CALLBACK_TYPE PropertyValueChangedCallback(const XnProperty* pSender, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE SetMirrorCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
@@ -215,9 +215,9 @@ private:
 
 	struct XnPropertyCallback
 	{
-		XnPropertyCallback(const XnChar* strModule, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler pHandler, void* pCookie);
+		XnPropertyCallback(const char* strModule, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler pHandler, void* pCookie);
 
-		XnChar strModule[XN_DEVICE_MAX_STRING_LENGTH];
+		char strModule[XN_DEVICE_MAX_STRING_LENGTH];
 		uint32_t propertyId;
 		void* pCookie;
 		XnDeviceOnPropertyChangedEventHandler pHandler;

@@ -34,9 +34,9 @@ typedef struct XnErrorCodeData
 	/** The code of this error. */
 	uint32_t nCode;
 	/** The name of this error. */
-	const XnChar* csName;
+	const char* csName;
 	/** A user message describing this error. */
-	const XnChar* csMessage;
+	const char* csMessage;
 } XnErrorCodeData;
 
 //---------------------------------------------------------------------------

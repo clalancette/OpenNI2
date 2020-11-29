@@ -65,7 +65,7 @@ public:
 	virtual void UnregisterFromNewDataAvailable(XnCallbackHandle hCallback);
 
     //Other methods
-    virtual void SetDumpName(const XnChar* strDumpName);
+    virtual void SetDumpName(const char* strDumpName);
     virtual void SetDumpOn(bool bDumpOn);
 
 protected:
@@ -88,7 +88,7 @@ private:
 	uint32_t m_nWorkingBufferCurrentSize;
 	uint8_t* m_pWorkingBuffer;
 
-	XnChar m_strDumpName[XN_FILE_MAX_PATH];
+	char m_strDumpName[XN_FILE_MAX_PATH];
 	XnDumpFile* m_pDumpFile;
 
 	xnl::EventNoArgs m_newDataAvailableEvent;

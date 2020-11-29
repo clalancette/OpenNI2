@@ -158,7 +158,7 @@ typedef struct
 	/* The last result time calculated. */
 	uint64_t nLastResultTime;
 	/* Stream name - for debug purposes. */
-	const XnChar* csStreamName;
+	const char* csStreamName;
 } XnTimeStampData;
 
 typedef struct XnDeviceSensorGMCPoint
@@ -183,8 +183,8 @@ typedef struct XnCmosBlankingInformation
 
 typedef struct XnDeviceInformation
 {
-	XnChar strDeviceName[128];
-	XnChar strVendorData[128];
+	char strDeviceName[128];
+	char strVendorData[128];
 } XnDeviceInformation;
 
 typedef XnStatus (XN_CALLBACK_TYPE* NewAudioDataCallback)(void* pCookie);
@@ -499,6 +499,6 @@ typedef struct XnAudioSharedBuffer
 
 #pragma pack (pop)
 
-XnStatus XnDeviceSensorSetParam(XnDevicePrivateData* pDevicePrivateData, const XnChar* cpParamName, const int32_t nValue);
+XnStatus XnDeviceSensorSetParam(XnDevicePrivateData* pDevicePrivateData, const char* cpParamName, const int32_t nValue);
 
 #endif // XNDEVICESENSOR_H

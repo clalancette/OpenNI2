@@ -38,7 +38,7 @@
 //---------------------------------------------------------------------------
 typedef struct
 {
-	XnChar csName[MAX_SECTION_NAME];
+	char csName[MAX_SECTION_NAME];
 	bool bMultiThreaded;
 	XN_CRITICAL_SECTION_HANDLE hLock;
 	uint64_t nCurrStartTime;
@@ -70,7 +70,7 @@ static XN_THREAD_STATIC uint32_t gt_nStackDepth = 0;
 //---------------------------------------------------------------------------
 XN_THREAD_PROC xnProfilingThread(XN_THREAD_PARAM /*pThreadParam*/)
 {
-	XnChar csReport[4096];
+	char csReport[4096];
 	int nReportChars;
 
 	uint64_t nLastTime;
@@ -157,7 +157,7 @@ XN_C_API XnStatus xnProfilingInit(uint32_t nProfilingInterval)
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnProfilingInitFromINI(const XnChar* cpINIFileName, const XnChar* cpSectionName)
+XN_C_API XnStatus xnProfilingInitFromINI(const char* cpINIFileName, const char* cpSectionName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

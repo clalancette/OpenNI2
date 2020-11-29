@@ -36,8 +36,8 @@
 class XnActualGeneralProperty final : public XnGeneralProperty
 {
 public:
-	XnActualGeneralProperty(uint32_t propertyId, const XnChar* strName, void* pData, uint32_t nDataSize, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
-	XnActualGeneralProperty(uint32_t propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
+	XnActualGeneralProperty(uint32_t propertyId, const char* strName, void* pData, uint32_t nDataSize, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const char* strModule = "");
+	XnActualGeneralProperty(uint32_t propertyId, const char* strName, const OniGeneralBuffer& gbValue, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const char* strModule = "");
 	~XnActualGeneralProperty();
 
 	void SetAsBufferOwner(bool bOwner);

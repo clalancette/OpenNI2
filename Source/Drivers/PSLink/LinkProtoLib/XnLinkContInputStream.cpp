@@ -283,7 +283,7 @@ void LinkContInputStream::UnregisterFromNewDataAvailable(XnCallbackHandle hCallb
 	m_newDataAvailableEvent.Unregister(hCallback);
 }
 
-void LinkContInputStream::SetDumpName(const XnChar* strDumpName)
+void LinkContInputStream::SetDumpName(const char* strDumpName)
 {
     XnStatus nRetVal = XN_STATUS_OK;
     (void)nRetVal;

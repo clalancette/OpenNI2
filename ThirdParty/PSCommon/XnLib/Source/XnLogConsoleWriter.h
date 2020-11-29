@@ -30,7 +30,7 @@ class XnLogConsoleWriter : public XnLogWriterBase
 {
 public:
 	virtual void WriteEntry(const XnLogEntry* pEntry);
-	virtual void WriteUnformatted(const XnChar* strMessage);
+	virtual void WriteUnformatted(const char* strMessage);
 };
 
 #endif // __XN_LOG_CONSOLE_WRITER_H__

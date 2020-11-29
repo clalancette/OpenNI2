@@ -29,7 +29,7 @@
 // XnOniMapStream class
 //---------------------------------------------------------------------------
 
-XnOniMapStream::XnOniMapStream(XnSensor* pSensor, const XnChar* strName, OniSensorType sensorType, XnOniDevice* pDevice) :
+XnOniMapStream::XnOniMapStream(XnSensor* pSensor, const char* strName, OniSensorType sensorType, XnOniDevice* pDevice) :
 	XnOniStream(pSensor, strName, sensorType, pDevice),
 	m_nSupportedModesCount(0),
 	m_aSupportedModes(NULL)

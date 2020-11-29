@@ -33,7 +33,7 @@ class XnOniMapStream :
 	public XnOniStream
 {
 public:
-	XnOniMapStream(XnSensor* pSensor, const XnChar* strName, OniSensorType sensorType, XnOniDevice* pDevice);
+	XnOniMapStream(XnSensor* pSensor, const char* strName, OniSensorType sensorType, XnOniDevice* pDevice);
 	virtual ~XnOniMapStream();
 
 	virtual XnStatus Init();

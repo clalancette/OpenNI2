@@ -35,17 +35,17 @@
 #define XN_MASK_MEM_PROFILING	"MemoryProfiling"
 //#define XN_MEMORY_PROFILING_DUMP
 
-typedef XnChar XnFrame[XN_MEM_PROF_MAX_FRAME_LEN];
+typedef char XnFrame[XN_MEM_PROF_MAX_FRAME_LEN];
 
 typedef struct
 {
 	void* pMemBlock;
 	XnAllocationType nAllocType;
 	uint32_t nBytes;
-	const XnChar* csFunction;
-	const XnChar* csFile;
+	const char* csFunction;
+	const char* csFile;
 	uint32_t nLine;
-	const XnChar* csAdditional;
+	const char* csAdditional;
 	int32_t nFrames;
 	XnFrame aFrames[XN_MEM_PROF_MAX_FRAMES];
 } XnMemBlockData;
@@ -72,7 +72,7 @@ static XnDumpFile* g_dump = NULL;
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-const XnChar* XnGetAllocTypeString(XnAllocationType nType)
+const char* XnGetAllocTypeString(XnAllocationType nType)
 {
 	switch (nType)
 	{
@@ -93,7 +93,7 @@ const XnChar* XnGetAllocTypeString(XnAllocationType nType)
 	}
 }
 
-XN_C_API void* xnOSLogMemAlloc(void* pMemBlock, XnAllocationType nAllocType, uint32_t nBytes, const XnChar* csFunction, const XnChar* csFile, uint32_t nLine, const XnChar* csAdditional)
+XN_C_API void* xnOSLogMemAlloc(void* pMemBlock, XnAllocationType nAllocType, uint32_t nBytes, const char* csFunction, const char* csFile, uint32_t nLine, const char* csAdditional)
 {
 	static bool bFirstTime = true;
 	static bool bReentrent = false;
@@ -135,7 +135,7 @@ XN_C_API void* xnOSLogMemAlloc(void* pMemBlock, XnAllocationType nAllocType, uin
 	xnDumpFileWriteString(g_dump, "Alloc,0x%x,%s,%u,%s,%s,%u,%s\n", pMemBlock, XnGetAllocTypeString(nAllocType), nBytes, csFunction, csFile, nLine, csAdditional);
 
 	// try to get call stack (skip 2 frames - this one and the alloc func)
-	XnChar* pstrFrames[XN_MEM_PROF_MAX_FRAMES];
+	char* pstrFrames[XN_MEM_PROF_MAX_FRAMES];
 	for (uint32_t i = 0; i < XN_MEM_PROF_MAX_FRAMES; ++i)
 	{
 		pstrFrames[i] = pNode->Data.aFrames[i];
@@ -201,14 +201,14 @@ XN_C_API void xnOSLogMemFree(const void* pMemBlock)
 	XN_ASSERT(false);
 }
 
-XN_C_API void xnOSWriteMemoryReport(const XnChar* csFileName)
+XN_C_API void xnOSWriteMemoryReport(const char* csFileName)
 {
 	XN_FILE_HANDLE FileHandle;
 	XnStatus nRetVal = xnOSOpenFile(csFileName, XN_OS_FILE_WRITE | XN_OS_FILE_TRUNCATE, &FileHandle);
 	if (nRetVal != XN_STATUS_OK) return;
 
 	const uint32_t nReportLineMaxSize = 2048;
-	XnChar csReportLine[nReportLineMaxSize];
+	char csReportLine[nReportLineMaxSize];
 	uint32_t nReportLength = 0;
 
 	uint32_t nChars;

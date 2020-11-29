@@ -45,7 +45,7 @@ public:
 	inline void MarkColor(uint32_t nFrameID, uint64_t nTS) { Mark(&m_color, "ImageInput", nFrameID, nTS); }
 	inline void MarkIr(uint32_t nFrameID, uint64_t nTS) {Mark(&m_ir, "IrInput", nFrameID, nTS);}
 private:
-	void Mark(XnFPSData* pFPS, const XnChar* csName, uint32_t nFrameID, uint64_t nTS);
+	void Mark(XnFPSData* pFPS, const char* csName, uint32_t nFrameID, uint64_t nTS);
 
 	XnFPSData m_depth;
 	XnFPSData m_color;

@@ -56,7 +56,7 @@ public:
 
 	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, bool& bPacketLoss) = 0;
 
-	virtual void SetDumpName(const XnChar* strDumpName) = 0;
+	virtual void SetDumpName(const char* strDumpName) = 0;
 	virtual void SetDumpOn(bool bDumpOn) = 0;
 
 	/* Stream Properties */

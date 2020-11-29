@@ -27,16 +27,16 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStringProperty::XnStringProperty(uint32_t propertyId, const XnChar* strName, XnChar* pValueHolder, const XnChar* strModule /* = "" */) :
+XnStringProperty::XnStringProperty(uint32_t propertyId, const char* strName, char* pValueHolder, const char* strModule /* = "" */) :
 	XnProperty(XN_PROPERTY_TYPE_STRING, pValueHolder, propertyId, strName, strModule)
 {
 }
 
-XnStatus XnStringProperty::ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection)
+XnStatus XnStringProperty::ReadValueFromFile(const char* csINIFile, const char* csSection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnChar csValue[XN_DEVICE_MAX_STRING_LENGTH];
+	char csValue[XN_DEVICE_MAX_STRING_LENGTH];
 	nRetVal = xnOSReadStringFromINI(csINIFile, csSection, GetName(), csValue, XN_DEVICE_MAX_STRING_LENGTH);
 	if (nRetVal == XN_STATUS_OK)
 	{
@@ -55,7 +55,7 @@ XnStatus XnStringProperty::CopyValueImpl(void* pDest, const void* pSource) const
 
 bool XnStringProperty::IsEqual(const void* pValue1, const void* pValue2) const
 {
-	return (strncmp((const XnChar*)pValue1, (const XnChar*)pValue2, XN_DEVICE_MAX_STRING_LENGTH) == 0);
+	return (strncmp((const char*)pValue1, (const char*)pValue2, XN_DEVICE_MAX_STRING_LENGTH) == 0);
 }
 
 XnStatus XnStringProperty::CallSetCallback(const void* pValue)
@@ -64,7 +64,7 @@ XnStatus XnStringProperty::CallSetCallback(const void* pValue)
 	{
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_PROPERTY_READ_ONLY, XN_MASK_DDK, "Property %s.%s is read only.", GetModule(), GetName());
 	}
-	return m_pSetCallback(this, (const XnChar*)pValue, m_pSetCallbackCookie);
+	return m_pSetCallback(this, (const char*)pValue, m_pSetCallbackCookie);
 }
 
 XnStatus XnStringProperty::CallGetCallback(void* pValue) const
@@ -73,12 +73,12 @@ XnStatus XnStringProperty::CallGetCallback(void* pValue) const
 	{
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_PROPERTY_WRITE_ONLY, XN_MASK_DDK, "Property %s.%s is write only.", GetModule(), GetName());
 	}
-	return m_pGetCallback(this, (XnChar*)pValue, m_pGetCallbackCookie);
+	return m_pGetCallback(this, (char*)pValue, m_pGetCallbackCookie);
 }
 
-bool XnStringProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
+bool XnStringProperty::ConvertValueToString(char* csValue, const void* pValue) const
 {
-	strncpy(csValue, (const XnChar*)pValue, XN_DEVICE_MAX_STRING_LENGTH);
+	strncpy(csValue, (const char*)pValue, XN_DEVICE_MAX_STRING_LENGTH);
 	return true;
 }
 
@@ -86,7 +86,7 @@ XnStatus XnStringProperty::AddToPropertySet(XnPropertySet* pSet)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnChar strValue[XN_DEVICE_MAX_STRING_LENGTH];
+	char strValue[XN_DEVICE_MAX_STRING_LENGTH];
 	nRetVal = GetValue(strValue);
 	XN_IS_STATUS_OK(nRetVal);
 

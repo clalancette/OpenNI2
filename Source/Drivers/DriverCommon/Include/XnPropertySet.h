@@ -80,7 +80,7 @@ XnStatus XnPropertySetClear(XnPropertySet* pSet);
 * @param	pSet			[in]		The property set.
 * @param	strModuleName	[in]		Name of the module to add.
 */
-XnStatus XnPropertySetAddModule(XnPropertySet* pSet, const XnChar* strModuleName);
+XnStatus XnPropertySetAddModule(XnPropertySet* pSet, const char* strModuleName);
 
 /**
 * Removes a module from the property set.
@@ -88,7 +88,7 @@ XnStatus XnPropertySetAddModule(XnPropertySet* pSet, const XnChar* strModuleName
 * @param	pSet			[in]		The property set.
 * @param	strModuleName	[in]		Name of the module to remove.
 */
-XnStatus XnPropertySetRemoveModule(XnPropertySet* pSet, const XnChar* strModuleName);
+XnStatus XnPropertySetRemoveModule(XnPropertySet* pSet, const char* strModuleName);
 
 /**
 * Adds an integer property to the property set.
@@ -98,7 +98,7 @@ XnStatus XnPropertySetRemoveModule(XnPropertySet* pSet, const XnChar* strModuleN
 * @param	strModuleName	[in]		Name of the property to add.
 * @param	nValue			[in]		Value for that property.
 */
-XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, uint64_t nValue);
+XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const char* strModuleName, uint32_t propertyId, uint64_t nValue);
 
 /**
 * Adds an real property to the property set.
@@ -108,7 +108,7 @@ XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModul
 * @param	strModuleName	[in]		Name of the property to add.
 * @param	dValue			[in]		Value for that property.
 */
-XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, double dValue);
+XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const char* strModuleName, uint32_t propertyId, double dValue);
 
 /**
 * Adds an string property to the property set.
@@ -118,7 +118,7 @@ XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const XnChar* strModu
 * @param	strModuleName	[in]		Name of the property to add.
 * @param	strValue			[in]		Value for that property.
 */
-XnStatus XnPropertySetAddStringProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, const XnChar* strValue);
+XnStatus XnPropertySetAddStringProperty(XnPropertySet* pSet, const char* strModuleName, uint32_t propertyId, const char* strValue);
 
 /**
 * Adds an general property to the property set.
@@ -128,7 +128,7 @@ XnStatus XnPropertySetAddStringProperty(XnPropertySet* pSet, const XnChar* strMo
 * @param	strModuleName	[in]		Name of the property to add.
 * @param	pgbValue			[in]		Value for that property.
 */
-XnStatus XnPropertySetAddGeneralProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, const OniGeneralBuffer* pgbValue);
+XnStatus XnPropertySetAddGeneralProperty(XnPropertySet* pSet, const char* strModuleName, uint32_t propertyId, const OniGeneralBuffer* pgbValue);
 
 /**
 * Removes a property from the property set.
@@ -137,7 +137,7 @@ XnStatus XnPropertySetAddGeneralProperty(XnPropertySet* pSet, const XnChar* strM
 * @param	strModuleName	[in]		Name of the module.
 * @param	strModuleName	[in]		Name of the property to remove.
 */
-XnStatus XnPropertySetRemoveProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId);
+XnStatus XnPropertySetRemoveProperty(XnPropertySet* pSet, const char* strModuleName, uint32_t propertyId);
 
 /**
 * Gets a modules enumerator. This enumerator should be freed using XnPropertySetModuleEnumeratorFree.
@@ -168,7 +168,7 @@ XnStatus XnPropertySetModuleEnumeratorMoveNext(XnPropertySetModuleEnumerator* pE
 * @param	pEnumerator		[in]		The enumerator.
 * @param	pstrModuleName	[out]		The name of the current module.
 */
-XnStatus XnPropertySetModuleEnumeratorGetCurrent(const XnPropertySetModuleEnumerator* pEnumer, const XnChar** pstrModuleName);
+XnStatus XnPropertySetModuleEnumeratorGetCurrent(const XnPropertySetModuleEnumerator* pEnumer, const char** pstrModuleName);
 
 /**
 * Gets a property enumerator. This enumerator must be freed using XnPropertySetEnumeratorFree.
@@ -177,7 +177,7 @@ XnStatus XnPropertySetModuleEnumeratorGetCurrent(const XnPropertySetModuleEnumer
 * @param	ppEnumerator	[in/out]		The enumerator.
 * @param	strModule		[in]			Optional. When provided, only properties of this module will be enumerated.
 */
-XnStatus XnPropertySetGetEnumerator(const XnPropertySet* pSet, XnPropertySetEnumerator** ppEnumerator, const XnChar* strModule = NULL);
+XnStatus XnPropertySetGetEnumerator(const XnPropertySet* pSet, XnPropertySetEnumerator** ppEnumerator, const char* strModule = NULL);
 
 /**
 * Finds a property according to its name and module, and returns an enumerator to it.
@@ -188,7 +188,7 @@ XnStatus XnPropertySetGetEnumerator(const XnPropertySet* pSet, XnPropertySetEnum
 * @param	strProp 		[in]			The property name.
 * @param	ppEnumerator	[in/out]		The enumerator.
 */
-XnStatus XnPropertySetFindProperty(const XnPropertySet* pSet, const XnChar* strModule, uint32_t propertyId, XnPropertySetEnumerator** ppEnumerator);
+XnStatus XnPropertySetFindProperty(const XnPropertySet* pSet, const char* strModule, uint32_t propertyId, XnPropertySetEnumerator** ppEnumerator);
 
 /**
 * Frees a previously created properties enumerator.
@@ -213,7 +213,7 @@ XnStatus XnPropertySetEnumeratorMoveNext(XnPropertySetEnumerator* pEnumerator, b
 * @param	pstrModule		[out]		The module of the current property.
 * @param	pstrProp		[out]		The name of the current property.
 */
-XnStatus XnPropertySetEnumeratorGetCurrentPropertyInfo(const XnPropertySetEnumerator* pEnumerator, XnPropertyType* pnType, const XnChar** pstrModule, uint32_t* pPropertyId);
+XnStatus XnPropertySetEnumeratorGetCurrentPropertyInfo(const XnPropertySetEnumerator* pEnumerator, XnPropertyType* pnType, const char** pstrModule, uint32_t* pPropertyId);
 
 /**
 * Gets the current integer value.
@@ -237,7 +237,7 @@ XnStatus XnPropertySetEnumeratorGetRealValue(const XnPropertySetEnumerator* pEnu
 * @param	pEnumerator			[in]		The enumerator.
 * @param	pstrValue			[out]		The value of the property.
 */
-XnStatus XnPropertySetEnumeratorGetStringValue(const XnPropertySetEnumerator* pEnumerator, const XnChar** pstrValue);
+XnStatus XnPropertySetEnumeratorGetStringValue(const XnPropertySetEnumerator* pEnumerator, const char** pstrValue);
 
 /**
 * Gets the current general property.

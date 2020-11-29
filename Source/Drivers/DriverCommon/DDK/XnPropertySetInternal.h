@@ -51,8 +51,8 @@ public:
 	XnPropertySet name;								\
 	name.pData = &_XN_PROPERTY_SET_NAME(name);
 
-XnStatus XnPropertySetDataAttachModule(XnPropertySetData* pSetData, const XnChar* strModuleName, XnActualPropertiesHash* pModule);
-XnStatus XnPropertySetDataDetachModule(XnPropertySetData* pSetData, const XnChar* strModuleName, XnActualPropertiesHash** ppModule);
-XnStatus XnPropertySetCloneModule(const XnPropertySet* pSource, XnPropertySet* pDest, const XnChar* strModule, const XnChar* strNewName);
+XnStatus XnPropertySetDataAttachModule(XnPropertySetData* pSetData, const char* strModuleName, XnActualPropertiesHash* pModule);
+XnStatus XnPropertySetDataDetachModule(XnPropertySetData* pSetData, const char* strModuleName, XnActualPropertiesHash** ppModule);
+XnStatus XnPropertySetCloneModule(const XnPropertySet* pSource, XnPropertySet* pDest, const char* strModule, const char* strNewName);
 
 #endif // XNPROPERTYSETINTERNAL_H

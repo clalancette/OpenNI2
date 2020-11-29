@@ -25,7 +25,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XN_C_API XnStatus xnOSLoadLibrary(const XnChar* cpFileName, XN_LIB_HANDLE* pLibHandle)
+XN_C_API XnStatus xnOSLoadLibrary(const char* cpFileName, XN_LIB_HANDLE* pLibHandle)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
@@ -35,7 +35,7 @@ XN_C_API XnStatus xnOSLoadLibrary(const XnChar* cpFileName, XN_LIB_HANDLE* pLibH
 	// NOTE1: set error mode before, because otherwise, if a dependency DLL is missing, Windows will pop a message box
 	// NOTE2: load DLL using full path name, otherwise behavior with ALTERED_SEARCH_PATH is undefined
 	DWORD prevMode = SetErrorMode(SEM_FAILCRITICALERRORS);
-	XnChar strFileName[XN_FILE_MAX_PATH];
+	char strFileName[XN_FILE_MAX_PATH];
 	GetFullPathName(cpFileName, XN_FILE_MAX_PATH, strFileName, NULL);
 	*pLibHandle = LoadLibraryEx(strFileName, NULL, LOAD_WITH_ALTERED_SEARCH_PATH);
 	SetErrorMode(prevMode);
@@ -67,7 +67,7 @@ XN_C_API XnStatus xnOSFreeLibrary(const XN_LIB_HANDLE LibHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetProcAddress(const XN_LIB_HANDLE LibHandle, const XnChar* cpProcName, XnFarProc* pProcAddr)
+XN_C_API XnStatus xnOSGetProcAddress(const XN_LIB_HANDLE LibHandle, const char* cpProcName, XnFarProc* pProcAddr)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpProcName);
@@ -86,7 +86,7 @@ XN_C_API XnStatus xnOSGetProcAddress(const XN_LIB_HANDLE LibHandle, const XnChar
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetModulePathForProcAddress(void* procAddr, XnChar *strModulePath)
+XN_C_API XnStatus xnOSGetModulePathForProcAddress(void* procAddr, char *strModulePath)
 {
 	HMODULE hModule;
 	BOOL rc = GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCSTR)procAddr, &hModule);

@@ -35,7 +35,7 @@ namespace xnl
 class XnStringsHashKeyManager
 {
 public:
-	static xnl::HashCode Hash(const XnChar* const& key)
+	static xnl::HashCode Hash(const char* const& key)
 	{
 		uint32_t nCRC = 0;
 		xnOSStrCRC32(key, &nCRC);
@@ -44,16 +44,16 @@ public:
 		return nCRC % (1 << (sizeof(xnl::HashCode)*8));
 	}
 
-	static int32_t Compare(const XnChar* const& key1, const XnChar* const& key2)
+	static int32_t Compare(const char* const& key1, const char* const& key2)
 	{
 		return strcmp(key1, key2);
 	}
 };
 
 template<class TValue>
-class XnStringsHashT : public xnl::Hash<const XnChar*, TValue, XnStringsHashKeyManager>
+class XnStringsHashT : public xnl::Hash<const char*, TValue, XnStringsHashKeyManager>
 {
-	typedef xnl::Hash<const XnChar*, TValue, XnStringsHashKeyManager> Base;
+	typedef xnl::Hash<const char*, TValue, XnStringsHashKeyManager> Base;
 
 public:
 	XnStringsHashT() : Base() {}

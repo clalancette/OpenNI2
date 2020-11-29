@@ -29,7 +29,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnGeneralProperty::XnGeneralProperty(uint32_t propertyId, const XnChar* strName, OniGeneralBuffer* pValueHolder /* = NULL */, ReadValueFromFileFuncPtr pReadFromFileFunc /* = NULL */, const XnChar* strModule /* = "" */ ) :
+XnGeneralProperty::XnGeneralProperty(uint32_t propertyId, const char* strName, OniGeneralBuffer* pValueHolder /* = NULL */, ReadValueFromFileFuncPtr pReadFromFileFunc /* = NULL */, const char* strModule /* = "" */ ) :
 	XnProperty(XN_PROPERTY_TYPE_GENERAL, pValueHolder, propertyId, strName, strModule),
 	m_pReadFromFileFunc(pReadFromFileFunc)
 {
@@ -71,7 +71,7 @@ XnStatus XnGeneralProperty::CallGetCallback(void* pValue) const
 	return m_pGetCallback(this, *(const OniGeneralBuffer*)pValue, m_pGetCallbackCookie);
 }
 
-XnStatus XnGeneralProperty::ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection)
+XnStatus XnGeneralProperty::ReadValueFromFile(const char* csINIFile, const char* csSection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

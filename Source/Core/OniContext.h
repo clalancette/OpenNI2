@@ -101,7 +101,7 @@ public:
 	void clearErrorLogger();
 	const char* getExtendedError();
 
-	void addToLogger(const XnChar* cpFormat, ...);
+	void addToLogger(const char* cpFormat, ...);
 
 	OniStatus recorderOpen(const char* fileName, OniRecorderHandle* pRecorder);
 	OniStatus recorderClose(OniRecorderHandle* pRecorder);

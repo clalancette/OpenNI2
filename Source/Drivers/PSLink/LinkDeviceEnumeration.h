@@ -36,7 +36,7 @@ public:
 	static XnStatus Initialize();
 	static void Shutdown();
 
-	static OniDeviceInfo* GetDeviceInfo(const XnChar* uri);
+	static OniDeviceInfo* GetDeviceInfo(const char* uri);
 
 	static DeviceConnectivityEvent::Interface& ConnectedEvent() { return ms_connectedEvent; }
 	static DeviceConnectivityEvent::Interface& DisconnectedEvent() { return ms_disconnectedEvent; }
@@ -53,7 +53,7 @@ private:
 	typedef xnl::XnStringsHashT<OniDeviceInfo> DevicesHash;
 
 	static void XN_CALLBACK_TYPE OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* pCookie);
-	static void OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId);
+	static void OnConnectivityEvent(const char* uri, XnUSBEventType eventType, XnUsbId usbId);
 
 	static bool ms_initialized;
 	static DeviceConnectivityEvent ms_connectedEvent;

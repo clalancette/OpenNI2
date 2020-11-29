@@ -50,7 +50,7 @@ void XnTecDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeade
 		m_Dump = xnDumpFileOpenEx("TecDebug", true, true, "TecDebug.csv");
 	}
 
-	xnDumpFileWriteString(m_Dump, "%S\n", (XnChar*)pData);
+	xnDumpFileWriteString(m_Dump, "%S\n", (char*)pData);
 
 	if (m_pDevicePrivateData->pSensor->IsTecDebugPring())
 	{

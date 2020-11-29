@@ -36,7 +36,7 @@
 class XnFrameStream : public XnDeviceStream
 {
 public:
-	XnFrameStream(const XnChar* csType, const XnChar* csName);
+	XnFrameStream(const char* csType, const char* csName);
 	~XnFrameStream() { Free(); }
 
 	//---------------------------------------------------------------------------

@@ -35,7 +35,7 @@ public:
 	PS1200Device();
 	virtual ~PS1200Device();
 
-	virtual XnStatus Init(const XnChar* strConnString, XnTransportType transportType);
+	virtual XnStatus Init(const char* strConnString, XnTransportType transportType);
 	virtual void Shutdown();
 	virtual bool IsInitialized() const;
 

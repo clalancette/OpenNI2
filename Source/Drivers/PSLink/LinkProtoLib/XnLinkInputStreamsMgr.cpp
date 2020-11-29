@@ -65,7 +65,7 @@ void LinkInputStreamsMgr::Shutdown()
 	}
 }
 
-void LinkInputStreamsMgr::RegisterStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t nStreamID)
+void LinkInputStreamsMgr::RegisterStreamOfType(XnStreamType streamType, const char* strCreationInfo, uint16_t nStreamID)
 {
 	if (m_streamInfos[nStreamID].pInputStream == NULL ||
 		(m_streamInfos[nStreamID].refCount > 0 && nStreamID != FindStreamByType(streamType,strCreationInfo)))
@@ -107,7 +107,7 @@ bool LinkInputStreamsMgr::UnregisterStream(uint16_t nStreamID)
 	return wasLast;
 }
 
-bool LinkInputStreamsMgr::HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo,	uint16_t& nStreamID)
+bool LinkInputStreamsMgr::HasStreamOfType(XnStreamType streamType, const char* strCreationInfo,	uint16_t& nStreamID)
 {
 	int i;
 	if ((i = FindStreamByType(streamType, strCreationInfo)) >= 0)
@@ -118,7 +118,7 @@ bool LinkInputStreamsMgr::HasStreamOfType(XnStreamType streamType, const XnChar*
 	return false;
 }
 
-int LinkInputStreamsMgr::FindStreamByType(XnStreamType streamType, const XnChar* strCreationInfo)
+int LinkInputStreamsMgr::FindStreamByType(XnStreamType streamType, const char* strCreationInfo)
 {
 	for (int i = 0; i < XN_LINK_MAX_STREAMS; ++i)
 	{

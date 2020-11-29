@@ -51,12 +51,12 @@ public:
 	* @param	strName 		[in]	Name of the property.
 	* @param	strModule		[in]	Name of the module holding this property.
 	*/
-	XnProperty(XnPropertyType Type, void* pValueHolder, uint32_t propertyId, const XnChar* strName, const XnChar* strModule);
+	XnProperty(XnPropertyType Type, void* pValueHolder, uint32_t propertyId, const char* strName, const char* strModule);
 	virtual ~XnProperty();
 
 	inline uint32_t GetId() const { return m_propertyId; }
-	inline const XnChar* GetName() const { return m_strName; }
-	inline const XnChar* GetModule() const { return m_strModule; }
+	inline const char* GetName() const { return m_strName; }
+	inline const char* GetModule() const { return m_strModule; }
 	inline bool IsActual() const { return (m_pValueHolder != NULL); }
 	virtual bool IsReadOnly() const = 0;
 	inline XnPropertyType GetType() const { return m_Type; }
@@ -64,10 +64,10 @@ public:
 	inline ChangeEventInterface& OnChangeEvent() { return m_OnChangeEvent; }
 
 	/** Updates property name. */
-	void UpdateName(const XnChar* strModule, const XnChar* strName);
+	void UpdateName(const char* strModule, const char* strName);
 
 	/** Updates the value of the property according to an INI file. */
-	virtual XnStatus ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection) = 0;
+	virtual XnStatus ReadValueFromFile(const char* csINIFile, const char* csSection) = 0;
 
 	/** Adds this property to the property set. */
 	virtual XnStatus AddToPropertySet(XnPropertySet* pSet) = 0;
@@ -92,7 +92,7 @@ protected:
 	virtual bool IsEqual(const void* pValue1, const void* pValue2) const = 0;
 	virtual XnStatus CallSetCallback(const void* pValue) = 0;
 	virtual XnStatus CallGetCallback(void* pValue) const = 0;
-	virtual bool ConvertValueToString(XnChar* csValue, const void* pValue) const;
+	virtual bool ConvertValueToString(char* csValue, const void* pValue) const;
 
 	inline void* Value() const { return m_pValueHolder; }
 
@@ -103,8 +103,8 @@ private:
 		XnStatus Raise(const XnProperty* pSender);
 	};
 
-	XnChar m_strModule[XN_DEVICE_MAX_STRING_LENGTH]; // module name
-	XnChar m_strName[XN_DEVICE_MAX_STRING_LENGTH]; // property name
+	char m_strModule[XN_DEVICE_MAX_STRING_LENGTH]; // module name
+	char m_strName[XN_DEVICE_MAX_STRING_LENGTH]; // property name
 	uint32_t m_propertyId;
 	XnPropertyType m_Type; // property type
 

@@ -41,7 +41,7 @@
 //---------------------------------------------------------------------------
 // XnSensorImageStream class
 //---------------------------------------------------------------------------
-XnSensorImageStream::XnSensorImageStream(const XnChar* StreamName, XnSensorObjects* pObjects) :
+XnSensorImageStream::XnSensorImageStream(const char* StreamName, XnSensorObjects* pObjects) :
 	XnImageStream(StreamName, false),
 	m_Helper(pObjects),
 	m_InputFormat(XN_STREAM_PROPERTY_INPUT_FORMAT, "InputFormat", XN_IMAGE_STREAM_DEFAULT_INPUT_FORMAT),

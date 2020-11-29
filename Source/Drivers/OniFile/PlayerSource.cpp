@@ -27,7 +27,7 @@
 namespace oni_file {
 
 /// Constructor.
-PlayerSource::PlayerSource(const XnChar* strNodeName, OniSensorType sensorType) :
+PlayerSource::PlayerSource(const char* strNodeName, OniSensorType sensorType) :
 	m_nodeName(strNodeName),
 	m_requiredFrameSize(0)
 {
@@ -48,7 +48,7 @@ OniSensorInfo* PlayerSource::GetInfo()
 	return &m_sourceInfo;
 }
 
-const XnChar* PlayerSource::GetNodeName()
+const char* PlayerSource::GetNodeName()
 {
 	return m_nodeName.c_str();
 }

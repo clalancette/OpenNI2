@@ -130,15 +130,15 @@ struct XnUSBDevice
 //---------------------------------------------------------------------------
 // Utilities
 //---------------------------------------------------------------------------
-const XnChar* GetDeviceStateName(DeviceControlState state)
+const char* GetDeviceStateName(DeviceControlState state)
 {
-	static const XnChar* aNames[] = { "Clear", "RequestReceived", "RequestRead", "ReplyReady" };
+	static const char* aNames[] = { "Clear", "RequestReceived", "RequestRead", "ReplyReady" };
 	return aNames[state];
 }
 
-const XnChar* GetHostStateName(HostControlState state)
+const char* GetHostStateName(HostControlState state)
 {
-	static const XnChar* aNames[] = { "Clear", "RequestReceived", "WaitingForReply" };
+	static const char* aNames[] = { "Clear", "RequestReceived", "WaitingForReply" };
 	return aNames[state];
 }
 
@@ -155,7 +155,7 @@ void SetConnectivityState(XnUSBDevice* pDevice, XnUSBDeviceConnectionState state
 //---------------------------------------------------------------------------
 // Configuring GadgetFS Device
 //---------------------------------------------------------------------------
-static XnStatus buildGadgetFSInterfaceDescriptor(const XnUSBInterfaceDescriptorHolder* pInterface, XnChar*& buf)
+static XnStatus buildGadgetFSInterfaceDescriptor(const XnUSBInterfaceDescriptorHolder* pInterface, char*& buf)
 {
 	// write interface descriptor
 	WRITE_OBJ_TO_BUF(buf, pInterface->descriptor);
@@ -169,7 +169,7 @@ static XnStatus buildGadgetFSInterfaceDescriptor(const XnUSBInterfaceDescriptorH
 	return XN_STATUS_OK;
 }
 
-static XnStatus buildGadgetFSConfigDescriptor(const XnUSBConfigDescriptorHolder* pConfig, XnChar*& buf)
+static XnStatus buildGadgetFSConfigDescriptor(const XnUSBConfigDescriptorHolder* pConfig, char*& buf)
 {
 	struct usb_config_descriptor* pTarget = (struct usb_config_descriptor*)buf;
 
@@ -186,12 +186,12 @@ static XnStatus buildGadgetFSConfigDescriptor(const XnUSBConfigDescriptorHolder*
 	// now write the interface
 	buildGadgetFSInterfaceDescriptor(pConfig->aInterfaces[0], buf);
 
-	pTarget->wTotalLength = buf - (XnChar*)pTarget;
+	pTarget->wTotalLength = buf - (char*)pTarget;
 
 	return XN_STATUS_OK;
 }
 
-static XnStatus buildGadgetFSDescriptors(const XnUSBDeviceDescriptorHolder* pDescriptors, XnChar*& buf)
+static XnStatus buildGadgetFSDescriptors(const XnUSBDeviceDescriptorHolder* pDescriptors, char*& buf)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -225,7 +225,7 @@ static XnStatus buildGadgetFSDescriptors(const XnUSBDeviceDescriptorHolder* pDes
 static int openEndpointFile(struct usb_endpoint_descriptor* pDesc)
 {
 	// build file name
-	XnChar fileName[255];
+	char fileName[255];
 	bool bIn = (pDesc->bEndpointAddress & 0x80) != 0;
 	sprintf(fileName, "%s%s%d%s", GADGET_DEVICE_DIR, "ep", pDesc->bEndpointAddress & 0xF, bIn ? "in" : "out");
 
@@ -420,7 +420,7 @@ static bool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, __
 	else
 	{
 		// look for index
-		const XnChar* strString = NULL;
+		const char* strString = NULL;
 
 		for (__u8 i = 0; i < pDevice->pDescriptors->nStrings; ++i)
 		{
@@ -693,8 +693,8 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* p
 	}
 
 	// build descriptors buffer
-	XnChar bufDescriptors[4096];
-	XnChar* buf = bufDescriptors;
+	char bufDescriptors[4096];
+	char* buf = bufDescriptors;
 	nRetVal = buildGadgetFSDescriptors(pDescriptors, buf);
 	XN_IS_STATUS_OK(nRetVal);
 

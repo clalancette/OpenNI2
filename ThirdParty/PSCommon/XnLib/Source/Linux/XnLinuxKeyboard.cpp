@@ -68,7 +68,7 @@ XN_C_API bool xnOSWasKeyboardHit()
 	return false;
 }
 
-XN_C_API XnChar xnOSReadCharFromInput()
+XN_C_API char xnOSReadCharFromInput()
 {
-	return (XnChar)getchar();
+	return (char)getchar();
 }

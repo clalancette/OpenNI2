@@ -38,7 +38,7 @@
  * @param	csINIFile		[in]	The name of the INI file.
  * @param	csSectionName	[in]	The name of the section to read values from.
  */
-XN_C_API XnStatus XN_C_DECL xnLogInitFromINIFile(const XnChar* csINIFile, const XnChar* csSectionName);
+XN_C_API XnStatus XN_C_DECL xnLogInitFromINIFile(const char* csINIFile, const char* csSectionName);
 
 /**
  * This function closes the log.
@@ -59,7 +59,7 @@ XN_C_API XnStatus XN_C_DECL xnLogClose();
  * @param	strMask		[in]	Name of the logger.
  * @param	minSeverity	[in]	Minimum severity to be output. Use @ref XN_LOG_SEVERITY_NONE to output nothing.
  */
-XN_C_API XnStatus XN_C_DECL xnLogSetMaskMinSeverity(const XnChar* strMask, XnLogSeverity minSeverity);
+XN_C_API XnStatus XN_C_DECL xnLogSetMaskMinSeverity(const char* strMask, XnLogSeverity minSeverity);
 
 /**
  * Gets the minimum severity to be output from a specific mask (logger name).
@@ -68,7 +68,7 @@ XN_C_API XnStatus XN_C_DECL xnLogSetMaskMinSeverity(const XnChar* strMask, XnLog
  *
  * @returns The minimum severity, or @ref XN_LOG_SEVERITY_NONE is mask will output nothing.
  */
-XN_C_API XnLogSeverity XN_C_DECL xnLogGetMaskMinSeverity(const XnChar* strMask);
+XN_C_API XnLogSeverity XN_C_DECL xnLogGetMaskMinSeverity(const char* strMask);
 
 // @}
 
@@ -132,7 +132,7 @@ XN_C_API XnStatus XN_C_DECL xnLogSetLineInfo(bool bLineInfo);
  *
  * @param	strOutputFolder	[in]	Folder to write to
  */
-XN_C_API XnStatus XN_C_DECL xnLogSetOutputFolder(const XnChar* strOutputFolder);
+XN_C_API XnStatus XN_C_DECL xnLogSetOutputFolder(const char* strOutputFolder);
 
 /**
  * Gets current log file name
@@ -140,7 +140,7 @@ XN_C_API XnStatus XN_C_DECL xnLogSetOutputFolder(const XnChar* strOutputFolder);
  * @param	strFileName		[in]	A buffer to be filled
  * @param	nBufferSize		[in]	The size of the buffer
  */
-XN_C_API XnStatus XN_C_DECL xnLogGetFileName(XnChar* strFileName, uint32_t nBufferSize);
+XN_C_API XnStatus XN_C_DECL xnLogGetFileName(char* strFileName, uint32_t nBufferSize);
 
 // @}
 
@@ -155,7 +155,7 @@ XN_C_API XnStatus XN_C_DECL xnLogGetFileName(XnChar* strFileName, uint32_t nBuff
  *
  * @param	strMask		[in]	Name of the logger to open.
  */
-XN_C_API XnLogger* XN_C_DECL xnLoggerOpen(const XnChar* strMask);
+XN_C_API XnLogger* XN_C_DECL xnLoggerOpen(const char* strMask);
 
 /**
  * Writes a single log entry.
@@ -169,7 +169,7 @@ XN_C_API XnLogger* XN_C_DECL xnLoggerOpen(const XnChar* strMask);
  * It is advised to use one of the @ref xnLoggerVerbose, @ref xnLoggerInfo, @ref xnLoggerWarning or
  * @ref xnLoggerError macros instead of calling this method directly.
  */
-XN_C_API void XN_C_DECL xnLoggerWrite(XnLogger* pLogger, XnLogSeverity severity, const XnChar* strFile, uint32_t nLine, const XnChar* strFormat, ...);
+XN_C_API void XN_C_DECL xnLoggerWrite(XnLogger* pLogger, XnLogSeverity severity, const char* strFile, uint32_t nLine, const char* strFormat, ...);
 
 /**
  * Writes to a logger without an entry format (i.e. no timestamp, mask name, etc.)
@@ -178,7 +178,7 @@ XN_C_API void XN_C_DECL xnLoggerWrite(XnLogger* pLogger, XnLogSeverity severity,
  * @param	severity	[in]	Severity of the log entry
  * @param	strFormat	[in]	Format string
  */
-XN_C_API void XN_C_DECL xnLoggerWriteNoEntry(XnLogger* pLogger, XnLogSeverity severity, const XnChar* strFormat, ...);
+XN_C_API void XN_C_DECL xnLoggerWriteNoEntry(XnLogger* pLogger, XnLogSeverity severity, const char* strFormat, ...);
 
 /**
  * Writes binary data to a logger, formatting it to readable text.
@@ -191,7 +191,7 @@ XN_C_API void XN_C_DECL xnLoggerWriteNoEntry(XnLogger* pLogger, XnLogSeverity se
  * @param	nDataSize	[in]	The number of bytes to write
  * @param	strFormat	[in]	Format string for the binary data header
  */
-XN_C_API void XN_C_DECL xnLoggerWriteBinaryData(XnLogger* pLogger, XnLogSeverity severity, const XnChar* strFile, uint32_t nLine, XnUChar* pBinData, uint32_t nDataSize, const XnChar* strFormat, ...);
+XN_C_API void XN_C_DECL xnLoggerWriteBinaryData(XnLogger* pLogger, XnLogSeverity severity, const char* strFile, uint32_t nLine, XnUChar* pBinData, uint32_t nDataSize, const char* strFormat, ...);
 
 /**
  * Checks if a specific severity is enabled for this logger.
@@ -357,7 +357,7 @@ XN_C_API void XN_C_DECL _xnLoggerClose(XnLogger* pLogger);
  * @param	nPathBufferSize	[in]		The size of the <c>csFullPath</c> buffer
  * @param	phFile			[out]		The file handle
  */
-XN_C_API XnStatus XN_C_DECL xnLogCreateNewFile(const XnChar* strName, bool bSessionBased, XnChar* csFullPath, uint32_t nPathBufferSize, XN_FILE_HANDLE* phFile);
+XN_C_API XnStatus XN_C_DECL xnLogCreateNewFile(const char* strName, bool bSessionBased, char* csFullPath, uint32_t nPathBufferSize, XN_FILE_HANDLE* phFile);
 
 // @}
 
@@ -385,14 +385,14 @@ XN_C_API XnLogger* XN_LOGGER_RETVAL_CHECKS;
 
 #ifndef __XN_NO_BC__
 
-XN_C_API XnStatus XN_API_DEPRECATED("Please use xnLogSetMaskMinSeverity() instead") XN_C_DECL xnLogSetMaskState(const XnChar* csMask, bool bEnabled);
+XN_C_API XnStatus XN_API_DEPRECATED("Please use xnLogSetMaskMinSeverity() instead") XN_C_DECL xnLogSetMaskState(const char* csMask, bool bEnabled);
 XN_C_API XnStatus XN_API_DEPRECATED("Please use xnLogSetMaskMinSeverity() instead") XN_C_DECL xnLogSetSeverityFilter(XnLogSeverity nMinSeverity);
-XN_C_API bool XN_C_DECL xnLogIsEnabled(const XnChar* csLogMask, XnLogSeverity nSeverity);
-XN_C_API void XN_C_DECL xnLogWrite(const XnChar* csLogMask, XnLogSeverity nSeverity, const XnChar* csFile, uint32_t nLine, const XnChar* csFormat, ...);
-XN_C_API void XN_C_DECL xnLogWriteNoEntry(const XnChar* csLogMask, XnLogSeverity nSeverity, const XnChar* csFormat, ...);
-XN_C_API void XN_C_DECL xnLogWriteBinaryData(const XnChar* csLogMask, XnLogSeverity nSeverity, const XnChar* csFile, uint32_t nLine, XnUChar* pBinData, uint32_t nDataSize, const XnChar* csFormat, ...);
-XN_C_API XnStatus XN_API_DEPRECATED("Use xnLogCreateNewFile() instead") XN_C_DECL xnLogCreateFile(const XnChar* strFileName, XN_FILE_HANDLE* phFile);
-XN_C_API XnStatus XN_API_DEPRECATED("Use xnLogCreateNewFile() instead") XN_C_DECL xnLogCreateFileEx(const XnChar* strFileName, bool bSessionBased, XN_FILE_HANDLE* phFile);
+XN_C_API bool XN_C_DECL xnLogIsEnabled(const char* csLogMask, XnLogSeverity nSeverity);
+XN_C_API void XN_C_DECL xnLogWrite(const char* csLogMask, XnLogSeverity nSeverity, const char* csFile, uint32_t nLine, const char* csFormat, ...);
+XN_C_API void XN_C_DECL xnLogWriteNoEntry(const char* csLogMask, XnLogSeverity nSeverity, const char* csFormat, ...);
+XN_C_API void XN_C_DECL xnLogWriteBinaryData(const char* csLogMask, XnLogSeverity nSeverity, const char* csFile, uint32_t nLine, XnUChar* pBinData, uint32_t nDataSize, const char* csFormat, ...);
+XN_C_API XnStatus XN_API_DEPRECATED("Use xnLogCreateNewFile() instead") XN_C_DECL xnLogCreateFile(const char* strFileName, XN_FILE_HANDLE* phFile);
+XN_C_API XnStatus XN_API_DEPRECATED("Use xnLogCreateNewFile() instead") XN_C_DECL xnLogCreateFileEx(const char* strFileName, bool bSessionBased, XN_FILE_HANDLE* phFile);
 
 #if XN_PLATFORM_VAARGS_TYPE == XN_PLATFORM_USE_WIN32_VAARGS_STYLE
 	#define xnLogVerbose(csLogMask, csFormat, ...)	xnLogWrite(csLogMask, XN_LOG_VERBOSE, __FILE__, __LINE__, csFormat, __VA_ARGS__)

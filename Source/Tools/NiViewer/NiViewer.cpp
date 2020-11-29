@@ -554,7 +554,7 @@ void onExit()
 int changeDirectory(char* arg0)
 {
 	// get dir name
-	XnChar strDirName[XN_FILE_MAX_PATH];
+	char strDirName[XN_FILE_MAX_PATH];
 	XnStatus nRetVal = xnOSGetDirName(arg0, strDirName, XN_FILE_MAX_PATH);
 	XN_IS_STATUS_OK(nRetVal);
 

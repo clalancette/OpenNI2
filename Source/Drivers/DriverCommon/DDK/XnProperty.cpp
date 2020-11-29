@@ -31,7 +31,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnProperty::XnProperty(XnPropertyType Type, void* pValueHolder, uint32_t propertyId, const XnChar* strName, const XnChar* strModule) :
+XnProperty::XnProperty(XnPropertyType Type, void* pValueHolder, uint32_t propertyId, const char* strName, const char* strModule) :
 	m_propertyId(propertyId),
 	m_Type(Type),
 	m_pValueHolder(pValueHolder),
@@ -45,7 +45,7 @@ XnProperty::~XnProperty()
 {
 }
 
-void XnProperty::UpdateName(const XnChar* strModule, const XnChar* strName)
+void XnProperty::UpdateName(const char* strModule, const char* strName)
 {
 	strncpy(m_strModule, strModule, XN_DEVICE_MAX_STRING_LENGTH - 1);
 	m_strModule[XN_DEVICE_MAX_STRING_LENGTH - 1] = '\0';
@@ -59,7 +59,7 @@ XnStatus XnProperty::SetValue(const void* pValue)
 {
 	if (m_LogSeverity != -1)
 	{
-		XnChar strValue[XN_DEVICE_MAX_STRING_LENGTH];
+		char strValue[XN_DEVICE_MAX_STRING_LENGTH];
 		if (ConvertValueToString(strValue, pValue))
 		{
 			xnLogWrite(XN_MASK_DDK, (XnLogSeverity)m_LogSeverity, __FILE__, __LINE__, "Setting %s.%s to %s...", GetModule(), GetName(), strValue);
@@ -124,7 +124,7 @@ XnStatus XnProperty::UnsafeUpdateValue(const void* pValue /* = NULL */)
 		// print a message
 		if (m_LogSeverity != -1)
 		{
-			XnChar strValue[XN_DEVICE_MAX_STRING_LENGTH];
+			char strValue[XN_DEVICE_MAX_STRING_LENGTH];
 			bool bValueString = false;
 
 			if (IsActual())
@@ -144,7 +144,7 @@ XnStatus XnProperty::UnsafeUpdateValue(const void* pValue /* = NULL */)
 	return XN_STATUS_OK;
 }
 
-bool XnProperty::ConvertValueToString(XnChar* /*csValue*/, const void* /*pValue*/) const
+bool XnProperty::ConvertValueToString(char* /*csValue*/, const void* /*pValue*/) const
 {
 	return false;
 }

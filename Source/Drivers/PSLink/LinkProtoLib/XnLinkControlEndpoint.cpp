@@ -39,7 +39,7 @@ namespace xn
 
 const uint16_t LinkControlEndpoint::BASE_PACKET_ID = 1; //Packet IDs start from 1
 const uint16_t LinkControlEndpoint::MAX_RESPONSE_NUM_PACKETS = 8;
-const XnChar LinkControlEndpoint::MUTEX_NAME[] = "XnLinkControlEPMutex";
+const char LinkControlEndpoint::MUTEX_NAME[] = "XnLinkControlEPMutex";
 const uint32_t LinkControlEndpoint::MUTEX_TIMEOUT = 20000;
 
 
@@ -302,7 +302,7 @@ XnStatus LinkControlEndpoint::GetHardwareVersion(uint32_t& version)
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetSerialNumber(XnChar* strSerialNumber, uint32_t nSize)
+XnStatus LinkControlEndpoint::GetSerialNumber(char* strSerialNumber, uint32_t nSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -346,7 +346,7 @@ XnStatus LinkControlEndpoint::GetComponentsVersions(std::vector<XnComponentVersi
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::UploadFile(const XnChar* strFileName, bool bOverrideFactorySettings)
+XnStatus LinkControlEndpoint::UploadFile(const char* strFileName, bool bOverrideFactorySettings)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_FILE_HANDLE hFile = XN_INVALID_FILE_HANDLE;
@@ -490,7 +490,7 @@ XnStatus LinkControlEndpoint::GetFileList(std::vector<XnFwFileEntry>& files)
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::DownloadFile(uint16_t zone, const XnChar* fwFileName, const XnChar* targetFile)
+XnStatus LinkControlEndpoint::DownloadFile(uint16_t zone, const char* fwFileName, const char* targetFile)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1156,7 +1156,7 @@ XnStatus LinkControlEndpoint::GetVideoMode(uint16_t nStreamID, XnFwStreamVideoMo
 
 	xnLinkParseVideoMode(videoMode, linkVideoMode);
 
-	XnChar strVideoMode[200];
+	char strVideoMode[200];
 	xnLinkVideoModeToString(videoMode, strVideoMode, sizeof(strVideoMode));
 	xnLogInfo(XN_MASK_LINK, "LINK: Stream %u video mode: %s", nStreamID, strVideoMode);
 
@@ -1243,7 +1243,7 @@ XnStatus LinkControlEndpoint::EnumerateStreams(std::vector<XnFwStreamInfo>& aStr
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID)
+XnStatus LinkControlEndpoint::CreateInputStream(XnStreamType streamType, const char* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1394,12 +1394,12 @@ XnStatus LinkControlEndpoint::GetRealProperty(uint16_t nStreamID, XnLinkPropID p
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::SetStringProperty(uint16_t nStreamID, XnLinkPropID propID, const XnChar* strValue)
+XnStatus LinkControlEndpoint::SetStringProperty(uint16_t nStreamID, XnLinkPropID propID, const char* strValue)
 {
 	return SetProperty(nStreamID, XN_LINK_PROP_TYPE_STRING, propID, xnOSStrLen(strValue)+1, strValue);
 }
 
-XnStatus LinkControlEndpoint::GetStringProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t nSize, XnChar* strValue)
+XnStatus LinkControlEndpoint::GetStringProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t nSize, char* strValue)
 {
 	return GetProperty(nStreamID, XN_LINK_PROP_TYPE_STRING, propID, nSize, strValue);
 }
@@ -1419,7 +1419,7 @@ XnStatus LinkControlEndpoint::GetBitSetProperty(uint16_t nStreamID, XnLinkPropID
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	static const uint32_t MAX_SIZE = 512;
-	XnChar strBuffer[MAX_SIZE];
+	char strBuffer[MAX_SIZE];
 	uint32_t nSize = MAX_SIZE;
 	XnLinkBitSet* pBitSet = (XnLinkBitSet*)strBuffer;
 

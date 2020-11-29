@@ -27,12 +27,12 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateEvent(XN_EVENT_HANDLE* pEventHandle, bool 
 	return (xnOSCreateNamedEvent(pEventHandle, NULL, bManualReset));
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEvent(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, bool bManualReset)
+XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEvent(XN_EVENT_HANDLE* pEventHandle, const char* cpEventName, bool bManualReset)
 {
 	return xnOSCreateNamedEventEx(pEventHandle, cpEventName, bManualReset, false);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, bool bManualReset, bool bAllowOtherUsers)
+XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const char* cpEventName, bool bManualReset, bool bAllowOtherUsers)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -40,8 +40,8 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEventEx(XN_EVENT_HANDLE* pEventHandle
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_OUTPUT_PTR(pEventHandle);
 
-	XnChar strEventOSName[MAX_PATH];
-	XnChar* pEventOSName = NULL;
+	char strEventOSName[MAX_PATH];
+	char* pEventOSName = NULL;
 	SECURITY_ATTRIBUTES* pSecurityAttributes = NULL;
 
 	if (cpEventName != NULL)
@@ -75,18 +75,18 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateNamedEventEx(XN_EVENT_HANDLE* pEventHandle
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEvent(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName)
+XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEvent(XN_EVENT_HANDLE* pEventHandle, const char* cpEventName)
 {
 	return xnOSOpenNamedEventEx(pEventHandle, cpEventName, false);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const XnChar* cpEventName, bool bAllowOtherUsers)
+XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEventEx(XN_EVENT_HANDLE* pEventHandle, const char* cpEventName, bool bAllowOtherUsers)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_VALIDATE_INPUT_PTR(cpEventName);
 	XN_VALIDATE_OUTPUT_PTR(pEventHandle);
 
-	XnChar strEventOSName[MAX_PATH];
+	char strEventOSName[MAX_PATH];
 	nRetVal = xnWin32CreateKernelObjectName(strEventOSName, MAX_PATH, cpEventName, bAllowOtherUsers);
 	if (nRetVal != XN_STATUS_OK)
 	{

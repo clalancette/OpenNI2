@@ -59,10 +59,10 @@ typedef struct XnLogEntry
 {
 	uint64_t nTimestamp;
 	XnLogSeverity nSeverity;
-	const XnChar* strSeverity;
-	const XnChar* strMask;
-	const XnChar* strMessage;
-	const XnChar* strFile;
+	const char* strSeverity;
+	const char* strMask;
+	const char* strMessage;
+	const char* strFile;
 	uint32_t nLine;
 } XnLogEntry;
 
@@ -70,7 +70,7 @@ typedef struct XnLogWriter
 {
 	void* pCookie;
 	void (XN_CALLBACK_TYPE* WriteEntry)(const XnLogEntry* pEntry, void* pCookie);
-	void (XN_CALLBACK_TYPE* WriteUnformatted)(const XnChar* strMessage, void* pCookie);
+	void (XN_CALLBACK_TYPE* WriteUnformatted)(const char* strMessage, void* pCookie);
 	void (XN_CALLBACK_TYPE* OnConfigurationChanged)(void* pCookie);
 	void (XN_CALLBACK_TYPE* OnClosing)(void* pCookie);
 } XnLogWriter;

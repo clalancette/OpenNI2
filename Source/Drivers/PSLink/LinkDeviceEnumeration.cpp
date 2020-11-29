@@ -116,7 +116,7 @@ void LinkDeviceEnumeration::Shutdown()
 	}
 }
 
-void LinkDeviceEnumeration::OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId)
+void LinkDeviceEnumeration::OnConnectivityEvent(const char* uri, XnUSBEventType eventType, XnUsbId usbId)
 {
 	xnl::AutoCSLocker lock(ms_lock);
 
@@ -158,7 +158,7 @@ void XN_CALLBACK_TYPE LinkDeviceEnumeration::OnConnectivityEventCallback(XnUSBEv
 	OnConnectivityEvent(pArgs->strDevicePath, pArgs->eventType, usbId);
 }
 
-OniDeviceInfo* LinkDeviceEnumeration::GetDeviceInfo(const XnChar* uri)
+OniDeviceInfo* LinkDeviceEnumeration::GetDeviceInfo(const char* uri)
 {
 	OniDeviceInfo* pInfo = NULL;
 	xnl::AutoCSLocker lock(ms_lock);

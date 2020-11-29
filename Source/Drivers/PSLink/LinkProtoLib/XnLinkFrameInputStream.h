@@ -64,7 +64,7 @@ public:
 	virtual void Shutdown();
 	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const uint8_t* pData, bool& bPacketLoss);
 
-	virtual void SetDumpName(const XnChar* strDumpName);
+	virtual void SetDumpName(const char* strDumpName);
 	virtual void SetDumpOn(bool bDumpOn);
 
 	virtual XnStreamFragLevel GetStreamFragLevel() const { return XN_LINK_STREAM_FRAG_LEVEL_FRAMES; }
@@ -133,7 +133,7 @@ private:
 	LinkMsgParser* m_pLinkMsgParser;
 
 	XnDumpFile* m_pDumpFile;
-	XnChar m_strDumpName[XN_FILE_MAX_PATH];
+	char m_strDumpName[XN_FILE_MAX_PATH];
 	uint32_t m_nDumpFrameID;
 
 	std::vector<XnFwStreamVideoMode> m_supportedVideoModes;

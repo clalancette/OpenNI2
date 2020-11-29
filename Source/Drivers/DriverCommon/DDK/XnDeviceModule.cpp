@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnDeviceModule::XnDeviceModule(const XnChar* strName) :
+XnDeviceModule::XnDeviceModule(const char* strName) :
 	m_Lock(XN_MODULE_PROPERTY_LOCK, "Lock", false, strName),
 	m_hLockCS(NULL)
 {
@@ -187,7 +187,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, double* pdValue) const
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnChar* csValue) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, char* csValue) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -286,7 +286,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 		}
 	case XN_PROPERTY_TYPE_STRING:
 		{
-			XnChar strValue[XN_DEVICE_MAX_STRING_LENGTH];
+			char strValue[XN_DEVICE_MAX_STRING_LENGTH];
 			nRetVal = GetProperty(propertyId, strValue);
 			if (nRetVal != XN_STATUS_OK)
 			{
@@ -294,7 +294,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 				return XN_STATUS_ERROR;
 			}
 
-			nRetVal = xnOSStrCopy((XnChar*)data, strValue, *pDataSize);
+			nRetVal = xnOSStrCopy((char*)data, strValue, *pDataSize);
 			if (nRetVal != XN_STATUS_OK)
 			{
 				// wrong size?
@@ -348,7 +348,7 @@ XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, double dValue)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const XnChar* strValue)
+XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const char* strValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -441,7 +441,7 @@ XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const void* data, int 
 		}
 	case XN_PROPERTY_TYPE_STRING:
 		{
-			nRetVal = SetProperty(propertyId, (const XnChar*)data);
+			nRetVal = SetProperty(propertyId, (const char*)data);
 			XN_IS_STATUS_OK(nRetVal);
 			break;
 		}
@@ -490,7 +490,7 @@ XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, double dValue
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, const XnChar* strValue)
+XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, const char* strValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -589,7 +589,7 @@ XnStatus XnDeviceModule::GetAllProperties(XnPropertySet* pSet) const
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::LoadConfigFromFile(const XnChar* csINIFilePath, const XnChar* strSectionName /* = NULL */)
+XnStatus XnDeviceModule::LoadConfigFromFile(const char* csINIFilePath, const char* strSectionName /* = NULL */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

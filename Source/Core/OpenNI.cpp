@@ -436,7 +436,7 @@ ONI_C_API void oniWriteLogEntry(const char* mask, int severity, const char* mess
 
 ONI_C_API OniStatus oniSetLogOutputFolder(const char* strOutputFolder)
 {
-	XnStatus rc = xnLogSetOutputFolder((XnChar*)strOutputFolder);
+	XnStatus rc = xnLogSetOutputFolder((char*)strOutputFolder);
 
 	if (rc != XN_STATUS_OK)
 	{
@@ -448,7 +448,7 @@ ONI_C_API OniStatus oniSetLogOutputFolder(const char* strOutputFolder)
 
 ONI_C_API OniStatus oniGetLogFileName(char* strFileName, int nBufferSize)
 {
-	XnStatus rc = xnLogGetFileName((XnChar*)strFileName, (uint32_t)nBufferSize);
+	XnStatus rc = xnLogGetFileName((char*)strFileName, (uint32_t)nBufferSize);
 
 	if (rc != XN_STATUS_OK)
 	{

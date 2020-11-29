@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnActualRealProperty::XnActualRealProperty(uint32_t propertyId, const XnChar* strName, double dInitialValue /* = 0.0 */, const XnChar* strModule /* = "" */) :
+XnActualRealProperty::XnActualRealProperty(uint32_t propertyId, const char* strName, double dInitialValue /* = 0.0 */, const char* strModule /* = "" */) :
 	XnRealProperty(propertyId, strName, &m_dValue, strModule),
 	m_dValue(dInitialValue)
 {

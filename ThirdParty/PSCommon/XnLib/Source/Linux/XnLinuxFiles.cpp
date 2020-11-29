@@ -42,7 +42,7 @@
 #ifndef XN_PLATFORM_LINUX_NO_GLOB
 #include <glob.h>
 
-XN_C_API XnStatus xnOSCountFiles(const XnChar* cpSearchPattern, int32_t* pnFoundFiles)
+XN_C_API XnStatus xnOSCountFiles(const char* cpSearchPattern, int32_t* pnFoundFiles)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpSearchPattern);
@@ -67,7 +67,7 @@ XN_C_API XnStatus xnOSCountFiles(const XnChar* cpSearchPattern, int32_t* pnFound
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* cpPrefixPath, XnChar cpFileList[][XN_FILE_MAX_PATH], const int32_t nMaxFiles, int32_t* pnFoundFiles)
+XN_C_API XnStatus xnOSGetFileList(const char* cpSearchPattern, const char* cpPrefixPath, char cpFileList[][XN_FILE_MAX_PATH], const int32_t nMaxFiles, int32_t* pnFoundFiles)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpSearchPattern);
@@ -110,14 +110,14 @@ XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* c
 }
 #else
 
-XN_C_API XnStatus xnOSCountFiles(const XnChar* cpSearchPattern, int32_t* pnFoundFiles)
+XN_C_API XnStatus xnOSCountFiles(const char* cpSearchPattern, int32_t* pnFoundFiles)
 {
 	XN_ASSERT(false);
 	return XN_STATUS_OS_FILE_NOT_FOUND;
 }
 
 
-XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* cpPrefixPath, XnChar cpFileList[][XN_FILE_MAX_PATH], const int32_t nMaxFiles, int32_t* pnFoundFiles)
+XN_C_API XnStatus xnOSGetFileList(const char* cpSearchPattern, const char* cpPrefixPath, char cpFileList[][XN_FILE_MAX_PATH], const int32_t nMaxFiles, int32_t* pnFoundFiles)
 {
 	XN_ASSERT(false);
 	return XN_STATUS_OS_FILE_NOT_FOUND;
@@ -125,7 +125,7 @@ XN_C_API XnStatus xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* c
 
 #endif
 
-XN_C_API XnStatus xnOSOpenFile(const XnChar* cpFileName, const uint32_t nFlags, XN_FILE_HANDLE* pFile)
+XN_C_API XnStatus xnOSOpenFile(const char* cpFileName, const uint32_t nFlags, XN_FILE_HANDLE* pFile)
 {
 	// Local function variables
 	uint32_t nOSOpenFlags = 0;
@@ -462,7 +462,7 @@ XN_C_API XnStatus xnOSFlushFile(const XN_FILE_HANDLE File)
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSFileExists(const XnChar* cpFileName, bool* bResult)
+XN_C_API XnStatus xnOSFileExists(const char* cpFileName, bool* bResult)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
@@ -481,7 +481,7 @@ XN_C_API XnStatus xnOSFileExists(const XnChar* cpFileName, bool* bResult)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetFileSize(const XnChar* cpFileName, uint32_t* pnFileSize)
+XN_C_API XnStatus xnOSGetFileSize(const char* cpFileName, uint32_t* pnFileSize)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
@@ -504,7 +504,7 @@ XN_C_API XnStatus xnOSGetFileSize(const XnChar* cpFileName, uint32_t* pnFileSize
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetFileSize64(const XnChar* cpFileName, uint64_t* pnFileSize)
+XN_C_API XnStatus xnOSGetFileSize64(const char* cpFileName, uint64_t* pnFileSize)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
@@ -521,7 +521,7 @@ XN_C_API XnStatus xnOSGetFileSize64(const XnChar* cpFileName, uint64_t* pnFileSi
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSCreateDirectory(const XnChar* cpDirName)
+XN_C_API XnStatus xnOSCreateDirectory(const char* cpDirName)
 {
 	// Local function variables
 	int32_t nRetVal = 0;
@@ -539,17 +539,17 @@ XN_C_API XnStatus xnOSCreateDirectory(const XnChar* cpDirName)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetDirName(const XnChar* cpFilePath, XnChar* cpDirName, const uint32_t nBufferSize)
+XN_C_API XnStatus xnOSGetDirName(const char* cpFilePath, char* cpDirName, const uint32_t nBufferSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// first copy the string (OS may change the argument)
-	XnChar cpInput[XN_FILE_MAX_PATH];
+	char cpInput[XN_FILE_MAX_PATH];
 	nRetVal = xnOSStrCopy(cpInput, cpFilePath, XN_FILE_MAX_PATH);
 	XN_IS_STATUS_OK(nRetVal);
 
 	// now call the OS
-	XnChar* cpResult = dirname(cpInput);
+	char* cpResult = dirname(cpInput);
 
 	// copy result to user buffer
 	nRetVal = xnOSStrCopy(cpDirName, cpResult, nBufferSize);
@@ -558,17 +558,17 @@ XN_C_API XnStatus xnOSGetDirName(const XnChar* cpFilePath, XnChar* cpDirName, co
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetFileName(const XnChar* cpFilePath, XnChar* cpDirName, const uint32_t nBufferSize)
+XN_C_API XnStatus xnOSGetFileName(const char* cpFilePath, char* cpDirName, const uint32_t nBufferSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// first copy the string (OS may change the argument)
-	XnChar cpInput[XN_FILE_MAX_PATH];
+	char cpInput[XN_FILE_MAX_PATH];
 	nRetVal = xnOSStrCopy(cpInput, cpFilePath, XN_FILE_MAX_PATH);
 	XN_IS_STATUS_OK(nRetVal);
 
 	// now call the OS
-	XnChar* cpResult = basename(cpInput);
+	char* cpResult = basename(cpInput);
 
 	// copy result to user buffer
 	nRetVal = xnOSStrCopy(cpDirName, cpResult, nBufferSize);
@@ -577,10 +577,10 @@ XN_C_API XnStatus xnOSGetFileName(const XnChar* cpFilePath, XnChar* cpDirName, c
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetFullPathName(const XnChar* strFilePath, XnChar* strFullPath, uint32_t nBufferSize)
+XN_C_API XnStatus xnOSGetFullPathName(const char* strFilePath, char* strFullPath, uint32_t nBufferSize)
 {
 	// pass a temp string (with max size)
-	XnChar strResult[PATH_MAX];
+	char strResult[PATH_MAX];
 
 	if (NULL == realpath(strFilePath, strResult))
 	{
@@ -600,7 +600,7 @@ XN_C_API XnStatus xnOSGetFullPathName(const XnChar* strFilePath, XnChar* strFull
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetCurrentDir(XnChar* cpDirName, const uint32_t nBufferSize)
+XN_C_API XnStatus xnOSGetCurrentDir(char* cpDirName, const uint32_t nBufferSize)
 {
 	if (NULL == getcwd(cpDirName, nBufferSize))
 	{
@@ -613,7 +613,7 @@ XN_C_API XnStatus xnOSGetCurrentDir(XnChar* cpDirName, const uint32_t nBufferSiz
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSSetCurrentDir(const XnChar* cpDirName)
+XN_C_API XnStatus xnOSSetCurrentDir(const char* cpDirName)
 {
 	if (0 != chdir(cpDirName))
 	{
@@ -623,7 +623,7 @@ XN_C_API XnStatus xnOSSetCurrentDir(const XnChar* cpDirName)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSDeleteFile(const XnChar* cpFileName)
+XN_C_API XnStatus xnOSDeleteFile(const char* cpFileName)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
@@ -636,7 +636,7 @@ XN_C_API XnStatus xnOSDeleteFile(const XnChar* cpFileName)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSDoesFileExist(const XnChar* cpFileName, bool* pbResult)
+XN_C_API XnStatus xnOSDoesFileExist(const char* cpFileName, bool* pbResult)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
@@ -655,7 +655,7 @@ XN_C_API XnStatus xnOSDoesFileExist(const XnChar* cpFileName, bool* pbResult)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSDoesDirectoryExist(const XnChar* cpDirName, bool* pbResult)
+XN_C_API XnStatus xnOSDoesDirectoryExist(const char* cpDirName, bool* pbResult)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpDirName);
@@ -676,7 +676,7 @@ XN_C_API XnStatus xnOSDoesDirectoryExist(const XnChar* cpDirName, bool* pbResult
 	return (XN_STATUS_OK);
 }
 
-XN_C_API bool xnOSIsAbsoluteFilePath(const XnChar* strFilePath)
+XN_C_API bool xnOSIsAbsoluteFilePath(const char* strFilePath)
 {
 	return xnOSIsDirSep(strFilePath[0]);
 }

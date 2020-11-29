@@ -54,7 +54,7 @@ XN_C_API XnStatus XN_C_DECL xnProfilingInit(uint32_t nProfilingInterval = 0);
  * @param	cpINIFileName	[in]	Name of INI file.
  * @param	cpSectionName	[in]	Name of section in INI file.
  */
-XN_C_API XnStatus XN_C_DECL xnProfilingInitFromINI(const XnChar* cpINIFileName, const XnChar* cpSectionName);
+XN_C_API XnStatus XN_C_DECL xnProfilingInitFromINI(const char* cpINIFileName, const char* cpSectionName);
 
 /**
  * Shuts down profiling.

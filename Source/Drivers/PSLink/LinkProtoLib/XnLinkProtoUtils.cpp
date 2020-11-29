@@ -41,10 +41,10 @@ XnStatus xn::LinkPacketHeader::Validate(uint32_t nBytesToRead) const
 	//Validate Magic
 	if (!IsMagicValid())
 	{
-		XnChar strData[256] = "";
+		char strData[256] = "";
 		for (uint32_t i = 0; i < XN_MIN(nBytesToRead, 10); ++i)
 		{
-			XnChar s[10];
+			char s[10];
 			sprintf(s, "%02X ", ((uint8_t*)this)[i]);
 			xnOSStrAppend(strData, s, sizeof(strData));
 		}
@@ -96,12 +96,12 @@ XnStatus xnLinkResponseCodeToStatus(uint16_t nResponseCode)
 	}
 }
 
-const XnChar* xnLinkResponseCodeToStr(uint16_t nResponseCode)
+const char* xnLinkResponseCodeToStr(uint16_t nResponseCode)
 {
 	return xnGetStatusString(xnLinkResponseCodeToStatus(nResponseCode));
 }
 
-const XnChar* xnFragmentationFlagsToStr(XnLinkFragmentation fragmentation)
+const char* xnFragmentationFlagsToStr(XnLinkFragmentation fragmentation)
 {
 	switch (fragmentation)
 	{
@@ -119,7 +119,7 @@ const XnChar* xnFragmentationFlagsToStr(XnLinkFragmentation fragmentation)
 	}
 }
 
-const XnChar* xnLinkStreamTypeToString(XnStreamType streamType)
+const char* xnLinkStreamTypeToString(XnStreamType streamType)
 {
 	switch (streamType)
 	{
@@ -146,7 +146,7 @@ const XnChar* xnLinkStreamTypeToString(XnStreamType streamType)
 	}
 }
 
-XnStreamType xnLinkStreamTypeFromString(const XnChar* strType)
+XnStreamType xnLinkStreamTypeFromString(const char* strType)
 {
 	if (xnOSStrCaseCmp(strType, "Image") == 0)
 	{
@@ -195,7 +195,7 @@ XnStreamType xnLinkStreamTypeFromString(const XnChar* strType)
 #define XN_GESTURE_NAME_CLICK "Click"
 #define XN_GESTURE_NAME_MOVING_HAND "MovingHand"
 
-const XnChar* xnLinkGestureTypeToName(uint32_t gestureType)
+const char* xnLinkGestureTypeToName(uint32_t gestureType)
 {
 	switch (gestureType)
 	{
@@ -214,7 +214,7 @@ const XnChar* xnLinkGestureTypeToName(uint32_t gestureType)
 	}
 }
 
-uint32_t xnLinkGestureNameToType(const XnChar* strGesture)
+uint32_t xnLinkGestureNameToType(const char* strGesture)
 {
 	if (strcmp(strGesture, XN_GESTURE_NAME_RAISE_HAND) == 0)
 		return XN_LINK_GESTURE_RAISE_HAND;
@@ -232,7 +232,7 @@ uint32_t xnLinkGestureNameToType(const XnChar* strGesture)
 
 #define XN_POSE_NAME_PSI "Psi"
 
-const XnChar* xnLinkPoseTypeToName(uint32_t poseType)
+const char* xnLinkPoseTypeToName(uint32_t poseType)
 {
 	switch (poseType)
 	{
@@ -247,7 +247,7 @@ const XnChar* xnLinkPoseTypeToName(uint32_t poseType)
 	}
 }
 
-uint32_t xnLinkPoseNameToType(const XnChar* strPose)
+uint32_t xnLinkPoseNameToType(const char* strPose)
 {
 	if (strPose == NULL)
 		return XN_LINK_POSE_TYPE_NONE;
@@ -259,7 +259,7 @@ uint32_t xnLinkPoseNameToType(const XnChar* strPose)
 	return XN_LINK_GESTURE_NONE;
 }
 
-XnStatus xnLinkPosesToNames(uint32_t nPoses, std::vector<const XnChar*>& aPosesNames)
+XnStatus xnLinkPosesToNames(uint32_t nPoses, std::vector<const char*>& aPosesNames)
 {
 	aPosesNames.clear();
 
@@ -268,7 +268,7 @@ XnStatus xnLinkPosesToNames(uint32_t nPoses, std::vector<const XnChar*>& aPosesN
 	{
 		if ((nPoses & 0x01) != 0)
 		{
-			const XnChar* strPose = xnLinkPoseTypeToName(1 << shifted);
+			const char* strPose = xnLinkPoseTypeToName(1 << shifted);
 			if (strPose == NULL)
 			{
 				return XN_STATUS_LINK_UNKNOWN_POSE;
@@ -320,13 +320,13 @@ xnl::Box3D xnLinkBoundingBox3DToBoundingBox3D(const XnLinkBoundingBox3D& box)
 	return result;
 }
 
-XnStatus xnLinkGetStreamDumpName(uint16_t nStreamID, XnChar* strDumpName, uint32_t nDumpNameSize)
+XnStatus xnLinkGetStreamDumpName(uint16_t nStreamID, char* strDumpName, uint32_t nDumpNameSize)
 {
 	uint32_t nCharsWritten = 0;
 	return xnOSStrFormat(strDumpName, nDumpNameSize, &nCharsWritten, "Stream.%05u.In.raw", nStreamID);
 }
 
-XnStatus xnLinkGetEPDumpName(uint16_t nEPID, XnChar* strDumpName, uint32_t nDumpNameSize)
+XnStatus xnLinkGetEPDumpName(uint16_t nEPID, char* strDumpName, uint32_t nDumpNameSize)
 {
 	uint32_t nCharsWritten = 0;
 	return xnOSStrFormat(strDumpName, nDumpNameSize, &nCharsWritten, "EP.%05u.In", nEPID);
@@ -525,7 +525,7 @@ XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& compo
 
 /*static struct
 {
-	const XnChar* m_strCapabilityName;
+	const char* m_strCapabilityName;
 	uint8_t m_nInterfaceID;
 } CAP_NAME_TO_LINK_INTERFACE_ID[] = {
 	{XN_CAPABILITY_MIRROR,					XN_LINK_INTERFACE_MIRROR},
@@ -559,7 +559,7 @@ XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& compo
 	{XN_CAPABILITY_HAND_TOUCHING_FOV_EDGE, 	XN_LINK_INTERFACE_HAND_TOUCHING_FOV_EDGE},
 };
 
-uint8_t xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName)
+uint8_t xnLinkNICapabilityToInterfaceID(const char* strCapabilityName)
 {
 	for (uint32_t i = 0; i < sizeof(CAP_NAME_TO_LINK_INTERFACE_ID) / sizeof(CAP_NAME_TO_LINK_INTERFACE_ID[0]); i++)
 	{
@@ -572,7 +572,7 @@ uint8_t xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName)
 	return XN_LINK_INTERFACE_INVALID;
 }
 
-const XnChar* xnLinkInterfaceIDToNICapability(uint8_t nInterfaceID)
+const char* xnLinkInterfaceIDToNICapability(uint8_t nInterfaceID)
 {
 	for (uint32_t i = 0; i < sizeof(CAP_NAME_TO_LINK_INTERFACE_ID) / sizeof(CAP_NAME_TO_LINK_INTERFACE_ID[0]); i++)
 	{
@@ -586,9 +586,9 @@ const XnChar* xnLinkInterfaceIDToNICapability(uint8_t nInterfaceID)
 }
 */
 
-const XnChar* xnLinkPropTypeToStr(XnLinkPropType propType)
+const char* xnLinkPropTypeToStr(XnLinkPropType propType)
 {
-	static const XnChar* PROP_TYPE_STRS[] =
+	static const char* PROP_TYPE_STRS[] =
 	{
 		"None",		//0x0000
 		"Int",		//0x0001
@@ -810,7 +810,7 @@ void xnLinkEncodeCropping(XnLinkCropping& linkCropping, const OniCropping& cropp
 	linkCropping.m_nYSize	 = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)cropping.height);
 }
 
-const XnChar* xnLinkGetPropName(XnLinkPropID propID)
+const char* xnLinkGetPropName(XnLinkPropID propID)
 {
 	/* To build this switch, paste the contents of the XnLinkPropID enum here, and then use
 	   visual studio's search & replace with regex, and replace this:
@@ -1124,7 +1124,7 @@ XnStatus xnLinkParseSupportedTempList(const XnLinkTemperatureSensorsList* pSuppo
 	for (uint32_t i = 0; i < nTemp; i++)
 	{
 		supportedTempList[i].id = XN_PREPARE_VAR32_IN_BUFFER(pSupportedList->m_aSensors[i].m_nID);
-		nRetVal = xnOSStrCopy(supportedTempList[i].name, (const XnChar*) pSupportedList->m_aSensors[i].m_strName, sizeof(supportedTempList[i].name));
+		nRetVal = xnOSStrCopy(supportedTempList[i].name, (const char*) pSupportedList->m_aSensors[i].m_strName, sizeof(supportedTempList[i].name));
 		XN_IS_STATUS_OK_LOG_ERROR("Copy Temperature list name", nRetVal);
 	}
 
@@ -1159,7 +1159,7 @@ XnStatus xnLinkParseGetTemperature(const XnLinkTemperatureResponse* tempResponse
 
 	return XN_STATUS_OK;
 }
-const XnChar* xnLinkPixelFormatToName(XnFwPixelFormat pixelFormat)
+const char* xnLinkPixelFormatToName(XnFwPixelFormat pixelFormat)
 {
 	switch (pixelFormat)
 	{
@@ -1177,7 +1177,7 @@ const XnChar* xnLinkPixelFormatToName(XnFwPixelFormat pixelFormat)
 	}
 }
 
-XnFwPixelFormat xnLinkPixelFormatFromName(const XnChar* name)
+XnFwPixelFormat xnLinkPixelFormatFromName(const char* name)
 {
 	if (xnOSStrCmp(name, "Shifts9.3") == 0)
 	{
@@ -1202,7 +1202,7 @@ XnFwPixelFormat xnLinkPixelFormatFromName(const XnChar* name)
 	}
 }
 
-const XnChar* xnLinkCompressionToName(XnFwCompressionType compression)
+const char* xnLinkCompressionToName(XnFwCompressionType compression)
 {
 	switch (compression)
 	{
@@ -1228,7 +1228,7 @@ const XnChar* xnLinkCompressionToName(XnFwCompressionType compression)
 	}
 }
 
-XnFwCompressionType xnLinkCompressionFromName(const XnChar* name)
+XnFwCompressionType xnLinkCompressionFromName(const char* name)
 {
 	if (xnOSStrCmp(name, "None") == 0)
 	{
@@ -1269,7 +1269,7 @@ XnFwCompressionType xnLinkCompressionFromName(const XnChar* name)
 	}
 }
 
-void xnLinkVideoModeToString(XnFwStreamVideoMode videoMode, XnChar* buffer, uint32_t bufferSize)
+void xnLinkVideoModeToString(XnFwStreamVideoMode videoMode, char* buffer, uint32_t bufferSize)
 {
 	uint32_t charsWritten = 0;
 	xnOSStrFormat(buffer, bufferSize, &charsWritten, "%ux%u@%u (%s, %s)",

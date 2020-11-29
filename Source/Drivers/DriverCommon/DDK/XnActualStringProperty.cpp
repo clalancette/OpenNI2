@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnActualStringProperty::XnActualStringProperty(uint32_t propertyId, const XnChar* strName, const XnChar* strInitialValue /* = "" */, const XnChar* strModule /* = "" */ ) :
+XnActualStringProperty::XnActualStringProperty(uint32_t propertyId, const char* strName, const char* strInitialValue /* = "" */, const char* strModule /* = "" */ ) :
 	XnStringProperty(propertyId, strName, m_strValue, strModule)
 {
 	strncpy(m_strValue, strInitialValue, XN_DEVICE_MAX_STRING_LENGTH);
@@ -34,12 +34,12 @@ XnActualStringProperty::XnActualStringProperty(uint32_t propertyId, const XnChar
 	UpdateGetCallback(GetCallback, this);
 }
 
-XnStatus XnActualStringProperty::SetCallback(XnActualStringProperty* pSender, const XnChar* strValue, void* /*pCookie*/)
+XnStatus XnActualStringProperty::SetCallback(XnActualStringProperty* pSender, const char* strValue, void* /*pCookie*/)
 {
 	return pSender->UnsafeUpdateValue(strValue);
 }
 
-XnStatus XnActualStringProperty::GetCallback(const XnActualStringProperty* pSender, XnChar* csValue, void* /*pCookie*/)
+XnStatus XnActualStringProperty::GetCallback(const XnActualStringProperty* pSender, char* csValue, void* /*pCookie*/)
 {
 	strncpy(csValue, pSender->GetValue(), XN_DEVICE_MAX_STRING_LENGTH);
 	return XN_STATUS_OK;

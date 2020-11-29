@@ -340,8 +340,8 @@ XnStatus XnHostProtocolGetCmosBlanking	(XnDevicePrivateData* pDevicePrivateData,
 
 XnStatus XnHostProtocolGetCmosPresets	(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOSID, XnCmosPreset* aPresets, uint32_t& nCount);
 
-XnStatus XnHostProtocolGetSerialNumber	(XnDevicePrivateData* pDevicePrivateData, XnChar* cpSerialNumber);
-XnStatus XnHostProtocolGetPlatformString(XnDevicePrivateData* pDevicePrivateData, XnChar* cpPlatformString);
+XnStatus XnHostProtocolGetSerialNumber	(XnDevicePrivateData* pDevicePrivateData, char* cpSerialNumber);
+XnStatus XnHostProtocolGetPlatformString(XnDevicePrivateData* pDevicePrivateData, char* cpPlatformString);
 
 XnStatus XnHostProtocolGetCMOSRegister(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOS, uint16_t nAddress, uint16_t& nValue);
 XnStatus XnHostProtocolSetCMOSRegister	(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOS, uint16_t nAddress, uint16_t nValue);
@@ -355,9 +355,9 @@ XnStatus XnHostProtocolSetEmitterState	(XnDevicePrivateData* pDevicePrivateData,
 XnStatus XnHostProtocolUpdateSupportedImageModes(XnDevicePrivateData* pDevicePrivateData);
 
 // Commands.txt
-XnStatus XnHostProtocolGetLog			(XnDevicePrivateData* pDevicePrivateData, XnChar* csBuffer, uint32_t nBufferSize);
-XnStatus XnHostProtocolFileUpload		(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, const XnChar* strFileName, uint16_t nAttributes);
-XnStatus XnHostProtocolFileDownload		(XnDevicePrivateData* pDevicePrivateData, uint16_t nFileType, const XnChar* strFileName);
+XnStatus XnHostProtocolGetLog			(XnDevicePrivateData* pDevicePrivateData, char* csBuffer, uint32_t nBufferSize);
+XnStatus XnHostProtocolFileUpload		(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, const char* strFileName, uint16_t nAttributes);
+XnStatus XnHostProtocolFileDownload		(XnDevicePrivateData* pDevicePrivateData, uint16_t nFileType, const char* strFileName);
 XnStatus XnHostProtocolReadFlash		(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, uint32_t nSize, XnUChar* pBuffer);
 XnStatus XnHostProtocolRunBIST			(XnDevicePrivateData* pDevicePrivateData, uint32_t nTestsMask, uint32_t* pnFailures);
 XnStatus XnHostProtocolGetCPUStats		(XnDevicePrivateData* pDevicePrivateData, XnTaskCPUInfo* pTasks, uint32_t *pnTimesCount);

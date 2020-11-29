@@ -166,7 +166,7 @@ bool PrintVersion(openni::Device& Device, std::vector<std::string>& /*Command*/)
 		return true;
 	}
 
-	XnChar strPlatformString[XN_DEVICE_MAX_STRING_LENGTH];
+	char strPlatformString[XN_DEVICE_MAX_STRING_LENGTH];
 	int size = sizeof(strPlatformString);
 	rc = Device.getProperty(XN_MODULE_PROPERTY_SENSOR_PLATFORM_STRING, strPlatformString, &size);
 	if (rc != openni::STATUS_OK)

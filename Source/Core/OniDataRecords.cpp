@@ -31,7 +31,7 @@ ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 namespace {
 
 // Converts NodeType into a string.
-const XnChar* AsString(uint32_t nodeType)
+const char* AsString(uint32_t nodeType)
 {
 	switch (nodeType) {
 	case NODE_TYPE_DEVICE: return "Device";
@@ -113,7 +113,7 @@ void RecordAssembler::emitCommonHeader(uint32_t recordType, uint32_t nodeId, uin
 	m_pEmitPtr = m_pBuffer + sizeof(*m_header);
 }
 
-OniStatus RecordAssembler::emitString(const XnChar* pStr, size_t& totalFieldsSize_bytes)
+OniStatus RecordAssembler::emitString(const char* pStr, size_t& totalFieldsSize_bytes)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 	if (NULL == pStr)
@@ -125,7 +125,7 @@ OniStatus RecordAssembler::emitString(const XnChar* pStr, size_t& totalFieldsSiz
 	struct
 	{
 		uint32_t dataSize = 0;
-		XnChar   data[ONI_MAX_STR];
+		char   data[ONI_MAX_STR];
 	} field;
 	xnOSStrCopy(field.data, pStr, sizeof(field.data));
 	field.dataSize = XN_MIN(xnOSStrLen(pStr) + 1, sizeof(field.data));

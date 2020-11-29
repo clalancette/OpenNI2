@@ -41,13 +41,13 @@
 class XnDeviceModule
 {
 public:
-	XnDeviceModule(const XnChar* strName);
+	XnDeviceModule(const char* strName);
 	virtual ~XnDeviceModule();
 
 	virtual XnStatus Init();
 	virtual XnStatus Free();
 
-	inline const XnChar* GetName() const { return m_strName; }
+	inline const char* GetName() const { return m_strName; }
 
 	XnStatus AddProperty(XnProperty* pProperty);
 	XnStatus AddProperties(XnProperty** apProperties, uint32_t nCount);
@@ -59,19 +59,19 @@ public:
 
 	virtual XnStatus GetProperty(uint32_t propertyId, uint64_t* pnValue) const;
 	virtual XnStatus GetProperty(uint32_t propertyId, double* pdValue) const;
-	virtual XnStatus GetProperty(uint32_t propertyId, XnChar* csValue) const;
+	virtual XnStatus GetProperty(uint32_t propertyId, char* csValue) const;
 	virtual XnStatus GetProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue) const;
 	virtual XnStatus GetProperty(uint32_t propertyId, void* data, int* pDataSize) const;
 
 	virtual XnStatus SetProperty(uint32_t propertyId, uint64_t nValue);
 	virtual XnStatus SetProperty(uint32_t propertyId, double dValue);
-	virtual XnStatus SetProperty(uint32_t propertyId, const XnChar* strValue);
+	virtual XnStatus SetProperty(uint32_t propertyId, const char* strValue);
 	virtual XnStatus SetProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue);
 	virtual XnStatus SetProperty(uint32_t propertyId, const void* data, int dataSize);
 
 	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, uint64_t nValue);
 	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, double dValue);
-	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, const XnChar* strValue);
+	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, const char* strValue);
 	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue);
 
 	XnStatus GetAllProperties(XnPropertySet* pSet) const;
@@ -82,7 +82,7 @@ public:
 	/**
 	* Reads values for all properties in module from an INI file.
 	*/
-	XnStatus LoadConfigFromFile(const XnChar* csINIFilePath, const XnChar* strSectionName = NULL);
+	XnStatus LoadConfigFromFile(const char* csINIFilePath, const char* strSectionName = NULL);
 
 	virtual XnStatus BatchConfig(const XnActualPropertiesHash& props);
 	virtual XnStatus UnsafeBatchConfig(const XnActualPropertiesHash& props);
@@ -99,7 +99,7 @@ private:
 
 	static XnStatus XN_CALLBACK_TYPE SetLockStateCallback(XnActualIntProperty* pSender, uint64_t nValue, void* pCookie);
 
-	XnChar m_strName[XN_DEVICE_MAX_STRING_LENGTH];
+	char m_strName[XN_DEVICE_MAX_STRING_LENGTH];
 
 	XnPropertiesHash m_Properties;
 	XnActualIntProperty m_Lock;

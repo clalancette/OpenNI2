@@ -36,7 +36,7 @@
  *
  * @return A string representation of the Xiron status.
  */
-XN_C_API const XnChar* XN_C_DECL xnGetStatusString(XnStatus status);
+XN_C_API const char* XN_C_DECL xnGetStatusString(XnStatus status);
 
 /**
  * Gets the name of a Xiron Status as a string.
@@ -45,7 +45,7 @@ XN_C_API const XnChar* XN_C_DECL xnGetStatusString(XnStatus status);
  *
  * @return A string representation of the Xiron status name.
  */
-XN_C_API const XnChar* XN_C_DECL xnGetStatusName(XnStatus status);
+XN_C_API const char* XN_C_DECL xnGetStatusName(XnStatus status);
 
 /**
  * Prints a user message with a description of the error.
@@ -54,7 +54,7 @@ XN_C_API const XnChar* XN_C_DECL xnGetStatusName(XnStatus status);
  * @param	csUserMessage	[in]	A user message.
  *
  */
-XN_C_API void XN_C_DECL xnPrintError(XnStatus status, const XnChar* csUserMessage);
+XN_C_API void XN_C_DECL xnPrintError(XnStatus status, const char* csUserMessage);
 
 //---------------------------------------------------------------------------
 // Enums

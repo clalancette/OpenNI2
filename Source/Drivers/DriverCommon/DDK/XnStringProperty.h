@@ -36,24 +36,24 @@
 class XnStringProperty : public XnProperty
 {
 public:
-	XnStringProperty(uint32_t propertyId, const XnChar* strName, XnChar* pValueHolder, const XnChar* strModule = "");
+	XnStringProperty(uint32_t propertyId, const char* strName, char* pValueHolder, const char* strModule = "");
 
-	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnStringProperty* pSender, const XnChar* strValue, void* pCookie);
-	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnStringProperty* pSender, XnChar* csValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnStringProperty* pSender, const char* strValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnStringProperty* pSender, char* csValue, void* pCookie);
 
-	inline XnStatus SetValue(const XnChar* strValue)
+	inline XnStatus SetValue(const char* strValue)
 	{
 		XN_VALIDATE_INPUT_PTR(strValue);
 		return XnProperty::SetValue(strValue);
 	}
 
-	inline XnStatus GetValue(XnChar* csValue) const
+	inline XnStatus GetValue(char* csValue) const
 	{
 		XN_VALIDATE_INPUT_PTR(csValue);
 		return XnProperty::GetValue(csValue);
 	}
 
-	inline XnStatus UnsafeUpdateValue(const XnChar* strValue)
+	inline XnStatus UnsafeUpdateValue(const char* strValue)
 	{
 		XN_VALIDATE_INPUT_PTR(strValue);
 		return XnProperty::UnsafeUpdateValue(strValue);
@@ -73,7 +73,7 @@ public:
 
 	bool IsReadOnly() const override { return (m_pGetCallback == NULL); }
 
-	XnStatus ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection) override;
+	XnStatus ReadValueFromFile(const char* csINIFile, const char* csSection) override;
 
 	XnStatus AddToPropertySet(XnPropertySet* pSet) override;
 
@@ -85,7 +85,7 @@ protected:
 	virtual bool IsEqual(const void* pValue1, const void* pValue2) const override;
 	virtual XnStatus CallSetCallback(const void* pValue) override;
 	virtual XnStatus CallGetCallback(void* pValue) const override;
-	virtual bool ConvertValueToString(XnChar* csValue, const void* pValue) const override;
+	virtual bool ConvertValueToString(char* csValue, const void* pValue) const override;
 
 private:
 	// Set callback

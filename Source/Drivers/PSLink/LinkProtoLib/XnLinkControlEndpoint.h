@@ -71,15 +71,15 @@ public:
 	XnStatus GetFWVersion(XnLinkDetailedVersion& version);
 	XnStatus GetProtocolVersion(XnLeanVersion& version);
 	XnStatus GetHardwareVersion(uint32_t& version);
-	XnStatus GetSerialNumber(XnChar* strSerialNumber, uint32_t nSize);
+	XnStatus GetSerialNumber(char* strSerialNumber, uint32_t nSize);
 	XnStatus GetComponentsVersions(std::vector<XnComponentVersion>& components);
 	XnStatus GetSupportedMsgTypes(std::vector<xnl::BitSet>& supportedMsgTypes);
 	XnStatus GetSupportedProperties(std::vector<xnl::BitSet>& supportedProperties);
 	XnStatus GetSupportedInterfaces(uint16_t nStreamID, xnl::BitSet& supportedInterfaces);
 	XnStatus GetBootStatus(XnBootStatus& bootStatus);
-	XnStatus UploadFile(const XnChar* strFileName, bool bOverrideFactorySettings);
+	XnStatus UploadFile(const char* strFileName, bool bOverrideFactorySettings);
 	XnStatus GetFileList(std::vector<XnFwFileEntry>& files);
-	XnStatus DownloadFile(uint16_t zone, const XnChar* fwFileName, const XnChar* targetFile);
+	XnStatus DownloadFile(uint16_t zone, const char* fwFileName, const char* targetFile);
 	XnStatus StartStreaming(uint16_t nStreamID);
 	XnStatus StopStreaming(uint16_t nStreamID);
 	XnStatus SoftReset();
@@ -101,7 +101,7 @@ public:
 	XnStatus GetVideoMode(uint16_t nStreamID, XnFwStreamVideoMode& videoMode);
 	XnStatus GetSupportedVideoModes(uint16_t nStreamID, std::vector<XnFwStreamVideoMode>& supportedVideoModes);
 	XnStatus EnumerateStreams(std::vector<XnFwStreamInfo>& aStreamInfos);
-	XnStatus CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID);
+	XnStatus CreateInputStream(XnStreamType streamType, const char* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID);
 	XnStatus DestroyInputStream(uint16_t nStreamID);
 	XnStatus SetCropping(uint16_t nStreamID, const OniCropping& cropping);
 	XnStatus GetCropping(uint16_t nStreamID, OniCropping& cropping);
@@ -137,7 +137,7 @@ public:
 private:
 	static const uint16_t BASE_PACKET_ID;
 	static const uint16_t MAX_RESPONSE_NUM_PACKETS; //Max number of packets in response
-	static const XnChar MUTEX_NAME[];
+	static const char MUTEX_NAME[];
 
 	XnStatus GetLogicalMaxPacketSize(uint16_t& nMaxPacketSize);
 
@@ -167,8 +167,8 @@ private:
 	XnStatus GetIntProperty(uint16_t nStreamID, XnLinkPropID propID, uint64_t& nValue);
 	XnStatus SetRealProperty(uint16_t nStreamID, XnLinkPropID propID, double dValue);
 	XnStatus GetRealProperty(uint16_t nStreamID, XnLinkPropID propID, double& dValue);
-	XnStatus SetStringProperty(uint16_t nStreamID, XnLinkPropID propID, const XnChar* strValue);
-	XnStatus GetStringProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t nSize, XnChar* strValue);
+	XnStatus SetStringProperty(uint16_t nStreamID, XnLinkPropID propID, const char* strValue);
+	XnStatus GetStringProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t nSize, char* strValue);
 	XnStatus SetGeneralProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t nSize, const void* pSource);
 	//nSize is max size on input, actual size on output
 	XnStatus GetGeneralProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t& nSize, void* pDest);

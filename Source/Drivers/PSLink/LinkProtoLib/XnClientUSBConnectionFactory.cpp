@@ -53,7 +53,7 @@ ClientUSBConnectionFactory::~ClientUSBConnectionFactory()
 	Shutdown();
 }
 
-XnStatus ClientUSBConnectionFactory::Init(const XnChar* strConnString)
+XnStatus ClientUSBConnectionFactory::Init(const char* strConnString)
 {
 	XnStatus nRetVal = xnUSBInit();
 	XN_IS_STATUS_OK_LOG_ERROR("Initialize USB", nRetVal);

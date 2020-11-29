@@ -48,7 +48,7 @@ void XnLogFileWriter::WriteEntry(const XnLogEntry* pEntry)
 
 	// write timestamp and severity
 	const uint32_t nMaxMessageSize = 2047;
-	XnChar strBuffer[nMaxMessageSize + 1];
+	char strBuffer[nMaxMessageSize + 1];
 
 	uint32_t nMessageLen = 0;
 	uint32_t nChars = 0;
@@ -58,7 +58,7 @@ void XnLogFileWriter::WriteEntry(const XnLogEntry* pEntry)
 	if (m_bWriteLineInfo)
 	{
 		// write line info
-		XnChar fileName[XN_FILE_MAX_PATH];
+		char fileName[XN_FILE_MAX_PATH];
 		XnStatus nRetVal = xnOSGetFileName(pEntry->strFile, fileName, sizeof(fileName));
 		if (nRetVal == XN_STATUS_OK)
 		{
@@ -73,7 +73,7 @@ void XnLogFileWriter::WriteEntry(const XnLogEntry* pEntry)
 	xnOSWriteFile(m_fLogFile, strBuffer, nMessageLen);
 }
 
-void XnLogFileWriter::WriteUnformatted(const XnChar* strMessage)
+void XnLogFileWriter::WriteUnformatted(const char* strMessage)
 {
 	xnOSWriteFile(m_fLogFile, strMessage, xnOSStrLen(strMessage) + 1);
 }

@@ -50,6 +50,6 @@ void XnNesaDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHead
 		m_Dump = xnDumpFileOpenEx("NesaDebug", true, true, "NesaDebug.txt");
 	}
 
-	xnDumpFileWriteString(m_Dump, "%S\n", (XnChar*)pData);
+	xnDumpFileWriteString(m_Dump, "%S\n", (char*)pData);
 	printf("%S\n", (wchar_t*)pData);
 }

@@ -42,7 +42,7 @@ struct XnPropertySetEnumerator
 	bool bFirst;
 	XnPropertySetData* pModules;
 	XnPropertySetData::ConstIterator itModule;
-	XnChar strModule[XN_DEVICE_MAX_STRING_LENGTH];
+	char strModule[XN_DEVICE_MAX_STRING_LENGTH];
 	XnActualPropertiesHash::ConstIterator itProp;
 };
 
@@ -104,7 +104,7 @@ XnStatus XnPropertySetClear(XnPropertySet* pSet)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetAddModule(XnPropertySet* pSet, const XnChar* strModuleName)
+XnStatus XnPropertySetAddModule(XnPropertySet* pSet, const char* strModuleName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -133,7 +133,7 @@ XnStatus XnPropertySetAddModule(XnPropertySet* pSet, const XnChar* strModuleName
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetRemoveModule(XnPropertySet* pSet, const XnChar* strModuleName)
+XnStatus XnPropertySetRemoveModule(XnPropertySet* pSet, const char* strModuleName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -150,7 +150,7 @@ XnStatus XnPropertySetRemoveModule(XnPropertySet* pSet, const XnChar* strModuleN
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, uint64_t nValue)
+XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const char* strModuleName, uint32_t propertyId, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -169,7 +169,7 @@ XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModul
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, double dValue)
+XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const char* strModuleName, uint32_t propertyId, double dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -188,7 +188,7 @@ XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const XnChar* strModu
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetAddStringProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, const XnChar* strValue)
+XnStatus XnPropertySetAddStringProperty(XnPropertySet* pSet, const char* strModuleName, uint32_t propertyId, const char* strValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -208,7 +208,7 @@ XnStatus XnPropertySetAddStringProperty(XnPropertySet* pSet, const XnChar* strMo
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetAddGeneralProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, const OniGeneralBuffer* pgbValue)
+XnStatus XnPropertySetAddGeneralProperty(XnPropertySet* pSet, const char* strModuleName, uint32_t propertyId, const OniGeneralBuffer* pgbValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -228,7 +228,7 @@ XnStatus XnPropertySetAddGeneralProperty(XnPropertySet* pSet, const XnChar* strM
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetRemoveProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId)
+XnStatus XnPropertySetRemoveProperty(XnPropertySet* pSet, const char* strModuleName, uint32_t propertyId)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -299,7 +299,7 @@ XnStatus XnPropertySetModuleEnumeratorMoveNext(XnPropertySetModuleEnumerator* pE
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetModuleEnumeratorGetCurrent(const XnPropertySetModuleEnumerator* pEnumer, const XnChar** pstrModuleName)
+XnStatus XnPropertySetModuleEnumeratorGetCurrent(const XnPropertySetModuleEnumerator* pEnumer, const char** pstrModuleName)
 {
 	XN_VALIDATE_INPUT_PTR(pEnumer);
 	XN_VALIDATE_OUTPUT_PTR(pstrModuleName);
@@ -314,7 +314,7 @@ XnStatus XnPropertySetModuleEnumeratorGetCurrent(const XnPropertySetModuleEnumer
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetGetEnumerator(const XnPropertySet* pSet, XnPropertySetEnumerator** ppEnumerator, const XnChar* strModule /* = NULL */)
+XnStatus XnPropertySetGetEnumerator(const XnPropertySet* pSet, XnPropertySetEnumerator** ppEnumerator, const char* strModule /* = NULL */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -349,7 +349,7 @@ XnStatus XnPropertySetGetEnumerator(const XnPropertySet* pSet, XnPropertySetEnum
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetFindProperty(const XnPropertySet* pSet, const XnChar* strModule, uint32_t propertyId, XnPropertySetEnumerator** ppEnumerator)
+XnStatus XnPropertySetFindProperty(const XnPropertySet* pSet, const char* strModule, uint32_t propertyId, XnPropertySetEnumerator** ppEnumerator)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -496,7 +496,7 @@ XnStatus XnPropertySetEnumeratorMoveNext(XnPropertySetEnumerator* pEnumerator, b
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetEnumeratorGetCurrentPropertyInfo(const XnPropertySetEnumerator* pEnumerator, XnPropertyType* pnType, const XnChar** pstrModule, const XnChar** pstrProp)
+XnStatus XnPropertySetEnumeratorGetCurrentPropertyInfo(const XnPropertySetEnumerator* pEnumerator, XnPropertyType* pnType, const char** pstrModule, const char** pstrProp)
 {
 	XN_VALIDATE_INPUT_PTR(pEnumerator);
 	XN_VALIDATE_OUTPUT_PTR(pnType);
@@ -545,7 +545,7 @@ XnStatus XnPropertySetEnumeratorGetRealValue(const XnPropertySetEnumerator* pEnu
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetEnumeratorGetStringValue(const XnPropertySetEnumerator* pEnumerator, const XnChar** pstrValue)
+XnStatus XnPropertySetEnumeratorGetStringValue(const XnPropertySetEnumerator* pEnumerator, const char** pstrValue)
 {
 	XN_VALIDATE_INPUT_PTR(pEnumerator);
 	XN_VALIDATE_OUTPUT_PTR(pstrValue);
@@ -579,7 +579,7 @@ XnStatus XnPropertySetEnumeratorGetGeneralValue(const XnPropertySetEnumerator* p
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetDataAttachModule(XnPropertySetData* pSetData, const XnChar* strModuleName, XnActualPropertiesHash* pModule)
+XnStatus XnPropertySetDataAttachModule(XnPropertySetData* pSetData, const char* strModuleName, XnActualPropertiesHash* pModule)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -593,7 +593,7 @@ XnStatus XnPropertySetDataAttachModule(XnPropertySetData* pSetData, const XnChar
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetDataDetachModule(XnPropertySetData* pSetData, const XnChar* strModuleName, XnActualPropertiesHash** ppModule)
+XnStatus XnPropertySetDataDetachModule(XnPropertySetData* pSetData, const char* strModuleName, XnActualPropertiesHash** ppModule)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -616,7 +616,7 @@ XnStatus XnPropertySetDataDetachModule(XnPropertySetData* pSetData, const XnChar
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetCloneModule(const XnPropertySet* pSource, XnPropertySet* pDest, const XnChar* strModule, const XnChar* strNewName)
+XnStatus XnPropertySetCloneModule(const XnPropertySet* pSource, XnPropertySet* pDest, const char* strModule, const char* strNewName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

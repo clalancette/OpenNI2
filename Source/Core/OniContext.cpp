@@ -90,7 +90,7 @@ XnStatus Context::resolvePathToOpenNI()
 {
 	XnStatus rc = XN_STATUS_OK;
 
-	XnChar strModulePath[XN_FILE_MAX_PATH];
+	char strModulePath[XN_FILE_MAX_PATH];
 	rc = xnOSGetModulePathForProcAddress(reinterpret_cast<void*>(&dummyFunctionToTakeAddress), strModulePath);
 	if (rc != XN_STATUS_OK)
 	{
@@ -130,7 +130,7 @@ XnStatus Context::resolveConfigurationFile(char* strOniConfigurationFile)
 
 XnStatus Context::configure()
 {
-	XnChar strOniConfigurationFile[XN_FILE_MAX_PATH];
+	char strOniConfigurationFile[XN_FILE_MAX_PATH];
 	XnStatus rc = resolveConfigurationFile(strOniConfigurationFile);
 	if (rc != XN_STATUS_OK)
 	{
@@ -158,7 +158,7 @@ XnStatus Context::configure()
 		xnLogWarning(XN_MASK_ONI_CONTEXT, "Device will be overridden with '%s'", m_overrideDevice);
 	}
 
-	XnChar autoRecordingName[XN_FILE_MAX_PATH];
+	char autoRecordingName[XN_FILE_MAX_PATH];
 	rc = xnOSReadStringFromINI(strOniConfigurationFile, "Device", "RecordTo", autoRecordingName, XN_FILE_MAX_PATH);
 	if (rc == XN_STATUS_OK)
 	{
@@ -169,13 +169,13 @@ XnStatus Context::configure()
 		}
 	}
 
-	XnChar strRepo[XN_FILE_MAX_PATH];
+	char strRepo[XN_FILE_MAX_PATH];
 	strRepo[0] = '\0';
 
 	xnOSStrCopy(strRepo, ONI_DEFAULT_DRIVERS_REPOSITORY, sizeof(strRepo));
 
 	// check if repo was overridden
-	XnChar strTemp[XN_INI_MAX_LEN];
+	char strTemp[XN_INI_MAX_LEN];
 	rc = xnOSReadStringFromINI(strOniConfigurationFile, "Drivers", "Repository", strTemp, sizeof(strTemp));
 	if (rc == XN_STATUS_OK)
 	{
@@ -193,7 +193,7 @@ XnStatus Context::configure()
 	}
 
 	// check if driver list is overridden
-	XnChar strDriversList[2048];
+	char strDriversList[2048];
 	rc = xnOSReadStringFromINI(strOniConfigurationFile, "Drivers", "List", strDriversList, sizeof(strDriversList));
 	if (rc == XN_STATUS_OK)
 	{
@@ -203,7 +203,7 @@ XnStatus Context::configure()
 		std::string driver(XN_FILE_MAX_PATH, '\0');
 		int driverLen = 0;
 
-		for (XnChar* c = strDriversList; ; ++c)
+		for (char* c = strDriversList; ; ++c)
 		{
 			if (*c == ',' || *c == '\0')
 			{
@@ -236,7 +236,7 @@ XnStatus Context::loadLibraries()
 	{
 		// search repo for drivers
 		int32_t nFileCount = 0;
-		XnChar cpSearchString[XN_FILE_MAX_PATH] = "";
+		char cpSearchString[XN_FILE_MAX_PATH] = "";
 
 		xnLogVerbose(XN_MASK_ONI_CONTEXT, "Looking for drivers at '%s'", m_driverRepo);
 
@@ -257,7 +257,7 @@ XnStatus Context::loadLibraries()
 
 		m_driversList.resize(nFileCount);
 
-		typedef XnChar MyFileName[XN_FILE_MAX_PATH];
+		typedef char MyFileName[XN_FILE_MAX_PATH];
 		MyFileName* acsFileList = XN_NEW_ARR(MyFileName, nFileCount);
 
 		nRetVal = xnOSGetFileList(cpSearchString, NULL, acsFileList, nFileCount, &nFileCount);
@@ -272,7 +272,7 @@ XnStatus Context::loadLibraries()
 	}
 
 	// Save directory
-	XnChar workingDir[XN_FILE_MAX_PATH];
+	char workingDir[XN_FILE_MAX_PATH];
 	xnOSGetCurrentDir(workingDir, XN_FILE_MAX_PATH);
 	// Change directory
 	xnOSSetCurrentDir(m_driverRepo);
@@ -1115,7 +1115,7 @@ void Context::clearErrorLogger()
 	m_errorLogger.Clear();
 }
 
-void Context::addToLogger(const XnChar* cpFormat, ...)
+void Context::addToLogger(const char* cpFormat, ...)
 {
 	va_list args;
 	va_start(args, cpFormat);
@@ -1137,7 +1137,7 @@ void Context::onNewFrame()
 
 	if (nNow != m_lastFPSPrint)
 	{
-		XnChar fpsInfo[2048] = "";
+		char fpsInfo[2048] = "";
 		uint32_t written = 0;
 		uint32_t writtenNow = 0;
 		xnOSStrFormat(fpsInfo + written, sizeof(fpsInfo) - written, &writtenNow, "[FPS] ");

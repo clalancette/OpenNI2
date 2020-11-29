@@ -44,9 +44,9 @@ public:
 	XnStatus Init();
 	void Shutdown();
 
-	void RegisterStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t nStreamID);
+	void RegisterStreamOfType(XnStreamType streamType, const char* strCreationInfo, uint16_t nStreamID);
 	bool UnregisterStream(uint16_t nStreamID); // returns true if the unregistered stream was the last one
-	bool HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID);
+	bool HasStreamOfType(XnStreamType streamType, const char* strCreationInfo, uint16_t& nStreamID);
 
 	XnStatus InitInputStream(LinkControlEndpoint* pLinkControlEndpoint,
 					XnStreamType streamType,
@@ -62,7 +62,7 @@ public:
 
 private:
 	void HandlePacket(const LinkPacketHeader* pLinkPacketHeader);
-	int FindStreamByType(XnStreamType streamType, const XnChar* strCreationInfo); //returns found streamId, or -1
+	int FindStreamByType(XnStreamType streamType, const char* strCreationInfo); //returns found streamId, or -1
 
 	static const uint32_t FRAG_FLAGS_ALLOWED_CHANGES[4][4];
 	static const uint16_t INITIAL_PACKET_ID;
@@ -77,7 +77,7 @@ private:
 		bool packetLoss;
 
 		XnStreamType streamType;
-		const XnChar* strCreationInfo;
+		const char* strCreationInfo;
 		int refCount;
 	};
 

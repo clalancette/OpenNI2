@@ -36,9 +36,9 @@ public:
 	static ErrorLogger& GetInstance();
 	void Clear();
 
-	void Append(const XnChar* cpFormat, ...);
+	void Append(const char* cpFormat, ...);
 
-	void AppendV(const XnChar* cpFormat, va_list args);
+	void AppendV(const char* cpFormat, va_list args);
 
 	const char* GetExtendedError() {return getBuffer()->m_errorBuffer;}
 protected:

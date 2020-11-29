@@ -50,7 +50,7 @@ public:
 	virtual ~PrimeClient();
 
 	/* Initialization and shutdown */
-	virtual XnStatus Init(const XnChar* strConnString, XnTransportType transportType);
+	virtual XnStatus Init(const char* strConnString, XnTransportType transportType);
 	virtual void Shutdown();
 	virtual bool IsInitialized() const;
 	virtual XnStatus Connect();
@@ -61,9 +61,9 @@ public:
 	virtual const XnDetailedVersion& GetFWVersion() const;
 	virtual uint32_t GetHWVersion() const;
 	virtual const XnLeanVersion& GetDeviceProtocolVersion() const;
-	virtual const XnChar* GetSerialNumber() const;
+	virtual const char* GetSerialNumber() const;
 	virtual XnStatus GetComponentsVersions(std::vector<XnComponentVersion>& componentVersions);
-	const XnChar* GetConnectionString() const { return m_strConnectionString; }
+	const char* GetConnectionString() const { return m_strConnectionString; }
 
 	/* Global Device Commands */
 	virtual	XnStatus GetBootStatus(XnBootStatus& bootStatus);
@@ -88,7 +88,7 @@ public:
 	virtual	XnStatus CloseFWLogFile(uint8_t logID);
 	virtual XnStatus GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles);
 
-	virtual XnStatus RunPresetFile(const XnChar* strFileName);
+	virtual XnStatus RunPresetFile(const char* strFileName);
 	virtual XnStatus GetSupportedBistTests(std::vector<XnBistInfo>& supportedTests);
 	virtual XnStatus GetSupportedTempList(std::vector<XnTempInfo>& supportedTempList);
 	virtual XnStatus GetTemperature(XnCommandTemperatureResponse& temp);
@@ -99,7 +99,7 @@ public:
 	/* Stream Management */
 	virtual XnStatus EnumerateStreams(std::vector<XnFwStreamInfo>& aStreamInfos);
 	virtual XnStatus EnumerateStreams(XnStreamType streamType, std::vector<XnFwStreamInfo>& aStreamInfos);
-	virtual XnStatus CreateInputStream(XnStreamType nodeType, const XnChar* strCreationInfo, uint16_t& nStreamID);
+	virtual XnStatus CreateInputStream(XnStreamType nodeType, const char* strCreationInfo, uint16_t& nStreamID);
 
 	virtual XnStatus DestroyInputStream(uint16_t nStreamID);
 	virtual LinkInputStream* GetInputStream(uint16_t nStreamID);
@@ -115,9 +115,9 @@ public:
 
 	virtual	XnStatus BeginUploadFileOnControlEP();
 	virtual	XnStatus EndUploadFileOnControlEP();
-	virtual XnStatus UploadFileOnControlEP(const XnChar* strFileName, bool bOverrideFactorySettings);
+	virtual XnStatus UploadFileOnControlEP(const char* strFileName, bool bOverrideFactorySettings);
 	virtual XnStatus GetFileList(std::vector<XnFwFileEntry>& files);
-	virtual XnStatus DownloadFile(uint16_t zone, const XnChar* strFirmwareFileName, const XnChar* strTargetFile);
+	virtual XnStatus DownloadFile(uint16_t zone, const char* strFirmwareFileName, const char* strTargetFile);
 
 	virtual XnStatus EnableProjectorPulse(float delay, float width, float cycle);
 	virtual XnStatus DisableProjectorPulse();
@@ -131,7 +131,7 @@ protected:
 	virtual XnStatus ConnectOutputDataEndpoint();
 	virtual IConnectionFactory* CreateConnectionFactory(XnTransportType transportType) = 0;
 	void LogVersions();
-	XnStatus CreateInputStreamImpl(XnLinkStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID);
+	XnStatus CreateInputStreamImpl(XnLinkStreamType streamType, const char* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID);
 	bool IsPropertySupported(uint16_t propID);
 	LinkControlEndpoint m_linkControlEndpoint;
 	LinkOutputDataEndpoint m_outputDataEndpoint;
@@ -147,13 +147,13 @@ private:
 	volatile bool m_bConnected;
 	std::vector<LinkInputDataEndpoint> m_inputDataEndpoints;
 	uint16_t m_nFWLogStreamID;
-	XnChar m_strConnectionString[XN_FILE_MAX_PATH];
+	char m_strConnectionString[XN_FILE_MAX_PATH];
 
 	std::vector<xnl::BitSet> m_supportedProps;
 	XnDetailedVersion m_fwVersion;
 	XnLeanVersion m_protocolVersion;
 	uint32_t m_nHWVersion;
-	XnChar m_strSerialNumber[XN_SERIAL_NUMBER_SIZE];
+	char m_strSerialNumber[XN_SERIAL_NUMBER_SIZE];
 };
 
 }

@@ -64,7 +64,7 @@ typedef struct
 	uint32_t propertyId;
 
 	// Name of the property.
-	XnChar propertyName[40];
+	char propertyName[40];
 
 } PropertyEntry;
 
@@ -107,12 +107,12 @@ static PropertyEntry PSLinkPropertyList[] =
 	{ LINK_PROP_DEPTH_TO_SHIFT_TABLE,		"D2S" },
 };
 
-XnStatus PlayerDevice::ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32_t nBufSize, const XnChar* strConfigDir)
+XnStatus PlayerDevice::ResolveGlobalConfigFileName(char* strConfigFile, uint32_t nBufSize, const char* strConfigDir)
 {
 	XnStatus rc = XN_STATUS_OK;
 
 	// If strConfigDir is NULL, tries to resolve the config file based on the driver's directory
-	XnChar strBaseDir[XN_FILE_MAX_PATH];
+	char strBaseDir[XN_FILE_MAX_PATH];
 	if (strConfigDir == NULL)
 	{
 		if (xnOSGetModulePathForProcAddress((void*)(&PlayerDevice::ResolveGlobalConfigFileName), strBaseDir) == XN_STATUS_OK &&
@@ -534,7 +534,7 @@ bool PlayerDevice::isCommandSupported(int commandId)
 	return commandId == ONI_DEVICE_COMMAND_SEEK;
 }
 
-PlayerSource* PlayerDevice::FindSource(const XnChar* strNodeName)
+PlayerSource* PlayerDevice::FindSource(const char* strNodeName)
 {
 	xnl::AutoCSLocker lock(m_cs);
 
@@ -689,7 +689,7 @@ void ONI_CALLBACK_TYPE PlayerDevice::StreamDestroyCallback(const PlayerStream::D
 	}
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeAdded(void* pCookie, const XnChar* strNodeName, XnProductionNodeType type, XnCodecID /*compression*/, uint32_t nNumberOfFrames)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeAdded(void* pCookie, const char* strNodeName, XnProductionNodeType type, XnCodecID /*compression*/, uint32_t nNumberOfFrames)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 
@@ -740,13 +740,13 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeAdded(void* pCookie, const XnChar*
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeRemoved(void* /*pCookie*/, const XnChar* /*strNodeName*/)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeRemoved(void* /*pCookie*/, const char* /*strNodeName*/)
 {
 	// Do not remove the node (sensors can't disappear)
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeIntPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, uint64_t nValue)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeIntPropChanged(void* pCookie, const char* strNodeName, const char* strPropName, uint64_t nValue)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -853,7 +853,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeIntPropChanged(void* pCookie, cons
 	return nRetVal;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeRealPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, double dValue)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeRealPropChanged(void* pCookie, const char* strNodeName, const char* strPropName, double dValue)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -868,7 +868,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeRealPropChanged(void* pCookie, con
 	return nRetVal;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeStringPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, const XnChar* strValue)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeStringPropChanged(void* pCookie, const char* strNodeName, const char* strPropName, const char* strValue)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -883,7 +883,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeStringPropChanged(void* pCookie, c
 	return nRetVal;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeGeneralPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeGeneralPropChanged(void* pCookie, const char* strNodeName, const char* strPropName, uint32_t nBufferSize, const void* pBuffer)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -1014,13 +1014,13 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeGeneralPropChanged(void* pCookie, 
 	return nRetVal;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeStateReady(void* /*pCookie*/, const XnChar* /*strNodeName*/)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeStateReady(void* /*pCookie*/, const char* /*strNodeName*/)
 {
 	// Ignore
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeNewData(void* pCookie, const XnChar* strNodeName, uint64_t nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeNewData(void* pCookie, const char* strNodeName, uint64_t nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 
@@ -1111,7 +1111,7 @@ void XN_CALLBACK_TYPE PlayerDevice::OnEndOfFileReached(void* pCookie)
 	}
 }
 
-XnStatus PlayerDevice::AddPrivateProperty(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer)
+XnStatus PlayerDevice::AddPrivateProperty(PlayerSource* pSource, const char* strPropName, uint32_t nBufferSize, const void* pBuffer)
 {
 	if (xnOSStrCmp(m_originalDevice, "PSLink") == 0)
 	{
@@ -1120,7 +1120,7 @@ XnStatus PlayerDevice::AddPrivateProperty(PlayerSource* pSource, const XnChar* s
 	return AddPrivateProperty_PS1080(pSource, strPropName, nBufferSize, pBuffer);
 }
 
-XnStatus PlayerDevice::AddPrivateProperty_PSLink(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer)
+XnStatus PlayerDevice::AddPrivateProperty_PSLink(PlayerSource* pSource, const char* strPropName, uint32_t nBufferSize, const void* pBuffer)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1141,7 +1141,7 @@ XnStatus PlayerDevice::AddPrivateProperty_PSLink(PlayerSource* pSource, const Xn
 
 	return nRetVal;
 }
-XnStatus PlayerDevice::AddPrivateProperty_PS1080(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer)
+XnStatus PlayerDevice::AddPrivateProperty_PS1080(PlayerSource* pSource, const char* strPropName, uint32_t nBufferSize, const void* pBuffer)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

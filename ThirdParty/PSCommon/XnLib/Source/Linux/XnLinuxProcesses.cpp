@@ -45,11 +45,11 @@ XN_C_API XnStatus xnOSGetCurrentProcessID(XN_PROCESS_ID* pProcID)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, uint32_t nArgs, const XnChar** pstrArgs, XN_PROCESS_ID* pProcID)
+XN_C_API XnStatus xnOSCreateProcess(const char* strExecutable, uint32_t nArgs, const char** pstrArgs, XN_PROCESS_ID* pProcID)
 {
 	// NOTE: execv, for some weird reason, accepts the arguments as non-const strings, but in the documentation
 	// it is explicitly stated that it does not change anything, so we can just use const_cast for it.
-	XnChar* astrArgs[100];
+	char* astrArgs[100];
 	if (nArgs > 98)
 	{
 		xnLogWarning(XN_MASK_OS, "Too many arguments!");

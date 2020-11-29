@@ -74,7 +74,7 @@ public:
 	XnSensorIO(XN_SENSOR_HANDLE* pSensorHandle);
 	~XnSensorIO();
 
-	XnStatus OpenDevice(const XnChar* strPath);
+	XnStatus OpenDevice(const char* strPath);
 
 	XnStatus OpenDataEndPoints(XnSensorUsbInterface nInterface, const XnFirmwareInfo& fwInfo);
 
@@ -85,12 +85,12 @@ public:
 	inline bool IsMiscEndpointSupported() const { return m_bMiscSupported; }
 	inline bool IsLowBandwidth() const { return m_bIsLowBandwidth; }
 
-	const XnChar* GetDevicePath();
+	const char* GetDevicePath();
 
 private:
 	XN_SENSOR_HANDLE* m_pSensorHandle;
 	bool m_bMiscSupported;
-	XnChar m_strDeviceName[XN_DEVICE_MAX_STRING_LENGTH];
+	char m_strDeviceName[XN_DEVICE_MAX_STRING_LENGTH];
 	bool m_bIsLowBandwidth;
 };
 

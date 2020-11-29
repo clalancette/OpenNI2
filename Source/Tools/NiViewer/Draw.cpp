@@ -88,7 +88,7 @@ typedef struct
 	bool bShowMessage;
 	DrawMessageType messageType;
 	bool bHelp;
-	XnChar strErrorState[256];
+	char strErrorState[256];
 	IntRect DepthLocation;
 	IntRect ColorLocation;
 } DrawConfig;
@@ -1376,7 +1376,7 @@ void drawPointerMode(IntPair* pPointer)
 		uint64_t nCutOffMin = 0;
 		uint64_t nCutOffMax = (pDepthMD != NULL) ? g_nMaxDepth : 0;
 
-		XnChar sPointerValue[100];
+		char sPointerValue[100];
 		if (nPointerValue != g_nMaxDepth)
 		{
 			xnOSStrFormat(sPointerValue, sizeof(sPointerValue), &chars, "%.1f", (float)nPointerValue/10);
@@ -1397,8 +1397,8 @@ void drawPointerMode(IntPair* pPointer)
 void drawCenteredMessage(void* font, int y, const char* message, float fRed, float fGreen, float fBlue)
 {
 	const uint32_t nMaxLines = 5;
-	XnChar buf[512];
-	XnChar* aLines[nMaxLines];
+	char buf[512];
+	char* aLines[nMaxLines];
 	uint32_t anLinesWidths[nMaxLines];
 	uint32_t nLine = 0;
 	uint32_t nLineLengthChars = 0;

@@ -58,8 +58,8 @@
 
 typedef struct xnOSInfo
 {
-	XnChar csOSName[XN_MAX_OS_NAME_LENGTH];
-	XnChar csCPUName[XN_MAX_OS_NAME_LENGTH];
+	char csOSName[XN_MAX_OS_NAME_LENGTH];
+	char csCPUName[XN_MAX_OS_NAME_LENGTH];
 	uint32_t nProcessorsCount;
 	uint64_t nTotalMemory;
 } xnOSInfo;

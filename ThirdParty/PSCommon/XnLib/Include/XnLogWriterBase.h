@@ -82,7 +82,7 @@ public:
 	inline bool IsRegistered() { return m_bRegistered; }
 
 	virtual void WriteEntry(const XnLogEntry* pEntry) = 0;
-	virtual void WriteUnformatted(const XnChar* strMessage) = 0;
+	virtual void WriteUnformatted(const char* strMessage) = 0;
 	virtual void OnConfigurationChanged() {};
 	virtual void OnClosing()
 	{
@@ -104,7 +104,7 @@ private:
 		XnLogWriterBase* pThis = (XnLogWriterBase*)pCookie;
 		pThis->WriteEntry(pEntry);
 	}
-	static void XN_CALLBACK_TYPE WriteUnformattedCallback(const XnChar* strMessage, void* pCookie)
+	static void XN_CALLBACK_TYPE WriteUnformattedCallback(const char* strMessage, void* pCookie)
 	{
 		XnLogWriterBase* pThis = (XnLogWriterBase*)pCookie;
 		pThis->WriteUnformatted(strMessage);

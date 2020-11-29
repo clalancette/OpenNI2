@@ -32,7 +32,7 @@
 class XnWholePacketProcessor : public XnDataProcessor
 {
 public:
-	XnWholePacketProcessor(XnDevicePrivateData* pDevicePrivateData, const XnChar* csName, uint32_t nMaxPacketSize);
+	XnWholePacketProcessor(XnDevicePrivateData* pDevicePrivateData, const char* csName, uint32_t nMaxPacketSize);
 	~XnWholePacketProcessor();
 
 	XnStatus Init();

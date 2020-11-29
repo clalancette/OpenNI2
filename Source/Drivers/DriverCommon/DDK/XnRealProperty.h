@@ -36,7 +36,7 @@
 class XnRealProperty : public XnProperty
 {
 public:
-	XnRealProperty(uint32_t propertyId, const XnChar* strName, double* pValueHolder, const XnChar* strModule = "");
+	XnRealProperty(uint32_t propertyId, const char* strName, double* pValueHolder, const char* strModule = "");
 
 	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnRealProperty* pSender, double dValue, void* pCookie);
 	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnRealProperty* pSender, double* pdValue, void* pCookie);
@@ -71,7 +71,7 @@ public:
 
 	bool IsReadOnly() const override { return (m_pGetCallback == NULL); }
 
-	virtual XnStatus ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection) override;
+	virtual XnStatus ReadValueFromFile(const char* csINIFile, const char* csSection) override;
 
 	XnStatus AddToPropertySet(XnPropertySet* pSet) override;
 
@@ -83,7 +83,7 @@ protected:
 	virtual bool IsEqual(const void* pValue1, const void* pValue2) const override;
 	virtual XnStatus CallSetCallback(const void* pValue) override;
 	virtual XnStatus CallGetCallback(void* pValue) const override;
-	virtual bool ConvertValueToString(XnChar* csValue, const void* pValue) const override;
+	virtual bool ConvertValueToString(char* csValue, const void* pValue) const override;
 
 private:
 	// Set callback

@@ -51,11 +51,11 @@ union semun {
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnLinuxSysVNamedEvent::XnLinuxSysVNamedEvent(bool bManualReset, const XnChar* strName, bool bCreate) : XnLinuxNamedEvent(bManualReset, strName, bCreate)
+XnLinuxSysVNamedEvent::XnLinuxSysVNamedEvent(bool bManualReset, const char* strName, bool bCreate) : XnLinuxNamedEvent(bManualReset, strName, bCreate)
 {
 }
 
-XnStatus XnLinuxSysVNamedEvent::CreateNamed(const XnChar* strName)
+XnStatus XnLinuxSysVNamedEvent::CreateNamed(const char* strName)
 {
 	// translate event name to key file name
 	uint32_t nBytesWritten;
@@ -114,7 +114,7 @@ XnStatus XnLinuxSysVNamedEvent::CreateNamed(const XnChar* strName)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnLinuxSysVNamedEvent::OpenNamed(const XnChar* strName)
+XnStatus XnLinuxSysVNamedEvent::OpenNamed(const char* strName)
 {
 	// translate event name to key file name
 	uint32_t nBytesWritten;

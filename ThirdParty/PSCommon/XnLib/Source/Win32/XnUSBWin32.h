@@ -49,7 +49,7 @@ typedef struct XnUSBDeviceHandle
 {
 	bool bValid;
 
-	XnChar cpDeviceName[MAX_DEVICE_STR_LENGTH];
+	char cpDeviceName[MAX_DEVICE_STR_LENGTH];
 	HANDLE hUSBDevHandle;
 
 	uint8_t nAltInterface;
@@ -88,7 +88,7 @@ typedef struct xnUSBReadThreadData
 
 typedef struct XnUSBEndPointHandle
 {
-	XnChar cpPipeName[MAX_DEVICE_STR_LENGTH];
+	char cpPipeName[MAX_DEVICE_STR_LENGTH];
 
 	bool bValid;
 

@@ -37,7 +37,7 @@
 class XnPixelStream : public XnFrameStream
 {
 public:
-	XnPixelStream(const XnChar* csType, const XnChar* csName, bool bAllowCustomResolutions);
+	XnPixelStream(const char* csType, const char* csName, bool bAllowCustomResolutions);
 	~XnPixelStream() { Free(); }
 
 	//---------------------------------------------------------------------------
@@ -99,8 +99,8 @@ private:
 	class XnResolutionProperty : public XnActualIntProperty
 	{
 	public:
-		XnResolutionProperty(uint32_t propertyId, const XnChar* strName, uint64_t nInitialValue = 0, const XnChar* strModule = "");
-		bool ConvertValueToString(XnChar* csValue, const void* pValue) const;
+		XnResolutionProperty(uint32_t propertyId, const char* strName, uint64_t nInitialValue = 0, const char* strModule = "");
+		bool ConvertValueToString(char* csValue, const void* pValue) const;
 	};
 
 	XnStatus OnResolutionChanged();
@@ -115,7 +115,7 @@ private:
 	static XnStatus XN_CALLBACK_TYPE ResolutionValueChangedCallback(const XnProperty* pSenser, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE OutputFormatValueChangedCallback(const XnProperty* pSenser, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE FixCroppingCallback(const XnProperty* pSenser, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE ReadCroppingFromFileCallback(XnGeneralProperty* pSender, const XnChar* csINIFile, const XnChar* csSection);
+	static XnStatus XN_CALLBACK_TYPE ReadCroppingFromFileCallback(XnGeneralProperty* pSender, const char* csINIFile, const char* csSection);
 	static XnStatus XN_CALLBACK_TYPE GetSupportedModesCallback(const XnGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
 	//---------------------------------------------------------------------------
 	// Members

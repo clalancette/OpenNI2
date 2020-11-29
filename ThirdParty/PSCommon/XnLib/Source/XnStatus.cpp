@@ -113,7 +113,7 @@ XN_C_API XnStatus xnRegisterErrorCodeMessages(uint16_t nGroup, uint16_t nFirst, 
 	return XN_STATUS_OK;
 }
 
-XN_C_API const XnChar* xnGetStatusString(const XnStatus Status)
+XN_C_API const char* xnGetStatusString(const XnStatus Status)
 {
 	XnErrorCodeData* pErrorData = xnGetErrorCodeData(Status);
 	if (pErrorData == NULL)
@@ -127,7 +127,7 @@ XN_C_API const XnChar* xnGetStatusString(const XnStatus Status)
 	}
 }
 
-XN_C_API const XnChar* xnGetStatusName(const XnStatus Status)
+XN_C_API const char* xnGetStatusName(const XnStatus Status)
 {
 	XnErrorCodeData* pErrorData = xnGetErrorCodeData(Status);
 	if (pErrorData == NULL)
@@ -141,7 +141,7 @@ XN_C_API const XnChar* xnGetStatusName(const XnStatus Status)
 	}
 }
 
-XN_C_API void xnPrintError(const XnStatus Status, const XnChar* csUserMessage)
+XN_C_API void xnPrintError(const XnStatus Status, const char* csUserMessage)
 {
 	printf("%s: %s\n", csUserMessage, xnGetStatusString(Status));
 }

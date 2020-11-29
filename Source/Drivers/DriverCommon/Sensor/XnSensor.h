@@ -52,7 +52,7 @@ public:
 	virtual XnStatus InitImpl(const XnDeviceConfig* pDeviceConfig);
 	virtual XnStatus Destroy();
 	virtual XnStatus OpenAllStreams();
-	virtual XnStatus LoadConfigFromFile(const XnChar* csINIFilePath, const XnChar* csSectionName);
+	virtual XnStatus LoadConfigFromFile(const char* csINIFilePath, const char* csSectionName);
 
 public:
 	inline XnSensorFixedParams* GetFixedParams() { return GetFirmware()->GetFixedParams(); }
@@ -63,14 +63,14 @@ public:
 
 	inline XnDevicePrivateData* GetDevicePrivateData() { return &m_DevicePrivateData; }
 
-	XnStatus ConfigPropertyFromFile(XnStringProperty* pProperty, const XnChar* csINIFilePath, const XnChar* csSectionName);
-	XnStatus ConfigPropertyFromFile(XnIntProperty* pProperty, const XnChar* csINIFilePath, const XnChar* csSectionName);
+	XnStatus ConfigPropertyFromFile(XnStringProperty* pProperty, const char* csINIFilePath, const char* csSectionName);
+	XnStatus ConfigPropertyFromFile(XnIntProperty* pProperty, const char* csINIFilePath, const char* csSectionName);
 
 	inline bool IsMiscSupported() const { return m_SensorIO.IsMiscEndpointSupported(); }
 	inline bool IsLowBandwidth() const { return m_SensorIO.IsLowBandwidth(); }
 	inline XnSensorUsbInterface GetCurrentUsbInterface() const { return m_SensorIO.GetCurrentInterface(*m_Firmware.GetInfo()); }
 
-	XnStatus GetStream(const XnChar* strStream, XnDeviceStream** ppStream);
+	XnStatus GetStream(const char* strStream, XnDeviceStream** ppStream);
 
 	inline XnStatus GetErrorState() { return (XnStatus)m_ErrorState.GetValue(); }
 	XnStatus SetErrorState(XnStatus errorState);
@@ -79,12 +79,12 @@ public:
 	 * Resolves the config file's path.
 	 * Specify NULL to strConfigDir to resolve it based on the driver's directory.
 	 */
-	static XnStatus ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32_t nBufSize, const XnChar* strConfigDir);
+	static XnStatus ResolveGlobalConfigFileName(char* strConfigFile, uint32_t nBufSize, const char* strConfigDir);
 
-	XnStatus SetGlobalConfigFile(const XnChar* strConfigFile);
-	XnStatus ConfigureModuleFromGlobalFile(const XnChar* strModule, const XnChar* strSection = NULL);
+	XnStatus SetGlobalConfigFile(const char* strConfigFile);
+	XnStatus ConfigureModuleFromGlobalFile(const char* strModule, const char* strSection = NULL);
 
-	const XnChar* GetUSBPath() { return m_SensorIO.GetDevicePath(); }
+	const char* GetUSBPath() { return m_SensorIO.GetDevicePath(); }
 	bool ShouldUseHostTimestamps() { return (m_HostTimestamps.GetValue() == true); }
 	bool HasReadingStarted() { return (m_ReadData.GetValue() == true); }
 	inline bool IsTecDebugPring() const { return (bool)m_FirmwareTecDebugPrint.GetValue(); }
@@ -92,19 +92,19 @@ public:
 	XnStatus SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, uint32_t numStreams);
 
 protected:
-	virtual XnStatus CreateStreamImpl(const XnChar* strType, const XnChar* strName, const XnActualPropertiesHash* pInitialSet);
+	virtual XnStatus CreateStreamImpl(const char* strType, const char* strName, const XnActualPropertiesHash* pInitialSet);
 
 	XnStatus CreateDeviceModule(XnDeviceModuleHolder** ppModuleHolder);
-	XnStatus CreateStreamModule(const XnChar* StreamType, const XnChar* StreamName, XnDeviceModuleHolder** ppStream);
+	XnStatus CreateStreamModule(const char* StreamType, const char* StreamName, XnDeviceModuleHolder** ppStream);
 	void DestroyStreamModule(XnDeviceModuleHolder* pStreamHolder);
 
 	virtual void OnNewStreamData(XnDeviceStream* pStream, OniFrame* pFrame);
 
 private:
 	XnStatus InitSensor(const XnDeviceConfig* pDeviceConfig);
-	XnStatus ValidateSensorID(XnChar* csSensorID);
+	XnStatus ValidateSensorID(char* csSensorID);
 	XnStatus SetMirrorForModule(XnDeviceModule* pModule, uint64_t nValue);
-	XnStatus FindSensorStream(const XnChar* StreamName, IXnSensorStream** ppStream);
+	XnStatus FindSensorStream(const char* StreamName, IXnSensorStream** ppStream);
 	XnStatus InitReading();
 	XnStatus OnFrameSyncPropertyChanged();
 
@@ -121,7 +121,7 @@ private:
 	XnStatus GetCmosBlankingUnits(XnCmosBlankingUnits* pBlanking);
 	XnStatus GetCmosBlankingTime(XnCmosBlankingTime* pBlanking);
 	XnStatus GetFirmwareMode(XnParamCurrentMode* pnMode);
-	XnStatus GetLastRawFrame(const XnChar* strStream, XnUChar* pBuffer, uint32_t nDataSize);
+	XnStatus GetLastRawFrame(const char* strStream, XnUChar* pBuffer, uint32_t nDataSize);
 	XnStatus GetFixedParams(XnDynamicSizeBuffer* pBuffer);
 	XnStatus GetDepthCmosRegister(XnControlProcessingData* pRegister);
 	XnStatus GetImageCmosRegister(XnControlProcessingData* pRegister);
@@ -132,7 +132,7 @@ private:
 	XnStatus GetEmitterStatus(XnEmitterData* pEmitterData);
 	XnStatus ReadFlashFile(const XnParamFileData* pFile);
 	XnStatus ReadFlashChunk(XnParamFlashData* pFlash);
-	XnStatus GetFirmwareLog(XnChar* csLog, uint32_t nSize);
+	XnStatus GetFirmwareLog(char* csLog, uint32_t nSize);
 	XnStatus GetFileList(XnFlashFileList* pFileList);
 
 	//---------------------------------------------------------------------------
@@ -305,7 +305,7 @@ private:
 
 	XnIntPropertySynchronizer m_PropSynchronizer;
 
-	XnChar m_strGlobalConfigFile[XN_FILE_MAX_PATH];
+	char m_strGlobalConfigFile[XN_FILE_MAX_PATH];
 };
 
 #endif // XNSENSOR_H

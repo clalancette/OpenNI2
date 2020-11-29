@@ -60,17 +60,17 @@ typedef enum {
 struct XnUSBDeviceHandle;
 struct XnUSBEndPointHandle;
 
-typedef XnChar XnUSBConnectionString[XN_FILE_MAX_PATH];
+typedef char XnUSBConnectionString[XN_FILE_MAX_PATH];
 
 typedef XnUSBDeviceHandle*  XN_USB_DEV_HANDLE;
 typedef XnUSBEndPointHandle* XN_USB_EP_HANDLE;
 
 typedef bool (XN_CALLBACK_TYPE* XnUSBReadCallbackFunctionPtr)(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData);
-typedef bool (XN_CALLBACK_TYPE* XnUSBEventCallbackFunctionPtr)(XnUSBEventType USBEventType, XnChar* cpDevPath, void* pCallbackData);
+typedef bool (XN_CALLBACK_TYPE* XnUSBEventCallbackFunctionPtr)(XnUSBEventType USBEventType, char* cpDevPath, void* pCallbackData);
 
 typedef struct XnUSBEventArgs
 {
-	const XnChar* strDevicePath;
+	const char* strDevicePath;
 	XnUSBEventType eventType;
 } XnUSBEventArgs;
 

@@ -58,7 +58,7 @@ XnStatus LinkOniMapStream::Init()
 	XN_IS_STATUS_OK(nRetVal);
 
 	// read video mode
-	XnChar videoModeSection[255];
+	char videoModeSection[255];
 	sprintf(videoModeSection, "%s.VideoMode", m_configSection);
 	OniVideoMode videoMode;
 	GetVideoMode(&videoMode);

@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnWholePacketProcessor::XnWholePacketProcessor(XnDevicePrivateData* pDevicePrivateData, const XnChar* csName, uint32_t nMaxPacketSize) :
+XnWholePacketProcessor::XnWholePacketProcessor(XnDevicePrivateData* pDevicePrivateData, const char* csName, uint32_t nMaxPacketSize) :
 	XnDataProcessor(pDevicePrivateData, csName),
 	m_nMaxPacketSize(nMaxPacketSize)
 {}

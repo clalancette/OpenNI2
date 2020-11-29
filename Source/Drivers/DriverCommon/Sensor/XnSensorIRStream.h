@@ -41,7 +41,7 @@
 class XnSensorIRStream final : public XnIRStream, public IXnSensorStream
 {
 public:
-	XnSensorIRStream(const XnChar* StreamName, XnSensorObjects* pObjects);
+	XnSensorIRStream(const char* StreamName, XnSensorObjects* pObjects);
 	~XnSensorIRStream() { Free(); }
 
 	//---------------------------------------------------------------------------

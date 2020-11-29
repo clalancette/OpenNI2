@@ -395,7 +395,7 @@ XnStatus LinkFrameInputStream::StopImpl()
 	return XN_STATUS_OK;
 }
 
-void LinkFrameInputStream::SetDumpName(const XnChar* /*strDumpName*/)
+void LinkFrameInputStream::SetDumpName(const char* /*strDumpName*/)
 {
 	//Not implemented for frame input stream
 	XN_ASSERT(false);
@@ -533,7 +533,7 @@ XnStatus LinkFrameInputStream::SetVideoMode(const XnFwStreamVideoMode& videoMode
 	XnStatus nRetVal = XN_STATUS_OK;
 	bool bModeSupported = false;
 
-	XnChar strVideoMode[100];
+	char strVideoMode[100];
 	xnLinkVideoModeToString(videoMode, strVideoMode, sizeof(strVideoMode));
 
 	xnLogVerbose(XN_MASK_LINK, "Stream %u - Setting video mode %s...", m_nStreamID, strVideoMode);

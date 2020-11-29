@@ -39,7 +39,7 @@ typedef struct XnUSBEventCallback
 {
 	XnUSBDeviceCallbackFunctionPtr pFunc;
 	void* pCookie;
-	XnChar strVidPid[50];
+	char strVidPid[50];
 } XnUSBEventCallback;
 
 //---------------------------------------------------------------------------
@@ -174,7 +174,7 @@ XnStatus xnUSBInitOvlp(XN_USB_EP_HANDLE pEPHandle)
 }
 
 
-HANDLE xnUSBOpenOneDevice(HDEVINFO hDevInfo, PSP_DEVICE_INTERFACE_DATA pDevInterfaceData, PSTR pDevName, const XnChar* cpWantedDevPath)
+HANDLE xnUSBOpenOneDevice(HDEVINFO hDevInfo, PSP_DEVICE_INTERFACE_DATA pDevInterfaceData, PSTR pDevName, const char* cpWantedDevPath)
 {
 	// Local variables
 	PSP_DEVICE_INTERFACE_DETAIL_DATA pDevInterfaceDetailData = NULL;
@@ -500,7 +500,7 @@ XN_C_API void xnUSBFreeDevicesList(const XnUSBConnectionString* astrDevicePaths)
 	xnOSFree(astrDevicePaths);
 }
 
-XnStatus xnUSBOpenDeviceImpl(const XnChar* strDevicePath, XN_USB_DEV_HANDLE* pDevHandlePtr)
+XnStatus xnUSBOpenDeviceImpl(const char* strDevicePath, XN_USB_DEV_HANDLE* pDevHandlePtr)
 {
 	// Local variables
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -621,7 +621,7 @@ XnStatus xnUSBOpenDeviceImpl(const XnChar* strDevicePath, XN_USB_DEV_HANDLE* pDe
 
 XN_C_API XnStatus xnUSBOpenDevice(uint16_t /*nVendorID*/, uint16_t /*nProductID*/, void* /*pExtraParam*/, void* pExtraParam2, XN_USB_DEV_HANDLE* pDevHandlePtr)
 {
-	return xnUSBOpenDeviceImpl((const XnChar*)pExtraParam2, pDevHandlePtr);
+	return xnUSBOpenDeviceImpl((const char*)pExtraParam2, pDevHandlePtr);
 }
 
 XN_C_API XnStatus xnUSBOpenDeviceByPath(const XnUSBConnectionString strDevicePath, XN_USB_DEV_HANDLE* pDevHandlePtr)
@@ -734,13 +734,13 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, uint16_t nEndP
 	bool bResult = true;
 	XnStatus nRetVal = XN_STATUS_OK;
 	int32_t nRetBytes = 0;
-	XnChar pConfigDescBuf[MAX_CONFIG_DESC_SIZE];
-	XnChar* pBuf = NULL;
+	char pConfigDescBuf[MAX_CONFIG_DESC_SIZE];
+	char* pBuf = NULL;
 	PUSB_CONFIGURATION_DESCRIPTOR pUSBConfigDesc = NULL;
 	PUSB_INTERFACE_DESCRIPTOR pUSBInterfaceDesc = NULL;
 	PUSB_ENDPOINT_DESCRIPTOR pUSBEndPointDesc = NULL;
 	XN_USB_EP_HANDLE pEPHandle = NULL;
-	XnChar cpPipeID[3];
+	char cpPipeID[3];
 
 	// Validate xnUSB
 	XN_VALIDATE_USB_INIT();
@@ -1626,7 +1626,7 @@ static void XN_CALLBACK_TYPE XnUSBDeviceCallbackBC(XnUSBEventArgs* pArgs, void* 
 {
 	if (g_pDeprecatedCallbackFunc != NULL)
 	{
-		g_pDeprecatedCallbackFunc(pArgs->eventType, const_cast<XnChar*>(pArgs->strDevicePath), g_pDeprecatedCallbackCookie);
+		g_pDeprecatedCallbackFunc(pArgs->eventType, const_cast<char*>(pArgs->strDevicePath), g_pDeprecatedCallbackCookie);
 	}
 }
 

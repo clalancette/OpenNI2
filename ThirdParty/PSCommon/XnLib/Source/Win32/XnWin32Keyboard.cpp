@@ -29,7 +29,7 @@ XN_C_API bool xnOSWasKeyboardHit()
 	return (bool)_kbhit();
 }
 
-XN_C_API XnChar xnOSReadCharFromInput()
+XN_C_API char xnOSReadCharFromInput()
 {
-	return (XnChar)_getch();
+	return (char)_getch();
 }

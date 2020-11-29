@@ -40,7 +40,7 @@ void XnGeneralDebugProcessor::ProcessPacketChunk(const XnSensorProtocolResponseH
 		uint16_t nFields = *pFields;
 		++pFields;
 
-		XnChar strFileName[XN_FILE_MAX_PATH] = "";
+		char strFileName[XN_FILE_MAX_PATH] = "";
 		uint32_t nCharsWritten = 0;
 		uint32_t nLength = 0;
 		xnOSStrFormat(strFileName, XN_FILE_MAX_PATH, &nCharsWritten, "FirmwareDebug.");

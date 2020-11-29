@@ -120,7 +120,7 @@ XnStatus XnDeviceBase::Destroy()
 		XnDeviceModuleHolder* pModuleHolder = m_Modules.Begin()->Value();
 		if (IsStream(pModuleHolder->GetModule()))
 		{
-			XnChar strName[XN_DEVICE_MAX_STRING_LENGTH];
+			char strName[XN_DEVICE_MAX_STRING_LENGTH];
 			strcpy(strName, pModuleHolder->GetModule()->GetName());
 			nRetVal = DestroyStream(strName);
 			XN_IS_STATUS_OK(nRetVal);
@@ -152,7 +152,7 @@ XnStatus XnDeviceBase::Destroy()
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::CreateModule(const XnChar* strName, XnDeviceModuleHolder** ppModuleHolder)
+XnStatus XnDeviceBase::CreateModule(const char* strName, XnDeviceModuleHolder** ppModuleHolder)
 {
 	XnDeviceModule* pModule;
 	XnDeviceModuleHolder* pHolder;
@@ -226,7 +226,7 @@ XnStatus XnDeviceBase::SetMirror(bool bMirror)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetSupportedStreams(const XnChar** aStreamNames, uint32_t* pnStreamNamesCount)
+XnStatus XnDeviceBase::GetSupportedStreams(const char** aStreamNames, uint32_t* pnStreamNamesCount)
 {
 	XN_VALIDATE_OUTPUT_PTR(pnStreamNamesCount);
 	// NOTE: we allow aStreamName to be NULL
@@ -253,7 +253,7 @@ XnStatus XnDeviceBase::GetSupportedStreams(const XnChar** aStreamNames, uint32_t
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::OpenStream(const XnChar* StreamName)
+XnStatus XnDeviceBase::OpenStream(const char* StreamName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -275,7 +275,7 @@ XnStatus XnDeviceBase::OpenStream(const XnChar* StreamName)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::CloseStream(const XnChar* StreamName)
+XnStatus XnDeviceBase::CloseStream(const char* StreamName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -349,7 +349,7 @@ XnStatus XnDeviceBase::CloseAllStreams()
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetStreamNames(const XnChar** pstrNames, uint32_t* pnNamesCount)
+XnStatus XnDeviceBase::GetStreamNames(const char** pstrNames, uint32_t* pnNamesCount)
 {
 	// first we need to count them
 	uint32_t nCount = 0;
@@ -386,7 +386,7 @@ XnStatus XnDeviceBase::GetStreamNames(const XnChar** pstrNames, uint32_t* pnName
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::DoesModuleExist(const XnChar* ModuleName, bool* pbDoesExist)
+XnStatus XnDeviceBase::DoesModuleExist(const char* ModuleName, bool* pbDoesExist)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -423,7 +423,7 @@ XnStatus XnDeviceBase::UnregisterFromNewStreamData(XnCallbackHandle hCallback)
 	return m_OnNewStreamDataEvent.Unregister(hCallback);
 }
 
-XnStatus XnDeviceBase::DoesPropertyExist(const XnChar* ModuleName, uint32_t propertyId, bool* pbDoesExist)
+XnStatus XnDeviceBase::DoesPropertyExist(const char* ModuleName, uint32_t propertyId, bool* pbDoesExist)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -446,7 +446,7 @@ XnStatus XnDeviceBase::DoesPropertyExist(const XnChar* ModuleName, uint32_t prop
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetPropertyType(const XnChar* ModuleName, uint32_t propertyId, XnPropertyType* pnType)
+XnStatus XnDeviceBase::GetPropertyType(const char* ModuleName, uint32_t propertyId, XnPropertyType* pnType)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -460,7 +460,7 @@ XnStatus XnDeviceBase::GetPropertyType(const XnChar* ModuleName, uint32_t proper
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, uint64_t nValue)
+XnStatus XnDeviceBase::SetProperty(const char* ModuleName, uint32_t propertyId, uint64_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -474,7 +474,7 @@ XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, double dValue)
+XnStatus XnDeviceBase::SetProperty(const char* ModuleName, uint32_t propertyId, double dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -488,7 +488,7 @@ XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, const XnChar* csValue)
+XnStatus XnDeviceBase::SetProperty(const char* ModuleName, uint32_t propertyId, const char* csValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -502,7 +502,7 @@ XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, const OniGeneralBuffer& gbValue)
+XnStatus XnDeviceBase::SetProperty(const char* ModuleName, uint32_t propertyId, const OniGeneralBuffer& gbValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -516,7 +516,7 @@ XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, uint64_t* pnValue)
+XnStatus XnDeviceBase::GetProperty(const char* ModuleName, uint32_t propertyId, uint64_t* pnValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -530,7 +530,7 @@ XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, double* pdValue)
+XnStatus XnDeviceBase::GetProperty(const char* ModuleName, uint32_t propertyId, double* pdValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -544,7 +544,7 @@ XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnChar* csValue)
+XnStatus XnDeviceBase::GetProperty(const char* ModuleName, uint32_t propertyId, char* csValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -558,7 +558,7 @@ XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, const OniGeneralBuffer& gbValue)
+XnStatus XnDeviceBase::GetProperty(const char* ModuleName, uint32_t propertyId, const OniGeneralBuffer& gbValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -572,7 +572,7 @@ XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::LoadConfigFromFile(const XnChar* csINIFilePath, const XnChar* csSectionName)
+XnStatus XnDeviceBase::LoadConfigFromFile(const char* csINIFilePath, const char* csSectionName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -602,7 +602,7 @@ XnStatus XnDeviceBase::BatchConfig(const XnPropertySet* pChangeSet)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetAllProperties(XnPropertySet* pSet, bool bNoStreams /* = false */, const XnChar* strModule /* = NULL */)
+XnStatus XnDeviceBase::GetAllProperties(XnPropertySet* pSet, bool bNoStreams /* = false */, const char* strModule /* = NULL */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -639,7 +639,7 @@ XnStatus XnDeviceBase::GetAllProperties(XnPropertySet* pSet, bool bNoStreams /* 
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::RegisterToPropertyChange(const XnChar* Module, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler Handler, void* pCookie, XnCallbackHandle& hCallback)
+XnStatus XnDeviceBase::RegisterToPropertyChange(const char* Module, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler Handler, void* pCookie, XnCallbackHandle& hCallback)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -665,7 +665,7 @@ XnStatus XnDeviceBase::RegisterToPropertyChange(const XnChar* Module, uint32_t p
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::UnregisterFromPropertyChange(const XnChar* Module, uint32_t propertyId, XnCallbackHandle hCallback)
+XnStatus XnDeviceBase::UnregisterFromPropertyChange(const char* Module, uint32_t propertyId, XnCallbackHandle hCallback)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -716,7 +716,7 @@ XnStatus XnDeviceBase::AddModule(XnDeviceModuleHolder* pModuleHolder)
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::RemoveModule(const XnChar* ModuleName)
+XnStatus XnDeviceBase::RemoveModule(const char* ModuleName)
 {
 	// remove it
 	XnStatus nRetVal = m_Modules.Remove(ModuleName);
@@ -725,7 +725,7 @@ XnStatus XnDeviceBase::RemoveModule(const XnChar* ModuleName)
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::FindModule(const XnChar* ModuleName, XnDeviceModule** ppModule)
+XnStatus XnDeviceBase::FindModule(const char* ModuleName, XnDeviceModule** ppModule)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -738,7 +738,7 @@ XnStatus XnDeviceBase::FindModule(const XnChar* ModuleName, XnDeviceModule** ppM
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::FindModule(const XnChar* ModuleName, XnDeviceModuleHolder** ppModuleHolder)
+XnStatus XnDeviceBase::FindModule(const char* ModuleName, XnDeviceModuleHolder** ppModuleHolder)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	ModuleHoldersHash::Iterator it = m_Modules.Find(ModuleName);
@@ -776,7 +776,7 @@ bool XnDeviceBase::IsStream(XnDeviceModule* pModule)
 	return (bool)nValue;
 }
 
-XnStatus XnDeviceBase::FindStream(const XnChar* StreamName, XnDeviceStream** ppStream)
+XnStatus XnDeviceBase::FindStream(const char* StreamName, XnDeviceStream** ppStream)
 {
 	// find the module
 	XnDeviceModuleHolder* pStreamHolder = NULL;
@@ -788,7 +788,7 @@ XnStatus XnDeviceBase::FindStream(const XnChar* StreamName, XnDeviceStream** ppS
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::FindStream(const XnChar* StreamName, XnDeviceModuleHolder** ppStreamHolder)
+XnStatus XnDeviceBase::FindStream(const char* StreamName, XnDeviceModuleHolder** ppStreamHolder)
 {
 	// find the module
 	XnDeviceModuleHolder* pModuleHolder = NULL;
@@ -804,7 +804,7 @@ XnStatus XnDeviceBase::FindStream(const XnChar* StreamName, XnDeviceModuleHolder
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::AddSupportedStream(const XnChar* StreamType)
+XnStatus XnDeviceBase::AddSupportedStream(const char* StreamType)
 {
 	// make sure stream doesn't exist yet
 	if (m_SupportedStreams.find(StreamType) != m_SupportedStreams.end())
@@ -819,7 +819,7 @@ XnStatus XnDeviceBase::AddSupportedStream(const XnChar* StreamType)
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetStreamRequiredDataSize(const XnChar* StreamName, uint32_t* pnRequiredSize)
+XnStatus XnDeviceBase::GetStreamRequiredDataSize(const char* StreamName, uint32_t* pnRequiredSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -864,7 +864,7 @@ XnStatus XnDeviceBase::CreateStreams(const XnPropertySet* pSet)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::ValidateOnlyModule(const XnPropertySet* pSet, const XnChar* StreamName)
+XnStatus XnDeviceBase::ValidateOnlyModule(const XnPropertySet* pSet, const char* StreamName)
 {
 	XnPropertySetData::ConstIterator it = pSet->pData->Begin();
 	if (it == pSet->pData->End())
@@ -885,7 +885,7 @@ XnStatus XnDeviceBase::ValidateOnlyModule(const XnPropertySet* pSet, const XnCha
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::CreateStream(const XnChar* StreamType, const XnChar* StreamName /* = NULL */, const XnPropertySet* pInitialValues /* = NULL */)
+XnStatus XnDeviceBase::CreateStream(const char* StreamType, const char* StreamName /* = NULL */, const XnPropertySet* pInitialValues /* = NULL */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -910,7 +910,7 @@ XnStatus XnDeviceBase::CreateStream(const XnChar* StreamType, const XnChar* Stre
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::CreateStreamImpl(const XnChar* strType, const XnChar* strName, const XnActualPropertiesHash* pInitialSet)
+XnStatus XnDeviceBase::CreateStreamImpl(const char* strType, const char* strName, const XnActualPropertiesHash* pInitialSet)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1002,7 +1002,7 @@ XnStatus XnDeviceBase::CreateStreamImpl(const XnChar* strType, const XnChar* str
 	return (XN_STATUS_OK);
 }
 
-void XnDeviceBase::FreeModuleRegisteredProperties(const XnChar* strModule)
+void XnDeviceBase::FreeModuleRegisteredProperties(const char* strModule)
 {
 	// free memory of registered properties to this stream
 	std::list<XnPropertyCallback*>::iterator it = m_PropertyCallbacks.begin();
@@ -1020,14 +1020,14 @@ void XnDeviceBase::FreeModuleRegisteredProperties(const XnChar* strModule)
 	}
 }
 
-XnStatus XnDeviceBase::DestroyStream(const XnChar* StreamName)
+XnStatus XnDeviceBase::DestroyStream(const char* StreamName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	xnLogInfo(XN_MASK_DDK, "Destroying stream '%s'...", StreamName);
 
 	// keep the stream name (we now delete the module, so the name will be lost)
-	XnChar strStreamName[XN_DEVICE_MAX_STRING_LENGTH];
+	char strStreamName[XN_DEVICE_MAX_STRING_LENGTH];
 	strncpy(strStreamName, StreamName, XN_DEVICE_MAX_STRING_LENGTH - 1);
 	strStreamName[XN_DEVICE_MAX_STRING_LENGTH - 1] = '\0';
 
@@ -1105,7 +1105,7 @@ XnStatus XnDeviceBase::GetStreamsList(std::list<XnDeviceModuleHolder*>& list)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::RaiseNewStreamDataEvent(const XnChar* StreamName, OniFrame* pFrame)
+XnStatus XnDeviceBase::RaiseNewStreamDataEvent(const char* StreamName, OniFrame* pFrame)
 {
 	XnNewStreamDataEventArgs eventArgs;
 	eventArgs.strStreamName = StreamName;
@@ -1147,7 +1147,7 @@ XnStatus XN_CALLBACK_TYPE XnDeviceBase::SetMirrorCallback(XnActualIntProperty* /
 	return pThis->SetMirror((bool)nValue);
 }
 
-XnDeviceBase::XnPropertyCallback::XnPropertyCallback(const XnChar* strModule, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler pHandler, void* pCookie) :
+XnDeviceBase::XnPropertyCallback::XnPropertyCallback(const char* strModule, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler pHandler, void* pCookie) :
 	propertyId(propertyId),
 	pCookie(pCookie),
 	pHandler(pHandler)

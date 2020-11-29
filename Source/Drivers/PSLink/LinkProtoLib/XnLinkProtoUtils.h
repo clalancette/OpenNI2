@@ -68,23 +68,23 @@ static_assert(sizeof(xn::LinkPacketHeader) == sizeof(XnLinkPacketHeader));
 }
 
 XnStatus xnLinkResponseCodeToStatus(uint16_t nResponseCode);
-const XnChar* xnLinkResponseCodeToStr(uint16_t nResponseCode);
-const XnChar* xnFragmentationFlagsToStr(XnLinkFragmentation fragmentation);
+const char* xnLinkResponseCodeToStr(uint16_t nResponseCode);
+const char* xnFragmentationFlagsToStr(XnLinkFragmentation fragmentation);
 
-const XnChar* xnLinkStreamTypeToString(XnStreamType streamType);
-XnStreamType xnLinkStreamTypeFromString(const XnChar* strType);
+const char* xnLinkStreamTypeToString(XnStreamType streamType);
+XnStreamType xnLinkStreamTypeFromString(const char* strType);
 
-const XnChar* xnLinkGestureTypeToName(uint32_t gestureType);
-uint32_t xnLinkGestureNameToType(const XnChar* strGesture);
+const char* xnLinkGestureTypeToName(uint32_t gestureType);
+uint32_t xnLinkGestureNameToType(const char* strGesture);
 
-const XnChar* xnLinkPixelFormatToName(XnFwPixelFormat pixelFormat);
-XnFwPixelFormat xnLinkPixelFormatFromName(const XnChar* name);
-const XnChar* xnLinkCompressionToName(XnFwCompressionType compression);
-XnFwCompressionType xnLinkCompressionFromName(const XnChar* name);
+const char* xnLinkPixelFormatToName(XnFwPixelFormat pixelFormat);
+XnFwPixelFormat xnLinkPixelFormatFromName(const char* name);
+const char* xnLinkCompressionToName(XnFwCompressionType compression);
+XnFwCompressionType xnLinkCompressionFromName(const char* name);
 
-const XnChar* xnLinkPoseTypeToName(uint32_t poseType);
-uint32_t xnLinkPoseNameToType(const XnChar* strPose);
-XnStatus xnLinkPosesToNames(uint32_t nPoses, std::vector<const XnChar*>& aPosesNames);
+const char* xnLinkPoseTypeToName(uint32_t poseType);
+uint32_t xnLinkPoseNameToType(const char* strPose);
+XnStatus xnLinkPosesToNames(uint32_t nPoses, std::vector<const char*>& aPosesNames);
 
 xnl::Point3D xnLinkPoint3DToPoint3D(const XnLinkPoint3D& point);
 XnLinkPoint3D XnPoint3DToLinkPoint3D(const xnl::Point3D& point);
@@ -92,8 +92,8 @@ XnLinkPoint3D XnPoint3DToLinkPoint3D(const xnl::Point3D& point);
 XnLinkBoundingBox3D xnBoundingBox3DToLinkBoundingBox3D(const xnl::Box3D& box);
 xnl::Box3D xnLinkBoundingBox3DToBoundingBox3D(const XnLinkBoundingBox3D& box);
 
-XnStatus xnLinkGetStreamDumpName(uint16_t nStreamID, XnChar* strDumpName, uint32_t nDumpNameSize);
-XnStatus xnLinkGetEPDumpName(uint16_t nEPID, XnChar* strDumpName, uint32_t nDumpNameSize);
+XnStatus xnLinkGetStreamDumpName(uint16_t nStreamID, char* strDumpName, uint32_t nDumpNameSize);
+XnStatus xnLinkGetEPDumpName(uint16_t nEPID, char* strDumpName, uint32_t nDumpNameSize);
 
 XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pIDSet, uint32_t nSize);
 
@@ -106,15 +106,15 @@ XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, uint32_t& nBu
 XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& componentVersions, const XnLinkComponentVersionsList* pLinkList, uint32_t nBufferSize);
 
 /*
-uint8_t xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName);
-const XnChar* xnLinkInterfaceIDToNICapability(uint8_t nInterfaceID);
+uint8_t xnLinkNICapabilityToInterfaceID(const char* strCapabilityName);
+const char* xnLinkInterfaceIDToNICapability(uint8_t nInterfaceID);
 XnProductionNodeType xnLinkStreamTypeToNINodeType(XnLinkStreamType streamType);
 XnLinkStreamType xnLinkNINodeTypeToStreamType(XnProductionNodeType  nodeType);
 */
 void xnLinkParseVideoMode(XnFwStreamVideoMode& videoMode, const XnLinkVideoMode& linkVideoMode);
 void xnLinkEncodeVideoMode(XnLinkVideoMode& linkVideoMode, const XnFwStreamVideoMode& videoMode);
 
-const XnChar* xnLinkPropTypeToStr(XnLinkPropType propType);
+const char* xnLinkPropTypeToStr(XnLinkPropType propType);
 
 void xnLinkParseDetailedVersion(XnLinkDetailedVersion& version, const XnLinkDetailedVersion& linkVersion);
 
@@ -133,7 +133,7 @@ void xnLinkParseShiftToDepthConfig(XnShiftToDepthConfig& shiftToDepthConfig, con
 void xnLinkParseCropping(OniCropping& cropping, const XnLinkCropping& linkCropping);
 void xnLinkEncodeCropping(XnLinkCropping& linkCropping, const OniCropping& cropping);
 
-const XnChar* xnLinkGetPropName(XnLinkPropID propID);
+const char* xnLinkGetPropName(XnLinkPropID propID);
 
 XnStatus xnLinkValidateGeneralProp(XnLinkPropType propType, uint32_t nValueSize, uint32_t nMinSize);
 
@@ -177,6 +177,6 @@ void xnLinkParseBootStatus(XnBootStatus& bootStatus, const XnLinkBootStatus& lin
 
 uint32_t xnLinkGetPixelSizeByStreamType(XnLinkStreamType streamType);
 
-void xnLinkVideoModeToString(XnFwStreamVideoMode videoMode, XnChar* buffer, uint32_t bufferSize);
+void xnLinkVideoModeToString(XnFwStreamVideoMode videoMode, char* buffer, uint32_t bufferSize);
 
 #endif // XNLINKPROTOUTILS_H

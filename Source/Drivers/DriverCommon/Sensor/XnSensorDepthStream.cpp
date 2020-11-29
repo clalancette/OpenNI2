@@ -49,7 +49,7 @@
 //---------------------------------------------------------------------------
 // XnSensorDepthStream class
 //---------------------------------------------------------------------------
-XnSensorDepthStream::XnSensorDepthStream(const XnChar* strName, XnSensorObjects* pObjects) :
+XnSensorDepthStream::XnSensorDepthStream(const char* strName, XnSensorObjects* pObjects) :
 	XnDepthStream(strName, false, XN_DEVICE_SENSOR_MAX_DEPTH_1_MM, XN_SHIFTS_MAX_SHIFT),
 	m_Helper(pObjects),
 	m_InputFormat(XN_STREAM_PROPERTY_INPUT_FORMAT, "InputFormat", XN_DEPTH_STREAM_DEFAULT_INPUT_FORMAT),
@@ -1229,13 +1229,13 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::DecidePixelSizeFactorCallback(con
 	return pStream->DecidePixelSizeFactor();
 }
 
-XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::ReadAGCBinsFromFile(XnGeneralProperty* pSender, const XnChar* csINIFile, const XnChar* csSection)
+XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::ReadAGCBinsFromFile(XnGeneralProperty* pSender, const char* csINIFile, const char* csSection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	for (uint32_t nBin = 0; nBin < XN_DEPTH_STREAM_AGC_NUMBER_OF_BINS; ++nBin)
 	{
-		XnChar csKey[XN_INI_MAX_LEN];
+		char csKey[XN_INI_MAX_LEN];
 		int32_t nValue;
 
 		XnDepthAGCBin bin;

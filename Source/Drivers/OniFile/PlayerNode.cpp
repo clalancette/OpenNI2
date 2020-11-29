@@ -32,9 +32,9 @@ namespace oni_file {
 
 #ifdef PLAYER_NODE_LOG_RECORDS
 	template <typename T>
-	inline static void DEBUG_LOG_RECORD(T record, const XnChar* strRecordName)
+	inline static void DEBUG_LOG_RECORD(T record, const char* strRecordName)
 	{
-		XnChar s[1024];
+		char s[1024];
 		uint32_t nCharsWritten = 0;
 		XnStatus nRetVal = record.AsString(s, sizeof(s), nCharsWritten);
 		XN_ASSERT(nRetVal == XN_STATUS_OK);
@@ -73,7 +73,7 @@ const uint64_t PlayerNode::RECORD_MAX_SIZE =
 const XnVersion PlayerNode::OLDEST_SUPPORTED_FILE_FORMAT_VERSION = {1, 0, 0, 4};
 const XnVersion PlayerNode::FIRST_FILESIZE64BIT_FILE_FORMAT_VERSION = {1, 0, 1, 0};
 
-PlayerNode::PlayerNode(const XnChar* strName) :
+PlayerNode::PlayerNode(const char* strName) :
 	m_bOpen(false),
 	m_bIs32bitFileFormat(false),
 	m_pRecordBuffer(NULL),
@@ -191,7 +191,7 @@ XnStatus PlayerNode::SeekToTimeStamp(int64_t /*nTimeOffset*/, XnPlayerSeekOrigin
 	return XN_STATUS_NOT_IMPLEMENTED;
 }
 
-XnStatus PlayerNode::SeekToFrame(const XnChar* strNodeName, int32_t nFrameOffset, XnPlayerSeekOrigin origin)
+XnStatus PlayerNode::SeekToFrame(const char* strNodeName, int32_t nFrameOffset, XnPlayerSeekOrigin origin)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	uint32_t nNodeID = GetPlayerNodeIDByName(strNodeName);
@@ -565,7 +565,7 @@ XnStatus PlayerNode::TellTimestamp(uint64_t& nTimestamp)
 	return (XN_STATUS_OK);
 }
 
-XnStatus PlayerNode::TellFrame(const XnChar* strNodeName, uint32_t& nFrameNumber)
+XnStatus PlayerNode::TellFrame(const char* strNodeName, uint32_t& nFrameNumber)
 {
 	PlayerNodeInfo* pPlayerNodeInfo = GetPlayerNodeInfoByName(strNodeName);
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_BAD_NODE_NAME);
@@ -579,7 +579,7 @@ XnStatus PlayerNode::TellFrame(const XnChar* strNodeName, uint32_t& nFrameNumber
 	return XN_STATUS_OK;
 }
 
-uint32_t PlayerNode::GetNumFrames(const XnChar* strNodeName, uint32_t& nFrames)
+uint32_t PlayerNode::GetNumFrames(const char* strNodeName, uint32_t& nFrames)
 {
 	PlayerNodeInfo* pPlayerNodeInfo = GetPlayerNodeInfoByName(strNodeName);
 	XN_VALIDATE_PTR(pPlayerNodeInfo, XN_STATUS_BAD_NODE_NAME);
@@ -593,7 +593,7 @@ uint32_t PlayerNode::GetNumFrames(const XnChar* strNodeName, uint32_t& nFrames)
 	return XN_STATUS_OK;
 }
 
-const XnChar* PlayerNode::GetSupportedFormat()
+const char* PlayerNode::GetSupportedFormat()
 {
 	return XN_FORMAT_NAME_ONI;
 }
@@ -915,7 +915,7 @@ bool PlayerNode::IsTypeGenerator(XnProductionNodeType type)
 	return false;
 }
 
-XnStatus PlayerNode::HandleNodeAddedImpl(uint32_t nNodeID, XnProductionNodeType type, const XnChar* strName, XnCodecID compression, uint32_t nNumberOfFrames, uint64_t /*nMinTimestamp*/, uint64_t nMaxTimestamp)
+XnStatus PlayerNode::HandleNodeAddedImpl(uint32_t nNodeID, XnProductionNodeType type, const char* strName, XnCodecID compression, uint32_t nNumberOfFrames, uint64_t /*nMinTimestamp*/, uint64_t nMaxTimestamp)
 {
 	XN_VALIDATE_INPUT_PTR(m_pNodeNotifications);
 
@@ -972,7 +972,7 @@ XnStatus PlayerNode::HandleNodeAdded_1_0_0_4_Record(NodeAdded_1_0_0_4_Record rec
 	// in the DataBegin record. So we need to also find this record, and read these props from it.
 
 	uint32_t nNodeID = record.GetNodeID();
-	XnChar strName[XN_MAX_NAME_LENGTH];
+	char strName[XN_MAX_NAME_LENGTH];
 	nRetVal = xnOSStrCopy(strName, record.GetNodeName(), XN_MAX_NAME_LENGTH);
 	XN_IS_STATUS_OK(nRetVal);
 	XnProductionNodeType type = record.GetNodeType();
@@ -1207,7 +1207,7 @@ XnStatus PlayerNode::HandleIntPropRecord(IntPropRecord record)
 		return XN_STATUS_CORRUPT_FILE;
 	}
 
-	const XnChar* strPropName = record.GetPropName();
+	const char* strPropName = record.GetPropName();
 	uint64_t nValue = record.GetValue();
 
 	// old files workaround: some old files recorded nodes as not generating though having frames.
@@ -1734,7 +1734,7 @@ XnStatus PlayerNode::SeekToTimeStampRelative(int64_t nOffset)
 	return SeekToTimeStampAbsolute(m_nTimeStamp + nOffset);
 }
 
-uint32_t PlayerNode::GetPlayerNodeIDByName(const XnChar* strNodeName)
+uint32_t PlayerNode::GetPlayerNodeIDByName(const char* strNodeName)
 {
 	for (uint32_t i = 0; i < m_nMaxNodes; i++)
 	{
@@ -1746,14 +1746,14 @@ uint32_t PlayerNode::GetPlayerNodeIDByName(const XnChar* strNodeName)
 	return INVALID_NODE_ID;
 }
 
-PlayerNode::PlayerNodeInfo* PlayerNode::GetPlayerNodeInfoByName(const XnChar* strNodeName)
+PlayerNode::PlayerNodeInfo* PlayerNode::GetPlayerNodeInfoByName(const char* strNodeName)
 {
 	uint32_t nNodeID = GetPlayerNodeIDByName(strNodeName);
 	return (nNodeID == INVALID_NODE_ID) ? NULL : &m_pNodeInfoMap[nNodeID];
 }
 
 XnStatus PlayerNode::SaveRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo,
-										const XnChar* strPropName,
+										const char* strPropName,
 										uint64_t nRecordPos,
 										uint64_t nUndoRecordPos)
 {
@@ -1765,7 +1765,7 @@ XnStatus PlayerNode::SaveRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo,
 	return XN_STATUS_OK;
 }
 
-XnStatus PlayerNode::GetRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const XnChar* strPropName, uint64_t& nRecordPos, uint64_t& nUndoRecordPos)
+XnStatus PlayerNode::GetRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const char* strPropName, uint64_t& nRecordPos, uint64_t& nUndoRecordPos)
 {
 	RecordUndoInfo *pRecordUndoInfo = NULL;
 	XnStatus nRetVal = pPlayerNodeInfo->recordUndoInfoMap.Get(strPropName, pRecordUndoInfo);

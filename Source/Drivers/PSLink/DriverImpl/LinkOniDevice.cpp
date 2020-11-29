@@ -45,7 +45,7 @@
 #endif
 
 
-LinkOniDevice::LinkOniDevice(const char* configFile, const XnChar* uri, oni::driver::DriverServices& driverServices, LinkOniDriver* pDriver) :
+LinkOniDevice::LinkOniDevice(const char* configFile, const char* uri, oni::driver::DriverServices& driverServices, LinkOniDriver* pDriver) :
 	m_configFile(configFile), m_pSensor(NULL), m_driverServices(driverServices), m_pDriver(pDriver)
 {
 	xnOSMemCopy(&m_info, LinkDeviceEnumeration::GetDeviceInfo(uri), sizeof(m_info));
@@ -334,7 +334,7 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 		{
 			XnDetailedVersion versions = m_pSensor->GetFWVersion();
 			uint32_t nCharsWritten = 0;
-			XnStatus rc = xnOSStrFormat((XnChar*)data, *pDataSize, &nCharsWritten, "%d.%d.%d.%d-%s", versions.m_nMajor, versions.m_nMinor, versions.m_nMaintenance, versions.m_nBuild, versions.m_strModifier);
+			XnStatus rc = xnOSStrFormat((char*)data, *pDataSize, &nCharsWritten, "%d.%d.%d.%d-%s", versions.m_nMajor, versions.m_nMinor, versions.m_nMaintenance, versions.m_nBuild, versions.m_strModifier);
 			if (rc != XN_STATUS_OK)
 			{
 				m_driverServices.errorLoggerAppend("Couldn't get firmware version: %s\n", xnGetStatusString(rc));
@@ -356,9 +356,9 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 
 	case ONI_DEVICE_PROPERTY_SERIAL_NUMBER:
 		{
-			const XnChar *serialNumber = m_pSensor->GetSerialNumber();
+			const char *serialNumber = m_pSensor->GetSerialNumber();
 
-			if (xnOSStrCopy((XnChar*)data, serialNumber, *pDataSize) != XN_STATUS_OK)
+			if (xnOSStrCopy((char*)data, serialNumber, *pDataSize) != XN_STATUS_OK)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", *pDataSize, xnOSStrLen(serialNumber));
 				XN_ASSERT(false);
@@ -540,7 +540,7 @@ OniStatus LinkOniDevice::setProperty(int propertyId, const void* data, int dataS
 
 		// string props
 	case LINK_PROP_PRESET_FILE:
-		nRetVal = m_pSensor->RunPresetFile((XnChar *)data);
+		nRetVal = m_pSensor->RunPresetFile((char *)data);
 		XN_IS_STATUS_OK_LOG_ERROR_RET("RunPresetFile", nRetVal, ONI_STATUS_ERROR);
 		break;
 
@@ -822,7 +822,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			const XnCommandDumpEndpoint* pArgs = reinterpret_cast<const XnCommandDumpEndpoint*>(data);
-			XnChar strDumpName[XN_FILE_MAX_PATH] = "";
+			char strDumpName[XN_FILE_MAX_PATH] = "";
 			xnLinkGetEPDumpName(pArgs->endpoint, strDumpName, sizeof(strDumpName));
 			xnDumpSetMaskState(strDumpName, pArgs->enabled);
 		}

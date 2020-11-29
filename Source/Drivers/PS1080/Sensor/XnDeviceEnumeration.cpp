@@ -53,7 +53,7 @@ static XnUsbId ms_supportedProducts[] =
 static uint32_t ms_supportedProductsCount = sizeof(ms_supportedProducts) / sizeof(ms_supportedProducts[0]);
 
 static void XN_CALLBACK_TYPE OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* pCookie);
-static void OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId);
+static void OnConnectivityEvent(const char* uri, XnUSBEventType eventType, XnUsbId usbId);
 
 //---------------------------------------------------------------------------
 // Code
@@ -135,7 +135,7 @@ XnDeviceEnumeration::DeviceConnectivityEvent::Interface& XnDeviceEnumeration::Di
 	return ms_disconnectedEvent;
 }
 
-static void OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId)
+static void OnConnectivityEvent(const char* uri, XnUSBEventType eventType, XnUsbId usbId)
 {
 	xnl::AutoCSLocker lock(ms_lock);
 
@@ -174,12 +174,12 @@ void XN_CALLBACK_TYPE OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* p
 	OnConnectivityEvent(pArgs->strDevicePath, pArgs->eventType, usbId);
 }
 
-XnStatus XnDeviceEnumeration::IsSensorLowBandwidth(const XnChar* uri, bool* pbIsLowBandwidth)
+XnStatus XnDeviceEnumeration::IsSensorLowBandwidth(const char* uri, bool* pbIsLowBandwidth)
 {
 	*pbIsLowBandwidth = false;
 
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
-	XnChar cpMatchString[XN_FILE_MAX_PATH];
+	char cpMatchString[XN_FILE_MAX_PATH];
 
 	// WAVI Detection:
 	//   Normal USB string: \\?\usb#vid_1d27&pid_0600#6&XXXXXXXX&0&2
@@ -204,7 +204,7 @@ XnStatus XnDeviceEnumeration::IsSensorLowBandwidth(const XnChar* uri, bool* pbIs
 	return (XN_STATUS_OK);
 }
 
-OniDeviceInfo* XnDeviceEnumeration::GetDeviceInfo(const XnChar* uri)
+OniDeviceInfo* XnDeviceEnumeration::GetDeviceInfo(const char* uri)
 {
 	xnl::AutoCSLocker lock(ms_lock);
 

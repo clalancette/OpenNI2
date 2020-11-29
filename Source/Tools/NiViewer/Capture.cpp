@@ -367,9 +367,9 @@ int findUniqueFileName()
 
 	bool bExist = false;
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnChar csColorFileName[XN_FILE_MAX_PATH];
-	XnChar csDepthFileName[XN_FILE_MAX_PATH];
-	XnChar csIRFileName[XN_FILE_MAX_PATH];
+	char csColorFileName[XN_FILE_MAX_PATH];
+	char csDepthFileName[XN_FILE_MAX_PATH];
+	char csIRFileName[XN_FILE_MAX_PATH];
 
 	for (;;)
 	{
@@ -416,9 +416,9 @@ void captureSingleFrame(int)
 {
 	int num = findUniqueFileName();
 
-	XnChar csColorFileName[XN_FILE_MAX_PATH];
-	XnChar csDepthFileName[XN_FILE_MAX_PATH];
-	XnChar csIRFileName[XN_FILE_MAX_PATH];
+	char csColorFileName[XN_FILE_MAX_PATH];
+	char csDepthFileName[XN_FILE_MAX_PATH];
+	char csIRFileName[XN_FILE_MAX_PATH];
 	getColorFileName(num, csColorFileName);
 	getDepthFileName(num, csDepthFileName);
 	getIRFileName(num, csIRFileName);

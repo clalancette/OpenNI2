@@ -36,14 +36,14 @@ public:
 	~XnLogFileWriter();
 
 	virtual void WriteEntry(const XnLogEntry* pEntry);
-	virtual void WriteUnformatted(const XnChar* strMessage);
+	virtual void WriteUnformatted(const char* strMessage);
 
 	XnStatus OpenFile();
 	void CloseFile();
 
 	void SetLineInfo(bool bLineInfo);
 
-	const XnChar* GetFileName() { return m_strCurrFileName; }
+	const char* GetFileName() { return m_strCurrFileName; }
 
 protected:
 	virtual void OnRegister();
@@ -52,7 +52,7 @@ protected:
 private:
 	XN_FILE_HANDLE m_fLogFile;
 	bool m_bWriteLineInfo;
-	XnChar m_strCurrFileName[XN_FILE_MAX_PATH];
+	char m_strCurrFileName[XN_FILE_MAX_PATH];
 };
 
 #endif // __XN_LOG_FILE_WRITER_H__

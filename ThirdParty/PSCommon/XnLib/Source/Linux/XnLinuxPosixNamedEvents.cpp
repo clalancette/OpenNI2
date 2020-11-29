@@ -28,12 +28,12 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnLinuxPosixNamedEvent::XnLinuxPosixNamedEvent(bool bManualReset, const XnChar* strName, bool bCreate) :
+XnLinuxPosixNamedEvent::XnLinuxPosixNamedEvent(bool bManualReset, const char* strName, bool bCreate) :
 	XnLinuxNamedEvent(bManualReset, strName, bCreate), m_pSem(NULL)
 {
 }
 
-XnStatus XnLinuxPosixNamedEvent::CreateNamed(const XnChar* strName)
+XnStatus XnLinuxPosixNamedEvent::CreateNamed(const char* strName)
 {
 	// Create a new semaphore or open existing
 	m_pSem = sem_open(strName, O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO , 0);
@@ -45,7 +45,7 @@ XnStatus XnLinuxPosixNamedEvent::CreateNamed(const XnChar* strName)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnLinuxPosixNamedEvent::OpenNamed(const XnChar* strName)
+XnStatus XnLinuxPosixNamedEvent::OpenNamed(const char* strName)
 {
 	return XN_STATUS_OS_EVENT_OPEN_FAILED;
 

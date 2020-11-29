@@ -277,7 +277,7 @@ typedef struct XnNodeNotifications
 	 * @param	strNodeName	[in]	The instance name of the added node.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeAdded)
-		(void* pCookie, const XnChar* strNodeName, XnProductionNodeType type,
+		(void* pCookie, const char* strNodeName, XnProductionNodeType type,
 		XnCodecID compression, uint32_t nNumberOfFrames);
 
 	/**
@@ -287,7 +287,7 @@ typedef struct XnNodeNotifications
 	 * @param	strNodeName	[in]	The instance name of the removed node.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeRemoved)
-		(void* pCookie, const XnChar* strNodeName);
+		(void* pCookie, const char* strNodeName);
 
 	/**
 	 * Notifies the object that an integer type property has changed.
@@ -298,8 +298,8 @@ typedef struct XnNodeNotifications
 	 * @param	nValue		[in]	The new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeIntPropChanged)
-		(void* pCookie, const XnChar* strNodeName,
-		const XnChar* strPropName, uint64_t nValue);
+		(void* pCookie, const char* strNodeName,
+		const char* strPropName, uint64_t nValue);
 
 	/**
 	 * Notifies the object that a real type property has changed.
@@ -310,8 +310,8 @@ typedef struct XnNodeNotifications
 	 * @param	dValue		[in]	The new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeRealPropChanged)
-		(void* pCookie, const XnChar* strNodeName,
-		const XnChar* strPropName, double dValue);
+		(void* pCookie, const char* strNodeName,
+		const char* strPropName, double dValue);
 
 	/**
 	 * Notifies the object that a string type property has changed.
@@ -322,8 +322,8 @@ typedef struct XnNodeNotifications
 	 * @param	strValue	[in]	The new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeStringPropChanged)
-		(void* pCookie, const XnChar* strNodeName,
-		const XnChar* strPropName, const XnChar* strValue);
+		(void* pCookie, const char* strNodeName,
+		const char* strPropName, const char* strValue);
 
 	/**
 	 * Notifies the object that a general type property has changed.
@@ -335,8 +335,8 @@ typedef struct XnNodeNotifications
 	 * @param	pBuffer		[in]	The buffer that holds the new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeGeneralPropChanged)
-		(void* pCookie, const XnChar* strNodeName,
-		const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
+		(void* pCookie, const char* strNodeName,
+		const char* strPropName, uint32_t nBufferSize, const void* pBuffer);
 
 	/**
 	 * Notifies the object that a node has finished sending all the initial 'property changed' notifications.
@@ -345,7 +345,7 @@ typedef struct XnNodeNotifications
 	 * @param	strNodeName	[in]	The name of the node whose state is ready.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeStateReady)
-		(void* pCookie, const XnChar* strNodeName);
+		(void* pCookie, const char* strNodeName);
 
 	/**
 	 * Notifies the object that it has received new data.
@@ -357,7 +357,7 @@ typedef struct XnNodeNotifications
 	 * @param	pBuffer		[in]	The buffer that holds the new value of the property.
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeNewData)
-		(void* pCookie, const XnChar* strNodeName,
+		(void* pCookie, const char* strNodeName,
 		uint64_t nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize);
 
 } XnNodeNotifications;

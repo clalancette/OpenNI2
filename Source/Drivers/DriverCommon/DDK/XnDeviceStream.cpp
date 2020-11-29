@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnDeviceStream::XnDeviceStream(const XnChar* csType, const XnChar* csName) :
+XnDeviceStream::XnDeviceStream(const char* csType, const char* csName) :
 	XnDeviceModule(csName),
 	m_pServices(NULL),
 	m_IsStream(XN_STREAM_PROPERTY_IS_STREAM, "IsStream", true),

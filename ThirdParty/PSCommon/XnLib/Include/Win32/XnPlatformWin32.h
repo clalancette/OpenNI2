@@ -81,8 +81,6 @@
 //---------------------------------------------------------------------------
 // Basic Types
 //---------------------------------------------------------------------------
-/** Signed character for strings. */
-typedef	char				XnChar;
 /** Unsigned character for strings. */
 typedef	unsigned char		XnUChar;
 

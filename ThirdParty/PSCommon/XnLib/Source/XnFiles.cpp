@@ -20,7 +20,7 @@
 *****************************************************************************/
 #include "XnLib.h"
 
-XN_C_API XnStatus xnOSLoadFile(const XnChar* cpFileName, void* pBuffer, const uint32_t nBufferSize)
+XN_C_API XnStatus xnOSLoadFile(const char* cpFileName, void* pBuffer, const uint32_t nBufferSize)
 {
 	// Local function variables
 	XN_FILE_HANDLE FileHandle;
@@ -53,7 +53,7 @@ XN_C_API XnStatus xnOSLoadFile(const XnChar* cpFileName, void* pBuffer, const ui
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSSaveFile(const XnChar* cpFileName, const void* pBuffer, const uint32_t nBufferSize)
+XN_C_API XnStatus xnOSSaveFile(const char* cpFileName, const void* pBuffer, const uint32_t nBufferSize)
 {
 	// Local function variables
 	XN_FILE_HANDLE FileHandle;
@@ -80,7 +80,7 @@ XN_C_API XnStatus xnOSSaveFile(const XnChar* cpFileName, const void* pBuffer, co
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSAppendFile(const XnChar* cpFileName, const void* pBuffer, const uint32_t nBufferSize)
+XN_C_API XnStatus xnOSAppendFile(const char* cpFileName, const void* pBuffer, const uint32_t nBufferSize)
 {
 	// Local function variables
 	XN_FILE_HANDLE FileHandle;
@@ -107,7 +107,7 @@ XN_C_API XnStatus xnOSAppendFile(const XnChar* cpFileName, const void* pBuffer, 
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSStripDirSep(XnChar* strDirName)
+XN_C_API XnStatus xnOSStripDirSep(char* strDirName)
 {
 	uint32_t len = xnOSStrLen(strDirName);
 	if (len > 0 && xnOSIsDirSep(strDirName[len-1]))
@@ -117,12 +117,12 @@ XN_C_API XnStatus xnOSStripDirSep(XnChar* strDirName)
 	return XN_STATUS_OK;
 }
 
-XN_C_API bool xnOSIsDirSep(XnChar c)
+XN_C_API bool xnOSIsDirSep(char c)
 {
 	return (c != '\0') && (strchr(XN_FILE_DIR_SEPS, c) != NULL);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSAppendFilePath(XnChar* strDestPath, const XnChar* strPathComponentToAppend, const uint32_t nBufferSize)
+XN_C_API XnStatus XN_C_DECL xnOSAppendFilePath(char* strDestPath, const char* strPathComponentToAppend, const uint32_t nBufferSize)
 {
 	XnStatus rc;
 	if (xnOSIsAbsoluteFilePath(strPathComponentToAppend))

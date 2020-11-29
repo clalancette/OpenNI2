@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 // XnOniStream class
 //---------------------------------------------------------------------------
-XnOniStream::XnOniStream(XnSensor* pSensor, const XnChar* strName, OniSensorType sensorType, XnOniDevice* pDevice) :
+XnOniStream::XnOniStream(XnSensor* pSensor, const char* strName, OniSensorType sensorType, XnOniDevice* pDevice) :
 	m_sensorType(sensorType),
 	m_pSensor(pSensor),
 	m_strType(strName),

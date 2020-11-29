@@ -44,7 +44,7 @@ protected:
 
 	XnStatus WriteToLogFile(uint8_t fileID, const void* pData, uint32_t dataLength);
 	XnStatus CloseLogFile(uint8_t fileID);
-	XnStatus OpenLogFile(uint8_t fileID, const XnChar* fileName);
+	XnStatus OpenLogFile(uint8_t fileID, const char* fileName);
 private:
 	xnl::Hash<uint8_t, XnDumpFile*> m_activeLogs;
 	bool m_copyDataToOutput;

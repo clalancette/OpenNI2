@@ -54,7 +54,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnChar* cpDest)
+static XnStatus FindEntry(const char* cpINIFile, const char* cpSection, const char* cpKey, char* cpDest)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -64,7 +64,7 @@ static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, cons
 	XN_IS_STATUS_OK(nRetVal);
 
 	// read entire file to memory
-	XnChar* csFileData = (XnChar*)xnOSMalloc(sizeof(XnChar)*nFileSize + 1);
+	char* csFileData = (char*)xnOSMalloc(sizeof(char)*nFileSize + 1);
 	XN_VALIDATE_ALLOC_PTR(csFileData);
 
 	nRetVal = xnOSLoadFile(cpINIFile, csFileData, nFileSize);
@@ -78,10 +78,10 @@ static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, cons
 	csFileData[nFileSize] = '\0';
 
 	// now parse file
-	XnChar* pCurPos = csFileData;
+	char* pCurPos = csFileData;
 	bool bIsInRequestedSection = false;
 
-	XnChar csTempString[XN_INI_MAX_LEN];
+	char csTempString[XN_INI_MAX_LEN];
 	uint32_t nTempStringLength = 0;
 
 	while (true)
@@ -160,7 +160,7 @@ static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, cons
 	return (XN_STATUS_OS_INI_READ_FAILED);
 }
 
-XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnChar* cpDest, const uint32_t nDestLength)
+XN_C_API XnStatus xnOSReadStringFromINI(const char* cpINIFile, const char* cpSection, const char* cpKey, char* cpDest, const uint32_t nDestLength)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	bool bINIFileExists = false;
@@ -175,7 +175,7 @@ XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* c
 	XN_VALIDATE_FILE_EXISTS_RET(cpINIFile, nRetVal, bINIFileExists, XN_STATUS_OS_INI_FILE_NOT_FOUND);
 
 	// find value
-	XnChar cpValueString[XN_INI_MAX_LEN];
+	char cpValueString[XN_INI_MAX_LEN];
 	nRetVal = FindEntry(cpINIFile, cpSection, cpKey, cpValueString);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -185,7 +185,7 @@ XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* c
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, float* fDest)
+XN_C_API XnStatus xnOSReadFloatFromINI(const char* cpINIFile, const char* cpSection, const char* cpKey, float* fDest)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_OUTPUT_PTR(fDest);
@@ -199,7 +199,7 @@ XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cp
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, double* fDest)
+XN_C_API XnStatus xnOSReadDoubleFromINI(const char* cpINIFile, const char* cpSection, const char* cpKey, double* fDest)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	bool bINIFileExists = false;
@@ -214,7 +214,7 @@ XN_C_API XnStatus xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* c
 	XN_VALIDATE_FILE_EXISTS_RET(cpINIFile, nRetVal, bINIFileExists, XN_STATUS_OS_INI_FILE_NOT_FOUND);
 
 	// find value
-	XnChar cpValueString[XN_INI_MAX_LEN];
+	char cpValueString[XN_INI_MAX_LEN];
 	nRetVal = FindEntry(cpINIFile, cpSection, cpKey, cpValueString);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -223,7 +223,7 @@ XN_C_API XnStatus xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* c
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, int32_t* nDest)
+XN_C_API XnStatus xnOSReadIntFromINI(const char* cpINIFile, const char* cpSection, const char* cpKey, int32_t* nDest)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	bool bINIFileExists = false;
@@ -238,7 +238,7 @@ XN_C_API XnStatus xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSe
 	XN_VALIDATE_FILE_EXISTS_RET(cpINIFile, nRetVal, bINIFileExists, XN_STATUS_OS_INI_FILE_NOT_FOUND);
 
 	// find value
-	XnChar cpValueString[XN_INI_MAX_LEN];
+	char cpValueString[XN_INI_MAX_LEN];
 	nRetVal = FindEntry(cpINIFile, cpSection, cpKey, cpValueString);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -247,22 +247,22 @@ XN_C_API XnStatus xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSe
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSWriteStringToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const XnChar* /*cpSrc*/)
+XN_C_API XnStatus xnOSWriteStringToINI(const char* /*cpINIFile*/, const char* /*cpSection*/, const char* /*cpKey*/, const char* /*cpSrc*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnOSWriteFloatToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const float /*fSrc*/)
+XN_C_API XnStatus xnOSWriteFloatToINI(const char* /*cpINIFile*/, const char* /*cpSection*/, const char* /*cpKey*/, const float /*fSrc*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnOSWriteDoubleToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const double /*fSrc*/)
+XN_C_API XnStatus xnOSWriteDoubleToINI(const char* /*cpINIFile*/, const char* /*cpSection*/, const char* /*cpKey*/, const double /*fSrc*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnOSWriteIntToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const int32_t /*nSrc*/)
+XN_C_API XnStatus xnOSWriteIntToINI(const char* /*cpINIFile*/, const char* /*cpSection*/, const char* /*cpKey*/, const int32_t /*nSrc*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }

@@ -67,7 +67,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 	//Parsed data
 	uint8_t fileID;
 	XnLinkLogCommand command;
-	XnChar logFileName[XN_LINK_MAX_LOG_FILE_NAME_LENGTH];
+	char logFileName[XN_LINK_MAX_LOG_FILE_NAME_LENGTH];
 
 	fileID = logHeader->m_ID;
 	command = (XnLinkLogCommand)logHeader->command;
@@ -80,12 +80,12 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 	//Parse file name
 	if (command == XN_LINK_LOG_COMMAND_OPEN || command == XN_LINK_LOG_COMMAND_OPEN_APPEND)
 	{
-		//Copy file name to our XnChar array
+		//Copy file name to our char array
 		uint8_t* inputFileName = ((XnLinkLogFileParam*)pSrc)->logFileName;
 		int i = 0;
 		for(; i < XN_LINK_MAX_LOG_FILE_NAME_LENGTH && *inputFileName != '\0'; ++i, ++inputFileName)
 		{
-			logFileName[i] = (XnChar)*inputFileName;
+			logFileName[i] = (char)*inputFileName;
 		}
 		logFileName[i] = '\0';
 
@@ -145,7 +145,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 
 
 
-XnStatus LinkLogParser::OpenLogFile( uint8_t fileID, const XnChar* fileName )
+XnStatus LinkLogParser::OpenLogFile( uint8_t fileID, const char* fileName )
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XnDumpFile* pTargetFile;
@@ -159,7 +159,7 @@ XnStatus LinkLogParser::OpenLogFile( uint8_t fileID, const XnChar* fileName )
 	}
 
 	//Prefix current timestamp to file name (timestamp is 25 chars)
-	XnChar filenameWithTimestamp[XN_LINK_MAX_LOG_FILE_NAME_LENGTH + 25 + 1];
+	char filenameWithTimestamp[XN_LINK_MAX_LOG_FILE_NAME_LENGTH + 25 + 1];
 	time_t currtime;
 	time(&currtime);
 	strftime(filenameWithTimestamp, sizeof(filenameWithTimestamp)-1, "%Y_%m_%d__%H_%M_%S.", localtime(&currtime));

@@ -29,12 +29,12 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnIntProperty::XnIntProperty(uint32_t propertyId, const XnChar* strName, uint64_t* pValueHolder /* = NULL */, const XnChar* strModule /* = "" */ ) :
+XnIntProperty::XnIntProperty(uint32_t propertyId, const char* strName, uint64_t* pValueHolder /* = NULL */, const char* strModule /* = "" */ ) :
 	XnProperty(XN_PROPERTY_TYPE_INTEGER, pValueHolder, propertyId, strName, strModule)
 {
 }
 
-XnStatus XnIntProperty::ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection)
+XnStatus XnIntProperty::ReadValueFromFile(const char* csINIFile, const char* csSection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -79,7 +79,7 @@ XnStatus XnIntProperty::CallGetCallback(void* pValue) const
 	return m_pGetCallback(this, (uint64_t*)pValue, m_pGetCallbackCookie);
 }
 
-bool XnIntProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
+bool XnIntProperty::ConvertValueToString(char* csValue, const void* pValue) const
 {
 	sprintf(csValue, "%" PRIu64, *(uint64_t*)pValue);
 	return true;

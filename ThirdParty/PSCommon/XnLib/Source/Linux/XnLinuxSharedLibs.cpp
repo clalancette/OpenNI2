@@ -28,13 +28,13 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XN_C_API XnStatus xnOSLoadLibrary(const XnChar* cpFileName, XN_LIB_HANDLE* pLibHandle)
+XN_C_API XnStatus xnOSLoadLibrary(const char* cpFileName, XN_LIB_HANDLE* pLibHandle)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpFileName);
 	XN_VALIDATE_OUTPUT_PTR(pLibHandle);
 
-	XnChar strLibPath[XN_FILE_MAX_PATH];
+	char strLibPath[XN_FILE_MAX_PATH];
 
 	// Resolve the file name to the absolute path. This is necessary because
 	// we need to get the absolute path of this library by dladdr() later.
@@ -75,7 +75,7 @@ XN_C_API XnStatus xnOSFreeLibrary(const XN_LIB_HANDLE LibHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetProcAddress(const XN_LIB_HANDLE LibHandle, const XnChar* cpProcName, XnFarProc* pProcAddr)
+XN_C_API XnStatus xnOSGetProcAddress(const XN_LIB_HANDLE LibHandle, const char* cpProcName, XnFarProc* pProcAddr)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpProcName);
@@ -94,7 +94,7 @@ XN_C_API XnStatus xnOSGetProcAddress(const XN_LIB_HANDLE LibHandle, const XnChar
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetModulePathForProcAddress(void* procAddr, XnChar *strModulePath)
+XN_C_API XnStatus xnOSGetModulePathForProcAddress(void* procAddr, char *strModulePath)
 {
 	Dl_info info;
 	if (!dladdr(procAddr, &info))

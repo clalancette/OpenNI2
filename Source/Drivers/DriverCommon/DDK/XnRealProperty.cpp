@@ -28,12 +28,12 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnRealProperty::XnRealProperty(uint32_t propertyId, const XnChar* strName, double* pValueHolder, const XnChar* strModule /* = "" */) :
+XnRealProperty::XnRealProperty(uint32_t propertyId, const char* strName, double* pValueHolder, const char* strModule /* = "" */) :
 	XnProperty(XN_PROPERTY_TYPE_REAL, pValueHolder, propertyId, strName, strModule)
 {
 }
 
-XnStatus XnRealProperty::ReadValueFromFile(const XnChar* csINIFile, const XnChar* csSection)
+XnStatus XnRealProperty::ReadValueFromFile(const char* csINIFile, const char* csSection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -78,7 +78,7 @@ XnStatus XnRealProperty::CallGetCallback(void* pValue) const
 	return m_pGetCallback(this, (double*)pValue, m_pGetCallbackCookie);
 }
 
-bool XnRealProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
+bool XnRealProperty::ConvertValueToString(char* csValue, const void* pValue) const
 {
 	sprintf(csValue, "%f", *(double*)pValue);
 	return true;

@@ -52,7 +52,7 @@
 
 #define XN_SERIAL_NUMBER_SIZE   32
 
-typedef XnChar XnConnectionString[XN_FILE_MAX_PATH];
+typedef char XnConnectionString[XN_FILE_MAX_PATH];
 
 typedef enum XnTransportType
 {
@@ -69,7 +69,7 @@ typedef uint32_t XnStreamType;
 
 typedef struct XnAvailableGesture
 {
-	const XnChar* m_strGesture;
+	const char* m_strGesture;
 	bool m_bProgressSupported;
 	bool m_bCurrentlyActive;
 } XnAvailableGesture;
@@ -82,8 +82,8 @@ typedef struct XnLeanVersion
 
 typedef struct XnComponentVersion
 {
-	XnChar m_strName[XN_MAX_COMPONENT_NAME_LENGTH];
-	XnChar m_strVersion[XN_MAX_VERSION_LENGTH];
+	char m_strName[XN_MAX_COMPONENT_NAME_LENGTH];
+	char m_strVersion[XN_MAX_VERSION_LENGTH];
 } XnComponentVersion;
 
 #endif // XNLINKPROTOLIBDEFS_H

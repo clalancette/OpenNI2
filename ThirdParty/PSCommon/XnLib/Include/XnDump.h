@@ -43,14 +43,14 @@ typedef struct XnDumpFile XnDumpFile;
  * @param	strMask		[in]	The mask to set.
  * @param	bEnabled	[in]	true to enable this dump, false otherwise.
  */
-XN_C_API XnStatus XN_C_DECL xnDumpSetMaskState(const XnChar* strMask, bool bEnabled);
+XN_C_API XnStatus XN_C_DECL xnDumpSetMaskState(const char* strMask, bool bEnabled);
 
 /**
  * This function checks if a dump mask is enabled
  *
  * @param	strDumpMask	[in]	The mask that should be checked.
  */
-XN_C_API bool XN_C_DECL xnLogIsDumpMaskEnabled(const XnChar* strDumpMask);
+XN_C_API bool XN_C_DECL xnLogIsDumpMaskEnabled(const char* strDumpMask);
 
 /**
  * Opens a file for writing dump.
@@ -60,7 +60,7 @@ XN_C_API bool XN_C_DECL xnLogIsDumpMaskEnabled(const XnChar* strDumpMask);
  *
  * @returns a file handle for writing data. The file should be closed using @ref xnDumpFileClose().
  */
-XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpen(const XnChar* strDumpName, const XnChar* strNameFormat, ...);
+XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpen(const char* strDumpName, const char* strNameFormat, ...);
 
 /**
  * Opens a file for writing dump using some advanced options.
@@ -74,7 +74,7 @@ XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpen(const XnChar* strDumpName, const X
  *
  * @returns a file handle for writing data. The file should be closed using @ref xnDumpFileClose().
  */
-XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpenEx(const XnChar* strDumpName, bool bForce, bool bSessionDump, const XnChar* strNameFormat, ...);
+XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpenEx(const char* strDumpName, bool bForce, bool bSessionDump, const char* strNameFormat, ...);
 
 /**
  * Writes a buffer to a dump file.
@@ -93,7 +93,7 @@ XN_C_API void XN_C_DECL _xnDumpFileWriteBuffer(XnDumpFile* pFile, const void* pB
  *
  * NOTE: the total length of the string must not exceed 8 KB. If it does, it will be truncated.
  */
-XN_C_API void XN_C_DECL _xnDumpFileWriteString(XnDumpFile* pFile, const XnChar* strFormat, ...);
+XN_C_API void XN_C_DECL _xnDumpFileWriteString(XnDumpFile* pFile, const char* strFormat, ...);
 
 /**
  * Closes a dump file.
@@ -153,11 +153,11 @@ typedef struct XnDump
 
 const XnDump XN_DUMP_CLOSED = { XN_INVALID_FILE_HANDLE };
 
-XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpInit(XnDump* pDump, const XnChar* csDumpMask, const XnChar* csHeader, const XnChar* csFileNameFormat, ...);
-XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpForceInit(XnDump* pDump, const XnChar* csHeader, const XnChar* csFileNameFormat, ...);
+XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpInit(XnDump* pDump, const char* csDumpMask, const char* csHeader, const char* csFileNameFormat, ...);
+XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpForceInit(XnDump* pDump, const char* csHeader, const char* csFileNameFormat, ...);
 XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpClose(XnDump* pDump);
 XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpWriteBufferImpl(XnDump dump, const void* pBuffer, uint32_t nBufferSize);
-XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpWriteStringImpl(XnDump dump, const XnChar* csFormat, ...);
+XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpWriteStringImpl(XnDump dump, const char* csFormat, ...);
 XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpFlush(XnDump dump);
 
 #define xnDumpWriteBuffer(dump, pBuffer, nBufferSize)		\

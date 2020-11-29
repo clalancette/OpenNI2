@@ -28,7 +28,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnActualGeneralProperty::XnActualGeneralProperty(uint32_t propertyId, const XnChar* strName, void* pData, uint32_t nDataSize, ReadValueFromFileFuncPtr pReadFromFileFunc /* = NULL */, const XnChar* strModule /* = "" */) :
+XnActualGeneralProperty::XnActualGeneralProperty(uint32_t propertyId, const char* strName, void* pData, uint32_t nDataSize, ReadValueFromFileFuncPtr pReadFromFileFunc /* = NULL */, const char* strModule /* = "" */) :
 	XnGeneralProperty(propertyId, strName, &m_gbValue, pReadFromFileFunc, strModule),
 	m_gbValue(XnGeneralBufferPack(pData, nDataSize)),
 	m_bOwner(false)
@@ -37,7 +37,7 @@ XnActualGeneralProperty::XnActualGeneralProperty(uint32_t propertyId, const XnCh
 	UpdateGetCallback(GetCallback, this);
 }
 
-XnActualGeneralProperty::XnActualGeneralProperty(uint32_t propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue, ReadValueFromFileFuncPtr pReadFromFileFunc /* = NULL */, const XnChar* strModule /* = "" */) :
+XnActualGeneralProperty::XnActualGeneralProperty(uint32_t propertyId, const char* strName, const OniGeneralBuffer& gbValue, ReadValueFromFileFuncPtr pReadFromFileFunc /* = NULL */, const char* strModule /* = "" */) :
 	XnGeneralProperty(propertyId, strName, &m_gbValue, pReadFromFileFunc, strModule),
 	m_gbValue(gbValue),
 	m_bOwner(false)

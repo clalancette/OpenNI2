@@ -35,7 +35,7 @@
 //---------------------------------------------------------------------------
 // XnSensorIRStream class
 //---------------------------------------------------------------------------
-XnSensorIRStream::XnSensorIRStream(const XnChar* StreamName, XnSensorObjects* pObjects) :
+XnSensorIRStream::XnSensorIRStream(const char* StreamName, XnSensorObjects* pObjects) :
 	XnIRStream(StreamName, false, XN_DEVICE_SENSOR_MAX_IR),
 	m_InputFormat(XN_STREAM_PROPERTY_INPUT_FORMAT, "InputFormat", 0),
 	m_CroppingMode(XN_STREAM_PROPERTY_CROPPING_MODE, "CroppingMode", XN_CROPPING_MODE_NORMAL),

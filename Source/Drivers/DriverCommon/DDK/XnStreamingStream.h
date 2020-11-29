@@ -34,7 +34,7 @@
 class XnStreamingStream : public XnDeviceStream
 {
 public:
-	XnStreamingStream(const XnChar* csType, const XnChar* csName);
+	XnStreamingStream(const char* csType, const char* csName);
 	~XnStreamingStream() { Free(); }
 
 	//---------------------------------------------------------------------------

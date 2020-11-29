@@ -42,7 +42,7 @@ void XnOniDriver::XnOpenNILogWriter::WriteEntry(const XnLogEntry* pEntry)
 	m_pDriverServices->log(m_pDriverServices, pEntry->nSeverity, pEntry->strFile, pEntry->nLine, pEntry->strMask, pEntry->strMessage);
 }
 
-void XnOniDriver::XnOpenNILogWriter::WriteUnformatted(const XnChar* /*strMessage*/)
+void XnOniDriver::XnOpenNILogWriter::WriteUnformatted(const char* /*strMessage*/)
 {
 	// DO NOTHING
 }
@@ -225,7 +225,7 @@ void XnOniDriver::disableFrameSync(void* frameSyncGroup)
 	}
 }
 
-void XN_CALLBACK_TYPE XnOniDriver::OnDevicePropertyChanged(const XnChar* ModuleName, uint32_t nPropertyId, void* pCookie)
+void XN_CALLBACK_TYPE XnOniDriver::OnDevicePropertyChanged(const char* ModuleName, uint32_t nPropertyId, void* pCookie)
 {
 	XnOniDevice* pDevice = (XnOniDevice*)pCookie;
 	XnOniDriver* pThis = pDevice->GetDriver();

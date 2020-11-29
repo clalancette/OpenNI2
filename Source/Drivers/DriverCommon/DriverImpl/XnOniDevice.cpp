@@ -32,7 +32,7 @@
 //---------------------------------------------------------------------------
 // XnOniDevice class
 //---------------------------------------------------------------------------
-XnOniDevice::XnOniDevice(const XnChar* uri, oni::driver::DriverServices& driverServices, XnOniDriver* pDriver) : m_driverServices(driverServices), m_pDriver(pDriver)
+XnOniDevice::XnOniDevice(const char* uri, oni::driver::DriverServices& driverServices, XnOniDriver* pDriver) : m_driverServices(driverServices), m_pDriver(pDriver)
 {
 	xnOSMemCopy(&m_info, XnDeviceEnumeration::GetDeviceInfo(uri), sizeof(m_info));
 }
@@ -303,7 +303,7 @@ OniStatus XnOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 		{
 			XnVersions &versions = m_sensor.GetDevicePrivateData()->Version;
 			uint32_t nCharsWritten = 0;
-			XnStatus rc = xnOSStrFormat((XnChar*)data, *pDataSize, &nCharsWritten, "%d.%d.%d", versions.nMajor, versions.nMinor, versions.nBuild);
+			XnStatus rc = xnOSStrFormat((char*)data, *pDataSize, &nCharsWritten, "%d.%d.%d", versions.nMajor, versions.nMinor, versions.nBuild);
 			if (rc != XN_STATUS_OK)
 			{
 				m_driverServices.errorLoggerAppend("Couldn't get firmware version: %s\n", xnGetStatusString(rc));
@@ -487,7 +487,7 @@ void XnOniDevice::notifyAllProperties()
 	getProperty(XN_MODULE_PROPERTY_LEAN_INIT, &nValue, &size);
 	raisePropertyChanged(XN_MODULE_PROPERTY_LEAN_INIT, &nValue, sizeof(nValue));
 
-	XnChar strValue[XN_DEVICE_MAX_STRING_LENGTH];
+	char strValue[XN_DEVICE_MAX_STRING_LENGTH];
 	size = sizeof(strValue);
 	getProperty(XN_MODULE_PROPERTY_SERIAL_NUMBER, strValue, &size);
 	raisePropertyChanged(XN_MODULE_PROPERTY_SERIAL_NUMBER, strValue, size);

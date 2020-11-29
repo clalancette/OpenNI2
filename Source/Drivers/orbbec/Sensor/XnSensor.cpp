@@ -59,8 +59,8 @@
 typedef struct XnWaitForSycnhedFrameData
 {
 	XnSensor* pThis;
-	const XnChar* strDepthStream;
-	const XnChar* strImageStream;
+	const char* strDepthStream;
+	const char* strImageStream;
 } XnWaitForSycnhedFrameData;
 
 //---------------------------------------------------------------------------
@@ -400,7 +400,7 @@ XnStatus XnSensor::CreateDeviceModule(XnDeviceModuleHolder** ppModuleHolder)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::CreateStreamImpl(const XnChar* strType, const XnChar* strName, const XnActualPropertiesHash* pInitialSet)
+XnStatus XnSensor::CreateStreamImpl(const char* strType, const char* strName, const XnActualPropertiesHash* pInitialSet)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -414,7 +414,7 @@ XnStatus XnSensor::CreateStreamImpl(const XnChar* strType, const XnChar* strName
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::CreateStreamModule(const XnChar* StreamType, const XnChar* StreamName, XnDeviceModuleHolder** ppStreamHolder)
+XnStatus XnSensor::CreateStreamModule(const char* StreamType, const char* StreamName, XnDeviceModuleHolder** ppStreamHolder)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -479,7 +479,7 @@ XnStatus XnSensor::OpenAllStreams()
 	xnLogVerbose(XN_MASK_DEVICE_SENSOR, "Opening all streams...");
 
 	// take a list of all the streams
-	const XnChar* astrStreams[XN_SENSOR_MAX_STREAM_COUNT];
+	const char* astrStreams[XN_SENSOR_MAX_STREAM_COUNT];
 	uint32_t nStreamCount = XN_SENSOR_MAX_STREAM_COUNT;
 	XnDeviceStream* apStreams[XN_SENSOR_MAX_STREAM_COUNT];
 	XnSensorStreamHolder* apSensorStreams[XN_SENSOR_MAX_STREAM_COUNT];
@@ -504,7 +504,7 @@ XnStatus XnSensor::OpenAllStreams()
 		if (strcmp(apStreams[i]->GetType(), XN_STREAM_TYPE_DEPTH) == 0)
 		{
 			// switch it with the one in location 0
-			const XnChar* strTempName = astrStreams[0];
+			const char* strTempName = astrStreams[0];
 			XnDeviceStream* pTempStream = apStreams[0];
 			XnSensorStreamHolder* pTempHolder = apSensorStreams[0];
 
@@ -548,7 +548,7 @@ XnStatus XnSensor::OpenAllStreams()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::GetStream(const XnChar* strStream, XnDeviceStream** ppStream)
+XnStatus XnSensor::GetStream(const char* strStream, XnDeviceStream** ppStream)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -562,7 +562,7 @@ XnStatus XnSensor::GetStream(const XnChar* strStream, XnDeviceStream** ppStream)
 	return XN_STATUS_OK;
 }
 
-XnStatus XnSensor::LoadConfigFromFile(const XnChar* csINIFilePath, const XnChar* csSectionName)
+XnStatus XnSensor::LoadConfigFromFile(const char* csINIFilePath, const char* csSectionName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -676,7 +676,7 @@ XnStatus XnSensor::ChangeTaskInterval(XnScheduledTask** ppTask, XnTaskCallbackFu
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::ValidateSensorID(XnChar* csSensorID)
+XnStatus XnSensor::ValidateSensorID(char* csSensorID)
 {
 	if (strcmp(csSensorID, XN_DEVICE_SENSOR_DEFAULT_ID) != 0)
 	{
@@ -689,12 +689,12 @@ XnStatus XnSensor::ValidateSensorID(XnChar* csSensorID)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32_t nBufSize, const XnChar* strConfigDir)
+XnStatus XnSensor::ResolveGlobalConfigFileName(char* strConfigFile, uint32_t nBufSize, const char* strConfigDir)
 {
 	XnStatus rc = XN_STATUS_OK;
 
 	// If strConfigDir is NULL, tries to resolve the config file based on the driver's directory
-	XnChar strBaseDir[XN_FILE_MAX_PATH];
+	char strBaseDir[XN_FILE_MAX_PATH];
 	if (strConfigDir == NULL)
 	{
 		if (xnOSGetModulePathForProcAddress(reinterpret_cast<void*>(&XnSensor::ResolveGlobalConfigFileName), strBaseDir) == XN_STATUS_OK &&
@@ -714,7 +714,7 @@ XnStatus XnSensor::ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32_t n
 	return xnOSAppendFilePath(strConfigFile, XN_GLOBAL_CONFIG_FILE_NAME, nBufSize);
 }
 
-XnStatus XnSensor::SetGlobalConfigFile(const XnChar* strConfigFile)
+XnStatus XnSensor::SetGlobalConfigFile(const char* strConfigFile)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -733,7 +733,7 @@ XnStatus XnSensor::SetGlobalConfigFile(const XnChar* strConfigFile)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::ConfigureModuleFromGlobalFile(const XnChar* strModule, const XnChar* strSection /* = NULL */)
+XnStatus XnSensor::ConfigureModuleFromGlobalFile(const char* strModule, const char* strSection /* = NULL */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -803,7 +803,7 @@ XnStatus XnSensor::SetFirmwareFrameSync(bool bOn)
 void XnSensor::ReadFirmwareLog()
 {
 	// get log
-	XnChar LogBuffer[XN_MAX_LOG_SIZE] = "";
+	char LogBuffer[XN_MAX_LOG_SIZE] = "";
 	XnHostProtocolGetLog(&m_DevicePrivateData, LogBuffer, XN_MAX_LOG_SIZE);
 
 	// write sensor log to dump
@@ -1015,7 +1015,7 @@ XnStatus XnSensor::GetImageCmosRegister(XnControlProcessingData* pRegister)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::GetFirmwareLog(XnChar* csLog, uint32_t nSize)
+XnStatus XnSensor::GetFirmwareLog(char* csLog, uint32_t nSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1955,7 +1955,7 @@ XnStatus XN_CALLBACK_TYPE XnSensor::ReadFlashFileCallback(const XnGeneralPropert
 XnStatus XN_CALLBACK_TYPE XnSensor::GetFirmwareLogCallback(const XnGeneralProperty* /*pSender*/, const OniGeneralBuffer& gbValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->GetFirmwareLog((XnChar*)gbValue.data, gbValue.dataSize);
+	return pThis->GetFirmwareLog((char*)gbValue.data, gbValue.dataSize);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::ReadFlashChunkCallback(const XnGeneralProperty* /*pSender*/, const OniGeneralBuffer& gbValue, void* pCookie)

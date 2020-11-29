@@ -77,7 +77,7 @@ bool XnDDKGetXYFromResolution(XnResolutions res, uint32_t* pnXRes, uint32_t* pnY
 	return true;
 }
 
-const XnChar* XnDDKGetResolutionName(XnResolutions res)
+const char* XnDDKGetResolutionName(XnResolutions res)
 {
 	switch (res)
 	{

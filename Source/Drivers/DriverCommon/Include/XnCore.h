@@ -79,7 +79,7 @@ XnStatus XnInit();
 *
 * @param	cpINIFileName		[in]	A path to an INI file.
 */
-XnStatus XnInitFromINIFile(const XnChar* cpINIFileName);
+XnStatus XnInitFromINIFile(const char* cpINIFileName);
 
 /**
 * This function shuts down the core low-level SDK.
@@ -102,6 +102,6 @@ uint32_t	XnGetVersion(void);
  *
  * @return A string representation of the Xiron version.
  */
-const XnChar*	XnGetVersionString(void);
+const char*	XnGetVersionString(void);
 
 #endif // XNCORE_H

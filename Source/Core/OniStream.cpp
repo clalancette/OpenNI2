@@ -500,7 +500,7 @@ double VideoStream::calcCurrentFPS()
 	return xnFPSCalc(&m_FPS);
 }
 
-const XnChar* VideoStream::getSensorName(OniSensorType sensorType)
+const char* VideoStream::getSensorName(OniSensorType sensorType)
 {
 	switch (sensorType)
 	{

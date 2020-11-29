@@ -31,7 +31,7 @@ void XnLogConsoleWriter::WriteEntry(const XnLogEntry* pEntry)
 	printf("%9" PRIu64 " %-10s %s\n", pEntry->nTimestamp, pEntry->strSeverity, pEntry->strMessage);
 }
 
-void XnLogConsoleWriter::WriteUnformatted(const XnChar* strMessage)
+void XnLogConsoleWriter::WriteUnformatted(const char* strMessage)
 {
 	printf("%s\n", strMessage);
 }

@@ -71,7 +71,7 @@ typedef int (*CommandHandler)(int argc, const char* argv[]);
 
 typedef struct
 {
-	const XnChar* name;
+	const char* name;
 	CommandHandler handler;
 } Command;
 
@@ -91,7 +91,7 @@ typedef struct
 // Globals
 //---------------------------------------------------------------------------
 static Device g_device;
-static std::list<const XnChar*> g_commandsList;
+static std::list<const char*> g_commandsList;
 static xnl::XnStringsHashT<Command> g_commands;
 static bool g_continue = true;
 
@@ -120,14 +120,14 @@ void ExecuteCommandsFromStream(FILE* inputStream, bool bPrompt);
 //---------------------------------------------------------------------------
 
 //pnTokens is max args on input, actual number of args on output
-void SplitStr(XnChar* str, const XnChar* strTokens[], int* pnTokens)
+void SplitStr(char* str, const char* strTokens[], int* pnTokens)
 {
 	uint32_t nMaxTokens = *pnTokens;
 	uint32_t nToken = 0;
 
 	bool bFirstAfterDelim = true;
 
-	for (XnChar* p = str; *p != '\0' && nToken < nMaxTokens ; ++p)
+	for (char* p = str; *p != '\0' && nToken < nMaxTokens ; ++p)
 	{
 		if (*p == ' ' || *p == '\n')
 		{
@@ -145,18 +145,18 @@ void SplitStr(XnChar* str, const XnChar* strTokens[], int* pnTokens)
 }
 
 //MyAtoi() accepts hex (with 0x) or decimal values from string
-uint32_t MyAtoi(const XnChar* str)
+uint32_t MyAtoi(const char* str)
 {
 	uint32_t nValue = 0;
 	sscanf(str, "%i", &nValue);
 	return nValue;
 }
 
-XnChar* ToLower(XnChar* str)
+char* ToLower(char* str)
 {
-	for (XnChar* p = str; *p != '\0'; ++p)
+	for (char* p = str; *p != '\0'; ++p)
 	{
-		*p = (XnChar)tolower(*p);
+		*p = (char)tolower(*p);
 	}
 	return str;
 }
@@ -188,7 +188,7 @@ XnFwStreamType fwStreamNameToType(const char* name)
 	return (XnFwStreamType)-1;
 }
 
-const XnChar* fwPixelFormatToName(XnFwPixelFormat pixelFormat)
+const char* fwPixelFormatToName(XnFwPixelFormat pixelFormat)
 {
 	switch (pixelFormat)
 	{
@@ -206,7 +206,7 @@ const XnChar* fwPixelFormatToName(XnFwPixelFormat pixelFormat)
 	}
 }
 
-XnFwPixelFormat fwPixelFormatNameToType(const XnChar* name)
+XnFwPixelFormat fwPixelFormatNameToType(const char* name)
 {
 	if (xnOSStrCmp(name, "Shifts9.3") == 0)
 		return XN_FW_PIXEL_FORMAT_SHIFTS_9_3;
@@ -223,7 +223,7 @@ XnFwPixelFormat fwPixelFormatNameToType(const XnChar* name)
 	}
 }
 
-const XnChar* fwCompressionTypeToName(XnFwCompressionType compression)
+const char* fwCompressionTypeToName(XnFwCompressionType compression)
 {
 	switch (compression)
 	{
@@ -249,7 +249,7 @@ const XnChar* fwCompressionTypeToName(XnFwCompressionType compression)
 	}
 }
 
-XnFwCompressionType fwCompressionNameToType(const XnChar* name)
+XnFwCompressionType fwCompressionNameToType(const char* name)
 {
 	if (xnOSStrCmp(name, "None") == 0)
 		return XN_FW_COMPRESSION_NONE;
@@ -311,7 +311,7 @@ void RunCommand(int argc, const char* argv[])
 	command.handler(argc, argv);
 }
 
-void RunCommand(XnChar* strCmdLine)
+void RunCommand(char* strCmdLine)
 {
 	enum {CMD_MAX_ARGS = 256};
 	const char* argv[CMD_MAX_ARGS] = {NULL};
@@ -330,7 +330,7 @@ void RunCommand(XnChar* strCmdLine)
 
 void ExecuteCommandsFromStream(FILE* pStream, bool bPrompt)
 {
-	XnChar strCmdLine[1024];
+	char strCmdLine[1024];
 	bool bEOF = false;
 
 	while (g_continue && !bEOF)
@@ -357,13 +357,13 @@ void ExecuteCommandsFromStream(FILE* pStream, bool bPrompt)
 	} // commands loop
 }
 
-void RegisterCommand(const XnChar* cmd, CommandHandler handler)
+void RegisterCommand(const char* cmd, CommandHandler handler)
 {
 	Command command;
 	command.name = cmd;
 	command.handler = handler;
 
-	XnChar commandName[XN_FILE_MAX_PATH];
+	char commandName[XN_FILE_MAX_PATH];
 	xnOSStrCopy(commandName, cmd, sizeof(commandName));
 	ToLower(commandName);
 	g_commands.Set(commandName, command);
@@ -371,7 +371,7 @@ void RegisterCommand(const XnChar* cmd, CommandHandler handler)
 	g_commandsList.push_back(cmd);
 }
 
-int RunScript(const XnChar* strFileName)
+int RunScript(const char* strFileName)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -409,7 +409,7 @@ int RunScript(const XnChar* strFileName)
 int Help(int /*argc*/, const char* /*argv*/[])
 {
 	printf("Supported commands:\n");
-	for (std::list<const XnChar*>::iterator it = g_commandsList.begin(); it != g_commandsList.end(); ++it)
+	for (std::list<const char*>::iterator it = g_commandsList.begin(); it != g_commandsList.end(); ++it)
 	{
 		printf("\t%s\n", *it);
 	}
@@ -1131,7 +1131,7 @@ int Acc(int argc, const char* argv[])
 		printf("Usage: %s <on|off>\n\n", argv[0]);
 		return -1;
 	}
-	const XnChar* strAccActive = argv[1];
+	const char* strAccActive = argv[1];
 	bAccEnabled = (xnOSStrCaseCmp(strAccActive, "on") == 0);
 	nRetVal = g_device.setProperty(LINK_PROP_ACC_ENABLED, bAccEnabled);
 	if (nRetVal == STATUS_OK)
@@ -1171,7 +1171,7 @@ int VDD(int argc, const char* argv[])
 		printf("Usage: %s <on|off>\n\n", argv[0]);
 		return -1;
 	}
-	const XnChar* strAccActive = argv[1];
+	const char* strAccActive = argv[1];
 	bAccEnabled = (xnOSStrCaseCmp(strAccActive, "on") == 0);
 	nRetVal = g_device.setProperty(LINK_PROP_VDD_ENABLED, bAccEnabled);
 	if (nRetVal == STATUS_OK)
@@ -1211,7 +1211,7 @@ int PeriodicBist(int argc, const char* argv[])
 		printf("Usage: %s <on|off>\n\n", argv[0]);
 		return -1;
 	}
-	const XnChar* strAccActive = argv[1];
+	const char* strAccActive = argv[1];
 	bAccEnabled = (xnOSStrCaseCmp(strAccActive, "on") == 0);
 	nRetVal = g_device.setProperty(LINK_PROP_PERIODIC_BIST_ENABLED, bAccEnabled);
 	if (nRetVal == STATUS_OK)
@@ -1306,7 +1306,7 @@ int Log(int argc, const char* argv[])
 	//on/off command
 	else
 	{
-		const XnChar* strLogOn = argv[1];
+		const char* strLogOn = argv[1];
 		bool bLogOn = (xnOSStrCaseCmp(strLogOn, "on") == 0);
 
 		if (bLogOn)
@@ -1495,7 +1495,7 @@ int RunBist(int argc, const char* argv[])
 		}
 
 		// search for test in list (for its name)
-		const XnChar* testName = "Unknown";
+		const char* testName = "Unknown";
 		for (uint32_t j = 0; j < supportedTests.count; ++j)
 		{
 			if (supportedTests.tests[j].id == i)
@@ -1757,7 +1757,7 @@ int UsbTest(int argc, const char* argv[])
 
 int TestAll(int /*argc*/, const char* /*argv*/[])
 {
-	XnChar strCommand[256];
+	char strCommand[256];
 	xnOSStrCopy(strCommand, "Bist ALL", sizeof(strCommand));
 	RunCommand(strCommand);
 	xnOSStrCopy(strCommand, "UsbTest 1", sizeof(strCommand));
@@ -1917,7 +1917,7 @@ void RegisterCommands()
 int main(int argc, char* argv[])
 {
 	Status nRetVal = STATUS_OK;
-	const XnChar* strScriptFile = NULL;
+	const char* strScriptFile = NULL;
 	uint16_t nProductID = 0;
 	const char** commandArgv = NULL;
 	int commandArgc = 0;

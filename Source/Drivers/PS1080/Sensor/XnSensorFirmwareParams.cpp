@@ -268,7 +268,7 @@ XnStatus XnSensorFirmwareParams::AddFirmwareParam(XnActualIntProperty& Property,
 	XN_IS_STATUS_OK(nRetVal);
 
 	// We have to leave enough room for the name, plus the number (5 digits for a uint16), plus the space, plus the open and close parenthesis, plus the \0
-	XnChar csNewName[XN_DEVICE_MAX_STRING_LENGTH + 5 + 1 + 2 + 1];
+	char csNewName[XN_DEVICE_MAX_STRING_LENGTH + 5 + 1 + 2 + 1];
 	sprintf(csNewName, "%s (%d)", Property.GetName(), nFirmwareParam);
 	// Truncate the name
 	csNewName[XN_DEVICE_MAX_STRING_LENGTH + 5 + 1 + 2 + 1 - 1] = '\0';
@@ -373,7 +373,7 @@ XnStatus XnSensorFirmwareParams::CommitTransactionAsBatch()
 		XnInnerParamData* pParams;
 		XN_VALIDATE_CALLOC(pParams, XnInnerParamData, nMaxCount);
 
-		XnChar strLogMessage[1024];
+		char strLogMessage[1024];
 		uint32_t nMaxLength = 1024;
 		uint32_t nLength = 0;
 		uint32_t nChars;

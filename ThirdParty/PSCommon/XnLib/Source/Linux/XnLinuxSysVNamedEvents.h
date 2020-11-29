@@ -36,10 +36,10 @@
 class XnLinuxSysVNamedEvent : public XnLinuxNamedEvent
 {
 public:
-	XnLinuxSysVNamedEvent(bool bManualReset, const XnChar* strName, bool bCreate);
+	XnLinuxSysVNamedEvent(bool bManualReset, const char* strName, bool bCreate);
 
-	virtual XnStatus CreateNamed(const XnChar* strName);
-	virtual XnStatus OpenNamed(const XnChar* strName);
+	virtual XnStatus CreateNamed(const char* strName);
+	virtual XnStatus OpenNamed(const char* strName);
 	virtual XnStatus Destroy();
 	virtual XnStatus Set();
 	virtual XnStatus Reset();
@@ -47,7 +47,7 @@ public:
 
 private:
 	int m_hSem;
-	XnChar m_csSemFileName[XN_FILE_MAX_PATH];
+	char m_csSemFileName[XN_FILE_MAX_PATH];
 	int m_hSemFile;
 };
 

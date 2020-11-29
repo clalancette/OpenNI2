@@ -42,7 +42,7 @@ namespace xnl
 		pBuffer->m_errorBuffer[0] = '\0';
 	}
 
-	void ErrorLogger::Append(const XnChar* cpFormat, ...)
+	void ErrorLogger::Append(const char* cpFormat, ...)
 	{
 		SingleBuffer* pBuffer = getBuffer();
 
@@ -63,7 +63,7 @@ namespace xnl
 
 	}
 
-	void ErrorLogger::AppendV(const XnChar* cpFormat, va_list args)
+	void ErrorLogger::AppendV(const char* cpFormat, va_list args)
 	{
 		SingleBuffer* pBuffer = getBuffer();
 

@@ -33,12 +33,12 @@ XN_C_API XnStatus xnOSCreateMutex(XN_MUTEX_HANDLE* pMutexHandle)
 	return (xnOSCreateNamedMutex(pMutexHandle, NULL));
 }
 
-XN_C_API XnStatus xnOSCreateNamedMutex(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName)
+XN_C_API XnStatus xnOSCreateNamedMutex(XN_MUTEX_HANDLE* pMutexHandle, const char* cpMutexName)
 {
 	return xnOSCreateNamedMutexEx(pMutexHandle, cpMutexName, false);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName, bool bAllowOtherUsers)
+XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const char* cpMutexName, bool bAllowOtherUsers)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -46,8 +46,8 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pMutexHandle);
 
-	XnChar strMutexOSName[MAX_PATH];
-	XnChar* pMutexOSName = NULL;
+	char strMutexOSName[MAX_PATH];
+	char* pMutexOSName = NULL;
 	SECURITY_ATTRIBUTES* pSecurityAttributes = NULL;
 
 	if (cpMutexName != NULL)

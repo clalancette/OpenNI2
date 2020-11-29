@@ -32,14 +32,14 @@
 * This function initializes the DDK library.
 * This function must be called BEFORE calling any other method of a device.
 */
-XnStatus XnDDKInit(const XnChar* strDevicesDir);
+XnStatus XnDDKInit(const char* strDevicesDir);
 
 /**
 * This function initializes the DDK library from an INI file.
 *
 * @param	cpINIFileName	[in]	The name of the INI file.
 */
-XnStatus XnDDKInitFromINIFile(const XnChar* cpINIFileName);
+XnStatus XnDDKInitFromINIFile(const char* cpINIFileName);
 
 /**
 * This function shuts down the DDK library.
@@ -48,6 +48,6 @@ XnStatus XnDDKShutdown();
 
 XnResolutions XnDDKGetResolutionFromXY(uint32_t nXRes, uint32_t nYRes);
 bool XnDDKGetXYFromResolution(XnResolutions res, uint32_t* pnXRes, uint32_t* pnYRes);
-const XnChar*  XnDDKGetResolutionName(XnResolutions res);
+const char*  XnDDKGetResolutionName(XnResolutions res);
 
 #endif // XNDDK_H

@@ -89,7 +89,7 @@ static void Init()
 		(g_pSymGetModuleBase64 != NULL);
 }
 
-XN_C_API XnStatus xnOSGetCurrentCallStack(int32_t nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, int32_t* pnFrames)
+XN_C_API XnStatus xnOSGetCurrentCallStack(int32_t nFramesToSkip, char** astrFrames, uint32_t nMaxNameLength, int32_t* pnFrames)
 {
 	if (*pnFrames == 0 || nMaxNameLength == 0)
 	{
@@ -151,7 +151,7 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(int32_t nFramesToSkip, XnChar** astrFr
 	int32_t nFrames = 0;
 	int32_t iFrame = 0;
 	const uint32_t BUFFER_SIZE = 1024;
-	XnChar symbolBuffer[BUFFER_SIZE];
+	char symbolBuffer[BUFFER_SIZE];
 	SYMBOL_INFO* pSymbolInfo = (SYMBOL_INFO*)symbolBuffer;
 	pSymbolInfo->SizeOfStruct = sizeof(SYMBOL_INFO);
 	pSymbolInfo->MaxNameLen = BUFFER_SIZE - sizeof(SYMBOL_INFO) - 1;
@@ -173,7 +173,7 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(int32_t nFramesToSkip, XnChar** astrFr
 			BOOL found = g_pSymFromAddr(currentProcess, stackFrame.AddrPC.Offset, NULL, pSymbolInfo);
 
 			UINT32 lineNum = 0;
-			XnChar* strFileName = NULL;
+			char* strFileName = NULL;
 			if (g_pSymGetLineFromAddr64 != NULL)
 			{
 				IMAGEHLP_LINE64 line;
@@ -226,9 +226,9 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(int32_t nFramesToSkip, XnChar** astrFr
 
 XN_C_API XnStatus xnOSPrintCurrentCallstack()
 {
-	typedef XnChar XnFrame[80];
+	typedef char XnFrame[80];
 	XnFrame aFrames[20];
-	XnChar* pstrFrames[20];
+	char* pstrFrames[20];
 	for (int i = 0; i < 20; ++i)
 		pstrFrames[i] = aFrames[i];
 	int nFrames = 20;

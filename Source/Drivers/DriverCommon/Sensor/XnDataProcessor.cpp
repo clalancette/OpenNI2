@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnDataProcessor::XnDataProcessor(XnDevicePrivateData* pDevicePrivateData, const XnChar* csName) :
+XnDataProcessor::XnDataProcessor(XnDevicePrivateData* pDevicePrivateData, const char* csName) :
 	m_pDevicePrivateData(pDevicePrivateData),
 	m_nBytesReceived(0),
 	m_nLastPacketID(0),
@@ -102,7 +102,7 @@ uint64_t XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 	const uint64_t nWrapPoint = ((uint64_t)XN_MAX_UINT32) + 1;
 	uint64_t nResultInTicks;
 	const uint32_t nDumpCommentMaxLength = 200;
-	XnChar csDumpComment[nDumpCommentMaxLength] = "";
+	char csDumpComment[nDumpCommentMaxLength] = "";
 	bool bCheckSanity = true;
 
 	if (m_TimeStampData.bFirst)

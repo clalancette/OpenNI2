@@ -34,7 +34,7 @@
 class XnImageStream : public XnPixelStream
 {
 public:
-	XnImageStream(const XnChar* csName, bool bAllowCustomResolutions);
+	XnImageStream(const char* csName, bool bAllowCustomResolutions);
 };
 
 #endif // XNIMAGESTREAM_H

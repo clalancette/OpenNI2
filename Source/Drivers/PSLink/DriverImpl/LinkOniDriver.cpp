@@ -41,7 +41,7 @@ void LinkOniDriver::LinkOpenNILogWriter::WriteEntry(const XnLogEntry* pEntry)
 	m_pDriverServices->log(m_pDriverServices, pEntry->nSeverity, pEntry->strFile, pEntry->nLine, pEntry->strMask, pEntry->strMessage);
 }
 
-void LinkOniDriver::LinkOpenNILogWriter::WriteUnformatted(const XnChar* /*strMessage*/)
+void LinkOniDriver::LinkOpenNILogWriter::WriteUnformatted(const char* /*strMessage*/)
 {
 	// DO NOTHING
 }
@@ -145,7 +145,7 @@ void LinkOniDriver::deviceClose(oni::driver::DeviceBase* pDevice)
 	XN_ASSERT(false);
 }
 
-void XN_CALLBACK_TYPE LinkOniDriver::OnDevicePropertyChanged(const XnChar* /*ModuleName*/, uint32_t /*nPropertyId*/, void* /*pCookie*/)
+void XN_CALLBACK_TYPE LinkOniDriver::OnDevicePropertyChanged(const char* /*ModuleName*/, uint32_t /*nPropertyId*/, void* /*pCookie*/)
 {
 }
 
@@ -163,7 +163,7 @@ void XN_CALLBACK_TYPE LinkOniDriver::OnDeviceDisconnected(const OniDeviceInfo& d
 
 void LinkOniDriver::resolveConfigFilePath()
 {
-	XnChar strModulePath[XN_FILE_MAX_PATH];
+	char strModulePath[XN_FILE_MAX_PATH];
 
 	if (xnOSGetModulePathForProcAddress(reinterpret_cast<void*>(&LinkOniDriver::OnDeviceConnected), strModulePath) != XN_STATUS_OK ||
 		xnOSGetDirName(strModulePath, m_configFilePath, sizeof(m_configFilePath)) != XN_STATUS_OK)

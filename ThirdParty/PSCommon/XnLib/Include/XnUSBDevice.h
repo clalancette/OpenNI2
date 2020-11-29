@@ -70,7 +70,7 @@ typedef enum XnUSBDeviceConnectionState
 typedef struct XnUSBStringDescriptor
 {
 	uint8_t nID;
-	const XnChar* strString;
+	const char* strString;
 } XnUSBStringDescriptor;
 
 typedef struct XnUSBInterfaceDescriptorHolder

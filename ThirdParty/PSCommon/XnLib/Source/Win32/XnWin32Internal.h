@@ -20,5 +20,5 @@
 *****************************************************************************/
 #include "XnLib.h"
 
-XnStatus xnWin32CreateKernelObjectName(XnChar* strDest, const uint32_t nDestLength, const XnChar* strSource, bool bAllowOtherUsers);
+XnStatus xnWin32CreateKernelObjectName(char* strDest, const uint32_t nDestLength, const char* strSource, bool bAllowOtherUsers);
 XnStatus xnWin32GetSecurityAttributes(bool bAllowOtherUsers, SECURITY_ATTRIBUTES** ppSecurityAttributes);

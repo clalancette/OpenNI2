@@ -40,7 +40,7 @@ XnSensorIO::~XnSensorIO()
 {
 }
 
-XnStatus XnSensorIO::OpenDevice(const XnChar* strPath)
+XnStatus XnSensorIO::OpenDevice(const char* strPath)
 {
 	XnStatus nRetVal;
 
@@ -310,7 +310,7 @@ XnStatus XnSensorIO::CloseDevice()
 	return (XN_STATUS_OK);
 }
 
-const XnChar* XnSensorIO::GetDevicePath()
+const char* XnSensorIO::GetDevicePath()
 {
 	return m_strDeviceName;
 }

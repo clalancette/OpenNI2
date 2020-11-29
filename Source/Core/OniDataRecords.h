@@ -201,7 +201,7 @@ public:
 
 private:
 	void emitCommonHeader(uint32_t recordType, uint32_t nodeId, uint64_t undoRecordPos);
-	OniStatus emitString(const XnChar* pStr, size_t& totalFieldsSize_bytes);
+	OniStatus emitString(const char* pStr, size_t& totalFieldsSize_bytes);
 	OniStatus emitData(const void* pData, size_t dataSize_bytes);
 
 	template<typename T>

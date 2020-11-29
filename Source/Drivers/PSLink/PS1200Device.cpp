@@ -44,7 +44,7 @@ PS1200Device::~PS1200Device()
 	Shutdown();
 }
 
-XnStatus PS1200Device::Init(const XnChar* strConnString, XnTransportType transportType)
+XnStatus PS1200Device::Init(const char* strConnString, XnTransportType transportType)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

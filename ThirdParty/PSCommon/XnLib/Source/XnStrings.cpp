@@ -20,17 +20,17 @@
 *****************************************************************************/
 #include "XnLib.h"
 
-XN_C_API XnChar* xnOSStrDup(const XnChar* strSource)
+XN_C_API char* xnOSStrDup(const char* strSource)
 {
 	size_t nLen = strlen(strSource);
 	++nLen;
 
-	XnChar* result = (XnChar*)xnOSMalloc(nLen);
+	char* result = (char*)xnOSMalloc(nLen);
 	strcpy(result, strSource);
 	return result;
 }
 
-XN_C_API XnStatus xnOSStrFormat(XnChar* cpDestString, const uint32_t nDestLength, uint32_t* pnCharsWritten, const XnChar* cpFormat, ...)
+XN_C_API XnStatus xnOSStrFormat(char* cpDestString, const uint32_t nDestLength, uint32_t* pnCharsWritten, const char* cpFormat, ...)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
