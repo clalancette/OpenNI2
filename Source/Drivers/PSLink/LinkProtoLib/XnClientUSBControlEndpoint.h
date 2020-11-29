@@ -43,7 +43,7 @@ public:
 	virtual XnStatus Connect();
 	virtual void Disconnect();
 	virtual XnBool IsConnected() const;
-	virtual XnUInt16 GetMaxPacketSize() const;
+	virtual uint16_t GetMaxPacketSize() const;
 
 	//nSize is max size on input, actual size on output
 	virtual XnStatus Receive(void* pData, uint32_t& nSize);

@@ -44,12 +44,12 @@ public:
 private:
 	XnStatus CompressImpl(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize)
 	{
-		return XnStreamCompressDepth16Z((XnUInt16*)pData, nDataSize, pCompressedData, pnCompressedDataSize);
+		return XnStreamCompressDepth16Z((uint16_t*)pData, nDataSize, pCompressedData, pnCompressedDataSize);
 	}
 
 	XnStatus DecompressImpl(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize)
 	{
-		return XnStreamUncompressDepth16Z(pCompressedData, nCompressedDataSize, (XnUInt16*)pData, pnDataSize);
+		return XnStreamUncompressDepth16Z(pCompressedData, nCompressedDataSize, (uint16_t*)pData, pnDataSize);
 	}
 };
 

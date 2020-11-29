@@ -111,7 +111,7 @@ typedef struct XnVersion
 {
 	XnUInt8 nMajor;
 	XnUInt8 nMinor;
-	XnUInt16 nMaintenance;
+	uint16_t nMaintenance;
 	uint32_t nBuild;
 } XnVersion;
 
@@ -148,13 +148,13 @@ typedef struct XnCropping
 	/** TRUE if cropping is turned on, FALSE otherwise. */
 	XnBool bEnabled;
 	/** Offset in the X-axis, in pixels. */
-	XnUInt16 nXOffset;
+	uint16_t nXOffset;
 	/** Offset in the Y-axis, in pixels. */
-	XnUInt16 nYOffset;
+	uint16_t nYOffset;
 	/** Number of pixels in the X-axis. */
-	XnUInt16 nXSize;
+	uint16_t nXSize;
 	/** Number of pixels in the Y-axis. */
-	XnUInt16 nYSize;
+	uint16_t nYSize;
 } XnCropping;
 
 /**

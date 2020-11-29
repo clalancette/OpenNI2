@@ -45,16 +45,16 @@ public:
 	virtual void Disconnect();
 	virtual XnBool IsConnected() const;
 	virtual XnStatus Send(const void* pData, uint32_t nSize);
-	virtual XnUInt16 GetMaxPacketSize() const;
+	virtual uint16_t GetMaxPacketSize() const;
 
 private:
 	XnUSBEndPointType m_endpointType;
 	XN_USB_EP_HANDLE m_hEndpoint;
 	XN_USB_DEV_HANDLE m_hUSBDevice;
-	static const XnUInt16 ENDPOINT_ID;
+	static const uint16_t ENDPOINT_ID;
 	static const uint32_t SEND_TIMEOUT;
 
-	XnUInt16 m_nMaxPacketSize;
+	uint16_t m_nMaxPacketSize;
 	XnBool m_bConnected;
 };
 

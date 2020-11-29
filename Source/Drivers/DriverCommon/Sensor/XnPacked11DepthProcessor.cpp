@@ -91,9 +91,9 @@ XnStatus XnPacked11DepthProcessor::Unpack11to16(const XnUInt8* pcInput, const ui
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 
-	XnUInt16* pnOutput = (XnUInt16*)pWriteBuffer->GetUnsafeWritePointer();
+	uint16_t* pnOutput = (uint16_t*)pWriteBuffer->GetUnsafeWritePointer();
 
-	XnUInt16 a0,a1,a2,a3,a4,a5,a6,a7;
+	uint16_t a0,a1,a2,a3,a4,a5,a6,a7;
 
 	// Convert the 11bit packed data into 16bit shorts
 	for (uint32_t nElem = 0; nElem < nElements; ++nElem)

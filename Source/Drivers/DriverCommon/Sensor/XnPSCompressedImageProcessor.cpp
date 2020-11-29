@@ -103,7 +103,7 @@ void XnPSCompressedImageProcessor::ProcessFramePacketChunk(const XnSensorProtoco
 	uint32_t nActualRead = 0;
 	XnBool bLastPart = pHeader->nType == XN_SENSOR_PROTOCOL_RESPONSE_IMAGE_END && (nDataOffset + nDataSize) == pHeader->nBufSize;
 	XnStatus nRetVal = XnStreamUncompressYUVImagePS(pBuf, nBufSize, pWriteBuffer->GetUnsafeWritePointer(),
-		&nWrittenOutput, (XnUInt16)(GetActualXRes()*2), &nActualRead, bLastPart);
+		&nWrittenOutput, (uint16_t)(GetActualXRes()*2), &nActualRead, bLastPart);
 
 	if (nRetVal != XN_STATUS_OK)
 	{

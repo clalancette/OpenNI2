@@ -31,10 +31,10 @@
 namespace xn
 {
 
-const XnUInt16 ClientUSBConnectionFactory::NUM_INPUT_CONNECTIONS = 2;
+const uint16_t ClientUSBConnectionFactory::NUM_INPUT_CONNECTIONS = 2;
 
-ClientUSBConnectionFactory::ClientUSBConnectionFactory(XnUInt16 nInputConnections,
-													   XnUInt16 nOutputConnections,
+ClientUSBConnectionFactory::ClientUSBConnectionFactory(uint16_t nInputConnections,
+													   uint16_t nOutputConnections,
 													   uint32_t nPreControlReceiveSleep) :
 	m_nInputConnections(nInputConnections),
 	m_nOutputConnections(nOutputConnections),
@@ -90,12 +90,12 @@ void ClientUSBConnectionFactory::Shutdown()
 	m_bInitialized = FALSE;
 }
 
-XnUInt16 ClientUSBConnectionFactory::GetNumInputDataConnections() const
+uint16_t ClientUSBConnectionFactory::GetNumInputDataConnections() const
 {
 	return m_nInputConnections;
 }
 
-XnUInt16 ClientUSBConnectionFactory::GetNumOutputDataConnections() const
+uint16_t ClientUSBConnectionFactory::GetNumOutputDataConnections() const
 {
 	return m_nOutputConnections;
 }
@@ -116,7 +116,7 @@ XnStatus ClientUSBConnectionFactory::GetControlConnection(ISyncIOConnection*& pC
 	return XN_STATUS_OK;
 }
 
-XnStatus ClientUSBConnectionFactory::CreateOutputDataConnection(XnUInt16 /*nID*/, IOutputConnection*& pConn)
+XnStatus ClientUSBConnectionFactory::CreateOutputDataConnection(uint16_t /*nID*/, IOutputConnection*& pConn)
 {
 	//nID is ignored because we only support one output connection in the client
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -141,7 +141,7 @@ XnStatus ClientUSBConnectionFactory::CreateOutputDataConnection(XnUInt16 /*nID*/
 	return XN_STATUS_OK;
 }
 
-XnStatus ClientUSBConnectionFactory::CreateInputDataConnection(XnUInt16 nID, IAsyncInputConnection*& pConn)
+XnStatus ClientUSBConnectionFactory::CreateInputDataConnection(uint16_t nID, IAsyncInputConnection*& pConn)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -168,7 +168,7 @@ XnStatus ClientUSBConnectionFactory::CreateInputDataConnection(XnUInt16 nID, IAs
 	return XN_STATUS_OK;
 }
 
-XnStatus ClientUSBConnectionFactory::EnumerateConnStrings(XnUInt16 nProductID,
+XnStatus ClientUSBConnectionFactory::EnumerateConnStrings(uint16_t nProductID,
 								XnConnectionString*& astrConnStrings,
 								uint32_t& nCount)
 {

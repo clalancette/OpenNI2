@@ -32,17 +32,17 @@ XnFirmwareCommands::XnFirmwareCommands(XnDevicePrivateData* pDevicePrivateData) 
 {
 }
 
-XnStatus XnFirmwareCommands::GetFirmwareParam(XnUInt16 nParam, XnUInt16* pnValue)
+XnStatus XnFirmwareCommands::GetFirmwareParam(uint16_t nParam, uint16_t* pnValue)
 {
 	return XnHostProtocolGetParam(m_pDevicePrivateData, nParam, *pnValue);
 }
 
-XnStatus XnFirmwareCommands::SetFirmwareParam(XnUInt16 nParam, XnUInt16 nValue)
+XnStatus XnFirmwareCommands::SetFirmwareParam(uint16_t nParam, uint16_t nValue)
 {
 	return XnHostProtocolSetParam(m_pDevicePrivateData, nParam, nValue);
 }
 
 XnStatus XnFirmwareCommands::SetMultipleFirmwareParams(XnInnerParamData* aParams, uint32_t nCount)
 {
-	return XnHostProtocolSetMultipleParams(m_pDevicePrivateData, (XnUInt16)nCount, aParams);
+	return XnHostProtocolSetMultipleParams(m_pDevicePrivateData, (uint16_t)nCount, aParams);
 }

@@ -47,7 +47,7 @@ struct FileHeaderData
 	{
 		XnUInt8  major;
 		XnUInt8  minor;
-		XnUInt16 maintenance;
+		uint16_t maintenance;
 		uint32_t build;
 	} version;
 	uint64_t maxTimeStamp;

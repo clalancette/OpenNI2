@@ -69,7 +69,7 @@ protected:
 	xn::PrimeClient* m_pSensor;
 	LinkOniDevice* m_pDevice;
 
-	XnUInt16 m_streamId;
+	uint16_t m_streamId;
 	// TODO: should have used generic stream instead, but openni2 doesn't support non-frame streams yet.
 	xn::LinkFrameInputStream* m_pInputStream;
 	XnCallbackHandle m_hNewDataCallback;

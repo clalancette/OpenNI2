@@ -36,8 +36,8 @@ void XnGeneralDebugProcessor::ProcessPacketChunk(const XnSensorProtocolResponseH
 	if (nDataOffset == 0)
 	{
 		// start of data. The first uint16 is the number of fields in the header, and then we have the data itself
-		const XnUInt16* pFields = (const XnUInt16*)pData;
-		XnUInt16 nFields = *pFields;
+		const uint16_t* pFields = (const uint16_t*)pData;
+		uint16_t nFields = *pFields;
 		++pFields;
 
 		XnChar strFileName[XN_FILE_MAX_PATH] = "";
@@ -46,7 +46,7 @@ void XnGeneralDebugProcessor::ProcessPacketChunk(const XnSensorProtocolResponseH
 		xnOSStrFormat(strFileName, XN_FILE_MAX_PATH, &nCharsWritten, "FirmwareDebug.");
 		nLength += nCharsWritten;
 
-		for (XnUInt16 i = 0; i < nFields; ++i)
+		for (uint16_t i = 0; i < nFields; ++i)
 		{
 			xnOSStrFormat(strFileName + nLength, XN_FILE_MAX_PATH - nLength, &nCharsWritten, "%02d.", *pFields);
 			++pFields;

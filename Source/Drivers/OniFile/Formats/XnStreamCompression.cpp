@@ -30,21 +30,21 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize, XnUInt16 nMaxValue)
+XnStatus XnStreamCompressDepth16ZWithEmbTable(const uint16_t* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize, uint16_t nMaxValue)
 {
 	// Local function variables
-	const XnUInt16* pInputEnd = pInput + (nInputSize / sizeof(XnUInt16));
-	const XnUInt16* pOrigInput = pInput;
+	const uint16_t* pInputEnd = pInput + (nInputSize / sizeof(uint16_t));
+	const uint16_t* pOrigInput = pInput;
 	const XnUInt8* pOrigOutput = pOutput;
-	XnUInt16 nCurrValue = 0;
-	XnUInt16 nLastValue = 0;
-	XnUInt16 nAbsDiffValue = 0;
+	uint16_t nCurrValue = 0;
+	uint16_t nLastValue = 0;
+	uint16_t nAbsDiffValue = 0;
 	XnInt16 nDiffValue = 0;
 	XnUInt8 cOutStage = 0;
 	XnUInt8 cOutChar = 0;
 	XnUInt8 cZeroCounter = 0;
-	static XnUInt16 nEmbTable[XN_MAX_UINT16];
-	XnUInt16 nEmbTableIdx=0;
+	static uint16_t nEmbTable[XN_MAX_UINT16];
+	uint16_t nEmbTableIdx=0;
 
 	// Note: this function does not make sure it stay within the output memory boundaries!
 
@@ -55,7 +55,7 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const uint
 
 	// Create the embedded value translation table...
 	pOutput+=2;
-	xnOSMemSet(&nEmbTable[0], 0, nMaxValue*sizeof(XnUInt16));
+	xnOSMemSet(&nEmbTable[0], 0, nMaxValue*sizeof(uint16_t));
 
 	while (pInput != pInputEnd)
 	{
@@ -69,17 +69,17 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const uint
 		{
 			nEmbTable[i] = nEmbTableIdx;
 			nEmbTableIdx++;
-			*(XnUInt16*)pOutput = XN_PREPARE_VAR16_IN_BUFFER(XnUInt16(i));
+			*(uint16_t*)pOutput = XN_PREPARE_VAR16_IN_BUFFER(uint16_t(i));
 			pOutput+=2;
 		}
 	}
 
-	*(XnUInt16*)(pOrigOutput) = XN_PREPARE_VAR16_IN_BUFFER(nEmbTableIdx);
+	*(uint16_t*)(pOrigOutput) = XN_PREPARE_VAR16_IN_BUFFER(nEmbTableIdx);
 
 	// Encode the data...
 	pInput = pOrigInput;
 	nLastValue = nEmbTable[*pInput];
-	*(XnUInt16*)pOutput = XN_PREPARE_VAR16_IN_BUFFER(nLastValue);
+	*(uint16_t*)pOutput = XN_PREPARE_VAR16_IN_BUFFER(nLastValue);
 	pInput++;
 	pOutput+=2;
 
@@ -88,7 +88,7 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const uint
 		nCurrValue = nEmbTable[*pInput];
 
 		nDiffValue = (nLastValue - nCurrValue);
-		nAbsDiffValue = (XnUInt16)abs(nDiffValue);
+		nAbsDiffValue = (uint16_t)abs(nDiffValue);
 
 		if (nAbsDiffValue <= 6)
 		{
@@ -165,7 +165,7 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const uint
 			}
 			else
 			{
-				*(XnUInt16*)pOutput = XN_PREPARE_VAR16_IN_BUFFER((nCurrValue << 8) + (nCurrValue >> 8));
+				*(uint16_t*)pOutput = XN_PREPARE_VAR16_IN_BUFFER((nCurrValue << 8) + (nCurrValue >> 8));
 				pOutput+=2;
 			}
 		}
@@ -192,43 +192,43 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const uint
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const uint32_t nInputSize, XnUInt16* pOutput, uint32_t* pnOutputSize)
+XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const uint32_t nInputSize, uint16_t* pOutput, uint32_t* pnOutputSize)
 {
 	// Local function variables
 	const XnUInt8* pInputEnd = pInput + nInputSize;
-	XnUInt16* pOutputEnd = 0;
-	XnUInt16* pOrigOutput = pOutput;
-	XnUInt16 nLastFullValue = 0;
+	uint16_t* pOutputEnd = 0;
+	uint16_t* pOrigOutput = pOutput;
+	uint16_t nLastFullValue = 0;
 	XnUInt8 cInput = 0;
 	XnUInt8 cZeroCounter = 0;
 	XnInt8 cInData1 = 0;
 	XnInt8 cInData2 = 0;
 	XnUInt8 cInData3 = 0;
-	XnUInt16* pEmbTable = NULL;
-	XnUInt16 nEmbTableIdx = 0;
+	uint16_t* pEmbTable = NULL;
+	uint16_t nEmbTableIdx = 0;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pInput);
 	XN_VALIDATE_INPUT_PTR(pOutput);
 	XN_VALIDATE_INPUT_PTR(pnOutputSize);
 
-	if (nInputSize < sizeof(XnUInt16))
+	if (nInputSize < sizeof(uint16_t))
 	{
 		xnLogError(XN_MASK_STREAM_COMPRESSION, "Input size too small");
 		return (XN_STATUS_BAD_PARAM);
 	}
 
-	nEmbTableIdx = XN_PREPARE_VAR16_IN_BUFFER(*(XnUInt16*)pInput);
+	nEmbTableIdx = XN_PREPARE_VAR16_IN_BUFFER(*(uint16_t*)pInput);
 	pInput+=2;
-	pEmbTable = (XnUInt16*)pInput;
+	pEmbTable = (uint16_t*)pInput;
 	pInput+=nEmbTableIdx * 2;
 	for (uint32_t i = 0; i < nEmbTableIdx; i++)
 		pEmbTable[i] = XN_PREPARE_VAR16_IN_BUFFER(pEmbTable[i]);
 
-	pOutputEnd = pOutput + (*pnOutputSize / sizeof(XnUInt16));
+	pOutputEnd = pOutput + (*pnOutputSize / sizeof(uint16_t));
 
 	// Decode the data...
-	nLastFullValue = XN_PREPARE_VAR16_IN_BUFFER(*(XnUInt16*)pInput);
+	nLastFullValue = XN_PREPARE_VAR16_IN_BUFFER(*(uint16_t*)pInput);
 	*pOutput = pEmbTable[nLastFullValue];
 	pInput+=2;
 	pOutput++;
@@ -337,20 +337,20 @@ XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const uin
 		}
 	}
 
-	*pnOutputSize = (uint32_t)((pOutput - pOrigOutput) * sizeof(XnUInt16));
+	*pnOutputSize = (uint32_t)((pOutput - pOrigOutput) * sizeof(uint16_t));
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
+XnStatus XnStreamCompressDepth16Z(const uint16_t* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
 {
 	// Local function variables
-	const XnUInt16* pInputEnd = pInput + (nInputSize / sizeof(XnUInt16));
+	const uint16_t* pInputEnd = pInput + (nInputSize / sizeof(uint16_t));
 	XnUInt8* pOrigOutput = pOutput;
-	XnUInt16 nCurrValue = 0;
-	XnUInt16 nLastValue = 0;
-	XnUInt16 nAbsDiffValue = 0;
+	uint16_t nCurrValue = 0;
+	uint16_t nLastValue = 0;
+	uint16_t nAbsDiffValue = 0;
 	XnInt16 nDiffValue = 0;
 	XnUInt8 cOutStage = 0;
 	XnUInt8 cOutChar = 0;
@@ -371,7 +371,7 @@ XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const uint32_t nInputS
 
 	// Encode the data...
 	nLastValue = *pInput;
-	*(XnUInt16*)pOutput = nLastValue;
+	*(uint16_t*)pOutput = nLastValue;
 	pInput++;
 	pOutput+=2;
 
@@ -380,7 +380,7 @@ XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const uint32_t nInputS
 		nCurrValue = *pInput;
 
 		nDiffValue = (nLastValue - nCurrValue);
-		nAbsDiffValue = (XnUInt16)abs(nDiffValue);
+		nAbsDiffValue = (uint16_t)abs(nDiffValue);
 
 		if (nAbsDiffValue <= 6)
 		{
@@ -457,7 +457,7 @@ XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const uint32_t nInputS
 			}
 			else
 			{
-				*(XnUInt16*)pOutput = (nCurrValue << 8) + (nCurrValue >> 8);
+				*(uint16_t*)pOutput = (nCurrValue << 8) + (nCurrValue >> 8);
 				pOutput+=2;
 			}
 		}
@@ -484,13 +484,13 @@ XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const uint32_t nInputS
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const uint32_t nInputSize, XnUInt16* pOutput, uint32_t* pnOutputSize)
+XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const uint32_t nInputSize, uint16_t* pOutput, uint32_t* pnOutputSize)
 {
 	// Local function variables
 	const XnUInt8* pInputEnd = pInput + nInputSize;
-	XnUInt16* pOutputEnd = 0;
-	const XnUInt16* pOrigOutput = pOutput;
-	XnUInt16 nLastFullValue = 0;
+	uint16_t* pOutputEnd = 0;
+	const uint16_t* pOrigOutput = pOutput;
+	uint16_t nLastFullValue = 0;
 	XnUInt8 cInput = 0;
 	XnUInt8 cZeroCounter = 0;
 	XnInt8 cInData1 = 0;
@@ -502,16 +502,16 @@ XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const uint32_t nInput
 	XN_VALIDATE_INPUT_PTR(pOutput);
 	XN_VALIDATE_INPUT_PTR(pnOutputSize);
 
-	if (nInputSize < sizeof(XnUInt16))
+	if (nInputSize < sizeof(uint16_t))
 	{
 		xnLogError(XN_MASK_STREAM_COMPRESSION, "Input size too small");
 		return (XN_STATUS_BAD_PARAM);
 	}
 
-	pOutputEnd = pOutput + (*pnOutputSize / sizeof(XnUInt16));
+	pOutputEnd = pOutput + (*pnOutputSize / sizeof(uint16_t));
 
 	// Decode the data...
-	nLastFullValue = *(XnUInt16*)pInput;
+	nLastFullValue = *(uint16_t*)pInput;
 	*pOutput = nLastFullValue;
 	pInput+=2;
 	pOutput++;
@@ -620,7 +620,7 @@ XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const uint32_t nInput
 		}
 	}
 
-	*pnOutputSize = (uint32_t)((pOutput - pOrigOutput) * sizeof(XnUInt16));
+	*pnOutputSize = (uint32_t)((pOutput - pOrigOutput) * sizeof(uint16_t));
 
 	// All is good...
 	return (XN_STATUS_OK);

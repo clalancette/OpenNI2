@@ -84,10 +84,10 @@
 
 typedef struct XnSensorProtocolResponseHeader
 {
-	XnUInt16 nMagic;
-	XnUInt16 nType;
-	XnUInt16 nPacketID;
-	XnUInt16 nBufSize;
+	uint16_t nMagic;
+	uint16_t nType;
+	uint16_t nPacketID;
+	uint16_t nBufSize;
 	uint32_t nTimeStamp;
 } XnSensorProtocolResponseHeader;
 #pragma pack (pop) // Undo the pack change...

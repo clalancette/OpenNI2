@@ -68,9 +68,9 @@ XnStatus DepthUtilsImpl::Initialize(DepthUtilsSensorCalibrationInfo* pBlob)
 	xnOSMemCopy(&m_blob, pBlob, sizeof(DepthUtilsSensorCalibrationInfo));
 
 	// allocate table
-	XN_VALIDATE_ALIGNED_CALLOC(m_pRegistrationTable_QQVGA, XnUInt16, 160*120*2, XN_DEFAULT_MEM_ALIGN);
-	XN_VALIDATE_ALIGNED_CALLOC(m_pRegistrationTable_QVGA, XnUInt16, 320*240*2, XN_DEFAULT_MEM_ALIGN);
-	XN_VALIDATE_ALIGNED_CALLOC(m_pRegistrationTable_VGA, XnUInt16, 640*480*2, XN_DEFAULT_MEM_ALIGN);
+	XN_VALIDATE_ALIGNED_CALLOC(m_pRegistrationTable_QQVGA, uint16_t, 160*120*2, XN_DEFAULT_MEM_ALIGN);
+	XN_VALIDATE_ALIGNED_CALLOC(m_pRegistrationTable_QVGA, uint16_t, 320*240*2, XN_DEFAULT_MEM_ALIGN);
+	XN_VALIDATE_ALIGNED_CALLOC(m_pRegistrationTable_VGA, uint16_t, 640*480*2, XN_DEFAULT_MEM_ALIGN);
 
 	nRetVal = BuildRegistrationTable(m_pRegistrationTable_QQVGA, &m_blob.params1080.registrationInfo_QQVGA, &m_pDepthToShiftTable_QQVGA, 160, 120);
 	XN_IS_STATUS_OK(nRetVal);
@@ -212,28 +212,28 @@ XnStatus DepthUtilsImpl::SetDepthConfiguration(int xres, int yres, OniPixelForma
 	{
 		m_pPadInfo = &m_blob.params1080.padInfo_QQVGA;
 		m_pRegTable = m_pRegistrationTable_QQVGA;
-		m_pDepth2ShiftTable = (XnUInt16*)m_pDepthToShiftTable_QQVGA;
+		m_pDepth2ShiftTable = (uint16_t*)m_pDepthToShiftTable_QQVGA;
 		m_pRegistrationInfo = &m_blob.params1080.registrationInfo_QQVGA;
 	}
 	else if (xres == 320 && yres == 240)
 	{
 		m_pPadInfo = &m_blob.params1080.padInfo_QVGA;
 		m_pRegTable = m_pRegistrationTable_QVGA;
-		m_pDepth2ShiftTable = (XnUInt16*)m_pDepthToShiftTable_QVGA;
+		m_pDepth2ShiftTable = (uint16_t*)m_pDepthToShiftTable_QVGA;
 		m_pRegistrationInfo = &m_blob.params1080.registrationInfo_QVGA;
 	}
 	else if (xres == 640 && yres == 480)
 	{
 		m_pPadInfo = &m_blob.params1080.padInfo_VGA;
 		m_pRegTable = m_pRegistrationTable_VGA;
-		m_pDepth2ShiftTable = (XnUInt16*)m_pDepthToShiftTable_VGA;
+		m_pDepth2ShiftTable = (uint16_t*)m_pDepthToShiftTable_VGA;
 		m_pRegistrationInfo = &m_blob.params1080.registrationInfo_VGA;
 	}
 	else if (xres == 1280 && yres == 1024)
 	{
 		m_pPadInfo = &m_blob.params1080.padInfo_SXGA;
 		m_pRegTable = m_pRegistrationTable_SXGA;
-		m_pDepth2ShiftTable = (XnUInt16*)m_pDepthToShiftTable_SXGA;
+		m_pDepth2ShiftTable = (uint16_t*)m_pDepthToShiftTable_SXGA;
 		m_pRegistrationInfo = &m_blob.params1080.registrationInfo_SXGA;
 	}
 	else
@@ -318,7 +318,7 @@ XnStatus DepthUtilsImpl::TranslateSinglePixel(uint32_t x, uint32_t y, unsigned s
 	return XN_STATUS_OK;
 }
 
-void DepthUtilsImpl::BuildDepthToShiftTable(XnUInt16* pRGBRegDepthToShiftTable, int xres)
+void DepthUtilsImpl::BuildDepthToShiftTable(uint16_t* pRGBRegDepthToShiftTable, int xres)
 {
 	uint32_t nXScale = m_blob.params1080.cmosVGAOutputXRes / xres;
 	uint32_t nIndex = 0;
@@ -346,11 +346,11 @@ void DepthUtilsImpl::BuildDepthToShiftTable(XnUInt16* pRGBRegDepthToShiftTable, 
 	}
 }
 
-XnStatus DepthUtilsImpl::BuildRegistrationTable(XnUInt16* pRegTable, RegistrationInfo* pRegInfo, XnUInt16** pDepthToShiftTable, int xres, int yres)
+XnStatus DepthUtilsImpl::BuildRegistrationTable(uint16_t* pRegTable, RegistrationInfo* pRegInfo, uint16_t** pDepthToShiftTable, int xres, int yres)
 {
 	// take needed parameters to perform registration
 
-	XN_VALIDATE_ALIGNED_CALLOC(*pDepthToShiftTable, XnUInt16, MAX_Z+1, XN_DEFAULT_MEM_ALIGN);
+	XN_VALIDATE_ALIGNED_CALLOC(*pDepthToShiftTable, uint16_t, MAX_Z+1, XN_DEFAULT_MEM_ALIGN);
 	m_bD2SAlloc = TRUE;
 
 	BuildDepthToShiftTable(*pDepthToShiftTable, xres);
@@ -358,8 +358,8 @@ XnStatus DepthUtilsImpl::BuildRegistrationTable(XnUInt16* pRegTable, Registratio
 	double* RegXTable = XN_NEW_ARR(double, m_blob.params1080.rgbRegXRes*m_blob.params1080.rgbRegYRes);
 	double* RegYTable = XN_NEW_ARR(double, m_blob.params1080.rgbRegXRes*m_blob.params1080.rgbRegYRes);
 
-	XnUInt16 nDepthXRes  = (XnUInt16) xres;
-	XnUInt16 nDepthYRes  = (XnUInt16) yres;
+	uint16_t nDepthXRes  = (uint16_t) xres;
+	uint16_t nDepthYRes  = (uint16_t) yres;
 	double* pRegXTable = (double*)RegXTable;
 	double* pRegYTable = (double*)RegYTable;
 	double nNewX = 0;

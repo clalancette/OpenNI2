@@ -1013,7 +1013,7 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
 	if (colorMD.getVideoMode().getPixelFormat() == openni::PIXEL_FORMAT_GRAY16)
 	{
 		int nPixelsCount = colorMD.getWidth() * colorMD.getHeight();
-		XnUInt16* pPixel = (XnUInt16*)colorMD.getData();
+		uint16_t* pPixel = (uint16_t*)colorMD.getData();
 		for (int i = 0; i < nPixelsCount; ++i,++pPixel)
 		{
 			if (*pPixel > g_nMaxGrayscale16Value)
@@ -1026,7 +1026,7 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
 		}
 	}
 
-	for (XnUInt16 nY = 0; nY < height; nY++)
+	for (uint16_t nY = 0; nY < height; nY++)
 	{
 		XnUInt8* pTexture = TextureMapGetLine(&g_texColor, nY + originY) + originX*4;
 
@@ -1045,7 +1045,7 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
 			double dRealY = (nY + originY) / (double)fullHeight;
 			int32_t nDepthY = dRealY * depthFullHeight - depthOriginY;
 
-			for (XnUInt16 nX = 0; nX < width; nX++, pTexture+=4)
+			for (uint16_t nX = 0; nX < width; nX++, pTexture+=4)
 			{
 				int32_t nDepthIndex = 0;
 
@@ -1065,7 +1065,7 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
 					}
 				}
 
-				XnUInt16* p16;
+				uint16_t* p16;
 
 				switch (format)
  				{
@@ -1080,7 +1080,7 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
  					pColor+=1;
  					break;
 				case openni::PIXEL_FORMAT_GRAY16:
-					p16 = (XnUInt16*)pColor;
+					p16 = (uint16_t*)pColor;
 					pTexture[0] = pTexture[1] = pTexture[2] = (XnUInt8)((*p16) * grayscale16Factor);
  					pColor+=2;
  					break;
@@ -1143,17 +1143,17 @@ void drawDepth(IntRect* pLocation, IntPair* pPointer)
 		}
 
 		// copy depth into texture-map
-		for (XnUInt16 nY = originY; nY < height + originY; nY++)
+		for (uint16_t nY = originY; nY < height + originY; nY++)
 		{
 			XnUInt8* pTexture = TextureMapGetLine(&g_texDepth, nY) + originX*4;
-			for (XnUInt16 nX = 0; nX < width; nX++, pDepth++, pTexture+=4)
+			for (uint16_t nX = 0; nX < width; nX++, pDepth++, pTexture+=4)
 			{
 				XnUInt8 nRed = 0;
 				XnUInt8 nGreen = 0;
 				XnUInt8 nBlue = 0;
 				XnUInt8 nAlpha = g_DrawConfig.Streams.Depth.fTransparency*255;
 
-				XnUInt16 nColIndex;
+				uint16_t nColIndex;
 
 				switch (g_DrawConfig.Streams.Depth.Coloring)
 				{
@@ -1208,7 +1208,7 @@ void drawDepth(IntRect* pLocation, IntPair* pPointer)
 					}
 					break;
 				case RAINBOW:
-					nColIndex = (XnUInt16)((*pDepth / (g_nMaxDepth / 256.)));
+					nColIndex = (uint16_t)((*pDepth / (g_nMaxDepth / 256.)));
 					nRed   = PalletIntsR[nColIndex];
 					nGreen = PalletIntsG[nColIndex];
 					nBlue  = PalletIntsB[nColIndex];

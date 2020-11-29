@@ -61,7 +61,7 @@ private:
 
 	State m_nState;
 	uint32_t m_nBigDiff;
-	XnUInt16 m_nMaxShift;
+	uint16_t m_nMaxShift;
 };
 
 }

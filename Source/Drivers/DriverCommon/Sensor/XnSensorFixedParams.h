@@ -44,10 +44,10 @@ public:
 
 	XnStatus Init();
 
-	inline XnUInt16 GetDepthCmosI2CBus() const { return m_nSensorDepthCMOSI2CBus; }
-	inline XnUInt16 GetDepthCmosI2CSlaveAddress() const { return m_nSensorDepthCMOSI2CSlaveAddress; }
-	inline XnUInt16 GetImageCmosI2CBus() const { return m_nSensorImageCMOSI2CBus; }
-	inline XnUInt16 GetImageCmosI2CSlaveAddress() const { return m_nSensorImageCMOSI2CSlaveAddress; }
+	inline uint16_t GetDepthCmosI2CBus() const { return m_nSensorDepthCMOSI2CBus; }
+	inline uint16_t GetDepthCmosI2CSlaveAddress() const { return m_nSensorDepthCMOSI2CSlaveAddress; }
+	inline uint16_t GetImageCmosI2CBus() const { return m_nSensorImageCMOSI2CBus; }
+	inline uint16_t GetImageCmosI2CSlaveAddress() const { return m_nSensorImageCMOSI2CSlaveAddress; }
 
 	inline OniDepthPixel GetZeroPlaneDistance() const { return m_nZeroPlaneDistance; }
 	inline double GetZeroPlanePixelSize() const { return m_dZeroPlanePixelSize; }
@@ -66,10 +66,10 @@ public:
 private:
 	XnDevicePrivateData* m_pDevicePrivateData;
 
-	XnUInt16 m_nSensorDepthCMOSI2CBus;
-	XnUInt16 m_nSensorDepthCMOSI2CSlaveAddress;
-	XnUInt16 m_nSensorImageCMOSI2CBus;
-	XnUInt16 m_nSensorImageCMOSI2CSlaveAddress;
+	uint16_t m_nSensorDepthCMOSI2CBus;
+	uint16_t m_nSensorDepthCMOSI2CSlaveAddress;
+	uint16_t m_nSensorImageCMOSI2CBus;
+	uint16_t m_nSensorImageCMOSI2CSlaveAddress;
 
 	OniDepthPixel m_nZeroPlaneDistance;
 	double m_dZeroPlanePixelSize;

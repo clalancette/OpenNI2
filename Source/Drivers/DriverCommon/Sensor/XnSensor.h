@@ -150,7 +150,7 @@ private:
 	XnStatus SetDepthCmosRegister(const XnControlProcessingData* pRegister);
 	XnStatus SetImageCmosRegister(const XnControlProcessingData* pRegister);
 	XnStatus WriteAHB(const XnAHBData* pData);
-	XnStatus SetLedState(XnUInt16 nLedId, XnUInt16 nState);
+	XnStatus SetLedState(uint16_t nLedId, uint16_t nState);
 	XnStatus SetEmitterState(XnBool bActive);
 	XnStatus SetFirmwareFrameSync(XnBool bOn);
 	XnStatus SetI2C(const XnI2CWriteData* pI2CWriteData);
@@ -159,9 +159,9 @@ private:
 	XnStatus SetFirmwareLogPrint(XnBool bPrint);
 	XnStatus SetFirmwareCPUInterval(uint32_t nMilliSeconds);
 	XnStatus SetAPCEnabled(XnBool bEnabled);
-	XnStatus DeleteFile(XnUInt16 nFileID);
-	XnStatus SetTecSetPoint(XnUInt16 nSetPoint);
-	XnStatus SetEmitterSetPoint(XnUInt16 nSetPoint);
+	XnStatus DeleteFile(uint16_t nFileID);
+	XnStatus SetTecSetPoint(uint16_t nSetPoint);
+	XnStatus SetEmitterSetPoint(uint16_t nSetPoint);
 	XnStatus SetFileAttributes(const XnFileAttributes* pAttributes);
 	XnStatus WriteFlashFile(const XnParamFileData* pFile);
 	XnStatus SetProjectorFault(XnProjectorFaultData* pProjectorFaultData);

@@ -131,7 +131,7 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 		nRetVal = m_pInputStream->GetShiftToDepthTables(pTables);
 		XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
-		nTableSize = pTables->nDepthsCount * sizeof(XnUInt16);
+		nTableSize = pTables->nDepthsCount * sizeof(uint16_t);
 		if (*pDataSize < (int)nTableSize)
 		{
 			xnLogError(XN_MASK_LINK_STREAM, "Get D2S table - buffer too small (expected %d, got %d)", nTableSize, *pDataSize);
@@ -225,7 +225,7 @@ void LinkOniDepthStream::notifyAllProperties()
 
 	raisePropertyChanged(LINK_PROP_SHIFT_TO_DEPTH_TABLE, pTables->pShiftToDepthTable, pTables->nShiftsCount * sizeof(OniDepthPixel));
 
-	raisePropertyChanged(LINK_PROP_DEPTH_TO_SHIFT_TABLE, pTables->pDepthToShiftTable, pTables->nDepthsCount * sizeof(XnUInt16));
+	raisePropertyChanged(LINK_PROP_DEPTH_TO_SHIFT_TABLE, pTables->pDepthToShiftTable, pTables->nDepthsCount * sizeof(uint16_t));
 }
 
 XnStatus LinkOniDepthStream::GetDefaultVideoMode( OniVideoMode* pVideoMode )

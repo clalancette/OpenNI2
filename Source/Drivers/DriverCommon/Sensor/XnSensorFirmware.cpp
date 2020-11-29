@@ -41,7 +41,7 @@ XnStatus XnSensorFirmware::Init(XnBool bReset, XnBool bLeanInit)
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// check current mode
-	XnUInt16 nMode;
+	uint16_t nMode;
 	nRetVal = XnHostProtocolGetMode(m_pDevicePrivateData, nMode);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -134,7 +134,7 @@ XnStatus XnSensorFirmware::Init(XnBool bReset, XnBool bLeanInit)
 		{
 			// This is an ugly patch to find out if this sensor has an image CMOS. It will be fixed
 			// in future firmwares so we can just ask.
-			XnUInt16 nLines;
+			uint16_t nLines;
 			nRetVal = XnHostProtocolGetCmosBlanking(m_pDevicePrivateData, XN_CMOS_TYPE_IMAGE, &nLines);
 			m_pInfo->bImageSupported = (nRetVal == XN_STATUS_OK && nLines > 0);
 		}

@@ -27,7 +27,7 @@
 namespace xn
 {
 
-const XnUInt16 ClientUSBOutDataEndpoint::ENDPOINT_ID = 0x0001;
+const uint16_t ClientUSBOutDataEndpoint::ENDPOINT_ID = 0x0001;
 const uint32_t ClientUSBOutDataEndpoint::SEND_TIMEOUT = 2000;
 
 ClientUSBOutDataEndpoint::ClientUSBOutDataEndpoint(XnUSBEndPointType endpointType)
@@ -74,7 +74,7 @@ XnStatus ClientUSBOutDataEndpoint::Connect()
 			XN_ASSERT(FALSE);
 			return XN_STATUS_ERROR;
 		}
-		m_nMaxPacketSize = static_cast<XnUInt16>(nTempMaxPacketSize);
+		m_nMaxPacketSize = static_cast<uint16_t>(nTempMaxPacketSize);
 		m_bConnected = TRUE;
 	}
 	return XN_STATUS_OK;
@@ -112,7 +112,7 @@ XnStatus ClientUSBOutDataEndpoint::Send(const void* pData, uint32_t nSize)
 	return XN_STATUS_OK;
 }
 
-XnUInt16 ClientUSBOutDataEndpoint::GetMaxPacketSize() const
+uint16_t ClientUSBOutDataEndpoint::GetMaxPacketSize() const
 {
 	XN_ASSERT(m_hEndpoint != NULL); //Are we even connected?
 	return m_nMaxPacketSize;

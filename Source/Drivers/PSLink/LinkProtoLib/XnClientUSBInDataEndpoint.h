@@ -40,12 +40,12 @@ public:
 
 	virtual ~ClientUSBInDataEndpoint();
 
-	virtual XnStatus Init(XN_USB_DEV_HANDLE hUSBDevice, XnUInt16 nEndpointID);
+	virtual XnStatus Init(XN_USB_DEV_HANDLE hUSBDevice, uint16_t nEndpointID);
 	virtual void Shutdown();
 	virtual XnStatus Connect();
 	virtual void Disconnect();
 	virtual XnBool IsConnected() const;
-	virtual XnUInt16 GetMaxPacketSize() const;
+	virtual uint16_t GetMaxPacketSize() const;
 	virtual XnStatus SetDataDestination(IDataDestination* pDataDestination);
 
 	inline XnUSBEndPointType GetEndpointType() const { return m_endpointType; }
@@ -65,8 +65,8 @@ private:
 	XnUSBEndPointType m_endpointType;
 	XN_USB_EP_HANDLE m_hEndpoint;
 	XN_USB_DEV_HANDLE m_hUSBDevice;
-	XnUInt16 m_nEndpointID;
-	XnUInt16 m_nMaxPacketSize;
+	uint16_t m_nEndpointID;
+	uint16_t m_nMaxPacketSize;
 	IDataDestination* m_pDataDestination;
 	XnBool m_bConnected;
 

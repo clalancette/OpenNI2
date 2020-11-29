@@ -163,11 +163,11 @@ typedef struct
 
 typedef struct XnDeviceSensorGMCPoint
 {
-	XnUInt16 m_X;
-	XnUInt16 m_Y;
-	XnUInt16 m_DX;
+	uint16_t m_X;
+	uint16_t m_Y;
+	uint16_t m_DX;
 	XnInt16 m_DY;
-	XnUInt16 m_Score;
+	uint16_t m_Score;
 } XnDeviceSensorGMCPoint;
 
 typedef struct XnCmosBlankingCoefficients
@@ -475,14 +475,14 @@ typedef struct XnRegistrationInformation1080
 
 typedef struct XnRegistrationPaddingInformation
 {
-	XnUInt16 nStartLines;
-	XnUInt16 nEndLines;
-	XnUInt16 nCroppingLines;
+	uint16_t nStartLines;
+	uint16_t nEndLines;
+	uint16_t nCroppingLines;
 } XnRegistrationPaddingInformation;
 
 typedef struct XnDepthInformation
 {
-	XnUInt16 nConstShift;
+	uint16_t nConstShift;
 } XnDepthInformation;
 
 typedef struct XnFrequencyInformation

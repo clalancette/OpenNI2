@@ -55,17 +55,17 @@ public:
 	XnBool IsConnected() const;
 
 #ifdef DATA_ON_CONTROL
-	void SetStreamID(XnUInt16 nStreamID);
+	void SetStreamID(uint16_t nStreamID);
 #endif
 
 	//nResponseSize is max size on input, actual size on output
 	//pIsLast - optional. If provided, command will not automatically continue response, and the out value is whether this is the last packet. If NULL, all data is fetched automatically.
-	XnStatus ExecuteCommand(XnUInt16 nMsgType, XnUInt16 nStreamID, const void* pCmdData, uint32_t nCmdSize, void* pResponseData, uint32_t& nResponseSize, XnBool* pIsLast = NULL);
-	XnStatus SendData(XnUInt16 nMsgType, const void* pCmdData, uint32_t nCmdSize, void* pResponseData, uint32_t& nResponseSize);
-	XnUInt16 GetPacketID() const;
+	XnStatus ExecuteCommand(uint16_t nMsgType, uint16_t nStreamID, const void* pCmdData, uint32_t nCmdSize, void* pResponseData, uint32_t& nResponseSize, XnBool* pIsLast = NULL);
+	XnStatus SendData(uint16_t nMsgType, const void* pCmdData, uint32_t nCmdSize, void* pResponseData, uint32_t& nResponseSize);
+	uint16_t GetPacketID() const;
 	XN_MUTEX_HANDLE GetMutex() const;
-	XnBool IsMsgTypeSupported(XnUInt16 nMsgType);
-	XnBool IsPropertySupported(XnUInt16 nPropID);
+	XnBool IsMsgTypeSupported(uint16_t nMsgType);
+	XnBool IsPropertySupported(uint16_t nPropID);
 
 	/* Specific commands */
 	XnStatus GetFWVersion(XnLinkDetailedVersion& version);
@@ -75,13 +75,13 @@ public:
 	XnStatus GetComponentsVersions(std::vector<XnComponentVersion>& components);
 	XnStatus GetSupportedMsgTypes(std::vector<xnl::BitSet>& supportedMsgTypes);
 	XnStatus GetSupportedProperties(std::vector<xnl::BitSet>& supportedProperties);
-	XnStatus GetSupportedInterfaces(XnUInt16 nStreamID, xnl::BitSet& supportedInterfaces);
+	XnStatus GetSupportedInterfaces(uint16_t nStreamID, xnl::BitSet& supportedInterfaces);
 	XnStatus GetBootStatus(XnBootStatus& bootStatus);
 	XnStatus UploadFile(const XnChar* strFileName, XnBool bOverrideFactorySettings);
 	XnStatus GetFileList(std::vector<XnFwFileEntry>& files);
-	XnStatus DownloadFile(XnUInt16 zone, const XnChar* fwFileName, const XnChar* targetFile);
-	XnStatus StartStreaming(XnUInt16 nStreamID);
-	XnStatus StopStreaming(XnUInt16 nStreamID);
+	XnStatus DownloadFile(uint16_t zone, const XnChar* fwFileName, const XnChar* targetFile);
+	XnStatus StartStreaming(uint16_t nStreamID);
+	XnStatus StopStreaming(uint16_t nStreamID);
 	XnStatus SoftReset();
 	XnStatus HardReset();
 	XnStatus ReadDebugData(XnCommandDebugData& commandDebugData);
@@ -96,15 +96,15 @@ public:
 	XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t& nValue);
 	XnStatus WriteAHB(uint32_t nAddress, uint32_t nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth);
 	XnStatus ReadAHB(uint32_t nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, uint32_t& nValue);
-	XnStatus GetShiftToDepthConfig(XnUInt16 nStreamID, XnShiftToDepthConfig& shiftToDepthConfig);
-	XnStatus SetVideoMode(XnUInt16 nStreamID, const XnFwStreamVideoMode& videoMode);
-	XnStatus GetVideoMode(XnUInt16 nStreamID, XnFwStreamVideoMode& videoMode);
-	XnStatus GetSupportedVideoModes(XnUInt16 nStreamID, std::vector<XnFwStreamVideoMode>& supportedVideoModes);
+	XnStatus GetShiftToDepthConfig(uint16_t nStreamID, XnShiftToDepthConfig& shiftToDepthConfig);
+	XnStatus SetVideoMode(uint16_t nStreamID, const XnFwStreamVideoMode& videoMode);
+	XnStatus GetVideoMode(uint16_t nStreamID, XnFwStreamVideoMode& videoMode);
+	XnStatus GetSupportedVideoModes(uint16_t nStreamID, std::vector<XnFwStreamVideoMode>& supportedVideoModes);
 	XnStatus EnumerateStreams(std::vector<XnFwStreamInfo>& aStreamInfos);
-	XnStatus CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID, XnUInt16& nEndpointID);
-	XnStatus DestroyInputStream(XnUInt16 nStreamID);
-	XnStatus SetCropping(XnUInt16 nStreamID, const OniCropping& cropping);
-	XnStatus GetCropping(XnUInt16 nStreamID, OniCropping& cropping);
+	XnStatus CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID);
+	XnStatus DestroyInputStream(uint16_t nStreamID);
+	XnStatus SetCropping(uint16_t nStreamID, const OniCropping& cropping);
+	XnStatus GetCropping(uint16_t nStreamID, OniCropping& cropping);
 	XnStatus SetProjectorActive(XnBool bActive);
 	XnStatus SetAccActive(XnBool bActive);
 	XnStatus GetAccActive(XnBool& bActive);
@@ -113,40 +113,40 @@ public:
 	XnStatus SetPeriodicBistActive(XnBool bActive);
 	XnStatus GetPeriodicBistActive(XnBool& bActive);
 	XnStatus GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles);
-	XnStatus OpenFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID);
-	XnStatus CloseFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID);
+	XnStatus OpenFWLogFile(XnUInt8 logID, uint16_t nLogStreamID);
+	XnStatus CloseFWLogFile(XnUInt8 logID, uint16_t nLogStreamID);
 	XnStatus SetProjectorPulse(XnBool enabled, float delay, float width, float cycle);
 	XnStatus GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip);
-	XnStatus SetProjectorPower(XnUInt16 power);
-	XnStatus GetProjectorPower(XnUInt16& power);
-	XnStatus SetGain(XnUInt16 streamID, XnUInt16 gain);
-	XnStatus GetGain(XnUInt16 streamID, XnUInt16& gain);
+	XnStatus SetProjectorPower(uint16_t power);
+	XnStatus GetProjectorPower(uint16_t& power);
+	XnStatus SetGain(uint16_t streamID, uint16_t gain);
+	XnStatus GetGain(uint16_t streamID, uint16_t& gain);
 	//TODO: Implement Get emitter active
 
-	XnStatus GetStreamFragLevel(XnUInt16 nStreamID, XnStreamFragLevel& streamFragLevel);
-	XnStatus GetMirror(XnUInt16 nStreamID, XnBool& bMirror);
-	XnStatus SetMirror(XnUInt16 nStreamID, XnBool bMirror);
+	XnStatus GetStreamFragLevel(uint16_t nStreamID, XnStreamFragLevel& streamFragLevel);
+	XnStatus GetMirror(uint16_t nStreamID, XnBool& bMirror);
+	XnStatus SetMirror(uint16_t nStreamID, XnBool bMirror);
 
 	XnStatus BeginUpload();
 	XnStatus EndUpload();
 	XnStatus FormatZone(XnUInt8 nZone);
 
 	/*DepthGenerator commands */
-	XnStatus GetCameraIntrinsics(XnUInt16 nStreamID, XnLinkCameraIntrinsics& cameraIntrinsics);
+	XnStatus GetCameraIntrinsics(uint16_t nStreamID, XnLinkCameraIntrinsics& cameraIntrinsics);
 
 private:
-	static const XnUInt16 BASE_PACKET_ID;
-	static const XnUInt16 MAX_RESPONSE_NUM_PACKETS; //Max number of packets in response
+	static const uint16_t BASE_PACKET_ID;
+	static const uint16_t MAX_RESPONSE_NUM_PACKETS; //Max number of packets in response
 	static const XnChar MUTEX_NAME[];
 
-	XnStatus GetLogicalMaxPacketSize(XnUInt16& nMaxPacketSize);
+	XnStatus GetLogicalMaxPacketSize(uint16_t& nMaxPacketSize);
 
 	/** The fragmentation parameter in this function indicates the fragmentation of the whole data BLOCK,
 	    not an individual packet. So if it's BEGIN, it means this block of data (one or more packets) begins
 		the message. If it's MIDDLE, it's the middle of the message, and if it's END, this block ends the
 		message.**/
-	XnStatus ExecuteImpl(XnUInt16 nMsgType,
-				XnUInt16 nStreamID,
+	XnStatus ExecuteImpl(uint16_t nMsgType,
+				uint16_t nStreamID,
 				const void* pData,
 				uint32_t nSize,
 				XnLinkFragmentation fragmentation,
@@ -155,26 +155,26 @@ private:
 				XnBool autoContinue,
 				XnBool& isLast);
 
-	XnStatus ContinueResponseImpl(XnUInt16 originalMsgType, XnUInt16 streamID, void* pResponseData, uint32_t& nResponseSize, XnBool& outLastPacket);
+	XnStatus ContinueResponseImpl(uint16_t originalMsgType, uint16_t streamID, void* pResponseData, uint32_t& nResponseSize, XnBool& outLastPacket);
 
 	XnStatus ValidateResponsePacket(const LinkPacketHeader* pResponsePacket,
-					XnUInt16 nExpectedMsgType,
-					XnUInt16 nExpectedStreamID,
+					uint16_t nExpectedMsgType,
+					uint16_t nExpectedStreamID,
 					uint32_t nBytesToRead);
 
 	/* Properties */
-	XnStatus SetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint64_t nValue);
-	XnStatus GetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint64_t& nValue);
-	XnStatus SetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, double dValue);
-	XnStatus GetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, double& dValue);
-	XnStatus SetStringProperty(XnUInt16 nStreamID, XnLinkPropID propID, const XnChar* strValue);
-	XnStatus GetStringProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint32_t nSize, XnChar* strValue);
-	XnStatus SetGeneralProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint32_t nSize, const void* pSource);
+	XnStatus SetIntProperty(uint16_t nStreamID, XnLinkPropID propID, uint64_t nValue);
+	XnStatus GetIntProperty(uint16_t nStreamID, XnLinkPropID propID, uint64_t& nValue);
+	XnStatus SetRealProperty(uint16_t nStreamID, XnLinkPropID propID, double dValue);
+	XnStatus GetRealProperty(uint16_t nStreamID, XnLinkPropID propID, double& dValue);
+	XnStatus SetStringProperty(uint16_t nStreamID, XnLinkPropID propID, const XnChar* strValue);
+	XnStatus GetStringProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t nSize, XnChar* strValue);
+	XnStatus SetGeneralProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t nSize, const void* pSource);
 	//nSize is max size on input, actual size on output
-	XnStatus GetGeneralProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint32_t& nSize, void* pDest);
-	XnStatus GetBitSetProperty(XnUInt16 nStreamID, XnLinkPropID propID, xnl::BitSet& bitSet);
-	XnStatus SetProperty(XnUInt16 nStreamID, XnLinkPropType propType, XnLinkPropID propID, uint32_t nSize, const void* pSource);
-	XnStatus GetProperty(XnUInt16 nStreamID, XnLinkPropType propType, XnLinkPropID propID, uint32_t& nSize, void* pDest);
+	XnStatus GetGeneralProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t& nSize, void* pDest);
+	XnStatus GetBitSetProperty(uint16_t nStreamID, XnLinkPropID propID, xnl::BitSet& bitSet);
+	XnStatus SetProperty(uint16_t nStreamID, XnLinkPropType propType, XnLinkPropID propID, uint32_t nSize, const void* pSource);
+	XnStatus GetProperty(uint16_t nStreamID, XnLinkPropType propType, XnLinkPropID propID, uint32_t& nSize, void* pDest);
 
 	union
 	{
@@ -190,8 +190,8 @@ private:
 	uint32_t m_nMaxResponseSize;
 	XnBool m_bInitialized;
 	XnBool m_bConnected;
-	XnUInt16 m_nPacketID;
-	XnUInt16 m_nMaxPacketSize;
+	uint16_t m_nPacketID;
+	uint16_t m_nMaxPacketSize;
 	XN_MUTEX_HANDLE m_hMutex;
 	std::vector<xnl::BitSet> m_supportedMsgTypes; //Array index is msgtype hi byte, position in bit set is msgtype lo byte.
 };

@@ -272,7 +272,7 @@ XnStatus XnSensorIRStream::SetFPS(uint32_t nFPS)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_Helper.BeforeSettingFirmwareParam(FPSProperty(), (XnUInt16)nFPS);
+	nRetVal = m_Helper.BeforeSettingFirmwareParam(FPSProperty(), (uint16_t)nFPS);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = XnIRStream::SetFPS(nFPS);
@@ -288,7 +288,7 @@ XnStatus XnSensorIRStream::SetResolution(XnResolutions nResolution)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_Helper.BeforeSettingFirmwareParam(ResolutionProperty(), (XnUInt16)nResolution);
+	nRetVal = m_Helper.BeforeSettingFirmwareParam(ResolutionProperty(), (uint16_t)nResolution);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = XnIRStream::SetResolution(nResolution);
@@ -322,35 +322,35 @@ XnStatus XnSensorIRStream::SetCroppingImpl(const OniCropping* pCropping, XnCropp
 
 		// mirror is done by software (meaning AFTER cropping, which is bad). So we need to flip the cropping area
 		// to match requested area.
-		XnUInt16 nXOffset = (XnUInt16) pCropping->originX;
+		uint16_t nXOffset = (uint16_t) pCropping->originX;
 		if (IsMirrored())
 		{
-			nXOffset = (XnUInt16)(GetXRes() - pCropping->originX - pCropping->width);
+			nXOffset = (uint16_t)(GetXRes() - pCropping->originX - pCropping->width);
 		}
 
 		if (pCropping->enabled)
 		{
-			nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropSizeX,       (XnUInt16) pCropping->width);
+			nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropSizeX,       (uint16_t) pCropping->width);
 
 			if (nRetVal == XN_STATUS_OK)
 			{
-				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropSizeY,   (XnUInt16) pCropping->height);
+				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropSizeY,   (uint16_t) pCropping->height);
 			}
 
 			if (nRetVal == XN_STATUS_OK)
 			{
-				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropOffsetX, (XnUInt16) nXOffset);
+				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropOffsetX, (uint16_t) nXOffset);
 			}
 
 			if (nRetVal == XN_STATUS_OK)
 			{
-				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropOffsetY, (XnUInt16) pCropping->originY);
+				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropOffsetY, (uint16_t) pCropping->originY);
 			}
 		}
 
 		if (nRetVal == XN_STATUS_OK)
 		{
-			nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropMode, (XnUInt16)firmwareMode);
+			nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropMode, (uint16_t)firmwareMode);
 		}
 
 		if (nRetVal != XN_STATUS_OK)

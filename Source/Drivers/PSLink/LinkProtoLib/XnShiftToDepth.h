@@ -63,7 +63,7 @@ typedef struct XnShiftToDepthTables
 	/** The number of entries in the shift-to-depth table. */
 	uint32_t nShiftsCount;
 	/** The depth-to-shift table. */
-	XnUInt16* pDepthToShiftTable;
+	uint16_t* pDepthToShiftTable;
 	/** The number of entries in the depth-to-shift table. */
 	uint32_t nDepthsCount;
 } XnShiftToDepthTables;
@@ -78,7 +78,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth,
 							  const XnShiftToDepthConfig* pConfig);
 
 XnStatus XnShiftToDepthConvert(const XnShiftToDepthTables* pShiftToDepth,
-							   const XnUInt16* pInput,
+							   const uint16_t* pInput,
 							   uint32_t nInputSize,
 							   OniDepthPixel* pOutput);
 

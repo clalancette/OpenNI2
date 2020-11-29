@@ -256,9 +256,9 @@ typedef struct XnDynamicSizeBuffer
 
 typedef struct XnCmosPreset
 {
-	XnUInt16 nFormat;
-	XnUInt16 nResolution;
-	XnUInt16 nFPS;
+	uint16_t nFormat;
+	uint16_t nResolution;
+	uint16_t nFPS;
 } XnCmosPreset;
 
 #pragma pack (pop)

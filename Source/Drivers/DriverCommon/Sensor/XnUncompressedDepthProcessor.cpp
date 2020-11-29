@@ -56,11 +56,11 @@ void XnUncompressedDepthProcessor::ProcessFramePacketChunk(const XnSensorProtoco
 		}
 
 		// copy values. Make sure we do not get corrupted shifts
-		XnUInt16* pRaw = (XnUInt16*)(pData);
-		XnUInt16* pRawEnd = (XnUInt16*)(pData + nDataSize);
+		uint16_t* pRaw = (uint16_t*)(pData);
+		uint16_t* pRawEnd = (uint16_t*)(pData + nDataSize);
 		OniDepthPixel* pDepthBuf = (OniDepthPixel*)pWriteBuffer->GetUnsafeWritePointer();
 
-		XnUInt16 shift;
+		uint16_t shift;
 		while (pRaw < pRawEnd)
 		{
 			shift = (((*pRaw) < (XN_DEVICE_SENSOR_MAX_SHIFT_VALUE-1)) ? (*pRaw) : 0);

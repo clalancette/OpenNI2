@@ -38,15 +38,15 @@ public:
 	virtual XnStatus Init(const XnChar* strConnString) = 0;
 	virtual void Shutdown() = 0;
 	virtual XnBool IsInitialized() const = 0;
-	virtual XnUInt16 GetNumInputDataConnections() const = 0;
-	virtual XnUInt16 GetNumOutputDataConnections() const = 0;
+	virtual uint16_t GetNumInputDataConnections() const = 0;
+	virtual uint16_t GetNumOutputDataConnections() const = 0;
 
 	/** The pointer returned by GetControlConnection() belongs to the connection factory and
 	    must not be deleted by caller. **/
 	virtual XnStatus GetControlConnection(ISyncIOConnection*& pConnection) = 0;
 
-	virtual XnStatus CreateOutputDataConnection(XnUInt16 nID, IOutputConnection*& pConnection) = 0;
-	virtual XnStatus CreateInputDataConnection(XnUInt16 nID, IAsyncInputConnection*& pConnection) = 0;
+	virtual XnStatus CreateOutputDataConnection(uint16_t nID, IOutputConnection*& pConnection) = 0;
+	virtual XnStatus CreateInputDataConnection(uint16_t nID, IAsyncInputConnection*& pConnection) = 0;
 };
 
 }

@@ -43,7 +43,7 @@
 // Code
 //---------------------------------------------------------------------------
 XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const uint32_t nInputSize,
-										  XnUInt8* pOutput, uint32_t* pnOutputSize, XnUInt16 nLineSize,
+										  XnUInt8* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
 										  uint32_t* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
@@ -180,7 +180,7 @@ XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const uint32_t nInp
 }
 
 XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const uint32_t nInputSize,
-									XnUInt8* pOutput, uint32_t* pnOutputSize, XnUInt16 nLineSize,
+									XnUInt8* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
 									uint32_t* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.

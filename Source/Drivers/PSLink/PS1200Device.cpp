@@ -166,7 +166,7 @@ XnStatus PS1200Device::UsbTest(uint32_t nSeconds, uint32_t& endpointsCount, XnUs
 		return XN_STATUS_ERROR;
 	}
 
-	XnUInt16 nNumEndpoints = pConnFactory->GetNumInputDataConnections();
+	uint16_t nNumEndpoints = pConnFactory->GetNumInputDataConnections();
 	if (nNumEndpoints > endpointsCount)
 	{
 		xnLogWarning(XN_MASK_PS1200_DEVICE, "Endpoints array is too small");
@@ -178,7 +178,7 @@ XnStatus PS1200Device::UsbTest(uint32_t nSeconds, uint32_t& endpointsCount, XnUs
 
 	for (int i = 0; i < nNumEndpoints; ++i)
 	{
-		nRetVal = pConnFactory->CreateInputDataConnection((XnUInt16)i, aEndpoints[i]);
+		nRetVal = pConnFactory->CreateInputDataConnection((uint16_t)i, aEndpoints[i]);
 		if (nRetVal != XN_STATUS_OK)
 		{
 			for (int j = 0; j < i; ++j)

@@ -36,7 +36,7 @@
 // fact that both shifts and depths are 16-bit long. If this is not the case,
 // this optimization should be re-written.
 // Then, any processor can always go through this LUT, no matter what the output format is.
-#if (OniDepthPixel != XnUInt16)
+#if (OniDepthPixel != uint16_t)
 	#error "Depth and Shift do not have the same size. Need to reconsider optimization!"
 #endif
 
@@ -67,7 +67,7 @@ protected:
 		return (XnSensorDepthStream*)XnFrameStreamProcessor::GetStream();
 	}
 
-	inline OniDepthPixel GetOutput(XnUInt16 nShift)
+	inline OniDepthPixel GetOutput(uint16_t nShift)
 	{
 		return m_pShiftToDepthTable[nShift];
 	}

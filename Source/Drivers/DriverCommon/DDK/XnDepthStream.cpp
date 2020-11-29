@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnDepthStream::XnDepthStream(const XnChar* csName, XnBool bAllowCustomResolutions, OniDepthPixel nDeviceMaxDepth, XnUInt16 nDeviceMaxShift) :
+XnDepthStream::XnDepthStream(const XnChar* csName, XnBool bAllowCustomResolutions, OniDepthPixel nDeviceMaxDepth, uint16_t nDeviceMaxShift) :
 	XnPixelStream(XN_STREAM_TYPE_DEPTH, csName, bAllowCustomResolutions),
 	m_MinDepth(XN_STREAM_PROPERTY_MIN_DEPTH, "MinDepth"),
 	m_MaxDepth(XN_STREAM_PROPERTY_MAX_DEPTH, "MaxDepth", nDeviceMaxDepth),

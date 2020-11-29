@@ -36,19 +36,19 @@ class ILinkOutputStream
 public:
 	virtual ~ILinkOutputStream() {}
 
-	virtual XnStatus Init(XnUInt16 nStreamID,
+	virtual XnStatus Init(uint16_t nStreamID,
 				uint32_t nMaxMsgSize,
-				XnUInt16 nMaxPacketSize,
+				uint16_t nMaxPacketSize,
 				XnLinkCompressionType compression,
-				XnUInt16 nInitialPacketID,
+				uint16_t nInitialPacketID,
 				LinkOutputDataEndpoint* pOutputDataEndpoint) = 0;
 
 	virtual XnBool IsInitialized() const = 0;
 	virtual void Shutdown() = 0;
 	virtual XnLinkCompressionType GetCompression() const = 0;
 
-	virtual XnStatus SendData(XnUInt16 nMsgType,
-					XnUInt16 nCID,
+	virtual XnStatus SendData(uint16_t nMsgType,
+					uint16_t nCID,
 					XnLinkFragmentation fragmentation,
 					const void* pData,
 					uint32_t nDataSize) const = 0;

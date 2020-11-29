@@ -643,7 +643,7 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 
 			pStream->getProperty(ONI_STREAM_PROPERTY_MAX_VALUE, &maxDepth, &size);
 
-			m_streams[pStream].pCodec = XN_NEW(Xn16zEmbTablesCodec, static_cast<XnUInt16>(maxDepth));
+			m_streams[pStream].pCodec = XN_NEW(Xn16zEmbTablesCodec, static_cast<uint16_t>(maxDepth));
 
 			codecId = ONI_CODEC_16Z_EMB_TABLES;
 		}
@@ -841,13 +841,13 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 		/** TRUE if cropping is turned on, FALSE otherwise. */
 		XnBool bEnabled = FALSE;
 		/** Offset in the X-axis, in pixels. */
-		XnUInt16 nXOffset = 0;
+		uint16_t nXOffset = 0;
 		/** Offset in the Y-axis, in pixels. */
-		XnUInt16 nYOffset = 0;
+		uint16_t nYOffset = 0;
 		/** Number of pixels in the X-axis. */
-		XnUInt16 nXSize = 0;
+		uint16_t nXSize = 0;
 		/** Number of pixels in the Y-axis. */
-		XnUInt16 nYSize = 0;
+		uint16_t nYSize = 0;
 	} xncropping;
 	OniCropping cropping;
 	size = sizeof(OniCropping);
@@ -864,10 +864,10 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 		undoPoint.Reuse();
 
 		xncropping.bEnabled = cropping.enabled;
-		xncropping.nXOffset = (XnUInt16)cropping.originX;
-		xncropping.nYOffset = (XnUInt16)cropping.originY;
-		xncropping.nXSize = (XnUInt16)cropping.width;
-		xncropping.nYSize = (XnUInt16)cropping.height;
+		xncropping.nXOffset = (uint16_t)cropping.originX;
+		xncropping.nYOffset = (uint16_t)cropping.originY;
+		xncropping.nXSize = (uint16_t)cropping.width;
+		xncropping.nYSize = (uint16_t)cropping.height;
 
 		EMIT(RECORD_GENERAL_PROPERTY(
 			nodeId,

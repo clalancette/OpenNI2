@@ -35,26 +35,26 @@
 class Xn16zEmbTablesCodec final : public XnCodecBase
 {
 public:
-	Xn16zEmbTablesCodec(XnUInt16 nMaxValue) : m_nMaxValue(nMaxValue) {}
+	Xn16zEmbTablesCodec(uint16_t nMaxValue) : m_nMaxValue(nMaxValue) {}
 
 	XnCodecID GetCodecID() const override { return XN_CODEC_16Z_EMB_TABLES; }
 	XnCompressionFormats GetCompressionFormat() const override { return XN_COMPRESSION_16Z_EMB_TABLE; }
 
 	float GetWorseCompressionRatio() const override { return XN_STREAM_COMPRESSION_DEPTH16Z_WORSE_RATIO; }
-	uint32_t GetOverheadSize() const override { return m_nMaxValue * sizeof(XnUInt16); }
+	uint32_t GetOverheadSize() const override { return m_nMaxValue * sizeof(uint16_t); }
 
 private:
 	XnStatus CompressImpl(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize)
 	{
-		return XnStreamCompressDepth16ZWithEmbTable((XnUInt16*)pData, nDataSize, pCompressedData, pnCompressedDataSize, m_nMaxValue);
+		return XnStreamCompressDepth16ZWithEmbTable((uint16_t*)pData, nDataSize, pCompressedData, pnCompressedDataSize, m_nMaxValue);
 	}
 
 	XnStatus DecompressImpl(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize)
 	{
-		return XnStreamUncompressDepth16ZWithEmbTable(pCompressedData, nCompressedDataSize, (XnUInt16*)pData, pnDataSize);
+		return XnStreamUncompressDepth16ZWithEmbTable(pCompressedData, nCompressedDataSize, (uint16_t*)pData, pnDataSize);
 	}
 
-	XnUInt16 m_nMaxValue;
+	uint16_t m_nMaxValue;
 };
 
 #endif // XN16ZEMBTABLESCODEC_H

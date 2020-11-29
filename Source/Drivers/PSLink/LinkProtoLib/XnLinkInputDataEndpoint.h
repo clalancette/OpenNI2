@@ -37,7 +37,7 @@ class ILinkDataEndpointNotifications
 {
 public:
 	virtual ~ILinkDataEndpointNotifications() {}
-	virtual void HandleLinkDataEndpointDisconnection(XnUInt16 nEndpointID) = 0;
+	virtual void HandleLinkDataEndpointDisconnection(uint16_t nEndpointID) = 0;
 };
 
 class LinkInputDataEndpoint : public IDataDestination, public IConnection
@@ -45,7 +45,7 @@ class LinkInputDataEndpoint : public IDataDestination, public IConnection
 public:
 	LinkInputDataEndpoint();
 	virtual ~LinkInputDataEndpoint();
-	XnStatus Init(XnUInt16 nEndpointID,
+	XnStatus Init(uint16_t nEndpointID,
 				IConnectionFactory* pConnectionFactory,
 				LinkInputStreamsMgr* pLinkInputStreamsMgr,
 				ILinkDataEndpointNotifications* pNotifications);
@@ -55,14 +55,14 @@ public:
 	XnStatus Connect();
 	void Disconnect();
 	XnBool IsConnected() const;
-	XnUInt16 GetMaxPacketSize() const;
+	uint16_t GetMaxPacketSize() const;
 
 	/* IDataDestination Implementation */
 	virtual XnStatus IncomingData(const void* pData, uint32_t nSize);
 	virtual void HandleDisconnection();
 
 private:
-	XnUInt16 m_nEndpointID;
+	uint16_t m_nEndpointID;
 	LinkInputStreamsMgr* m_pLinkInputStreamsMgr;
 	ILinkDataEndpointNotifications* m_pNotifications;
 	IAsyncInputConnection* m_pConnection;

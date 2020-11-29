@@ -85,10 +85,10 @@ XnStatus XnSensorFixedParams::Init()
 	m_dEmitterDCmosDistance = FixedParams.fDCmosEmitterDistance;
 	m_dDCmosRCmosDistance = FixedParams.fDCmosRCmosDistance;
 
-	m_nSensorDepthCMOSI2CBus = (XnUInt16)FixedParams.nDepthCmosI2CBus;
-	m_nSensorDepthCMOSI2CSlaveAddress = (XnUInt16)FixedParams.nDepthCmosI2CAddress;
-	m_nSensorImageCMOSI2CBus = (XnUInt16)FixedParams.nImageCmosI2CBus;
-	m_nSensorImageCMOSI2CSlaveAddress = (XnUInt16)FixedParams.nImageCmosI2CAddress;
+	m_nSensorDepthCMOSI2CBus = (uint16_t)FixedParams.nDepthCmosI2CBus;
+	m_nSensorDepthCMOSI2CSlaveAddress = (uint16_t)FixedParams.nDepthCmosI2CAddress;
+	m_nSensorImageCMOSI2CBus = (uint16_t)FixedParams.nImageCmosI2CBus;
+	m_nSensorImageCMOSI2CSlaveAddress = (uint16_t)FixedParams.nImageCmosI2CAddress;
 
 	m_nImageCmosType = (uint32_t)FixedParams.nImageCmosType;
 	m_nDepthCmosType = (uint32_t)FixedParams.nDepthCmosType;

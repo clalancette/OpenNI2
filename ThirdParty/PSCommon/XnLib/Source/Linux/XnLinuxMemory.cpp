@@ -149,7 +149,7 @@ XN_C_API uint32_t  xnOSEndianSwapUINT32(uint32_t nValue)
 			(nValue<<24);
 }
 
-XN_C_API XnUInt16 xnOSEndianSwapUINT16(XnUInt16 nValue)
+XN_C_API uint16_t xnOSEndianSwapUINT16(uint16_t nValue)
 {
 	return ((nValue>>8) | (nValue<<8));
 }

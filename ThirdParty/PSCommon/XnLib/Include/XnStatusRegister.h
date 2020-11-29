@@ -50,7 +50,7 @@ typedef struct XnErrorCodeData
  * @param	nCount			[in]	The number of status messages to register.
  * @param	pErrorCodeData	[in]	An array of status messages.
  */
-XN_C_API XnStatus XN_C_DECL xnRegisterErrorCodeMessages(XnUInt16 nGroup, XnUInt16 nFirst, XnUInt16 nCount, XnErrorCodeData* pErrorCodeData);
+XN_C_API XnStatus XN_C_DECL xnRegisterErrorCodeMessages(uint16_t nGroup, uint16_t nFirst, uint16_t nCount, XnErrorCodeData* pErrorCodeData);
 
 //---------------------------------------------------------------------------
 // Macros

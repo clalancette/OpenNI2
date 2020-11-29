@@ -162,7 +162,7 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 	XN_IS_STATUS_OK(nRetVal);
 
 	// Image
-	XnUInt16 nImageEP = bNewUSB ? 0x82 : 0x83;
+	uint16_t nImageEP = bNewUSB ? 0x82 : 0x83;
 
 	bIsISO = FALSE;
 
@@ -192,7 +192,7 @@ XnStatus XnSensorIO::OpenDataEndPoints(XnSensorUsbInterface nInterface, const Xn
 	XN_IS_STATUS_OK(nRetVal);
 
 	// Misc
-	XnUInt16 nMiscEP = bNewUSB ? 0x83 : 0x86;
+	uint16_t nMiscEP = bNewUSB ? 0x83 : 0x86;
 
 	bIsISO = FALSE;
 

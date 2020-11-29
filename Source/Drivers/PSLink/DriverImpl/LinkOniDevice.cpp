@@ -64,7 +64,7 @@ LinkOniDevice::~LinkOniDevice()
 
 XnStatus LinkOniDevice::readSupportedModesFromStream(XnFwStreamInfo &info, std::vector<XnFwStreamVideoMode> &aSupportedModes)
 {
-	XnUInt16 streamId;
+	uint16_t streamId;
 	XnStatus nRetVal = m_pSensor->CreateInputStream(info.type, info.creationInfo, streamId);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -492,9 +492,9 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 
 	case LINK_PROP_PROJECTOR_POWER:
 		{
-			ENSURE_PROP_SIZE(*pDataSize, XnUInt16);
+			ENSURE_PROP_SIZE(*pDataSize, uint16_t);
 
-			XnUInt16 power;
+			uint16_t power;
 			nRetVal = m_pSensor->GetProjectorPower(power);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
@@ -566,8 +566,8 @@ OniStatus LinkOniDevice::setProperty(int propertyId, const void* data, int dataS
 		break;
 
 	case LINK_PROP_PROJECTOR_POWER:
-		ENSURE_PROP_SIZE(dataSize, XnUInt16);
-		nRetVal = m_pSensor->SetProjectorPower(*(XnUInt16*)data);
+		ENSURE_PROP_SIZE(dataSize, uint16_t);
+		nRetVal = m_pSensor->SetProjectorPower(*(uint16_t*)data);
 		XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 		break;
 
@@ -1117,7 +1117,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandCreateStream* pArgs = reinterpret_cast<XnCommandCreateStream*>(data);
-			XnUInt16 id;
+			uint16_t id;
 			nRetVal = m_pSensor->CreateInputStream(pArgs->type, pArgs->creationInfo, id);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Create stream", nRetVal, ONI_STATUS_ERROR);
 			pArgs->id = id;
@@ -1134,7 +1134,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandDestroyStream* pArgs = reinterpret_cast<XnCommandDestroyStream*>(data);
-			nRetVal = m_pSensor->DestroyInputStream((XnUInt16)pArgs->id);
+			nRetVal = m_pSensor->DestroyInputStream((uint16_t)pArgs->id);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Destroy stream", nRetVal, ONI_STATUS_ERROR);
 		}
 		break;
@@ -1149,7 +1149,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandStartStream* pArgs = reinterpret_cast<XnCommandStartStream*>(data);
-			xn::LinkInputStream* pInputStream = m_pSensor->GetInputStream((XnUInt16)pArgs->id);
+			xn::LinkInputStream* pInputStream = m_pSensor->GetInputStream((uint16_t)pArgs->id);
 			if (pInputStream == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d wasn't created\n", pArgs->id);
@@ -1172,7 +1172,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandStopStream* pArgs = reinterpret_cast<XnCommandStopStream*>(data);
-			xn::LinkInputStream* pInputStream = m_pSensor->GetInputStream((XnUInt16)pArgs->id);
+			xn::LinkInputStream* pInputStream = m_pSensor->GetInputStream((uint16_t)pArgs->id);
 			if (pInputStream == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d wasn't created\n", pArgs->id);
@@ -1202,7 +1202,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 
-			xn::LinkInputStream* pInputStream = m_pSensor->GetInputStream((XnUInt16)pArgs->streamId);
+			xn::LinkInputStream* pInputStream = m_pSensor->GetInputStream((uint16_t)pArgs->streamId);
 			if (pInputStream == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d wasn't created\n", pArgs->streamId);
@@ -1245,7 +1245,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 
 			XnCommandSetFwStreamVideoMode* pArgs = reinterpret_cast<XnCommandSetFwStreamVideoMode*>(data);
 
-			xn::LinkInputStream* pInputStream = m_pSensor->GetInputStream((XnUInt16)pArgs->streamId);
+			xn::LinkInputStream* pInputStream = m_pSensor->GetInputStream((uint16_t)pArgs->streamId);
 			if (pInputStream == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d wasn't created\n", pArgs->streamId);
@@ -1277,7 +1277,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 
 			XnCommandGetFwStreamVideoMode* pArgs = reinterpret_cast<XnCommandGetFwStreamVideoMode*>(data);
 
-			xn::LinkInputStream* pInputStream = m_pSensor->GetInputStream((XnUInt16)pArgs->streamId);
+			xn::LinkInputStream* pInputStream = m_pSensor->GetInputStream((uint16_t)pArgs->streamId);
 			if (pInputStream == NULL)
 			{
 				m_driverServices.errorLoggerAppend("Stream with ID %d wasn't created\n", pArgs->streamId);

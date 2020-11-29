@@ -209,7 +209,7 @@ XnStatus XnSensorStreamHelper::ConfigureFirmware(XnActualIntProperty& Property)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorStreamHelper::BeforeSettingFirmwareParam(XnActualIntProperty& Property, XnUInt16 nValue)
+XnStatus XnSensorStreamHelper::BeforeSettingFirmwareParam(XnActualIntProperty& Property, uint16_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -295,7 +295,7 @@ XnStatus XnSensorStreamHelper::AfterSettingFirmwareParam(XnActualIntProperty& Pr
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorStreamHelper::SimpleSetFirmwareParam(XnActualIntProperty& Property, XnUInt16 nValue)
+XnStatus XnSensorStreamHelper::SimpleSetFirmwareParam(XnActualIntProperty& Property, uint16_t nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

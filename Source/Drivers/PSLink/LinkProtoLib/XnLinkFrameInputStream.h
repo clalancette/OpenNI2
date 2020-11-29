@@ -51,7 +51,7 @@ public:
 	virtual ~LinkFrameInputStream();
 	virtual XnStatus Init(LinkControlEndpoint* pLinkControlEndpoint,
 				XnStreamType streamType,
-				XnUInt16 nStreamID,
+				uint16_t nStreamID,
 				IConnection* pConnection);
 
 	virtual void SetStreamServices(oni::driver::StreamServices* pServices) { m_pServices = pServices; }

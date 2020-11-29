@@ -63,7 +63,7 @@ XnStatus XnShiftToDepthStreamHelper::Init(XnDeviceModule* pModule)
 	else
 	{
 		m_ShiftToDepthTables.pShiftToDepthTable = (OniDepthPixel*)m_ShiftToDepthTable.GetValue().data;
-		m_ShiftToDepthTables.pDepthToShiftTable = (XnUInt16*)m_DepthToShiftTable.GetValue().data;
+		m_ShiftToDepthTables.pDepthToShiftTable = (uint16_t*)m_DepthToShiftTable.GetValue().data;
 	}
 
 	return (XN_STATUS_OK);
@@ -137,7 +137,7 @@ XnStatus XnShiftToDepthStreamHelper::InitShiftToDepth()
 
 	// replace tables buffers
 	m_ShiftToDepthTable.ReplaceBuffer(m_ShiftToDepthTables.pShiftToDepthTable, m_ShiftToDepthTables.nShiftsCount * sizeof(OniDepthPixel));
-	m_DepthToShiftTable.ReplaceBuffer(m_ShiftToDepthTables.pDepthToShiftTable, m_ShiftToDepthTables.nDepthsCount * sizeof(XnUInt16));
+	m_DepthToShiftTable.ReplaceBuffer(m_ShiftToDepthTables.pDepthToShiftTable, m_ShiftToDepthTables.nDepthsCount * sizeof(uint16_t));
 
 	return (XN_STATUS_OK);
 }
@@ -152,7 +152,7 @@ XnStatus XnShiftToDepthStreamHelper::GetShiftToDepthConfig(XnShiftToDepthConfig&
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE, &nTemp);
 	XN_IS_STATUS_OK(nRetVal);
 
-	Config.nZeroPlaneDistance = (XnUInt16)nTemp;
+	Config.nZeroPlaneDistance = (uint16_t)nTemp;
 
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_ZERO_PLANE_PIXEL_SIZE, &dTemp);
 	XN_IS_STATUS_OK(nRetVal);
@@ -230,7 +230,7 @@ XnStatus XnShiftToDepthStreamHelper::RaiseChangeEvents()
 	nRetVal = m_ShiftToDepthTable.UnsafeUpdateValue(XnGeneralBufferPack(m_ShiftToDepthTables.pShiftToDepthTable, m_ShiftToDepthTables.nShiftsCount * sizeof(OniDepthPixel)));
 	XN_IS_STATUS_OK(nRetVal);
 
-	nRetVal = m_DepthToShiftTable.UnsafeUpdateValue(XnGeneralBufferPack(m_ShiftToDepthTables.pDepthToShiftTable, m_ShiftToDepthTables.nDepthsCount * sizeof(XnUInt16)));
+	nRetVal = m_DepthToShiftTable.UnsafeUpdateValue(XnGeneralBufferPack(m_ShiftToDepthTables.pDepthToShiftTable, m_ShiftToDepthTables.nDepthsCount * sizeof(uint16_t)));
 	XN_IS_STATUS_OK(nRetVal);
 
 	return (XN_STATUS_OK);
@@ -269,7 +269,7 @@ XnStatus XnShiftToDepthStreamHelper::OnDeviceS2DTablesSizeChanged()
 
 	// replace tables buffers
 	m_ShiftToDepthTable.ReplaceBuffer(m_ShiftToDepthTables.pShiftToDepthTable, m_ShiftToDepthTables.nShiftsCount * sizeof(OniDepthPixel));
-	m_DepthToShiftTable.ReplaceBuffer(m_ShiftToDepthTables.pDepthToShiftTable, m_ShiftToDepthTables.nDepthsCount * sizeof(XnUInt16));
+	m_DepthToShiftTable.ReplaceBuffer(m_ShiftToDepthTables.pDepthToShiftTable, m_ShiftToDepthTables.nDepthsCount * sizeof(uint16_t));
 
 	nRetVal = RaiseChangeEvents();
 	XN_IS_STATUS_OK(nRetVal);
@@ -291,7 +291,7 @@ XnStatus XnShiftToDepthStreamHelper::GetShiftToDepthTableImpl(const OniGeneralBu
 
 XnStatus XnShiftToDepthStreamHelper::GetDepthToShiftTableImpl(const OniGeneralBuffer& gbValue) const
 {
-	int32_t nTableSize = m_ShiftToDepthTables.nDepthsCount * sizeof(XnUInt16);
+	int32_t nTableSize = m_ShiftToDepthTables.nDepthsCount * sizeof(uint16_t);
 	if (gbValue.dataSize < nTableSize)
 	{
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;

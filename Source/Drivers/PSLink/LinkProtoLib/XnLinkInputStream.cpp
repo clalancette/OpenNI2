@@ -43,7 +43,7 @@ void LinkInputStream::Shutdown()
 
 XnStatus LinkInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
 				XnStreamType streamType,
-				XnUInt16 nStreamID,
+				uint16_t nStreamID,
 				IConnection* pConnection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -125,7 +125,7 @@ XnBool LinkInputStream::IsStreaming() const
 	return m_bStreaming;
 }
 
-XnUInt16 LinkInputStream::GetStreamID() const
+uint16_t LinkInputStream::GetStreamID() const
 {
 	return m_nStreamID;
 }
@@ -192,12 +192,12 @@ XnStatus LinkInputStream::SetOutputFormat(OniPixelFormat format)
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkInputStream::SetGain(XnUInt16 gain)
+XnStatus LinkInputStream::SetGain(uint16_t gain)
 {
 	return m_pLinkControlEndpoint->SetGain(m_nStreamID, gain);
 }
 
-XnStatus LinkInputStream::GetGain(XnUInt16& gain)
+XnStatus LinkInputStream::GetGain(uint16_t& gain)
 {
 	return m_pLinkControlEndpoint->GetGain(m_nStreamID, gain);
 }

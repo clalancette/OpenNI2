@@ -73,7 +73,7 @@ XnStatus XnIRProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnIRProcessor::Unpack10to16(const XnUInt8* pcInput, const uint32_t nInputSize, XnUInt16* pnOutput, uint32_t* pnActualRead, uint32_t* pnOutputSize)
+XnStatus XnIRProcessor::Unpack10to16(const XnUInt8* pcInput, const uint32_t nInputSize, uint16_t* pnOutput, uint32_t* pnActualRead, uint32_t* pnOutputSize)
 {
 	int32_t cInput = 0;
 	const XnUInt8* pOrigInput = pcInput;
@@ -159,7 +159,7 @@ void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader
 			// process it
 			uint32_t nActualRead = 0;
 			uint32_t nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
-			if (XN_STATUS_OK != Unpack10to16(m_ContinuousBuffer.GetData(), XN_INPUT_ELEMENT_SIZE, (XnUInt16*)pWriteBuffer->GetUnsafeWritePointer(), &nActualRead, &nOutputSize))
+			if (XN_STATUS_OK != Unpack10to16(m_ContinuousBuffer.GetData(), XN_INPUT_ELEMENT_SIZE, (uint16_t*)pWriteBuffer->GetUnsafeWritePointer(), &nActualRead, &nOutputSize))
 				WriteBufferOverflowed();
 			else
 				pWriteBuffer->UnsafeUpdateSize(nOutputSize);
@@ -170,7 +170,7 @@ void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader
 
 	uint32_t nActualRead = 0;
 	uint32_t nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
-	if (XN_STATUS_OK != Unpack10to16(pData, nDataSize, (XnUInt16*)pWriteBuffer->GetUnsafeWritePointer(), &nActualRead, &nOutputSize))
+	if (XN_STATUS_OK != Unpack10to16(pData, nDataSize, (uint16_t*)pWriteBuffer->GetUnsafeWritePointer(), &nActualRead, &nOutputSize))
 	{
 		WriteBufferOverflowed();
 	}
@@ -193,9 +193,9 @@ void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader
 	XN_PROFILING_END_SECTION
 }
 
-void IRto888(XnUInt16* pInput, uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
+void IRto888(uint16_t* pInput, uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
 {
-	XnUInt16* pInputEnd = pInput + nInputSize;
+	uint16_t* pInputEnd = pInput + nInputSize;
 	XnUInt8* pOutputOrig = pOutput;
 	XnUInt8* pOutputEnd = pOutput + *pnOutputSize;
 
@@ -231,7 +231,7 @@ void XnIRProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader)
 	case ONI_PIXEL_FORMAT_RGB888:
 		{
 			uint32_t nOutputSize = GetWriteBuffer()->GetFreeSpaceInBuffer();
-			IRto888((XnUInt16*)m_UnpackedBuffer.GetData(), m_UnpackedBuffer.GetSize() / sizeof(XnUInt16), GetWriteBuffer()->GetUnsafeWritePointer(), &nOutputSize);
+			IRto888((uint16_t*)m_UnpackedBuffer.GetData(), m_UnpackedBuffer.GetSize() / sizeof(uint16_t), GetWriteBuffer()->GetUnsafeWritePointer(), &nOutputSize);
 			GetWriteBuffer()->UnsafeUpdateSize(nOutputSize);
 			m_UnpackedBuffer.Reset();
 		}

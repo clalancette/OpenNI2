@@ -347,7 +347,7 @@ XnStatus xnUSBPlatformSpecificShutdown()
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBIsDevicePresent(XnUInt16 /*nVendorID*/, XnUInt16 /*nProductID*/, void* pExtraParam, XnBool* pbDevicePresent)
+XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t /*nVendorID*/, uint16_t /*nProductID*/, void* pExtraParam, XnBool* pbDevicePresent)
 {
 	// Local variables
 	LPGUID pInterfaceGuid = NULL;
@@ -393,7 +393,7 @@ XN_C_API XnStatus xnUSBIsDevicePresent(XnUInt16 /*nVendorID*/, XnUInt16 /*nProdu
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID, const XnUSBConnectionString** pastrDevicePaths, uint32_t* pnCount)
+XN_C_API XnStatus xnUSBEnumerateDevices(uint16_t nVendorID, uint16_t nProductID, const XnUSBConnectionString** pastrDevicePaths, uint32_t* pnCount)
 {
 	// support up to 30 devices
 	XnUSBConnectionString cpUSBID;
@@ -619,7 +619,7 @@ XnStatus xnUSBOpenDeviceImpl(const XnChar* strDevicePath, XN_USB_DEV_HANDLE* pDe
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBOpenDevice(XnUInt16 /*nVendorID*/, XnUInt16 /*nProductID*/, void* /*pExtraParam*/, void* pExtraParam2, XN_USB_DEV_HANDLE* pDevHandlePtr)
+XN_C_API XnStatus xnUSBOpenDevice(uint16_t /*nVendorID*/, uint16_t /*nProductID*/, void* /*pExtraParam*/, void* pExtraParam2, XN_USB_DEV_HANDLE* pDevHandlePtr)
 {
 	return xnUSBOpenDeviceImpl((const XnChar*)pExtraParam2, pDevHandlePtr);
 }
@@ -728,7 +728,7 @@ XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8* pnInt
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndPointID, XnUSBEndPointType nEPType, XnUSBDirectionType nDirType, XN_USB_EP_HANDLE* pEPHandlePtr)
+XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, uint16_t nEndPointID, XnUSBEndPointType nEPType, XnUSBDirectionType nDirType, XN_USB_EP_HANDLE* pEPHandlePtr)
 {
 	// Local variables
 	XnBool bResult = TRUE;
@@ -1003,7 +1003,7 @@ XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE pEPHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
 	XnBool bResult = FALSE;
@@ -1049,7 +1049,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// Local variables
 	XnBool bResult = FALSE;
@@ -1584,7 +1584,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(XnUInt16 nVendorID, XnUInt16 nProductID, XnUSBDeviceCallbackFunctionPtr pFunc, void* pCookie, XnRegistrationHandle* phRegistration)
+XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(uint16_t nVendorID, uint16_t nProductID, XnUSBDeviceCallbackFunctionPtr pFunc, void* pCookie, XnRegistrationHandle* phRegistration)
 {
 	XN_VALIDATE_INPUT_PTR(pFunc);
 	XN_VALIDATE_OUTPUT_PTR(phRegistration);
@@ -1630,7 +1630,7 @@ static void XN_CALLBACK_TYPE XnUSBDeviceCallbackBC(XnUSBEventArgs* pArgs, void* 
 	}
 }
 
-XN_C_API XnStatus xnUSBSetCallbackHandler(XnUInt16 nVendorID, XnUInt16 nProductID, void* /*pExtraParam*/, XnUSBEventCallbackFunctionPtr pCallbackFunction, void* pCallbackData)
+XN_C_API XnStatus xnUSBSetCallbackHandler(uint16_t nVendorID, uint16_t nProductID, void* /*pExtraParam*/, XnUSBEventCallbackFunctionPtr pCallbackFunction, void* pCallbackData)
 {
 	if (g_hDeprecatedCallback == NULL)
 	{

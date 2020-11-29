@@ -777,7 +777,7 @@ XnStatus XnSensor::WriteAHB(const XnAHBData* pAHB)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetLedState(XnUInt16 nLedId, XnUInt16 nState)
+XnStatus XnSensor::SetLedState(uint16_t nLedId, uint16_t nState)
 {
 	return XnHostProtocolSetLedState(&m_DevicePrivateData, nLedId, nState);
 }
@@ -889,7 +889,7 @@ XnStatus XnSensor::ReadFlashFile(const XnParamFileData* pFile)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = XnHostProtocolFileDownload(&m_DevicePrivateData, (XnUInt16)pFile->nOffset, pFile->strFileName);
+	nRetVal = XnHostProtocolFileDownload(&m_DevicePrivateData, (uint16_t)pFile->nOffset, pFile->strFileName);
 	XN_IS_STATUS_OK(nRetVal);
 
 	return (XN_STATUS_OK);
@@ -955,7 +955,7 @@ XnStatus XnSensor::GetFirmwareMode(XnParamCurrentMode* pnMode)
 	}
 	else
 	{
-		XnUInt16 nMode;
+		uint16_t nMode;
 		nRetVal = XnHostProtocolGetMode(&m_DevicePrivateData, nMode);
 		XN_IS_STATUS_OK(nRetVal);
 
@@ -1299,7 +1299,7 @@ XnStatus XnSensor::SetI2C(const XnI2CWriteData* pI2CWriteData)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::DeleteFile(XnUInt16 nFileID)
+XnStatus XnSensor::DeleteFile(uint16_t nFileID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1309,7 +1309,7 @@ XnStatus XnSensor::DeleteFile(XnUInt16 nFileID)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetTecSetPoint(XnUInt16 nSetPoint)
+XnStatus XnSensor::SetTecSetPoint(uint16_t nSetPoint)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1319,7 +1319,7 @@ XnStatus XnSensor::SetTecSetPoint(XnUInt16 nSetPoint)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetEmitterSetPoint(XnUInt16 nSetPoint)
+XnStatus XnSensor::SetEmitterSetPoint(uint16_t nSetPoint)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1393,7 +1393,7 @@ XnStatus XnSensor::SetCmosBlankingTime(const XnCmosBlankingTime* pBlanking)
 	XnCmosBlankingUnits blankingUnits;
 	blankingUnits.nCmosID = pBlanking->nCmosID;
 	blankingUnits.nNumberOfFrames = pBlanking->nNumberOfFrames;
-	blankingUnits.nUnits = XnUInt16((pBlanking->nTimeInMilliseconds*1000 - pCoeffs->fB)/pCoeffs->fA);
+	blankingUnits.nUnits = uint16_t((pBlanking->nTimeInMilliseconds*1000 - pCoeffs->fB)/pCoeffs->fA);
 
 	nRetVal = SetCmosBlankingUnits(&blankingUnits);
 	XN_IS_STATUS_OK(nRetVal);
@@ -1405,7 +1405,7 @@ XnStatus XnSensor::Reset(XnParamResetType nType)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = XnHostProtocolReset(&m_DevicePrivateData, (XnUInt16)nType);
+	nRetVal = XnHostProtocolReset(&m_DevicePrivateData, (uint16_t)nType);
 	XN_IS_STATUS_OK(nRetVal);
 
 	return (XN_STATUS_OK);
@@ -1435,7 +1435,7 @@ XnStatus XnSensor::SetFirmwareMode(XnParamCurrentMode nMode)
 		return XN_STATUS_DEVICE_UNSUPPORTED_MODE;
 	}
 
-	nRetVal = XnHostProtocolSetMode(&m_DevicePrivateData, (XnUInt16)nActualValue);
+	nRetVal = XnHostProtocolSetMode(&m_DevicePrivateData, (uint16_t)nActualValue);
 	XN_IS_STATUS_OK(nRetVal);
 
 	return (XN_STATUS_OK);
@@ -1881,19 +1881,19 @@ XnStatus XN_CALLBACK_TYPE XnSensor::SetI2CCallback(XnGeneralProperty* /*pSender*
 XnStatus XN_CALLBACK_TYPE XnSensor::DeleteFileCallback(XnIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->DeleteFile((XnUInt16)nValue);
+	return pThis->DeleteFile((uint16_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetTecSetPointCallback(XnIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->SetTecSetPoint((XnUInt16)nValue);
+	return pThis->SetTecSetPoint((uint16_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetEmitterSetPointCallback(XnIntProperty* /*pSender*/, uint64_t nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->SetEmitterSetPoint((XnUInt16)nValue);
+	return pThis->SetEmitterSetPoint((uint16_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetFileAttributesCallback(XnGeneralProperty* /*pSender*/, const OniGeneralBuffer& gbValue, void* pCookie)

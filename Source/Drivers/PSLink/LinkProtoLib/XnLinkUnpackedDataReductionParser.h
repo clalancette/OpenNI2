@@ -43,7 +43,7 @@ protected:
 					const XnUInt8* pDstEnd);
 
 
-	static const XnUInt16 FACTOR;
+	static const uint16_t FACTOR;
 
 };
 

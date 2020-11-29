@@ -35,19 +35,19 @@ public:
 	LinkOutputStream();
 	virtual ~LinkOutputStream();
 
-	virtual XnStatus Init(XnUInt16 nStreamID,
+	virtual XnStatus Init(uint16_t nStreamID,
 				uint32_t nMaxMsgSize,
-				XnUInt16 nMaxPacketSize,
+				uint16_t nMaxPacketSize,
 				XnLinkCompressionType compression,
-				XnUInt16 nInitialPacketID,
+				uint16_t nInitialPacketID,
 				LinkOutputDataEndpoint* pOutputDataEndpoint);
 
 	virtual XnBool IsInitialized() const;
 	virtual void Shutdown();
 	virtual XnLinkCompressionType GetCompression() const;
 
-	virtual XnStatus SendData(XnUInt16 nMsgType,
-					XnUInt16 nCID,
+	virtual XnStatus SendData(uint16_t nMsgType,
+					uint16_t nCID,
 					XnLinkFragmentation fragmentation,
 					const void* pData,
 					uint32_t nDataSize) const;
@@ -57,11 +57,11 @@ protected:
 
 private:
 	XnBool m_bInitialized;
-	XnUInt16 m_nStreamID;
+	uint16_t m_nStreamID;
 	XnLinkCompressionType m_compression;
 	LinkMsgEncoder* m_pLinkMsgEncoder;
 	LinkOutputDataEndpoint* m_pOutputDataEndpoint;
-	mutable XnUInt16 m_nPacketID;
+	mutable uint16_t m_nPacketID;
 };
 }
 

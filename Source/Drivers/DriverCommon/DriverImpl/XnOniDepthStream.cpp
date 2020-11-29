@@ -140,7 +140,7 @@ void XnOniDepthStream::notifyAllProperties()
 	raisePropertyChanged(XN_STREAM_PROPERTY_S2D_TABLE, pDepthStream->GetShiftToDepthTable(), sizeof(OniDepthPixel)*(pDepthStream->GetMaxShift()+1));
 
 	// depth-to-shift table
-	raisePropertyChanged(XN_STREAM_PROPERTY_D2S_TABLE, pDepthStream->GetDepthToShiftTable(), sizeof(XnUInt16)*(pDepthStream->GetDeviceMaxDepth()+1));
+	raisePropertyChanged(XN_STREAM_PROPERTY_D2S_TABLE, pDepthStream->GetDepthToShiftTable(), sizeof(uint16_t)*(pDepthStream->GetDeviceMaxDepth()+1));
 
 	DepthUtilsSensorCalibrationInfo calibrationInfo;
 	size = sizeof(DepthUtilsSensorCalibrationInfo);

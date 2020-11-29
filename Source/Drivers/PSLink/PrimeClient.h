@@ -99,40 +99,40 @@ public:
 	/* Stream Management */
 	virtual XnStatus EnumerateStreams(std::vector<XnFwStreamInfo>& aStreamInfos);
 	virtual XnStatus EnumerateStreams(XnStreamType streamType, std::vector<XnFwStreamInfo>& aStreamInfos);
-	virtual XnStatus CreateInputStream(XnStreamType nodeType, const XnChar* strCreationInfo, XnUInt16& nStreamID);
+	virtual XnStatus CreateInputStream(XnStreamType nodeType, const XnChar* strCreationInfo, uint16_t& nStreamID);
 
-	virtual XnStatus DestroyInputStream(XnUInt16 nStreamID);
-	virtual LinkInputStream* GetInputStream(XnUInt16 nStreamID);
-	virtual const LinkInputStream* GetInputStream(XnUInt16 nStreamID) const;
+	virtual XnStatus DestroyInputStream(uint16_t nStreamID);
+	virtual LinkInputStream* GetInputStream(uint16_t nStreamID);
+	virtual const LinkInputStream* GetInputStream(uint16_t nStreamID) const;
 
-	virtual XnStatus InitOutputStream(XnUInt16 nStreamID,
+	virtual XnStatus InitOutputStream(uint16_t nStreamID,
 		uint32_t nMaxMsgSize,
-		XnUInt16 nMaxPacketSize,
+		uint16_t nMaxPacketSize,
 		XnLinkCompressionType compression,
 		XnStreamFragLevel streamFragLevel);
 
-	virtual void ShutdownOutputStream(XnUInt16 nStreamID);
+	virtual void ShutdownOutputStream(uint16_t nStreamID);
 
 	virtual	XnStatus BeginUploadFileOnControlEP();
 	virtual	XnStatus EndUploadFileOnControlEP();
 	virtual XnStatus UploadFileOnControlEP(const XnChar* strFileName, XnBool bOverrideFactorySettings);
 	virtual XnStatus GetFileList(std::vector<XnFwFileEntry>& files);
-	virtual XnStatus DownloadFile(XnUInt16 zone, const XnChar* strFirmwareFileName, const XnChar* strTargetFile);
+	virtual XnStatus DownloadFile(uint16_t zone, const XnChar* strFirmwareFileName, const XnChar* strTargetFile);
 
 	virtual XnStatus EnableProjectorPulse(float delay, float width, float cycle);
 	virtual XnStatus DisableProjectorPulse();
 	virtual XnStatus GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip);
-	virtual XnStatus SetProjectorPower(XnUInt16 power);
-	virtual XnStatus GetProjectorPower(XnUInt16& power);
+	virtual XnStatus SetProjectorPower(uint16_t power);
+	virtual XnStatus GetProjectorPower(uint16_t& power);
 
-	virtual void HandleLinkDataEndpointDisconnection(XnUInt16 nEndpointID);
+	virtual void HandleLinkDataEndpointDisconnection(uint16_t nEndpointID);
 
 protected:
 	virtual XnStatus ConnectOutputDataEndpoint();
 	virtual IConnectionFactory* CreateConnectionFactory(XnTransportType transportType) = 0;
 	void LogVersions();
-	XnStatus CreateInputStreamImpl(XnLinkStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID, XnUInt16& nEndpointID);
-	XnBool IsPropertySupported(XnUInt16 propID);
+	XnStatus CreateInputStreamImpl(XnLinkStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID);
+	XnBool IsPropertySupported(uint16_t propID);
 	LinkControlEndpoint m_linkControlEndpoint;
 	LinkOutputDataEndpoint m_outputDataEndpoint;
 	IConnectionFactory* m_pConnectionFactory;
@@ -146,7 +146,7 @@ private:
 	XnBool m_bInitialized;
 	volatile XnBool m_bConnected;
 	std::vector<LinkInputDataEndpoint> m_inputDataEndpoints;
-	XnUInt16 m_nFWLogStreamID;
+	uint16_t m_nFWLogStreamID;
 	XnChar m_strConnectionString[XN_FILE_MAX_PATH];
 
 	std::vector<xnl::BitSet> m_supportedProps;

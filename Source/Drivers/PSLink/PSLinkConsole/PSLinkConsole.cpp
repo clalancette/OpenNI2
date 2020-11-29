@@ -564,7 +564,7 @@ int DumpStream(int argc, const char* argv[])
 		return -1;
 	}
 
-	XnUInt16 nStreamID = (XnUInt16)MyAtoi(argv[1]);
+	uint16_t nStreamID = (uint16_t)MyAtoi(argv[1]);
 	XnBool bDumpOn = (xnOSStrCaseCmp(argv[2], "on") == 0);
 	if (STATUS_OK != g_device.setProperty(PS_PROPERTY_DUMP_DATA, bDumpOn))
 	{
@@ -1794,7 +1794,7 @@ int Projector(int argc, const char* argv[])
 			if (argc > 2)
 			{
 				// set power
-				XnUInt16 power = (XnUInt16)MyAtoi(argv[2]);
+				uint16_t power = (uint16_t)MyAtoi(argv[2]);
 				nRetVal = g_device.setProperty(LINK_PROP_PROJECTOR_POWER, power);
 				if (nRetVal != XN_STATUS_OK)
 				{
@@ -1807,7 +1807,7 @@ int Projector(int argc, const char* argv[])
 			else
 			{
 				// get power
-				XnUInt16 power;
+				uint16_t power;
 				nRetVal = g_device.getProperty(LINK_PROP_PROJECTOR_POWER, &power);
 				if (nRetVal != XN_STATUS_OK)
 				{
@@ -1918,7 +1918,7 @@ int main(int argc, char* argv[])
 {
 	Status nRetVal = STATUS_OK;
 	const XnChar* strScriptFile = NULL;
-	XnUInt16 nProductID = 0;
+	uint16_t nProductID = 0;
 	const char** commandArgv = NULL;
 	int commandArgc = 0;
 
@@ -1930,7 +1930,7 @@ int main(int argc, char* argv[])
 			if (xnOSStrCaseCmp(argv[nArgIndex], "-product") == 0)
 			{
 				++nArgIndex;
-				nProductID = (XnUInt16)MyAtoi(argv[nArgIndex++]);
+				nProductID = (uint16_t)MyAtoi(argv[nArgIndex++]);
 			}
 			else if (xnOSStrCaseCmp(argv[nArgIndex], "-script") == 0)
 			{

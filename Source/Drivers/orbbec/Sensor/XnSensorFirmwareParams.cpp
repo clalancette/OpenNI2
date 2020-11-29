@@ -253,7 +253,7 @@ void XnSensorFirmwareParams::Free()
 	m_AllFirmwareParams.Clear();
 }
 
-XnStatus XnSensorFirmwareParams::AddFirmwareParam(XnActualIntProperty& Property, XnUInt16 nFirmwareParam, XnFWVer nMinVer /* = XN_SENSOR_FW_VER_UNKNOWN */, XnFWVer nMaxVer /* = XN_SENSOR_FW_VER_UNKNOWN */, XnUInt16 nValueIfNotSupported /* = 0 */)
+XnStatus XnSensorFirmwareParams::AddFirmwareParam(XnActualIntProperty& Property, uint16_t nFirmwareParam, XnFWVer nMinVer /* = XN_SENSOR_FW_VER_UNKNOWN */, XnFWVer nMaxVer /* = XN_SENSOR_FW_VER_UNKNOWN */, uint16_t nValueIfNotSupported /* = 0 */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -281,7 +281,7 @@ XnStatus XnSensorFirmwareParams::AddFirmwareParam(XnActualIntProperty& Property,
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorFirmwareParams::AddFirmwareAudioParam(XnActualIntProperty& Property, XnUInt16 nFirmwareParam, XnFWVer nMinVer /* = XN_SENSOR_FW_VER_3_0 */, XnFWVer nMaxVer /* = XN_SENSOR_FW_VER_UNKNOWN */, XnUInt16 nValueIfNotSupported /* = 0 */)
+XnStatus XnSensorFirmwareParams::AddFirmwareAudioParam(XnActualIntProperty& Property, uint16_t nFirmwareParam, XnFWVer nMinVer /* = XN_SENSOR_FW_VER_3_0 */, XnFWVer nMaxVer /* = XN_SENSOR_FW_VER_UNKNOWN */, uint16_t nValueIfNotSupported /* = 0 */)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -408,7 +408,7 @@ XnStatus XnSensorFirmwareParams::CommitTransactionAsBatch()
 				nLength += nChars;
 
 				pParams[nCount].nParam = pParam->nFirmwareParam;
-				pParams[nCount].nValue = (XnUInt16)nValue;
+				pParams[nCount].nValue = (uint16_t)nValue;
 				nCount++;
 			}
 		}
@@ -458,7 +458,7 @@ XnStatus XnSensorFirmwareParams::UpdateProperty(XnFirmwareParam* pParam)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnUInt16 nNewValue;
+	uint16_t nNewValue;
 
 	// check version
 	if ((pParam->MinVer != XN_SENSOR_FW_VER_UNKNOWN && m_pInfo->nFWVer < pParam->MinVer) ||
@@ -578,7 +578,7 @@ XnStatus XnSensorFirmwareParams::SetFirmwareParamImpl(XnActualIntProperty* pProp
 	if (pParam != NULL)
 	{
 		// update firmware
-		nRetVal = m_pCommands->SetFirmwareParam(pParam->nFirmwareParam, (XnUInt16)nValue);
+		nRetVal = m_pCommands->SetFirmwareParam(pParam->nFirmwareParam, (uint16_t)nValue);
 		XN_IS_STATUS_OK(nRetVal);
 
 		// update property

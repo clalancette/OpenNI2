@@ -41,7 +41,7 @@ public:
 	virtual ~LinkContInputStream();
     virtual XnStatus Init(LinkControlEndpoint* pLinkControlEndpoint,
                           XnStreamType streamType,
-                          XnUInt16 nStreamID, 
+                          uint16_t nStreamID, 
                           IConnection* pConnection);
     //LinkInputStream methods
     virtual XnBool IsInitialized() const;

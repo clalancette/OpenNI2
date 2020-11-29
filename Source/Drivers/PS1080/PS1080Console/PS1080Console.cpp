@@ -39,9 +39,9 @@ static const char* g_openMode;
 static openni::VideoStream g_depthStream;
 static openni::VideoStream g_colorStream;
 
-const XnUInt16 REQUIRE_MODE_PS				= 0x0001;
-const XnUInt16 REQUIRE_MODE_MAINTENANCE		= 0x0002;
-const XnUInt16 REQUIRE_MODE_ANY				= 0xFFFF;
+const uint16_t REQUIRE_MODE_PS				= 0x0001;
+const uint16_t REQUIRE_MODE_MAINTENANCE		= 0x0002;
+const uint16_t REQUIRE_MODE_ANY				= 0xFFFF;
 
 #define SWITCH_MODE_WAIT	3000
 
@@ -389,7 +389,7 @@ bool Attrib(openni::Device& Device, std::vector<std::string>& Command)
 		return true;
 	}
 
-	XnUInt16 nNewAttributes = pEntry->nAttributes;
+	uint16_t nNewAttributes = pEntry->nAttributes;
 
 	for (size_t i = 2; i < Command.size(); i++)
 	{
@@ -955,7 +955,7 @@ bool Upload(openni::Device& Device, std::vector<std::string>& Command)
 		return true;
 	}
 
-	XnUInt16 nAttributes = 0;
+	uint16_t nAttributes = 0;
 
 	if (Command.size() >= 4)
 	{
@@ -1213,7 +1213,7 @@ bool ReadFlash(openni::Device& Device, std::vector<std::string>& Command)
 		return true;
 	}
 
-	int nSizeInBytes = ParamFlash.nSize * sizeof(XnUInt16);
+	int nSizeInBytes = ParamFlash.nSize * sizeof(uint16_t);
 	ParamFlash.pData = new XnUChar[nSizeInBytes];
 
 	openni::Status rc = Device.getProperty(XN_MODULE_PROPERTY_FLASH_CHUNK, &ParamFlash);

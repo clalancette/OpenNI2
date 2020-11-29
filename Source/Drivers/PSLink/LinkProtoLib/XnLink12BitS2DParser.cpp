@@ -143,8 +143,8 @@ XnStatus Link12BitS2DParser::Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest,
 
 	*pnActualRead = 0;
 
-	XnUInt16 *pnOutput = (XnUInt16*)pDest;
-	XnUInt16 shift[16];
+	uint16_t *pnOutput = (uint16_t*)pDest;
+	uint16_t shift[16];
 
 	// Convert the 11bit packed data into 16bit shorts
 	for (uint32_t nElem = 0; nElem < nElements; ++nElem)

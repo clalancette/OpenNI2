@@ -31,18 +31,18 @@ template <typename PixelType>
 class XnMapSequenceListConverter
 {
 private:
-	typedef XnUInt16 ValueType;
+	typedef uint16_t ValueType;
 
 	struct ValueHeader
 	{
 		ValueType	nValue;
-		XnUInt16	nSequences;
+		uint16_t	nSequences;
 	};
 
 	struct Sequence
 	{
-		XnUInt16 nOffset;
-		XnUInt16 nSequenceCount;
+		uint16_t nOffset;
+		uint16_t nSequenceCount;
 	};
 
 	XnStatus FillMapTopDown(PixelType* pMap, uint32_t nHeight, uint32_t nWidth, uint32_t& nX, uint32_t& nY, uint32_t nPixels, PixelType val)
@@ -85,7 +85,7 @@ public:
 		const PixelType	MAX_PIXEL_SIZE	= (1 << sizeof(ValueType) * 8) - 1;
 
 		// Current sequence related data
-		XnUInt16		nOffsetCount		= 0;
+		uint16_t		nOffsetCount		= 0;
 		PixelType		sequncePixel		= NA_PIXEL;
 
 		// Value related data
@@ -195,7 +195,7 @@ public:
 			pCurr += sizeof(ValueHeader);
 
 			// Loop on value sequences
-			for (XnUInt16 nSeq = 0; nSeq < pCurrValue->nSequences; nSeq++ )
+			for (uint16_t nSeq = 0; nSeq < pCurrValue->nSequences; nSeq++ )
 			{
 				nCurrProcessed += sizeof(Sequence);
 				if (nCurrProcessed > nSeqSize)

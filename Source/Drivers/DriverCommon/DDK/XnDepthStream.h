@@ -35,7 +35,7 @@
 class XnDepthStream : public XnPixelStream
 {
 public:
-	XnDepthStream(const XnChar* csName, XnBool bAllowCustomResolutions, OniDepthPixel nDeviceMaxDepth, XnUInt16 nDeviceMaxShift);
+	XnDepthStream(const XnChar* csName, XnBool bAllowCustomResolutions, OniDepthPixel nDeviceMaxDepth, uint16_t nDeviceMaxShift);
 	~XnDepthStream() { Free(); }
 
 	//---------------------------------------------------------------------------
@@ -51,7 +51,7 @@ public:
 	inline OniDepthPixel GetMaxDepth() const { return (OniDepthPixel)m_MaxDepth.GetValue(); }
 	inline uint32_t GetConstShift() const { return (uint32_t)m_ConstShift.GetValue(); }
 	inline uint32_t GetPixelSizeFactor() const { return (uint32_t)m_PixelSizeFactor.GetValue(); }
-	inline XnUInt16 GetMaxShift() const { return (XnUInt16)m_MaxShift.GetValue(); }
+	inline uint16_t GetMaxShift() const { return (uint16_t)m_MaxShift.GetValue(); }
 	inline OniDepthPixel GetDeviceMaxDepth() const { return (OniDepthPixel)m_DeviceMaxDepth.GetValue(); }
 	inline uint32_t GetParamCoefficient() const { return (uint32_t)m_ParamCoefficient.GetValue(); }
 	inline uint32_t GetShiftScale() const { return (uint32_t)m_ShiftScale.GetValue(); }
@@ -61,7 +61,7 @@ public:
 	inline double GetDCmosRCmosDistance() const { return m_GetDCmosRCmosDistance.GetValue(); }
 
 	inline OniDepthPixel* GetShiftToDepthTable() const { return m_S2DHelper.GetShiftToDepthTable(); }
-	inline XnUInt16* GetDepthToShiftTable() const { return m_S2DHelper.GetDepthToShiftTable(); }
+	inline uint16_t* GetDepthToShiftTable() const { return m_S2DHelper.GetDepthToShiftTable(); }
 
 protected:
 	//---------------------------------------------------------------------------

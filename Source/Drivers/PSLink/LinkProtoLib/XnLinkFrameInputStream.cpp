@@ -72,7 +72,7 @@ LinkFrameInputStream::~LinkFrameInputStream()
 
 XnStatus LinkFrameInputStream::Init(LinkControlEndpoint* pLinkControlEndpoint,
                                     XnStreamType streamType,
-									XnUInt16 nStreamID,
+									uint16_t nStreamID,
                                     IConnection* pConnection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;

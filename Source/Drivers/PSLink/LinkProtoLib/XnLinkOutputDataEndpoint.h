@@ -37,14 +37,14 @@ public:
 	LinkOutputDataEndpoint();
 	virtual ~LinkOutputDataEndpoint();
 
-	XnStatus Init(XnUInt16 nEndpointID,
+	XnStatus Init(uint16_t nEndpointID,
 	              IConnectionFactory* pConnectionFactory);
 	XnBool IsInitialized() const;
 	void Shutdown();
 	XnStatus Connect();
 	void Disconnect();
 	XnBool IsConnected() const;
-	XnUInt16 GetMaxPacketSize() const;
+	uint16_t GetMaxPacketSize() const;
 
 	XnStatus SendData(const void* pData, uint32_t nSize);
 
@@ -52,7 +52,7 @@ private:
 	IOutputConnection* m_pConnection;
 	XnBool m_bInitialized;
 	XnBool m_bConnected;
-	XnUInt16 m_nEndpointID;
+	uint16_t m_nEndpointID;
 };
 
 }

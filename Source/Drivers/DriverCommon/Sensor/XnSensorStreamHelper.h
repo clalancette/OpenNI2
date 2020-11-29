@@ -67,13 +67,13 @@ public:
 	*/
 	XnStatus ConfigureFirmware(XnActualIntProperty& Property);
 
-	XnStatus BeforeSettingFirmwareParam(XnActualIntProperty& Property, XnUInt16 nValue);
+	XnStatus BeforeSettingFirmwareParam(XnActualIntProperty& Property, uint16_t nValue);
 	XnStatus AfterSettingFirmwareParam(XnActualIntProperty& Property);
 
 	XnStatus BeforeSettingDataProcessorProperty();
 	XnStatus AfterSettingDataProcessorProperty();
 
-	XnStatus SimpleSetFirmwareParam(XnActualIntProperty& Property, XnUInt16 nValue);
+	XnStatus SimpleSetFirmwareParam(XnActualIntProperty& Property, uint16_t nValue);
 
 	XnStatus UpdateFromFirmware(XnActualIntProperty& Property);
 

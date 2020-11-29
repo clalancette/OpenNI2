@@ -45,7 +45,7 @@ public:
 	* @param	nTypeSOF			[in]	The packet type that signifies start-of-frame.
 	* @param	nTypeEOF			[in]	The packet type that signifies end-of-frame.
 	*/
-	XnFrameStreamProcessor(XnFrameStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager, XnUInt16 nTypeSOF, XnUInt16 nTypeEOF);
+	XnFrameStreamProcessor(XnFrameStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager, uint16_t nTypeSOF, uint16_t nTypeEOF);
 
 	/**
 	* Destroys a frame-based stream processor
@@ -164,9 +164,9 @@ private:
 	// Class Members
 	//---------------------------------------------------------------------------
 	/* The type of start-of-frame packet. */
-	XnUInt16 m_nTypeSOF;
+	uint16_t m_nTypeSOF;
 	/* The type of end-of-frame packet. */
-	XnUInt16 m_nTypeEOF;
+	uint16_t m_nTypeEOF;
 	/* A pointer to the triple frame buffer of this stream. */
 	XnFrameBufferManager* m_pTripleBuffer;
 
@@ -176,7 +176,7 @@ private:
 	XnDumpFile* m_InternalDump;
 	XnBool m_bFrameCorrupted;
 	XnBool m_bAllowDoubleSOF;
-	XnUInt16 m_nLastSOFPacketID;
+	uint16_t m_nLastSOFPacketID;
 	uint64_t m_nFirstPacketTimestamp;
 };
 

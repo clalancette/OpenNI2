@@ -43,25 +43,25 @@ public:
 	XnStatus Init();
 	void Shutdown();
 
-	XnStatus InitOutputStream(XnUInt16 nStreamID,
+	XnStatus InitOutputStream(uint16_t nStreamID,
 				  uint32_t nMaxMsgSize,
-				  XnUInt16 nMaxPacketSize,
+				  uint16_t nMaxPacketSize,
 				  XnLinkCompressionType compression,
 				  XnStreamFragLevel streamFragLevel,
 				  LinkOutputDataEndpoint* pOutputDataEndpoint);
 
-	XnBool IsStreamInitialized(XnUInt16 nStreamID) const;
+	XnBool IsStreamInitialized(uint16_t nStreamID) const;
 
-	void ShutdownOutputStream(XnUInt16 nStreamID);
-	XnStatus SendData(XnUInt16 nStreamID,
-	                  XnUInt16 nMsgType,
-			  XnUInt16 nCID,
+	void ShutdownOutputStream(uint16_t nStreamID);
+	XnStatus SendData(uint16_t nStreamID,
+	                  uint16_t nMsgType,
+			  uint16_t nCID,
 			  XnLinkFragmentation fragmentation,
 			  const void* pData,
 			  uint32_t nDataSize);
 
 private:
-	static const XnUInt16 INITIAL_PACKET_ID;
+	static const uint16_t INITIAL_PACKET_ID;
 	std::vector<ILinkOutputStream*> m_outputStreams;
 };
 

@@ -49,7 +49,7 @@ LinkInputDataEndpoint::~LinkInputDataEndpoint()
 	Shutdown();
 }
 
-XnStatus LinkInputDataEndpoint::Init(XnUInt16 nEndpointID,
+XnStatus LinkInputDataEndpoint::Init(uint16_t nEndpointID,
 					IConnectionFactory* pConnectionFactory,
 					LinkInputStreamsMgr* pLinkInputStreamsMgr,
 					ILinkDataEndpointNotifications* pNotifications)
@@ -172,7 +172,7 @@ void LinkInputDataEndpoint::HandleDisconnection()
 	m_pNotifications->HandleLinkDataEndpointDisconnection(m_nEndpointID);
 }
 
-XnUInt16 LinkInputDataEndpoint::GetMaxPacketSize() const
+uint16_t LinkInputDataEndpoint::GetMaxPacketSize() const
 {
 	return m_pConnection->GetMaxPacketSize();
 }

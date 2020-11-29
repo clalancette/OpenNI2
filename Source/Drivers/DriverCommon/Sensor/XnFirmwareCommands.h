@@ -39,8 +39,8 @@ class XnFirmwareCommands final
 public:
 	XnFirmwareCommands(XnDevicePrivateData* pDevicePrivateData);
 
-	XnStatus GetFirmwareParam(XnUInt16 nParam, XnUInt16* pnValue);
-	XnStatus SetFirmwareParam(XnUInt16 nParam, XnUInt16 nValue);
+	XnStatus GetFirmwareParam(uint16_t nParam, uint16_t* pnValue);
+	XnStatus SetFirmwareParam(uint16_t nParam, uint16_t nValue);
 	XnStatus SetMultipleFirmwareParams(XnInnerParamData* aParams, uint32_t nCount);
 
 private:

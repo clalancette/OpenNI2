@@ -43,7 +43,7 @@ XnStatus LinkResponseMsgParser::ParsePacketImpl(XnLinkFragmentation /*fragmentat
 		XN_ASSERT(FALSE);
 		return XN_STATUS_LINK_MISSING_RESPONSE_INFO;
 	}
-	XnUInt16 nResponseCode = XN_PREPARE_VAR16_IN_BUFFER(((XnLinkResponseInfo*)pSrc)->m_nResponseCode);
+	uint16_t nResponseCode = XN_PREPARE_VAR16_IN_BUFFER(((XnLinkResponseInfo*)pSrc)->m_nResponseCode);
 
 	nPacketDataSize -= sizeof(XnLinkResponseInfo);
 	pSrc += sizeof(XnLinkResponseInfo);

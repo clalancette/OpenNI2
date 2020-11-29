@@ -44,19 +44,19 @@ public:
 	XnStatus Init();
 	void Shutdown();
 
-	void RegisterStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16 nStreamID);
-	XnBool UnregisterStream(XnUInt16 nStreamID); // returns true if the unregistered stream was the last one
-	XnBool HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID);
+	void RegisterStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t nStreamID);
+	XnBool UnregisterStream(uint16_t nStreamID); // returns true if the unregistered stream was the last one
+	XnBool HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID);
 
 	XnStatus InitInputStream(LinkControlEndpoint* pLinkControlEndpoint,
 					XnStreamType streamType,
-					XnUInt16 nStreamID,
+					uint16_t nStreamID,
 					IConnection* pConnection);
 
-	void ShutdownInputStream(XnUInt16 nStreamID);
+	void ShutdownInputStream(uint16_t nStreamID);
 	XnStatus HandleData(const void* pData, uint32_t nSize);
-	const LinkInputStream* GetInputStream(XnUInt16 nStreamID) const;
-	LinkInputStream* GetInputStream(XnUInt16 nStreamID);
+	const LinkInputStream* GetInputStream(uint16_t nStreamID) const;
+	LinkInputStream* GetInputStream(uint16_t nStreamID);
 
 	XnBool HasStreams() const;
 
@@ -65,12 +65,12 @@ private:
 	int FindStreamByType(XnStreamType streamType, const XnChar* strCreationInfo); //returns found streamId, or -1
 
 	static const uint32_t FRAG_FLAGS_ALLOWED_CHANGES[4][4];
-	static const XnUInt16 INITIAL_PACKET_ID;
+	static const uint16_t INITIAL_PACKET_ID;
 
 	struct StreamInfo
 	{
-		XnUInt16 nNextPacketID;
-		XnUInt16 nMsgType;
+		uint16_t nNextPacketID;
+		uint16_t nMsgType;
 		XnLinkFragmentation prevFragmentation;
 		XnStreamFragLevel streamFragLevel;
 		LinkInputStream* pInputStream;

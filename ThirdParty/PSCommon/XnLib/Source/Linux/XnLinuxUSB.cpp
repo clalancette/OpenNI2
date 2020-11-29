@@ -52,8 +52,8 @@ typedef struct XnUSBEventCallback
 	void* pCookie;
 
 	// What kind of device are we hooking on
-	XnUInt16 nVendorID;
-	XnUInt16 nProductID;
+	uint16_t nVendorID;
+	uint16_t nProductID;
 } XnUSBEventCallback;
 
 static std::list<XnUSBEventCallback*> g_connectivityEvent;
@@ -61,8 +61,8 @@ static std::list<XnUSBEventCallback*> g_connectivityEvent;
 #ifdef XN_USE_UDEV
 typedef struct XnUSBConnectedDevice
 {
-	XnUInt16 nVendorID;
-	XnUInt16 nProductID;
+	uint16_t nVendorID;
+	uint16_t nProductID;
 
 	XnUInt8 nBusNum;
 	XnUInt8 nDevNum;
@@ -505,7 +505,7 @@ XnStatus xnUSBPlatformSpecificShutdown()
 * Finds a USB device.
 * the returned device must be unreferenced when it is no longer needed using libusb_unref_device.
 */
-XnStatus FindDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* /*pExtraParam*/, libusb_device** ppDevice)
+XnStatus FindDevice(uint16_t nVendorID, uint16_t nProductID, void* /*pExtraParam*/, libusb_device** ppDevice)
 {
 	*ppDevice = NULL;
 
@@ -548,7 +548,7 @@ XnStatus FindDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* /*pExtraParam
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBIsDevicePresent(XnUInt16 nVendorID, XnUInt16 nProductID, void* pExtraParam, XnBool* pbDevicePresent)
+XN_C_API XnStatus xnUSBIsDevicePresent(uint16_t nVendorID, uint16_t nProductID, void* pExtraParam, XnBool* pbDevicePresent)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -575,7 +575,7 @@ XN_C_API XnStatus xnUSBIsDevicePresent(XnUInt16 nVendorID, XnUInt16 nProductID, 
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID, const XnUSBConnectionString** pastrDevicePaths, uint32_t* pnCount)
+XN_C_API XnStatus xnUSBEnumerateDevices(uint16_t nVendorID, uint16_t nProductID, const XnUSBConnectionString** pastrDevicePaths, uint32_t* pnCount)
 {
 	// get device list
 	libusb_device** ppDevices;
@@ -702,7 +702,7 @@ XN_C_API XnStatus xnUSBOpenDeviceImpl(libusb_device* pDevice, XN_USB_DEV_HANDLE*
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBOpenDevice(XnUInt16 nVendorID, XnUInt16 nProductID, void* pExtraParam, void* /*pExtraParam2*/, XN_USB_DEV_HANDLE* pDevHandlePtr)
+XN_C_API XnStatus xnUSBOpenDevice(uint16_t nVendorID, uint16_t nProductID, void* pExtraParam, void* /*pExtraParam2*/, XN_USB_DEV_HANDLE* pDevHandlePtr)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -727,8 +727,8 @@ XN_C_API XnStatus xnUSBOpenDeviceByPath(const XnUSBConnectionString strDevicePat
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// parse connection string
-	XnUInt16 nVendorID = 0;
-	XnUInt16 nProductID = 0;
+	uint16_t nVendorID = 0;
+	uint16_t nProductID = 0;
 	XnUInt8 nBus = 0;
 	XnUInt8 nAddress = 0;
 	sscanf(strDevicePath, "%hx/%hx@%hhu/%hhu", &nVendorID, &nProductID, &nBus, &nAddress);
@@ -853,7 +853,7 @@ XN_C_API XnStatus xnUSBGetInterface(XN_USB_DEV_HANDLE pDevHandle, XnUInt8* pnInt
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndPointID, XnUSBEndPointType nEPType, XnUSBDirectionType nDirType, XN_USB_EP_HANDLE* pEPHandlePtr)
+XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, uint16_t nEndPointID, XnUSBEndPointType nEPType, XnUSBDirectionType nDirType, XN_USB_EP_HANDLE* pEPHandlePtr)
 {
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
@@ -1035,7 +1035,7 @@ XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/)
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
@@ -1088,7 +1088,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
+XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, uint16_t nValue, uint16_t nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
@@ -1652,12 +1652,12 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBSetCallbackHandler(XnUInt16 /*nVendorID*/, XnUInt16 /*nProductID*/, void* /*pExtraParam*/, XnUSBEventCallbackFunctionPtr /*pCallbackFunction*/, void* /*pCallbackData*/)
+XN_C_API XnStatus xnUSBSetCallbackHandler(uint16_t /*nVendorID*/, uint16_t /*nProductID*/, void* /*pExtraParam*/, XnUSBEventCallbackFunctionPtr /*pCallbackFunction*/, void* /*pCallbackData*/)
 {
 	return (XN_STATUS_OS_UNSUPPORTED_FUNCTION);
 }
 
-XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(XnUInt16 nVendorID, XnUInt16 nProductID, XnUSBDeviceCallbackFunctionPtr pFunc, void* pCookie, XnRegistrationHandle* phRegistration)
+XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(uint16_t nVendorID, uint16_t nProductID, XnUSBDeviceCallbackFunctionPtr pFunc, void* pCookie, XnRegistrationHandle* phRegistration)
 {
 	XN_VALIDATE_INPUT_PTR(pFunc);
 	XN_VALIDATE_OUTPUT_PTR(phRegistration);

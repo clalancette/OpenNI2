@@ -33,8 +33,8 @@
 //---------------------------------------------------------------------------
 // Data Types
 //---------------------------------------------------------------------------
-typedef xnl::Hash<XnUInt16, XnErrorCodeData> XnStatusHash;
-typedef xnl::Hash<XnUInt16, XnStatusHash*> XnGroupsHash;
+typedef xnl::Hash<uint16_t, XnErrorCodeData> XnStatusHash;
+typedef xnl::Hash<uint16_t, XnStatusHash*> XnGroupsHash;
 
 //---------------------------------------------------------------------------
 // Global Variables
@@ -53,8 +53,8 @@ static XnStatus s_XN_OK_result = xnRegisterErrorCodeMessages(0, 0, 1, &s_OK_Data
 XnErrorCodeData* xnGetErrorCodeData(const XnStatus Status)
 {
 	// search for it
-	XnUInt16 nGroup = XN_STATUS_GROUP(Status);
-	XnUInt16 nCode = XN_STATUS_CODE(Status);
+	uint16_t nGroup = XN_STATUS_GROUP(Status);
+	uint16_t nCode = XN_STATUS_CODE(Status);
 
 	if (g_pErrorGroups == NULL)
 	{
@@ -73,7 +73,7 @@ XnErrorCodeData* xnGetErrorCodeData(const XnStatus Status)
 	return pResult;
 }
 
-XN_C_API XnStatus xnRegisterErrorCodeMessages(XnUInt16 nGroup, XnUInt16 nFirst, XnUInt16 nCount, XnErrorCodeData* pErrorCodeData)
+XN_C_API XnStatus xnRegisterErrorCodeMessages(uint16_t nGroup, uint16_t nFirst, uint16_t nCount, XnErrorCodeData* pErrorCodeData)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XN_VALIDATE_OUTPUT_PTR(pErrorCodeData);
@@ -92,7 +92,7 @@ XN_C_API XnStatus xnRegisterErrorCodeMessages(XnUInt16 nGroup, XnUInt16 nFirst, 
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
-	for (XnUInt16 nIndex = 0; nIndex < nCount; ++nIndex)
+	for (uint16_t nIndex = 0; nIndex < nCount; ++nIndex)
 	{
 		XnErrorCodeData data = {0, NULL, NULL};
 		data.nCode = nFirst + nIndex;
@@ -100,9 +100,9 @@ XN_C_API XnStatus xnRegisterErrorCodeMessages(XnUInt16 nGroup, XnUInt16 nFirst, 
 		data.csName = xnOSStrDup(pErrorCodeData[nIndex].csName);
 
 		XnErrorCodeData prevData = {0, NULL, NULL};
-		pStatusHash->Get((XnUInt16)data.nCode, prevData);
+		pStatusHash->Get((uint16_t)data.nCode, prevData);
 
-		nRetVal = pStatusHash->Set((XnUInt16)data.nCode, data);
+		nRetVal = pStatusHash->Set((uint16_t)data.nCode, data);
 		XN_IS_STATUS_OK(nRetVal);
 
 		// if prev contained anything, free it

@@ -43,7 +43,7 @@ LinkOutputDataEndpoint::~LinkOutputDataEndpoint()
 	Shutdown();
 }
 
-XnStatus LinkOutputDataEndpoint::Init(XnUInt16 nEndpointID,
+XnStatus LinkOutputDataEndpoint::Init(uint16_t nEndpointID,
 									  IConnectionFactory* pConnectionFactory)
 {
 	XN_VALIDATE_INPUT_PTR(pConnectionFactory);
@@ -115,7 +115,7 @@ XnBool LinkOutputDataEndpoint::IsConnected() const
 }
 
 
-XnUInt16 LinkOutputDataEndpoint::GetMaxPacketSize() const
+uint16_t LinkOutputDataEndpoint::GetMaxPacketSize() const
 {
 	return m_pConnection->GetMaxPacketSize();
 }

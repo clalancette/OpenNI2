@@ -86,7 +86,7 @@ protected:
 	/* The number of bytes received so far (since last time this member was reset). */
 	uint32_t m_nBytesReceived;
 	/* Stores last packet ID */
-	XnUInt16 m_nLastPacketID;
+	uint16_t m_nLastPacketID;
 	/* The name of the stream. */
 	const XnChar* m_csName;
 

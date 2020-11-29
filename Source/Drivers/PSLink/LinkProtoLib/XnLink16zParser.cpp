@@ -34,7 +34,7 @@ Link16zParser<TS2D>::Link16zParser(const XnShiftToDepthTables& shiftToDepthTable
 	m_nShift(0),
 	m_nState(STATE_OPCODE),
 	m_nBigDiff(0),
-	m_nMaxShift((XnUInt16)(shiftToDepthTables.nShiftsCount - 1))
+	m_nMaxShift((uint16_t)(shiftToDepthTables.nShiftsCount - 1))
 {
 }
 

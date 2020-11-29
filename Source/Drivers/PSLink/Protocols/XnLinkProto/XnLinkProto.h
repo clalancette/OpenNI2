@@ -32,24 +32,24 @@
 #if XN_PLATFORM_IS_LITTLE_ENDIAN
 typedef struct XnLinkPacketHeader
 {
-	XnUInt16 m_nMagic;
-	XnUInt16 m_nSize;
-	XnUInt16 m_nMsgType;
-	XnUInt16 m_nCID;
-	XnUInt16 m_nPacketID;
-	XnUInt16 m_nStreamID : 14;
-	XnUInt16 m_nFragmentation : 2; //The two most significant bits of these 16 bits are the fragmentation
+	uint16_t m_nMagic;
+	uint16_t m_nSize;
+	uint16_t m_nMsgType;
+	uint16_t m_nCID;
+	uint16_t m_nPacketID;
+	uint16_t m_nStreamID : 14;
+	uint16_t m_nFragmentation : 2; //The two most significant bits of these 16 bits are the fragmentation
 } XnLinkPacketHeader;
 #else
 typedef struct XnLinkPacketHeader
 {
-	XnUInt16 m_nMagic;
-	XnUInt16 m_nSize;
-	XnUInt16 m_nMsgType;
-	XnUInt16 m_nCID;
-	XnUInt16 m_nPacketID;
-	XnUInt16 m_nFragmentation : 2; //The two most significant bits of these 16 bits are the fragmentation
-	XnUInt16 m_nStreamID : 14;
+	uint16_t m_nMagic;
+	uint16_t m_nSize;
+	uint16_t m_nMsgType;
+	uint16_t m_nCID;
+	uint16_t m_nPacketID;
+	uint16_t m_nFragmentation : 2; //The two most significant bits of these 16 bits are the fragmentation
+	uint16_t m_nStreamID : 14;
 } XnLinkPacketHeader;
 
 #endif
@@ -77,7 +77,7 @@ typedef struct XnLinkLogParam
 						// 0- write data to file  with m_ID,
 						// 1- open the file with m_ID and Name logFileName
 						// 2- for close file with m_ID and Name logFileName
-	XnUInt16 size;		//size of all the message (included the Header and data)
+	uint16_t size;		//size of all the message (included the Header and data)
 } XnLinkLogParam;
 
 
@@ -91,9 +91,9 @@ typedef struct XnLinkLogFileParam
 //-----------------------------------------------------------------------
 typedef struct XnLinkVideoMode
 {
-	XnUInt16 m_nXRes;
-	XnUInt16 m_nYRes;
-	XnUInt16 m_nFPS;
+	uint16_t m_nXRes;
+	uint16_t m_nYRes;
+	uint16_t m_nFPS;
 	XnUInt8 m_nPixelFormat; // from XnLinkPixelFormat
 	XnUInt8 m_nCompression; // from XnLinkCompressionType
 } XnLinkVideoMode;
@@ -107,8 +107,8 @@ typedef struct
 typedef struct XnLinkShiftToDepthConfig
 {
 	/** The zero plane distance in depth units. */
-	XnUInt16 nZeroPlaneDistance;
-	XnUInt16 m_nReserved;
+	uint16_t nZeroPlaneDistance;
+	uint16_t m_nReserved;
 	/** The zero plane pixel size */
 	float fZeroPlanePixelSize;
 	/** The distance between the emitter and the Depth Cmos */
@@ -122,8 +122,8 @@ typedef struct XnLinkShiftToDepthConfig
 	uint32_t nPixelSizeFactor;
 	uint32_t nParamCoeff;
 	uint32_t nShiftScale;
-	XnUInt16 nDepthMinCutOff;
-	XnUInt16 nDepthMaxCutOff;
+	uint16_t nDepthMinCutOff;
+	uint16_t nDepthMaxCutOff;
 
 } XnLinkShiftToDepthConfig;
 
@@ -262,8 +262,8 @@ typedef struct XnLinkUserFrameHeader
 	uint32_t	m_nUsersPixelBLOBFormat;
 	uint32_t	m_nUsersPixelBLOBSize;
 
-	XnUInt16	m_nUsersPixelXRes;
-	XnUInt16	m_nUsersPixelYRes;
+	uint16_t	m_nUsersPixelXRes;
+	uint16_t	m_nUsersPixelYRes;
 } XnLinkUserFrameHeader;
 
 typedef struct XnLinkUserFrame
@@ -283,8 +283,8 @@ typedef struct XnLinkEESectionHeader
 
 typedef struct XnLinkIDSetHeader
 {
-	XnUInt16 m_nFormat;						//Values come from XnLinkIDSetFormat. Currently must be XN_LINK_IDS_LIST_FORMAT_BITSET.
-	XnUInt16 m_nNumGroups;
+	uint16_t m_nFormat;						//Values come from XnLinkIDSetFormat. Currently must be XN_LINK_IDS_LIST_FORMAT_BITSET.
+	uint16_t m_nNumGroups;
 } XnLinkIDSetHeader;
 
 typedef struct XnLinkIDSetGroupHeader
@@ -309,27 +309,27 @@ typedef struct XnLinkCropping
 	XnUInt8 m_nReserved3;
 
 	/** Offset in the X-axis, in pixels. */
-	XnUInt16 m_nXOffset;
+	uint16_t m_nXOffset;
 	/** Offset in the Y-axis, in pixels. */
-	XnUInt16 m_nYOffset;
+	uint16_t m_nYOffset;
 	/** Number of pixels in the X-axis. */
-	XnUInt16 m_nXSize;
+	uint16_t m_nXSize;
 	/** Number of pixels in the Y-axis. */
-	XnUInt16 m_nYSize;
+	uint16_t m_nYSize;
 } XnLinkCropping;
 
 typedef struct XnLinkStreamIDsList
 {
-	XnUInt16 m_nNumStreamIDs;
-	XnUInt16 m_anStreamIDs[1];
+	uint16_t m_nNumStreamIDs;
+	uint16_t m_anStreamIDs[1];
 } XnLinkStreamIDsList;
 
 typedef struct XnLinkStreamIDsList XnLinkFrameSyncStreamIDs;
 
 typedef struct XnLinkPropValHeader
 {
-	XnUInt16 m_nPropType;	//Values come from XnLinkPropType
-	XnUInt16 m_nPropID;		//Values come from XnLinkInternalPropID
+	uint16_t m_nPropType;	//Values come from XnLinkPropType
+	uint16_t m_nPropID;		//Values come from XnLinkInternalPropID
 	uint32_t m_nValueSize;
 } XnLinkPropValHeader;
 
@@ -367,14 +367,14 @@ typedef struct XnLinkLeanVersion
 {
 	XnUInt8 m_nMajor;
 	XnUInt8 m_nMinor;
-	XnUInt16 m_nReserved;
+	uint16_t m_nReserved;
 } XnLinkLeanVersion;
 
 typedef struct XnLinkDetailedVersion
 {
 	XnUInt8 m_nMajor;
 	XnUInt8 m_nMinor;
-	XnUInt16 m_nMaintenance;
+	uint16_t m_nMaintenance;
 	uint32_t m_nBuild;
 	XnChar m_strModifier[XN_LINK_MAX_VERSION_MODIFIER_LENGTH];
 } XnLinkDetailedVersion;
@@ -393,8 +393,8 @@ typedef struct XnLinkFileEntry
 	XnLinkFileVersion m_nVersion;
 	uint32_t m_nAddress;
 	uint32_t m_nSize;
-	XnUInt16 m_nCRC;
-	XnUInt16 m_nZone;
+	uint16_t m_nCRC;
+	uint16_t m_nZone;
 	XnUInt8 m_nFlags; // bitmap of values from XnLinkFileFlags
 	XnUInt8 m_nReserved1;
 	XnUInt8 m_nReserved2;
@@ -418,10 +418,10 @@ typedef struct XnLinkAccCurentParam
 {
 	float m_nTemperature;
 	uint32_t m_nLutTabLine;
-	XnUInt16 m_nValueDC;
-	XnUInt16 m_nValueDac;
-	XnUInt16 m_nVoltage1;
-	XnUInt16 m_nVoltage2;
+	uint16_t m_nValueDC;
+	uint16_t m_nValueDac;
+	uint16_t m_nVoltage1;
+	uint16_t m_nVoltage2;
 } XnLinkAccCurentParam;
 
 typedef struct XnLinkDCParam
@@ -431,8 +431,8 @@ typedef struct XnLinkDCParam
 
 typedef struct XnLinkCameraIntrinsics
 {
-	XnUInt16 m_nOpticalCenterX;
-	XnUInt16 m_nOpticalCenterY;
+	uint16_t m_nOpticalCenterX;
+	uint16_t m_nOpticalCenterY;
 	float m_fEffectiveFocalLengthInPixels;
 } XnLinkCameraIntrinsics;
 
@@ -440,7 +440,7 @@ typedef struct XnLinkI2CDevice
 {
 	XnUInt8 m_nMasterID;
 	XnUInt8 m_nSlaveID;
-	XnUInt16 m_nReserved;
+	uint16_t m_nReserved;
 	uint32_t m_nID;
 	XnChar m_strName[XN_LINK_MAX_I2C_DEVICE_NAME_LENGTH];
 } XnLinkI2CDevice;
@@ -465,8 +465,8 @@ typedef struct XnLinkSupportedLogFiles
 
 typedef struct XnLinkProjectorPulse
 {
-	XnUInt16 m_bEnabled;
-	XnUInt16 m_nReserved;
+	uint16_t m_bEnabled;
+	uint16_t m_nReserved;
 	float  m_nDelay; // Delay between frame start and the start of pulse, in milliseconds
 	float  m_nWidth; // Pulse width, in milliseconds
 	float  m_nCycle; // in pulse mode: number of frames to skip between projector pulses, from pulse start to next pulse start. in PWM : Cycle time
@@ -488,14 +488,14 @@ typedef struct XnLinkTemperatureSensorsList{
 //-----------------------------------------------------------------------
 typedef struct XnLinkDownloadFileParams
 {
-	XnUInt16 m_nZone = 0;
-	XnUInt16 m_nReserved1 = 0;
+	uint16_t m_nZone = 0;
+	uint16_t m_nReserved1 = 0;
 	XnChar m_strName[XN_LINK_MAX_FILE_NAME_LENGTH];
 } XnLinkDownloadFileParams;
 
 typedef struct XnLinkContinueReponseParams
 {
-	XnUInt16 m_nOriginalMsgType;
+	uint16_t m_nOriginalMsgType;
 } XnLinkContinueReponseParams;
 
 typedef struct XnLinkWriteI2CParams
@@ -524,7 +524,7 @@ typedef struct XnLinkWriteAHBParams
 	uint32_t m_nValue;
 	XnUInt8 m_nBitOffset; //Offset in bits of value to write within address
 	XnUInt8 m_nBitWidth; //Width in bits of value to write
-	XnUInt16 m_nReserved;
+	uint16_t m_nReserved;
 } XnLinkWriteAHBParams;
 
 typedef struct XnLinkReadAHBParams
@@ -532,7 +532,7 @@ typedef struct XnLinkReadAHBParams
 	uint32_t m_nAddress;
 	XnUInt8 m_nBitOffset; //Offset in bits of value to read within address
 	XnUInt8 m_nBitWidth; //Width in bits of value to read
-	XnUInt16 m_nReserved;
+	uint16_t m_nReserved;
 } XnLinkReadAHBParams;
 
 typedef struct XnLinkStreamIDsList XnLinkStartStreamingMultiParams;
@@ -553,8 +553,8 @@ typedef XnLinkPropVal XnLinkSetPropParams;
 
 typedef struct XnLinkGetPropParams
 {
-	XnUInt16 m_nPropType;	//Values come from XnLinkPropType
-	XnUInt16 m_nPropID;		//Values come from XnLinkInternalPropID
+	uint16_t m_nPropType;	//Values come from XnLinkPropType
+	uint16_t m_nPropID;		//Values come from XnLinkInternalPropID
 } XnLinkGetPropParams;
 
 typedef struct XnLinkSetMultiPropsParams
@@ -621,8 +621,8 @@ typedef struct XnLinkTemperatureResponse
 
 typedef struct XnLinkResponseInfo
 {
-	XnUInt16 m_nResponseCode;
-	XnUInt16 m_nReserverd;
+	uint16_t m_nResponseCode;
+	uint16_t m_nReserverd;
 } XnLinkResponseInfo;
 
 typedef struct XnLinkResponseHeader
@@ -662,8 +662,8 @@ typedef struct XnLinkEnumerateStreamsResponse
 
 typedef struct XnLinkCreateStreamResponse
 {
-	XnUInt16 m_nStreamID;
-	XnUInt16 m_nEndpointID;
+	uint16_t m_nStreamID;
+	uint16_t m_nEndpointID;
 } XnLinkCreateStreamResponse;
 
 typedef struct XnLinkPropVal XnLinkGetPropResponse;
@@ -694,8 +694,8 @@ typedef struct XnLinkSetSkeletonProfileParams
 
 typedef struct XnLinkSetSkeletonJointStateParams
 {
-	XnUInt16 m_nJoint;
-	XnUInt16 m_nState;
+	uint16_t m_nJoint;
+	uint16_t m_nState;
 } XnLinkSetSkeletonJointStateParams;
 
 typedef struct XnLinkRequestSkeletonCalibrationParams
@@ -810,8 +810,8 @@ typedef struct XnLinkGetFileListResponse
 
 typedef struct XnLinkDebugDataResponseHeader
 {
-	XnUInt16 m_nDataID;		//Values come from XnLinkInternalPropID
-	XnUInt16 m_nValueSize;
+	uint16_t m_nDataID;		//Values come from XnLinkInternalPropID
+	uint16_t m_nValueSize;
 } XnLinkDebugDataResponseHeader;
 
 typedef struct XnLinkDebugDataResponse
@@ -824,7 +824,7 @@ typedef struct XnLinkBootStatus
 {
 	XnUInt8  m_nZone;		    //Values come from XnLinkBootZone
 	XnUInt8  m_nErrorCode;	    //Values come from XnLinkBootErrorCode
-	XnUInt16 m_nReserved;
+	uint16_t m_nReserved;
 } XnLinkBootStatus;
 
 //-----------------------------------------------------------------------

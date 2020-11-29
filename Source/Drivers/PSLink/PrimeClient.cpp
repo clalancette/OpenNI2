@@ -151,7 +151,7 @@ XnStatus PrimeClient::Connect()
 
 void PrimeClient::Disconnect()
 {
-	for (XnUInt16 i = 0; i < m_inputDataEndpoints.size(); i++)
+	for (uint16_t i = 0; i < m_inputDataEndpoints.size(); i++)
 	{
 		m_inputDataEndpoints[i].Disconnect();
 	}
@@ -164,12 +164,12 @@ XnBool PrimeClient::IsConnected() const
 	return m_bConnected;
 }
 
-const LinkInputStream* PrimeClient::GetInputStream(XnUInt16 nStreamID) const
+const LinkInputStream* PrimeClient::GetInputStream(uint16_t nStreamID) const
 {
 	return m_linkInputStreamsMgr.GetInputStream(nStreamID);
 }
 
-LinkInputStream* PrimeClient::GetInputStream(XnUInt16 nStreamID)
+LinkInputStream* PrimeClient::GetInputStream(uint16_t nStreamID)
 {
 	return m_linkInputStreamsMgr.GetInputStream(nStreamID);
 }
@@ -199,9 +199,9 @@ XnStatus PrimeClient::GetComponentsVersions(std::vector<XnComponentVersion>& com
 	return m_linkControlEndpoint.GetComponentsVersions(componentVersions);
 }
 
-XnStatus PrimeClient::InitOutputStream(XnUInt16 nStreamID,
+XnStatus PrimeClient::InitOutputStream(uint16_t nStreamID,
 									   uint32_t nMaxMsgSize,
-									   XnUInt16 nMaxPacketSize,
+									   uint16_t nMaxPacketSize,
 									   XnLinkCompressionType compression,
 									   XnStreamFragLevel streamFragLevel)
 {
@@ -209,12 +209,12 @@ XnStatus PrimeClient::InitOutputStream(XnUInt16 nStreamID,
 		streamFragLevel, &m_outputDataEndpoint);
 }
 
-void PrimeClient::ShutdownOutputStream(XnUInt16 nStreamID)
+void PrimeClient::ShutdownOutputStream(uint16_t nStreamID)
 {
 	m_linkOutputStreamsMgr.ShutdownOutputStream(nStreamID);
 }
 
-void PrimeClient::HandleLinkDataEndpointDisconnection(XnUInt16 /*nEndpointID*/)
+void PrimeClient::HandleLinkDataEndpointDisconnection(uint16_t /*nEndpointID*/)
 {
 }
 
@@ -277,13 +277,13 @@ XnStatus PrimeClient::EnumerateStreams(XnStreamType streamType, std::vector<XnFw
 	return XN_STATUS_OK;
 }
 
-XnStatus PrimeClient::CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID)
+XnStatus PrimeClient::CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID)
 {
 	if (!m_linkInputStreamsMgr.HasStreamOfType(streamType,strCreationInfo, nStreamID))
 	{
 		// No stream of this type exists. Create a new one
 		XnStatus nRetVal = XN_STATUS_OK;
-		XnUInt16 nEndpointID = 0;
+		uint16_t nEndpointID = 0;
 
 		//Send create stream command
 		nRetVal = CreateInputStreamImpl((XnLinkStreamType)streamType, strCreationInfo, nStreamID, nEndpointID);
@@ -299,7 +299,7 @@ XnStatus PrimeClient::CreateInputStream(XnStreamType streamType, const XnChar* s
 	return XN_STATUS_OK;
 }
 
-XnStatus PrimeClient::DestroyInputStream(XnUInt16 nStreamID)
+XnStatus PrimeClient::DestroyInputStream(uint16_t nStreamID)
 {
 	if (m_linkInputStreamsMgr.UnregisterStream(nStreamID))
 	{
@@ -351,7 +351,7 @@ XnStatus PrimeClient::GetFileList(std::vector<XnFwFileEntry>& files)
 	return m_linkControlEndpoint.GetFileList(files);
 }
 
-XnStatus PrimeClient::DownloadFile(XnUInt16 zone, const XnChar* strFirmwareFileName, const XnChar* strTargetFile)
+XnStatus PrimeClient::DownloadFile(uint16_t zone, const XnChar* strFirmwareFileName, const XnChar* strTargetFile)
 {
 	return m_linkControlEndpoint.DownloadFile(zone, strFirmwareFileName, strTargetFile);
 }
@@ -463,7 +463,7 @@ XnStatus PrimeClient::StartFWLog()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	std::vector<XnFwStreamInfo> fwLogStreamInfos;
-	XnUInt16 nEndpointID = 0;
+	uint16_t nEndpointID = 0;
 
 	//Enumerate log streams (there should be exactly one)
 	nRetVal = EnumerateStreams(XN_LINK_STREAM_TYPE_LOG, fwLogStreamInfos);
@@ -528,7 +528,7 @@ XnStatus PrimeClient::StopFWLog()
 	return XN_STATUS_OK;
 }
 
-XnStatus PrimeClient::CreateInputStreamImpl(XnLinkStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID, XnUInt16& nEndpointID)
+XnStatus PrimeClient::CreateInputStreamImpl(XnLinkStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -705,7 +705,7 @@ XnStatus PrimeClient::ExecuteBist(uint32_t nID, uint32_t& errorCode, uint32_t& e
 	return m_linkControlEndpoint.ExecuteBistTests(nID, errorCode, extraDataSize, extraData);
 }
 
-XnBool PrimeClient::IsPropertySupported(XnUInt16 propID)
+XnBool PrimeClient::IsPropertySupported(uint16_t propID)
 {
 	uint32_t nInterface = (propID >> 8);
 	uint32_t nProp = (propID & 0x0F);
@@ -732,12 +732,12 @@ XnStatus PrimeClient::GetProjectorPulse(XnBool& enabled, float& delay, float& wi
 	return m_linkControlEndpoint.GetProjectorPulse(enabled, delay, width, framesToskip);
 }
 
-XnStatus PrimeClient::SetProjectorPower(XnUInt16 power)
+XnStatus PrimeClient::SetProjectorPower(uint16_t power)
 {
 	return m_linkControlEndpoint.SetProjectorPower(power);
 }
 
-XnStatus PrimeClient::GetProjectorPower(XnUInt16& power)
+XnStatus PrimeClient::GetProjectorPower(uint16_t& power)
 {
 	return m_linkControlEndpoint.GetProjectorPower(power);
 }

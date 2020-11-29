@@ -29,13 +29,13 @@
 //---------------------------------------------------------------------------
 // Functions Declaration
 //---------------------------------------------------------------------------
-XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize, XnUInt16 nMaxValue);
+XnStatus XnStreamCompressDepth16ZWithEmbTable(const uint16_t* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize, uint16_t nMaxValue);
 
-XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const uint32_t nInputSize, XnUInt16* pOutput, uint32_t* pnOutputSize);
+XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const uint32_t nInputSize, uint16_t* pOutput, uint32_t* pnOutputSize);
 
-XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize);
+XnStatus XnStreamCompressDepth16Z(const uint16_t* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize);
 
-XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const uint32_t nInputSize, XnUInt16* pOutput, uint32_t* pnOutputSize);
+XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const uint32_t nInputSize, uint16_t* pOutput, uint32_t* pnOutputSize);
 
 XnStatus XnStreamCompressImage8Z(const XnUInt8* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize);
 

@@ -255,7 +255,7 @@ XnStatus XnPixelStream::OnOutputFormatChanged()
 	switch (GetOutputFormat())
 	{
 	case ONI_PIXEL_FORMAT_SHIFT_9_2:
-		nBytesPerPixel = sizeof(XnUInt16);
+		nBytesPerPixel = sizeof(uint16_t);
 		break;
 	case ONI_PIXEL_FORMAT_DEPTH_1_MM:
 	case ONI_PIXEL_FORMAT_DEPTH_100_UM:
@@ -265,7 +265,7 @@ XnStatus XnPixelStream::OnOutputFormatChanged()
 		nBytesPerPixel = sizeof(XnUInt8);
 		break;
 	case ONI_PIXEL_FORMAT_GRAY16:
-		nBytesPerPixel = sizeof(XnUInt16);
+		nBytesPerPixel = sizeof(uint16_t);
 		break;
 	case ONI_PIXEL_FORMAT_YUV422:
 	case ONI_PIXEL_FORMAT_YUYV:
@@ -430,10 +430,10 @@ XnStatus XN_CALLBACK_TYPE XnPixelStream::ReadCroppingFromFileCallback(XnGeneralP
 		XN_STATUS_OK == xnOSReadIntFromINI(csINIFile, csCroppingSection, "Enabled", &bEnabled))
 	{
 		OniCropping Cropping;
-		Cropping.originX = (XnUInt16)nOffsetX;
-		Cropping.originY = (XnUInt16)nOffsetY;
-		Cropping.width = (XnUInt16)nSizeX;
-		Cropping.height = (XnUInt16)nSizeY;
+		Cropping.originX = (uint16_t)nOffsetX;
+		Cropping.originY = (uint16_t)nOffsetY;
+		Cropping.width = (uint16_t)nSizeX;
+		Cropping.height = (uint16_t)nSizeY;
 		Cropping.enabled = bEnabled;
 
 		// set value

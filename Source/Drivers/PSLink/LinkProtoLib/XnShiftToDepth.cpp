@@ -34,7 +34,7 @@ XnStatus XnShiftToDepthInit(XnShiftToDepthTables* pShiftToDepth, const XnShiftTo
 	XN_VALIDATE_INPUT_PTR(pConfig);
 
 	XN_VALIDATE_ALIGNED_CALLOC(pShiftToDepth->pShiftToDepthTable, OniDepthPixel, pConfig->nDeviceMaxShiftValue+1, XN_DEFAULT_MEM_ALIGN);
-	XN_VALIDATE_ALIGNED_CALLOC(pShiftToDepth->pDepthToShiftTable, XnUInt16, pConfig->nDeviceMaxDepthValue+1, XN_DEFAULT_MEM_ALIGN);
+	XN_VALIDATE_ALIGNED_CALLOC(pShiftToDepth->pDepthToShiftTable, uint16_t, pConfig->nDeviceMaxDepthValue+1, XN_DEFAULT_MEM_ALIGN);
 	pShiftToDepth->bIsInitialized = TRUE;
 
 	// store allocation sizes
@@ -61,7 +61,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 		return XN_STATUS_LINK_INVALID_MAX_DEPTH;
 	}
 
-	XnUInt16 nIndex = 0;
+	uint16_t nIndex = 0;
 	XnInt16  nShiftValue = 0;
 	double dFixedRefX = 0;
 	double dMetric = 0;
@@ -80,13 +80,13 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	nConstShift /= pConfig->nPixelSizeFactor;
 
 	OniDepthPixel* pShiftToDepthTable = pShiftToDepth->pShiftToDepthTable;
-	XnUInt16* pDepthToShiftTable = pShiftToDepth->pDepthToShiftTable;
+	uint16_t* pDepthToShiftTable = pShiftToDepth->pDepthToShiftTable;
 
 	xnOSMemSet(pShiftToDepthTable, 0, pShiftToDepth->nShiftsCount * sizeof(OniDepthPixel));
-	xnOSMemSet(pDepthToShiftTable, 0, pShiftToDepth->nDepthsCount * sizeof(XnUInt16));
+	xnOSMemSet(pDepthToShiftTable, 0, pShiftToDepth->nDepthsCount * sizeof(uint16_t));
 
-	XnUInt16 nLastDepth = 0;
-	XnUInt16 nLastIndex = 0;
+	uint16_t nLastDepth = 0;
+	uint16_t nLastIndex = 0;
 
 	for (nIndex = 1; nIndex < pConfig->nDeviceMaxShiftValue; nIndex++)
 	{
@@ -99,13 +99,13 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 		// check cut-offs
 		if ((dDepth > pConfig->nDepthMinCutOff) && (dDepth < pConfig->nDepthMaxCutOff))
 		{
-			pShiftToDepthTable[nIndex] = (XnUInt16)dDepth;
+			pShiftToDepthTable[nIndex] = (uint16_t)dDepth;
 
-			for (XnUInt16 i = nLastDepth; i < dDepth; i++)
+			for (uint16_t i = nLastDepth; i < dDepth; i++)
 				pDepthToShiftTable[i] = nLastIndex;
 
 			nLastIndex = nIndex;
-			nLastDepth = (XnUInt16)dDepth;
+			nLastDepth = (uint16_t)dDepth;
 		}
 	}
 
@@ -118,7 +118,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 }
 
 XnStatus XnShiftToDepthConvert(const XnShiftToDepthTables* pShiftToDepth,
-							   const XnUInt16* pInput,
+							   const uint16_t* pInput,
 							   uint32_t nInputSize,
 							   OniDepthPixel* pOutput)
 {
@@ -126,7 +126,7 @@ XnStatus XnShiftToDepthConvert(const XnShiftToDepthTables* pShiftToDepth,
 	XN_VALIDATE_INPUT_PTR(pInput);
 	XN_VALIDATE_INPUT_PTR(pOutput);
 
-	const XnUInt16* pInputEnd = pInput + nInputSize;
+	const uint16_t* pInputEnd = pInput + nInputSize;
 	OniDepthPixel* pShiftToDepthTable = pShiftToDepth->pShiftToDepthTable;
 
 	while (pInput != pInputEnd)

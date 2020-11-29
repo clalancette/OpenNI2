@@ -129,7 +129,7 @@ XnStatus XnSensorImageStream::Init()
 	XN_IS_STATUS_OK(nRetVal);
 
 	// check if our current (default) configuration is valid
-	XnUInt16 nValidInputFormat = XN_IMAGE_STREAM_DEFAULT_INPUT_FORMAT;
+	uint16_t nValidInputFormat = XN_IMAGE_STREAM_DEFAULT_INPUT_FORMAT;
 	XnBool bModeFound = FALSE;
 
 	const std::vector<XnCmosPreset>& aSupportedModes = GetSupportedModes();
@@ -278,7 +278,7 @@ XnStatus XnSensorImageStream::ValidateMode()
 	}
 
 	// now check that mode exists
-	XnCmosPreset preset = { (XnUInt16)nInputFormat, (XnUInt16)nResolution, (XnUInt16)nFPS };
+	XnCmosPreset preset = { (uint16_t)nInputFormat, (uint16_t)nResolution, (uint16_t)nFPS };
 	nRetVal = ValidateSupportedMode(preset);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -448,7 +448,7 @@ XnStatus XnSensorImageStream::SetMirror(XnBool bIsMirrored)
 
 	xnOSEnterCriticalSection(GetLock());
 
-	nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareMirror, (XnUInt16)bFirmwareMirror);
+	nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareMirror, (uint16_t)bFirmwareMirror);
 	if (nRetVal != XN_STATUS_OK)
 	{
 		xnOSLeaveCriticalSection(GetLock());
@@ -467,7 +467,7 @@ XnStatus XnSensorImageStream::SetFPS(uint32_t nFPS)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_Helper.BeforeSettingFirmwareParam(FPSProperty(), (XnUInt16)nFPS);
+	nRetVal = m_Helper.BeforeSettingFirmwareParam(FPSProperty(), (uint16_t)nFPS);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = XnImageStream::SetFPS(nFPS);
@@ -483,7 +483,7 @@ XnStatus XnSensorImageStream::SetResolution(XnResolutions nResolution)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_Helper.BeforeSettingFirmwareParam(ResolutionProperty(), (XnUInt16)nResolution);
+	nRetVal = m_Helper.BeforeSettingFirmwareParam(ResolutionProperty(), (uint16_t)nResolution);
 	XN_IS_STATUS_OK(nRetVal);
 
 	nRetVal = XnImageStream::SetResolution(nResolution);
@@ -513,7 +513,7 @@ XnStatus XnSensorImageStream::SetInputFormat(XnIOImageFormats nInputFormat)
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DEVICE_SENSOR, "Unknown image input format: %d", nInputFormat);
 	}
 
-	nRetVal = m_Helper.SimpleSetFirmwareParam(m_InputFormat, (XnUInt16)nInputFormat);
+	nRetVal = m_Helper.SimpleSetFirmwareParam(m_InputFormat, (uint16_t)nInputFormat);
 	XN_IS_STATUS_OK(nRetVal);
 
 	return (XN_STATUS_OK);
@@ -523,7 +523,7 @@ XnStatus XnSensorImageStream::SetAntiFlicker(uint32_t nFrequency)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_Helper.SimpleSetFirmwareParam(m_AntiFlicker, (XnUInt16)nFrequency);
+	nRetVal = m_Helper.SimpleSetFirmwareParam(m_AntiFlicker, (uint16_t)nFrequency);
 	XN_IS_STATUS_OK(nRetVal);
 
 	return (XN_STATUS_OK);
@@ -562,21 +562,21 @@ XnStatus XnSensorImageStream::SetCroppingImpl(const OniCropping* pCropping, XnCr
 
 		if (pCropping->enabled)
 		{
-			nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropSizeX, (XnUInt16) pCropping->width);
+			nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropSizeX, (uint16_t) pCropping->width);
 
 			if (nRetVal == XN_STATUS_OK)
-				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropSizeY, (XnUInt16) pCropping->height);
+				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropSizeY, (uint16_t) pCropping->height);
 
 			if (nRetVal == XN_STATUS_OK)
-				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropOffsetX, (XnUInt16) pCropping->originX);
+				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropOffsetX, (uint16_t) pCropping->originX);
 
 			if (nRetVal == XN_STATUS_OK)
-				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropOffsetY, (XnUInt16) pCropping->originY);
+				nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropOffsetY, (uint16_t) pCropping->originY);
 		}
 
 		if (nRetVal == XN_STATUS_OK)
 		{
-			nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropMode, (XnUInt16)firmwareMode);
+			nRetVal = m_Helper.SimpleSetFirmwareParam(m_FirmwareCropMode, (uint16_t)firmwareMode);
 		}
 
 		if (nRetVal != XN_STATUS_OK)
@@ -638,7 +638,7 @@ XnStatus XnSensorImageStream::SetCroppingMode(XnCroppingMode mode)
 XnStatus XnSensorImageStream::SetAutoExposureForOldFirmware(XnBool bAutoExposure)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt16 nCmosRegValue;
+	uint16_t nCmosRegValue;
 
 	nRetVal = XnHostProtocolSetCMOSRegisterI2C(m_Helper.GetPrivateData(), (XnCMOSType)0, 0xf0, 1);
 	XN_IS_STATUS_OK(nRetVal);
@@ -675,7 +675,7 @@ XnStatus XnSensorImageStream::SetAutoExposure(XnBool bAutoExposure)
 	}
 	else
 	{
-		nRetVal = m_Helper.SimpleSetFirmwareParam(m_AutoExposure, (XnUInt16)bAutoExposure);
+		nRetVal = m_Helper.SimpleSetFirmwareParam(m_AutoExposure, (uint16_t)bAutoExposure);
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
@@ -685,7 +685,7 @@ XnStatus XnSensorImageStream::SetAutoExposure(XnBool bAutoExposure)
 XnStatus XnSensorImageStream::SetAutoWhiteBalanceForOldFirmware(XnBool bAutoWhiteBalance)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt16 nCmosRegValue;
+	uint16_t nCmosRegValue;
 
 	nRetVal = XnHostProtocolSetCMOSRegisterI2C(m_Helper.GetPrivateData(), (XnCMOSType)0, 0xf0, 1);
 	XN_IS_STATUS_OK(nRetVal);
@@ -722,7 +722,7 @@ XnStatus XnSensorImageStream::SetAutoWhiteBalance(XnBool bAutoWhiteBalance)
 	}
 	else
 	{
-		nRetVal = m_Helper.SimpleSetFirmwareParam(m_AutoWhiteBalance, (XnUInt16)bAutoWhiteBalance);
+		nRetVal = m_Helper.SimpleSetFirmwareParam(m_AutoWhiteBalance, (uint16_t)bAutoWhiteBalance);
 		XN_IS_STATUS_OK(nRetVal);
 	}
 
@@ -738,7 +738,7 @@ XnStatus XnSensorImageStream::SetExposure(uint64_t nValue)
 		return (XN_STATUS_UNSUPPORTED_VERSION);
 	}
 
-	nRetVal = m_Helper.SimpleSetFirmwareParam(m_Exposure, (XnUInt16)nValue);
+	nRetVal = m_Helper.SimpleSetFirmwareParam(m_Exposure, (uint16_t)nValue);
 	XN_IS_STATUS_OK(nRetVal);
 
 	return (XN_STATUS_OK);
@@ -752,7 +752,7 @@ XnStatus XnSensorImageStream::SetGain(uint64_t nValue)
 		return (XN_STATUS_UNSUPPORTED_VERSION);
 	}
 
-	nRetVal = m_Helper.SimpleSetFirmwareParam(m_Gain, (XnUInt16)nValue);
+	nRetVal = m_Helper.SimpleSetFirmwareParam(m_Gain, (uint16_t)nValue);
 	XN_IS_STATUS_OK(nRetVal);
 
 	return (XN_STATUS_OK);
@@ -761,7 +761,7 @@ XnStatus XnSensorImageStream::SetFastZoomCrop(XnBool bFastZoomCrop)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	nRetVal = m_Helper.SimpleSetFirmwareParam(m_FastZoomCrop, (XnUInt16)bFastZoomCrop);
+	nRetVal = m_Helper.SimpleSetFirmwareParam(m_FastZoomCrop, (uint16_t)bFastZoomCrop);
 
 	return nRetVal;
 }

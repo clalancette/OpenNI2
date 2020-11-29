@@ -26,7 +26,7 @@
 namespace xn
 {
 
-const XnUInt16 LinkOutputStreamsMgr::INITIAL_PACKET_ID = 1;
+const uint16_t LinkOutputStreamsMgr::INITIAL_PACKET_ID = 1;
 
 LinkOutputStreamsMgr::LinkOutputStreamsMgr()
 {
@@ -44,16 +44,16 @@ XnStatus LinkOutputStreamsMgr::Init()
 
 void LinkOutputStreamsMgr::Shutdown()
 {
-	for (XnUInt16 nStreamID = 0; nStreamID < m_outputStreams.size(); nStreamID++)
+	for (uint16_t nStreamID = 0; nStreamID < m_outputStreams.size(); nStreamID++)
 	{
 		ShutdownOutputStream(nStreamID);
 	}
 	m_outputStreams.clear();
 }
 
-XnStatus LinkOutputStreamsMgr::InitOutputStream(XnUInt16 nStreamID,
+XnStatus LinkOutputStreamsMgr::InitOutputStream(uint16_t nStreamID,
 						uint32_t nMaxMsgSize,
-						XnUInt16 nMaxPacketSize,
+						uint16_t nMaxPacketSize,
 						XnLinkCompressionType compression,
 						XnStreamFragLevel streamFragLevel,
 						LinkOutputDataEndpoint* pOutputDataEndpoint)
@@ -102,7 +102,7 @@ XnStatus LinkOutputStreamsMgr::InitOutputStream(XnUInt16 nStreamID,
 	return XN_STATUS_OK;
 }
 
-void LinkOutputStreamsMgr::ShutdownOutputStream(XnUInt16 nStreamID)
+void LinkOutputStreamsMgr::ShutdownOutputStream(uint16_t nStreamID)
 {
 	if (nStreamID > m_outputStreams.size())
 	{
@@ -119,9 +119,9 @@ void LinkOutputStreamsMgr::ShutdownOutputStream(XnUInt16 nStreamID)
 	}
 }
 
-XnStatus LinkOutputStreamsMgr::SendData(XnUInt16 nStreamID,
-										XnUInt16 nMsgType,
-										XnUInt16 nCID,
+XnStatus LinkOutputStreamsMgr::SendData(uint16_t nStreamID,
+										uint16_t nMsgType,
+										uint16_t nCID,
 										XnLinkFragmentation fragmentation,
 										const void* pData,
 										uint32_t nDataSize)
@@ -140,7 +140,7 @@ XnStatus LinkOutputStreamsMgr::SendData(XnUInt16 nStreamID,
 	return XN_STATUS_OK;
 }
 
-XnBool LinkOutputStreamsMgr::IsStreamInitialized( XnUInt16 nStreamID ) const
+XnBool LinkOutputStreamsMgr::IsStreamInitialized( uint16_t nStreamID ) const
 {
 	return (
 		nStreamID < m_outputStreams.size() &&

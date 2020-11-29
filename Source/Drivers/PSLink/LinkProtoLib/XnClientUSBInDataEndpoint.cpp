@@ -65,7 +65,7 @@ ClientUSBInDataEndpoint::~ClientUSBInDataEndpoint()
 	Shutdown();
 }
 
-XnStatus ClientUSBInDataEndpoint::Init(XN_USB_DEV_HANDLE hUSBDevice, XnUInt16 nEndpointID)
+XnStatus ClientUSBInDataEndpoint::Init(XN_USB_DEV_HANDLE hUSBDevice, uint16_t nEndpointID)
 {
 	XN_VALIDATE_INPUT_PTR(hUSBDevice);
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -88,7 +88,7 @@ XnStatus ClientUSBInDataEndpoint::Init(XN_USB_DEV_HANDLE hUSBDevice, XnUInt16 nE
 		XN_ASSERT(FALSE);
 		return XN_STATUS_ERROR;
 	}
-	m_nMaxPacketSize = static_cast<XnUInt16>(nTempMaxPacketSize);
+	m_nMaxPacketSize = static_cast<uint16_t>(nTempMaxPacketSize);
 
 	return XN_STATUS_OK;
 }
@@ -134,7 +134,7 @@ void ClientUSBInDataEndpoint::Disconnect()
 	}
 }
 
-XnUInt16 ClientUSBInDataEndpoint::GetMaxPacketSize() const
+uint16_t ClientUSBInDataEndpoint::GetMaxPacketSize() const
 {
 	return m_nMaxPacketSize;
 }

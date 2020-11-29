@@ -44,8 +44,8 @@ public:
 
 	XnStatus TranslateSinglePixel(uint32_t x, uint32_t y, unsigned short z, uint32_t& imageX, uint32_t& imageY);
 private:
-	void BuildDepthToShiftTable(XnUInt16* pRGBRegDepthToShiftTable, int xres);
-	XnStatus BuildRegistrationTable(XnUInt16* pRegTable, RegistrationInfo* pRegInfo, XnUInt16** pDepthToShiftTable, int xres, int yres);
+	void BuildDepthToShiftTable(uint16_t* pRGBRegDepthToShiftTable, int xres);
+	XnStatus BuildRegistrationTable(uint16_t* pRegTable, RegistrationInfo* pRegInfo, uint16_t** pDepthToShiftTable, int xres, int yres);
 
 	void CreateDXDYTables (double* RegXTable, double* RegYTable,
 		uint32_t resX, uint32_t resY,
@@ -73,23 +73,23 @@ private:
 	DepthUtilsSensorCalibrationInfo m_blob;
 
 
-	XnUInt16* m_pDepthToShiftTable_QQVGA;
-	XnUInt16* m_pDepthToShiftTable_QVGA;
-	XnUInt16* m_pDepthToShiftTable_VGA;
+	uint16_t* m_pDepthToShiftTable_QQVGA;
+	uint16_t* m_pDepthToShiftTable_QVGA;
+	uint16_t* m_pDepthToShiftTable_VGA;
 
-	XnUInt16* m_pDepthToShiftTable_SXGA;  //xice
+	uint16_t* m_pDepthToShiftTable_SXGA;  //xice
 
-	XnUInt16* m_pRegistrationTable_QQVGA;
-	XnUInt16* m_pRegistrationTable_QVGA;
-	XnUInt16* m_pRegistrationTable_VGA;
+	uint16_t* m_pRegistrationTable_QQVGA;
+	uint16_t* m_pRegistrationTable_QVGA;
+	uint16_t* m_pRegistrationTable_VGA;
 
-	XnUInt16* m_pRegistrationTable_SXGA;  //xice
+	uint16_t* m_pRegistrationTable_SXGA;  //xice
 
 	PadInfo* m_pPadInfo;
 	RegistrationInfo* m_pRegistrationInfo;
 
-	XnUInt16* m_pRegTable;
-	XnUInt16* m_pDepth2ShiftTable;
+	uint16_t* m_pRegTable;
+	uint16_t* m_pDepth2ShiftTable;
 
 	bool m_bD2SAlloc;
 	bool m_bInitialized;

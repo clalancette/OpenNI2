@@ -63,7 +63,7 @@ XnStatus xn::LinkPacketHeader::Validate(uint32_t nBytesToRead) const
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkResponseCodeToStatus(XnUInt16 nResponseCode)
+XnStatus xnLinkResponseCodeToStatus(uint16_t nResponseCode)
 {
 	switch (nResponseCode)
 	{
@@ -96,7 +96,7 @@ XnStatus xnLinkResponseCodeToStatus(XnUInt16 nResponseCode)
 	}
 }
 
-const XnChar* xnLinkResponseCodeToStr(XnUInt16 nResponseCode)
+const XnChar* xnLinkResponseCodeToStr(uint16_t nResponseCode)
 {
 	return xnGetStatusString(xnLinkResponseCodeToStatus(nResponseCode));
 }
@@ -320,13 +320,13 @@ xnl::Box3D xnLinkBoundingBox3DToBoundingBox3D(const XnLinkBoundingBox3D& box)
 	return result;
 }
 
-XnStatus xnLinkGetStreamDumpName(XnUInt16 nStreamID, XnChar* strDumpName, uint32_t nDumpNameSize)
+XnStatus xnLinkGetStreamDumpName(uint16_t nStreamID, XnChar* strDumpName, uint32_t nDumpNameSize)
 {
 	uint32_t nCharsWritten = 0;
 	return xnOSStrFormat(strDumpName, nDumpNameSize, &nCharsWritten, "Stream.%05u.In.raw", nStreamID);
 }
 
-XnStatus xnLinkGetEPDumpName(XnUInt16 nEPID, XnChar* strDumpName, uint32_t nDumpNameSize)
+XnStatus xnLinkGetEPDumpName(uint16_t nEPID, XnChar* strDumpName, uint32_t nDumpNameSize)
 {
 	uint32_t nCharsWritten = 0;
 	return xnOSStrFormat(strDumpName, nDumpNameSize, &nCharsWritten, "EP.%05u.In", nEPID);
@@ -377,12 +377,12 @@ XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pLinkIDSe
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const XnUInt16* pIDs, uint32_t nNumIDs)
+XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const uint16_t* pIDs, uint32_t nNumIDs)
 {
 	XnUInt8 nGroupID = 0xFF;
 	XnUInt8 nNewGroupID = 0xFF;
-	const XnUInt16* pMsgType = pIDs;
-	const XnUInt16* pMsgTypesEnd = pIDs + nNumIDs;
+	const uint16_t* pMsgType = pIDs;
+	const uint16_t* pMsgTypesEnd = pIDs + nNumIDs;
 	uint32_t nMaxEncodedSize = *pnEncodedSize;
 	uint32_t nMsgTypeLow = 0;
 	uint32_t nByteIndex = 0;
@@ -390,7 +390,7 @@ XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const XnUInt16
 	XnLinkIDSetGroup* pIDSetGroup = (XnLinkIDSetGroup*)((XnUInt8*)pIDSet + sizeof(*pHeader));
 	XnUInt8* pIDSetEnd = (XnUInt8*)pIDSet + nMaxEncodedSize;
 	XnUInt8 nGroupSize = 0;
-	XnUInt16 nNumGroups = 0;
+	uint16_t nNumGroups = 0;
 
 	if (nMaxEncodedSize < sizeof(*pHeader))
 	{
@@ -450,17 +450,17 @@ XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const XnUInt16
 	return XN_STATUS_OK; //Success
 }
 
-XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<XnUInt16>& frameSyncStreamIDs, const void* pFrameSyncStreamIDs, uint32_t nBufferSize)
+XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<uint16_t>& frameSyncStreamIDs, const void* pFrameSyncStreamIDs, uint32_t nBufferSize)
 {
 	const XnLinkFrameSyncStreamIDs* pLinkFrameSyncStreamIDs = reinterpret_cast<const XnLinkFrameSyncStreamIDs*>(pFrameSyncStreamIDs);
-	XnUInt16 nNumStreamIDs = XN_PREPARE_VAR16_IN_BUFFER(pLinkFrameSyncStreamIDs->m_nNumStreamIDs);
+	uint16_t nNumStreamIDs = XN_PREPARE_VAR16_IN_BUFFER(pLinkFrameSyncStreamIDs->m_nNumStreamIDs);
 	if (nBufferSize < sizeof(pLinkFrameSyncStreamIDs->m_nNumStreamIDs) + (sizeof(pLinkFrameSyncStreamIDs->m_anStreamIDs[0]) * nNumStreamIDs))
 	{
 		return XN_STATUS_INPUT_BUFFER_OVERFLOW;
 	}
 
 	frameSyncStreamIDs.resize(nNumStreamIDs);
-	for (XnUInt16 i = 0; i < nNumStreamIDs; i++)
+	for (uint16_t i = 0; i < nNumStreamIDs; i++)
 	{
 		frameSyncStreamIDs[i] = XN_PREPARE_VAR16_IN_BUFFER(pLinkFrameSyncStreamIDs->m_anStreamIDs[i]);
 	}
@@ -468,7 +468,7 @@ XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<XnUInt16>& frameSyncStreamIDs
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, uint32_t& nBufferSize, const std::vector<XnUInt16>& frameSyncStreamIDs)
+XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, uint32_t& nBufferSize, const std::vector<uint16_t>& frameSyncStreamIDs)
 {
 	XnLinkFrameSyncStreamIDs* pLinkFrameSyncStreamIDs = reinterpret_cast<XnLinkFrameSyncStreamIDs*>(pFrameSyncStreamIDs);
 
@@ -477,7 +477,7 @@ XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, uint32_t& nBu
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 
-	pLinkFrameSyncStreamIDs->m_nNumStreamIDs = XN_PREPARE_VAR16_IN_BUFFER(XnUInt16(frameSyncStreamIDs.size()));
+	pLinkFrameSyncStreamIDs->m_nNumStreamIDs = XN_PREPARE_VAR16_IN_BUFFER(uint16_t(frameSyncStreamIDs.size()));
 
 	for (uint32_t i = 0; i < frameSyncStreamIDs.size(); i++)
 	{
@@ -681,9 +681,9 @@ void xnLinkParseVideoMode(XnFwStreamVideoMode& videoMode, const XnLinkVideoMode&
 
 void xnLinkEncodeVideoMode(XnLinkVideoMode& linkVideoMode, const XnFwStreamVideoMode& videoMode)
 {
-	linkVideoMode.m_nXRes = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)videoMode.m_nXRes);
-	linkVideoMode.m_nYRes = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)videoMode.m_nYRes);
-	linkVideoMode.m_nFPS = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)videoMode.m_nFPS);
+	linkVideoMode.m_nXRes = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)videoMode.m_nXRes);
+	linkVideoMode.m_nYRes = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)videoMode.m_nYRes);
+	linkVideoMode.m_nFPS = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)videoMode.m_nFPS);
 	linkVideoMode.m_nPixelFormat = (XnUInt8)videoMode.m_nPixelFormat;
 	linkVideoMode.m_nCompression = (XnUInt8)videoMode.m_nCompression;
 }
@@ -804,10 +804,10 @@ void xnLinkEncodeCropping(XnLinkCropping& linkCropping, const OniCropping& cropp
 	linkCropping.m_nReserved1 = 0;
 	linkCropping.m_nReserved2 = 0;
 	linkCropping.m_nReserved3 = 0;
-	linkCropping.m_nXOffset   = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.originX);
-	linkCropping.m_nYOffset   = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.originY);
-	linkCropping.m_nXSize	 = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.width);
-	linkCropping.m_nYSize	 = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.height);
+	linkCropping.m_nXOffset   = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)cropping.originX);
+	linkCropping.m_nYOffset   = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)cropping.originY);
+	linkCropping.m_nXSize	 = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)cropping.width);
+	linkCropping.m_nYSize	 = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)cropping.height);
 }
 
 const XnChar* xnLinkGetPropName(XnLinkPropID propID)
@@ -921,9 +921,9 @@ XnStatus xnLinkParseBitSetProp(XnLinkPropType propType, const void* pValue, uint
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<XnUInt16>& streamIDs)
+XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<uint16_t>& streamIDs)
 {
-	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnUInt16)); //Min size is of m_nNumStreamIDs
+	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(uint16_t)); //Min size is of m_nNumStreamIDs
 	XN_IS_STATUS_OK_LOG_ERROR("Validate frame sync stream IDs property", nRetVal);
 	nRetVal = xnLinkParseFrameSyncStreamIDs(streamIDs, pValue, nValueSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Parse frame sync stream IDs", nRetVal);
@@ -951,7 +951,7 @@ uint32_t xnLinkGetPixelSizeByStreamType(XnLinkStreamType streamType)
 	case XN_LINK_STREAM_TYPE_COLOR:
 		return sizeof(OniYUV422DoublePixel)/2; //TODO: different pixel formats
 	case XN_LINK_STREAM_TYPE_DY:
-		return sizeof(XnUInt16);
+		return sizeof(uint16_t);
 	default:
 		xnLogError(XN_MASK_LINK, "Bad stream type: %u", streamType);
 		XN_ASSERT(FALSE);

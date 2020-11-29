@@ -37,8 +37,8 @@
 namespace xn
 {
 
-const XnUInt16 LinkControlEndpoint::BASE_PACKET_ID = 1; //Packet IDs start from 1
-const XnUInt16 LinkControlEndpoint::MAX_RESPONSE_NUM_PACKETS = 8;
+const uint16_t LinkControlEndpoint::BASE_PACKET_ID = 1; //Packet IDs start from 1
+const uint16_t LinkControlEndpoint::MAX_RESPONSE_NUM_PACKETS = 8;
 const XnChar LinkControlEndpoint::MUTEX_NAME[] = "XnLinkControlEPMutex";
 const uint32_t LinkControlEndpoint::MUTEX_TIMEOUT = 20000;
 
@@ -190,8 +190,8 @@ XnBool LinkControlEndpoint::IsConnected() const
 	return m_bConnected;
 }
 
-XnStatus LinkControlEndpoint::ExecuteCommand(XnUInt16 nMsgType,
-											 XnUInt16 nStreamID,
+XnStatus LinkControlEndpoint::ExecuteCommand(uint16_t nMsgType,
+											 uint16_t nStreamID,
 											 const void* pCmdData,
 											 uint32_t nCmdSize,
 											 void* pResponseData,
@@ -218,7 +218,7 @@ XnStatus LinkControlEndpoint::ExecuteCommand(XnUInt16 nMsgType,
 	return XN_STATUS_OK;
 }
 
-XnUInt16 LinkControlEndpoint::GetPacketID() const
+uint16_t LinkControlEndpoint::GetPacketID() const
 {
 	return m_nPacketID;
 }
@@ -228,7 +228,7 @@ XN_MUTEX_HANDLE LinkControlEndpoint::GetMutex() const
 	return m_hMutex;
 }
 
-XnBool LinkControlEndpoint::IsMsgTypeSupported(XnUInt16 nMsgType)
+XnBool LinkControlEndpoint::IsMsgTypeSupported(uint16_t nMsgType)
 {
 	XnUInt8 nMsgTypeHi = ((nMsgType >> 8) & 0xFF);
 	XnUInt8 nMsgTypeLo = (nMsgType & 0xFF);
@@ -490,7 +490,7 @@ XnStatus LinkControlEndpoint::GetFileList(std::vector<XnFwFileEntry>& files)
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::DownloadFile(XnUInt16 zone, const XnChar* fwFileName, const XnChar* targetFile)
+XnStatus LinkControlEndpoint::DownloadFile(uint16_t zone, const XnChar* fwFileName, const XnChar* targetFile)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -562,13 +562,13 @@ XnStatus LinkControlEndpoint::DownloadFile(XnUInt16 zone, const XnChar* fwFileNa
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(XnUInt16& nMaxPacketSize)
+XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(uint16_t& nMaxPacketSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XnUInt8 command[64];
 	XnUInt8 response[64];
 	uint32_t nResponseSize = 0;
-	XnUInt16 nResponseCode = 0;
+	uint16_t nResponseCode = 0;
 	xn::LinkPacketHeader* pCommandHeader = reinterpret_cast<xn::LinkPacketHeader*>(command);
 	XnLinkGetPropParams* pGetPropParams = reinterpret_cast<XnLinkGetPropParams*>(command + sizeof(xn::LinkPacketHeader));
 
@@ -638,14 +638,14 @@ XnStatus LinkControlEndpoint::GetLogicalMaxPacketSize(XnUInt16& nMaxPacketSize)
 		return XN_STATUS_ERROR;
 	}
 
-	nMaxPacketSize = static_cast<XnUInt16>(nTempPropValue);
+	nMaxPacketSize = static_cast<uint16_t>(nTempPropValue);
 	xnLogVerbose(XN_MASK_LINK, "LINK: Link control endpoint logical max packet size is %u bytes", nMaxPacketSize);
 
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::ExecuteImpl(XnUInt16 nMsgType,
-										   XnUInt16 nStreamID,
+XnStatus LinkControlEndpoint::ExecuteImpl(uint16_t nMsgType,
+										   uint16_t nStreamID,
 										   const void* pData,
 										   uint32_t nSize,
 										   XnLinkFragmentation fragmentation,
@@ -656,7 +656,7 @@ XnStatus LinkControlEndpoint::ExecuteImpl(XnUInt16 nMsgType,
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	uint32_t nReceivedResponsePacketSize = 0;
-	XnUInt16 nPacketSize = 0;
+	uint16_t nPacketSize = 0;
 	XnLinkFragmentation responseFragmentation = XN_LINK_FRAG_MIDDLE;
 
 	//Before we start encoding the command we first make sure it is supported
@@ -679,7 +679,7 @@ XnStatus LinkControlEndpoint::ExecuteImpl(XnUInt16 nMsgType,
 	/* Second step - Send each packet and get a response for it. */
 	while (nBytesLeftToSend > 0)
 	{
-		nPacketSize = static_cast<XnUInt16>(XN_MIN(nBytesLeftToSend, m_nMaxPacketSize));
+		nPacketSize = static_cast<uint16_t>(XN_MIN(nBytesLeftToSend, m_nMaxPacketSize));
 		nRetVal = m_pConnection->Send(pRawCommandPacket, nPacketSize);
 		XN_IS_STATUS_OK_LOG_ERROR("Send control packet", nRetVal);
 		pRawCommandPacket += nPacketSize;
@@ -737,7 +737,7 @@ XnStatus LinkControlEndpoint::ExecuteImpl(XnUInt16 nMsgType,
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::ContinueResponseImpl(XnUInt16 originalMsgType, XnUInt16 streamID, void* pResponseData, uint32_t& nResponseSize, XnBool& outLastPacket)
+XnStatus LinkControlEndpoint::ContinueResponseImpl(uint16_t originalMsgType, uint16_t streamID, void* pResponseData, uint32_t& nResponseSize, XnBool& outLastPacket)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -780,7 +780,7 @@ XnStatus LinkControlEndpoint::ContinueResponseImpl(XnUInt16 originalMsgType, XnU
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::StartStreaming(XnUInt16 nStreamID)
+XnStatus LinkControlEndpoint::StartStreaming(uint16_t nStreamID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	uint32_t nResponseSize = m_nMaxResponseSize;
@@ -795,7 +795,7 @@ XnStatus LinkControlEndpoint::StartStreaming(XnUInt16 nStreamID)
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::StopStreaming(XnUInt16 nStreamID)
+XnStatus LinkControlEndpoint::StopStreaming(uint16_t nStreamID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1100,7 +1100,7 @@ XnStatus LinkControlEndpoint::ReadAHB(uint32_t nAddress, XnUInt8 nBitOffset, XnU
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetShiftToDepthConfig(XnUInt16 nStreamID, XnShiftToDepthConfig& shiftToDepthConfig)
+XnStatus LinkControlEndpoint::GetShiftToDepthConfig(uint16_t nStreamID, XnShiftToDepthConfig& shiftToDepthConfig)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1119,7 +1119,7 @@ XnStatus LinkControlEndpoint::GetShiftToDepthConfig(XnUInt16 nStreamID, XnShiftT
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetVideoMode(XnUInt16 nStreamID, const XnFwStreamVideoMode& videoMode)
+XnStatus LinkControlEndpoint::SetVideoMode(uint16_t nStreamID, const XnFwStreamVideoMode& videoMode)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1135,7 +1135,7 @@ XnStatus LinkControlEndpoint::SetVideoMode(XnUInt16 nStreamID, const XnFwStreamV
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetVideoMode(XnUInt16 nStreamID, XnFwStreamVideoMode& videoMode)
+XnStatus LinkControlEndpoint::GetVideoMode(uint16_t nStreamID, XnFwStreamVideoMode& videoMode)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1163,7 +1163,7 @@ XnStatus LinkControlEndpoint::GetVideoMode(XnUInt16 nStreamID, XnFwStreamVideoMo
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetSupportedVideoModes(XnUInt16 nStreamID,
+XnStatus LinkControlEndpoint::GetSupportedVideoModes(uint16_t nStreamID,
 														 std::vector<XnFwStreamVideoMode>& supportedVideoModes)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -1243,7 +1243,7 @@ XnStatus LinkControlEndpoint::EnumerateStreams(std::vector<XnFwStreamInfo>& aStr
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16& nStreamID, XnUInt16& nEndpointID)
+XnStatus LinkControlEndpoint::CreateInputStream(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t& nStreamID, uint16_t& nEndpointID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1273,7 +1273,7 @@ XnStatus LinkControlEndpoint::CreateInputStream(XnStreamType streamType, const X
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::DestroyInputStream(XnUInt16 nStreamID)
+XnStatus LinkControlEndpoint::DestroyInputStream(uint16_t nStreamID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1288,7 +1288,7 @@ XnStatus LinkControlEndpoint::DestroyInputStream(XnUInt16 nStreamID)
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetProperty(XnUInt16 nStreamID, XnLinkPropType propType, XnLinkPropID propID, uint32_t nSize, const void* pSource)
+XnStatus LinkControlEndpoint::SetProperty(uint16_t nStreamID, XnLinkPropType propType, XnLinkPropID propID, uint32_t nSize, const void* pSource)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	uint32_t nResponseSize = m_nMaxResponseSize;
@@ -1299,8 +1299,8 @@ XnStatus LinkControlEndpoint::SetProperty(XnUInt16 nStreamID, XnLinkPropType pro
 	XnUChar message[nMaxSize];
 
 	XnLinkPropVal* pSetPropParams = (XnLinkPropVal*)message;
-	pSetPropParams->m_header.m_nPropType = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)propType);
-	pSetPropParams->m_header.m_nPropID = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)propID);
+	pSetPropParams->m_header.m_nPropType = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)propType);
+	pSetPropParams->m_header.m_nPropID = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)propID);
 	pSetPropParams->m_header.m_nValueSize = XN_PREPARE_VAR32_IN_BUFFER(nSize);
 	xnOSMemCopy(pSetPropParams->m_value, pSource, nSize);
 	nRetVal = ExecuteCommand(XN_LINK_MSG_SET_PROP, nStreamID, pSetPropParams, sizeof(pSetPropParams->m_header) + nSize,
@@ -1309,14 +1309,14 @@ XnStatus LinkControlEndpoint::SetProperty(XnUInt16 nStreamID, XnLinkPropType pro
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetProperty(XnUInt16 nStreamID, XnLinkPropType propType, XnLinkPropID propID, uint32_t& nSize, void* pDest)
+XnStatus LinkControlEndpoint::GetProperty(uint16_t nStreamID, XnLinkPropType propType, XnLinkPropID propID, uint32_t& nSize, void* pDest)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	uint32_t nResponseSize = m_nMaxResponseSize;
 
 	XnLinkGetPropParams getPropParams;
-	getPropParams.m_nPropType = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)propType);
-	getPropParams.m_nPropID = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)propID);
+	getPropParams.m_nPropType = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)propType);
+	getPropParams.m_nPropID = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)propID);
 	nRetVal = ExecuteCommand(XN_LINK_MSG_GET_PROP, nStreamID, &getPropParams, sizeof(getPropParams),
 		m_pIncomingResponse, nResponseSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Execute get property command", nRetVal);
@@ -1338,13 +1338,13 @@ XnStatus LinkControlEndpoint::GetProperty(XnUInt16 nStreamID, XnLinkPropType pro
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint64_t nValue)
+XnStatus LinkControlEndpoint::SetIntProperty(uint16_t nStreamID, XnLinkPropID propID, uint64_t nValue)
 {
 	uint64_t nProtocolValue = XN_PREPARE_VAR64_IN_BUFFER(nValue);
 	return SetProperty(nStreamID, XN_LINK_PROP_TYPE_INT, propID, sizeof(nProtocolValue), &nProtocolValue);
 }
 
-XnStatus LinkControlEndpoint::GetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint64_t& nValue)
+XnStatus LinkControlEndpoint::GetIntProperty(uint16_t nStreamID, XnLinkPropID propID, uint64_t& nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1366,13 +1366,13 @@ XnStatus LinkControlEndpoint::GetIntProperty(XnUInt16 nStreamID, XnLinkPropID pr
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::SetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, double dValue)
+XnStatus LinkControlEndpoint::SetRealProperty(uint16_t nStreamID, XnLinkPropID propID, double dValue)
 {
 	double dProtocolValue = XN_PREPARE_VAR_FLOAT_IN_BUFFER(dValue);
 	return SetProperty(nStreamID, XN_LINK_PROP_TYPE_REAL, propID, sizeof(dProtocolValue), &dProtocolValue);
 }
 
-XnStatus LinkControlEndpoint::GetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, double& dValue)
+XnStatus LinkControlEndpoint::GetRealProperty(uint16_t nStreamID, XnLinkPropID propID, double& dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1394,27 +1394,27 @@ XnStatus LinkControlEndpoint::GetRealProperty(XnUInt16 nStreamID, XnLinkPropID p
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::SetStringProperty(XnUInt16 nStreamID, XnLinkPropID propID, const XnChar* strValue)
+XnStatus LinkControlEndpoint::SetStringProperty(uint16_t nStreamID, XnLinkPropID propID, const XnChar* strValue)
 {
 	return SetProperty(nStreamID, XN_LINK_PROP_TYPE_STRING, propID, xnOSStrLen(strValue)+1, strValue);
 }
 
-XnStatus LinkControlEndpoint::GetStringProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint32_t nSize, XnChar* strValue)
+XnStatus LinkControlEndpoint::GetStringProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t nSize, XnChar* strValue)
 {
 	return GetProperty(nStreamID, XN_LINK_PROP_TYPE_STRING, propID, nSize, strValue);
 }
 
-XnStatus LinkControlEndpoint::SetGeneralProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint32_t nSize, const void* pSource)
+XnStatus LinkControlEndpoint::SetGeneralProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t nSize, const void* pSource)
 {
 	return SetProperty(nStreamID, XN_LINK_PROP_TYPE_GENERAL, propID, nSize, pSource);
 }
 
-XnStatus LinkControlEndpoint::GetGeneralProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint32_t& nSize, void* pDest)
+XnStatus LinkControlEndpoint::GetGeneralProperty(uint16_t nStreamID, XnLinkPropID propID, uint32_t& nSize, void* pDest)
 {
 	return GetProperty(nStreamID, XN_LINK_PROP_TYPE_GENERAL, propID, nSize, pDest);
 }
 
-XnStatus LinkControlEndpoint::GetBitSetProperty(XnUInt16 nStreamID, XnLinkPropID propID, xnl::BitSet& bitSet)
+XnStatus LinkControlEndpoint::GetBitSetProperty(uint16_t nStreamID, XnLinkPropID propID, xnl::BitSet& bitSet)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1450,7 +1450,7 @@ XnStatus LinkControlEndpoint::GetBitSetProperty(XnUInt16 nStreamID, XnLinkPropID
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::GetCameraIntrinsics(XnUInt16 nStreamID, XnLinkCameraIntrinsics& cameraIntrinsics)
+XnStatus LinkControlEndpoint::GetCameraIntrinsics(uint16_t nStreamID, XnLinkCameraIntrinsics& cameraIntrinsics)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1477,8 +1477,8 @@ XnStatus LinkControlEndpoint::GetCameraIntrinsics(XnUInt16 nStreamID, XnLinkCame
 }
 
 XnStatus LinkControlEndpoint::ValidateResponsePacket(const LinkPacketHeader* pPacketHeader,
-													 XnUInt16 nExpectedMsgType,
-													 XnUInt16 nExpectedStreamID,
+													 uint16_t nExpectedMsgType,
+													 uint16_t nExpectedStreamID,
 													 uint32_t nBytesToRead)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -1548,7 +1548,7 @@ XnStatus LinkControlEndpoint::EndUpload()
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetCropping(XnUInt16 nStreamID, const OniCropping& cropping)
+XnStatus LinkControlEndpoint::SetCropping(uint16_t nStreamID, const OniCropping& cropping)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1559,10 +1559,10 @@ XnStatus LinkControlEndpoint::SetCropping(XnUInt16 nStreamID, const OniCropping&
 	linkCropping.m_nReserved1 = 0;
 	linkCropping.m_nReserved2 = 0;
 	linkCropping.m_nReserved3 = 0;
-	linkCropping.m_nXOffset = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.originX);
-	linkCropping.m_nYOffset = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.originY);
-	linkCropping.m_nXSize   = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.width);
-	linkCropping.m_nYSize   = XN_PREPARE_VAR16_IN_BUFFER((XnUInt16)cropping.height);
+	linkCropping.m_nXOffset = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)cropping.originX);
+	linkCropping.m_nYOffset = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)cropping.originY);
+	linkCropping.m_nXSize   = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)cropping.width);
+	linkCropping.m_nYSize   = XN_PREPARE_VAR16_IN_BUFFER((uint16_t)cropping.height);
 
 	nRetVal = SetGeneralProperty(nStreamID, XN_LINK_PROP_ID_CROPPING, sizeof(linkCropping), &linkCropping);
 	XN_IS_STATUS_OK_LOG_ERROR("Set cropping property", nRetVal);
@@ -1572,7 +1572,7 @@ XnStatus LinkControlEndpoint::SetCropping(XnUInt16 nStreamID, const OniCropping&
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetCropping(XnUInt16 nStreamID, OniCropping& cropping)
+XnStatus LinkControlEndpoint::GetCropping(uint16_t nStreamID, OniCropping& cropping)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1629,7 +1629,7 @@ XnStatus LinkControlEndpoint::GetSupportedProperties(std::vector<xnl::BitSet>& s
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetSupportedInterfaces(XnUInt16 nStreamID, xnl::BitSet& supportedInterfaces)
+XnStatus LinkControlEndpoint::GetSupportedInterfaces(uint16_t nStreamID, xnl::BitSet& supportedInterfaces)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1753,7 +1753,7 @@ XnStatus LinkControlEndpoint::GetPeriodicBistActive(XnBool& bActive)
 	return nRetVal;
 }
 
-XnStatus LinkControlEndpoint::GetStreamFragLevel(XnUInt16 nStreamID, XnStreamFragLevel& streamFragLevel)
+XnStatus LinkControlEndpoint::GetStreamFragLevel(uint16_t nStreamID, XnStreamFragLevel& streamFragLevel)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1769,7 +1769,7 @@ XnStatus LinkControlEndpoint::GetStreamFragLevel(XnUInt16 nStreamID, XnStreamFra
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetMirror(XnUInt16 nStreamID, XnBool& bMirror)
+XnStatus LinkControlEndpoint::GetMirror(uint16_t nStreamID, XnBool& bMirror)
 {
 	uint64_t nValue;
 
@@ -1784,7 +1784,7 @@ XnStatus LinkControlEndpoint::GetMirror(XnUInt16 nStreamID, XnBool& bMirror)
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetMirror(XnUInt16 nStreamID, XnBool bMirror)
+XnStatus LinkControlEndpoint::SetMirror(uint16_t nStreamID, XnBool bMirror)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1861,7 +1861,7 @@ XnStatus LinkControlEndpoint::GetBootStatus(XnBootStatus& bootStatus)
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::OpenFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID)
+XnStatus LinkControlEndpoint::OpenFWLogFile(XnUInt8 logID, uint16_t nLogStreamID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1879,7 +1879,7 @@ XnStatus LinkControlEndpoint::OpenFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::CloseFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID)
+XnStatus LinkControlEndpoint::CloseFWLogFile(XnUInt8 logID, uint16_t nLogStreamID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1943,7 +1943,7 @@ XnStatus LinkControlEndpoint::GetProjectorPulse(XnBool& enabled, float& delay, f
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetProjectorPower(XnUInt16 power)
+XnStatus LinkControlEndpoint::SetProjectorPower(uint16_t power)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1957,7 +1957,7 @@ XnStatus LinkControlEndpoint::SetProjectorPower(XnUInt16 power)
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::GetProjectorPower(XnUInt16& power)
+XnStatus LinkControlEndpoint::GetProjectorPower(uint16_t& power)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1967,14 +1967,14 @@ XnStatus LinkControlEndpoint::GetProjectorPower(XnUInt16& power)
 	nRetVal = GetIntProperty(XN_LINK_STREAM_ID_NONE, XN_LINK_PROP_ID_PROJECTOR_POWER, power64);
 	XN_IS_STATUS_OK(nRetVal);
 
-	power = (XnUInt16)power64;
+	power = (uint16_t)power64;
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Projector power is %u", power);
 
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::SetGain(XnUInt16 streamID, XnUInt16 gain)
+XnStatus LinkControlEndpoint::SetGain(uint16_t streamID, uint16_t gain)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1988,7 +1988,7 @@ XnStatus LinkControlEndpoint::SetGain(XnUInt16 streamID, XnUInt16 gain)
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::GetGain(XnUInt16 streamID, XnUInt16& gain)
+XnStatus LinkControlEndpoint::GetGain(uint16_t streamID, uint16_t& gain)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1998,7 +1998,7 @@ XnStatus LinkControlEndpoint::GetGain(XnUInt16 streamID, XnUInt16& gain)
 	nRetVal = GetIntProperty(streamID, XN_LINK_PROP_ID_GAIN, gain64);
 	XN_IS_STATUS_OK(nRetVal);
 
-	gain = (XnUInt16)gain64;
+	gain = (uint16_t)gain64;
 
 	xnLogInfo(XN_MASK_LINK, "LINK: Stream %u gain is %u", streamID, gain);
 

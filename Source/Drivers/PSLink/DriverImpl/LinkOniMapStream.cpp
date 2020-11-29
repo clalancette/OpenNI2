@@ -142,8 +142,8 @@ OniStatus LinkOniMapStream::getProperty(int propertyId, void* data, int* pDataSi
 
 		case PS_PROPERTY_GAIN:
 			{
-				ENSURE_PROP_SIZE(*pDataSize, XnUInt16);
-				XnUInt16 gain;
+				ENSURE_PROP_SIZE(*pDataSize, uint16_t);
+				uint16_t gain;
 				nRetVal = m_pInputStream->GetGain(gain);
 				XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 				ASSIGN_PROP_VALUE_INT(data, *pDataSize, gain);
@@ -205,8 +205,8 @@ OniStatus LinkOniMapStream::setProperty(int propertyId, const void* data, int da
 
 		case PS_PROPERTY_GAIN:
 			{
-				ENSURE_PROP_SIZE(dataSize, XnUInt16);
-				nRetVal = m_pInputStream->SetGain(*(XnUInt16*)data);
+				ENSURE_PROP_SIZE(dataSize, uint16_t);
+				nRetVal = m_pInputStream->SetGain(*(uint16_t*)data);
 				XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 				break;
 			}

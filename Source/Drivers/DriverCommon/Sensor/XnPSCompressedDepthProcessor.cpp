@@ -90,7 +90,7 @@ XnPSCompressedDepthProcessor::~XnPSCompressedDepthProcessor()
 #define GET_INPUT_READ_BYTES (__pCurrInput - __pInputOrig);
 
 XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, const uint32_t nInputSize,
-								   XnUInt16* pDepthOutput, uint32_t* pnOutputSize,
+								   uint16_t* pDepthOutput, uint32_t* pnOutputSize,
 								   uint32_t* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
@@ -101,14 +101,14 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, 
 	XnBool __bShouldReadByte = TRUE;
 	uint32_t __nLastByte = 0;
 
-	XnUInt16* pOutputEnd = pDepthOutput + (*pnOutputSize / sizeof(OniDepthPixel));
-	XnUInt16 nLastValue = 0;
+	uint16_t* pOutputEnd = pDepthOutput + (*pnOutputSize / sizeof(OniDepthPixel));
+	uint16_t nLastValue = 0;
 
 	const XnUInt8* pInputOrig = pInput;
-	XnUInt16* pOutputOrig = pDepthOutput;
+	uint16_t* pOutputOrig = pDepthOutput;
 
 	const XnUInt8* pInputLastPossibleStop = pInputOrig;
-	XnUInt16* pOutputLastPossibleStop = pOutputOrig;
+	uint16_t* pOutputLastPossibleStop = pOutputOrig;
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
 	uint32_t nInput;
@@ -175,7 +175,7 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, 
 				nLargeValue |= nInput << 4;
 
 				GET_NEXT_INPUT(nInput);
-				nLastValue = (XnUInt16)(nLargeValue | nInput);
+				nLastValue = (uint16_t)(nLargeValue | nInput);
 			}
 
 			XN_DEPTH_OUTPUT(pDepthOutput, pOutputEnd, nLastValue);
@@ -190,12 +190,12 @@ XnStatus XnPSCompressedDepthProcessor::UncompressDepthPS(const XnUInt8* pInput, 
 
 	if (bLastPart == TRUE)
 	{
-		*pnOutputSize = (uint32_t)(pDepthOutput - pOutputOrig) * sizeof(XnUInt16);
+		*pnOutputSize = (uint32_t)(pDepthOutput - pOutputOrig) * sizeof(uint16_t);
 		*pnActualRead = (uint32_t)GET_INPUT_READ_BYTES;
 	}
 	else
 	{
-		*pnOutputSize = (uint32_t)(pOutputLastPossibleStop - pOutputOrig) * sizeof(XnUInt16);
+		*pnOutputSize = (uint32_t)(pOutputLastPossibleStop - pOutputOrig) * sizeof(uint16_t);
 		*pnActualRead = (uint32_t)(pInputLastPossibleStop - pInputOrig) * sizeof(XnUInt8);
 	}
 
@@ -240,7 +240,7 @@ void XnPSCompressedDepthProcessor::ProcessFramePacketChunk(const XnSensorProtoco
 	uint32_t nWrittenOutput = nOutputSize;
 	uint32_t nActualRead = 0;
 	XnBool bLastPart = pHeader->nType == XN_SENSOR_PROTOCOL_RESPONSE_DEPTH_END && (nDataOffset + nDataSize) == pHeader->nBufSize;
-	XnStatus nRetVal = UncompressDepthPS(pBuf, nBufSize, (XnUInt16*)pWriteBuffer->GetUnsafeWritePointer(),
+	XnStatus nRetVal = UncompressDepthPS(pBuf, nBufSize, (uint16_t*)pWriteBuffer->GetUnsafeWritePointer(),
 			&nWrittenOutput, &nActualRead, bLastPart);
 
 	if (nRetVal != XN_STATUS_OK)

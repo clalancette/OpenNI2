@@ -47,7 +47,7 @@ LinkMsgEncoder::~LinkMsgEncoder()
 	Shutdown();
 }
 
-XnStatus LinkMsgEncoder::Init(uint32_t nMaxMsgSize, XnUInt16 nMaxPacketSize)
+XnStatus LinkMsgEncoder::Init(uint32_t nMaxMsgSize, uint16_t nMaxPacketSize)
 {
 	if (nMaxPacketSize == 0)
 	{
@@ -59,7 +59,7 @@ XnStatus LinkMsgEncoder::Init(uint32_t nMaxMsgSize, XnUInt16 nMaxPacketSize)
 	m_nMaxMsgSize = nMaxMsgSize;
 	m_nMaxPacketSize = nMaxPacketSize;
 
-	XnUInt16 nMaxPacketDataSize = m_nMaxPacketSize - sizeof(LinkPacketHeader);
+	uint16_t nMaxPacketDataSize = m_nMaxPacketSize - sizeof(LinkPacketHeader);
 	m_nMaxNumPackets = m_nMaxMsgSize / nMaxPacketDataSize;
 	if (m_nMaxPacketSize % nMaxPacketDataSize != 0)
 	{
@@ -80,11 +80,11 @@ void LinkMsgEncoder::Shutdown()
 	m_nMaxMsgSize = 0;
 }
 
-void LinkMsgEncoder::BeginEncoding(XnUInt16 nMsgType,
-				XnUInt16 nBasePacketID,
-				XnUInt16 nStreamID,
+void LinkMsgEncoder::BeginEncoding(uint16_t nMsgType,
+				uint16_t nBasePacketID,
+				uint16_t nStreamID,
 				XnLinkFragmentation firstPacketFrag /*= XN_LINK_FRAG_BEGIN*/,
-				XnUInt16 nCID /*= 0*/)
+				uint16_t nCID /*= 0*/)
 {
 	//Initialize m_packetHeader values for all packets in this message.
 	m_packetHeader.SetMsgType(nMsgType);
@@ -108,8 +108,8 @@ void LinkMsgEncoder::BeginEncoding(XnUInt16 nMsgType,
 
 void LinkMsgEncoder::EncodeData(const void* pSourceData, uint32_t nSize)
 {
-	XnUInt16 nPacketRemainingSpace = 0; //Remaining space in current packet in each iteration
-	XnUInt16 nPacketBytesToCopy = 0; //Number of bytes to copy to current packet in each iteration
+	uint16_t nPacketRemainingSpace = 0; //Remaining space in current packet in each iteration
+	uint16_t nPacketBytesToCopy = 0; //Number of bytes to copy to current packet in each iteration
 	uint32_t nBytesLeftToCopy = nSize; //Total number of bytes left to copy
 	const XnUInt8* pCurrData = reinterpret_cast<const XnUInt8*>(pSourceData); //Current source data pointer
 	while (nBytesLeftToCopy > 0)
@@ -136,7 +136,7 @@ void LinkMsgEncoder::EncodeData(const void* pSourceData, uint32_t nSize)
 		//Calculate remaining space in current packet
 		nPacketRemainingSpace = m_nMaxPacketSize - m_pCurrPacket->GetSize();
 		//Calculate how many bytes we're copying to the current packet
-		nPacketBytesToCopy = static_cast<XnUInt16>(XN_MIN(nPacketRemainingSpace, nBytesLeftToCopy));
+		nPacketBytesToCopy = static_cast<uint16_t>(XN_MIN(nPacketRemainingSpace, nBytesLeftToCopy));
 
 		/************ Copy data to current packet ********************/
 		xnOSMemCopy(m_pCurrPacketBuffer + m_pCurrPacket->GetSize(),
@@ -173,12 +173,12 @@ uint32_t LinkMsgEncoder::GetEncodedSize() const
 }
 
 
-XnUInt16 LinkMsgEncoder::GetMaxPacketSize() const
+uint16_t LinkMsgEncoder::GetMaxPacketSize() const
 {
 	return m_nMaxPacketSize;
 }
 
-XnUInt16 LinkMsgEncoder::GetPacketID() const
+uint16_t LinkMsgEncoder::GetPacketID() const
 {
 	return m_pCurrPacket->GetPacketID();
 }
@@ -188,7 +188,7 @@ uint32_t LinkMsgEncoder::GetMaxMsgSize() const
 	return m_nMaxMsgSize;
 }
 
-void LinkMsgEncoder::SetPacketID(XnUInt16 nPacketID)
+void LinkMsgEncoder::SetPacketID(uint16_t nPacketID)
 {
 	m_pCurrPacket->SetPacketID(nPacketID);
 }

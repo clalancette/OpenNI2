@@ -72,7 +72,7 @@ XnStatus LinkLogParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,
 	fileID = logHeader->m_ID;
 	command = (XnLinkLogCommand)logHeader->command;
 
-	XnUInt16 actualDataSize = XN_PREPARE_VAR16_IN_BUFFER(logHeader->size); //We may have padding at the end
+	uint16_t actualDataSize = XN_PREPARE_VAR16_IN_BUFFER(logHeader->size); //We may have padding at the end
 
 	pSrc += sizeof(XnLinkLogParam);
 	actualDataSize -= sizeof(XnLinkLogParam);

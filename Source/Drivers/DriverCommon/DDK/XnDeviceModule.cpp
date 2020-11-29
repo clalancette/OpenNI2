@@ -244,9 +244,9 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 			{
 				*(uint32_t*)data = (uint32_t)nValue;
 			}
-			else if (*pDataSize == sizeof(XnUInt16))
+			else if (*pDataSize == sizeof(uint16_t))
 			{
-				*(XnUInt16*)data = (XnUInt16)nValue;
+				*(uint16_t*)data = (uint16_t)nValue;
 			}
 			else if (*pDataSize == sizeof(XnUInt8))
 			{
@@ -398,9 +398,9 @@ XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const void* data, int 
 			{
 				nValue = *(uint32_t*)data;
 			}
-			else if (dataSize == sizeof(XnUInt16))
+			else if (dataSize == sizeof(uint16_t))
 			{
-				nValue = *(XnUInt16*)data;
+				nValue = *(uint16_t*)data;
 			}
 			else if (dataSize == sizeof(XnUInt8))
 			{

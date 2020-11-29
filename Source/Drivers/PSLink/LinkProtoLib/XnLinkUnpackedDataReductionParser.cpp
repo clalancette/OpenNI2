@@ -28,7 +28,7 @@ namespace xn
 {
 
 
-const XnUInt16 LinkUnpackedDataReductionParser::FACTOR = 200;
+const uint16_t LinkUnpackedDataReductionParser::FACTOR = 200;
 
 
 LinkUnpackedDataReductionParser::LinkUnpackedDataReductionParser()
@@ -58,9 +58,9 @@ XnStatus LinkUnpackedDataReductionParser::ParsePacketImpl(XnLinkFragmentation /*
 	////////////////////////////////////////////
 	while (pSrc < pSrcEnd)
 	{
-		*((XnUInt16*)pDst) = *((XnUInt16*)pSrc) * FACTOR;
-		pDst += sizeof(XnUInt16);
-		pSrc += sizeof(XnUInt16);
+		*((uint16_t*)pDst) = *((uint16_t*)pSrc) * FACTOR;
+		pDst += sizeof(uint16_t);
+		pSrc += sizeof(uint16_t);
 	}
 	////////////////////////////////////////////
 

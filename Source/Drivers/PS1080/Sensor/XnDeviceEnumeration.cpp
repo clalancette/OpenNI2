@@ -37,8 +37,8 @@ static XN_CRITICAL_SECTION_HANDLE ms_lock;
 
 typedef struct XnUsbId
 {
-	XnUInt16 vendorID;
-	XnUInt16 productID;
+	uint16_t vendorID;
+	uint16_t productID;
 } XnUsbId;
 
 

@@ -46,8 +46,8 @@ public:
 private:
 	typedef struct XnUsbId
 	{
-		XnUInt16 vendorID;
-		XnUInt16 productID;
+		uint16_t vendorID;
+		uint16_t productID;
 	} XnUsbId;
 
 	typedef xnl::XnStringsHashT<OniDeviceInfo> DevicesHash;

@@ -28,7 +28,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnFrameStreamProcessor::XnFrameStreamProcessor(XnFrameStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager, XnUInt16 nTypeSOF, XnUInt16 nTypeEOF) :
+XnFrameStreamProcessor::XnFrameStreamProcessor(XnFrameStream* pStream, XnSensorStreamHelper* pHelper, XnFrameBufferManager* pBufferManager, uint16_t nTypeSOF, uint16_t nTypeEOF) :
 	XnStreamProcessor(pStream, pHelper),
 	m_nTypeSOF(nTypeSOF),
 	m_nTypeEOF(nTypeEOF),

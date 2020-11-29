@@ -34,7 +34,7 @@ public:
 	XnStatus Free();
 
 	inline OniDepthPixel* GetShiftToDepthTable() const { return m_ShiftToDepthTables.pShiftToDepthTable; }
-	inline XnUInt16* GetDepthToShiftTable() const { return m_ShiftToDepthTables.pDepthToShiftTable; }
+	inline uint16_t* GetDepthToShiftTable() const { return m_ShiftToDepthTables.pDepthToShiftTable; }
 
 protected:
 	inline XnActualGeneralProperty& ShiftToDepthTableProperty() { return m_ShiftToDepthTable; }

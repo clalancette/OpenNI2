@@ -34,10 +34,10 @@
 // Functions Declaration
 //---------------------------------------------------------------------------
 XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const uint32_t nInputSize,
-									XnUInt8* pOutput, uint32_t* pnOutputSize, XnUInt16 nLineSize,
+									XnUInt8* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
 									uint32_t* pnActualRead, XnBool bLastPart);
 XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const uint32_t nInputSize,
-									   XnUInt8* pOutput, uint32_t* pnOutputSize, XnUInt16 nLineSize,
+									   XnUInt8* pOutput, uint32_t* pnOutputSize, uint16_t nLineSize,
 									   uint32_t* pnActualRead, XnBool bLastPart);
 
 #endif // UNCOMP_H

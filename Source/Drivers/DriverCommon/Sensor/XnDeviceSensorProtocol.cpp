@@ -41,7 +41,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t
 	XN_PROFILING_START_MT_SECTION("XnDeviceSensorProtocolUsbEpCb");
 
 	uint32_t nReadBytes;
-	XnUInt16 nMagic;
+	uint16_t nMagic;
 
 	XnSpecificUsbDevice* pDevice = (XnSpecificUsbDevice*)pCallbackData;
 	XnDevicePrivateData* pDevicePrivateData = pDevice->pDevicePrivateData;
@@ -75,7 +75,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t
 			if (pCurrState->nMissingBytesInState == 0)
 			{
 				pCurrState->State = XN_LOOKING_FOR_MAGIC;
-				pCurrState->nMissingBytesInState = sizeof(XnUInt16);
+				pCurrState->nMissingBytesInState = sizeof(uint16_t);
 			}
 			break;
 
@@ -97,8 +97,8 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t
 
 			while (pBuffer < pBufEnd)
 			{
-				if ((pBuffer + sizeof(XnUInt16) <= pBufEnd) &&
-					nMagic == *(XnUInt16*)(pBuffer))
+				if ((pBuffer + sizeof(uint16_t) <= pBufEnd) &&
+					nMagic == *(uint16_t*)(pBuffer))
 				{
 					pCurrState->CurrHeader.nMagic = nMagic;
 					pCurrState->State = XN_PACKET_HEADER;
@@ -152,7 +152,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t
 			if (pCurrState->nMissingBytesInState == 0)
 			{
 				pCurrState->State = XN_LOOKING_FOR_MAGIC;
-				pCurrState->nMissingBytesInState = sizeof(XnUInt16);
+				pCurrState->nMissingBytesInState = sizeof(uint16_t);
 			}
 			break;
 		}
@@ -282,7 +282,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 						pFile += nRead;
 
 						printf("* LogFilter: 0x%x\n", nFilter);
-						rc = XnHostProtocolSetParam(pDevicePrivateData, PARAM_MISC_LOG_FILTER, (XnUInt16)nFilter);
+						rc = XnHostProtocolSetParam(pDevicePrivateData, PARAM_MISC_LOG_FILTER, (uint16_t)nFilter);
 						if (rc != XN_STATUS_OK)
 						{
 							printf("** Set Log Filter failed\n");
@@ -309,7 +309,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 						break;
 				case 'C':
 					{
-						XnUInt16 nCMOS;
+						uint16_t nCMOS;
 						sscanf(pFile, "%hx %x %x\n%n", &nCMOS, &address, &value, &nRead);
 						pFile += nRead;
 
@@ -317,11 +317,11 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 
 						if (pDevicePrivateData->FWInfo.nFWVer >= XN_SENSOR_FW_VER_3_0)
 						{
-							rc = XnHostProtocolSetCMOSRegisterI2C(pDevicePrivateData, (XnCMOSType)nCMOS, (XnUInt16)address, (XnUInt16)value);
+							rc = XnHostProtocolSetCMOSRegisterI2C(pDevicePrivateData, (XnCMOSType)nCMOS, (uint16_t)address, (uint16_t)value);
 						}
 						else
 						{
-							rc = XnHostProtocolSetCMOSRegister(pDevicePrivateData, (XnCMOSType)nCMOS, (XnUInt16)address, (XnUInt16)value);
+							rc = XnHostProtocolSetCMOSRegister(pDevicePrivateData, (XnCMOSType)nCMOS, (uint16_t)address, (uint16_t)value);
 						}
 
 						if (rc != XN_STATUS_OK)
@@ -380,7 +380,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 						pFile += nRead;
 
 						printf("* Processing '%c %u %u'\n", which , param, value);
-						rc = XnHostProtocolSetParam(pDevicePrivateData, (XnUInt16)param, (XnUInt16)value);
+						rc = XnHostProtocolSetParam(pDevicePrivateData, (uint16_t)param, (uint16_t)value);
 						if (rc != XN_STATUS_OK)
 						{
 							printf("** Set Param failed\n");
@@ -418,7 +418,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 						pFile += nRead;
 
 						printf("* Processing '%c %u %s'\n", which , nType, filename);
-						rc = XnHostProtocolFileDownload(pDevicePrivateData, (XnUInt16)nType, filename);
+						rc = XnHostProtocolFileDownload(pDevicePrivateData, (uint16_t)nType, filename);
 						if (rc != XN_STATUS_OK)
 						{
 							printf("** Download failed\n");
@@ -495,7 +495,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					}
 				case 'Z':
 					{
-						XnUInt16 nSetPoint = 0;
+						uint16_t nSetPoint = 0;
 						sscanf(pFile, "%hu%n", &nSetPoint, &nRead);
 						pFile += nRead;
 
@@ -514,7 +514,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					}
 				case 'A':
 					{
-						XnUInt16 nSetPoint = 0;
+						uint16_t nSetPoint = 0;
 						sscanf(pFile, "%hu%n", &nSetPoint, &nRead);
 						pFile += nRead;
 
@@ -533,7 +533,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					}
 				case 'G':
 					{
-						XnUInt16 nMin, nMax = 0;
+						uint16_t nMin, nMax = 0;
 						sscanf(pFile, "%hu %hu%n", &nMin, &nMax, &nRead);
 
 						printf("* Testing Projector Fault. Min: %hu, Max: %hu\n", nMin, nMax);

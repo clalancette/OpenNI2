@@ -66,7 +66,7 @@ XnStatus XnCmosInfo::SetCmosConfig(XnCMOSType nCmos, XnResolutions nResolution, 
 			data.nRes = nResolution;
 			data.nFPS = nFPS;
 
-			nRetVal = XnHostProtocolAlgorithmParams(m_pDevicePrivateData, XN_HOST_PROTOCOL_ALGORITHM_BLANKING, &data.BlankingInfo, sizeof(XnCmosBlankingInformation), nResolution, (XnUInt16)nFPS);
+			nRetVal = XnHostProtocolAlgorithmParams(m_pDevicePrivateData, XN_HOST_PROTOCOL_ALGORITHM_BLANKING, &data.BlankingInfo, sizeof(XnCmosBlankingInformation), nResolution, (uint16_t)nFPS);
 			XN_IS_STATUS_OK(nRetVal);
 
 			// add to list

@@ -40,7 +40,7 @@ const uint32_t LinkInputStreamsMgr::FRAG_FLAGS_ALLOWED_CHANGES[4][4] = {
 	/* Allowed state changes from END:    */ {0, 1, 0, 1},
 	/* Allowed state changes from SINGLE: */ {0, 1, 0, 1},
 };
-const XnUInt16 LinkInputStreamsMgr::INITIAL_PACKET_ID = 1;
+const uint16_t LinkInputStreamsMgr::INITIAL_PACKET_ID = 1;
 
 LinkInputStreamsMgr::LinkInputStreamsMgr()
 {
@@ -59,13 +59,13 @@ XnStatus LinkInputStreamsMgr::Init()
 
 void LinkInputStreamsMgr::Shutdown()
 {
-	for (XnUInt16 nStreamID = 0; nStreamID < XN_LINK_MAX_STREAMS; nStreamID++)
+	for (uint16_t nStreamID = 0; nStreamID < XN_LINK_MAX_STREAMS; nStreamID++)
 	{
 		ShutdownInputStream(nStreamID);
 	}
 }
 
-void LinkInputStreamsMgr::RegisterStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, XnUInt16 nStreamID)
+void LinkInputStreamsMgr::RegisterStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo, uint16_t nStreamID)
 {
 	if (m_streamInfos[nStreamID].pInputStream == NULL ||
 		(m_streamInfos[nStreamID].refCount > 0 && nStreamID != FindStreamByType(streamType,strCreationInfo)))
@@ -86,7 +86,7 @@ void LinkInputStreamsMgr::RegisterStreamOfType(XnStreamType streamType, const Xn
 }
 
 
-XnBool LinkInputStreamsMgr::UnregisterStream(XnUInt16 nStreamID)
+XnBool LinkInputStreamsMgr::UnregisterStream(uint16_t nStreamID)
 {
 	XnBool wasLast = false;
 
@@ -107,12 +107,12 @@ XnBool LinkInputStreamsMgr::UnregisterStream(XnUInt16 nStreamID)
 	return wasLast;
 }
 
-XnBool LinkInputStreamsMgr::HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo,	XnUInt16& nStreamID)
+XnBool LinkInputStreamsMgr::HasStreamOfType(XnStreamType streamType, const XnChar* strCreationInfo,	uint16_t& nStreamID)
 {
 	int i;
 	if ((i = FindStreamByType(streamType, strCreationInfo)) >= 0)
 	{
-		nStreamID = (XnUInt16)i;
+		nStreamID = (uint16_t)i;
 		return true;
 	}
 	return false;
@@ -134,7 +134,7 @@ int LinkInputStreamsMgr::FindStreamByType(XnStreamType streamType, const XnChar*
 
 XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlEndpoint,
 						XnStreamType streamType,
-						XnUInt16 nStreamID,
+						uint16_t nStreamID,
 						IConnection* pConnection)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -203,7 +203,7 @@ XnStatus LinkInputStreamsMgr::InitInputStream(LinkControlEndpoint* pLinkControlE
 	return XN_STATUS_OK;
 }
 
-void LinkInputStreamsMgr::ShutdownInputStream(XnUInt16 nStreamID)
+void LinkInputStreamsMgr::ShutdownInputStream(uint16_t nStreamID)
 {
 	LinkInputStream* pLinkInputStream = GetInputStream(nStreamID);
 	if (pLinkInputStream != NULL)
@@ -217,7 +217,7 @@ void LinkInputStreamsMgr::ShutdownInputStream(XnUInt16 nStreamID)
 void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader)
 {
 	//Validate Stream ID
-	XnUInt16 nStreamID = pLinkPacketHeader->GetStreamID();
+	uint16_t nStreamID = pLinkPacketHeader->GetStreamID();
 	if (nStreamID >= XN_LINK_MAX_STREAMS)
 	{
 		xnLogWarning(XN_MASK_LINK, "Got bad Stream ID: %u, max StreamID is %u", nStreamID, XN_LINK_MAX_STREAMS-1);
@@ -228,7 +228,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	StreamInfo* pStreamInfo = &m_streamInfos[nStreamID];
 
 	//Validate packet ID
-	XnUInt16 nPacketID = pLinkPacketHeader->GetPacketID();
+	uint16_t nPacketID = pLinkPacketHeader->GetPacketID();
 	if (nPacketID != pStreamInfo->nNextPacketID)
 	{
 		xnLogWarning(XN_MASK_LINK, "Expected packet id of %u but got %u on stream %u.",
@@ -239,7 +239,7 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	//We now expect the packet ID to be right after the one we got (even if we lost some packets on the way).
 	pStreamInfo->nNextPacketID = (nPacketID + 1);
 
-	XnUInt16 nMsgType = pLinkPacketHeader->GetMsgType();
+	uint16_t nMsgType = pLinkPacketHeader->GetMsgType();
 	XnLinkFragmentation fragmentation = pLinkPacketHeader->GetFragmentationFlags();
 
 	if (!pStreamInfo->packetLoss && !FRAG_FLAGS_ALLOWED_CHANGES[pStreamInfo->prevFragmentation][fragmentation])
@@ -317,7 +317,7 @@ XnStatus LinkInputStreamsMgr::HandleData(const void* pData, uint32_t nSize)
 	return XN_STATUS_OK;
 }
 
-LinkInputStream* LinkInputStreamsMgr::GetInputStream(XnUInt16 nStreamID)
+LinkInputStream* LinkInputStreamsMgr::GetInputStream(uint16_t nStreamID)
 {
 	if (nStreamID >= XN_LINK_MAX_STREAMS)
 	{
@@ -328,7 +328,7 @@ LinkInputStream* LinkInputStreamsMgr::GetInputStream(XnUInt16 nStreamID)
 	return m_streamInfos[nStreamID].pInputStream;
 }
 
-const LinkInputStream* LinkInputStreamsMgr::GetInputStream(XnUInt16 nStreamID) const
+const LinkInputStream* LinkInputStreamsMgr::GetInputStream(uint16_t nStreamID) const
 {
 	if (nStreamID >= XN_LINK_MAX_STREAMS)
 	{

@@ -36,8 +36,8 @@ namespace xn
 class ClientUSBConnectionFactory : public IConnectionFactory
 {
 public:
-	ClientUSBConnectionFactory(XnUInt16 nInputConnections,
-					XnUInt16 nOutputConnections,
+	ClientUSBConnectionFactory(uint16_t nInputConnections,
+					uint16_t nOutputConnections,
 					uint32_t nPreControlReceiveSleep);
 
 	virtual ~ClientUSBConnectionFactory();
@@ -48,24 +48,24 @@ public:
 	XnStatus SetUsbAltInterface(XnUInt8 interfaceNum);
 	XnStatus GetUsbAltInterface(XnUInt8* pInterfaceNum) const;
 
-	virtual XnUInt16 GetNumOutputDataConnections() const;
-	virtual XnUInt16 GetNumInputDataConnections() const;
+	virtual uint16_t GetNumOutputDataConnections() const;
+	virtual uint16_t GetNumInputDataConnections() const;
 
 	virtual XnStatus GetControlConnection(ISyncIOConnection*& pConn);
-	virtual XnStatus CreateOutputDataConnection(XnUInt16 nID, IOutputConnection*& pConn);
-	virtual XnStatus CreateInputDataConnection(XnUInt16 nID, IAsyncInputConnection*& pConn);
+	virtual XnStatus CreateOutputDataConnection(uint16_t nID, IOutputConnection*& pConn);
+	virtual XnStatus CreateInputDataConnection(uint16_t nID, IAsyncInputConnection*& pConn);
 
-	static XnStatus EnumerateConnStrings(XnUInt16 nProductID, XnConnectionString*& astrConnStrings, uint32_t& nCount);
+	static XnStatus EnumerateConnStrings(uint16_t nProductID, XnConnectionString*& astrConnStrings, uint32_t& nCount);
 	static void FreeConnStringsList(XnConnectionString* astrConnStrings);
 
 private:
-	XnUInt16 m_nInputConnections;
-	XnUInt16 m_nOutputConnections;
+	uint16_t m_nInputConnections;
+	uint16_t m_nOutputConnections;
 	uint32_t m_nPreControlReceiveSleep;
 	XnUInt8 m_nAltInterface;
 
 	ClientUSBControlEndpoint m_controlEndpoint;
-	static const XnUInt16 NUM_INPUT_CONNECTIONS;
+	static const uint16_t NUM_INPUT_CONNECTIONS;
 	XN_USB_DEV_HANDLE m_hUSBDevice;
 	XnBool m_bInitialized;
 	XnBool m_bUsbInitialized;

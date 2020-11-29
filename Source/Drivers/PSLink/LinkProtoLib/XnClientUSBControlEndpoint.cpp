@@ -70,7 +70,7 @@ void ClientUSBControlEndpoint::Disconnect()
 }
 
 
-XnUInt16 ClientUSBControlEndpoint::GetMaxPacketSize() const
+uint16_t ClientUSBControlEndpoint::GetMaxPacketSize() const
 {
 	XN_ASSERT(FALSE); //Did you mean the logical packet size?? If the answer is no, remove this assert.
 	return USB_LOW_LEVEL_MAX_PACKET_SIZE;

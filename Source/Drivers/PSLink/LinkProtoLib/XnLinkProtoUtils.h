@@ -44,31 +44,31 @@ class LinkPacketHeader : private XnLinkPacketHeader
 public:
 	XnStatus Validate(uint32_t nBytesToRead) const;
 	XnBool IsMagicValid() const { return (m_nMagic == XN_LINK_MAGIC); }
-	XnUInt16 GetSize() const { return m_nSize; }
-	XnUInt16 GetDataSize() const { return (m_nSize - sizeof(XnLinkPacketHeader)); }
-	XnUInt16 GetMsgType() const { return m_nMsgType; }
+	uint16_t GetSize() const { return m_nSize; }
+	uint16_t GetDataSize() const { return (m_nSize - sizeof(XnLinkPacketHeader)); }
+	uint16_t GetMsgType() const { return m_nMsgType; }
 	XnLinkFragmentation GetFragmentationFlags() const { return XnLinkFragmentation(m_nFragmentation); }
-	XnUInt16 GetStreamID() const { return m_nStreamID; }
-	XnUInt16 GetPacketID() const { return m_nPacketID; }
-	XnUInt16 GetCID() const { return m_nCID; }
+	uint16_t GetStreamID() const { return m_nStreamID; }
+	uint16_t GetPacketID() const { return m_nPacketID; }
+	uint16_t GetCID() const { return m_nCID; }
 	const XnUInt8* GetPacketData() const {return (reinterpret_cast<const XnUInt8*>(this) + sizeof(XnLinkPacketHeader)); }
 	XnUInt8* GetPacketData() {return (reinterpret_cast<XnUInt8*>(this) + sizeof(XnLinkPacketHeader)); }
 
 	void SetMagic() { m_nMagic = XN_LINK_MAGIC; }
-	void SetSize(XnUInt16 nSize) { m_nSize = nSize; }
-	void SetMsgType(XnUInt16 nMsgType) { m_nMsgType = nMsgType; }
+	void SetSize(uint16_t nSize) { m_nSize = nSize; }
+	void SetMsgType(uint16_t nMsgType) { m_nMsgType = nMsgType; }
 	void SetFragmentationFlags(XnLinkFragmentation flags) { m_nFragmentation = flags; }
-	void SetStreamID(XnUInt16 nStreamID) { m_nStreamID = nStreamID; }
-	void SetPacketID(XnUInt16 nPacketID) { m_nPacketID = nPacketID; }
-	void SetCID(XnUInt16 nCID) { m_nCID = nCID; }
+	void SetStreamID(uint16_t nStreamID) { m_nStreamID = nStreamID; }
+	void SetPacketID(uint16_t nPacketID) { m_nPacketID = nPacketID; }
+	void SetCID(uint16_t nCID) { m_nCID = nCID; }
 };
 
 static_assert(sizeof(xn::LinkPacketHeader) == sizeof(XnLinkPacketHeader));
 
 }
 
-XnStatus xnLinkResponseCodeToStatus(XnUInt16 nResponseCode);
-const XnChar* xnLinkResponseCodeToStr(XnUInt16 nResponseCode);
+XnStatus xnLinkResponseCodeToStatus(uint16_t nResponseCode);
+const XnChar* xnLinkResponseCodeToStr(uint16_t nResponseCode);
 const XnChar* xnFragmentationFlagsToStr(XnLinkFragmentation fragmentation);
 
 const XnChar* xnLinkStreamTypeToString(XnStreamType streamType);
@@ -92,17 +92,17 @@ XnLinkPoint3D XnPoint3DToLinkPoint3D(const xnl::Point3D& point);
 XnLinkBoundingBox3D xnBoundingBox3DToLinkBoundingBox3D(const xnl::Box3D& box);
 xnl::Box3D xnLinkBoundingBox3DToBoundingBox3D(const XnLinkBoundingBox3D& box);
 
-XnStatus xnLinkGetStreamDumpName(XnUInt16 nStreamID, XnChar* strDumpName, uint32_t nDumpNameSize);
-XnStatus xnLinkGetEPDumpName(XnUInt16 nEPID, XnChar* strDumpName, uint32_t nDumpNameSize);
+XnStatus xnLinkGetStreamDumpName(uint16_t nStreamID, XnChar* strDumpName, uint32_t nDumpNameSize);
+XnStatus xnLinkGetEPDumpName(uint16_t nEPID, XnChar* strDumpName, uint32_t nDumpNameSize);
 
 XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pIDSet, uint32_t nSize);
 
 /*pnEncodedSize is max size on input, actual size on output. pIDs is an array of uint16 values that must be grouped by interface ID.*/
-XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const XnUInt16* pIDs, uint32_t nNumIDs);
+XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const uint16_t* pIDs, uint32_t nNumIDs);
 
-XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<XnUInt16>& frameSyncStreamIDs, const void* pFrameSyncStreamIDs, uint32_t nBufferSize);
+XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<uint16_t>& frameSyncStreamIDs, const void* pFrameSyncStreamIDs, uint32_t nBufferSize);
 //nBufferSize is max size on input, actual size on output
-XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, uint32_t& nBufferSize, const std::vector<XnUInt16>& frameSyncStreamIDs);
+XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, uint32_t& nBufferSize, const std::vector<uint16_t>& frameSyncStreamIDs);
 XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& componentVersions, const XnLinkComponentVersionsList* pLinkList, uint32_t nBufferSize);
 
 /*
@@ -163,7 +163,7 @@ XnStatus xnLinkParseIntProp(XnLinkPropType propType, const void* pValue, uint32_
 XnStatus xnLinkParseLeanVersionProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, XnLeanVersion& leanVersion);
 XnStatus xnLinkParseIDSetProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<xnl::BitSet>& idSet);
 XnStatus xnLinkParseBitSetProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, xnl::BitSet& bitSet);
-XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<XnUInt16>& streamIDs);
+XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<uint16_t>& streamIDs);
 XnStatus xnLinkParseComponentVersionsListProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<XnComponentVersion>& componentVersions);
 
 XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupportedTests, uint32_t nBufferSize, std::vector<XnBistInfo>& supportedTests);

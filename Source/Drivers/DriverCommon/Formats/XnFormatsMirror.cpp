@@ -77,7 +77,7 @@ XnStatus XnMirrorTwoBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t 
 	XnUInt8* pDest = NULL;
 	XnUInt8* pDestVal = &pLineBuffer[nLineSize * 2 - 1];
 	XnUInt8* pDestEnd = &pLineBuffer[0];
-	XnUInt16 nMemCpyLineSize = (XnUInt16)(nLineSize * 2);
+	uint16_t nMemCpyLineSize = (uint16_t)(nLineSize * 2);
 
 	if (nLineSize > XN_MIRROR_MAX_LINE_SIZE)
 	{
@@ -112,7 +112,7 @@ XnStatus XnMirrorThreeBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_
 	XnUInt8* pDest = NULL;
 	XnUInt8* pDestVal = &pLineBuffer[nLineSize * 3 - 1];
 	XnUInt8* pDestEnd = &pLineBuffer[0];
-	XnUInt16 nMemCpyLineSize = (XnUInt16)(nLineSize * 3);
+	uint16_t nMemCpyLineSize = (uint16_t)(nLineSize * 3);
 
 	if (nMemCpyLineSize > XN_MIRROR_MAX_LINE_SIZE)
 	{

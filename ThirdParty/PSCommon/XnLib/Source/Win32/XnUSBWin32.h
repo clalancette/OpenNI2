@@ -100,7 +100,7 @@ typedef struct XnUSBEndPointHandle
 	OVERLAPPED ovlpIO;
 	xnUSBReadThreadData ThreadData;
 
-	XnUInt16 nEndPointID;
+	uint16_t nEndPointID;
 	XnUSBEndPointType  nEPType;
 	XnUSBDirectionType nEPDir;
 	uint32_t nMaxPacketSize;

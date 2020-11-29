@@ -40,7 +40,7 @@ public:
 
 	virtual XnStatus Init(LinkControlEndpoint* pLinkControlEndpoint,
 				XnStreamType streamType,
-				XnUInt16 nStreamID,
+				uint16_t nStreamID,
 				IConnection* pConnection);
 
 	virtual XnBool IsInitialized() const = 0;
@@ -50,7 +50,7 @@ public:
 	virtual XnStatus Start();
 	virtual XnStatus Stop();
 	virtual XnBool IsStreaming() const;
-	virtual XnUInt16 GetStreamID() const;
+	virtual uint16_t GetStreamID() const;
 
 	typedef void (XN_CALLBACK_TYPE* NewDataAvailableHandler)(void* pCookie);
 
@@ -71,8 +71,8 @@ public:
 	virtual XnBool GetMirror() const;
 	virtual XnStatus SetMirror(XnBool bMirror);
 
-	virtual XnStatus SetGain(XnUInt16 gain);
-	virtual XnStatus GetGain(XnUInt16& gain);
+	virtual XnStatus SetGain(uint16_t gain);
+	virtual XnStatus GetGain(uint16_t& gain);
 
 protected:
 	virtual XnStatus StartImpl() = 0;
@@ -82,7 +82,7 @@ protected:
 	LinkControlEndpoint* m_pLinkControlEndpoint;
 	IConnection* m_pConnection;
 	XnStreamType m_streamType;
-	XnUInt16 m_nStreamID;
+	uint16_t m_nStreamID;
 	OniPixelFormat m_outputFormat;
 	volatile XnBool m_bStreaming;
 	int m_streamingRefcount;

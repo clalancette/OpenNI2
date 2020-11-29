@@ -41,7 +41,7 @@ protected:
 
 private:
 	uint32_t m_nState;
-	XnUInt16 m_nShift;
+	uint16_t m_nShift;
 };
 
 }

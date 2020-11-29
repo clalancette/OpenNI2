@@ -62,7 +62,7 @@ typedef struct XnShiftToDepthTables
 	/** The number of entries in the shift-to-depth table. */
 	uint32_t nShiftsCount;
 	/** The depth-to-shift table. */
-	XnUInt16* pDepthToShiftTable;
+	uint16_t* pDepthToShiftTable;
 	/** The number of entries in the depth-to-shift table. */
 	uint32_t nDepthsCount;
 } XnShiftToDepthTables;
@@ -78,7 +78,7 @@ enum OpticsRelationShip
 //---------------------------------------------------------------------------
 XnStatus XnShiftToDepthInit(XnShiftToDepthTables* pShiftToDepth, const XnShiftToDepthConfig* pConfig);
 XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShiftToDepthConfig* pConfig);
-XnStatus XnShiftToDepthConvert(XnShiftToDepthTables* pShiftToDepth, XnUInt16* pInput, uint32_t nInputSize, OniDepthPixel* pOutput);
+XnStatus XnShiftToDepthConvert(XnShiftToDepthTables* pShiftToDepth, uint16_t* pInput, uint32_t nInputSize, OniDepthPixel* pOutput);
 XnStatus XnShiftToDepthFree(XnShiftToDepthTables* pShiftToDepth);
 
 #endif // XNSHIFTTODEPTH_H
