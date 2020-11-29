@@ -102,7 +102,7 @@ XnStatus XnSensorImageStream::Init()
 	XN_IS_STATUS_OK(nRetVal);
 
 	double fZPPS = m_Helper.GetFixedParams()->GetZeroPlanePixelSize();
-	XnInt nZPD = m_Helper.GetFixedParams()->GetZeroPlaneDistance();
+	int nZPD = m_Helper.GetFixedParams()->GetZeroPlaneDistance();
 
 	nRetVal = m_HorizontalFOV.UnsafeUpdateValue(2*atan(fZPPS*XN_SXGA_X_RES/2/nZPD));
 	XN_IS_STATUS_OK(nRetVal);

@@ -243,7 +243,7 @@ XN_C_API void xnOSWriteMemoryReport(const XnChar* csFileName)
 				xnOSStrFormat(csReportLine + nReportLength, nReportLineMaxSize - nReportLength, &nChars, "Callstack:\n");
 				nReportLength += nChars;
 
-				for (XnInt i = 0; i < pNode->Data.nFrames; ++i)
+				for (int i = 0; i < pNode->Data.nFrames; ++i)
 				{
 					xnOSStrFormat(csReportLine + nReportLength, nReportLineMaxSize - nReportLength, &nChars, "\t%s\n", pNode->Data.aFrames[i]);
 					nReportLength += nChars;

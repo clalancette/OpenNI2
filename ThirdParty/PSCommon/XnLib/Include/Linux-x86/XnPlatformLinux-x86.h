@@ -60,8 +60,6 @@ typedef	unsigned char		XnUChar;
 /** Signed wide character for strings. */
 typedef	wchar_t				XnWChar;
 
-/** natural signed integer. */
-typedef	int					XnInt;
 /** natural unsigned integer. */
 typedef	unsigned int		XnUInt;
 

@@ -38,7 +38,7 @@
 typedef	void* XN_HANDLE;
 
 /** A file handle type. */
-typedef XnInt XN_FILE_HANDLE;
+typedef int XN_FILE_HANDLE;
 
 /** The value of an invalid file handle. */
 #define XN_INVALID_FILE_HANDLE -1

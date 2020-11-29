@@ -61,7 +61,7 @@ XnIntPropertySynchronizer::~XnIntPropertySynchronizer()
 XnStatus XN_CALLBACK_TYPE IntPropertyValueChangedCallback(const XnProperty* pSender, void* pCookie)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	
+
 	// get the property current value
 	XnIntProperty* pIntProp = (XnIntProperty*)pSender;
 
@@ -107,7 +107,6 @@ XnStatus XnIntPropertySynchronizer::RegisterSynchronization(XnIntProperty* pSour
 		m_Cookies.erase(m_Cookies.begin());
 		return (nRetVal);
 	}
-	
+
 	return (XN_STATUS_OK);
 }
-
