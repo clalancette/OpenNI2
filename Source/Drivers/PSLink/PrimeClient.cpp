@@ -717,7 +717,7 @@ XnStatus PrimeClient::GetBootStatus(XnBootStatus& bootStatus)
 	return m_linkControlEndpoint.GetBootStatus(bootStatus);
 }
 
-XnStatus PrimeClient::EnableProjectorPulse(XnFloat delay, XnFloat width, XnFloat cycle)
+XnStatus PrimeClient::EnableProjectorPulse(float delay, float width, float cycle)
 {
 	return m_linkControlEndpoint.SetProjectorPulse(TRUE, delay, width, cycle);
 }
@@ -727,7 +727,7 @@ XnStatus PrimeClient::DisableProjectorPulse()
 	return m_linkControlEndpoint.SetProjectorPulse(FALSE, 0, 0, 0);
 }
 
-XnStatus PrimeClient::GetProjectorPulse(XnBool& enabled, XnFloat& delay, XnFloat& width, XnFloat& framesToskip)
+XnStatus PrimeClient::GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip)
 {
 	return m_linkControlEndpoint.GetProjectorPulse(enabled, delay, width, framesToskip);
 }

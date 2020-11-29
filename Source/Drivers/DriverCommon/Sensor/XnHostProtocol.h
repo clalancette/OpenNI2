@@ -255,7 +255,7 @@ typedef struct XnHostProtocolGMCLastConfData
 {
 	XnInt16 nLast;
 	XnUInt16 nRICCLast;
-	XnFloat fRICC_IIR;
+	float fRICC_IIR;
 } XnHostProtocolGMCLastConfData;
 
 typedef enum XnHostProtocolGMCMode
@@ -269,9 +269,9 @@ typedef struct XnHostProtocolGMCLastPacketData
 	XnUInt16 m_GMCMode;
 	XnUInt16 m_CoveragePass;
 	XnHostProtocolGMCLastConfData m_LastConfData;
-	XnFloat m_A;
-	XnFloat m_B;
-	XnFloat m_C;
+	float m_A;
+	float m_B;
+	float m_C;
 	XnInt16 m_N;
 	XnUInt16 m_RICC;
 	uint32_t m_StartB;
@@ -288,8 +288,8 @@ typedef struct XnBestTecConf
 
 typedef struct XnWavelengthCorrectionDebugPacket
 {
-	XnFloat fBLast;
-	XnFloat fBCurrent;
+	float fBLast;
+	float fBCurrent;
 	XnUInt16 nIsHop;
 	uint32_t nCurrentSlidingWindow;
 	XnUInt16 nCurrentHopsCount;

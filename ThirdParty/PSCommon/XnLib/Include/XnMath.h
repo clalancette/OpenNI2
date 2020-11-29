@@ -33,7 +33,7 @@ namespace xnl
 		{
 			return abs(i);
 		}
-		inline XnFloat Abs(XnFloat f)
+		inline float Abs(float f)
 		{
 			return fabs(f);
 		}
@@ -42,11 +42,11 @@ namespace xnl
 		{
 			return Abs(value) < tolerance;
 		}
-		inline XnFloat Sqr(XnFloat f)
+		inline float Sqr(float f)
 		{
 			return f*f;
 		}
-		inline XnFloat Sqrt(XnFloat f)
+		inline float Sqrt(float f)
 		{
 			return sqrt(f);
 		}
@@ -150,17 +150,17 @@ namespace xnl
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
-		static const XnFloat ONE_THIRD = (XnFloat)(1.0f/3.0f);
-		static const XnFloat ONE_SIXTH = (XnFloat)(1.0f/6.0f);
-		static const XnFloat ROOT_TWO = (XnFloat)Sqrt(2.0f);
-		static const XnFloat ROOT_THREE = (XnFloat)Sqrt(3.0f);
-		static const XnFloat PI = (XnFloat)M_PI;
-		static const XnFloat HALF_PI = (XnFloat)(0.5f*M_PI);
-		static const XnFloat TWO_PI = (XnFloat)(2.0f*M_PI);
-		static const XnFloat ROOT_TWO_PI = (XnFloat)Sqrt(2.0f*M_PI);
-		static const XnFloat DTR = (XnFloat)(M_PI / 180.0f);
-		static const XnFloat RTD = (XnFloat)(180.0f / M_PI);
-		static const XnFloat PHI = (XnFloat)((-1.0f + Sqrt(5.0f)) / 2.0f);
+		static const float ONE_THIRD = (float)(1.0f/3.0f);
+		static const float ONE_SIXTH = (float)(1.0f/6.0f);
+		static const float ROOT_TWO = (float)Sqrt(2.0f);
+		static const float ROOT_THREE = (float)Sqrt(3.0f);
+		static const float PI = (float)M_PI;
+		static const float HALF_PI = (float)(0.5f*M_PI);
+		static const float TWO_PI = (float)(2.0f*M_PI);
+		static const float ROOT_TWO_PI = (float)Sqrt(2.0f*M_PI);
+		static const float DTR = (float)(M_PI / 180.0f);
+		static const float RTD = (float)(180.0f / M_PI);
+		static const float PHI = (float)((-1.0f + Sqrt(5.0f)) / 2.0f);
 
 	} // Math
 } // xnl

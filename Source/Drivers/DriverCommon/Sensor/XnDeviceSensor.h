@@ -172,8 +172,8 @@ typedef struct XnDeviceSensorGMCPoint
 
 typedef struct XnCmosBlankingCoefficients
 {
-	XnFloat fA;
-	XnFloat fB;
+	float fA;
+	float fB;
 } XnCmosBlankingCoefficients;
 
 typedef struct XnCmosBlankingInformation
@@ -226,7 +226,7 @@ typedef struct XnDevicePrivateData
 	XnSpecificUsbDevice* pSpecificImageUsb;
 	XnSpecificUsbDevice* pSpecificMiscUsb;
 
-	XnFloat fDeviceFrequency;
+	float fDeviceFrequency;
 
 	/** Keeps the global reference TS (the one marking time-zero). */
 	uint32_t nGlobalReferenceTS;
@@ -293,10 +293,10 @@ typedef struct XnFixedParams
 
 	// Geometry
 	int32_t nIrCmosCloseToProjector;
-	XnFloat fDCmosEmitterDistance;
-	XnFloat fDCmosRCmosDistance;
-	XnFloat fReferenceDistance;
-	XnFloat fReferencePixelSize;
+	float fDCmosEmitterDistance;
+	float fDCmosRCmosDistance;
+	float fReferenceDistance;
+	float fReferencePixelSize;
 
 	// Clocks
 	int32_t nPllValue;
@@ -354,10 +354,10 @@ typedef struct XnFixedParamsV26
 
 	// Geometry
 	int32_t nIrCmosCloseToProjector;
-	XnFloat fDCmosEmitterDistance;
-	XnFloat fDCmosRCmosDistance;
-	XnFloat fReferenceDistance;
-	XnFloat fReferencePixelSize;
+	float fDCmosEmitterDistance;
+	float fDCmosRCmosDistance;
+	float fReferenceDistance;
+	float fReferencePixelSize;
 
 	// Clocks
 	int32_t nPllValue;
@@ -412,10 +412,10 @@ typedef struct XnFixedParamsV20
 
 	// Geometry
 	int32_t nIrCmosCloseToProjector;
-	XnFloat fDCmosEmitterDistance;
-	XnFloat fDCmosRCmosDistance;
-	XnFloat fReferenceDistance;
-	XnFloat fReferencePixelSize;
+	float fDCmosEmitterDistance;
+	float fDCmosRCmosDistance;
+	float fReferenceDistance;
+	float fReferencePixelSize;
 
 	// Clocks
 	int32_t nPllValue;
@@ -487,7 +487,7 @@ typedef struct XnDepthInformation
 
 typedef struct XnFrequencyInformation
 {
-	XnFloat fDeviceFrequency;
+	float fDeviceFrequency;
 } XnFrequencyInformation;
 
 typedef struct XnAudioSharedBuffer

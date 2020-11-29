@@ -185,7 +185,7 @@ XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* c
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnFloat* fDest)
+XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, float* fDest)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_OUTPUT_PTR(fDest);
@@ -194,7 +194,7 @@ XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cp
 	XnStatus nRetVal = xnOSReadDoubleFromINI(cpINIFile, cpSection, cpKey, &dTemp);
 	XN_IS_STATUS_OK(nRetVal);
 
-	*fDest = (XnFloat)dTemp;
+	*fDest = (float)dTemp;
 
 	return XN_STATUS_OK;
 }
@@ -252,7 +252,7 @@ XN_C_API XnStatus xnOSWriteStringToINI(const XnChar* /*cpINIFile*/, const XnChar
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnOSWriteFloatToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const XnFloat /*fSrc*/)
+XN_C_API XnStatus xnOSWriteFloatToINI(const XnChar* /*cpINIFile*/, const XnChar* /*cpSection*/, const XnChar* /*cpKey*/, const float /*fSrc*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }

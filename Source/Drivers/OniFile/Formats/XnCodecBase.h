@@ -76,7 +76,7 @@ public:
 	}
 
 	virtual uint32_t GetOverheadSize() const = 0;
-	virtual XnFloat GetWorseCompressionRatio() const = 0;
+	virtual float GetWorseCompressionRatio() const = 0;
 
 protected:
 	virtual XnStatus CompressImpl(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize) = 0;

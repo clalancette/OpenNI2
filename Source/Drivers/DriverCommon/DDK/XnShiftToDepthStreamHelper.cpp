@@ -157,12 +157,12 @@ XnStatus XnShiftToDepthStreamHelper::GetShiftToDepthConfig(XnShiftToDepthConfig&
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_ZERO_PLANE_PIXEL_SIZE, &dTemp);
 	XN_IS_STATUS_OK(nRetVal);
 
-	Config.fZeroPlanePixelSize = (XnFloat)dTemp;
+	Config.fZeroPlanePixelSize = (float)dTemp;
 
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_EMITTER_DCMOS_DISTANCE, &dTemp);
 	XN_IS_STATUS_OK(nRetVal);
 
-	Config.fEmitterDCmosDistance = (XnFloat)dTemp;
+	Config.fEmitterDCmosDistance = (float)dTemp;
 
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_MAX_SHIFT, &nTemp);
 	XN_IS_STATUS_OK(nRetVal);

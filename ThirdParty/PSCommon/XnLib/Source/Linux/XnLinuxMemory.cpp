@@ -153,10 +153,10 @@ XN_C_API XnUInt16 xnOSEndianSwapUINT16(XnUInt16 nValue)
 {
 	return ((nValue>>8) | (nValue<<8));
 }
-XN_C_API XnFloat xnOSEndianSwapFLOAT(XnFloat fValue)
+XN_C_API float xnOSEndianSwapFLOAT(float fValue)
 {
 	uint32_t* pnValue = (uint32_t*)&fValue;
 	uint32_t nValue = xnOSEndianSwapUINT32(*pnValue);
-	XnFloat* pfValue = (XnFloat*)&nValue;
+	float* pfValue = (float*)&nValue;
 	return *pfValue;
 }

@@ -37,7 +37,7 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 {
 	const XnShiftToDepthTables* pTables = NULL;
 	XnStatus nRetVal;
-	XnFloat fValue = 0;
+	float fValue = 0;
 	uint32_t nTableSize;
 
 	switch (propertyId)
@@ -81,19 +81,19 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 	// real props
 	//TODO: consider moving these two to MapStream
 	case ONI_STREAM_PROPERTY_HORIZONTAL_FOV:
-		ENSURE_PROP_SIZE(*pDataSize, XnFloat);
+		ENSURE_PROP_SIZE(*pDataSize, float);
 		m_pInputStream->GetFieldOfView(&fValue, NULL);
 		ASSIGN_PROP_VALUE_FLOAT(data, *pDataSize, fValue);
 		break;
 
 	case ONI_STREAM_PROPERTY_VERTICAL_FOV:
-		ENSURE_PROP_SIZE(*pDataSize, XnFloat);
+		ENSURE_PROP_SIZE(*pDataSize, float);
 		m_pInputStream->GetFieldOfView(NULL, &fValue);
 		ASSIGN_PROP_VALUE_FLOAT(data, *pDataSize, fValue);
 		break;
 
 	case LINK_PROP_ZERO_PLANE_PIXEL_SIZE:
-		ENSURE_PROP_SIZE(*pDataSize, XnFloat);
+		ENSURE_PROP_SIZE(*pDataSize, float);
 		ASSIGN_PROP_VALUE_FLOAT(data, *pDataSize, m_pInputStream->GetShiftToDepthConfig().fZeroPlanePixelSize);
 		break;
 
@@ -103,7 +103,7 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 		break;
 
 	case LINK_PROP_EMITTER_DEPTH_CMOS_DISTANCE:
-		ENSURE_PROP_SIZE(*pDataSize, XnFloat);
+		ENSURE_PROP_SIZE(*pDataSize, float);
 		ASSIGN_PROP_VALUE_FLOAT(data, *pDataSize, m_pInputStream->GetShiftToDepthConfig().fEmitterDCmosDistance);
 		break;
 

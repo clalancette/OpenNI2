@@ -40,7 +40,7 @@ public:
 	XnCodecID GetCodecID() const override { return XN_CODEC_16Z_EMB_TABLES; }
 	XnCompressionFormats GetCompressionFormat() const override { return XN_COMPRESSION_16Z_EMB_TABLE; }
 
-	XnFloat GetWorseCompressionRatio() const override { return XN_STREAM_COMPRESSION_DEPTH16Z_WORSE_RATIO; }
+	float GetWorseCompressionRatio() const override { return XN_STREAM_COMPRESSION_DEPTH16Z_WORSE_RATIO; }
 	uint32_t GetOverheadSize() const override { return m_nMaxValue * sizeof(XnUInt16); }
 
 private:

@@ -39,7 +39,7 @@ public:
 	XnCodecID GetCodecID() const override { return XN_CODEC_UNCOMPRESSED; }
 
 	XnCompressionFormats GetCompressionFormat() const override { return XN_COMPRESSION_NONE; }
-	XnFloat GetWorseCompressionRatio() const override { return 1.0; }
+	float GetWorseCompressionRatio() const override { return 1.0; }
 	uint32_t GetOverheadSize() const override { return 0; }
 
 private:

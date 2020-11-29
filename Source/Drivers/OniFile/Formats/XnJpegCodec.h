@@ -64,7 +64,7 @@ public:
 	}
 
 	XnCompressionFormats GetCompressionFormat() const override { return XN_COMPRESSION_JPEG; }
-	XnFloat GetWorseCompressionRatio() const override { return XN_STREAM_COMPRESSION_IMAGEJ_WORSE_RATIO; }
+	float GetWorseCompressionRatio() const override { return XN_STREAM_COMPRESSION_IMAGEJ_WORSE_RATIO; }
 	uint32_t GetOverheadSize() const override { return 0; }
 
 private:

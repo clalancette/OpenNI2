@@ -36,9 +36,9 @@ typedef struct XnShiftToDepthConfig
 	/** The zero plane distance in depth units. */
 	OniDepthPixel nZeroPlaneDistance;
 	/** The zero plane pixel size */
-	XnFloat fZeroPlanePixelSize;
+	float fZeroPlanePixelSize;
 	/** The distance between the emitter and the Depth Cmos */
-	XnFloat fEmitterDCmosDistance;
+	float fEmitterDCmosDistance;
 	/** The maximum possible shift value from this device. */
 	uint32_t nDeviceMaxShiftValue;
 	/** The maximum possible depth from this device (as opposed to a cut-off). */

@@ -110,9 +110,9 @@ typedef struct XnLinkShiftToDepthConfig
 	XnUInt16 nZeroPlaneDistance;
 	XnUInt16 m_nReserved;
 	/** The zero plane pixel size */
-	XnFloat fZeroPlanePixelSize;
+	float fZeroPlanePixelSize;
 	/** The distance between the emitter and the Depth Cmos */
-	XnFloat fEmitterDCmosDistance;
+	float fEmitterDCmosDistance;
 	/** The maximum possible shift value from this device. */
 	uint32_t nDeviceMaxShiftValue;
 	/** The maximum possible depth from this device (as opposed to a cut-off). */
@@ -134,9 +134,9 @@ typedef struct XnLinkSerialNumber
 
 typedef struct XnLinkPoint3D
 {
-	XnFloat m_fX;
-	XnFloat m_fY;
-	XnFloat m_fZ;
+	float m_fX;
+	float m_fY;
+	float m_fZ;
 } XnLinkPoint3D;
 
 typedef struct XnLinkBoundingBox3D
@@ -179,7 +179,7 @@ typedef struct XnLinkGestureRecognizedEventArgs
 typedef struct XnLinkGestureProgressEventArgs
 {
 	XnLinkPoint3D m_position;
-	XnFloat m_fProgress;
+	float m_fProgress;
 } XnLinkGestureProgressEventArgs;
 
 typedef struct XnLinkGestureIntermediateStageEventArgs
@@ -218,9 +218,9 @@ typedef struct XnLinkUserJointData
 {
 	uint32_t m_nJointID;
 	XnLinkPoint3D m_position;
-	XnFloat m_fPositionConfidence;
-	XnFloat m_afOrientation[9];
-	XnFloat m_fOrientationConfidence;
+	float m_fPositionConfidence;
+	float m_afOrientation[9];
+	float m_fOrientationConfidence;
 } XnLinkUserJointData;
 
 typedef struct XnLinkUserTrackingElement
@@ -416,7 +416,7 @@ typedef struct XnLinkComponentVersionsList
 
 typedef struct XnLinkAccCurentParam
 {
-	XnFloat m_nTemperature;
+	float m_nTemperature;
 	uint32_t m_nLutTabLine;
 	XnUInt16 m_nValueDC;
 	XnUInt16 m_nValueDac;
@@ -433,7 +433,7 @@ typedef struct XnLinkCameraIntrinsics
 {
 	XnUInt16 m_nOpticalCenterX;
 	XnUInt16 m_nOpticalCenterY;
-	XnFloat m_fEffectiveFocalLengthInPixels;
+	float m_fEffectiveFocalLengthInPixels;
 } XnLinkCameraIntrinsics;
 
 typedef struct XnLinkI2CDevice
@@ -467,9 +467,9 @@ typedef struct XnLinkProjectorPulse
 {
 	XnUInt16 m_bEnabled;
 	XnUInt16 m_nReserved;
-	XnFloat  m_nDelay; // Delay between frame start and the start of pulse, in milliseconds
-	XnFloat  m_nWidth; // Pulse width, in milliseconds
-	XnFloat  m_nCycle; // in pulse mode: number of frames to skip between projector pulses, from pulse start to next pulse start. in PWM : Cycle time
+	float  m_nDelay; // Delay between frame start and the start of pulse, in milliseconds
+	float  m_nWidth; // Pulse width, in milliseconds
+	float  m_nCycle; // in pulse mode: number of frames to skip between projector pulses, from pulse start to next pulse start. in PWM : Cycle time
 } XnLinkProjectorPulse;
 
 typedef struct XnLinkTemperatureSensor
@@ -616,7 +616,7 @@ typedef struct XnLinkGetDebugDataParams
 typedef struct XnLinkTemperatureResponse
 {
 	uint32_t m_nID;
-	XnFloat value;
+	float value;
 } XnLinkTemperatureResponse;
 
 typedef struct XnLinkResponseInfo

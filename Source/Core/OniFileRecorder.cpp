@@ -811,7 +811,7 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 
 	XN_DELETE_ARR(pVideoModes);
 
-	size = sizeof(XnFloat);
+	size = sizeof(float);
 	float vdummy, hdummy;
 	if (pStream->getProperty(ONI_STREAM_PROPERTY_HORIZONTAL_FOV, &hdummy, &size) == ONI_STATUS_OK &&
 		pStream->getProperty(ONI_STREAM_PROPERTY_VERTICAL_FOV,   &vdummy, &size) == ONI_STATUS_OK )

@@ -1417,9 +1417,9 @@ bool GetTecData(openni::Device& Device, std::vector<std::string>& /*Command*/)
 bool GetTecFastConvergenceData(openni::Device& Device, std::vector<std::string>& /*Command*/)
 {
 	XnTecFastConvergenceData TecData;
-    XnFloat     SetPointTemperature;
-    XnFloat     MeasuredTemperature;
-    XnFloat     ErrorTemperature;
+    float     SetPointTemperature;
+    float     MeasuredTemperature;
+    float     ErrorTemperature;
 
 	openni::Status rc = Device.getProperty(XN_MODULE_PROPERTY_TEC_FAST_CONVERGENCE_STATUS, &TecData);
 	if (rc != openni::STATUS_OK)
@@ -1432,7 +1432,7 @@ bool GetTecFastConvergenceData(openni::Device& Device, std::vector<std::string>&
         MeasuredTemperature = TecData.m_MeasuredTemperature;
         /* calculate error in temperature */
         ErrorTemperature =
-            (XnFloat)TecData.m_SetPointTemperature - (XnFloat)TecData.m_MeasuredTemperature;
+            (float)TecData.m_SetPointTemperature - (float)TecData.m_MeasuredTemperature;
 
         /* scale back temperature values, as they are given scaled by factor
         of 100 (for precision) */

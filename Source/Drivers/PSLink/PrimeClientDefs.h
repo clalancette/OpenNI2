@@ -48,7 +48,7 @@
 
 #define ASSIGN_PROP_VALUE_FLOAT(pDst, dstSize, value)  \
 	if     (dstSize == 8) *(XnDouble*)pDst = (XnDouble)(value); \
-	else if(dstSize == 4) *(XnFloat*) pDst = (XnFloat) (value);
+	else if(dstSize == 4) *(float*) pDst = (float) (value);
 
 #define GET_PROP_VALUE_INT(dest, data, dataSize)	\
 	if      (dataSize == 8) dest = (int)*(int64_t*)data;	\

@@ -52,7 +52,7 @@ XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* c
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnFloat* fDest)
+XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, float* fDest)
 {
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
@@ -79,7 +79,7 @@ XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cp
 	}
 
 	// Convert the string into float
-	*fDest = (XnFloat)atof(cpTempBuffer);
+	*fDest = (float)atof(cpTempBuffer);
 
 	// All is good...
 	return (XN_STATUS_OK);
@@ -180,7 +180,7 @@ XN_C_API XnStatus xnOSWriteStringToINI(const XnChar* cpINIFile, const XnChar* cp
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSWriteFloatToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnFloat fSrc)
+XN_C_API XnStatus xnOSWriteFloatToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const float fSrc)
 {
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];

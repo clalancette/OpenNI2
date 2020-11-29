@@ -119,9 +119,9 @@ public:
 	virtual XnStatus GetFileList(std::vector<XnFwFileEntry>& files);
 	virtual XnStatus DownloadFile(XnUInt16 zone, const XnChar* strFirmwareFileName, const XnChar* strTargetFile);
 
-	virtual XnStatus EnableProjectorPulse(XnFloat delay, XnFloat width, XnFloat cycle);
+	virtual XnStatus EnableProjectorPulse(float delay, float width, float cycle);
 	virtual XnStatus DisableProjectorPulse();
-	virtual XnStatus GetProjectorPulse(XnBool& enabled, XnFloat& delay, XnFloat& width, XnFloat& framesToskip);
+	virtual XnStatus GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip);
 	virtual XnStatus SetProjectorPower(XnUInt16 power);
 	virtual XnStatus GetProjectorPower(XnUInt16& power);
 

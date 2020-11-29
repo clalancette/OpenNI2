@@ -115,8 +115,8 @@ public:
 	XnStatus GetSupportedLogFiles(std::vector<XnLinkLogFile>& supportedFiles);
 	XnStatus OpenFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID);
 	XnStatus CloseFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamID);
-	XnStatus SetProjectorPulse(XnBool enabled, XnFloat delay, XnFloat width, XnFloat cycle);
-	XnStatus GetProjectorPulse(XnBool& enabled, XnFloat& delay, XnFloat& width, XnFloat& framesToskip);
+	XnStatus SetProjectorPulse(XnBool enabled, float delay, float width, float cycle);
+	XnStatus GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip);
 	XnStatus SetProjectorPower(XnUInt16 power);
 	XnStatus GetProjectorPower(XnUInt16& power);
 	XnStatus SetGain(XnUInt16 streamID, XnUInt16 gain);

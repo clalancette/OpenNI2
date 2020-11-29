@@ -1161,7 +1161,7 @@ void drawDepth(IntRect* pLocation, IntPair* pPointer)
 					nRed = nGreen = g_pDepthHist[*pDepth]*255;
 					break;
 				case PSYCHEDELIC_SHADES:
-					nAlpha *= (((XnFloat)(*pDepth % 10) / 20) + 0.5);
+					nAlpha *= (((float)(*pDepth % 10) / 20) + 0.5);
 					/* fallthrough */
 				case PSYCHEDELIC:
 

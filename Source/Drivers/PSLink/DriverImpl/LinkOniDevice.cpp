@@ -1307,7 +1307,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandSetProjectorPulse* pArgs = reinterpret_cast<XnCommandSetProjectorPulse*>(data);
-			nRetVal = m_pSensor->EnableProjectorPulse((XnFloat)pArgs->delay, (XnFloat)pArgs->width, (XnFloat)pArgs->cycle);
+			nRetVal = m_pSensor->EnableProjectorPulse((float)pArgs->delay, (float)pArgs->width, (float)pArgs->cycle);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Enable projector pulse", nRetVal, ONI_STATUS_ERROR);
 		}
 		break;

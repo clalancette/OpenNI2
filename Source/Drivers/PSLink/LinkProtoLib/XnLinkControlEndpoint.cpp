@@ -1897,7 +1897,7 @@ XnStatus LinkControlEndpoint::CloseFWLogFile(XnUInt8 logID, XnUInt16 nLogStreamI
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::SetProjectorPulse(XnBool enabled, XnFloat delay, XnFloat width, XnFloat cycle)
+XnStatus LinkControlEndpoint::SetProjectorPulse(XnBool enabled, float delay, float width, float cycle)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1917,7 +1917,7 @@ XnStatus LinkControlEndpoint::SetProjectorPulse(XnBool enabled, XnFloat delay, X
 	return XN_STATUS_OK;
 }
 
-XnStatus LinkControlEndpoint::GetProjectorPulse(XnBool& enabled, XnFloat& delay, XnFloat& width, XnFloat& framesToskip)
+XnStatus LinkControlEndpoint::GetProjectorPulse(XnBool& enabled, float& delay, float& width, float& framesToskip)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1938,7 +1938,7 @@ XnStatus LinkControlEndpoint::GetProjectorPulse(XnBool& enabled, XnFloat& delay,
 	enabled = (pulse.m_bEnabled != 0);
 	delay = XN_PREPARE_VAR_FLOAT_IN_BUFFER(pulse.m_nDelay);
 	width = XN_PREPARE_VAR16_IN_BUFFER(pulse.m_nWidth);
-	framesToskip = XnFloat(pulse.m_nCycle);
+	framesToskip = float(pulse.m_nCycle);
 
 	return XN_STATUS_OK;
 }

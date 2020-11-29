@@ -764,8 +764,8 @@ XnStatus LinkFrameInputStream::UpdateCameraIntrinsics()
 	nRetVal = m_pLinkControlEndpoint->GetCameraIntrinsics(m_nStreamID, m_cameraIntrinsics);
 	XN_IS_STATUS_OK_LOG_ERROR("Get Camera Intrinsics", nRetVal);
 
-	m_fHFOV = (XnFloat)(2 * atan(m_videoMode.m_nXRes / 2. / m_cameraIntrinsics.m_fEffectiveFocalLengthInPixels));
-	m_fVFOV = (XnFloat)(2 * atan(m_videoMode.m_nYRes / 2. / m_cameraIntrinsics.m_fEffectiveFocalLengthInPixels));
+	m_fHFOV = (float)(2 * atan(m_videoMode.m_nXRes / 2. / m_cameraIntrinsics.m_fEffectiveFocalLengthInPixels));
+	m_fVFOV = (float)(2 * atan(m_videoMode.m_nYRes / 2. / m_cameraIntrinsics.m_fEffectiveFocalLengthInPixels));
 
 	xnLogVerbose(XN_MASK_LINK, "Stream %u intrinsics - EFL: %.2f, Optic Center: (%u,%u), Field-of-View: %.1fx%.1f",
 		m_nStreamID,

@@ -24,7 +24,7 @@ namespace xnl
 {
 
 Vector3D Vector3D::Zero() {return Vector3D(0,0,0);}
-Vector3D Vector3D::All(XnFloat f) {return Vector3D(f,f,f);}
+Vector3D Vector3D::All(float f) {return Vector3D(f,f,f);}
 
 Vector3D Vector3D::Up() {return Vector3D(0,1,0);}
 Vector3D Vector3D::Down() {return Vector3D(0,-1,0);}
@@ -32,7 +32,7 @@ Vector3D Vector3D::Right() {return Vector3D(1,0,0);}
 Vector3D Vector3D::Left() {return Vector3D(-1,0,0);}
 
 
-XnFloat Vector3D::GetTolerance() const {return m_tolerance;}
-void Vector3D::SetTolerance(XnFloat tolerance) {m_tolerance = tolerance;}
+float Vector3D::GetTolerance() const {return m_tolerance;}
+void Vector3D::SetTolerance(float tolerance) {m_tolerance = tolerance;}
 
 }  // XnLib
