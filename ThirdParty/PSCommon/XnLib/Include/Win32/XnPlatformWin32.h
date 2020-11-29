@@ -86,9 +86,6 @@ typedef	char				XnChar;
 /** Unsigned character for strings. */
 typedef	unsigned char		XnUChar;
 
-/** Signed wide character for strings. */
-typedef	wchar_t				XnWChar;
-
 /** Far procedures type (for shared libraries functions). */
 typedef FARPROC				XnFarProc;
 

@@ -1295,9 +1295,6 @@ XnStatus XnHostProtocolGetLog(XnDevicePrivateData* pDevicePrivateData, XnChar* c
 
 		if (pLogEntryHeader->nLogType == pDevicePrivateData->FWInfo.nLogStringType)
 		{
-			// text messages are in wide characters
-			//XnWChar wcsMessage[600] = {0};
-
 			if (pLogEntryHeader->nEntrySize*sizeof(uint16_t) > 600)
 			{
 				xnLogError(XN_MASK_SENSOR_PROTOCOL, "Got a log entry with %d bytes!", pLogEntryHeader->nEntrySize*sizeof(uint16_t));

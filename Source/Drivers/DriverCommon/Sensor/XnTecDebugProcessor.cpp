@@ -54,7 +54,7 @@ void XnTecDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeade
 
 	if (m_pDevicePrivateData->pSensor->IsTecDebugPring())
 	{
-		printf("%S\n", (XnWChar*)pData);
+		printf("%S\n", (wchar_t*)pData);
 	}
 }
 
