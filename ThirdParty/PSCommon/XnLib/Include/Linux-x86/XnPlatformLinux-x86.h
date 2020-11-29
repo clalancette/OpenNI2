@@ -60,9 +60,6 @@ typedef	unsigned char		XnUChar;
 /** Signed wide character for strings. */
 typedef	wchar_t				XnWChar;
 
-/** natural unsigned integer. */
-typedef	unsigned int		XnUInt;
-
 /** Far procedures type (for shared libraries functions). */
 typedef void (*XnFarProc)(void *);
 

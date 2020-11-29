@@ -571,8 +571,8 @@ typedef struct XnSupportedPixelFormats
 	bool m_bGrayscale8Bit : 1;
 	bool m_bGrayscale16Bit : 1;
 	bool m_bMJPEG : 1;
-	XnUInt m_nPadding : 3;
-	XnUInt m_nReserved : 24;
+	unsigned int m_nPadding : 3;
+	unsigned int m_nReserved : 24;
 } XnSupportedPixelFormats;
 
 XnPixelFormat toXnPixelFormat(OniPixelFormat oniFormat)

@@ -763,7 +763,7 @@ XnStatus XnHostProtocolUSBSend(const XnDevicePrivateData* pDevicePrivateData,
 }
 
 XnStatus XnHostProtocolUSBReceive(const XnDevicePrivateData* pDevicePrivateData,
-								  XnUChar* pBuffer, XnUInt nSize, uint32_t& nRead, uint32_t nTimeOut, bool bForceBulk, uint32_t nFailTimeout)
+								  XnUChar* pBuffer, unsigned int nSize, uint32_t& nRead, uint32_t nTimeOut, bool bForceBulk, uint32_t nFailTimeout)
 {
 	XnStatus nRetVal;
 	uint64_t nMaxTime;
@@ -1243,7 +1243,7 @@ XnStatus XnHostProtocolGetLog(XnDevicePrivateData* pDevicePrivateData, XnChar* c
 
 	XnUChar allLogBuffer[XN_MAX_LOG_SIZE];
 
-	XnUInt nAllLogBytes = 0;
+	unsigned int nAllLogBytes = 0;
 
 	// loop until no more log is available
 	for (;;)
@@ -2312,7 +2312,7 @@ XnStatus XnHostProtocolGetFlashMap(XnDevicePrivateData* pDevicePrivateData)
 
 	XnHostProtocolInitHeader(pDevicePrivateData, buffer, 0, pDevicePrivateData->FWInfo.nOpcodeGetFlashMap);
 
-	XnUInt nRead;
+	unsigned int nRead;
 	XnUChar* pRelevantBuffer;
 	uint16_t nDataSize;
 

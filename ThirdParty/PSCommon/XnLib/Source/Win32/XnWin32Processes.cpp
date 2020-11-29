@@ -53,7 +53,7 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, uint32_t nArgs,
 	uint32_t nDummy = 0;
 	xnOSStrFormat(strArguments, nSize, &nDummy, "\"%s\"", strExecutable);
 
-	for (XnUInt i = 0; i < nArgs; ++i)
+	for (unsigned int i = 0; i < nArgs; ++i)
 	{
 		XN_VALIDATE_STR_APPEND(strArguments, " \"", nSize, nRetVal);
 		XN_VALIDATE_STR_APPEND(strArguments, pstrArgs[i], nSize, nRetVal);

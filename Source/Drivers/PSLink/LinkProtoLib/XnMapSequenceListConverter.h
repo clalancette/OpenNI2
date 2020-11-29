@@ -94,7 +94,7 @@ public:
 
 		// Output related data
 		XnUChar*	pCurrOutput = pSeqBuffer;
-		XnUInt		nCurrOutputSize	= 0;
+		unsigned int		nCurrOutputSize	= 0;
 
 		const PixelType*	pColumn = pMap;
 		for (uint32_t x = 0; x < nWidth; x++)
@@ -204,7 +204,7 @@ public:
 				pCurr += sizeof(Sequence);
 
 				// Add offset to x,y
-				XnUInt nNaiveY = nY +  pSeq->nOffset;
+				unsigned int nNaiveY = nY +  pSeq->nOffset;
 				nX += nNaiveY / nHeight;
 				if (nX	>= nWidth)
 					return XN_STATUS_BAD_PARAM;

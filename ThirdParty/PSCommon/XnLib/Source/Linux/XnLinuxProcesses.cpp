@@ -57,7 +57,7 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, uint32_t nArgs,
 	}
 
 	astrArgs[0] = const_cast<char*>(strExecutable);
-	for (XnUInt i = 0; i < nArgs; ++i)
+	for (unsigned int i = 0; i < nArgs; ++i)
 	{
 		astrArgs[i+1] = const_cast<char*>(pstrArgs[i]);
 	}

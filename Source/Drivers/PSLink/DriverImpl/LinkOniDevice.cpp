@@ -758,7 +758,7 @@ OniStatus LinkOniDevice::invoke(int commandId, void* data, int dataSize)
 			}
 
 			XnCommandDownloadFile* pArgs = reinterpret_cast<XnCommandDownloadFile*>(data);
-			nRetVal = m_pSensor->DownloadFile(static_cast<XnUInt>(pArgs->zone),
+			nRetVal = m_pSensor->DownloadFile(static_cast<unsigned int>(pArgs->zone),
 				pArgs->firmwareFileName, pArgs->targetPath);
 			XN_IS_STATUS_OK_LOG_ERROR_RET("Download File", nRetVal, ONI_STATUS_ERROR);
 		}
