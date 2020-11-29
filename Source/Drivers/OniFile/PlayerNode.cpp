@@ -55,9 +55,9 @@ namespace oni_file {
 
 typedef struct XnRealWorldTranslationData
 {
-	XnDouble dZeroPlaneDistance;
-	XnDouble dPixelSizeAtZeroPlane;
-	XnDouble dSourceToDepthPixelRatio;
+	double dZeroPlaneDistance;
+	double dPixelSizeAtZeroPlane;
+	double dSourceToDepthPixelRatio;
 } XnRealWorldTranslationData;
 
 //---------------------------------------------------------------------------

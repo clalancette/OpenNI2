@@ -80,7 +80,7 @@ XnStatus xnFPSMarkFrame(XnFPSData* pFPS, uint64_t nNow /* = 0 */)
 	return XN_STATUS_OK;
 }
 
-XnDouble xnFPSCalc(XnFPSData* pFPS, uint32_t nAverageOver /* = 3000 */, uint64_t nNow /* = 0 */)
+double xnFPSCalc(XnFPSData* pFPS, uint32_t nAverageOver /* = 3000 */, uint64_t nNow /* = 0 */)
 {
 	XN_VALIDATE_INPUT_PTR(pFPS);
 	XnFPSDataImpl* pData = *pFPS;

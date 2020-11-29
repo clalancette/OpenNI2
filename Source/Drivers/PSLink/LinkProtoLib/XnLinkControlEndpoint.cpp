@@ -553,7 +553,7 @@ XnStatus LinkControlEndpoint::DownloadFile(XnUInt16 zone, const XnChar* fwFileNa
 	uint64_t nEndTime;
 	xnOSGetHighResTimeStamp(&nEndTime);
 
-	XnDouble totalTime = (nEndTime - nStartTime)/1e3;
+	double totalTime = (nEndTime - nStartTime)/1e3;
 
 	xnLogVerbose(XN_MASK_LINK, "LINK: Downloaded %u bytes from file %u/%s in %.2f ms (%.2f KB/s)", nFileSize, zone, fwFileName, totalTime, nFileSize / totalTime);
 
@@ -1366,17 +1366,17 @@ XnStatus LinkControlEndpoint::GetIntProperty(XnUInt16 nStreamID, XnLinkPropID pr
 	return (XN_STATUS_OK);
 }
 
-XnStatus LinkControlEndpoint::SetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnDouble dValue)
+XnStatus LinkControlEndpoint::SetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, double dValue)
 {
-	XnDouble dProtocolValue = XN_PREPARE_VAR_FLOAT_IN_BUFFER(dValue);
+	double dProtocolValue = XN_PREPARE_VAR_FLOAT_IN_BUFFER(dValue);
 	return SetProperty(nStreamID, XN_LINK_PROP_TYPE_REAL, propID, sizeof(dProtocolValue), &dProtocolValue);
 }
 
-XnStatus LinkControlEndpoint::GetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnDouble& dValue)
+XnStatus LinkControlEndpoint::GetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, double& dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnDouble dProtocolValue = 0;
+	double dProtocolValue = 0;
 	uint32_t nValueSize = sizeof(dProtocolValue);
 	nRetVal = GetProperty(nStreamID, XN_LINK_PROP_TYPE_REAL, propID, nValueSize, &dProtocolValue);
 	XN_IS_STATUS_OK(nRetVal);

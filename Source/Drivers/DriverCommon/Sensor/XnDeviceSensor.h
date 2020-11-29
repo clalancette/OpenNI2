@@ -137,12 +137,12 @@ typedef struct
 
 typedef struct XnRegistrationFunctionCoefficients
 {
-	XnDouble dA;
-	XnDouble dB;
-	XnDouble dC;
-	XnDouble dD;
-	XnDouble dE;
-	XnDouble dF;
+	double dA;
+	double dB;
+	double dC;
+	double dD;
+	double dE;
+	double dF;
 } XnRegistrationFunctionCoefficients;
 
 typedef struct
@@ -437,7 +437,7 @@ typedef struct XnRegistrationInformation1000
 {
 	XnRegistrationFunctionCoefficients FuncX;
 	XnRegistrationFunctionCoefficients FuncY;
-	XnDouble dBeta;
+	double dBeta;
 } XnRegistrationInformation1000;
 
 typedef struct XnRegistrationInformation1080

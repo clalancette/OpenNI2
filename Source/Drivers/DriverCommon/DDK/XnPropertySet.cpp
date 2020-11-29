@@ -169,7 +169,7 @@ XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModul
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, XnDouble dValue)
+XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, double dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -528,7 +528,7 @@ XnStatus XnPropertySetEnumeratorGetIntValue(const XnPropertySetEnumerator* pEnum
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPropertySetEnumeratorGetRealValue(const XnPropertySetEnumerator* pEnumerator, XnDouble* pdValue)
+XnStatus XnPropertySetEnumeratorGetRealValue(const XnPropertySetEnumerator* pEnumerator, double* pdValue)
 {
 	XN_VALIDATE_INPUT_PTR(pEnumerator);
 	XN_VALIDATE_OUTPUT_PTR(pdValue);

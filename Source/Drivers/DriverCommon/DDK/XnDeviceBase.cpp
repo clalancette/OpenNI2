@@ -474,7 +474,7 @@ XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, XnDouble dValue)
+XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, double dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -530,7 +530,7 @@ XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnDouble* pdValue)
+XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, double* pdValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

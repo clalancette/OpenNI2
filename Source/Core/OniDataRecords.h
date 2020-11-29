@@ -197,7 +197,7 @@ public:
 		uint32_t    nodeId,
 		uint64_t    undoRecordPos,
 		const char* propertyName,
-		XnDouble    data);
+		double    data);
 
 private:
 	void emitCommonHeader(uint32_t recordType, uint32_t nodeId, uint64_t undoRecordPos);

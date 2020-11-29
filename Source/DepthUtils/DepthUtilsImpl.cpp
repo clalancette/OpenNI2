@@ -286,8 +286,8 @@ XnStatus DepthUtilsImpl::TranslateSinglePixel(uint32_t x, uint32_t y, unsigned s
 
 	/////////////////////////////////////
 
-	XnDouble fullXRes = m_colorResolution.x;
-	XnDouble fullYRes;
+	double fullXRes = m_colorResolution.x;
+	double fullYRes;
 	XnBool bCrop = FALSE;
 
 	if ((9 * m_colorResolution.x / m_colorResolution.y) == 16)
@@ -322,20 +322,20 @@ void DepthUtilsImpl::BuildDepthToShiftTable(XnUInt16* pRGBRegDepthToShiftTable, 
 {
 	uint32_t nXScale = m_blob.params1080.cmosVGAOutputXRes / xres;
 	uint32_t nIndex = 0;
-	XnDouble dDepth = 0;
+	double dDepth = 0;
 
 	unsigned short nMaxDepth = MAX_Z;
 
-	XnDouble dPlanePixelSize = m_blob.params1080.zpps;
+	double dPlanePixelSize = m_blob.params1080.zpps;
 
 	uint64_t nPlaneDsr = m_blob.params1080.zpd;
-	XnDouble dPlaneDsr = (XnDouble)nPlaneDsr;
+	double dPlaneDsr = (double)nPlaneDsr;
 
-	XnDouble dDCRCDist = m_blob.params1080.dcrcdist;
+	double dDCRCDist = m_blob.params1080.dcrcdist;
 
-	XnDouble dPelSize = 1.0 / (dPlanePixelSize * nXScale * m_blob.params1080.s2dPelConst);
-	XnDouble dPelDCC = dDCRCDist * dPelSize * m_blob.params1080.s2dPelConst;
-	XnDouble dPelDSR = dPlaneDsr * dPelSize * m_blob.params1080.s2dPelConst;
+	double dPelSize = 1.0 / (dPlanePixelSize * nXScale * m_blob.params1080.s2dPelConst);
+	double dPelDCC = dDCRCDist * dPelSize * m_blob.params1080.s2dPelConst;
+	double dPelDSR = dPlaneDsr * dPelSize * m_blob.params1080.s2dPelConst;
 
 	memset(pRGBRegDepthToShiftTable, 0, nMaxDepth * sizeof(XnInt16));
 
@@ -355,15 +355,15 @@ XnStatus DepthUtilsImpl::BuildRegistrationTable(XnUInt16* pRegTable, Registratio
 
 	BuildDepthToShiftTable(*pDepthToShiftTable, xres);
 
-	XnDouble* RegXTable = XN_NEW_ARR(XnDouble, m_blob.params1080.rgbRegXRes*m_blob.params1080.rgbRegYRes);
-	XnDouble* RegYTable = XN_NEW_ARR(XnDouble, m_blob.params1080.rgbRegXRes*m_blob.params1080.rgbRegYRes);
+	double* RegXTable = XN_NEW_ARR(double, m_blob.params1080.rgbRegXRes*m_blob.params1080.rgbRegYRes);
+	double* RegYTable = XN_NEW_ARR(double, m_blob.params1080.rgbRegXRes*m_blob.params1080.rgbRegYRes);
 
 	XnUInt16 nDepthXRes  = (XnUInt16) xres;
 	XnUInt16 nDepthYRes  = (XnUInt16) yres;
-	XnDouble* pRegXTable = (XnDouble*)RegXTable;
-	XnDouble* pRegYTable = (XnDouble*)RegYTable;
-	XnDouble nNewX = 0;
-	XnDouble nNewY = 0;
+	double* pRegXTable = (double*)RegXTable;
+	double* pRegYTable = (double*)RegYTable;
+	double nNewX = 0;
+	double nNewY = 0;
 
 	// Create the dx dy tables
 	CreateDXDYTables(RegXTable, RegYTable,
@@ -434,7 +434,7 @@ XnStatus DepthUtilsImpl::BuildRegistrationTable(XnUInt16* pRegTable, Registratio
 	return (XN_STATUS_OK);
 }
 
-void DepthUtilsImpl::CreateDXDYTables (XnDouble* RegXTable, XnDouble* RegYTable,
+void DepthUtilsImpl::CreateDXDYTables (double* RegXTable, double* RegYTable,
 	uint32_t resX, uint32_t resY,
 	int64_t AX6, int64_t BX6, int64_t CX2, int64_t DX2,
 	uint32_t deltaBetaX,
@@ -466,7 +466,7 @@ void DepthUtilsImpl::CreateDXDYTables (XnDouble* RegXTable, XnDouble* RegYTable,
 		dYdYdX0, dYdYdY0, startingBetaX, startingBetaY);
 }
 
-void DepthUtilsImpl::CreateDXDYTablesInternal(XnDouble* RegXTable, XnDouble* RegYTable,
+void DepthUtilsImpl::CreateDXDYTablesInternal(double* RegXTable, double* RegYTable,
 	int32_t resX, int32_t resY,
 	int64_t AX6, int64_t BX6, int64_t CX2, int64_t DX2,
 	int32_t deltaBetaX,

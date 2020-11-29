@@ -63,14 +63,14 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 
 	XnUInt16 nIndex = 0;
 	XnInt16  nShiftValue = 0;
-	XnDouble dFixedRefX = 0;
-	XnDouble dMetric = 0;
-	XnDouble dDepth = 0;
-	XnDouble dPlanePixelSize = pConfig->fZeroPlanePixelSize;
-	XnDouble dPlaneDsr = pConfig->nZeroPlaneDistance;
-	XnDouble dPlaneDcl = pConfig->fEmitterDCmosDistance;
+	double dFixedRefX = 0;
+	double dMetric = 0;
+	double dDepth = 0;
+	double dPlanePixelSize = pConfig->fZeroPlanePixelSize;
+	double dPlaneDsr = pConfig->nZeroPlaneDistance;
+	double dPlaneDcl = pConfig->fEmitterDCmosDistance;
 	int32_t nConstShift = pConfig->nParamCoeff * pConfig->nConstShift;
-	XnDouble dDepthScale = (pConfig->dDepthScale == 0) ? 1.0 : pConfig->dDepthScale;
+	double dDepthScale = (pConfig->dDepthScale == 0) ? 1.0 : pConfig->dDepthScale;
 
 	dPlanePixelSize *= pConfig->nPixelSizeFactor;
 	if (pConfig->nPixelSizeFactor == 0)
@@ -92,7 +92,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	{
 		nShiftValue = nIndex;
 
-		dFixedRefX = (XnDouble)(nShiftValue - nConstShift) / (XnDouble)pConfig->nParamCoeff;
+		dFixedRefX = (double)(nShiftValue - nConstShift) / (double)pConfig->nParamCoeff;
 		dMetric = dFixedRefX * dPlanePixelSize;
 		dDepth = pConfig->nShiftScale * ((dMetric * dPlaneDsr / (dPlaneDcl - dMetric)) + dPlaneDsr) * dDepthScale;
 

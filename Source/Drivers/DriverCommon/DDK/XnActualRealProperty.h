@@ -36,12 +36,12 @@
 class XnActualRealProperty final : public XnRealProperty
 {
 public:
-	XnActualRealProperty(uint32_t propertyId, const XnChar* strName, XnDouble dInitialValue = 0.0, const XnChar* strModule = "");
+	XnActualRealProperty(uint32_t propertyId, const XnChar* strName, double dInitialValue = 0.0, const XnChar* strModule = "");
 
-	inline XnDouble GetValue() const { return m_dValue; }
+	inline double GetValue() const { return m_dValue; }
 
-	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnActualRealProperty* pSender, XnDouble dValue, void* pCookie);
-	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnActualRealProperty* pSender, XnDouble* pdValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnActualRealProperty* pSender, double dValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnActualRealProperty* pSender, double* pdValue, void* pCookie);
 
 	inline void UpdateSetCallback(SetFuncPtr pFunc, void* pCookie)
 	{
@@ -59,10 +59,10 @@ public:
 	}
 
 private:
-	static XnStatus XN_CALLBACK_TYPE SetCallback(XnActualRealProperty* pSender, XnDouble dValue, void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE GetCallback(const XnActualRealProperty* pSender, XnDouble* pdValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE SetCallback(XnActualRealProperty* pSender, double dValue, void* pCookie);
+	static XnStatus XN_CALLBACK_TYPE GetCallback(const XnActualRealProperty* pSender, double* pdValue, void* pCookie);
 
-	XnDouble m_dValue;
+	double m_dValue;
 };
 
 #endif // XNACTUALREALPROPERTY_H

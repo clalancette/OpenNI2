@@ -64,13 +64,13 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	enum OpticsRelationShip OpticsRelation;
 	uint32_t nIndex = 0;
 	XnInt16  nShiftValue = 0;
-	XnDouble dFixedRefX = 0;
-	XnDouble dMetric = 0;
-	XnDouble dDepth = 0;
+	double dFixedRefX = 0;
+	double dMetric = 0;
+	double dDepth = 0;
 	int32_t nConstShift;
-	XnDouble dPlanePixelSize = pConfig->fZeroPlanePixelSize;
-	XnDouble dPlaneDsr = pConfig->nZeroPlaneDistance;
-	XnDouble dPlaneDcl = pConfig->fEmitterDCmosDistance;
+	double dPlanePixelSize = pConfig->fZeroPlanePixelSize;
+	double dPlaneDsr = pConfig->nZeroPlaneDistance;
+	double dPlaneDcl = pConfig->fEmitterDCmosDistance;
 	if (pConfig->nConstShift == 201)
 	{
 		OpticsRelation = ProjectRightOfCMOS;
@@ -104,7 +104,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 			 nShiftValue = 1603 - nShiftValue;
 		}
 
-		dFixedRefX = (XnDouble)(nShiftValue - nConstShift) / (XnDouble)pConfig->nParamCoeff;
+		dFixedRefX = (double)(nShiftValue - nConstShift) / (double)pConfig->nParamCoeff;
 		dFixedRefX -= 0.375;
 		dMetric = dFixedRefX * dPlanePixelSize;
 		dDepth = pConfig->nShiftScale * ((dMetric * dPlaneDsr / (dPlaneDcl - dMetric)) + dPlaneDsr);

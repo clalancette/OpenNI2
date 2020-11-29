@@ -49,7 +49,7 @@ typedef struct XnShiftToDepthConfig
 	uint32_t nParamCoeff;
 	uint32_t nShiftScale;
 
-	XnDouble dDepthScale;
+	double dDepthScale;
 	OniDepthPixel nDepthMinCutOff;
 	OniDepthPixel nDepthMaxCutOff;
 

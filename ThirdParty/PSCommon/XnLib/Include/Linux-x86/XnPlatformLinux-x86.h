@@ -78,9 +78,6 @@ typedef	int					XnInt;
 /** natural unsigned integer. */
 typedef	unsigned int		XnUInt;
 
-/** Double (64bit) */
-typedef	double				XnDouble;
-
 /** Far procedures type (for shared libraries functions). */
 typedef void (*XnFarProc)(void *);
 

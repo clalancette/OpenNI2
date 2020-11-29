@@ -218,7 +218,7 @@ XnStatus PS1200Device::UsbTest(uint32_t nSeconds, uint32_t& endpointsCount, XnUs
 	{
 		XN_DELETE(aEndpoints[i]);
 
-		endpoints[i].averageBytesPerSecond = aTesters[i].m_nTotalBytes / (XnDouble)nSeconds;
+		endpoints[i].averageBytesPerSecond = aTesters[i].m_nTotalBytes / (double)nSeconds;
 		endpoints[i].lostPackets = aTesters[i].m_nLostPackets;
 	}
 	endpointsCount = nNumEndpoints;

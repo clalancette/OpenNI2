@@ -173,7 +173,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, uint64_t* pnValue) con
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnDouble* pdValue) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, double* pdValue) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -261,7 +261,7 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 		}
 	case XN_PROPERTY_TYPE_REAL:
 		{
-			XnDouble dValue;
+			double dValue;
 			nRetVal = GetProperty(propertyId, &dValue);
 			if (nRetVal != XN_STATUS_OK)
 			{
@@ -269,9 +269,9 @@ XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pData
 				return XN_STATUS_ERROR;
 			}
 
-			if (*pDataSize == sizeof(XnDouble))
+			if (*pDataSize == sizeof(double))
 			{
-				*(XnDouble*)data = dValue;
+				*(double*)data = dValue;
 			}
 			else if (*pDataSize == sizeof(float))
 			{
@@ -334,7 +334,7 @@ XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, uint64_t nValue)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, XnDouble dValue)
+XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, double dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -419,11 +419,11 @@ XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const void* data, int 
 		}
 	case XN_PROPERTY_TYPE_REAL:
 		{
-			XnDouble dValue;
+			double dValue;
 
-			if (dataSize == sizeof(XnDouble))
+			if (dataSize == sizeof(double))
 			{
-				dValue = *(XnDouble*)data;
+				dValue = *(double*)data;
 			}
 			else if (dataSize == sizeof(float))
 			{
@@ -476,7 +476,7 @@ XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, uint64_t nVal
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, XnDouble dValue)
+XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, double dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

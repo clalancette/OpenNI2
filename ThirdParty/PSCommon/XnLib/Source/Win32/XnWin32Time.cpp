@@ -93,7 +93,7 @@ XN_C_API XnStatus xnOSStartTimer(XnOSTimer* pTimer)
 	bRetVal = QueryPerformanceFrequency(&nTicksPerSecond);
 	XN_IS_BOOL_OK_RET(bRetVal, XN_STATUS_ERROR);
 
-	pTimer->dTicksPerTimeUnit = (XnDouble)nTicksPerSecond.QuadPart / 1000.0;
+	pTimer->dTicksPerTimeUnit = (double)nTicksPerSecond.QuadPart / 1000.0;
 
 	bRetVal = QueryPerformanceCounter(&pTimer->nStartTick);
 	XN_IS_BOOL_OK_RET(bRetVal, XN_STATUS_ERROR);

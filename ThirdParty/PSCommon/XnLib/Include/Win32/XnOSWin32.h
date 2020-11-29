@@ -130,7 +130,7 @@ typedef	HANDLE XN_SEMAPHORE_HANDLE;
 /** The Xiron OS timer structure. */
 typedef struct XnOSTimer
 {
-	XnDouble dTicksPerTimeUnit;
+	double dTicksPerTimeUnit;
 	LARGE_INTEGER nStartTick;
 } XnOSTimer;
 

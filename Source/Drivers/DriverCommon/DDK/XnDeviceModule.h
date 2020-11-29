@@ -58,19 +58,19 @@ public:
 	XnStatus GetProperty(uint32_t propertyId, XnProperty** ppProperty) const;
 
 	virtual XnStatus GetProperty(uint32_t propertyId, uint64_t* pnValue) const;
-	virtual XnStatus GetProperty(uint32_t propertyId, XnDouble* pdValue) const;
+	virtual XnStatus GetProperty(uint32_t propertyId, double* pdValue) const;
 	virtual XnStatus GetProperty(uint32_t propertyId, XnChar* csValue) const;
 	virtual XnStatus GetProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue) const;
 	virtual XnStatus GetProperty(uint32_t propertyId, void* data, int* pDataSize) const;
 
 	virtual XnStatus SetProperty(uint32_t propertyId, uint64_t nValue);
-	virtual XnStatus SetProperty(uint32_t propertyId, XnDouble dValue);
+	virtual XnStatus SetProperty(uint32_t propertyId, double dValue);
 	virtual XnStatus SetProperty(uint32_t propertyId, const XnChar* strValue);
 	virtual XnStatus SetProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue);
 	virtual XnStatus SetProperty(uint32_t propertyId, const void* data, int dataSize);
 
 	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, uint64_t nValue);
-	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, XnDouble dValue);
+	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, double dValue);
 	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, const XnChar* strValue);
 	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue);
 

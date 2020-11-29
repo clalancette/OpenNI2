@@ -91,11 +91,11 @@ public:
 	virtual XnStatus DoesPropertyExist(const XnChar* ModuleName, uint32_t propertyId, XnBool* pbDoesExist);
 	virtual XnStatus GetPropertyType(const XnChar* ModuleName, uint32_t propertyId, XnPropertyType* pnType);
 	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, uint64_t nValue);
-	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, XnDouble dValue);
+	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, double dValue);
 	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, const XnChar* csValue);
 	virtual XnStatus SetProperty(const XnChar* ModuleName, uint32_t propertyId, const OniGeneralBuffer& Value);
 	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, uint64_t* pnValue);
-	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnDouble* pdValue);
+	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, double* pdValue);
 	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnChar* csValue);
 	virtual XnStatus GetProperty(const XnChar* ModuleName, uint32_t propertyId, const OniGeneralBuffer& pValue);
 	virtual XnStatus LoadConfigFromFile(const XnChar* csINIFilePath, const XnChar* csSectionName);

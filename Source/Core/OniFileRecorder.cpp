@@ -820,9 +820,9 @@ void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 		struct XnFieldOfView
 		{
 			/** Horizontal Field Of View, in radians. */
-			XnDouble fHFOV;
+			double fHFOV;
 			/** Vertical Field Of View, in radians. */
-			XnDouble fVFOV;
+			double fVFOV;
 		} fov = {hdummy, vdummy};
 
 		EMIT(RECORD_GENERAL_PROPERTY(

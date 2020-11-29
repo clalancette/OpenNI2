@@ -96,7 +96,7 @@ XN_THREAD_PROC xnProfilingThread(XN_THREAD_PARAM /*pThreadParam*/)
 			XnProfiledSection* pSection = &g_ProfilingData.aSections[i];
 
 			uint64_t nAvgTime = 0;
-			XnDouble dCPUPercentage = ((XnDouble)pSection->nTotalTime) / (nNow - nLastTime) * 100.0;
+			double dCPUPercentage = ((double)pSection->nTotalTime) / (nNow - nLastTime) * 100.0;
 
 			if (pSection->nTimesExecuted != 0)
 			{
@@ -115,7 +115,7 @@ XN_THREAD_PROC xnProfilingThread(XN_THREAD_PARAM /*pThreadParam*/)
 		}
 
 		// print total
-		XnDouble dCPUPercentage = ((XnDouble)nTotalTime) / (nNow - nLastTime) * 100.0;
+		double dCPUPercentage = ((double)nTotalTime) / (nNow - nLastTime) * 100.0;
 		sprintf(csReport + nReportChars, "%-*s %5s %6.2f %9" PRIu64 " %7s\n",
 			(int)g_ProfilingData.nMaxSectionName, "*** Total ***", "-", dCPUPercentage, nTotalTime, "-");
 

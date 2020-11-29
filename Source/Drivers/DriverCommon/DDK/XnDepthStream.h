@@ -56,9 +56,9 @@ public:
 	inline uint32_t GetParamCoefficient() const { return (uint32_t)m_ParamCoefficient.GetValue(); }
 	inline uint32_t GetShiftScale() const { return (uint32_t)m_ShiftScale.GetValue(); }
 	inline OniDepthPixel GetZeroPlaneDistance() const { return (OniDepthPixel)m_ZeroPlaneDistance.GetValue(); }
-	inline XnDouble GetZeroPlanePixelSize() const { return m_ZeroPlanePixelSize.GetValue(); }
-	inline XnDouble GetEmitterDCmosDistance() const { return m_EmitterDCmosDistance.GetValue(); }
-	inline XnDouble GetDCmosRCmosDistance() const { return m_GetDCmosRCmosDistance.GetValue(); }
+	inline double GetZeroPlanePixelSize() const { return m_ZeroPlanePixelSize.GetValue(); }
+	inline double GetEmitterDCmosDistance() const { return m_EmitterDCmosDistance.GetValue(); }
+	inline double GetDCmosRCmosDistance() const { return m_GetDCmosRCmosDistance.GetValue(); }
 
 	inline OniDepthPixel* GetShiftToDepthTable() const { return m_S2DHelper.GetShiftToDepthTable(); }
 	inline XnUInt16* GetDepthToShiftTable() const { return m_S2DHelper.GetDepthToShiftTable(); }

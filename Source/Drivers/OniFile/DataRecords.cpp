@@ -753,17 +753,17 @@ RealPropRecord::RealPropRecord(const Record &record) :
 {
 }
 
-void RealPropRecord::SetValue(XnDouble dValue)
+void RealPropRecord::SetValue(double dValue)
 {
 	m_dValue = dValue;
 	SetPropData(&m_dValue);
 	SetPropDataSize(sizeof(m_dValue));
 }
 
-XnDouble RealPropRecord::GetValue() const
+double RealPropRecord::GetValue() const
 {
-	XN_ASSERT(GetPropDataSize() == sizeof(XnDouble));
-	return *(XnDouble*)GetPropData();
+	XN_ASSERT(GetPropDataSize() == sizeof(double));
+	return *(double*)GetPropData();
 }
 
 XnStatus RealPropRecord::AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten)

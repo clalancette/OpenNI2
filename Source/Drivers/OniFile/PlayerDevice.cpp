@@ -135,7 +135,7 @@ XnStatus PlayerDevice::ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32
 void PlayerDevice::LoadConfigurationFromIniFile()
 {
 	XnStatus nRetVal;
-	XnDouble dSpeed = 0;
+	double dSpeed = 0;
 	int32_t nRepearMode = 0;
 
 	nRetVal = xnOSReadDoubleFromINI(m_iniFilePath,ONI_INIFILE_SECTION_PLAYER, ONI_INIFILE_ENTRY_SPEED, &dSpeed);
@@ -853,7 +853,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeIntPropChanged(void* pCookie, cons
 	return nRetVal;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeRealPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, XnDouble dValue)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeRealPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, double dValue)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 	XnStatus nRetVal = XN_STATUS_OK;

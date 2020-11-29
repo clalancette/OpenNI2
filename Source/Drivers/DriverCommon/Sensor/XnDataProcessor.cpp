@@ -128,7 +128,7 @@ uint64_t XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 		uint64_t nOSTime = nNow - m_pDevicePrivateData->nGlobalReferenceOSTime;
 
 		// calculate wraparound length
-		XnDouble fWrapAroundInMicroseconds = nWrapPoint / (XnDouble)m_pDevicePrivateData->fDeviceFrequency;
+		double fWrapAroundInMicroseconds = nWrapPoint / (double)m_pDevicePrivateData->fDeviceFrequency;
 
 		// perform a rough estimation
 		int32_t nWraps = (int32_t)(nOSTime / fWrapAroundInMicroseconds);
@@ -138,7 +138,7 @@ uint64_t XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 			nWraps * nWrapPoint + // wraps time
 			nDeviceTimeStamp - m_pDevicePrivateData->nGlobalReferenceTS;
 
-		int64_t nEstimatedTime = (int64_t)(nEstimatedTicks / (XnDouble)m_pDevicePrivateData->fDeviceFrequency);
+		int64_t nEstimatedTime = (int64_t)(nEstimatedTicks / (double)m_pDevicePrivateData->fDeviceFrequency);
 
 		if (nEstimatedTime < nOSTime - 0.5 * fWrapAroundInMicroseconds)
 		{
@@ -186,8 +186,8 @@ uint64_t XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 
 	// calculate result in microseconds
 	// NOTE: Intel compiler does too much optimization, and we loose up to 5 milliseconds. We perform
-	// the entire calculation in XnDouble as a workaround
-	XnDouble dResultTimeMicroSeconds = (XnDouble)nResultInTicks / (XnDouble)m_pDevicePrivateData->fDeviceFrequency;
+	// the entire calculation in double as a workaround
+	double dResultTimeMicroSeconds = (double)nResultInTicks / (double)m_pDevicePrivateData->fDeviceFrequency;
 	uint64_t nResultTimeMilliSeconds = (uint64_t)(dResultTimeMicroSeconds / 1000.0);
 
 	XnBool bIsSane = TRUE;

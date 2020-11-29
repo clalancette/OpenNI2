@@ -119,7 +119,7 @@ void XnOniDepthStream::notifyAllProperties()
 	getProperty(XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE, &nValue, &size);
 	raisePropertyChanged(XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE, &nValue, size);
 
-	XnDouble dValue;
+	double dValue;
 	size = sizeof(dValue);
 
 	// zero plane pixel size

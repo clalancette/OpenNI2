@@ -265,12 +265,12 @@ class RealPropRecord final : public GeneralPropRecord
 public:
 	RealPropRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	RealPropRecord(const Record& record);
-	void SetValue(XnDouble dValue);
-	XnDouble GetValue() const;
+	void SetValue(double dValue);
+	double GetValue() const;
 	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 private:
-	XnDouble m_dValue;
+	double m_dValue;
 };
 
 class StringPropRecord final : public GeneralPropRecord

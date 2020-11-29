@@ -47,7 +47,7 @@ private:
 	void BuildDepthToShiftTable(XnUInt16* pRGBRegDepthToShiftTable, int xres);
 	XnStatus BuildRegistrationTable(XnUInt16* pRegTable, RegistrationInfo* pRegInfo, XnUInt16** pDepthToShiftTable, int xres, int yres);
 
-	void CreateDXDYTables (XnDouble* RegXTable, XnDouble* RegYTable,
+	void CreateDXDYTables (double* RegXTable, double* RegYTable,
 		uint32_t resX, uint32_t resY,
 		int64_t AX6, int64_t BX6, int64_t CX2, int64_t DX2,
 		uint32_t deltaBetaX,
@@ -58,7 +58,7 @@ private:
 		int64_t dXdXdX0, int64_t dYdXdX0, int64_t dYdXdY0, int64_t dXdXdY0,
 		int64_t dYdYdX0, int64_t dYdYdY0,
 		uint32_t startingBetaX, uint32_t startingBetaY);
-	void CreateDXDYTablesInternal(XnDouble* RegXTable, XnDouble* RegYTable,
+	void CreateDXDYTablesInternal(double* RegXTable, double* RegYTable,
 		int32_t resX, int32_t resY,
 		int64_t AX6, int64_t BX6, int64_t CX2, int64_t DX2,
 		int32_t deltaBetaX,

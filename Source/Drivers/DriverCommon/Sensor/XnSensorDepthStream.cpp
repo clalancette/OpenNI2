@@ -181,7 +181,7 @@ XnStatus XnSensorDepthStream::Init()
 	nRetVal = GetDCmosRCmosDistanceProperty().UnsafeUpdateValue(m_Helper.GetFixedParams()->GetDCmosRCmosDistance());
 	XN_IS_STATUS_OK(nRetVal);
 
-	XnDouble fZPPS = m_Helper.GetFixedParams()->GetZeroPlanePixelSize();
+	double fZPPS = m_Helper.GetFixedParams()->GetZeroPlanePixelSize();
 	XnInt nZPD = m_Helper.GetFixedParams()->GetZeroPlaneDistance();
 
 	nRetVal = m_HorizontalFOV.UnsafeUpdateValue(2*atan(fZPPS*XN_SXGA_X_RES/2/nZPD));
@@ -1063,13 +1063,13 @@ XnStatus XnSensorDepthStream::ApplyRegistration(OniDepthPixel* pDetphmap)
 
 XnStatus XnSensorDepthStream::PopulateSensorCalibrationInfo()
 {
-	XnDouble dPlanePixelSize;
+	double dPlanePixelSize;
 	GetProperty(XN_STREAM_PROPERTY_ZERO_PLANE_PIXEL_SIZE, &dPlanePixelSize);
 
 	uint64_t nPlaneDsr;
 	GetProperty(XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE, &nPlaneDsr);
 
-	XnDouble dDCRCDist;
+	double dDCRCDist;
 	GetProperty(XN_STREAM_PROPERTY_DCMOS_RCMOS_DISTANCE, &dDCRCDist);
 
 	m_calibrationInfo.magic = ONI_DEPTH_UTILS_CALIBRATION_INFO_MAGIC;

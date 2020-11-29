@@ -436,7 +436,7 @@ OniStatus RecordAssembler::emit_RECORD_REAL_PROPERTY(
 	uint32_t    nodeId,
 	uint64_t    undoRecordPos,
 	const char* propertyName,
-	XnDouble    data)
+	double    data)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 

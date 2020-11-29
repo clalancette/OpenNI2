@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnActualRealProperty::XnActualRealProperty(uint32_t propertyId, const XnChar* strName, XnDouble dInitialValue /* = 0.0 */, const XnChar* strModule /* = "" */) :
+XnActualRealProperty::XnActualRealProperty(uint32_t propertyId, const XnChar* strName, double dInitialValue /* = 0.0 */, const XnChar* strModule /* = "" */) :
 	XnRealProperty(propertyId, strName, &m_dValue, strModule),
 	m_dValue(dInitialValue)
 {
@@ -34,12 +34,12 @@ XnActualRealProperty::XnActualRealProperty(uint32_t propertyId, const XnChar* st
 	UpdateGetCallback(GetCallback, this);
 }
 
-XnStatus XnActualRealProperty::SetCallback(XnActualRealProperty* pSender, XnDouble dValue, void* /*pCookie*/)
+XnStatus XnActualRealProperty::SetCallback(XnActualRealProperty* pSender, double dValue, void* /*pCookie*/)
 {
 	return pSender->UnsafeUpdateValue(dValue);
 }
 
-XnStatus XN_CALLBACK_TYPE XnActualRealProperty::GetCallback(const XnActualRealProperty* pSender, XnDouble* pdValue, void* /*pCookie*/)
+XnStatus XN_CALLBACK_TYPE XnActualRealProperty::GetCallback(const XnActualRealProperty* pSender, double* pdValue, void* /*pCookie*/)
 {
 	*pdValue = pSender->GetValue();
 	return XN_STATUS_OK;

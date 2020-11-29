@@ -1042,7 +1042,7 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
 		}
  		else
 		{
-			XnDouble dRealY = (nY + originY) / (XnDouble)fullHeight;
+			double dRealY = (nY + originY) / (double)fullHeight;
 			int32_t nDepthY = dRealY * depthFullHeight - depthOriginY;
 
 			for (XnUInt16 nX = 0; nX < width; nX++, pTexture+=4)
@@ -1051,7 +1051,7 @@ void drawColor(IntRect* pLocation, IntPair* pPointer, int pointerRed, int pointe
 
 				if (useDepth)
 				{
-					XnDouble dRealX = (nX + originX) / (XnDouble)fullWidth;
+					double dRealX = (nX + originX) / (double)fullWidth;
 
 					int32_t nDepthX = dRealX * depthFullWidth - depthOriginX;
 
@@ -1261,7 +1261,7 @@ void drawPointerMode(IntPair* pPointer)
 	int nCharWidth = glutBitmapWidth(GLUT_BITMAP_HELVETICA_18, '0');
 	int nPointerValue = 0;
 
-	XnDouble dTimestampDivider = 1E6;
+	double dTimestampDivider = 1E6;
 
 	openni::VideoFrameRef* pDepthMD = &getDepthFrame();
 

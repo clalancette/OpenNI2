@@ -147,7 +147,7 @@ XnStatus XnShiftToDepthStreamHelper::GetShiftToDepthConfig(XnShiftToDepthConfig&
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	uint64_t nTemp;
-	XnDouble dTemp;
+	double dTemp;
 
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_ZERO_PLANE_DISTANCE, &nTemp);
 	XN_IS_STATUS_OK(nRetVal);

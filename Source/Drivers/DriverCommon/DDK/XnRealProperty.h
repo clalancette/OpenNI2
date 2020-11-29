@@ -36,23 +36,23 @@
 class XnRealProperty : public XnProperty
 {
 public:
-	XnRealProperty(uint32_t propertyId, const XnChar* strName, XnDouble* pValueHolder, const XnChar* strModule = "");
+	XnRealProperty(uint32_t propertyId, const XnChar* strName, double* pValueHolder, const XnChar* strModule = "");
 
-	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnRealProperty* pSender, XnDouble dValue, void* pCookie);
-	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnRealProperty* pSender, XnDouble* pdValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnRealProperty* pSender, double dValue, void* pCookie);
+	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnRealProperty* pSender, double* pdValue, void* pCookie);
 
-	inline XnStatus SetValue(XnDouble dValue)
+	inline XnStatus SetValue(double dValue)
 	{
 		return XnProperty::SetValue(&dValue);
 	}
 
-	inline XnStatus GetValue(XnDouble* pdValue) const
+	inline XnStatus GetValue(double* pdValue) const
 	{
 		XN_VALIDATE_OUTPUT_PTR(pdValue);
 		return XnProperty::GetValue(pdValue);
 	}
 
-	inline XnStatus UnsafeUpdateValue(XnDouble dValue)
+	inline XnStatus UnsafeUpdateValue(double dValue)
 	{
 		return XnProperty::UnsafeUpdateValue(&dValue);
 	}

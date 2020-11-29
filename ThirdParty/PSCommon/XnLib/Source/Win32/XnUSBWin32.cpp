@@ -1444,7 +1444,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 		xnOSGetHighResTimeStamp(&nNow);
 		if (nNow - nLastPrint > 1000000)
 		{
-			XnDouble bandwidth = nTotalBytesSinceLastPrint / 1024. / (nNow - nLastPrint) * 1e6;
+			double bandwidth = nTotalBytesSinceLastPrint / 1024. / (nNow - nLastPrint) * 1e6;
 			xnLogVerbose(XN_MASK_USB, "Endpoint 0x%x bandwidth: %.2f KB/s", pThreadData->pEPHandle->nEndPointID, bandwidth);
 			nLastPrint = nNow;
 			nTotalBytesSinceLastPrint = 0;

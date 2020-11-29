@@ -108,7 +108,7 @@ XnStatus XnPropertySetAddIntProperty(XnPropertySet* pSet, const XnChar* strModul
 * @param	strModuleName	[in]		Name of the property to add.
 * @param	dValue			[in]		Value for that property.
 */
-XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, XnDouble dValue);
+XnStatus XnPropertySetAddRealProperty(XnPropertySet* pSet, const XnChar* strModuleName, uint32_t propertyId, double dValue);
 
 /**
 * Adds an string property to the property set.
@@ -229,7 +229,7 @@ XnStatus XnPropertySetEnumeratorGetIntValue(const XnPropertySetEnumerator* pEnum
 * @param	pEnumerator			[in]		The enumerator.
 * @param	pdValue 			[out]		The value of the property.
 */
-XnStatus XnPropertySetEnumeratorGetRealValue(const XnPropertySetEnumerator* pEnumerator, XnDouble* pdValue);
+XnStatus XnPropertySetEnumeratorGetRealValue(const XnPropertySetEnumerator* pEnumerator, double* pdValue);
 
 /**
 * Gets the current string property.

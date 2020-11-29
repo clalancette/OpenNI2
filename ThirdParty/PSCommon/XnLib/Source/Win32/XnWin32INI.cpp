@@ -85,7 +85,7 @@ XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cp
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnDouble* fDest)
+XN_C_API XnStatus xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, double* fDest)
 {
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
@@ -212,7 +212,7 @@ XN_C_API XnStatus xnOSWriteFloatToINI(const XnChar* cpINIFile, const XnChar* cpS
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSWriteDoubleToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const XnDouble fSrc)
+XN_C_API XnStatus xnOSWriteDoubleToINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, const double fSrc)
 {
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];

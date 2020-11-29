@@ -28,7 +28,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnRealProperty::XnRealProperty(uint32_t propertyId, const XnChar* strName, XnDouble* pValueHolder, const XnChar* strModule /* = "" */) :
+XnRealProperty::XnRealProperty(uint32_t propertyId, const XnChar* strName, double* pValueHolder, const XnChar* strModule /* = "" */) :
 	XnProperty(XN_PROPERTY_TYPE_REAL, pValueHolder, propertyId, strName, strModule)
 {
 }
@@ -37,7 +37,7 @@ XnStatus XnRealProperty::ReadValueFromFile(const XnChar* csINIFile, const XnChar
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnDouble dValue;
+	double dValue;
 
 	nRetVal = xnOSReadDoubleFromINI(csINIFile, csSection, GetName(), &dValue);
 	if (nRetVal == XN_STATUS_OK)
@@ -51,13 +51,13 @@ XnStatus XnRealProperty::ReadValueFromFile(const XnChar* csINIFile, const XnChar
 
 XnStatus XnRealProperty::CopyValueImpl(void* pDest, const void* pSource) const
 {
-	(*(XnDouble*)pDest) = (*(const XnDouble*)pSource);
+	(*(double*)pDest) = (*(const double*)pSource);
 	return XN_STATUS_OK;
 }
 
 XnBool XnRealProperty::IsEqual(const void* pValue1, const void* pValue2) const
 {
-	return (*(XnDouble*)pValue1) == (*(XnDouble*)pValue2);
+	return (*(double*)pValue1) == (*(double*)pValue2);
 }
 
 XnStatus XnRealProperty::CallSetCallback(const void* pValue)
@@ -66,7 +66,7 @@ XnStatus XnRealProperty::CallSetCallback(const void* pValue)
 	{
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_PROPERTY_READ_ONLY, XN_MASK_DDK, "Property %s.%s is read only.", GetModule(), GetName());
 	}
-	return m_pSetCallback(this, *(const XnDouble*)pValue, m_pSetCallbackCookie);
+	return m_pSetCallback(this, *(const double*)pValue, m_pSetCallbackCookie);
 }
 
 XnStatus XnRealProperty::CallGetCallback(void* pValue) const
@@ -75,12 +75,12 @@ XnStatus XnRealProperty::CallGetCallback(void* pValue) const
 	{
 		XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_PROPERTY_WRITE_ONLY, XN_MASK_DDK, "Property %s.%s is write only.", GetModule(), GetName());
 	}
-	return m_pGetCallback(this, (XnDouble*)pValue, m_pGetCallbackCookie);
+	return m_pGetCallback(this, (double*)pValue, m_pGetCallbackCookie);
 }
 
 XnBool XnRealProperty::ConvertValueToString(XnChar* csValue, const void* pValue) const
 {
-	sprintf(csValue, "%f", *(XnDouble*)pValue);
+	sprintf(csValue, "%f", *(double*)pValue);
 	return TRUE;
 }
 
@@ -88,7 +88,7 @@ XnStatus XnRealProperty::AddToPropertySet(XnPropertySet* pSet)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnDouble dValue;
+	double dValue;
 	nRetVal = GetValue(&dValue);
 	XN_IS_STATUS_OK(nRetVal);
 

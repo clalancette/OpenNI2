@@ -50,7 +50,7 @@ namespace xnl
 		{
 			return sqrt(f);
 		}
-		inline XnDouble Sqrt(XnDouble f)
+		inline double Sqrt(double f)
 		{
 			return sqrt(f);
 		}

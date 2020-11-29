@@ -98,7 +98,7 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 		break;
 
 	case LINK_PROP_ZERO_PLANE_OUTPUT_PIXEL_SIZE:
-		ENSURE_PROP_SIZE(*pDataSize, XnDouble);
+		ENSURE_PROP_SIZE(*pDataSize, double);
 		ASSIGN_PROP_VALUE_FLOAT(data, *pDataSize, m_pInputStream->GetShiftToDepthConfig().nZeroPlaneDistance / m_pInputStream->GetCameraIntrinsics().m_fEffectiveFocalLengthInPixels);
 		break;
 
@@ -108,7 +108,7 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 		break;
 
 	case LINK_PROP_DEPTH_SCALE:
-		ENSURE_PROP_SIZE(*pDataSize, XnDouble);
+		ENSURE_PROP_SIZE(*pDataSize, double);
 		ASSIGN_PROP_VALUE_FLOAT(data, *pDataSize, m_pInputStream->GetShiftToDepthConfig().dDepthScale);
 		break;
 
@@ -201,7 +201,7 @@ void LinkOniDepthStream::notifyAllProperties()
 	raisePropertyChanged(LINK_PROP_SHIFT_SCALE, &nValue, size);
 
 	// real props
-	XnDouble dValue;
+	double dValue;
 	size = sizeof(dValue);
 	//TODO: consider moving these two to MapStream
 	getProperty(ONI_STREAM_PROPERTY_VERTICAL_FOV, &dValue, &size);

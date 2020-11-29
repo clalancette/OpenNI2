@@ -163,9 +163,9 @@ typedef struct XnCropping
 typedef struct XnFieldOfView
 {
 	/** Horizontal Field Of View, in radians. */
-	XnDouble fHFOV;
+	double fHFOV;
 	/** Vertical Field Of View, in radians. */
-	XnDouble fVFOV;
+	double fVFOV;
 } XnFieldOfView;
 
 typedef enum XnPixelFormat
@@ -311,7 +311,7 @@ typedef struct XnNodeNotifications
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeRealPropChanged)
 		(void* pCookie, const XnChar* strNodeName,
-		const XnChar* strPropName, XnDouble dValue);
+		const XnChar* strPropName, double dValue);
 
 	/**
 	 * Notifies the object that a string type property has changed.

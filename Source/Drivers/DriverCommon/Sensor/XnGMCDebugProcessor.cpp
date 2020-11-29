@@ -63,7 +63,7 @@ void XnGMCDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeade
 
 			xnDumpFileWriteString(m_DumpTxt, "%d,%d,%d,%d\n", pGMCPoint->m_X, pGMCPoint->m_Y, pGMCPoint->m_DX, pGMCPoint->m_DY);
 
-			XnDouble aDoubles[4];
+			double aDoubles[4];
 			aDoubles[0] = pGMCPoint->m_X;
 			aDoubles[1] = pGMCPoint->m_Y;
 			aDoubles[2] = pGMCPoint->m_DX;
