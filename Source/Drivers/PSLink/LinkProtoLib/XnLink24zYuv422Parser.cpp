@@ -26,7 +26,7 @@
 namespace xn
 {
 
-Link24zYuv422Parser::Link24zYuv422Parser(XnUInt32 xRes, XnUInt32 yRes, XnBool transformToRGB) :
+Link24zYuv422Parser::Link24zYuv422Parser(uint32_t xRes, uint32_t yRes, XnBool transformToRGB) :
 	m_dataFromPrevPacket(NULL),
 	m_dataFromPrevPacketBytes(0),
 	m_lineWidthBytes(xRes * LinkYuvToRgb::YUV_422_BYTES_PER_PIXEL), // 4 bytes for every 2 pixels
@@ -119,7 +119,7 @@ XnStatus Link24zYuv422Parser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 }
 
 XnStatus Link24zYuv422Parser::Uncompress24z(const XnUInt8* pInput, XnSizeT nInputSize,
-	XnUInt8* pOutput, XnSizeT* pnOutputSize, XnUInt32 nLineSize,
+	XnUInt8* pOutput, XnSizeT* pnOutputSize, uint32_t nLineSize,
 	XnSizeT* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
@@ -130,8 +130,8 @@ XnStatus Link24zYuv422Parser::Uncompress24z(const XnUInt8* pInput, XnSizeT nInpu
 	XnUInt8 nLastFullValue[4] = {0};
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
-	XnUInt32 nTempValue = 0;
-	XnUInt32 cInput = 0;
+	uint32_t nTempValue = 0;
+	uint32_t cInput = 0;
 	XnBool bReadByte = TRUE;
 
 	const XnUInt8* pInputLastPossibleStop = pInputOrig;
@@ -140,8 +140,8 @@ XnStatus Link24zYuv422Parser::Uncompress24z(const XnUInt8* pInput, XnSizeT nInpu
 	*pnActualRead = 0;
 	*pnOutputSize = 0;
 
-	XnUInt32 nChannel = 0;
-	XnUInt32 nCurLineSize = 0;
+	uint32_t nChannel = 0;
+	uint32_t nCurLineSize = 0;
 
 	while (pInput < pInputEnd)
 	{

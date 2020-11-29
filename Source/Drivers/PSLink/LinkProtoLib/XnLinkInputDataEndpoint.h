@@ -58,7 +58,7 @@ public:
 	XnUInt16 GetMaxPacketSize() const;
 
 	/* IDataDestination Implementation */
-	virtual XnStatus IncomingData(const void* pData, XnUInt32 nSize);
+	virtual XnStatus IncomingData(const void* pData, uint32_t nSize);
 	virtual void HandleDisconnection();
 
 private:
@@ -68,7 +68,7 @@ private:
 	IAsyncInputConnection* m_pConnection;
 	IConnectionFactory* m_pConnectionFactory;
 	XnBool m_bInitialized;
-	volatile XnUInt32 m_nConnected;
+	volatile uint32_t m_nConnected;
 	XN_CRITICAL_SECTION_HANDLE m_hCriticalSection;
 	XnDumpFile* m_pDumpFile;
 };

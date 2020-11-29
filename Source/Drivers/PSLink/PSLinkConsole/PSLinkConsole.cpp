@@ -122,8 +122,8 @@ void ExecuteCommandsFromStream(FILE* inputStream, XnBool bPrompt);
 //pnTokens is max args on input, actual number of args on output
 void SplitStr(XnChar* str, const XnChar* strTokens[], int* pnTokens)
 {
-	XnUInt32 nMaxTokens = *pnTokens;
-	XnUInt32 nToken = 0;
+	uint32_t nMaxTokens = *pnTokens;
+	uint32_t nToken = 0;
 
 	XnBool bFirstAfterDelim = TRUE;
 
@@ -145,9 +145,9 @@ void SplitStr(XnChar* str, const XnChar* strTokens[], int* pnTokens)
 }
 
 //MyAtoi() accepts hex (with 0x) or decimal values from string
-XnUInt32 MyAtoi(const XnChar* str)
+uint32_t MyAtoi(const XnChar* str)
 {
-	XnUInt32 nValue = 0;
+	uint32_t nValue = 0;
 	sscanf(str, "%i", &nValue);
 	return nValue;
 }
@@ -277,7 +277,7 @@ XnFwCompressionType fwCompressionNameToType(const XnChar* name)
 const char* fwVideoModeToString(XnFwStreamVideoMode videoMode)
 {
 	static char buffer[256];
-	XnUInt32 charsWritten = 0;
+	uint32_t charsWritten = 0;
 	xnOSStrFormat(buffer, sizeof(buffer), &charsWritten, "%ux%u@%u (%s, %s)",
 		videoMode.m_nXRes, videoMode.m_nYRes, videoMode.m_nFPS,
 		fwPixelFormatToName(videoMode.m_nPixelFormat),
@@ -496,7 +496,7 @@ int Dir(int /*argc*/, const char* /*argv*/[])
 		printf("%-4s  %-32s  %-8s  %-10s  %-6s  %-6s  %-15s\n", "ZONE", "NAME", "VERSION", "ADDRESS", "SIZE", "CRC", "FLAGS");
 		printf("%-4s  %-32s  %-8s  %-10s  %-6s  %-6s  %-15s\n", "====", "====", "=======", "=======", "====", "===", "=====");
 
-		for (XnUInt32 i = 0; i < args.count; ++i)
+		for (uint32_t i = 0; i < args.count; ++i)
 		{
 			XnFwFileEntry& file = files[i];
 			printf("%-4u  %-32s  %01u.%01u.%01u.%02u  0x%08x  %6u  0x%04x  ",
@@ -895,7 +895,7 @@ XnStatus GetI2CDeviceIDFromName(const char* deviceName, uint32_t* result)
 	std::vector<XnI2CDeviceInfo>& devices = GetI2CDeviceList();
 
 	nRetVal = XN_STATUS_NO_MATCH;
-	for (XnUInt32 i = 0; i < devices.size() && nRetVal == XN_STATUS_NO_MATCH; i++)
+	for (uint32_t i = 0; i < devices.size() && nRetVal == XN_STATUS_NO_MATCH; i++)
 	{
 		if(xnOSStrCaseCmp(devices[i].name, deviceName) == 0)
 		{
@@ -1257,7 +1257,7 @@ XnStatus GetLogIDFromName(const char* mask, uint32_t* result)
 	std::vector<XnFwLogMask>& masks = GetLogMaskList();
 
 	nRetVal = XN_STATUS_NO_MATCH;
-	for (XnUInt32 i = 0; i < masks.size() && nRetVal == XN_STATUS_NO_MATCH; i++)
+	for (uint32_t i = 0; i < masks.size() && nRetVal == XN_STATUS_NO_MATCH; i++)
 	{
 		if (xnOSStrCaseCmp(masks[i].name, mask) == 0)
 		{
@@ -1395,7 +1395,7 @@ int PrintLogFilesList(int /*argc*/, const char* /*argv*/[])
 {
 	std::vector<XnFwLogMask>& masks = GetLogMaskList();
 
-	for (XnUInt32 i = 0; i < masks.size(); ++i)
+	for (uint32_t i = 0; i < masks.size(); ++i)
 	{
 		printf("%4u %s\n", masks[i].id, masks[i].name);
 	}
@@ -1412,7 +1412,7 @@ int PrintI2CList(int /*argc*/, const char* /*argv*/[])
 	printf("%2s %32s %9s %8s", "ID", "NAME", "MASTER-ID", "SLAVE-ID\n");
 	printf("%2s %32s %9s %8s", "==", "====", "=========", "========\n");
 
-	for (XnUInt32 i = 0; i < deviceList.size(); ++i)
+	for (uint32_t i = 0; i < deviceList.size(); ++i)
 	{
 		printf("%2u %32s %9u %8u\n", deviceList[i].id, deviceList[i].name, deviceList[i].masterId, deviceList[i].slaveId);
 	}
@@ -1434,7 +1434,7 @@ int PrintBistList(int /*argc*/, const char* /*argv*/[])
 	}
 	else
 	{
-		for (XnUInt32 i = 0; i < args.count; ++i)
+		for (uint32_t i = 0; i < args.count; ++i)
 		{
 			printf("%4u %s\n", tests[i].id, tests[i].name);
 		}
@@ -1470,7 +1470,7 @@ int RunBist(int argc, const char* argv[])
 
 	if (xnOSStrCaseCmp(argv[1], "ALL") == 0)
 	{
-		for (XnUInt32 i = 0; i < supportedTests.count; ++i)
+		for (uint32_t i = 0; i < supportedTests.count; ++i)
 		{
 			requestedTests.Set(supportedTests.tests[i].id, TRUE);
 		}
@@ -1487,7 +1487,7 @@ int RunBist(int argc, const char* argv[])
 	XnCommandExecuteBist args;
 	args.extraData = response;
 
-	for (XnUInt32 i = 0; i < requestedTests.GetSize(); ++i)
+	for (uint32_t i = 0; i < requestedTests.GetSize(); ++i)
 	{
 		if (!requestedTests.IsSet(i))
 		{
@@ -1496,7 +1496,7 @@ int RunBist(int argc, const char* argv[])
 
 		// search for test in list (for its name)
 		const XnChar* testName = "Unknown";
-		for (XnUInt32 j = 0; j < supportedTests.count; ++j)
+		for (uint32_t j = 0; j < supportedTests.count; ++j)
 		{
 			if (supportedTests.tests[j].id == i)
 			{
@@ -1533,7 +1533,7 @@ int RunBist(int argc, const char* argv[])
 		if (args.extraDataSize > 0)
 		{
 			printf("Extra Data: ");
-			for (XnUInt32 j = 0; j < args.extraDataSize; ++j)
+			for (uint32_t j = 0; j < args.extraDataSize; ++j)
 			{
 				printf("%02X ", args.extraData[j]);
 			}
@@ -1561,7 +1561,7 @@ int PrintTempList(int /*argc*/, const char* /*argv*/[])
 	}
 	else
 	{
-		for (XnUInt32 i = 0; i < args.count; ++i)
+		for (uint32_t i = 0; i < args.count; ++i)
 		{
 			printf("%4u %s\n", tempInfo[i].id, tempInfo[i].name);
 		}
@@ -1597,7 +1597,7 @@ int ReadTemps(int argc, const char* argv[])
 	XnCommandTemperatureResponse response;
 	if (xnOSStrCaseCmp(argv[1], "ALL") == 0)
 	{
-		for (XnUInt32 i = 0; i < supportedTempList.count; ++i)
+		for (uint32_t i = 0; i < supportedTempList.count; ++i)
 		{
             response.id = supportedTempList.pTempInfos[i].id;
             nRetVal = g_device.invoke(PS_COMMAND_READ_TEMPERATURE, response);
@@ -1614,7 +1614,7 @@ int ReadTemps(int argc, const char* argv[])
 	else
 	{
 		XnInt32 argInt = (argv[1][0] >= '0' && argv[1][0] <= '9') ? MyAtoi(argv[1]) : -1;
-		for (XnUInt32 i = 0; i < supportedTempList.count; ++i)
+		for (uint32_t i = 0; i < supportedTempList.count; ++i)
 		{
 			if ((xnOSStrCaseCmp(argv[1],supportedTempList.pTempInfos[i].name) == 0)
 				|| (argInt == (XnInt32)supportedTempList.pTempInfos[i].id) )
@@ -1707,7 +1707,7 @@ int FormatZone(int argc, const char* argv[])
 		return -1;
 	}
 
-	XnUInt32 nZone = MyAtoi(argv[1]);
+	uint32_t nZone = MyAtoi(argv[1]);
 	XnCommandFormatZone formatZone;
 	formatZone.zone = (uint8_t)nZone;
 	Status nRetVal = g_device.invoke(PS_COMMAND_FORMAT_ZONE, formatZone);
@@ -1747,7 +1747,7 @@ int UsbTest(int argc, const char* argv[])
 	}
 
 	printf("USB Test done:\n");
-	for (XnUInt32 i = 0; i < args.endpointCount; ++i)
+	for (uint32_t i = 0; i < args.endpointCount; ++i)
 	{
 		printf("\tEndpoint %u - Avg. Bandwidth: %.3f KB/s, Lost Packets: %u\n", i, args.endpoints[i].averageBytesPerSecond / 1000., args.endpoints[i].lostPackets);
 	}
@@ -1974,7 +1974,7 @@ int main(int argc, char* argv[])
 		return -2;
 	}
 
-	XnUInt32 nWaitTimeRemaining = WAIT_FOR_DEVICE_TIMEOUT;
+	uint32_t nWaitTimeRemaining = WAIT_FOR_DEVICE_TIMEOUT;
 
 	Array<DeviceInfo> devices;
 	OpenNI::enumerateDevices(&devices);

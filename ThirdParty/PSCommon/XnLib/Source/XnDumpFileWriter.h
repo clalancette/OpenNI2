@@ -33,7 +33,7 @@ class XnDumpFileWriter : public XnDumpWriterBase
 {
 public:
 	virtual XnDumpWriterFileHandle OpenFile(const XnChar* strDumpName, XnBool bSessionDump, const XnChar* strFileName);
-	virtual void Write(XnDumpWriterFileHandle hFile, const void* pBuffer, XnUInt32 nBufferSize);
+	virtual void Write(XnDumpWriterFileHandle hFile, const void* pBuffer, uint32_t nBufferSize);
 	virtual void CloseFile(XnDumpWriterFileHandle hFile);
 };
 

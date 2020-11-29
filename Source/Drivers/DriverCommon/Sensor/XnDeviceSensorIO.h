@@ -41,9 +41,9 @@ typedef struct XnUsbConnection
 
 	XnBool bIsOpen;
 	XnUInt8* pUSBBuffer;
-	XnUInt32 nUSBBufferReadOffset;
-	XnUInt32 nUSBBufferWriteOffset;
-	XnUInt32 nMaxPacketSize;
+	uint32_t nUSBBufferReadOffset;
+	uint32_t nUSBBufferWriteOffset;
+	uint32_t nMaxPacketSize;
 } XnUsbConnection;
 
 typedef struct XnUsbControlConnection

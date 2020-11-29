@@ -41,7 +41,7 @@ public:
 
 	XnStatus GetFirmwareParam(XnUInt16 nParam, XnUInt16* pnValue);
 	XnStatus SetFirmwareParam(XnUInt16 nParam, XnUInt16 nValue);
-	XnStatus SetMultipleFirmwareParams(XnInnerParamData* aParams, XnUInt32 nCount);
+	XnStatus SetMultipleFirmwareParams(XnInnerParamData* aParams, uint32_t nCount);
 
 private:
 	XnDevicePrivateData* m_pDevicePrivateData;

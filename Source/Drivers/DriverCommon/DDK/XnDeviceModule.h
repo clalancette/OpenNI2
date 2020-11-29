@@ -50,34 +50,34 @@ public:
 	inline const XnChar* GetName() const { return m_strName; }
 
 	XnStatus AddProperty(XnProperty* pProperty);
-	XnStatus AddProperties(XnProperty** apProperties, XnUInt32 nCount);
+	XnStatus AddProperties(XnProperty** apProperties, uint32_t nCount);
 
-	XnStatus DoesPropertyExist(XnUInt32 propertyId, XnBool* pbDoesExist) const;
-	XnStatus GetPropertyType(XnUInt32 propertyId, XnPropertyType* pnType) const;
+	XnStatus DoesPropertyExist(uint32_t propertyId, XnBool* pbDoesExist) const;
+	XnStatus GetPropertyType(uint32_t propertyId, XnPropertyType* pnType) const;
 
-	XnStatus GetProperty(XnUInt32 propertyId, XnProperty** ppProperty) const;
+	XnStatus GetProperty(uint32_t propertyId, XnProperty** ppProperty) const;
 
-	virtual XnStatus GetProperty(XnUInt32 propertyId, XnUInt64* pnValue) const;
-	virtual XnStatus GetProperty(XnUInt32 propertyId, XnDouble* pdValue) const;
-	virtual XnStatus GetProperty(XnUInt32 propertyId, XnChar* csValue) const;
-	virtual XnStatus GetProperty(XnUInt32 propertyId, const OniGeneralBuffer& gbValue) const;
-	virtual XnStatus GetProperty(XnUInt32 propertyId, void* data, int* pDataSize) const;
+	virtual XnStatus GetProperty(uint32_t propertyId, XnUInt64* pnValue) const;
+	virtual XnStatus GetProperty(uint32_t propertyId, XnDouble* pdValue) const;
+	virtual XnStatus GetProperty(uint32_t propertyId, XnChar* csValue) const;
+	virtual XnStatus GetProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue) const;
+	virtual XnStatus GetProperty(uint32_t propertyId, void* data, int* pDataSize) const;
 
-	virtual XnStatus SetProperty(XnUInt32 propertyId, XnUInt64 nValue);
-	virtual XnStatus SetProperty(XnUInt32 propertyId, XnDouble dValue);
-	virtual XnStatus SetProperty(XnUInt32 propertyId, const XnChar* strValue);
-	virtual XnStatus SetProperty(XnUInt32 propertyId, const OniGeneralBuffer& gbValue);
-	virtual XnStatus SetProperty(XnUInt32 propertyId, const void* data, int dataSize);
+	virtual XnStatus SetProperty(uint32_t propertyId, XnUInt64 nValue);
+	virtual XnStatus SetProperty(uint32_t propertyId, XnDouble dValue);
+	virtual XnStatus SetProperty(uint32_t propertyId, const XnChar* strValue);
+	virtual XnStatus SetProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue);
+	virtual XnStatus SetProperty(uint32_t propertyId, const void* data, int dataSize);
 
-	virtual XnStatus UnsafeUpdateProperty(XnUInt32 propertyId, XnUInt64 nValue);
-	virtual XnStatus UnsafeUpdateProperty(XnUInt32 propertyId, XnDouble dValue);
-	virtual XnStatus UnsafeUpdateProperty(XnUInt32 propertyId, const XnChar* strValue);
-	virtual XnStatus UnsafeUpdateProperty(XnUInt32 propertyId, const OniGeneralBuffer& gbValue);
+	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, XnUInt64 nValue);
+	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, XnDouble dValue);
+	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, const XnChar* strValue);
+	virtual XnStatus UnsafeUpdateProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue);
 
 	XnStatus GetAllProperties(XnPropertySet* pSet) const;
 
-	XnStatus RegisterForOnPropertyValueChanged(XnUInt32 propertyId, XnProperty::OnValueChangedHandler pFunc, void* pCookie, XnCallbackHandle& hCallback);
-	XnStatus UnregisterFromOnPropertyValueChanged(XnUInt32 propertyId, XnCallbackHandle hCallback);
+	XnStatus RegisterForOnPropertyValueChanged(uint32_t propertyId, XnProperty::OnValueChangedHandler pFunc, void* pCookie, XnCallbackHandle& hCallback);
+	XnStatus UnregisterFromOnPropertyValueChanged(uint32_t propertyId, XnCallbackHandle hCallback);
 
 	/**
 	* Reads values for all properties in module from an INI file.
@@ -87,13 +87,13 @@ public:
 	virtual XnStatus BatchConfig(const XnActualPropertiesHash& props);
 	virtual XnStatus UnsafeBatchConfig(const XnActualPropertiesHash& props);
 
-	XnStatus GetProperty(XnUInt32 propertyId, XnIntProperty** ppIntProperty) const;
-	XnStatus GetProperty(XnUInt32 propertyId, XnRealProperty** ppRealProperty) const;
-	XnStatus GetProperty(XnUInt32 propertyId, XnStringProperty** ppStringProperty) const;
-	XnStatus GetProperty(XnUInt32 propertyId, XnGeneralProperty** ppGeneralProperty) const;
+	XnStatus GetProperty(uint32_t propertyId, XnIntProperty** ppIntProperty) const;
+	XnStatus GetProperty(uint32_t propertyId, XnRealProperty** ppRealProperty) const;
+	XnStatus GetProperty(uint32_t propertyId, XnStringProperty** ppStringProperty) const;
+	XnStatus GetProperty(uint32_t propertyId, XnGeneralProperty** ppGeneralProperty) const;
 
 private:
-	XnStatus GetPropertyImpl(XnUInt32 propertyId, XnPropertyType Type, XnProperty** ppProperty) const;
+	XnStatus GetPropertyImpl(uint32_t propertyId, XnPropertyType Type, XnProperty** ppProperty) const;
 
 	XnStatus SetLockState(XnBool bLocked);
 

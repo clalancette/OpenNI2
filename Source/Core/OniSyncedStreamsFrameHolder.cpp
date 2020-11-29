@@ -61,10 +61,10 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 	int frameId = (m_FrameSyncedStreams[0].pLastFrame != NULL) ?
 					m_FrameSyncedStreams[0].pLastFrame->frameIndex : -1;
 	int minSyncedFrameId = -1;
-	XnUInt32 validFrameCount = 0;
+	uint32_t validFrameCount = 0;
 	OniBool syncedFramesExist = FALSE;
-	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.size();
-	for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
+	uint32_t numFrameSyncStreams = m_FrameSyncedStreams.size();
+	for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 	{
 		// Is this the stream frame was received on?
 		if (m_FrameSyncedStreams[i].pStream == pStream)
@@ -120,7 +120,7 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 	if ((minSyncedFrameId != -1) && ((*pFrame)->frameIndex != minSyncedFrameId))
 	{
 		// Invalidate the synced frames.
-		for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
+		for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 		{
 			// Release the stored synced frame.
 			if (m_FrameSyncedStreams[i].pSyncedFrame != NULL)
@@ -136,7 +136,7 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 	if (!syncedFramesExist && (validFrameCount == numFrameSyncStreams))
 	{
 		// 'Latch' the valid frames (move them to 'synced').
-		for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
+		for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 		{
 			// Replace synced frame with last frame.
 			m_FrameSyncedStreams[i].pSyncedFrame = m_FrameSyncedStreams[i].pLastFrame;
@@ -144,7 +144,7 @@ OniStatus SyncedStreamsFrameHolder::readFrame(VideoStream* pStream, OniFrame** p
 		}
 
 		// Send the raise event to all streams.
-		for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
+		for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 		{
 			// Raise internal new frame event.
 			m_FrameSyncedStreams[i].pStream->raiseNewFrameEvent();
@@ -169,10 +169,10 @@ OniStatus SyncedStreamsFrameHolder::processNewFrame(VideoStream* pStream, OniFra
 
 	// Parse all the streams.
 	int frameId = pFrame->frameIndex;
-	XnUInt32 validFrameCount = 1;
-	XnUInt32 syncedFramesCount = 0;
-	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.size();
-	for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
+	uint32_t validFrameCount = 1;
+	uint32_t syncedFramesCount = 0;
+	uint32_t numFrameSyncStreams = m_FrameSyncedStreams.size();
+	for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 	{
 		// Is this the stream frame was received on?
 		if (m_FrameSyncedStreams[i].pStream == pStream)
@@ -214,7 +214,7 @@ OniStatus SyncedStreamsFrameHolder::processNewFrame(VideoStream* pStream, OniFra
 		(validFrameCount == numFrameSyncStreams))
 	{
 		// 'Latch' the valid frames (move them to 'synced').
-		for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
+		for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 		{
 			// Release the stored synced frame.
 			if (m_FrameSyncedStreams[i].pSyncedFrame != NULL)
@@ -228,7 +228,7 @@ OniStatus SyncedStreamsFrameHolder::processNewFrame(VideoStream* pStream, OniFra
 		}
 
 		// Send the raise event to all streams.
-		for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
+		for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 		{
 			// Raise internal new frame event.
 			m_FrameSyncedStreams[i].pStream->raiseNewFrameEvent();
@@ -252,8 +252,8 @@ OniFrame* SyncedStreamsFrameHolder::peekFrame(VideoStream* pStream)
 	lock();
 
 	// Parse all the streams.
-	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.size();
-	for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
+	uint32_t numFrameSyncStreams = m_FrameSyncedStreams.size();
+	for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 	{
 		// Is this the stream frame was received on?
 		if (m_FrameSyncedStreams[i].pStream == pStream)
@@ -274,8 +274,8 @@ void SyncedStreamsFrameHolder::clear()
 	lock();
 
 	// Release all the streams from the frame sync group and release the stored frames.
-	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.size();
-	for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
+	uint32_t numFrameSyncStreams = m_FrameSyncedStreams.size();
+	for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 	{
 		if (m_FrameSyncedStreams[i].pLastFrame != NULL)
 		{
@@ -298,9 +298,9 @@ void SyncedStreamsFrameHolder::setStreamEnabled(VideoStream* pStream, OniBool en
 	lock();
 
 	// Parse all the streams.
-	XnUInt32 numEnabled = 0;
-	XnUInt32 numFrameSyncStreams = m_FrameSyncedStreams.size();
-	for (XnUInt32 i = 0; i < numFrameSyncStreams; ++i)
+	uint32_t numEnabled = 0;
+	uint32_t numFrameSyncStreams = m_FrameSyncedStreams.size();
+	for (uint32_t i = 0; i < numFrameSyncStreams; ++i)
 	{
 		// Is this the stream being updated?
 		if (m_FrameSyncedStreams[i].pStream == pStream)

@@ -30,7 +30,7 @@ XN_C_API XnChar* xnOSStrDup(const XnChar* strSource)
 	return result;
 }
 
-XN_C_API XnStatus xnOSStrFormat(XnChar* cpDestString, const XnUInt32 nDestLength, XnUInt32* pnCharsWritten, const XnChar* cpFormat, ...)
+XN_C_API XnStatus xnOSStrFormat(XnChar* cpDestString, const uint32_t nDestLength, uint32_t* pnCharsWritten, const XnChar* cpFormat, ...)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

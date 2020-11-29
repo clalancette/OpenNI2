@@ -171,7 +171,7 @@ XnDumpFile* xnDumpFileOpenImpl(const XnChar* strDumpName, XnBool bForce, XnBool 
 
 	// format file name
 	XnChar strFileName[XN_FILE_MAX_PATH];
-	XnUInt32 nChars;
+	uint32_t nChars;
 	nRetVal = xnOSStrFormatV(strFileName, XN_FILE_MAX_PATH, &nChars, strNameFormat, args);
 	if (nRetVal != XN_STATUS_OK)
 	{
@@ -239,7 +239,7 @@ XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpenEx(const XnChar* strDumpName, XnBoo
 	return pFile;
 }
 
-XN_C_API void XN_C_DECL _xnDumpFileWriteBuffer(XnDumpFile* pFile, const void* pBuffer, XnUInt32 nBufferSize)
+XN_C_API void XN_C_DECL _xnDumpFileWriteBuffer(XnDumpFile* pFile, const void* pBuffer, uint32_t nBufferSize)
 {
 	if (pFile == NULL)
 	{
@@ -247,7 +247,7 @@ XN_C_API void XN_C_DECL _xnDumpFileWriteBuffer(XnDumpFile* pFile, const void* pB
 	}
 
 	// write to each writer
-	for (XnUInt32 i = 0; i < pFile->m_writersFiles.size(); ++i)
+	for (uint32_t i = 0; i < pFile->m_writersFiles.size(); ++i)
 	{
 		XnDumpWriter* pWriter = pFile->m_writersFiles[i].pWriter;
 		XnDumpWriterFileHandle hWriterFile = pFile->m_writersFiles[i].hFile;
@@ -268,7 +268,7 @@ XN_C_API void XN_C_DECL _xnDumpFileWriteString(XnDumpFile* pFile, const XnChar* 
 
 	// format string
 	XnChar strBuffer[XN_DUMP_MAX_FORMATTED_STRING_LENGTH];
-	XnUInt32 nCharsWritten;
+	uint32_t nCharsWritten;
 	va_list args;
 	va_start(args, strFormat);
 	nRetVal = xnOSStrFormatV(strBuffer, sizeof(strBuffer), &nCharsWritten, strFormat, args);
@@ -287,7 +287,7 @@ XN_C_API void XN_C_DECL _xnDumpFileClose(XnDumpFile* pFile)
 	}
 
 	// Notify each writer
-	for (XnUInt32 i = 0; i < pFile->m_writersFiles.size(); ++i)
+	for (uint32_t i = 0; i < pFile->m_writersFiles.size(); ++i)
 	{
 		XnDumpWriter* pWriter = pFile->m_writersFiles[i].pWriter;
 		XnDumpWriterFileHandle hWriterFile = pFile->m_writersFiles[i].hFile;
@@ -308,7 +308,7 @@ XnStatus xnDumpCreate(XnDump* pDump, const XnChar* csHeader, const XnChar* csFil
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	XnChar strFileName[XN_FILE_MAX_PATH];
-	XnUInt32 nChars;
+	uint32_t nChars;
 	nRetVal = xnOSStrFormatV(strFileName, XN_FILE_MAX_PATH, &nChars, csFileNameFormat, args);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -324,7 +324,7 @@ XnStatus xnDumpCreate(XnDump* pDump, const XnChar* csHeader, const XnChar* csFil
 
 	if (csHeader != NULL)
 	{
-		xnOSWriteFile(pDump->hFile, csHeader, (XnUInt32)strlen(csHeader));
+		xnOSWriteFile(pDump->hFile, csHeader, (uint32_t)strlen(csHeader));
 	}
 
 	return XN_STATUS_OK;
@@ -361,7 +361,7 @@ XN_C_API void xnDumpClose(XnDump* pDump)
 	}
 }
 
-XN_C_API void xnDumpWriteBufferImpl(XnDump dump, const void* pBuffer, XnUInt32 nBufferSize)
+XN_C_API void xnDumpWriteBufferImpl(XnDump dump, const void* pBuffer, uint32_t nBufferSize)
 {
 	if (dump.hFile != XN_INVALID_FILE_HANDLE)
 	{
@@ -373,14 +373,14 @@ XN_C_API void xnDumpWriteStringImpl(XnDump dump, const XnChar* csFormat, ...)
 {
 	if (dump.hFile != XN_INVALID_FILE_HANDLE)
 	{
-		const XnUInt32 nStringLength = 1024;
+		const uint32_t nStringLength = 1024;
 		XnChar csString[1024];
 
 		va_list args;
 		va_start(args, csFormat);
 
 		// format message
-		XnUInt32 nChars;
+		uint32_t nChars;
 		xnOSStrFormatV(csString, nStringLength, &nChars, csFormat, args);
 
 		// and write it to file

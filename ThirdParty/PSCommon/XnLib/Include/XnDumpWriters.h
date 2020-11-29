@@ -38,7 +38,7 @@ typedef struct XnDumpWriter
 {
 	void* pCookie;
 	XnDumpWriterFileHandle (XN_CALLBACK_TYPE* OpenFile)(void* pCookie, const XnChar* strDumpName, XnBool bSessionDump, const XnChar* strFileName);
-	void (XN_CALLBACK_TYPE* Write)(void* pCookie, XnDumpWriterFileHandle hFile, const void* pBuffer, XnUInt32 nBufferSize);
+	void (XN_CALLBACK_TYPE* Write)(void* pCookie, XnDumpWriterFileHandle hFile, const void* pBuffer, uint32_t nBufferSize);
 	void (XN_CALLBACK_TYPE* CloseFile)(void* pCookie, XnDumpWriterFileHandle hFile);
 } XnDumpWriter;
 
@@ -106,7 +106,7 @@ public:
 	inline XnBool IsRegistered() { return m_bRegistered; }
 
 	virtual XnDumpWriterFileHandle OpenFile(const XnChar* strDumpName, XnBool bSessionDump, const XnChar* strFileName) = 0;
-	virtual void Write(XnDumpWriterFileHandle hFile, const void* pBuffer, XnUInt32 nBufferSize) = 0;
+	virtual void Write(XnDumpWriterFileHandle hFile, const void* pBuffer, uint32_t nBufferSize) = 0;
 	virtual void CloseFile(XnDumpWriterFileHandle hFile) = 0;
 
 	operator const XnDumpWriter*() const
@@ -125,7 +125,7 @@ private:
 		return pThis->OpenFile(strDumpName, bSessionDump, strFileName);
 	}
 
-	static void XN_CALLBACK_TYPE WriteCallback(void* pCookie, XnDumpWriterFileHandle hFile, const void* pBuffer, XnUInt32 nBufferSize)
+	static void XN_CALLBACK_TYPE WriteCallback(void* pCookie, XnDumpWriterFileHandle hFile, const void* pBuffer, uint32_t nBufferSize)
 	{
 		XnDumpWriterBase* pThis = (XnDumpWriterBase*)pCookie;
 		return pThis->Write(hFile, pBuffer, nBufferSize);

@@ -44,7 +44,7 @@ enum PropertyType
 };
 
 const struct PropertyTable {
-	XnUInt32     propertyId;
+	uint32_t     propertyId;
 	const char*  propertyName;
 	PropertyType propertyType;
 } propertyTable[] = {
@@ -407,7 +407,7 @@ void FileRecorder::messagePump()
 				if (i != m_streams.End())
 				{
 					XnCodecBase* pCodec = m_streams[msg.pStream].pCodec;
-					XnUInt32 frameId    = ++m_frameIds[msg.pStream];
+					uint32_t frameId    = ++m_frameIds[msg.pStream];
 					++m_streams[msg.pStream].frameId;
 					XnUInt64 timestamp  = 0;
 					if (frameId > 1)
@@ -438,7 +438,7 @@ void FileRecorder::messagePump()
 	}
 }
 
-void FileRecorder::send(Message::Type type, VideoStream* pStream, const void* pData, XnUInt32 propertyId, XnSizeT dataSize, int priority)
+void FileRecorder::send(Message::Type type, VideoStream* pStream, const void* pData, uint32_t propertyId, XnSizeT dataSize, int priority)
 {
 	Message msg =
 	{
@@ -498,7 +498,7 @@ void FileRecorder::onInitialize()
 		return;                                                 \
 	}
 
-FileRecorder::AttachedStreamInfo *FileRecorder::findAttachedStreamInfo(XnUInt32 nodeId)
+FileRecorder::AttachedStreamInfo *FileRecorder::findAttachedStreamInfo(uint32_t nodeId)
 {
 	AttachedStreamInfo *pInfo = NULL;
 	for (AttachedStreams::Iterator i = m_streams.Begin(), e = m_streams.End(); i != e; ++i)
@@ -513,7 +513,7 @@ FileRecorder::AttachedStreamInfo *FileRecorder::findAttachedStreamInfo(XnUInt32 
 	return pInfo;
 }
 
-XnUInt64 FileRecorder::getLastPropertyRecordPos(XnUInt32 nodeId, const char *propName, XnUInt64 newRecordPos)
+XnUInt64 FileRecorder::getLastPropertyRecordPos(uint32_t nodeId, const char *propName, XnUInt64 newRecordPos)
 {
 	XnUInt64 pos = 0;
 	xnl::LockGuard<AttachedStreams> guard(m_streams);
@@ -611,7 +611,7 @@ void fillXnSupportedPixelFormats(XnSupportedPixelFormats &xnSPF, OniPixelFormat 
 	}
 }
 
-void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
+void FileRecorder::onAttach(uint32_t nodeId, VideoStream* pStream)
 {
 	if (nodeId == 0 || pStream == NULL)
 	{
@@ -624,7 +624,7 @@ void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
 	}
 
 	// Assume we'll be using uncompressed codec.
-	XnUInt32 codecId = ONI_CODEC_UNCOMPRESSED;
+	uint32_t codecId = ONI_CODEC_UNCOMPRESSED;
 
 	// Applicable for depth streams only.
 	int maxDepth = XN_MAX_UINT16;
@@ -911,7 +911,7 @@ void FileRecorder::onAttach(XnUInt32 nodeId, VideoStream* pStream)
 	undoPoint.Release();
 }
 
-void FileRecorder::onDetach(XnUInt32 nodeId)
+void FileRecorder::onDetach(uint32_t nodeId)
 {
 	if (nodeId == 0)
 	{
@@ -960,7 +960,7 @@ void FileRecorder::onDetach(XnUInt32 nodeId)
 	undoPoint.Undo();
 }
 
-void FileRecorder::onStart(XnUInt32 nodeId)
+void FileRecorder::onStart(uint32_t nodeId)
 {
 	if (0 == nodeId)
 	{
@@ -979,7 +979,7 @@ void FileRecorder::onStart(XnUInt32 nodeId)
 	undoPoint.Release();
 }
 
-void FileRecorder::onRecord(XnUInt32 nodeId, XnCodecBase* pCodec, const OniFrame* pFrame, XnUInt32 frameId, XnUInt64 timestamp)
+void FileRecorder::onRecord(uint32_t nodeId, XnCodecBase* pCodec, const OniFrame* pFrame, uint32_t frameId, XnUInt64 timestamp)
 {
 	if (0 == nodeId || NULL == pFrame)
 	{
@@ -997,7 +997,7 @@ void FileRecorder::onRecord(XnUInt32 nodeId, XnCodecBase* pCodec, const OniFrame
 
 	if (NULL != pCodec)
 	{
-		XnUInt32 bufferSize_bytes32 = pFrame->dataSize * 2 + pCodec->GetOverheadSize();
+		uint32_t bufferSize_bytes32 = pFrame->dataSize * 2 + pCodec->GetOverheadSize();
 		XnUInt8* buffer             = XN_NEW_ARR(XnUInt8, bufferSize_bytes32);
 
 		XnStatus status = pCodec->Compress(reinterpret_cast<const XnUChar*>(pFrame->data),
@@ -1040,8 +1040,8 @@ void FileRecorder::onRecord(XnUInt32 nodeId, XnCodecBase* pCodec, const OniFrame
 }
 
 void FileRecorder::onRecordProperty(
-	XnUInt32    nodeId,
-	XnUInt32    propertyId,
+	uint32_t    nodeId,
+	uint32_t    propertyId,
 	const void* pData,
 	XnSizeT     dataSize)
 {

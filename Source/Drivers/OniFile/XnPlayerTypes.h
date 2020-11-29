@@ -112,7 +112,7 @@ typedef struct XnVersion
 	XnUInt8 nMajor;
 	XnUInt8 nMinor;
 	XnUInt16 nMaintenance;
-	XnUInt32 nBuild;
+	uint32_t nBuild;
 } XnVersion;
 
 //---------------------------------------------------------------------------
@@ -133,11 +133,11 @@ typedef struct XnVersion
 typedef struct XnMapOutputMode
 {
 	/** Number of elements in the X-axis. */
-	XnUInt32 nXRes;
+	uint32_t nXRes;
 	/** Number of elements in the Y-axis. */
-	XnUInt32 nYRes;
+	uint32_t nYRes;
 	/** Number of frames per second. */
-	XnUInt32 nFPS;
+	uint32_t nFPS;
 } XnMapOutputMode;
 
 /**
@@ -189,7 +189,7 @@ typedef enum XnPlayerSeekOrigin
 //---------------------------------------------------------------------------
 
 /** An ID of a codec. See @ref xnCreateCodec. **/
-typedef XnUInt32 XnCodecID;
+typedef uint32_t XnCodecID;
 
 /** Define a Codec ID by 4 characters, e.g. XN_CODEC_ID('J','P','E','G') **/
 #define XN_CODEC_ID(c1, c2, c3, c4) (XnCodecID)((c4 << 24) | (c3 << 16) | (c2 << 8) | c1)
@@ -217,7 +217,7 @@ typedef struct XnPlayerInputStreamInterface
 	 * @param	nSize		 [in]	Number of bytes to read.
 	 * @param	pnBytesRead	 [out]	Optional. Number of bytes actually read.
 	 */
-	XnStatus (XN_CALLBACK_TYPE* Read)(void* pCookie, void* pBuffer, XnUInt32 nSize, XnUInt32* pnBytesRead);
+	XnStatus (XN_CALLBACK_TYPE* Read)(void* pCookie, void* pBuffer, uint32_t nSize, uint32_t* pnBytesRead);
 
 	/**
 	 * Sets the stream's pointer to the specified position.
@@ -233,9 +233,9 @@ typedef struct XnPlayerInputStreamInterface
 	 *
 	 * @param	pCookie		[in]	A cookie that was received with this interface.
 	 *
-	 * @returns (XnUInt32)-1 if there was an error in the stream.
+	 * @returns (uint32_t)-1 if there was an error in the stream.
 	 */
-	XnUInt32 (XN_CALLBACK_TYPE* Tell)(void* pCookie);
+	uint32_t (XN_CALLBACK_TYPE* Tell)(void* pCookie);
 
 	/**
 	 * Closes the stream.
@@ -278,7 +278,7 @@ typedef struct XnNodeNotifications
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeAdded)
 		(void* pCookie, const XnChar* strNodeName, XnProductionNodeType type,
-		XnCodecID compression, XnUInt32 nNumberOfFrames);
+		XnCodecID compression, uint32_t nNumberOfFrames);
 
 	/**
 	 * Notifies the object that a production node has been removed
@@ -336,7 +336,7 @@ typedef struct XnNodeNotifications
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeGeneralPropChanged)
 		(void* pCookie, const XnChar* strNodeName,
-		const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer);
+		const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
 
 	/**
 	 * Notifies the object that a node has finished sending all the initial 'property changed' notifications.
@@ -358,7 +358,7 @@ typedef struct XnNodeNotifications
 	 */
 	XnStatus (XN_CALLBACK_TYPE* OnNodeNewData)
 		(void* pCookie, const XnChar* strNodeName,
-		XnUInt64 nTimeStamp, XnUInt32 nFrame, const void* pData, XnUInt32 nSize);
+		XnUInt64 nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize);
 
 } XnNodeNotifications;
 

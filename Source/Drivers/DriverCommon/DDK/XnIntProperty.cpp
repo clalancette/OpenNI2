@@ -29,7 +29,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnIntProperty::XnIntProperty(XnUInt32 propertyId, const XnChar* strName, XnUInt64* pValueHolder /* = NULL */, const XnChar* strModule /* = "" */ ) :
+XnIntProperty::XnIntProperty(uint32_t propertyId, const XnChar* strName, XnUInt64* pValueHolder /* = NULL */, const XnChar* strModule /* = "" */ ) :
 	XnProperty(XN_PROPERTY_TYPE_INTEGER, pValueHolder, propertyId, strName, strModule)
 {
 }

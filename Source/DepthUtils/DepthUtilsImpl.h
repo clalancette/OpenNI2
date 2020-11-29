@@ -42,22 +42,22 @@ public:
 
 	XnStatus SetColorResolution(int xres, int yres);
 
-	XnStatus TranslateSinglePixel(XnUInt32 x, XnUInt32 y, unsigned short z, XnUInt32& imageX, XnUInt32& imageY);
+	XnStatus TranslateSinglePixel(uint32_t x, uint32_t y, unsigned short z, uint32_t& imageX, uint32_t& imageY);
 private:
 	void BuildDepthToShiftTable(XnUInt16* pRGBRegDepthToShiftTable, int xres);
 	XnStatus BuildRegistrationTable(XnUInt16* pRegTable, RegistrationInfo* pRegInfo, XnUInt16** pDepthToShiftTable, int xres, int yres);
 
 	void CreateDXDYTables (XnDouble* RegXTable, XnDouble* RegYTable,
-		XnUInt32 resX, XnUInt32 resY,
+		uint32_t resX, uint32_t resY,
 		XnInt64 AX6, XnInt64 BX6, XnInt64 CX2, XnInt64 DX2,
-		XnUInt32 deltaBetaX,
+		uint32_t deltaBetaX,
 		XnInt64 AY6, XnInt64 BY6, XnInt64 CY2, XnInt64 DY2,
-		XnUInt32 deltaBetaY,
+		uint32_t deltaBetaY,
 		XnInt64 dX0, XnInt64 dY0,
 		XnInt64 dXdX0, XnInt64 dXdY0, XnInt64 dYdX0, XnInt64 dYdY0,
 		XnInt64 dXdXdX0, XnInt64 dYdXdX0, XnInt64 dYdXdY0, XnInt64 dXdXdY0,
 		XnInt64 dYdYdX0, XnInt64 dYdYdY0,
-		XnUInt32 startingBetaX, XnUInt32 startingBetaY);
+		uint32_t startingBetaX, uint32_t startingBetaY);
 	void CreateDXDYTablesInternal(XnDouble* RegXTable, XnDouble* RegYTable,
 		XnInt32 resX, XnInt32 resY,
 		XnInt64 AX6, XnInt64 BX6, XnInt64 CX2, XnInt64 DX2,

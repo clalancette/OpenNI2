@@ -51,13 +51,15 @@
 #error Xiron Platform Abstraction Layer - Unsupported Platform!
 #endif
 
+#include <cstdint>
+
 #define XN_MAX_OS_NAME_LENGTH 255
 
 typedef struct xnOSInfo
 {
 	XnChar csOSName[XN_MAX_OS_NAME_LENGTH];
 	XnChar csCPUName[XN_MAX_OS_NAME_LENGTH];
-	XnUInt32 nProcessorsCount;
+	uint32_t nProcessorsCount;
 	XnUInt64 nTotalMemory;
 } xnOSInfo;
 

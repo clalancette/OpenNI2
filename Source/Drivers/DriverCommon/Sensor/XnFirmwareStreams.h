@@ -44,17 +44,17 @@ public:
 
 	XnStatus Init();
 
-	XnStatus ClaimStream(const XnChar* strType, XnResolutions nRes, XnUInt32 nFPS, XnDeviceStream* pOwner);
+	XnStatus ClaimStream(const XnChar* strType, XnResolutions nRes, uint32_t nFPS, XnDeviceStream* pOwner);
 	XnStatus ReleaseStream(const XnChar* strType, XnDeviceStream* pOwner);
 	XnStatus LockStreamProcessor(const XnChar* strType, XnDeviceStream* pOwner);
 	XnStatus UnlockStreamProcessor(const XnChar* strType, XnDeviceStream* pOwner);
 	XnStatus ReplaceStreamProcessor(const XnChar* strType, XnDeviceStream* pOwner, XnDataProcessor* pProcessor);
 	XnBool IsClaimed(const XnChar* strType, XnDeviceStream* pStream);
 
-	void ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize);
+	void ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
 
 private:
-	XnStatus CheckClaimStream(const XnChar* strType, XnResolutions nRes, XnUInt32 nFPS, XnDeviceStream* pOwner);
+	XnStatus CheckClaimStream(const XnChar* strType, XnResolutions nRes, uint32_t nFPS, XnDeviceStream* pOwner);
 
 	XnDevicePrivateData* m_pDevicePrivateData;
 
@@ -64,7 +64,7 @@ private:
 		XnDataProcessorHolder* pProcessorHolder;
 		const XnChar* strType;
 		XnResolutions nRes;
-		XnUInt32 nFPS;
+		uint32_t nFPS;
 		XnDeviceStream* pOwner;
 	};
 

@@ -75,12 +75,12 @@ XnPacked11DepthProcessor::~XnPacked11DepthProcessor()
 {
 }
 
-XnStatus XnPacked11DepthProcessor::Unpack11to16(const XnUInt8* pcInput, const XnUInt32 nInputSize, XnUInt32* pnActualRead)
+XnStatus XnPacked11DepthProcessor::Unpack11to16(const XnUInt8* pcInput, const uint32_t nInputSize, uint32_t* pnActualRead)
 {
 	const XnUInt8* pOrigInput = pcInput;
 
-	XnUInt32 nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored
-	XnUInt32 nNeededOutput = nElements * XN_OUTPUT_ELEMENT_SIZE;
+	uint32_t nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored
+	uint32_t nNeededOutput = nElements * XN_OUTPUT_ELEMENT_SIZE;
 
 	*pnActualRead = 0;
 	XnBuffer* pWriteBuffer = GetWriteBuffer();
@@ -96,7 +96,7 @@ XnStatus XnPacked11DepthProcessor::Unpack11to16(const XnUInt8* pcInput, const Xn
 	XnUInt16 a0,a1,a2,a3,a4,a5,a6,a7;
 
 	// Convert the 11bit packed data into 16bit shorts
-	for (XnUInt32 nElem = 0; nElem < nElements; ++nElem)
+	for (uint32_t nElem = 0; nElem < nElements; ++nElem)
 	{
 		// input:	0,  1,  2,3,  4,  5,  6,7,  8,  9,10
 		//			-,---,---,-,---,---,---,-,---,---,-
@@ -127,13 +127,13 @@ XnStatus XnPacked11DepthProcessor::Unpack11to16(const XnUInt8* pcInput, const Xn
 		pnOutput += 8;
 	}
 
-	*pnActualRead = (XnUInt32)(pcInput - pOrigInput);
+	*pnActualRead = (uint32_t)(pcInput - pOrigInput);
 	pWriteBuffer->UnsafeUpdateSize(nNeededOutput);
 
 	return XN_STATUS_OK;
 }
 
-void XnPacked11DepthProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, XnUInt32 /*nDataOffset*/, XnUInt32 nDataSize)
+void XnPacked11DepthProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, uint32_t /*nDataOffset*/, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnPacked11DepthProcessor::ProcessFramePacketChunk")
 
@@ -143,7 +143,7 @@ void XnPacked11DepthProcessor::ProcessFramePacketChunk(const XnSensorProtocolRes
 	if (m_ContinuousBuffer.GetSize() != 0)
 	{
 		// fill in to a whole element
-		XnUInt32 nReadBytes = XN_MIN(nDataSize, XN_INPUT_ELEMENT_SIZE - m_ContinuousBuffer.GetSize());
+		uint32_t nReadBytes = XN_MIN(nDataSize, XN_INPUT_ELEMENT_SIZE - m_ContinuousBuffer.GetSize());
 		m_ContinuousBuffer.UnsafeWrite(pData, nReadBytes);
 		pData += nReadBytes;
 		nDataSize -= nReadBytes;
@@ -151,14 +151,14 @@ void XnPacked11DepthProcessor::ProcessFramePacketChunk(const XnSensorProtocolRes
 		if (m_ContinuousBuffer.GetSize() == XN_INPUT_ELEMENT_SIZE)
 		{
 			// process it
-			XnUInt32 nActualRead = 0;
+			uint32_t nActualRead = 0;
 			Unpack11to16(m_ContinuousBuffer.GetData(), XN_INPUT_ELEMENT_SIZE, &nActualRead);
 			m_ContinuousBuffer.Reset();
 		}
 	}
 
 	// find out the number of input elements we have
-	XnUInt32 nActualRead = 0;
+	uint32_t nActualRead = 0;
 	nRetVal = Unpack11to16(pData, nDataSize, &nActualRead);
 	if (nRetVal == XN_STATUS_OK)
 	{

@@ -78,7 +78,7 @@ XnStatus XnSensorIRStream::Init()
 
 	// register supported modes
 	XnCmosPreset* pSupportedModes = m_Helper.GetPrivateData()->FWInfo.irModes.data();
-	XnUInt32 nSupportedModes = m_Helper.GetPrivateData()->FWInfo.irModes.size();
+	uint32_t nSupportedModes = m_Helper.GetPrivateData()->FWInfo.irModes.size();
 	nRetVal = AddSupportedModes(pSupportedModes, nSupportedModes);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -268,7 +268,7 @@ XnStatus XnSensorIRStream::SetOutputFormat(OniPixelFormat nOutputFormat)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorIRStream::SetFPS(XnUInt32 nFPS)
+XnStatus XnSensorIRStream::SetFPS(uint32_t nFPS)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -414,10 +414,10 @@ XnStatus XnSensorIRStream::SetCroppingMode(XnCroppingMode mode)
 	return SetCroppingImpl(GetCropping(), mode);
 }
 
-XnStatus XnSensorIRStream::CalcRequiredSize(XnUInt32* pnRequiredSize) const
+XnStatus XnSensorIRStream::CalcRequiredSize(uint32_t* pnRequiredSize) const
 {
 	// in IR, in all resolutions except SXGA, we get additional 8 lines
-	XnUInt32 nYRes = GetYRes();
+	uint32_t nYRes = GetYRes();
 	if (GetResolution() != XN_RESOLUTION_SXGA)
 	{
 		nYRes += 8;

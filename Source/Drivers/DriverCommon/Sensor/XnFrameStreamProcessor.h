@@ -56,7 +56,7 @@ protected:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize);
+	virtual void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
 	virtual void OnPacketLost();
 
 	//---------------------------------------------------------------------------
@@ -78,7 +78,7 @@ protected:
 	* @param	nDataOffset	[in]	The offset of this data chunk inside current packet.
 	* @param	nDataSize	[in]	Size of the data in bytes.
 	*/
-	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize) = 0;
+	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) = 0;
 
 	/*
 	* Called when a frame ends.
@@ -93,7 +93,7 @@ protected:
 	* @param	nFrameID	[in]	ID of this frame.
 	* @param	nFrameTS	[in]	Timestamp of this frame.
 	*/
-	virtual void OnFrameReady(XnUInt32 /*nFrameID*/, XnUInt64 /*nFrameTS*/) {}
+	virtual void OnFrameReady(uint32_t /*nFrameID*/, XnUInt64 /*nFrameTS*/) {}
 
 	//---------------------------------------------------------------------------
 	// Utility Functions
@@ -107,7 +107,7 @@ protected:
 	/*
 	* Gets the expected output size.
 	*/
-	inline XnUInt32 GetExpectedOutputSize()
+	inline uint32_t GetExpectedOutputSize()
 	{
 		return GetStream()->GetRequiredDataSize();
 	}
@@ -128,7 +128,7 @@ protected:
 	/*
 	* Gets current frame ID (for logging purposes mainly).
 	*/
-	inline XnUInt32 GetCurrentFrameID()
+	inline uint32_t GetCurrentFrameID()
 	{
 		return m_pTripleBuffer->GetLastFrameID();
 	}
@@ -141,7 +141,7 @@ protected:
 	/*
 	* Checks if write buffer has overflowed, if so, a log will be issued and buffer will reset.
 	*/
-	inline XnBool CheckWriteBufferForOverflow(XnUInt32 nWriteSize)
+	inline XnBool CheckWriteBufferForOverflow(uint32_t nWriteSize)
 	{
 		if (GetWriteBuffer()->GetFreeSpaceInBuffer() < nWriteSize)
 		{

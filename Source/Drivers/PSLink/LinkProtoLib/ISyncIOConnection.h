@@ -42,7 +42,7 @@ public:
 	 * @param	pData		[out]	Buffer to hold received data.
 	 * @param	nSize		[in]	Size of data to receive.
 	 */
-	virtual XnStatus Receive(void* pData, XnUInt32& nSize) = 0;
+	virtual XnStatus Receive(void* pData, uint32_t& nSize) = 0;
 
 	/**
 	 * Sends a buffer on the connection.
@@ -50,7 +50,7 @@ public:
 	 * @param	pData		[out]	Buffer that holds data to send.
 	 * @param	nDataSize	[in]	Size of data to send.
 	 */
-	virtual XnStatus Send(const void* pData, XnUInt32 nSize) = 0;
+	virtual XnStatus Send(const void* pData, uint32_t nSize) = 0;
 };
 
 }

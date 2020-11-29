@@ -332,7 +332,7 @@ XN_C_API XnStatus xnOSGetInfo(xnOSInfo* pOSInfo)
 	return (XN_STATUS_OK);
 }
 
-XnStatus xnWin32CreateKernelObjectName(XnChar* strDest, const XnUInt32 nDestLength, const XnChar* strSource, XnBool bAllowOtherUsers)
+XnStatus xnWin32CreateKernelObjectName(XnChar* strDest, const uint32_t nDestLength, const XnChar* strSource, XnBool bAllowOtherUsers)
 {
 	XnChar* pDest = strDest;
 	XnChar* pDestEnd = strDest + nDestLength;

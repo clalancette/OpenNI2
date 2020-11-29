@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnWholePacketProcessor::XnWholePacketProcessor(XnDevicePrivateData* pDevicePrivateData, const XnChar* csName, XnUInt32 nMaxPacketSize) :
+XnWholePacketProcessor::XnWholePacketProcessor(XnDevicePrivateData* pDevicePrivateData, const XnChar* csName, uint32_t nMaxPacketSize) :
 	XnDataProcessor(pDevicePrivateData, csName),
 	m_nMaxPacketSize(nMaxPacketSize)
 {}
@@ -47,7 +47,7 @@ XnStatus XnWholePacketProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnWholePacketProcessor::ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize)
+void XnWholePacketProcessor::ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	if (nDataOffset == 0 && m_WholePacket.GetSize() != 0)
 	{

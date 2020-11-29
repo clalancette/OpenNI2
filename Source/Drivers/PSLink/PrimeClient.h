@@ -59,7 +59,7 @@ public:
 
 	/* Global Properties */
 	virtual const XnDetailedVersion& GetFWVersion() const;
-	virtual XnUInt32 GetHWVersion() const;
+	virtual uint32_t GetHWVersion() const;
 	virtual const XnLeanVersion& GetDeviceProtocolVersion() const;
 	virtual const XnChar* GetSerialNumber() const;
 	virtual XnStatus GetComponentsVersions(std::vector<XnComponentVersion>& componentVersions);
@@ -68,10 +68,10 @@ public:
 	/* Global Device Commands */
 	virtual	XnStatus GetBootStatus(XnBootStatus& bootStatus);
 	virtual	XnStatus GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supportedDevices);
-	virtual XnStatus WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32 nValue, XnUInt32 nMask);
-	virtual XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32& nValue);
-	virtual XnStatus WriteAHB(XnUInt32 nAddress, XnUInt32 nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth);
-	virtual XnStatus ReadAHB(XnUInt32 nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, XnUInt32& nValue);
+	virtual XnStatus WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t nValue, uint32_t nMask);
+	virtual XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t& nValue);
+	virtual XnStatus WriteAHB(uint32_t nAddress, uint32_t nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth);
+	virtual XnStatus ReadAHB(uint32_t nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, uint32_t& nValue);
 	virtual XnStatus SoftReset();
 	virtual XnStatus HardReset();
 	virtual XnStatus ReadDebugData(XnCommandDebugData& commandDebugData);
@@ -92,7 +92,7 @@ public:
 	virtual XnStatus GetSupportedBistTests(std::vector<XnBistInfo>& supportedTests);
 	virtual XnStatus GetSupportedTempList(std::vector<XnTempInfo>& supportedTempList);
 	virtual XnStatus GetTemperature(XnCommandTemperatureResponse& temp);
-	virtual XnStatus ExecuteBist(XnUInt32 nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData);
+	virtual XnStatus ExecuteBist(uint32_t nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData);
 	virtual XnStatus FormatZone(XnUInt8 nZone);
 	//TODO: Implement Get emitter active
 
@@ -106,7 +106,7 @@ public:
 	virtual const LinkInputStream* GetInputStream(XnUInt16 nStreamID) const;
 
 	virtual XnStatus InitOutputStream(XnUInt16 nStreamID,
-		XnUInt32 nMaxMsgSize,
+		uint32_t nMaxMsgSize,
 		XnUInt16 nMaxPacketSize,
 		XnLinkCompressionType compression,
 		XnStreamFragLevel streamFragLevel);
@@ -140,8 +140,8 @@ protected:
 	LinkOutputStreamsMgr m_linkOutputStreamsMgr;
 
 private:
-	static const XnUInt32 MAX_COMMAND_SIZE;
-	static const XnUInt32 CONT_STREAM_PREDEFINED_BUFFER_SIZE;
+	static const uint32_t MAX_COMMAND_SIZE;
+	static const uint32_t CONT_STREAM_PREDEFINED_BUFFER_SIZE;
 
 	XnBool m_bInitialized;
 	volatile XnBool m_bConnected;
@@ -152,7 +152,7 @@ private:
 	std::vector<xnl::BitSet> m_supportedProps;
 	XnDetailedVersion m_fwVersion;
 	XnLeanVersion m_protocolVersion;
-	XnUInt32 m_nHWVersion;
+	uint32_t m_nHWVersion;
 	XnChar m_strSerialNumber[XN_SERIAL_NUMBER_SIZE];
 };
 

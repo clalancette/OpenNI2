@@ -42,9 +42,9 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const XnUInt32 nInputSize,
-										  XnUInt8* pOutput, XnUInt32* pnOutputSize, XnUInt16 nLineSize,
-										  XnUInt32* pnActualRead, XnBool bLastPart)
+XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const uint32_t nInputSize,
+										  XnUInt8* pOutput, uint32_t* pnOutputSize, XnUInt16 nLineSize,
+										  uint32_t* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
 	const XnUInt8* pInputOrig = pInput;
@@ -54,8 +54,8 @@ XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const XnUInt32 nInp
 	XnUInt8 nLastFullValue[4] = {0};
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
-	XnUInt32 nTempValue = 0;
-	XnUInt32 cInput = 0;
+	uint32_t nTempValue = 0;
+	uint32_t cInput = 0;
 	XnBool bReadByte = TRUE;
 
 	if (nInputSize < sizeof(XnUInt8))
@@ -70,8 +70,8 @@ XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const XnUInt32 nInp
 	*pnActualRead = 0;
 	*pnOutputSize = 0;
 
-	XnUInt32 nChannel = 0;
-	XnUInt32 nCurLineSize = 0;
+	uint32_t nChannel = 0;
+	uint32_t nCurLineSize = 0;
 
 	while (pInput < pInputEnd)
 	{
@@ -166,22 +166,22 @@ XnStatus XnStreamUncompressYUVImagePS(const XnUInt8* pInput, const XnUInt32 nInp
 
 	if (bLastPart == TRUE)
 	{
-		*pnOutputSize = (XnUInt32)(pOutput - pOrigOutput) * sizeof(XnUInt8);
-		*pnActualRead += (XnUInt32)(pInput - pInputOrig) * sizeof(XnUInt8);
+		*pnOutputSize = (uint32_t)(pOutput - pOrigOutput) * sizeof(XnUInt8);
+		*pnActualRead += (uint32_t)(pInput - pInputOrig) * sizeof(XnUInt8);
 	}
 	else if ((pOutputLastPossibleStop != pOrigOutput) && (pInputLastPossibleStop != pInputOrig))
 	{
-		*pnOutputSize = (XnUInt32)(pOutputLastPossibleStop - pOrigOutput) * sizeof(XnUInt8);
-		*pnActualRead += (XnUInt32)(pInputLastPossibleStop - pInputOrig) * sizeof(XnUInt8);
+		*pnOutputSize = (uint32_t)(pOutputLastPossibleStop - pOrigOutput) * sizeof(XnUInt8);
+		*pnActualRead += (uint32_t)(pInputLastPossibleStop - pInputOrig) * sizeof(XnUInt8);
 	}
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const XnUInt32 nInputSize,
-									XnUInt8* pOutput, XnUInt32* pnOutputSize, XnUInt16 nLineSize,
-									XnUInt32* pnActualRead, XnBool bLastPart)
+XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const uint32_t nInputSize,
+									XnUInt8* pOutput, uint32_t* pnOutputSize, XnUInt16 nLineSize,
+									uint32_t* pnActualRead, XnBool bLastPart)
 {
 	// Input is made of 4-bit elements.
 	const XnUInt8* pInputOrig = pInput;
@@ -191,8 +191,8 @@ XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const XnUInt32 nInput
 	XnUInt8 nLastFullValue[4] = {0};
 
 	// NOTE: we use variables of type uint32 instead of uint8 as an optimization (better CPU usage)
-	XnUInt32 nTempValue = 0;
-	XnUInt32 cInput = 0;
+	uint32_t nTempValue = 0;
+	uint32_t cInput = 0;
 	XnBool bReadByte = TRUE;
 
 	if (nInputSize < sizeof(XnUInt8))
@@ -207,8 +207,8 @@ XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const XnUInt32 nInput
 	*pnActualRead = 0;
 	*pnOutputSize = 0;
 
-	XnUInt32 nChannel = 0;
-	XnUInt32 nCurLineSize = 0;
+	uint32_t nChannel = 0;
+	uint32_t nCurLineSize = 0;
 
 	while (pInput < pInputEnd)
 	{
@@ -299,13 +299,13 @@ XnStatus XnStreamUncompressImageNew(const XnUInt8* pInput, const XnUInt32 nInput
 
 	if (bLastPart == TRUE)
 	{
-		*pnOutputSize = (XnUInt32)(pOutput - pOrigOutput) * sizeof(XnUInt8);
-		*pnActualRead += (XnUInt32)(pInput - pInputOrig) * sizeof(XnUInt8);
+		*pnOutputSize = (uint32_t)(pOutput - pOrigOutput) * sizeof(XnUInt8);
+		*pnActualRead += (uint32_t)(pInput - pInputOrig) * sizeof(XnUInt8);
 	}
 	else if ((pOutputLastPossibleStop != pOrigOutput) && (pInputLastPossibleStop != pInputOrig))
 	{
-		*pnOutputSize = (XnUInt32)(pOutputLastPossibleStop - pOrigOutput) * sizeof(XnUInt8);
-		*pnActualRead += (XnUInt32)(pInputLastPossibleStop - pInputOrig) * sizeof(XnUInt8);
+		*pnOutputSize = (uint32_t)(pOutputLastPossibleStop - pOrigOutput) * sizeof(XnUInt8);
+		*pnActualRead += (uint32_t)(pInputLastPossibleStop - pInputOrig) * sizeof(XnUInt8);
 	}
 
 	// All is good...

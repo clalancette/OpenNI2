@@ -46,11 +46,11 @@ protected:
 						const XnUInt8* pDstEnd);
 
 private:
-	XnStatus Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest, const XnUInt32 nInputSize, XnUInt32* pnActualRead, XnUInt32* pnActualWritten);
-	XnUInt32 ProcessFramePacketChunk(const XnUInt8* pData,XnUInt8* pDest, XnUInt32 nDataSize);
+	XnStatus Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest, const uint32_t nInputSize, uint32_t* pnActualRead, uint32_t* pnActualWritten);
+	uint32_t ProcessFramePacketChunk(const XnUInt8* pData,XnUInt8* pDest, uint32_t nDataSize);
 
 	const OniDepthPixel* m_pShiftToDepth;
-	XnUInt32 m_ContinuousBufferSize;
+	uint32_t m_ContinuousBufferSize;
 	XnUInt8 m_ContinuousBuffer[XN_INPUT_ELEMENT_SIZE];
 };
 

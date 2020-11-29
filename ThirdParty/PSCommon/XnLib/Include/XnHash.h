@@ -79,7 +79,7 @@ public:
 	{
 	public:
 		ConstIterator() : m_ppBins(NULL), m_currBin(0) {}
-		ConstIterator(TPairList* const* apBins, XnUInt32 currBin, typename TPairList::const_iterator currIt) :
+		ConstIterator(TPairList* const* apBins, uint32_t currBin, typename TPairList::const_iterator currIt) :
 			m_ppBins(apBins), m_currBin(currBin), m_currIt(currIt)
 		{
 			if (currBin != LAST_BIN && m_currIt == m_ppBins[m_currBin]->end())
@@ -141,7 +141,7 @@ public:
 		friend class Hash;
 
 		TPairList* const* m_ppBins;
-		XnUInt32 m_currBin;
+		uint32_t m_currBin;
 		typename TPairList::const_iterator m_currIt;
 	};
 
@@ -150,7 +150,7 @@ public:
 	public:
 		Iterator() : ConstIterator() {}
 
-		Iterator(TPairList** apBins, XnUInt32 currBin, typename TPairList::iterator currIt) :
+		Iterator(TPairList** apBins, uint32_t currBin, typename TPairList::iterator currIt) :
 			ConstIterator(apBins, currBin, currIt)
 		{}
 		Iterator(const Iterator& other) : ConstIterator(other) {}
@@ -214,7 +214,7 @@ public:
 
 	~Hash()
 	{
-		for (XnUInt32 i = 0; i < LAST_BIN; ++i)
+		for (uint32_t i = 0; i < LAST_BIN; ++i)
 		{
 			if (m_apBins[i] != NULL)
 			{
@@ -269,7 +269,7 @@ public:
 
 	ConstIterator Find(const TKey& key) const
 	{
-		XnUInt32 bin = LAST_BIN;
+		uint32_t bin = LAST_BIN;
 		typename TPairList::const_iterator it;
 		if (Find(key, bin, it))
 		{
@@ -279,7 +279,7 @@ public:
 	}
 	Iterator Find(const TKey& key)
 	{
-		XnUInt32 bin = LAST_BIN;
+		uint32_t bin = LAST_BIN;
 		typename TPairList::iterator it;
 		if (Find(key, bin, it))
 		{
@@ -399,16 +399,16 @@ public:
 		return (Begin() == End());
 	}
 
-	XnUInt32 Size() const
+	uint32_t Size() const
 	{
-		XnUInt32 size = 0;
+		uint32_t size = 0;
 		for (ConstIterator iter = Begin(); iter != End(); ++iter, ++size)
 		{}
 
 		return size;
 	}
 private:
-	bool Find(const TKey& key, XnUInt32& bin, typename TPairList::const_iterator& currIt) const
+	bool Find(const TKey& key, uint32_t& bin, typename TPairList::const_iterator& currIt) const
 	{
 		xnl::HashCode hash = KeyManager::Hash(key);
 
@@ -428,7 +428,7 @@ private:
 		return false;
 	}
 
-	bool Find(const TKey& key, XnUInt32& bin, typename TPairList::iterator& currIt) const
+	bool Find(const TKey& key, uint32_t& bin, typename TPairList::iterator& currIt) const
 	{
 		xnl::HashCode hash = KeyManager::Hash(key);
 
@@ -457,7 +457,7 @@ private:
 
 	TPairList* m_apBins[NUM_BINS];
 	TPairList m_lastBin;
-	XnUInt32 m_minBin;
+	uint32_t m_minBin;
 
 };
 

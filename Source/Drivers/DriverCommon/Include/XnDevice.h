@@ -48,7 +48,7 @@ typedef struct XnNewStreamDataEventArgs
 	OniFrame* pFrame;
 } XnNewStreamDataEventArgs;
 
-typedef void (XN_CALLBACK_TYPE* XnDeviceOnPropertyChangedEventHandler)(const XnChar* ModuleName, XnUInt32 nPropertyId, void* pCookie);
+typedef void (XN_CALLBACK_TYPE* XnDeviceOnPropertyChangedEventHandler)(const XnChar* ModuleName, uint32_t nPropertyId, void* pCookie);
 typedef void (XN_CALLBACK_TYPE* XnDeviceOnNewStreamDataEventHandler)(const XnNewStreamDataEventArgs& args, void* pCookie);
 
 

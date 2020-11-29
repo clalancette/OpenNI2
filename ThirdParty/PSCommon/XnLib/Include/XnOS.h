@@ -315,7 +315,7 @@ typedef enum
 /**
 * Memory Profiling - Logs an allocation of memory.
 */
-XN_C_API void* XN_C_DECL xnOSLogMemAlloc(void* pMemBlock, XnAllocationType nAllocType, XnUInt32 nBytes, const XnChar* csFunction, const XnChar* csFile, XnUInt32 nLine, const XnChar* csAdditional);
+XN_C_API void* XN_C_DECL xnOSLogMemAlloc(void* pMemBlock, XnAllocationType nAllocType, uint32_t nBytes, const XnChar* csFunction, const XnChar* csFile, uint32_t nLine, const XnChar* csAdditional);
 
 /**
 * Memory Profiling - Logs freeing of memory.
@@ -348,14 +348,14 @@ XN_C_API void XN_C_DECL xnOSWriteMemoryReport(const XnChar* csFileName);
 			void* p = xnOSMalloc(size);
 			return xnOSLogMemAlloc(p, XN_ALLOCATION_NEW, size, "", "", 0, "");
 		}
-		static void* operator new(size_t size, const XnChar* csFunction, const XnChar* csFile, XnUInt32 nLine, const XnChar* csAdditional)
+		static void* operator new(size_t size, const XnChar* csFunction, const XnChar* csFile, uint32_t nLine, const XnChar* csAdditional)
 		{
 			void* p = xnOSMalloc(size);
 			return xnOSLogMemAlloc(p, XN_ALLOCATION_NEW, size, csFunction, csFile, nLine, csAdditional);
 		}
 
 		// called only if ctor threw exception
-		static void operator delete(void* p, const XnChar* /*csFunction*/, const XnChar* /*csFile*/, XnUInt32 /*nLine*/, const XnChar* /*csAdditional*/)
+		static void operator delete(void* p, const XnChar* /*csFunction*/, const XnChar* /*csFile*/, uint32_t /*nLine*/, const XnChar* /*csAdditional*/)
 		{
 			xnOSLogMemFree(p);
 			xnOSFree(p);
@@ -367,14 +367,14 @@ XN_C_API void XN_C_DECL xnOSWriteMemoryReport(const XnChar* csFileName);
 			xnOSFree(p);
 		}
 
-		static void* operator new[](size_t size, const XnChar* csFunction, const XnChar* csFile, XnUInt32 nLine, const XnChar* csAdditional)
+		static void* operator new[](size_t size, const XnChar* csFunction, const XnChar* csFile, uint32_t nLine, const XnChar* csAdditional)
 		{
 			void* p = xnOSMalloc(size);
 			return xnOSLogMemAlloc(p, XN_ALLOCATION_NEW_ARRAY, size, csFunction, csFile, nLine, csAdditional);
 		}
 
 		// called only if ctor threw exception
-		static void operator delete[](void* p, const XnChar* /*csFunction*/, const XnChar* /*csFile*/, XnUInt32 /*nLine*/, const XnChar* /*csAdditional*/)
+		static void operator delete[](void* p, const XnChar* /*csFunction*/, const XnChar* /*csFile*/, uint32_t /*nLine*/, const XnChar* /*csAdditional*/)
 		{
 			xnOSLogMemFree(p);
 			xnOSFree(p);
@@ -412,31 +412,31 @@ XN_C_API void XN_C_DECL xnOSWriteMemoryReport(const XnChar* csFileName);
 // Files
 XN_C_API XnStatus XN_C_DECL xnOSCountFiles(const XnChar* cpSearchPattern, XnInt32* pnFoundFiles);
 XN_C_API XnStatus XN_C_DECL xnOSGetFileList(const XnChar* cpSearchPattern, const XnChar* cpPrefixPath, XnChar cpFileList[][XN_FILE_MAX_PATH], const XnInt32 nMaxFiles, XnInt32* pnFoundFiles);
-XN_C_API XnStatus XN_C_DECL xnOSOpenFile(const XnChar* cpFileName, const XnUInt32 nFlags, XN_FILE_HANDLE* pFile);
+XN_C_API XnStatus XN_C_DECL xnOSOpenFile(const XnChar* cpFileName, const uint32_t nFlags, XN_FILE_HANDLE* pFile);
 XN_C_API XnStatus XN_C_DECL xnOSCloseFile(XN_FILE_HANDLE* pFile);
-XN_C_API XnStatus XN_C_DECL xnOSReadFile(const XN_FILE_HANDLE File, void* pBuffer, XnUInt32* pnBufferSize);
-XN_C_API XnStatus XN_C_DECL xnOSWriteFile(const XN_FILE_HANDLE File, const void* pBuffer, const XnUInt32 nBufferSize);
+XN_C_API XnStatus XN_C_DECL xnOSReadFile(const XN_FILE_HANDLE File, void* pBuffer, uint32_t* pnBufferSize);
+XN_C_API XnStatus XN_C_DECL xnOSWriteFile(const XN_FILE_HANDLE File, const void* pBuffer, const uint32_t nBufferSize);
 XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSSeekFile64() instead") XN_C_DECL
 			    xnOSSeekFile  (const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const XnInt32 nOffset);
 XN_C_API XnStatus XN_C_DECL xnOSSeekFile64(const XN_FILE_HANDLE File, const XnOSSeekType SeekType, const XnInt64 nOffset);
 XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSTellFile64() instead") XN_C_DECL
-			    xnOSTellFile  (const XN_FILE_HANDLE File, XnUInt32* nFilePos);
+			    xnOSTellFile  (const XN_FILE_HANDLE File, uint32_t* nFilePos);
 XN_C_API XnStatus XN_C_DECL xnOSTellFile64(const XN_FILE_HANDLE File, XnUInt64* nFilePos);
 XN_C_API XnStatus XN_C_DECL xnOSTruncateFile64(const XN_FILE_HANDLE File, XnUInt64 nFilePos);
 XN_C_API XnStatus XN_C_DECL xnOSFlushFile(const XN_FILE_HANDLE File);
 XN_C_API XnStatus XN_C_DECL xnOSDoesFileExist(const XnChar* cpFileName, XnBool* pbResult);
 XN_C_API XnStatus XN_C_DECL xnOSDoesDirectoryExist(const XnChar* cpDirName, XnBool* pbResult);
-XN_C_API XnStatus XN_C_DECL xnOSLoadFile(const XnChar* cpFileName, void* pBuffer, const XnUInt32 nBufferSize);
-XN_C_API XnStatus XN_C_DECL xnOSSaveFile(const XnChar* cpFileName, const void* pBuffer, const XnUInt32 nBufferSize);
-XN_C_API XnStatus XN_C_DECL xnOSAppendFile(const XnChar* cpFileName, const void* pBuffer, const XnUInt32 nBufferSize);
+XN_C_API XnStatus XN_C_DECL xnOSLoadFile(const XnChar* cpFileName, void* pBuffer, const uint32_t nBufferSize);
+XN_C_API XnStatus XN_C_DECL xnOSSaveFile(const XnChar* cpFileName, const void* pBuffer, const uint32_t nBufferSize);
+XN_C_API XnStatus XN_C_DECL xnOSAppendFile(const XnChar* cpFileName, const void* pBuffer, const uint32_t nBufferSize);
 XN_C_API XnStatus XN_API_DEPRECATED("Use xnOSGetFileSize64() instead") XN_C_DECL
-			    xnOSGetFileSize  (const XnChar* cpFileName, XnUInt32* pnFileSize);
+			    xnOSGetFileSize  (const XnChar* cpFileName, uint32_t* pnFileSize);
 XN_C_API XnStatus XN_C_DECL xnOSGetFileSize64(const XnChar* cpFileName, XnUInt64* pnFileSize);
 XN_C_API XnStatus XN_C_DECL xnOSCreateDirectory(const XnChar* cpDirName);
-XN_C_API XnStatus XN_C_DECL xnOSGetDirName(const XnChar* cpFilePath, XnChar* cpDirName, const XnUInt32 nBufferSize);
-XN_C_API XnStatus XN_C_DECL xnOSGetFileName(const XnChar* cpFilePath, XnChar* cpFileName, const XnUInt32 nBufferSize);
-XN_C_API XnStatus XN_C_DECL xnOSGetFullPathName(const XnChar* strFilePath, XnChar* strFullPath, XnUInt32 nBufferSize);
-XN_C_API XnStatus XN_C_DECL xnOSGetCurrentDir(XnChar* cpDirName, const XnUInt32 nBufferSize);
+XN_C_API XnStatus XN_C_DECL xnOSGetDirName(const XnChar* cpFilePath, XnChar* cpDirName, const uint32_t nBufferSize);
+XN_C_API XnStatus XN_C_DECL xnOSGetFileName(const XnChar* cpFilePath, XnChar* cpFileName, const uint32_t nBufferSize);
+XN_C_API XnStatus XN_C_DECL xnOSGetFullPathName(const XnChar* strFilePath, XnChar* strFullPath, uint32_t nBufferSize);
+XN_C_API XnStatus XN_C_DECL xnOSGetCurrentDir(XnChar* cpDirName, const uint32_t nBufferSize);
 XN_C_API XnStatus XN_C_DECL xnOSSetCurrentDir(const XnChar* cpDirName);
 
 /**
@@ -457,7 +457,7 @@ XN_C_API XnBool XN_C_DECL xnOSIsDirSep(XnChar c);
  * @param	strPathComponentToAppend	[in]	Path component(s) to append. Can be absolute or relative.
  * @param	nBufferSize					[in]	Size of strDestPath.
  */
-XN_C_API XnStatus XN_C_DECL xnOSAppendFilePath(XnChar* strDestPath, const XnChar* strPathComponentToAppend, const XnUInt32 nBufferSize);
+XN_C_API XnStatus XN_C_DECL xnOSAppendFilePath(XnChar* strDestPath, const XnChar* strPathComponentToAppend, const uint32_t nBufferSize);
 /**
  * Returns true if the specified path is absolute.
  */
@@ -467,7 +467,7 @@ XN_C_API XnStatus XN_C_DECL xnOSDeleteEmptyDirectory(const XnChar* strDirName);
 XN_C_API XnStatus XN_C_DECL xnOSDeleteDirectoryTree(const XnChar* strDirName);
 
 // INI
-XN_C_API XnStatus XN_C_DECL xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnChar* cpDest, const XnUInt32 nDestLength);
+XN_C_API XnStatus XN_C_DECL xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnChar* cpDest, const uint32_t nDestLength);
 XN_C_API XnStatus XN_C_DECL xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnFloat* fDest);
 XN_C_API XnStatus XN_C_DECL xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnDouble* fDest);
 XN_C_API XnStatus XN_C_DECL xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnInt32* nDest);
@@ -492,17 +492,17 @@ XN_C_API XnStatus XN_C_DECL xnOSGetModulePathForProcAddress(void* procAddr, XnCh
 struct timespec;
 
 // Time
-XN_C_API XnStatus XN_C_DECL xnOSGetEpochTime(XnUInt32* nEpochTime);
+XN_C_API XnStatus XN_C_DECL xnOSGetEpochTime(uint32_t* nEpochTime);
 XN_C_API XnStatus XN_C_DECL xnOSGetTimeStamp(XnUInt64* nTimeStamp);
 XN_C_API XnStatus XN_C_DECL xnOSGetHighResTimeStamp(XnUInt64* nTimeStamp);
-XN_C_API XnStatus XN_C_DECL xnOSSleep(XnUInt32 nMilliseconds);
+XN_C_API XnStatus XN_C_DECL xnOSSleep(uint32_t nMilliseconds);
 XN_C_API XnStatus XN_C_DECL xnOSStartTimer(XnOSTimer* pTimer);
 XN_C_API XnStatus XN_C_DECL xnOSStartHighResTimer(XnOSTimer* pTimer);
 XN_C_API XnStatus XN_C_DECL xnOSQueryTimer(XnOSTimer Timer, XnUInt64* pnTimeSinceStart);
 XN_C_API XnStatus XN_C_DECL xnOSStopTimer(XnOSTimer* pTimer);
 XN_C_API XnStatus XN_C_DECL xnOSGetMonoTime(struct timespec* pTime);
-XN_C_API XnStatus XN_C_DECL xnOSGetTimeout(struct timespec* pTime, XnUInt32 nMilliseconds);
-XN_C_API XnStatus XN_C_DECL xnOSGetAbsTimeout(struct timespec* pTime, XnUInt32 nMilliseconds);
+XN_C_API XnStatus XN_C_DECL xnOSGetTimeout(struct timespec* pTime, uint32_t nMilliseconds);
+XN_C_API XnStatus XN_C_DECL xnOSGetAbsTimeout(struct timespec* pTime, uint32_t nMilliseconds);
 
 // Threads
 typedef enum XnThreadPriority
@@ -516,22 +516,22 @@ typedef enum XnThreadPriority
 XN_C_API XnStatus XN_C_DECL xnOSCreateThread(XN_THREAD_PROC_PROTO pThreadProc, const XN_THREAD_PARAM pThreadParam, XN_THREAD_HANDLE* pThreadHandle);
 XN_C_API XnStatus XN_C_DECL xnOSTerminateThread(XN_THREAD_HANDLE* pThreadHandle);
 XN_C_API XnStatus XN_C_DECL xnOSCloseThread(XN_THREAD_HANDLE* pThreadHandle);
-XN_C_API XnStatus XN_C_DECL xnOSWaitForThreadExit(XN_THREAD_HANDLE ThreadHandle, XnUInt32 nMilliseconds);
+XN_C_API XnStatus XN_C_DECL xnOSWaitForThreadExit(XN_THREAD_HANDLE ThreadHandle, uint32_t nMilliseconds);
 XN_C_API XnStatus XN_C_DECL xnOSSetThreadPriority(XN_THREAD_HANDLE ThreadHandle, XnThreadPriority nPriority);
 XN_C_API XnStatus XN_C_DECL xnOSGetCurrentThreadID(XN_THREAD_ID* pThreadID);
-XN_C_API XnStatus XN_C_DECL xnOSWaitAndTerminateThread(XN_THREAD_HANDLE* pThreadHandle, XnUInt32 nMilliseconds);
+XN_C_API XnStatus XN_C_DECL xnOSWaitAndTerminateThread(XN_THREAD_HANDLE* pThreadHandle, uint32_t nMilliseconds);
 XN_C_API XnBool XN_C_DECL xnOSDoesThreadExistByID(XN_THREAD_ID threadId);
 
 // Processes
 XN_C_API XnStatus XN_C_DECL xnOSGetCurrentProcessID(XN_PROCESS_ID* pProcID);
-XN_C_API XnStatus XN_C_DECL xnOSCreateProcess(const XnChar* strExecutable, XnUInt32 nArgs, const XnChar** pstrArgs, XN_PROCESS_ID* pProcID);
+XN_C_API XnStatus XN_C_DECL xnOSCreateProcess(const XnChar* strExecutable, uint32_t nArgs, const XnChar** pstrArgs, XN_PROCESS_ID* pProcID);
 
 // Mutex
 XN_C_API XnStatus XN_C_DECL xnOSCreateMutex(XN_MUTEX_HANDLE* pMutexHandle);
 XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutex(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName);
 XN_C_API XnStatus XN_C_DECL xnOSCreateNamedMutexEx(XN_MUTEX_HANDLE* pMutexHandle, const XnChar* cpMutexName, XnBool bAllowOtherUsers);
 XN_C_API XnStatus XN_C_DECL xnOSCloseMutex(XN_MUTEX_HANDLE* pMutexHandle);
-XN_C_API XnStatus XN_C_DECL xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, XnUInt32 nMilliseconds);
+XN_C_API XnStatus XN_C_DECL xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, uint32_t nMilliseconds);
 XN_C_API XnStatus XN_C_DECL xnOSUnLockMutex(const XN_MUTEX_HANDLE MutexHandle);
 
 // Critical Sections
@@ -549,12 +549,12 @@ XN_C_API XnStatus XN_C_DECL xnOSOpenNamedEventEx(XN_EVENT_HANDLE* pEventHandle, 
 XN_C_API XnStatus XN_C_DECL xnOSCloseEvent(XN_EVENT_HANDLE* pEventHandle);
 XN_C_API XnStatus XN_C_DECL xnOSSetEvent(const XN_EVENT_HANDLE EventHandle);
 XN_C_API XnStatus XN_C_DECL xnOSResetEvent(const XN_EVENT_HANDLE EventHandle);
-XN_C_API XnStatus XN_C_DECL xnOSWaitEvent(const XN_EVENT_HANDLE EventHandle, XnUInt32 nMilliseconds);
+XN_C_API XnStatus XN_C_DECL xnOSWaitEvent(const XN_EVENT_HANDLE EventHandle, uint32_t nMilliseconds);
 XN_C_API XnBool XN_C_DECL xnOSIsEventSet(const XN_EVENT_HANDLE EventHandle);
 
 // Semaphores
-XN_C_API XnStatus XN_C_DECL xnOSCreateSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHandle, XnUInt32 nInitialCount);
-XN_C_API XnStatus XN_C_DECL xnOSLockSemaphore(XN_SEMAPHORE_HANDLE hSemaphore, XnUInt32 nMilliseconds);
+XN_C_API XnStatus XN_C_DECL xnOSCreateSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHandle, uint32_t nInitialCount);
+XN_C_API XnStatus XN_C_DECL xnOSLockSemaphore(XN_SEMAPHORE_HANDLE hSemaphore, uint32_t nMilliseconds);
 XN_C_API XnStatus XN_C_DECL xnOSUnlockSemaphore(XN_SEMAPHORE_HANDLE hSemaphore);
 XN_C_API XnStatus XN_C_DECL xnOSCloseSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHandle);
 
@@ -566,7 +566,7 @@ XN_C_API XnStatus XN_C_DECL xnOSCloseSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHa
 * @param	pConditionFunc	[in]	A function that should be called to evaluate condition.
 * @param	pConditionData	[in]	A cookie to be passed to the condition functions.
 */
-XN_C_API XnStatus XN_C_DECL xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, XnUInt32 nMilliseconds, XnConditionFunc pConditionFunc, void* pConditionData);
+XN_C_API XnStatus XN_C_DECL xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, uint32_t nMilliseconds, XnConditionFunc pConditionFunc, void* pConditionData);
 
 // Shared Memory
 typedef struct XnOSSharedMemory XnOSSharedMemory, *XN_SHARED_MEMORY_HANDLE;
@@ -579,9 +579,9 @@ typedef struct XnOSSharedMemory XnOSSharedMemory, *XN_SHARED_MEMORY_HANDLE;
  * @param	nAccessFlags	[in]	Creation flags. Can contain XN_OS_FILE_READ, XN_OS_FILE_WRITE or both.
  * @param	phSharedMem		[out]	A handle to the shared-memory block.
  */
-XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemory(const XnChar* strName, XnUInt32 nSize, XnUInt32 nAccessFlags, XN_SHARED_MEMORY_HANDLE* phSharedMem);
+XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemory(const XnChar* strName, uint32_t nSize, uint32_t nAccessFlags, XN_SHARED_MEMORY_HANDLE* phSharedMem);
 
-XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, XnUInt32 nSize, XnUInt32 nAccessFlags, XnBool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem);
+XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, uint32_t nSize, uint32_t nAccessFlags, XnBool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem);
 
 /**
  * Opens a shared memory block, and returns the address in which it was mapped to the process' memory.
@@ -590,9 +590,9 @@ XN_C_API XnStatus XN_C_DECL xnOSCreateSharedMemoryEx(const XnChar* strName, XnUI
  * @param	nAccessFlags	[in]	Creation flags. Must contain XN_OS_FILE_READ, and optionally XN_OS_FILE_WRITE.
  * @param	phSharedMem		[out]	A handle to the shared-memory block.
  */
-XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemory(const XnChar* strName, XnUInt32 nAccessFlags, XN_SHARED_MEMORY_HANDLE* phSharedMem);
+XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemory(const XnChar* strName, uint32_t nAccessFlags, XN_SHARED_MEMORY_HANDLE* phSharedMem);
 
-XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemoryEx(const XnChar* strName, XnUInt32 nAccessFlags, XnBool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem);
+XN_C_API XnStatus XN_C_DECL xnOSOpenSharedMemoryEx(const XnChar* strName, uint32_t nAccessFlags, XnBool bAllowOtherUsers, XN_SHARED_MEMORY_HANDLE* phSharedMem);
 
 /**
  * Closes a shared memory block.
@@ -614,7 +614,7 @@ XN_C_API XnBool XN_C_DECL xnOSWasKeyboardHit();
 XN_C_API XnChar XN_C_DECL xnOSReadCharFromInput();
 
 // Debug Utilities
-XN_C_API XnStatus XN_C_DECL xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, XnUInt32 nMaxNameLength, XnInt32* pnFrames);
+XN_C_API XnStatus XN_C_DECL xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, XnInt32* pnFrames);
 XN_C_API XnStatus XN_C_DECL xnOSPrintCurrentCallstack();
 
 

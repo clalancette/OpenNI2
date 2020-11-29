@@ -30,7 +30,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, XnUInt32 nMaxNameLength, XnInt32* pnFrames)
+XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, XnInt32* pnFrames)
 {
 	if (*pnFrames == 0 || nMaxNameLength == 0)
 	{
@@ -47,7 +47,7 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFr
 	}
 
 	// now resolve names
-	XnUInt32 nResolve = nTotalFrames - nFramesToSkip;
+	uint32_t nResolve = nTotalFrames - nFramesToSkip;
 	char** pstrFrames = backtrace_symbols(aFrames + nFramesToSkip, nResolve);
 	if (pstrFrames == NULL)
 	{
@@ -69,7 +69,7 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFr
 
 #else
 
-XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, XnUInt32 nMaxNameLength, XnInt32* pnFrames)
+XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, XnInt32* pnFrames)
 {
 	*pnFrames = 0;
 	return (XN_STATUS_OK);

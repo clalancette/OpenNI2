@@ -39,7 +39,7 @@ XN_C_API XnStatus xnOSGetCurrentProcessID(XN_PROCESS_ID* pProcID)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, XnUInt32 nArgs, const XnChar** pstrArgs, XN_PROCESS_ID* pProcID)
+XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, uint32_t nArgs, const XnChar** pstrArgs, XN_PROCESS_ID* pProcID)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -48,9 +48,9 @@ XN_C_API XnStatus xnOSCreateProcess(const XnChar* strExecutable, XnUInt32 nArgs,
 	PROCESS_INFORMATION pi;
 	ZeroMemory(&pi, sizeof(pi));
 
-	const XnUInt32 nSize = 1024;
+	const uint32_t nSize = 1024;
 	XnChar strArguments[nSize] = "";
-	XnUInt32 nDummy = 0;
+	uint32_t nDummy = 0;
 	xnOSStrFormat(strArguments, nSize, &nDummy, "\"%s\"", strExecutable);
 
 	for (XnUInt i = 0; i < nArgs; ++i)

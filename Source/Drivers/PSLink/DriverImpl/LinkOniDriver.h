@@ -51,7 +51,7 @@ public:
 	void ClearDevice(const char* uri);
 
 protected:
-	static void XN_CALLBACK_TYPE OnDevicePropertyChanged(const XnChar* ModuleName, XnUInt32 nPropertyId, void* pCookie);
+	static void XN_CALLBACK_TYPE OnDevicePropertyChanged(const XnChar* ModuleName, uint32_t nPropertyId, void* pCookie);
 	static void XN_CALLBACK_TYPE OnDeviceConnected(const OniDeviceInfo& deviceInfo, void* pCookie);
 	static void XN_CALLBACK_TYPE OnDeviceDisconnected(const OniDeviceInfo& deviceInfo, void* pCookie);
 

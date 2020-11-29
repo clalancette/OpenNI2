@@ -59,7 +59,7 @@ public:
 	inline XnSensorFirmware* GetFirmware() { return &m_Firmware; }
 	inline XnSensorFPS* GetFPSCalculator() { return &m_FPS; }
 
-	XnStatus SetCmosConfiguration(XnCMOSType nCmos, XnResolutions nRes, XnUInt32 nFPS);
+	XnStatus SetCmosConfiguration(XnCMOSType nCmos, XnResolutions nRes, uint32_t nFPS);
 
 	inline XnDevicePrivateData* GetDevicePrivateData() { return &m_DevicePrivateData; }
 
@@ -79,7 +79,7 @@ public:
 	 * Resolves the config file's path.
 	 * Specify NULL to strConfigDir to resolve it based on the driver's directory.
 	 */
-	static XnStatus ResolveGlobalConfigFileName(XnChar* strConfigFile, XnUInt32 nBufSize, const XnChar* strConfigDir);
+	static XnStatus ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32_t nBufSize, const XnChar* strConfigDir);
 
 	XnStatus SetGlobalConfigFile(const XnChar* strConfigFile);
 	XnStatus ConfigureModuleFromGlobalFile(const XnChar* strModule, const XnChar* strSection = NULL);
@@ -89,7 +89,7 @@ public:
 	XnBool HasReadingStarted() { return (m_ReadData.GetValue() == TRUE); }
 	inline XnBool IsTecDebugPring() const { return (XnBool)m_FirmwareTecDebugPrint.GetValue(); }
 
-	XnStatus SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, XnUInt32 numStreams);
+	XnStatus SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, uint32_t numStreams);
 
 protected:
 	virtual XnStatus CreateStreamImpl(const XnChar* strType, const XnChar* strName, const XnActualPropertiesHash* pInitialSet);
@@ -110,7 +110,7 @@ private:
 
 	static XnStatus XN_CALLBACK_TYPE GetInstanceCallback(const XnGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
 
-	XnStatus ChangeTaskInterval(XnScheduledTask** ppTask, XnTaskCallbackFuncPtr pCallback, XnUInt32 nInterval);
+	XnStatus ChangeTaskInterval(XnScheduledTask** ppTask, XnTaskCallbackFuncPtr pCallback, uint32_t nInterval);
 	void ReadFirmwareLog();
 	void ReadFirmwareCPU();
 
@@ -121,7 +121,7 @@ private:
 	XnStatus GetCmosBlankingUnits(XnCmosBlankingUnits* pBlanking);
 	XnStatus GetCmosBlankingTime(XnCmosBlankingTime* pBlanking);
 	XnStatus GetFirmwareMode(XnParamCurrentMode* pnMode);
-	XnStatus GetLastRawFrame(const XnChar* strStream, XnUChar* pBuffer, XnUInt32 nDataSize);
+	XnStatus GetLastRawFrame(const XnChar* strStream, XnUChar* pBuffer, uint32_t nDataSize);
 	XnStatus GetFixedParams(XnDynamicSizeBuffer* pBuffer);
 	XnStatus GetDepthCmosRegister(XnControlProcessingData* pRegister);
 	XnStatus GetImageCmosRegister(XnControlProcessingData* pRegister);
@@ -132,7 +132,7 @@ private:
 	XnStatus GetEmitterStatus(XnEmitterData* pEmitterData);
 	XnStatus ReadFlashFile(const XnParamFileData* pFile);
 	XnStatus ReadFlashChunk(XnParamFlashData* pFlash);
-	XnStatus GetFirmwareLog(XnChar* csLog, XnUInt32 nSize);
+	XnStatus GetFirmwareLog(XnChar* csLog, uint32_t nSize);
 	XnStatus GetFileList(XnFlashFileList* pFileList);
 
 	//---------------------------------------------------------------------------
@@ -140,7 +140,7 @@ private:
 	//---------------------------------------------------------------------------
 	XnStatus SetInterface(XnSensorUsbInterface nInterface);
 	XnStatus SetHostTimestamps(XnBool bHostTimestamps);
-	XnStatus SetNumberOfBuffers(XnUInt32 nCount);
+	XnStatus SetNumberOfBuffers(uint32_t nCount);
 	XnStatus SetReadData(XnBool bRead);
 	XnStatus SetFirmwareParam(const XnInnerParamData* pParam);
 	XnStatus SetCmosBlankingUnits(const XnCmosBlankingUnits* pBlanking);
@@ -154,10 +154,10 @@ private:
 	XnStatus SetEmitterState(XnBool bActive);
 	XnStatus SetFirmwareFrameSync(XnBool bOn);
 	XnStatus SetI2C(const XnI2CWriteData* pI2CWriteData);
-	XnStatus SetFirmwareLogFilter(XnUInt32 nFilter);
-	XnStatus SetFirmwareLogInterval(XnUInt32 nMilliSeconds);
+	XnStatus SetFirmwareLogFilter(uint32_t nFilter);
+	XnStatus SetFirmwareLogInterval(uint32_t nMilliSeconds);
 	XnStatus SetFirmwareLogPrint(XnBool bPrint);
-	XnStatus SetFirmwareCPUInterval(XnUInt32 nMilliSeconds);
+	XnStatus SetFirmwareCPUInterval(uint32_t nMilliSeconds);
 	XnStatus SetAPCEnabled(XnBool bEnabled);
 	XnStatus DeleteFile(XnUInt16 nFileID);
 	XnStatus SetTecSetPoint(XnUInt16 nSetPoint);
@@ -165,7 +165,7 @@ private:
 	XnStatus SetFileAttributes(const XnFileAttributes* pAttributes);
 	XnStatus WriteFlashFile(const XnParamFileData* pFile);
 	XnStatus SetProjectorFault(XnProjectorFaultData* pProjectorFaultData);
-	XnStatus RunBIST(XnUInt32 nTestsMask, XnUInt32* pnFailures);
+	XnStatus RunBIST(uint32_t nTestsMask, uint32_t* pnFailures);
 	XnStatus SetReadAllEndpoints(XnBool bEnabled);
 
 	//---------------------------------------------------------------------------

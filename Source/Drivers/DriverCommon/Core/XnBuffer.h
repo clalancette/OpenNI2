@@ -44,7 +44,7 @@ public:
 	*
 	* @param	size		[in]	The number of bytes to allocate.
 	*/
-	XnStatus Allocate(XnUInt32 nAllocSize);
+	XnStatus Allocate(uint32_t nAllocSize);
 
 	/**
 	 * Sets an external buffer (instead of allocating)
@@ -52,7 +52,7 @@ public:
 	 * @param	pBuffer		[in]	the buffer to use.
 	 * @param	nSize		[in]	Buffer size.
 	 */
-	void SetExternalBuffer(XnUChar* pBuffer, XnUInt32 nSize);
+	void SetExternalBuffer(XnUChar* pBuffer, uint32_t nSize);
 
 	/*
 	* Writes data to the buffer.
@@ -60,7 +60,7 @@ public:
 	* @param	data		[in]	a pointer to the data to copy from.
 	* @param	size		[in]	The number of bytes to copy.
 	*/
-	inline void UnsafeWrite(const XnUChar* pData, XnUInt32 nDataSize)
+	inline void UnsafeWrite(const XnUChar* pData, uint32_t nDataSize)
 	{
 		// Some of my callers copy data from within my buffer after Reset()ing.
 		// So safely "slide" the to-be-copied chunk back to the buffer's beginning.
@@ -74,7 +74,7 @@ public:
 	* @param	data		[in]	a pointer to the data to copy from.
 	* @param	size		[in]	The number of bytes to copy.
 	*/
-	XnStatus Write(const XnUChar* pData, XnUInt32 nDataSize);
+	XnStatus Write(const XnUChar* pData, uint32_t nDataSize);
 
 	/*
 	* Copies buffer data to another location.
@@ -99,12 +99,12 @@ public:
 		return m_pData;
 	}
 
-	inline XnUInt32 GetSize()
+	inline uint32_t GetSize()
 	{
 		return m_nSize;
 	}
 
-	inline XnUInt32 GetMaxSize()
+	inline uint32_t GetMaxSize()
 	{
 		return m_nMaxSize;
 	}
@@ -124,7 +124,7 @@ public:
 	/*
 	* Gets the free space in the buffer.
 	*/
-	inline XnUInt32 GetFreeSpaceInBuffer()
+	inline uint32_t GetFreeSpaceInBuffer()
 	{
 		return XN_MAX(0, (XnInt32)(m_nMaxSize - m_nSize));
 	}
@@ -140,12 +140,12 @@ public:
 	/*
 	* Updates the size of the buffer
 	*/
-	inline void UnsafeUpdateSize(XnUInt32 nWrittenBytes)
+	inline void UnsafeUpdateSize(uint32_t nWrittenBytes)
 	{
 		m_nSize += nWrittenBytes;
 	}
 
-	inline void UnsafeSetSize(XnUInt32 nSize)
+	inline void UnsafeSetSize(uint32_t nSize)
 	{
 		m_nSize = nSize;
 	}
@@ -168,8 +168,8 @@ public:
 
 private:
 	XnUChar* m_pData;
-	XnUInt32 m_nSize;
-	XnUInt32 m_nMaxSize;
+	uint32_t m_nSize;
+	uint32_t m_nMaxSize;
 	XnBool m_bAllocated;
 	void* m_pCookie;
 };

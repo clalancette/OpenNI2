@@ -42,7 +42,7 @@ XnStatus XnFirmwareCommands::SetFirmwareParam(XnUInt16 nParam, XnUInt16 nValue)
 	return XnHostProtocolSetParam(m_pDevicePrivateData, nParam, nValue);
 }
 
-XnStatus XnFirmwareCommands::SetMultipleFirmwareParams(XnInnerParamData* aParams, XnUInt32 nCount)
+XnStatus XnFirmwareCommands::SetMultipleFirmwareParams(XnInnerParamData* aParams, uint32_t nCount)
 {
 	return XnHostProtocolSetMultipleParams(m_pDevicePrivateData, (XnUInt16)nCount, aParams);
 }

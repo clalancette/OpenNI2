@@ -448,7 +448,7 @@ ONI_C_API OniStatus oniSetLogOutputFolder(const char* strOutputFolder)
 
 ONI_C_API OniStatus oniGetLogFileName(char* strFileName, int nBufferSize)
 {
-	XnStatus rc = xnLogGetFileName((XnChar*)strFileName, (XnUInt32)nBufferSize);
+	XnStatus rc = xnLogGetFileName((XnChar*)strFileName, (uint32_t)nBufferSize);
 
 	if (rc != XN_STATUS_OK)
 	{

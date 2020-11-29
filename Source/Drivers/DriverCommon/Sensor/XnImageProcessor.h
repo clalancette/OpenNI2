@@ -43,7 +43,7 @@ protected:
 	// Overridden Functions
 	//---------------------------------------------------------------------------
 	virtual void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader);
-	virtual void OnFrameReady(XnUInt32 nFrameID, XnUInt64 nFrameTS);
+	virtual void OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS);
 
 	//---------------------------------------------------------------------------
 	// Helper Functions
@@ -53,16 +53,16 @@ protected:
 		return (XnSensorImageStream*)XnFrameStreamProcessor::GetStream();
 	}
 
-	XnUInt32 GetActualXRes() { return m_nActualXRes; }
-	XnUInt32 GetActualYRes() { return m_nActualYRes; }
+	uint32_t GetActualXRes() { return m_nActualXRes; }
+	uint32_t GetActualYRes() { return m_nActualYRes; }
 
 private:
-	XnUInt32 CalculateExpectedSize();
+	uint32_t CalculateExpectedSize();
 	void CalcActualRes();
 	static XnStatus XN_CALLBACK_TYPE ActualResChangedCallback(const XnProperty* pSender, void* pCookie);
 
-	XnUInt32 m_nActualXRes;
-	XnUInt32 m_nActualYRes;
+	uint32_t m_nActualXRes;
+	uint32_t m_nActualYRes;
 
 	XnCallbackHandle m_hXResCallback;
 	XnCallbackHandle m_hYResCallback;

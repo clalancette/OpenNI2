@@ -54,7 +54,7 @@ XnDumpWriterFileHandle XnDumpFileWriter::OpenFile(const XnChar* /*strDumpName*/,
 	return result;
 }
 
-void XnDumpFileWriter::Write(XnDumpWriterFileHandle hFile, const void* pBuffer, XnUInt32 nBufferSize)
+void XnDumpFileWriter::Write(XnDumpWriterFileHandle hFile, const void* pBuffer, uint32_t nBufferSize)
 {
 	XN_FILE_HANDLE* phFileOS = (XN_FILE_HANDLE*)hFile.pInternal;
 	xnOSWriteFile(*phFileOS, pBuffer, nBufferSize);

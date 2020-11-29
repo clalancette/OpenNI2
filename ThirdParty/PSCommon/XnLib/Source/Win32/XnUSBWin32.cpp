@@ -227,7 +227,7 @@ HANDLE xnUSBOpenOneDevice(HDEVINFO hDevInfo, PSP_DEVICE_INTERFACE_DATA pDevInter
 	return hDevice;
 }
 
-XnStatus xnUSBSetPipeProperty(XN_USB_EP_HANDLE pEPHandle, XnUInt32 nIndex, XnUInt32 nValue)
+XnStatus xnUSBSetPipeProperty(XN_USB_EP_HANDLE pEPHandle, uint32_t nIndex, uint32_t nValue)
 {
 	// Local variables
 	XnBool bResult = FALSE;
@@ -393,7 +393,7 @@ XN_C_API XnStatus xnUSBIsDevicePresent(XnUInt16 /*nVendorID*/, XnUInt16 /*nProdu
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID, const XnUSBConnectionString** pastrDevicePaths, XnUInt32* pnCount)
+XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID, const XnUSBConnectionString** pastrDevicePaths, uint32_t* pnCount)
 {
 	// support up to 30 devices
 	XnUSBConnectionString cpUSBID;
@@ -401,7 +401,7 @@ XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID,
 	XnUSBConnectionString aNames[MAX_POTENTIAL_DEVICES];
 	HDEVINFO hDevInfo = NULL;
 	ULONG nDevices = 0;
-	XnUInt32 nFoundDevices = 0;
+	uint32_t nFoundDevices = 0;
 	SP_DEVICE_INTERFACE_DATA devInterfaceData;
 	XnBool bReachedEnd = FALSE;
 
@@ -757,10 +757,10 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 	bResult = DeviceIoControl(pDevHandle->hUSBDevHandle, IOCTL_PSDRV_GET_CONFIG_DESCRIPTOR, pConfigDescBuf, sizeof(pConfigDescBuf), pConfigDescBuf, sizeof(pConfigDescBuf), (PULONG)&nRetBytes, NULL);
 	if (bResult)
 	{
-		XnUInt32 nIFIdx = 0;
+		uint32_t nIFIdx = 0;
 		UCHAR nEPIdx = 0;
-		XnUInt32 nUBBEPType = 0;
-		XnUInt32 nCurrIF = 0;
+		uint32_t nUBBEPType = 0;
+		uint32_t nCurrIF = 0;
 
 		pBuf = pConfigDescBuf;
 
@@ -887,8 +887,8 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 					if (nUBBEPType == USB_ENDPOINT_TYPE_ISOCHRONOUS)
 					{
 						// bits 11 and 12 mark the number of additional transactions, bits 0-10 mark the size
-						XnUInt32 nAdditionalTransactions = pUSBEndPointDesc->wMaxPacketSize >> 11;
-						XnUInt32 nPacketSize = pUSBEndPointDesc->wMaxPacketSize & 0x7FF;
+						uint32_t nAdditionalTransactions = pUSBEndPointDesc->wMaxPacketSize >> 11;
+						uint32_t nPacketSize = pUSBEndPointDesc->wMaxPacketSize & 0x7FF;
 						pEPHandle->nMaxPacketSize = (nAdditionalTransactions + 1) * (nPacketSize);
 					}
 					else
@@ -940,7 +940,7 @@ XN_C_API XnStatus xnUSBCloseEndPoint(XN_USB_EP_HANDLE pEPHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBGetEndPointMaxPacketSize(XN_USB_EP_HANDLE pEPHandle, XnUInt32* pnMaxPacketSize)
+XN_C_API XnStatus xnUSBGetEndPointMaxPacketSize(XN_USB_EP_HANDLE pEPHandle, uint32_t* pnMaxPacketSize)
 {
 	// Validate xnUSB
 	XN_VALIDATE_USB_INIT();
@@ -1003,7 +1003,7 @@ XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE pEPHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
 	XnBool bResult = FALSE;
@@ -1049,7 +1049,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32* pnBytesReceived, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// Local variables
 	XnBool bResult = FALSE;
@@ -1109,7 +1109,7 @@ XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControl
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32* pnBytesReceived, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// Local variables
 	BOOL bResult = FALSE;
@@ -1181,7 +1181,7 @@ XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
 	BOOL bResult = FALSE;
@@ -1250,7 +1250,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// Local variables
 	BOOL bResult = FALSE;
@@ -1309,7 +1309,7 @@ XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pB
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUInt32* pnBytesReceived, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE pEPHandle, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// Local variables
 	XnBool bRetVal = TRUE;
@@ -1349,7 +1349,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 {
 	// Local variables
 	xnUSBReadThreadData* pThreadData = (xnUSBReadThreadData*)pThreadParam;
-	XnUInt32 nBufIdx = 0;
+	uint32_t nBufIdx = 0;
 	XnBool bResult = FALSE;
 	ULONG nBytesRead = 0;
 	HANDLE hCompletionPort = NULL;
@@ -1358,8 +1358,8 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 	xnUSBBuffersInfo* pBuffersInfo = NULL;
 	OVERLAPPED* pFinishedOV = NULL;
 	ULONG_PTR nFinishedEP = 0;
-	XnUInt32 nTimeOut = 0;
-	XnUInt32 nBufferSize = 0;
+	uint32_t nTimeOut = 0;
+	uint32_t nBufferSize = 0;
 	ULONG_PTR nOVIdx = 0;
 	XnUSBReadCallbackFunctionPtr pCallbackFunction = NULL;
 	PVOID pCallbackData = NULL;
@@ -1372,7 +1372,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 
 	XnUInt64 nLastPrint;
 	xnOSGetHighResTimeStamp(&nLastPrint);
-	XnUInt32 nTotalBytesSinceLastPrint = 0;
+	uint32_t nTotalBytesSinceLastPrint = 0;
 
 	// Dereference common variables
 	hEPOvlp = pThreadData->pEPHandle->hEPHandleOvlp;
@@ -1452,12 +1452,12 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 	}
 }
 
-XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, XnUInt32 nBufferSize, XnUInt32 nNumBuffers, XnUInt32 nTimeOut, XnUSBReadCallbackFunctionPtr pCallbackFunction, PVOID pCallbackData)
+XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBufferSize, uint32_t nNumBuffers, uint32_t nTimeOut, XnUSBReadCallbackFunctionPtr pCallbackFunction, PVOID pCallbackData)
 {
 	// Local variables
 	XnStatus nRetVal = XN_STATUS_OK;
 	xnUSBReadThreadData* pThreadData = NULL;
-	XnUInt32 nBufIdx = 0;
+	uint32_t nBufIdx = 0;
 
 	// Validate xnUSB
 	XN_VALIDATE_USB_INIT();
@@ -1553,7 +1553,7 @@ XN_C_API XnStatus xnUSBShutdownReadThread(XN_USB_EP_HANDLE pEPHandle)
 	// Free any buffers and events if necessary...
 	if (pThreadData->pBuffersInfo != NULL)
 	{
-		for (XnUInt32 nBufIdx = 0; nBufIdx < pThreadData->nNumBuffers; nBufIdx++)
+		for (uint32_t nBufIdx = 0; nBufIdx < pThreadData->nNumBuffers; nBufIdx++)
 		{
 			if (pThreadData->pOvlpIO[nBufIdx].hEvent != NULL)
 			{
@@ -1589,7 +1589,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBRegisterToConnectivityEvents(XnUInt16 nVendorID
 	XN_VALIDATE_INPUT_PTR(pFunc);
 	XN_VALIDATE_OUTPUT_PTR(phRegistration);
 
-	XnUInt32 nDummy;
+	uint32_t nDummy;
 
 	XnUSBEventCallback* pCallback;
 	XN_VALIDATE_NEW(pCallback, XnUSBEventCallback);

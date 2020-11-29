@@ -37,8 +37,8 @@ public:
 	XnIOStream() {}
 	virtual ~XnIOStream() {}
 
-	virtual XnStatus WriteData(const XnUChar* pData, XnUInt32 nDataSize) = 0;
-	virtual XnStatus ReadData(XnUChar* pData, XnUInt32 nDataSize) = 0;
+	virtual XnStatus WriteData(const XnUChar* pData, uint32_t nDataSize) = 0;
+	virtual XnStatus ReadData(XnUChar* pData, uint32_t nDataSize) = 0;
 	virtual XnStatus Init() { return XN_STATUS_OK; }
 	virtual XnStatus Free() { return XN_STATUS_OK; }
 };

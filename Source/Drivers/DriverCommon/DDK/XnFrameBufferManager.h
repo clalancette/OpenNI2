@@ -61,16 +61,16 @@ public:
 		return m_pWorkingBuffer;
 	}
 
-	void MarkWriteBufferAsStable(XnUInt32* pnFrameID);
+	void MarkWriteBufferAsStable(uint32_t* pnFrameID);
 
-	inline XnUInt32 GetLastFrameID() const { return m_nStableFrameID; }
+	inline uint32_t GetLastFrameID() const { return m_nStableFrameID; }
 
 private:
 	XN_DISABLE_COPY_AND_ASSIGN(XnFrameBufferManager);
 
 	oni::driver::StreamServices* m_pServices;
 	OniFrame* m_pWorkingBuffer;
-	XnUInt32 m_nStableFrameID;
+	uint32_t m_nStableFrameID;
 	NewFrameCallback m_newFrameCallback;
 	void* m_newFrameCallbackCookie;
 	XN_CRITICAL_SECTION_HANDLE m_hLock;

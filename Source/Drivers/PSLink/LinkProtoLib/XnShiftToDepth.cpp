@@ -109,7 +109,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 		}
 	}
 
-	for (XnUInt32 i = nLastDepth; i <= pConfig->nDeviceMaxDepthValue; i++)
+	for (uint32_t i = nLastDepth; i <= pConfig->nDeviceMaxDepthValue; i++)
 	{
 		pDepthToShiftTable[i] = nLastIndex;
 	}
@@ -119,7 +119,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 
 XnStatus XnShiftToDepthConvert(const XnShiftToDepthTables* pShiftToDepth,
 							   const XnUInt16* pInput,
-							   XnUInt32 nInputSize,
+							   uint32_t nInputSize,
 							   OniDepthPixel* pOutput)
 {
 	XN_VALIDATE_INPUT_PTR(pShiftToDepth);

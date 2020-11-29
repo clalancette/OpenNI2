@@ -46,7 +46,7 @@ typedef XnInt32 XnProfilingHandle;
  * @param	nProfilingInterval	[in]	The number of milliseconds between profiler printings. A value
  *										of zero means profiling is off.
  */
-XN_C_API XnStatus XN_C_DECL xnProfilingInit(XnUInt32 nProfilingInterval = 0);
+XN_C_API XnStatus XN_C_DECL xnProfilingInit(uint32_t nProfilingInterval = 0);
 
 /**
  * Initializes using INI file.

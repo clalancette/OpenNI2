@@ -108,23 +108,23 @@ private:
 	static void     ONI_CALLBACK_TYPE ReadyForDataCallback(const PlayerStream::ReadyForDataEventArgs& newDataEventArgs, void* pCookie);
 	static void     ONI_CALLBACK_TYPE StreamDestroyCallback(const PlayerStream::DestroyEventArgs& destroyEventArgs, void* pCookie);
 
-	static XnStatus XN_CALLBACK_TYPE OnNodeAdded(void* pCookie, const XnChar* strNodeName, XnProductionNodeType type, XnCodecID compression, XnUInt32 nNumberOfFrames);
+	static XnStatus XN_CALLBACK_TYPE OnNodeAdded(void* pCookie, const XnChar* strNodeName, XnProductionNodeType type, XnCodecID compression, uint32_t nNumberOfFrames);
 	static XnStatus XN_CALLBACK_TYPE OnNodeRemoved(void* pCookie, const XnChar* strNodeName);
 	static XnStatus XN_CALLBACK_TYPE OnNodeIntPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, XnUInt64 nValue);
 	static XnStatus XN_CALLBACK_TYPE OnNodeRealPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, XnDouble dValue);
 	static XnStatus XN_CALLBACK_TYPE OnNodeStringPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, const XnChar* strValue);
-	static XnStatus XN_CALLBACK_TYPE OnNodeGeneralPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer);
+	static XnStatus XN_CALLBACK_TYPE OnNodeGeneralPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
 	static XnStatus XN_CALLBACK_TYPE OnNodeStateReady(void* pCookie, const XnChar* strNodeName);
-	static XnStatus XN_CALLBACK_TYPE OnNodeNewData(void* pCookie, const XnChar* strNodeName, XnUInt64 nTimeStamp, XnUInt32 nFrame, const void* pData, XnUInt32 nSize);
+	static XnStatus XN_CALLBACK_TYPE OnNodeNewData(void* pCookie, const XnChar* strNodeName, XnUInt64 nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize);
 	static void		XN_CALLBACK_TYPE OnEndOfFileReached(void* pCookie);
-	XnStatus AddPrivateProperty(PlayerSource* pSource, const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer);
-	XnStatus AddPrivateProperty_PS1080(PlayerSource* pSource, const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer);
-	XnStatus AddPrivateProperty_PSLink(PlayerSource* pSource, const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer);
+	XnStatus AddPrivateProperty(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
+	XnStatus AddPrivateProperty_PS1080(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
+	XnStatus AddPrivateProperty_PSLink(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer);
 
 	static XnStatus XN_CALLBACK_TYPE FileOpen(void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE FileRead(void* pCookie, void* pBuffer, XnUInt32 nSize, XnUInt32* pnBytesRead);
+	static XnStatus XN_CALLBACK_TYPE FileRead(void* pCookie, void* pBuffer, uint32_t nSize, uint32_t* pnBytesRead);
 	static XnStatus XN_CALLBACK_TYPE FileSeek(void* pCookie, XnOSSeekType seekType, const XnInt32 nOffset);
-	static XnUInt32 XN_CALLBACK_TYPE FileTell(void* pCookie);
+	static uint32_t XN_CALLBACK_TYPE FileTell(void* pCookie);
 	static void     XN_CALLBACK_TYPE FileClose(void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE FileSeek64(void* pCookie, XnOSSeekType seekType, const XnInt64 nOffset);
 	static XnUInt64 XN_CALLBACK_TYPE FileTell64(void* pCookie);
@@ -132,7 +132,7 @@ private:
 	static XnStatus XN_CALLBACK_TYPE CodecCreate(void* pCookie, const char* strNodeName, XnCodecID nCodecId, XnCodec** ppCodec);
 	static void     XN_CALLBACK_TYPE CodecDestroy(void* pCookie, XnCodec* pCodec);
 
-	static XnStatus ResolveGlobalConfigFileName(XnChar* strConfigFile, XnUInt32 nBufSize, const XnChar* strConfigDir);
+	static XnStatus ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32_t nBufSize, const XnChar* strConfigDir);
 
 	// Name of the node (used for identifying the device in the callbacks).
 	std::string m_nodeName;

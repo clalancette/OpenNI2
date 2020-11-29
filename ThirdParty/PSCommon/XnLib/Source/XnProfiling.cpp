@@ -43,19 +43,19 @@ typedef struct
 	XN_CRITICAL_SECTION_HANDLE hLock;
 	XnUInt64 nCurrStartTime;
 	XnUInt64 nTotalTime;
-	XnUInt32 nTimesExecuted;
-	XnUInt32 nIndentation;
+	uint32_t nTimesExecuted;
+	uint32_t nIndentation;
 } XnProfiledSection;
 
 typedef struct
 {
 	XnBool bInitialized;
 	XnProfiledSection* aSections;
-	XnUInt32 nSectionCount;
+	uint32_t nSectionCount;
 	XN_THREAD_HANDLE hThread;
 	XN_CRITICAL_SECTION_HANDLE hCriticalSection;
 	XnSizeT nMaxSectionName;
-	XnUInt32 nProfilingInterval;
+	uint32_t nProfilingInterval;
 	XnBool bKillThread;
 } XnProfilingData;
 
@@ -63,7 +63,7 @@ typedef struct
 // Global Variables
 //---------------------------------------------------------------------------
 static XnProfilingData g_ProfilingData = {FALSE, NULL, 0, NULL, NULL, 0, 0, FALSE};
-static XN_THREAD_STATIC XnUInt32 gt_nStackDepth = 0;
+static XN_THREAD_STATIC uint32_t gt_nStackDepth = 0;
 
 //---------------------------------------------------------------------------
 // Code
@@ -91,7 +91,7 @@ XN_THREAD_PROC xnProfilingThread(XN_THREAD_PARAM /*pThreadParam*/)
 
 		XnUInt64 nTotalTime = 0;
 
-		for (XnUInt32 i = 0; i < g_ProfilingData.nSectionCount; ++i)
+		for (uint32_t i = 0; i < g_ProfilingData.nSectionCount; ++i)
 		{
 			XnProfiledSection* pSection = &g_ProfilingData.aSections[i];
 
@@ -127,7 +127,7 @@ XN_THREAD_PROC xnProfilingThread(XN_THREAD_PARAM /*pThreadParam*/)
 	XN_THREAD_PROC_RETURN(XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnProfilingInit(XnUInt32 nProfilingInterval)
+XN_C_API XnStatus xnProfilingInit(uint32_t nProfilingInterval)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -208,12 +208,12 @@ XN_C_API XnStatus xnProfilingSectionStart(const char* csSectionName, XnBool bMT,
 		xnOSEnterCriticalSection(&g_ProfilingData.hCriticalSection);
 		if (*pHandle == INVALID_PROFILING_HANDLE)
 		{
-			XnUInt32 nIndex = g_ProfilingData.nSectionCount;
+			uint32_t nIndex = g_ProfilingData.nSectionCount;
 			g_ProfilingData.nSectionCount++;
 			XnProfiledSection* pSection = &g_ProfilingData.aSections[nIndex];
 			pSection->nIndentation = gt_nStackDepth;
 
-			XnUInt32 nChar = 0;
+			uint32_t nChar = 0;
 			for (nChar = 0; nChar < gt_nStackDepth*2; ++nChar)
 				pSection->csName[nChar] = ' ';
 

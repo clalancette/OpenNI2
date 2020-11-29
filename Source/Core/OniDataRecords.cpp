@@ -31,7 +31,7 @@ ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 namespace {
 
 // Converts NodeType into a string.
-const XnChar* AsString(XnUInt32 nodeType)
+const XnChar* AsString(uint32_t nodeType)
 {
 	switch (nodeType) {
 	case NODE_TYPE_DEVICE: return "Device";
@@ -68,7 +68,7 @@ void RecordAssembler::initialize()
 		/* size of header POD   = */ sizeof(RecordHeaderData) +
 		/* size of node name    = */ (ONI_MAX_STR + 1) +
 		/* size of time stamp   = */ sizeof(XnUInt64) +
-		/* size of frame number = */ sizeof(XnUInt32);
+		/* size of frame number = */ sizeof(uint32_t);
 
 	m_bufferSize_bytes = (XnSizeT)(maxHeaderSize_bytes +
 		/* max video mode width (pixels)  = */ 1600 *
@@ -87,7 +87,7 @@ OniStatus RecordAssembler::serialize(XN_FILE_HANDLE file)
 {
 	// NOTE(oleksii): strange, but fieldsSize includes the size of header as
 	// well...
-	XnUInt32 serializedSize_bytes = m_header->fieldsSize + m_header->payloadSize;
+	uint32_t serializedSize_bytes = m_header->fieldsSize + m_header->payloadSize;
 	XnStatus status = xnOSWriteFile(file, m_pBuffer, serializedSize_bytes);
 	return XN_STATUS_OK == status ? ONI_STATUS_OK : ONI_STATUS_ERROR;
 }
@@ -98,7 +98,7 @@ OniStatus RecordAssembler::serialize(XN_FILE_HANDLE file)
 		if (0 == m_bufferSize_bytes) { return __VA_ARGS__; } \
 	} while (0)
 
-void RecordAssembler::emitCommonHeader(XnUInt32 recordType, XnUInt32 nodeId, XnUInt64 undoRecordPos)
+void RecordAssembler::emitCommonHeader(uint32_t recordType, uint32_t nodeId, XnUInt64 undoRecordPos)
 {
 	MUST_BE_INITIALIZED();
 	xnOSMemSet(m_header, 0, sizeof(*m_header));
@@ -124,7 +124,7 @@ OniStatus RecordAssembler::emitString(const XnChar* pStr, XnSizeT& totalFieldsSi
 	// Initialize field's data.
 	struct
 	{
-		XnUInt32 dataSize = 0;
+		uint32_t dataSize = 0;
 		XnChar   data[ONI_MAX_STR];
 	} field;
 	xnOSStrCopy(field.data, pStr, sizeof(field.data));
@@ -164,10 +164,10 @@ OniStatus RecordAssembler::emit(const T& field, XnSizeT& totalFieldsSize_bytes)
 }
 
 OniStatus RecordAssembler::emit_RECORD_NODE_ADDED_1_0_0_5(
-	XnUInt32 nodeType,
-	XnUInt32 nodeId,
-	XnUInt32 codecId,
-	XnUInt32 numberOfFrames,
+	uint32_t nodeType,
+	uint32_t nodeId,
+	uint32_t codecId,
+	uint32_t numberOfFrames,
 	XnUInt64 minTimeStamp,
 	XnUInt64 maxTimeStamp)
 {
@@ -202,16 +202,16 @@ OniStatus RecordAssembler::emit_RECORD_NODE_ADDED_1_0_0_5(
 	emit(minTimeStamp,              fieldsSize);
 	emit(maxTimeStamp,              fieldsSize);
 
-	m_header->fieldsSize = (XnUInt32)fieldsSize;
+	m_header->fieldsSize = (uint32_t)fieldsSize;
 
 	return ONI_STATUS_OK;
 }
 
 OniStatus RecordAssembler::emit_RECORD_NODE_ADDED(
-	XnUInt32 nodeType,
-	XnUInt32 nodeId,
-	XnUInt32 codecId,
-	XnUInt32 numberOfFrames,
+	uint32_t nodeType,
+	uint32_t nodeId,
+	uint32_t codecId,
+	uint32_t numberOfFrames,
 	XnUInt64 minTimeStamp,
 	XnUInt64 maxTimeStamp,
 	XnUInt64 seekTablePosition)
@@ -241,26 +241,26 @@ OniStatus RecordAssembler::emit_RECORD_NODE_ADDED(
 	//           8          +---------------------+
 	XnSizeT fieldsSize = m_header->fieldsSize;
 	emit(seekTablePosition, fieldsSize);
-	m_header->fieldsSize = (XnUInt32)fieldsSize;
+	m_header->fieldsSize = (uint32_t)fieldsSize;
 
 	return status;
 }
 
-OniStatus RecordAssembler::emit_RECORD_NODE_STATE_READY(XnUInt32 nodeId)
+OniStatus RecordAssembler::emit_RECORD_NODE_STATE_READY(uint32_t nodeId)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 	emitCommonHeader(RECORD_NODE_STATE_READY, nodeId, /*undoRecordPos*/ 0);
 	return ONI_STATUS_OK;
 }
 
-OniStatus RecordAssembler::emit_RECORD_NODE_REMOVED(XnUInt32 nodeId, XnUInt64 nodeAddedPos)
+OniStatus RecordAssembler::emit_RECORD_NODE_REMOVED(uint32_t nodeId, XnUInt64 nodeAddedPos)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 	emitCommonHeader(RECORD_NODE_REMOVED, nodeId, /*undoRecordPos*/ nodeAddedPos);
 	return ONI_STATUS_OK;
 }
 
-OniStatus RecordAssembler::emit_RECORD_SEEK_TABLE(XnUInt32 nodeId, XnUInt32 numFrames, const std::list<DataIndexEntry>& dataIndexEntryList)
+OniStatus RecordAssembler::emit_RECORD_SEEK_TABLE(uint32_t nodeId, uint32_t numFrames, const std::list<DataIndexEntry>& dataIndexEntryList)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
 
@@ -291,9 +291,9 @@ OniStatus RecordAssembler::emit_RECORD_SEEK_TABLE(XnUInt32 nodeId, XnUInt32 numF
 		emitData(&(*it), entrySize); ++nWritten;
 	}
 
-	XN_ASSERT((numFrames + 1) == XnUInt32(nWritten));
+	XN_ASSERT((numFrames + 1) == uint32_t(nWritten));
 
-	m_header->payloadSize = (XnUInt32)nPayloadSize;
+	m_header->payloadSize = (uint32_t)nPayloadSize;
 
 	return ONI_STATUS_OK;
 }
@@ -306,8 +306,8 @@ OniStatus RecordAssembler::emit_RECORD_END()
 }
 
 OniStatus RecordAssembler::emit_RECORD_NODE_DATA_BEGIN(
-	XnUInt32 nodeId,
-	XnUInt32 framesCount,
+	uint32_t nodeId,
+	uint32_t framesCount,
 	XnUInt64 maxTimeStamp)
 {
 	MUST_BE_INITIALIZED(ONI_STATUS_ERROR);
@@ -326,16 +326,16 @@ OniStatus RecordAssembler::emit_RECORD_NODE_DATA_BEGIN(
 	XnSizeT fieldsSize = m_header->fieldsSize;
 	emit(framesCount,  fieldsSize);
 	emit(maxTimeStamp, fieldsSize);
-	m_header->fieldsSize = (XnUInt32)fieldsSize;
+	m_header->fieldsSize = (uint32_t)fieldsSize;
 
 	return ONI_STATUS_OK;
 }
 
 OniStatus RecordAssembler::emit_RECORD_NEW_DATA(
-	XnUInt32    nodeId,
+	uint32_t    nodeId,
 	XnUInt64    undoRecordPos,
 	XnUInt64    timeStamp,
-	XnUInt32    frameId,
+	uint32_t    frameId,
 	const void* data,
 	XnSizeT     dataSize_bytes)
 {
@@ -355,7 +355,7 @@ OniStatus RecordAssembler::emit_RECORD_NEW_DATA(
 	XnSizeT fieldsSize = m_header->fieldsSize;
 	emit(timeStamp, fieldsSize);
 	emit(frameId,   fieldsSize);
-	m_header->fieldsSize = (XnUInt32)fieldsSize;
+	m_header->fieldsSize = (uint32_t)fieldsSize;
 
 	// Verify that there's enough room for the payload in the buffer.
 	XnSizeT roomLeft = m_bufferSize_bytes - size_t(m_pEmitPtr - m_pBuffer);
@@ -366,13 +366,13 @@ OniStatus RecordAssembler::emit_RECORD_NEW_DATA(
 
 	// Emit payload data.
 	emitData(data, dataSize_bytes);
-	m_header->payloadSize = (XnUInt32)dataSize_bytes;
+	m_header->payloadSize = (uint32_t)dataSize_bytes;
 
 	return ONI_STATUS_OK;
 }
 
 OniStatus RecordAssembler::emit_RECORD_GENERAL_PROPERTY(
-	XnUInt32    nodeId,
+	uint32_t    nodeId,
 	XnUInt64    undoRecordPos,
 	const char* propertyName,
 	const void* data,
@@ -400,19 +400,19 @@ OniStatus RecordAssembler::emit_RECORD_GENERAL_PROPERTY(
 	//       Z = Y + 4 + W  +-----------------------+
 	XnSizeT fieldsSize = m_header->fieldsSize;
 	emitString(propertyName,       fieldsSize);
-	emit(XnUInt32(dataSize_bytes), fieldsSize);
-	m_header->fieldsSize = (XnUInt32)fieldsSize;
+	emit(uint32_t(dataSize_bytes), fieldsSize);
+	m_header->fieldsSize = (uint32_t)fieldsSize;
 
 	OniStatus status = emitData(data, dataSize_bytes);
 	if (ONI_STATUS_OK == status)
 	{
-		m_header->fieldsSize += (XnUInt32)dataSize_bytes;
+		m_header->fieldsSize += (uint32_t)dataSize_bytes;
 	}
 	return status;
 }
 
 OniStatus RecordAssembler::emit_RECORD_INT_PROPERTY(
-        XnUInt32    nodeId,
+        uint32_t    nodeId,
         XnUInt64    undoRecordPos,
         const char* propertyName,
         XnUInt64    data)
@@ -433,7 +433,7 @@ OniStatus RecordAssembler::emit_RECORD_INT_PROPERTY(
 }
 
 OniStatus RecordAssembler::emit_RECORD_REAL_PROPERTY(
-	XnUInt32    nodeId,
+	uint32_t    nodeId,
 	XnUInt64    undoRecordPos,
 	const char* propertyName,
 	XnDouble    data)

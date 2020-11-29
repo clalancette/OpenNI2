@@ -120,7 +120,7 @@ XnUInt16 LinkOutputDataEndpoint::GetMaxPacketSize() const
 	return m_pConnection->GetMaxPacketSize();
 }
 
-XnStatus LinkOutputDataEndpoint::SendData(const void* pData, XnUInt32 nSize)
+XnStatus LinkOutputDataEndpoint::SendData(const void* pData, uint32_t nSize)
 {
 	return m_pConnection->Send(pData, nSize);
 }

@@ -36,11 +36,11 @@ FILE* g_fUSBDump;
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, XnUInt32 nBufferSize, void* pCallbackData)
+XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData)
 {
 	XN_PROFILING_START_MT_SECTION("XnDeviceSensorProtocolUsbEpCb");
 
-	XnUInt32 nReadBytes;
+	uint32_t nReadBytes;
 	XnUInt16 nMagic;
 
 	XnSpecificUsbDevice* pDevice = (XnSpecificUsbDevice*)pCallbackData;
@@ -63,7 +63,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, XnUInt32
 			// on each endpoint is corrupt, causing wrong timestamp calculation, causing future (true) timestamps
 			// to be calculated wrongly. By ignoring the first data received on each endpoint we hope to get
 			// only valid data.
-			nReadBytes = XN_MIN((XnUInt32)(pBufEnd - pBuffer), pCurrState->nMissingBytesInState);
+			nReadBytes = XN_MIN((uint32_t)(pBufEnd - pBuffer), pCurrState->nMissingBytesInState);
 
 			if (nReadBytes > 0)
 			{
@@ -121,7 +121,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, XnUInt32
 			break;
 
 		case XN_PACKET_HEADER:
-			nReadBytes = XN_MIN((XnUInt32)(pBufEnd - pBuffer), pCurrState->nMissingBytesInState);
+			nReadBytes = XN_MIN((uint32_t)(pBufEnd - pBuffer), pCurrState->nMissingBytesInState);
 			xnOSMemCopy((XnUChar*)&pCurrState->CurrHeader + sizeof(XnSensorProtocolResponseHeader) - pCurrState->nMissingBytesInState,
 				pBuffer, nReadBytes);
 			pCurrState->nMissingBytesInState -= nReadBytes;
@@ -144,7 +144,7 @@ XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, XnUInt32
 			break;
 
 		case XN_PACKET_DATA:
-			nReadBytes = XN_MIN((XnUInt32)(pBufEnd - pBuffer), pCurrState->nMissingBytesInState);
+			nReadBytes = XN_MIN((uint32_t)(pBufEnd - pBuffer), pCurrState->nMissingBytesInState);
 			pDevicePrivateData->pSensor->GetFirmware()->GetStreams()->ProcessPacketChunk(&pCurrState->CurrHeader, pBuffer, pCurrState->CurrHeader.nBufSize - pCurrState->nMissingBytesInState, nReadBytes);
 			pBuffer += nReadBytes;
 			pCurrState->nMissingBytesInState -= nReadBytes;
@@ -168,12 +168,12 @@ XnStatus XnDeviceSensorProtocolFindStreamOfType(XnDevicePrivateData* pDevicePriv
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	const XnChar* strNames[100];
-	XnUInt32 nCount = 100;
+	uint32_t nCount = 100;
 
 	nRetVal = pDevicePrivateData->pSensor->GetStreamNames(strNames, &nCount);
 	XN_IS_STATUS_OK(nRetVal);
 
-	for (XnUInt32 i = 0; i < nCount; ++i)
+	for (uint32_t i = 0; i < nCount; ++i)
 	{
 		XnChar strCurType[XN_DEVICE_MAX_STRING_LENGTH];
 		nRetVal = pDevicePrivateData->pSensor->GetProperty(strNames[i], XN_STREAM_PROPERTY_TYPE, strCurType);
@@ -201,17 +201,17 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 
 	XnStatus rc = XN_STATUS_OK;
 
-	XnUInt32 nVal;
-	XnUInt32 nLogEvery = 0;
+	uint32_t nVal;
+	uint32_t nLogEvery = 0;
 	XnStatus ret;
 	XnI2CWriteData D1;
 	XnI2CReadData D2;
-	XnUInt32 i=0;
+	uint32_t i=0;
 
 //	if (FALSE /* pDevicePrivateData->bConfigure*/)
 	{
 		XnChar which;
-		XnUInt32 address, value, mask;
+		uint32_t address, value, mask;
 
 		const XnChar* csFileName = "commands.txt";
 
@@ -224,7 +224,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 
 		// read file
 		XnChar* pcsCommandsFile = (XnChar*)xnOSCalloc((XnSizeT)(nFileSize + 1), sizeof(XnChar));
-		rc = xnOSLoadFile(csFileName, pcsCommandsFile, (XnUInt32)nFileSize);
+		rc = xnOSLoadFile(csFileName, pcsCommandsFile, (uint32_t)nFileSize);
 		if (rc == XN_STATUS_OK)
 		{
 			xnOSSleep(7000);
@@ -277,7 +277,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					}
 				case 'F':
 					{
-						XnUInt32 nFilter;
+						uint32_t nFilter;
 						sscanf(pFile, "%x\n%n", &nFilter, &nRead);
 						pFile += nRead;
 
@@ -375,7 +375,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					break;
 				case 'P':
 					{
-						XnUInt32 param;
+						uint32_t param;
 						sscanf(pFile, "%u %u\n%n", &param, &value, &nRead);
 						pFile += nRead;
 
@@ -394,7 +394,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 				case 'U':
 					{
 						XnChar filename[80] = {0};
-						XnUInt32 nType;
+						uint32_t nType;
 						sscanf(pFile, "%u %s\n%n", &nType, filename, &nRead);
 						pFile += nRead;
 
@@ -413,7 +413,7 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 				case 'D':
 					{
 						XnChar filename[80] = {0};
-						XnUInt32 nType;
+						uint32_t nType;
 						sscanf(pFile, "%u %s\n%n", &nType, filename, &nRead);
 						pFile += nRead;
 
@@ -485,8 +485,8 @@ XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam)
 					{
 						printf("* Running BIST...\n");
 
-						XnUInt32 nFailures;
-						rc = XnHostProtocolRunBIST(pDevicePrivateData, (XnUInt32)XN_BIST_ALL, &nFailures);
+						uint32_t nFailures;
+						rc = XnHostProtocolRunBIST(pDevicePrivateData, (uint32_t)XN_BIST_ALL, &nFailures);
 						if (rc != XN_STATUS_OK)
 							printf("** Failed to run BIST: %s", xnGetStatusString(rc));
 						else

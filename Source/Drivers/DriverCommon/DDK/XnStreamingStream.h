@@ -51,12 +51,12 @@ protected:
 	//---------------------------------------------------------------------------
 	// Getters
 	//---------------------------------------------------------------------------
-	inline XnUInt32 GetReadChunkSize() { return (XnUInt32)m_ReadChunkSize.GetValue(); }
+	inline uint32_t GetReadChunkSize() { return (uint32_t)m_ReadChunkSize.GetValue(); }
 
 	//---------------------------------------------------------------------------
 	// Setters
 	//---------------------------------------------------------------------------
-	virtual XnStatus SetReadChunkSize(XnUInt32 nChunkSize);
+	virtual XnStatus SetReadChunkSize(uint32_t nChunkSize);
 
 private:
 	static XnStatus XN_CALLBACK_TYPE SetReadChunkSizeCallback(XnActualIntProperty* pSender, XnUInt64 nValue, void* pCookie);

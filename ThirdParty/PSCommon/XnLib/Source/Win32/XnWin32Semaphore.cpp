@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XN_C_API XnStatus xnOSCreateSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHandle, XnUInt32 nInitialCount)
+XN_C_API XnStatus xnOSCreateSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHandle, uint32_t nInitialCount)
 {
 	XN_VALIDATE_OUTPUT_PTR(pSemaphoreHandle);
 	*pSemaphoreHandle = CreateSemaphore(NULL, nInitialCount, nInitialCount, NULL);
@@ -41,7 +41,7 @@ XN_C_API XnStatus xnOSCreateSemaphore(XN_SEMAPHORE_HANDLE* pSemaphoreHandle, XnU
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSLockSemaphore(XN_SEMAPHORE_HANDLE hSemaphore, XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSLockSemaphore(XN_SEMAPHORE_HANDLE hSemaphore, uint32_t nMilliseconds)
 {
 	XN_RET_IF_NULL(hSemaphore, XN_STATUS_OS_INVALID_SEMAPHORE);
 	DWORD nRetVal = WaitForSingleObject(hSemaphore, nMilliseconds);

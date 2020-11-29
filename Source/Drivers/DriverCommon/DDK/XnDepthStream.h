@@ -49,12 +49,12 @@ public:
 	//---------------------------------------------------------------------------
 	inline OniDepthPixel GetMinDepth() const { return (OniDepthPixel)m_MinDepth.GetValue(); }
 	inline OniDepthPixel GetMaxDepth() const { return (OniDepthPixel)m_MaxDepth.GetValue(); }
-	inline XnUInt32 GetConstShift() const { return (XnUInt32)m_ConstShift.GetValue(); }
-	inline XnUInt32 GetPixelSizeFactor() const { return (XnUInt32)m_PixelSizeFactor.GetValue(); }
+	inline uint32_t GetConstShift() const { return (uint32_t)m_ConstShift.GetValue(); }
+	inline uint32_t GetPixelSizeFactor() const { return (uint32_t)m_PixelSizeFactor.GetValue(); }
 	inline XnUInt16 GetMaxShift() const { return (XnUInt16)m_MaxShift.GetValue(); }
 	inline OniDepthPixel GetDeviceMaxDepth() const { return (OniDepthPixel)m_DeviceMaxDepth.GetValue(); }
-	inline XnUInt32 GetParamCoefficient() const { return (XnUInt32)m_ParamCoefficient.GetValue(); }
-	inline XnUInt32 GetShiftScale() const { return (XnUInt32)m_ShiftScale.GetValue(); }
+	inline uint32_t GetParamCoefficient() const { return (uint32_t)m_ParamCoefficient.GetValue(); }
+	inline uint32_t GetShiftScale() const { return (uint32_t)m_ShiftScale.GetValue(); }
 	inline OniDepthPixel GetZeroPlaneDistance() const { return (OniDepthPixel)m_ZeroPlaneDistance.GetValue(); }
 	inline XnDouble GetZeroPlanePixelSize() const { return m_ZeroPlanePixelSize.GetValue(); }
 	inline XnDouble GetEmitterDCmosDistance() const { return m_EmitterDCmosDistance.GetValue(); }

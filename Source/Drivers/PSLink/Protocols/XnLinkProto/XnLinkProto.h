@@ -62,8 +62,8 @@ typedef struct XnLinkPacket
 
 typedef struct XnLinkDataHeader
 {
-	XnUInt32 m_nTimestampLo;
-	XnUInt32 m_nTimestampHi;
+	uint32_t m_nTimestampLo;
+	uint32_t m_nTimestampHi;
 } XnLinkDataHeader;
 
 
@@ -100,7 +100,7 @@ typedef struct XnLinkVideoMode
 
 typedef struct
 {
-	XnUInt32 m_nNumModes;
+	uint32_t m_nNumModes;
 	XnLinkVideoMode m_supportedVideoModes[1];
 } XnLinkSupportedVideoModes;
 
@@ -114,14 +114,14 @@ typedef struct XnLinkShiftToDepthConfig
 	/** The distance between the emitter and the Depth Cmos */
 	XnFloat fEmitterDCmosDistance;
 	/** The maximum possible shift value from this device. */
-	XnUInt32 nDeviceMaxShiftValue;
+	uint32_t nDeviceMaxShiftValue;
 	/** The maximum possible depth from this device (as opposed to a cut-off). */
-	XnUInt32 nDeviceMaxDepthValue;
+	uint32_t nDeviceMaxDepthValue;
 
-	XnUInt32 nConstShift;
-	XnUInt32 nPixelSizeFactor;
-	XnUInt32 nParamCoeff;
-	XnUInt32 nShiftScale;
+	uint32_t nConstShift;
+	uint32_t nPixelSizeFactor;
+	uint32_t nParamCoeff;
+	uint32_t nShiftScale;
 	XnUInt16 nDepthMinCutOff;
 	XnUInt16 nDepthMaxCutOff;
 
@@ -147,26 +147,26 @@ typedef struct XnLinkBoundingBox3D
 
 typedef struct XnLinkBitSet
 {
-	XnUInt32 m_nSize; //Size in bytes of encoded data
+	uint32_t m_nSize; //Size in bytes of encoded data
 	XnUInt8 m_aData[1];
 } XnLinkBitSet;
 
 typedef struct XnLinkStreamInfo
 {
-	XnUInt32 m_nStreamType;
+	uint32_t m_nStreamType;
 	XnChar m_strCreationInfo[XN_LINK_MAX_CREATION_INFO_LENGTH];
 } XnLinkStreamInfo;
 
 typedef struct XnLinkHandData
 {
-	XnUInt32 m_nHandID;
+	uint32_t m_nHandID;
 	XnLinkPoint3D m_position;
-	XnUInt32 m_touchingFOVEdge; // XnDirection values, ILLEGAL means not touching FOV edge
+	uint32_t m_touchingFOVEdge; // XnDirection values, ILLEGAL means not touching FOV edge
 } XnLinkHandData;
 
 typedef struct XnLinkHandsData
 {
-	XnUInt32 m_nHandsCount;
+	uint32_t m_nHandsCount;
 	XnLinkHandData m_aHands[1];
 } XnLinkHandsData;
 
@@ -189,34 +189,34 @@ typedef struct XnLinkGestureIntermediateStageEventArgs
 
 typedef struct XnLinkGestureEventHeader
 {
-	XnUInt32 m_nGesture;// Taken from XnLinkGestureType
-	XnUInt32 m_nGestureEventType;//Taken from XnLinkGestureEventType
+	uint32_t m_nGesture;// Taken from XnLinkGestureType
+	uint32_t m_nGestureEventType;//Taken from XnLinkGestureEventType
 } XnLinkGestureEventHeader;
 
 typedef struct XnLinkGestureDataHeader
 {
-	XnUInt32 m_nEventsCount;
+	uint32_t m_nEventsCount;
 } XnLinkGestureDataHeader;
 
 typedef struct XnLinkUserPoseDetectionElement
 {
-	XnUInt32 m_nPoseID; // Flags taken from XnLinkPoseType
-	XnUInt32 m_nDetectionStatus; // XnPoseDetectionStatus
+	uint32_t m_nPoseID; // Flags taken from XnLinkPoseType
+	uint32_t m_nDetectionStatus; // XnPoseDetectionStatus
 } XnLinkUserPoseDetectionElement;
 
 typedef struct XnLinkUserInPoseElement
 {
-	XnUInt32 m_nPoseID; // Flags taken from XnLinkPoseType
+	uint32_t m_nPoseID; // Flags taken from XnLinkPoseType
 } XnLinkUserPoseElement;
 
 typedef struct XnLinkUserCalibrationElement
 {
-	XnUInt32 m_nCalibrationStatus; // taken from XnCalibrationStatus
+	uint32_t m_nCalibrationStatus; // taken from XnCalibrationStatus
 } XnLinkUserCalibrationElement;
 
 typedef struct XnLinkUserJointData
 {
-	XnUInt32 m_nJointID;
+	uint32_t m_nJointID;
 	XnLinkPoint3D m_position;
 	XnFloat m_fPositionConfidence;
 	XnFloat m_afOrientation[9];
@@ -230,8 +230,8 @@ typedef struct XnLinkUserTrackingElement
 
 typedef struct XnLinkUserDataElementHeader
 {
-	XnUInt32 m_nElementType;
-	XnUInt32 m_nElementSize;
+	uint32_t m_nElementType;
+	uint32_t m_nElementSize;
 } XnLinkUserDataElementHeader;
 
 typedef struct XnLinkUserDataElement
@@ -242,11 +242,11 @@ typedef struct XnLinkUserDataElement
 
 typedef struct XnLinkUserDataHeader
 {
-	XnUInt32 m_nSize;
-	XnUInt32 m_nUserID;
-	XnUInt32 m_nUserStatus; // Flags taken from XnLinkUserStatus
+	uint32_t m_nSize;
+	uint32_t m_nUserID;
+	uint32_t m_nUserStatus; // Flags taken from XnLinkUserStatus
 	XnLinkPoint3D m_centerOfMass;
-	XnUInt32 m_nDataElements;
+	uint32_t m_nDataElements;
 } XnLinkUserDataHeader;
 
 typedef struct XnLinkUserData
@@ -257,10 +257,10 @@ typedef struct XnLinkUserData
 
 typedef struct XnLinkUserFrameHeader
 {
-	XnUInt32	m_nUsersCount;
+	uint32_t	m_nUsersCount;
 
-	XnUInt32	m_nUsersPixelBLOBFormat;
-	XnUInt32	m_nUsersPixelBLOBSize;
+	uint32_t	m_nUsersPixelBLOBFormat;
+	uint32_t	m_nUsersPixelBLOBSize;
 
 	XnUInt16	m_nUsersPixelXRes;
 	XnUInt16	m_nUsersPixelYRes;
@@ -277,8 +277,8 @@ typedef struct XnLinkUserFrame
 
 typedef struct XnLinkEESectionHeader
 {
-	XnUInt32 m_nMagic; //Should be "LOAD"
-	XnUInt32 m_nSize;
+	uint32_t m_nMagic; //Should be "LOAD"
+	uint32_t m_nSize;
 } XnLinkEESectionHeader;
 
 typedef struct XnLinkIDSetHeader
@@ -330,7 +330,7 @@ typedef struct XnLinkPropValHeader
 {
 	XnUInt16 m_nPropType;	//Values come from XnLinkPropType
 	XnUInt16 m_nPropID;		//Values come from XnLinkInternalPropID
-	XnUInt32 m_nValueSize;
+	uint32_t m_nValueSize;
 } XnLinkPropValHeader;
 
 typedef struct XnLinkPropVal
@@ -341,20 +341,20 @@ typedef struct XnLinkPropVal
 
 typedef struct XnLinkPropSet
 {
-	XnUInt32 m_nNumProps;
+	uint32_t m_nNumProps;
 	//Followed by a number of XnLinkPropVal's
 	XnUInt8 m_aData[1];
 } XnLinkPropSet;
 
 typedef struct XnLinkBistTest
 {
-	XnUInt32 m_nID;
+	uint32_t m_nID;
 	XnChar m_strName[XN_LINK_MAX_BIST_NAME_LENGTH];
 } XnLinkBistTest;
 
 typedef struct XnLinkSupportedBistTests
 {
-	XnUInt32 m_nCount;
+	uint32_t m_nCount;
 	XnLinkBistTest m_aTests[1];
 } XnLinkSupportedBistTests;
 
@@ -375,7 +375,7 @@ typedef struct XnLinkDetailedVersion
 	XnUInt8 m_nMajor;
 	XnUInt8 m_nMinor;
 	XnUInt16 m_nMaintenance;
-	XnUInt32 m_nBuild;
+	uint32_t m_nBuild;
 	XnChar m_strModifier[XN_LINK_MAX_VERSION_MODIFIER_LENGTH];
 } XnLinkDetailedVersion;
 
@@ -391,8 +391,8 @@ typedef struct XnLinkFileEntry
 {
 	XnChar m_strName[XN_LINK_MAX_FILE_NAME_LENGTH];
 	XnLinkFileVersion m_nVersion;
-	XnUInt32 m_nAddress;
-	XnUInt32 m_nSize;
+	uint32_t m_nAddress;
+	uint32_t m_nSize;
 	XnUInt16 m_nCRC;
 	XnUInt16 m_nZone;
 	XnUInt8 m_nFlags; // bitmap of values from XnLinkFileFlags
@@ -409,7 +409,7 @@ typedef struct XnLinkComponentVersion
 
 typedef struct XnLinkComponentVersionsList
 {
-	XnUInt32 m_nCount;
+	uint32_t m_nCount;
 	XnLinkComponentVersion m_components[1];
 } XnLinkComponentVersionsList;
 
@@ -417,7 +417,7 @@ typedef struct XnLinkComponentVersionsList
 typedef struct XnLinkAccCurentParam
 {
 	XnFloat m_nTemperature;
-	XnUInt32 m_nLutTabLine;
+	uint32_t m_nLutTabLine;
 	XnUInt16 m_nValueDC;
 	XnUInt16 m_nValueDac;
 	XnUInt16 m_nVoltage1;
@@ -426,7 +426,7 @@ typedef struct XnLinkAccCurentParam
 
 typedef struct XnLinkDCParam
 {
-	XnUInt32 m_nDCvalue;
+	uint32_t m_nDCvalue;
 } XnLinkDCParam ;
 
 typedef struct XnLinkCameraIntrinsics
@@ -441,13 +441,13 @@ typedef struct XnLinkI2CDevice
 	XnUInt8 m_nMasterID;
 	XnUInt8 m_nSlaveID;
 	XnUInt16 m_nReserved;
-	XnUInt32 m_nID;
+	uint32_t m_nID;
 	XnChar m_strName[XN_LINK_MAX_I2C_DEVICE_NAME_LENGTH];
 } XnLinkI2CDevice;
 
 typedef struct XnLinkSupportedI2CDevices
 {
-	XnUInt32 m_nCount;
+	uint32_t m_nCount;
 	XnLinkI2CDevice m_aI2CDevices[1];
 } XnLinkSupportedI2CDevices;
 
@@ -459,7 +459,7 @@ typedef struct XnLinkLogFile
 
 typedef struct XnLinkSupportedLogFiles
 {
-	XnUInt32 m_nCount;
+	uint32_t m_nCount;
 	XnLinkLogFile m_aLogFiles[1];
 } XnLinkSupportedLogFiles;
 
@@ -474,12 +474,12 @@ typedef struct XnLinkProjectorPulse
 
 typedef struct XnLinkTemperatureSensor
 {
-	XnUInt32 m_nID;
+	uint32_t m_nID;
 	XnUInt8 m_strName[XN_LINK_MAX_SENSOR_NAME_LENGTH];
 } XnLinkTemperatureSensor;
 
 typedef struct XnLinkTemperatureSensorsList{
- 	XnUInt32 m_nCount;
+ 	uint32_t m_nCount;
  	XnLinkTemperatureSensor m_aSensors[XN_LINK_MAX_TEMPERATURE_SENSORS];
 } XnLinkTemperatureSensorsList;
 
@@ -504,9 +504,9 @@ typedef struct XnLinkWriteI2CParams
 	XnUInt8 m_nAddressSize;
 	XnUInt8 m_nValueSize;
 	XnUInt8 m_nReserved;
-	XnUInt32 m_nAddress;
-	XnUInt32 m_nValue;
-	XnUInt32 m_nMask;
+	uint32_t m_nAddress;
+	uint32_t m_nValue;
+	uint32_t m_nMask;
 } XnLinkWriteI2CParams;
 
 typedef struct XnLinkReadI2CParams
@@ -515,13 +515,13 @@ typedef struct XnLinkReadI2CParams
 	XnUInt8 m_nAddressSize;
 	XnUInt8 m_nValueSize;
 	XnUInt8 m_nReserved;
-	XnUInt32 m_nAddress;
+	uint32_t m_nAddress;
 } XnLinkReadI2CParams;
 
 typedef struct XnLinkWriteAHBParams
 {
-	XnUInt32 m_nAddress;
-	XnUInt32 m_nValue;
+	uint32_t m_nAddress;
+	uint32_t m_nValue;
 	XnUInt8 m_nBitOffset; //Offset in bits of value to write within address
 	XnUInt8 m_nBitWidth; //Width in bits of value to write
 	XnUInt16 m_nReserved;
@@ -529,7 +529,7 @@ typedef struct XnLinkWriteAHBParams
 
 typedef struct XnLinkReadAHBParams
 {
-	XnUInt32 m_nAddress;
+	uint32_t m_nAddress;
 	XnUInt8 m_nBitOffset; //Offset in bits of value to read within address
 	XnUInt8 m_nBitWidth; //Width in bits of value to read
 	XnUInt16 m_nReserved;
@@ -545,7 +545,7 @@ typedef struct XnLinkSetVideoModeParams
 
 typedef struct XnLinkCreateStreamParams
 {
-	XnUInt32 m_nStreamType = 0;
+	uint32_t m_nStreamType = 0;
 	XnChar m_strCreationInfo[XN_LINK_MAX_CREATION_INFO_LENGTH];
 } XnLinkCreateStreamParams;
 
@@ -559,7 +559,7 @@ typedef struct XnLinkGetPropParams
 
 typedef struct XnLinkSetMultiPropsParams
 {
-	XnUInt32 m_nNumProps;
+	uint32_t m_nNumProps;
 	//Followed by a number of XnLinkSetPropParams
 	XnUInt8 m_aData[1];
 } XnLinkSetMultiPropsParams;
@@ -571,28 +571,28 @@ typedef struct XnLinkStartTrackingHandParams
 
 typedef struct XnLinkStopTrackingHandParams
 {
-	XnUInt32 m_nUserID;
+	uint32_t m_nUserID;
 } XnLinkStopTrackingHandParams;
 
 typedef struct XnLinkAddGestureParams
 {
-	XnUInt32 m_nGestureType; //Values come from XnLinkGestureType
+	uint32_t m_nGestureType; //Values come from XnLinkGestureType
 	XnLinkBoundingBox3D m_boundingBox;
 } XnLinkAddGestureParams;
 
 typedef struct XnLinkRemoveGestureParams
 {
-	XnUInt32 m_nGestureType; //Values come from XnLinkGestureType
+	uint32_t m_nGestureType; //Values come from XnLinkGestureType
 } XnLinkRemoveGestureParams;
 
 typedef struct XnLinkExecuteBistParams
 {
-	XnUInt32 m_nID;
+	uint32_t m_nID;
 } XnLinkExecuteBistParams;
 
 typedef struct XnLinkFormatZoneParams
 {
-	XnUInt32 m_nZone; //0 or 1
+	uint32_t m_nZone; //0 or 1
 } XnLinkFormatZoneParams;
 
 typedef struct XnLinkLogOpenCloseParams
@@ -602,12 +602,12 @@ typedef struct XnLinkLogOpenCloseParams
 
 typedef struct XnLinkGetTemperatureParams
 {
-	XnUInt32 m_nID;
+	uint32_t m_nID;
 } XnLinkGetTemperatureParams;
 
 typedef struct XnLinkGetDebugDataParams
 {
-	XnUInt32 m_nID;
+	uint32_t m_nID;
 } XnLinkGetDebugDataParams;
 
 //-----------------------------------------------------------------------
@@ -615,7 +615,7 @@ typedef struct XnLinkGetDebugDataParams
 //-----------------------------------------------------------------------
 typedef struct XnLinkTemperatureResponse
 {
-	XnUInt32 m_nID;
+	uint32_t m_nID;
 	XnFloat value;
 } XnLinkTemperatureResponse;
 
@@ -639,12 +639,12 @@ typedef struct XnLinkResponsePacket
 
 typedef struct XnLinkReadI2CResponse
 {
-	XnUInt32 m_nValue;
+	uint32_t m_nValue;
 } XnLinkReadI2CResponse;
 
 typedef struct XnLinkReadAHBResponse
 {
-	XnUInt32 m_nValue;
+	uint32_t m_nValue;
 } XnLinkReadAHBResponse;
 
 typedef XnLinkSupportedVideoModes XnLinkGetSupportedVideoModesResponse;
@@ -656,7 +656,7 @@ typedef struct XnLinkGetVideoModeResponse
 
 typedef struct XnLinkEnumerateStreamsResponse
 {
-	XnUInt32 m_nNumStreams;
+	uint32_t m_nNumStreams;
 	XnLinkStreamInfo m_streamInfos[1];
 } XnLinkEnumerateStreamsResponse;
 
@@ -677,19 +677,19 @@ typedef struct XnLinkGetShiftToDepthConfigResponse
 
 typedef struct XnLinkEnumerateAvailableGesturesResponse
 {
-	XnUInt32 m_nGestures;
-	XnUInt32 m_nProgressSupported;
-	XnUInt32 m_nCurrentlyActive;
+	uint32_t m_nGestures;
+	uint32_t m_nProgressSupported;
+	uint32_t m_nCurrentlyActive;
 } XnLinkEnumerateAvailableGesturesResponse;
 
 typedef struct XnLinkEnumerateActiveGesturesResponse
 {
-	XnUInt32 m_nGestures;
+	uint32_t m_nGestures;
 } XnLinkEnumerateActiveGesturesResponse;
 
 typedef struct XnLinkSetSkeletonProfileParams
 {
-	XnUInt32 m_nProfile;
+	uint32_t m_nProfile;
 } XnLinkSetSkeletonProfileParams;
 
 typedef struct XnLinkSetSkeletonJointStateParams
@@ -700,77 +700,77 @@ typedef struct XnLinkSetSkeletonJointStateParams
 
 typedef struct XnLinkRequestSkeletonCalibrationParams
 {
-	XnUInt32 m_nUserID;
-	XnUInt32 m_bForce;
+	uint32_t m_nUserID;
+	uint32_t m_bForce;
 } XnLinkRequestSkeletonCalibrationParams;
 
 typedef struct XnLinkAbortSkeletonCalibrationParams
 {
-	XnUInt32 m_nUserID;
+	uint32_t m_nUserID;
 } XnLinkAbortSkeletonCalibrationParams;
 
 typedef struct XnLinkStartSkeletonTrackingParams
 {
-	XnUInt32 m_nUserID;
+	uint32_t m_nUserID;
 } XnLinkStartSkeletonTrackingParams;
 
 typedef struct XnLinkStopSkeletonTrackingParams
 {
-	XnUInt32 m_nUserID;
+	uint32_t m_nUserID;
 } XnLinkStopSkeletonTrackingParams;
 
 typedef struct XnLinkResetSkeletonTrackingParams
 {
-	XnUInt32 m_nUserID;
+	uint32_t m_nUserID;
 } XnLinkResetSkeletonTrackingParams;
 
 typedef struct XnLinkStartPoseDetectionParams
 {
-	XnUInt32 m_nUserID;
-	XnUInt32 m_nPose;
+	uint32_t m_nUserID;
+	uint32_t m_nPose;
 } XnLinkStartPoseDetectionParams;
 
 typedef struct XnLinkStopPoseDetectionParams
 {
-	XnUInt32 m_nUserID;
+	uint32_t m_nUserID;
 } XnLinkStopPoseDetectionParams;
 
 typedef struct XnLinkSaveSkeletonCalibrationDataParams
 {
-	XnUInt32 m_nUserID;
-	XnUInt32 m_nSlot;
+	uint32_t m_nUserID;
+	uint32_t m_nSlot;
 } XnLinkSaveSkeletonCalibrationDataParams;
 
 typedef struct XnLinkLoadSkeletonCalibrationDataParams
 {
-	XnUInt32 m_nUserID;
-	XnUInt32 m_nSlot;
+	uint32_t m_nUserID;
+	uint32_t m_nSlot;
 } XnLinkLoadSkeletonCalibrationDataParams;
 
 typedef struct XnLinkIsSkeletonCalibrationSlotTakenParams
 {
-	XnUInt32 m_nSlot;
+	uint32_t m_nSlot;
 } XnLinkIsSkeletonCalibrationSlotTakenParams;
 
 typedef struct XnLinkIsSkeletonCalibrationSlotTakenResponse
 {
-	XnUInt32 m_nTaken;
+	uint32_t m_nTaken;
 } XnLinkIsSkeletonCalibrationSlotTakenResponse;
 
 typedef struct XnLinkClearSkeletonCalibrationSlotParams
 {
-	XnUInt32 m_nSlot;
+	uint32_t m_nSlot;
 } XnLinkClearSkeletonCalibrationSlotParams;
 
 typedef struct XnLinkGetSkeletonCalibrationDataParams
 {
-	XnUInt32 m_nUserID;
+	uint32_t m_nUserID;
 } XnLinkGetSkeletonCalibrationDataParams;
 
 typedef struct XnLinkSetSkeletonCalibrationDataParamsHeader
 {
-	XnUInt32 m_nUserID;
-	XnUInt32 m_nDataSize;
+	uint32_t m_nUserID;
+	uint32_t m_nDataSize;
 } XnLinkSetSkeletonCalibrationDataParamsHeader;
 
 typedef struct XnLinkSetSkeletonCalibrationDataParams
@@ -782,7 +782,7 @@ typedef struct XnLinkSetSkeletonCalibrationDataParams
 typedef struct XnLinkSetLogMaskSeverityParams
 {
 	XnChar m_strMask[XN_LINK_MAX_LOG_MASK_LENGTH];
-	XnUInt32 m_nMinSeverity; // values from XnLogSeverity
+	uint32_t m_nMinSeverity; // values from XnLogSeverity
 } XnLinkSetLogMaskSeverityParams;
 
 typedef struct XnLinkGetLogMaskSeverityParams
@@ -792,19 +792,19 @@ typedef struct XnLinkGetLogMaskSeverityParams
 
 typedef struct XnLinkGetLogMaskSeverityResponse
 {
-	XnUInt32 m_nMinSeverity; // values from XnLogSeverity
+	uint32_t m_nMinSeverity; // values from XnLogSeverity
 } XnLinkGetLogMaskSeverityResponse;
 
 typedef struct XnLinkExecuteBistResponse // Entire data in this struct is system- and test-specific
 {
-	XnUInt32 m_nErrorCode; // 0 for success
-	XnUInt32 m_nExtraDataSize;
+	uint32_t m_nErrorCode; // 0 for success
+	uint32_t m_nExtraDataSize;
 	XnUChar m_ExtraData[1];
 } XnLinkExecuteBistResponse;
 
 typedef struct XnLinkGetFileListResponse
 {
-	XnUInt32 m_nCount;
+	uint32_t m_nCount;
 	XnLinkFileEntry m_aFileEntries[1];
 } XnLinkGetFileListResponse;
 

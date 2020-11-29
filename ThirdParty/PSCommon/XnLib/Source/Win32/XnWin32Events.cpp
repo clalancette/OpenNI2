@@ -174,7 +174,7 @@ XN_C_API XnStatus xnOSResetEvent(const XN_EVENT_HANDLE EventHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSWaitEvent(const XN_EVENT_HANDLE EventHandle, XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSWaitEvent(const XN_EVENT_HANDLE EventHandle, uint32_t nMilliseconds)
 {
 	// Local function variables
 	DWORD nRetVal = 0;

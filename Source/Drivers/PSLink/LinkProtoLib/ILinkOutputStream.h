@@ -37,7 +37,7 @@ public:
 	virtual ~ILinkOutputStream() {}
 
 	virtual XnStatus Init(XnUInt16 nStreamID,
-				XnUInt32 nMaxMsgSize,
+				uint32_t nMaxMsgSize,
 				XnUInt16 nMaxPacketSize,
 				XnLinkCompressionType compression,
 				XnUInt16 nInitialPacketID,
@@ -51,7 +51,7 @@ public:
 					XnUInt16 nCID,
 					XnLinkFragmentation fragmentation,
 					const void* pData,
-					XnUInt32 nDataSize) const = 0;
+					uint32_t nDataSize) const = 0;
 
 };
 

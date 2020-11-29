@@ -1118,7 +1118,7 @@ bool ReadFixed(openni::Device& Device, std::vector<std::string>& Command)
 		}
 	}
 
-	XnUInt32 anFixedParams[100];
+	uint32_t anFixedParams[100];
 	XnDynamicSizeBuffer buffer;
 	buffer.nMaxSize = sizeof(anFixedParams);
 	buffer.pData = anFixedParams;
@@ -1133,9 +1133,9 @@ bool ReadFixed(openni::Device& Device, std::vector<std::string>& Command)
 	{
 		if (nParam != -1)
 		{
-			if (buffer.nDataSize < nParam * sizeof(XnUInt32))
+			if (buffer.nDataSize < nParam * sizeof(uint32_t))
 			{
-				std::cout << "Invalid index! Last index is " << buffer.nDataSize / sizeof(XnUInt32) - 1 << std::endl;
+				std::cout << "Invalid index! Last index is " << buffer.nDataSize / sizeof(uint32_t) - 1 << std::endl;
 			}
 			else
 			{
@@ -1144,7 +1144,7 @@ bool ReadFixed(openni::Device& Device, std::vector<std::string>& Command)
 		}
 		else
 		{
-			for (XnUInt32 i = 0; i < buffer.nDataSize / sizeof(XnUInt32); ++i)
+			for (uint32_t i = 0; i < buffer.nDataSize / sizeof(uint32_t); ++i)
 			{
 				std::cout << "Fixed Param [" << i << "] = " << anFixedParams[i] << std::endl;
 			}
@@ -1293,7 +1293,7 @@ bool RunBIST(openni::Device& Device, std::vector<std::string>& Command)
 	}
 	else
 	{
-		for (XnUInt32 i = 1; i < Command.size(); ++i)
+		for (uint32_t i = 1; i < Command.size(); ++i)
 		{
 			bool bFound = false;
 

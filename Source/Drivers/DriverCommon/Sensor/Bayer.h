@@ -37,6 +37,6 @@
 //---------------------------------------------------------------------------
 // Functions Declaration
 //---------------------------------------------------------------------------
-void Bayer2RGB888(const XnUInt8* pBayerImage, XnUInt8* pRGBImage, XnUInt32 nXRes, XnUInt32 nYRes, XnUInt32 nDownSampleStep);
+void Bayer2RGB888(const XnUInt8* pBayerImage, XnUInt8* pRGBImage, uint32_t nXRes, uint32_t nYRes, uint32_t nDownSampleStep);
 
 #endif // BAYER_H

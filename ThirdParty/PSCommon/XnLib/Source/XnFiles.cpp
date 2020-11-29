@@ -20,11 +20,11 @@
 *****************************************************************************/
 #include "XnLib.h"
 
-XN_C_API XnStatus xnOSLoadFile(const XnChar* cpFileName, void* pBuffer, const XnUInt32 nBufferSize)
+XN_C_API XnStatus xnOSLoadFile(const XnChar* cpFileName, void* pBuffer, const uint32_t nBufferSize)
 {
 	// Local function variables
 	XN_FILE_HANDLE FileHandle;
-	XnUInt32 nReadBytes = nBufferSize;
+	uint32_t nReadBytes = nBufferSize;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -53,7 +53,7 @@ XN_C_API XnStatus xnOSLoadFile(const XnChar* cpFileName, void* pBuffer, const Xn
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSSaveFile(const XnChar* cpFileName, const void* pBuffer, const XnUInt32 nBufferSize)
+XN_C_API XnStatus xnOSSaveFile(const XnChar* cpFileName, const void* pBuffer, const uint32_t nBufferSize)
 {
 	// Local function variables
 	XN_FILE_HANDLE FileHandle;
@@ -80,7 +80,7 @@ XN_C_API XnStatus xnOSSaveFile(const XnChar* cpFileName, const void* pBuffer, co
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSAppendFile(const XnChar* cpFileName, const void* pBuffer, const XnUInt32 nBufferSize)
+XN_C_API XnStatus xnOSAppendFile(const XnChar* cpFileName, const void* pBuffer, const uint32_t nBufferSize)
 {
 	// Local function variables
 	XN_FILE_HANDLE FileHandle;
@@ -109,7 +109,7 @@ XN_C_API XnStatus xnOSAppendFile(const XnChar* cpFileName, const void* pBuffer, 
 
 XN_C_API XnStatus xnOSStripDirSep(XnChar* strDirName)
 {
-	XnUInt32 len = xnOSStrLen(strDirName);
+	uint32_t len = xnOSStrLen(strDirName);
 	if (len > 0 && xnOSIsDirSep(strDirName[len-1]))
 	{
 		strDirName[len-1] = '\0';
@@ -122,7 +122,7 @@ XN_C_API XnBool xnOSIsDirSep(XnChar c)
 	return (c != '\0') && (strchr(XN_FILE_DIR_SEPS, c) != NULL);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSAppendFilePath(XnChar* strDestPath, const XnChar* strPathComponentToAppend, const XnUInt32 nBufferSize)
+XN_C_API XnStatus XN_C_DECL xnOSAppendFilePath(XnChar* strDestPath, const XnChar* strPathComponentToAppend, const uint32_t nBufferSize)
 {
 	XnStatus rc;
 	if (xnOSIsAbsoluteFilePath(strPathComponentToAppend))

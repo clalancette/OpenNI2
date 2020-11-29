@@ -39,7 +39,7 @@ XnCmosInfo::~XnCmosInfo()
 {
 }
 
-XnStatus XnCmosInfo::SetCmosConfig(XnCMOSType nCmos, XnResolutions nResolution, XnUInt32 nFPS)
+XnStatus XnCmosInfo::SetCmosConfig(XnCMOSType nCmos, XnResolutions nResolution, uint32_t nFPS)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

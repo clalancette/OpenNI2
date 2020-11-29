@@ -39,7 +39,7 @@ class XnGeneralProperty : public XnProperty
 public:
 	typedef XnStatus (XN_CALLBACK_TYPE* ReadValueFromFileFuncPtr)(XnGeneralProperty* pSender, const XnChar* csINIFile, const XnChar* csSection);
 
-	XnGeneralProperty(XnUInt32 propertyId, const XnChar* strName, OniGeneralBuffer* pValueHolder = NULL, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
+	XnGeneralProperty(uint32_t propertyId, const XnChar* strName, OniGeneralBuffer* pValueHolder = NULL, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
 
 	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);
 	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnGeneralProperty* pSender, const OniGeneralBuffer& gbValue, void* pCookie);

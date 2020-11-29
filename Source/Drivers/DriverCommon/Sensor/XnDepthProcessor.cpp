@@ -66,7 +66,7 @@ XnStatus XnDepthProcessor::Init()
 			// optimization. We create a LUT shift-to-shift. See comment up.
 			m_pShiftToDepthTable = (OniDepthPixel*)xnOSMalloc(sizeof(OniDepthPixel)*XN_DEVICE_SENSOR_MAX_SHIFT_VALUE);
 			XN_VALIDATE_ALLOC_PTR(m_pShiftToDepthTable);
-			for (XnUInt32 i = 0; i < XN_DEVICE_SENSOR_MAX_SHIFT_VALUE; ++i)
+			for (uint32_t i = 0; i < XN_DEVICE_SENSOR_MAX_SHIFT_VALUE; ++i)
 			{
 				m_pShiftToDepthTable[i] = (OniDepthPixel)i;
 			}
@@ -102,21 +102,21 @@ void XnDepthProcessor::OnStartOfFrame(const XnSensorProtocolResponseHeader* pHea
 	{
 		// PATCH: starting with v5.1, the timestamp field of the SOF packet, is the number of pixels
 		// that should be prepended to the frame.
-		XnUInt32 nPaddingPixelsOnStart = pHeader->nTimeStamp >> 16;
+		uint32_t nPaddingPixelsOnStart = pHeader->nTimeStamp >> 16;
 		m_nPaddingPixelsOnEnd = pHeader->nTimeStamp & 0x0000FFFF;
 
 		PadPixels(nPaddingPixelsOnStart);
 	}
 }
 
-XnUInt32 XnDepthProcessor::CalculateExpectedSize()
+uint32_t XnDepthProcessor::CalculateExpectedSize()
 {
-	XnUInt32 nExpectedDepthBufferSize = GetStream()->GetXRes() * GetStream()->GetYRes();
+	uint32_t nExpectedDepthBufferSize = GetStream()->GetXRes() * GetStream()->GetYRes();
 
 	// when cropping is turned on, actual depth size is smaller
 	if (GetStream()->m_FirmwareCropMode.GetValue() != XN_FIRMWARE_CROPPING_MODE_DISABLED)
 	{
-		nExpectedDepthBufferSize = (XnUInt32)(GetStream()->m_FirmwareCropSizeX.GetValue() * GetStream()->m_FirmwareCropSizeY.GetValue());
+		nExpectedDepthBufferSize = (uint32_t)(GetStream()->m_FirmwareCropSizeX.GetValue() * GetStream()->m_FirmwareCropSizeY.GetValue());
 	}
 
 	nExpectedDepthBufferSize *= sizeof(OniDepthPixel);
@@ -177,7 +177,7 @@ void XnDepthProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 	XnFrameStreamProcessor::OnEndOfFrame(pHeader);
 }
 
-void XnDepthProcessor::PadPixels(XnUInt32 nPixels)
+void XnDepthProcessor::PadPixels(uint32_t nPixels)
 {
 	XnBuffer* pWriteBuffer = GetWriteBuffer();
 
@@ -190,14 +190,14 @@ void XnDepthProcessor::PadPixels(XnUInt32 nPixels)
 	OniDepthPixel* pDepth = (OniDepthPixel*)GetWriteBuffer()->GetUnsafeWritePointer();
 
 	// place the no-depth value
-	for (XnUInt32 i = 0; i < nPixels; ++i, ++pDepth)
+	for (uint32_t i = 0; i < nPixels; ++i, ++pDepth)
 	{
 		*pDepth = m_noDepthValue;
 	}
 	pWriteBuffer->UnsafeUpdateSize(nPixels * sizeof(OniDepthPixel));
 }
 
-void XnDepthProcessor::OnFrameReady(XnUInt32 nFrameID, XnUInt64 nFrameTS)
+void XnDepthProcessor::OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS)
 {
 	XnFrameStreamProcessor::OnFrameReady(nFrameID, nFrameTS);
 

@@ -79,13 +79,13 @@ private:
 		}
 		type;
 
-		XnUInt32    nodeId;
+		uint32_t    nodeId;
 		VideoStream*     pStream;
 		union {
 			const void*     pData;
 			OniFrame*       pFrame;
 		};
-		XnUInt32    propertyId;
+		uint32_t    propertyId;
 		XnSizeT     dataSize;
 	};
 
@@ -105,20 +105,20 @@ private:
 		Message::Type type,
 		VideoStream*     pStream    = NULL,
 		const void* pData      = NULL,
-		XnUInt32    propertyId = 0u,
+		uint32_t    propertyId = 0u,
 		XnSizeT     dataSize   = 0u,
 		int priority = ms_priorityNormal);
 
 	// Message handlers:
 	void onInitialize();
 	void onTerminate();
-	void onAttach(XnUInt32 nodeId, VideoStream* pStream);
-	void onDetach(XnUInt32 nodeId);
-	void onStart (XnUInt32 nodeId);
-	void onRecord(XnUInt32 nodeId, XnCodecBase* pCodec, const OniFrame* pFrame, XnUInt32 frameId, XnUInt64 timestamp);
+	void onAttach(uint32_t nodeId, VideoStream* pStream);
+	void onDetach(uint32_t nodeId);
+	void onStart (uint32_t nodeId);
+	void onRecord(uint32_t nodeId, XnCodecBase* pCodec, const OniFrame* pFrame, uint32_t frameId, XnUInt64 timestamp);
 	void onRecordProperty(
-		XnUInt32    nodeId,
-		XnUInt32    propertyId,
+		uint32_t    nodeId,
+		uint32_t    propertyId,
 		const void* pData,
 		XnSizeT     dataSize);
 
@@ -131,8 +131,8 @@ private:
 	// pretty simple, but it might evolve in future.
 	struct AttachedStreamInfo
 	{
-		XnUInt32       nodeId;
-		XnUInt32       frameId;
+		uint32_t       nodeId;
+		uint32_t       frameId;
 		XnCodecBase*   pCodec;
 		OniBool        allowLossyCompression;
 		XnUInt64       lastInputTimestamp;
@@ -140,8 +140,8 @@ private:
 
 		// needed for overriding the NODE_ADDED record when detaching the stream
 		XnUInt64       nodeAddedRecordPosition;
-		XnUInt32       nodeType;
-		XnUInt32       codecId;
+		uint32_t       nodeType;
+		uint32_t       codecId;
 
 		// needed for keeping track of undoRecordPos field
 		XnUInt64       lastNewDataRecordPosition;
@@ -151,22 +151,22 @@ private:
 		std::list<DataIndexEntry> dataIndex;
 	};
 
-	AttachedStreamInfo *findAttachedStreamInfo(XnUInt32 nodeId);
+	AttachedStreamInfo *findAttachedStreamInfo(uint32_t nodeId);
 
 	// A map of stream -> stream information.
 	typedef xnl::Lockable< xnl::Hash<VideoStream*, AttachedStreamInfo> > AttachedStreams;
 	AttachedStreams m_streams;
 
 	// A helper function for the properties' undoRecordPos
-	XnUInt64 getLastPropertyRecordPos(XnUInt32 nodeId, const char *propName, XnUInt64 newRecordPos);
+	XnUInt64 getLastPropertyRecordPos(uint32_t nodeId, const char *propName, XnUInt64 newRecordPos);
 
 	// The maximum ID of a stream. This number grows with the every next stream
 	// attached to this Recorder and never decreases.
-	XnUInt32 m_maxId;
+	uint32_t m_maxId;
 
 	// increased any time when a property changes in ANY attached stream,
 	// to avoid the player seeking with the tables when a configuration has changed.
-	XnUInt32 m_configurationId;
+	uint32_t m_configurationId;
 
 	// A message queue, used by threadMain and Send().
 	typedef xnl::Lockable<xnl::PriorityQueue<Message, 3> > MessageQueue;

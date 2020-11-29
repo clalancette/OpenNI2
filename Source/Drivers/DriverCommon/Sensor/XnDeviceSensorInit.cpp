@@ -42,7 +42,7 @@ XnStatus XnDeviceSensorInit(XnDevicePrivateData* pDevicePrivateData)
 	XN_IS_STATUS_OK(nRetVal);
 
 	XnChar strMutexName[XN_FILE_MAX_PATH];
-	XnUInt32 nCharsWritten = 0;
+	uint32_t nCharsWritten = 0;
 	nRetVal = xnOSStrFormat(strMutexName, XN_FILE_MAX_PATH, &nCharsWritten, "%s%s", XN_HOST_PROTOCOL_MUTEX_NAME_PREFIX, pDevicePrivateData->pSensor->GetUSBPath());
 	XN_IS_STATUS_OK(nRetVal);
 

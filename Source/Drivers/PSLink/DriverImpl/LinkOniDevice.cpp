@@ -81,7 +81,7 @@ XnStatus LinkOniDevice::readSupportedModesFromStream(XnFwStreamInfo &info, std::
 XnStatus AddVideoMode(std::vector<OniVideoMode>& modes, XnFwStreamVideoMode fwMode, OniPixelFormat pixelFormat)
 {
 	// make sure it's not in the list already
-	for (XnUInt32 i = 0; i < modes.size(); ++i)
+	for (uint32_t i = 0; i < modes.size(); ++i)
 	{
 		if (modes[i].resolutionX == (int)fwMode.m_nXRes &&
 			modes[i].resolutionY == (int)fwMode.m_nYRes &&
@@ -116,7 +116,7 @@ XnStatus LinkOniDevice::FillSupportedVideoModes()
 		XnStatus nRetVal = readSupportedModesFromStream(aEnumerated[c], aSupportedModes);
 		XN_IS_STATUS_OK(nRetVal);
 
-		for (XnUInt32 i = 0; i < aSupportedModes.size(); ++i)
+		for (uint32_t i = 0; i < aSupportedModes.size(); ++i)
 		{
 			nRetVal = AddVideoMode(aVideoModes, aSupportedModes[i], ONI_PIXEL_FORMAT_DEPTH_1_MM);
 			XN_IS_STATUS_OK(nRetVal);
@@ -142,7 +142,7 @@ XnStatus LinkOniDevice::FillSupportedVideoModes()
 		XnStatus nRetVal = readSupportedModesFromStream(aEnumerated[c], aSupportedModes);
 		XN_IS_STATUS_OK(nRetVal);
 
-		for (XnUInt32 i = 0; i < aSupportedModes.size(); ++i)
+		for (uint32_t i = 0; i < aSupportedModes.size(); ++i)
 		{
 			nRetVal = AddVideoMode(aVideoModes, aSupportedModes[i], ONI_PIXEL_FORMAT_GRAY16);
 			XN_IS_STATUS_OK(nRetVal);
@@ -333,7 +333,7 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 	case ONI_DEVICE_PROPERTY_FIRMWARE_VERSION:
 		{
 			XnDetailedVersion versions = m_pSensor->GetFWVersion();
-			XnUInt32 nCharsWritten = 0;
+			uint32_t nCharsWritten = 0;
 			XnStatus rc = xnOSStrFormat((XnChar*)data, *pDataSize, &nCharsWritten, "%d.%d.%d.%d-%s", versions.m_nMajor, versions.m_nMinor, versions.m_nMaintenance, versions.m_nBuild, versions.m_strModifier);
 			if (rc != XN_STATUS_OK)
 			{
@@ -410,7 +410,7 @@ OniStatus LinkOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 			nRetVal = m_pSensor->GetComponentsVersions(components);
 			XN_IS_STATUS_OK_RET(nRetVal, ONI_STATUS_ERROR);
 
-			XnUInt32 nExpectedSize = components.size() * sizeof(XnComponentVersion);
+			uint32_t nExpectedSize = components.size() * sizeof(XnComponentVersion);
 			if (*pDataSize != (int)nExpectedSize)
 			{
 				m_driverServices.errorLoggerAppend("Unexpected size: %d != %d\n", *pDataSize, nExpectedSize);

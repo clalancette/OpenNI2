@@ -42,7 +42,7 @@ public:
 	//---------------------------------------------------------------------------
 	// Getters
 	//---------------------------------------------------------------------------
-	inline XnUInt32 GetFPS() const { return (XnUInt32)m_FPS.GetValue(); }
+	inline uint32_t GetFPS() const { return (uint32_t)m_FPS.GetValue(); }
 
 	//---------------------------------------------------------------------------
 	// Overridden Methods
@@ -66,7 +66,7 @@ protected:
 	//---------------------------------------------------------------------------
 	// Setters
 	//---------------------------------------------------------------------------
-	virtual XnStatus SetFPS(XnUInt32 nFPS);
+	virtual XnStatus SetFPS(uint32_t nFPS);
 
 	//---------------------------------------------------------------------------
 	// Virtual Methods
@@ -84,7 +84,7 @@ private:
 	//---------------------------------------------------------------------------
 	XnFrameBufferManager m_bufferManager;
 
-	XnUInt32 m_nLastReadFrame; // the ID that was given
+	uint32_t m_nLastReadFrame; // the ID that was given
 
 	XnActualIntProperty m_IsFrameStream;
 	XnActualIntProperty m_FPS;

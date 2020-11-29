@@ -56,10 +56,10 @@ protected:
 	struct SupportedVideoMode
 	{
 		OniVideoMode OutputMode;
-		XnUInt32 nInputFormat;
+		uint32_t nInputFormat;
 	};
 
-	XnUInt32		m_nSupportedModesCount;
+	uint32_t		m_nSupportedModesCount;
 	SupportedVideoMode*	m_aSupportedModes;
 
 private:

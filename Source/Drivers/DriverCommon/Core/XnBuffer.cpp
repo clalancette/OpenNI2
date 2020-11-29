@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStatus XnBuffer::Allocate(XnUInt32 nAllocSize)
+XnStatus XnBuffer::Allocate(uint32_t nAllocSize)
 {
 	Free();
 	XN_VALIDATE_ALIGNED_CALLOC(m_pData, XnUChar, nAllocSize, XN_DEFAULT_MEM_ALIGN);
@@ -36,7 +36,7 @@ XnStatus XnBuffer::Allocate(XnUInt32 nAllocSize)
 	return (XN_STATUS_OK);
 }
 
-void XnBuffer::SetExternalBuffer(XnUChar* pBuffer, XnUInt32 nSize)
+void XnBuffer::SetExternalBuffer(XnUChar* pBuffer, uint32_t nSize)
 {
 	Free();
 	m_pData = pBuffer;
@@ -45,7 +45,7 @@ void XnBuffer::SetExternalBuffer(XnUChar* pBuffer, XnUInt32 nSize)
 	m_bAllocated = FALSE;
 }
 
-XnStatus XnBuffer::Write(const XnUChar* pData, XnUInt32 nDataSize)
+XnStatus XnBuffer::Write(const XnUChar* pData, uint32_t nDataSize)
 {
 	if (GetFreeSpaceInBuffer() < nDataSize)
 	{

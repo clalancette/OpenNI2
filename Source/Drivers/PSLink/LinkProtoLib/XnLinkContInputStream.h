@@ -29,7 +29,7 @@
 
 #include "XnLinkLogParser.h"
 
-typedef XnUInt32 XnStreamFormat;
+typedef uint32_t XnStreamFormat;
 
 namespace xn
 {
@@ -48,10 +48,10 @@ public:
 	virtual void Shutdown();
 	virtual XnStatus HandlePacket(const LinkPacketHeader& header, const XnUInt8* pData, XnBool& bPacketLoss);
 	virtual const void* GetData() const;
-	virtual XnUInt32 GetDataSize() const;
+	virtual uint32_t GetDataSize() const;
 	virtual XnUInt64 GetTimestamp() const { return 0; }
 	virtual const void* GetNextData() const;
-	virtual XnUInt32 GetNextDataSize() const;
+	virtual uint32_t GetNextDataSize() const;
 	virtual XnUInt64 GetNextTimestamp() const { return 0; }
 	virtual XnBool IsNewDataAvailable() const;
 	virtual XnStatus UpdateData();
@@ -75,17 +75,17 @@ protected:
 private:
 	LinkLogParser m_logParser;
 
-	static const XnUInt32 CONT_STREAM_PREDEFINED_BUFFER_SIZE;
+	static const uint32_t CONT_STREAM_PREDEFINED_BUFFER_SIZE;
 	mutable XN_CRITICAL_SECTION_HANDLE m_hCriticalSection; //Protects buffers info
 	XnBool m_bNewDataAvailable;
     XnBool m_bInitialized;
 	XnBool m_bStreaming;
 	
-	XnUInt32 m_nUserBufferMaxSize;
-	XnUInt32 m_nUserBufferCurrentSize;
+	uint32_t m_nUserBufferMaxSize;
+	uint32_t m_nUserBufferCurrentSize;
 	XnUInt8* m_pUserBuffer;
 
-	XnUInt32 m_nWorkingBufferCurrentSize;
+	uint32_t m_nWorkingBufferCurrentSize;
 	XnUInt8* m_pWorkingBuffer;
 
 	XnChar m_strDumpName[XN_FILE_MAX_PATH];

@@ -37,7 +37,7 @@
 /**
 * Packs a pointer and a size into an XnGeneralBuffer struct.
 XnGeneralBuffer.h-51-*/
-inline OniGeneralBuffer XnGeneralBufferPack(void* pData, XnUInt32 nDataSize)
+inline OniGeneralBuffer XnGeneralBufferPack(void* pData, uint32_t nDataSize)
 {
 	OniGeneralBuffer result;
 	result.data = pData;
@@ -50,8 +50,8 @@ inline OniGeneralBuffer XnGeneralBufferPack(void* pData, XnUInt32 nDataSize)
 * Copies one general buffer into another.
 */
 XnStatus XnGeneralBufferCopy(OniGeneralBuffer* pDest, const OniGeneralBuffer* pSrc);
-XnStatus XnGeneralBufferAlloc(OniGeneralBuffer* pDest, XnUInt32 nSize);
-XnStatus XnGeneralBufferRealloc(OniGeneralBuffer* pDest, XnUInt32 nSize);
+XnStatus XnGeneralBufferAlloc(OniGeneralBuffer* pDest, uint32_t nSize);
+XnStatus XnGeneralBufferRealloc(OniGeneralBuffer* pDest, uint32_t nSize);
 void XnGeneralBufferFree(OniGeneralBuffer* pDest);
 
 #define XN_VALIDATE_GENERAL_BUFFER_TYPE(gb, t)	\
@@ -93,7 +93,7 @@ XnStatus XnShutdown();
  *
  * @return An integer representation of the Xiron version.
  */
-XnUInt32	XnGetVersion(void);
+uint32_t	XnGetVersion(void);
 
 /**
  * Returns the Xiron version as a string in the following format:

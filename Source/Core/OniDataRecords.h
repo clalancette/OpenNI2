@@ -31,7 +31,7 @@
 ONI_NAMESPACE_IMPLEMENTATION_BEGIN
 #pragma pack(push, 1)
 
-#define ONI_CODEC_ID(c1, c2, c3, c4) XnUInt32((c4 << 24) | (c3 << 16) | (c2 << 8) | c1)
+#define ONI_CODEC_ID(c1, c2, c3, c4) uint32_t((c4 << 24) | (c3 << 16) | (c2 << 8) | c1)
 
 #define ONI_CODEC_UNCOMPRESSED      ONI_CODEC_ID('N', 'O', 'N', 'E')
 #define ONI_CODEC_16Z_EMB_TABLES    ONI_CODEC_ID('1', '6', 'z', 'T')
@@ -48,35 +48,35 @@ struct FileHeaderData
 		XnUInt8  major;
 		XnUInt8  minor;
 		XnUInt16 maintenance;
-		XnUInt32 build;
+		uint32_t build;
 	} version;
 	XnUInt64 maxTimeStamp;
-	XnUInt32 maxNodeId;
+	uint32_t maxNodeId;
 };
 
 /// The structure of ONI file's record header.
 struct RecordHeaderData
 {
-	XnUInt32 magic;
-	XnUInt32 recordType;
-	XnUInt32 nodeId;
-	XnUInt32 fieldsSize;
-	XnUInt32 payloadSize;
+	uint32_t magic;
+	uint32_t recordType;
+	uint32_t nodeId;
+	uint32_t fieldsSize;
+	uint32_t payloadSize;
 	XnUInt64 undoRecordPos;
 };
 
 struct VideoModeData
 {
-	XnUInt32 width;
-	XnUInt32 height;
-	XnUInt32 fps;
+	uint32_t width;
+	uint32_t height;
+	uint32_t fps;
 };
 
 /// An entry for a frame in the SeekTable
 typedef struct DataIndexEntry
 {
 	XnUInt64 nTimestamp;
-	XnUInt32 nConfigurationID;
+	uint32_t nConfigurationID;
 	XnUInt64 nSeekPos;
 } DataIndexEntry;
 
@@ -141,66 +141,66 @@ public:
 	OniStatus serialize(XN_FILE_HANDLE file);
 
 	OniStatus emit_RECORD_NODE_ADDED_1_0_0_5(
-		XnUInt32 nodeType,
-		XnUInt32 nodeId,
-		XnUInt32 codecId,
-		XnUInt32 numberOfFrames,
+		uint32_t nodeType,
+		uint32_t nodeId,
+		uint32_t codecId,
+		uint32_t numberOfFrames,
 		XnUInt64 minTimeStamp,
 		XnUInt64 maxTimeStamp);
 
 	OniStatus emit_RECORD_NODE_ADDED(
-		XnUInt32 nodeType,
-		XnUInt32 nodeId,
-		XnUInt32 codecId,
-		XnUInt32 numberOfFrames,
+		uint32_t nodeType,
+		uint32_t nodeId,
+		uint32_t codecId,
+		uint32_t numberOfFrames,
 		XnUInt64 minTimeStamp,
 		XnUInt64 maxTimeStamp,
 		XnUInt64 seekTablePosition);
 
-	OniStatus emit_RECORD_NODE_STATE_READY(XnUInt32 nodeId);
+	OniStatus emit_RECORD_NODE_STATE_READY(uint32_t nodeId);
 
-	OniStatus emit_RECORD_NODE_REMOVED(XnUInt32 nodeId, XnUInt64 nodeAddedPos);
+	OniStatus emit_RECORD_NODE_REMOVED(uint32_t nodeId, XnUInt64 nodeAddedPos);
 
 	OniStatus emit_RECORD_SEEK_TABLE(
-		XnUInt32 nodeId,
-		XnUInt32 numFrames,
+		uint32_t nodeId,
+		uint32_t numFrames,
 		const std::list<DataIndexEntry>& dataIndexEntryList);
 
 	OniStatus emit_RECORD_END();
 
 	OniStatus emit_RECORD_NODE_DATA_BEGIN(
-		XnUInt32 nodeId,
-		XnUInt32 framesCount,
+		uint32_t nodeId,
+		uint32_t framesCount,
 		XnUInt64 maxTimeStamp);
 
 	OniStatus emit_RECORD_NEW_DATA(
-		XnUInt32    nodeId,
+		uint32_t    nodeId,
 		XnUInt64    undoRecordPos,
 		XnUInt64    timeStamp,
-		XnUInt32    frameId,
+		uint32_t    frameId,
 		const void* data,
 	XnSizeT     dataSize_bytes);
 
 	OniStatus emit_RECORD_GENERAL_PROPERTY(
-		XnUInt32    nodeId,
+		uint32_t    nodeId,
 		XnUInt64    undoRecordPos,
 		const char* propertyName,
 		const void* data,
 		XnSizeT     dataSize_bytes);
 
 	OniStatus emit_RECORD_INT_PROPERTY(
-		XnUInt32    nodeId,
+		uint32_t    nodeId,
 		XnUInt64    undoRecordPos,
 		const char* propertyName,
 		XnUInt64    data);
 	OniStatus emit_RECORD_REAL_PROPERTY(
-		XnUInt32    nodeId,
+		uint32_t    nodeId,
 		XnUInt64    undoRecordPos,
 		const char* propertyName,
 		XnDouble    data);
 
 private:
-	void emitCommonHeader(XnUInt32 recordType, XnUInt32 nodeId, XnUInt64 undoRecordPos);
+	void emitCommonHeader(uint32_t recordType, uint32_t nodeId, XnUInt64 undoRecordPos);
 	OniStatus emitString(const XnChar* pStr, XnSizeT& totalFieldsSize_bytes);
 	OniStatus emitData(const void* pData, XnSizeT dataSize_bytes);
 

@@ -88,7 +88,7 @@ XnStatus XnLinuxPosixEvent::Reset()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnLinuxPosixEvent::Wait(XnUInt32 nMilliseconds)
+XnStatus XnLinuxPosixEvent::Wait(uint32_t nMilliseconds)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

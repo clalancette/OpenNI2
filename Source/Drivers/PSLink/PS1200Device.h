@@ -42,7 +42,7 @@ public:
 	XnStatus SetUsbAltInterface(XnUInt8 altInterface);
 	XnStatus GetUsbAltInterface(XnUInt8& altInterface) const;
 
-	virtual XnStatus UsbTest(XnUInt32 nSeconds, XnUInt32& endpointsCount, XnUsbTestEndpointResult* endpoints);
+	virtual XnStatus UsbTest(uint32_t nSeconds, uint32_t& endpointsCount, XnUsbTestEndpointResult* endpoints);
 
 protected:
 	const ClientUSBConnectionFactory* GetConnectionFactory() const;
@@ -50,14 +50,14 @@ protected:
 	IConnectionFactory* CreateConnectionFactory(XnTransportType transportType);
 
 private:
-	static const XnUInt32 WAIT_FOR_FREE_BUFFER_TIMEOUT_MS;
-	static const XnUInt32 USB_READ_BUFFERS;
-	static const XnUInt32 USB_READ_BUFFER_PACKETS;
-	static const XnUInt32 USB_READ_TIMEOUT;
+	static const uint32_t WAIT_FOR_FREE_BUFFER_TIMEOUT_MS;
+	static const uint32_t USB_READ_BUFFERS;
+	static const uint32_t USB_READ_BUFFER_PACKETS;
+	static const uint32_t USB_READ_TIMEOUT;
 	static const XnUSBEndPointType ENDPOINTS_TYPE;
-	static const XnUInt32 NUM_OUTPUT_CONNECTIONS;
-	static const XnUInt32 NUM_INPUT_CONNECTIONS;
-	static const XnUInt32 PRE_CONTROL_RECEIVE_SLEEP;
+	static const uint32_t NUM_OUTPUT_CONNECTIONS;
+	static const uint32_t NUM_INPUT_CONNECTIONS;
+	static const uint32_t PRE_CONTROL_RECEIVE_SLEEP;
 
 	//Data members
 	XnBool m_bInitialized;

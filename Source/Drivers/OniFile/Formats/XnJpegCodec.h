@@ -34,7 +34,7 @@
 class XnJpegCodec final : public XnCodecBase
 {
 public:
-	XnJpegCodec(XnBool bRGB, XnUInt32 nXRes, XnUInt32 nYRes, XnUInt32 nQuality = XN_STREAM_COMPRESSION_JPEG_DEFAULT_QUALITY) :
+	XnJpegCodec(XnBool bRGB, uint32_t nXRes, uint32_t nYRes, uint32_t nQuality = XN_STREAM_COMPRESSION_JPEG_DEFAULT_QUALITY) :
 		m_bRGB(bRGB), m_nXRes(nXRes), m_nYRes(nYRes), m_nQuality(nQuality), mp_CompJPEGContext(NULL), mp_UncompJPEGContext(NULL)
 	{}
 
@@ -65,12 +65,12 @@ public:
 
 	XnCompressionFormats GetCompressionFormat() const override { return XN_COMPRESSION_JPEG; }
 	XnFloat GetWorseCompressionRatio() const override { return XN_STREAM_COMPRESSION_IMAGEJ_WORSE_RATIO; }
-	XnUInt32 GetOverheadSize() const override { return 0; }
+	uint32_t GetOverheadSize() const override { return 0; }
 
 private:
 	XN_DISABLE_COPY_AND_ASSIGN(XnJpegCodec);
 
-	XnStatus CompressImpl(const XnUChar* pData, XnUInt32 /*nDataSize*/, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize) override
+	XnStatus CompressImpl(const XnUChar* pData, uint32_t /*nDataSize*/, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize) override
 	{
 		if (m_bRGB)
 		{
@@ -82,15 +82,15 @@ private:
 		}
 	}
 
-	XnStatus DecompressImpl(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize) override
+	XnStatus DecompressImpl(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize) override
 	{
 		return XnStreamUncompressImageJ(&mp_UncompJPEGContext, pCompressedData, nCompressedDataSize, pData, pnDataSize);
 	}
 
 	const XnBool m_bRGB;
-	const XnUInt32 m_nXRes;
-	const XnUInt32 m_nYRes;
-	const XnUInt32 m_nQuality;
+	const uint32_t m_nXRes;
+	const uint32_t m_nYRes;
+	const uint32_t m_nQuality;
 	XnStreamCompJPEGContext *mp_CompJPEGContext;
 	XnStreamUncompJPEGContext *mp_UncompJPEGContext;
 };

@@ -43,7 +43,7 @@ public:
 	virtual XnStatus Destroy();
 	virtual XnStatus Set();
 	virtual XnStatus Reset();
-	virtual XnStatus Wait(XnUInt32 nTimeout);
+	virtual XnStatus Wait(uint32_t nTimeout);
 
 private:
 	int m_hSem;

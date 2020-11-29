@@ -29,7 +29,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnResolutions XnDDKGetResolutionFromXY(XnUInt32 nXRes, XnUInt32 nYRes)
+XnResolutions XnDDKGetResolutionFromXY(uint32_t nXRes, uint32_t nYRes)
 {
 	if (nXRes == 320  && nYRes == 240)	  return XN_RESOLUTION_QVGA;
 	if (nXRes == 640  && nYRes == 480)	  return XN_RESOLUTION_VGA;
@@ -51,7 +51,7 @@ XnResolutions XnDDKGetResolutionFromXY(XnUInt32 nXRes, XnUInt32 nYRes)
 										      return XN_RESOLUTION_CUSTOM;
 }
 
-XnBool XnDDKGetXYFromResolution(XnResolutions res, XnUInt32* pnXRes, XnUInt32* pnYRes)
+XnBool XnDDKGetXYFromResolution(XnResolutions res, uint32_t* pnXRes, uint32_t* pnYRes)
 {
 	switch(res)
 	{

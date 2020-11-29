@@ -82,7 +82,7 @@ static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, cons
 	XnBool bIsInRequestedSection = FALSE;
 
 	XnChar csTempString[XN_INI_MAX_LEN];
-	XnUInt32 nTempStringLength = 0;
+	uint32_t nTempStringLength = 0;
 
 	while (TRUE)
 	{
@@ -160,7 +160,7 @@ static XnStatus FindEntry(const XnChar* cpINIFile, const XnChar* cpSection, cons
 	return (XN_STATUS_OS_INI_READ_FAILED);
 }
 
-XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnChar* cpDest, const XnUInt32 nDestLength)
+XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnChar* cpDest, const uint32_t nDestLength)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	XnBool bINIFileExists = FALSE;

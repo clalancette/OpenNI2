@@ -42,7 +42,7 @@ typedef struct XnFPSDataImpl* XnFPSData;
  * @param	pFPS			[in]	A pointer to an XnFPSData struct.
  * @param	nSamplesCount	[in]	The number of last frames to be kept.
  */
-XN_C_API XnStatus XN_C_DECL xnFPSInit(XnFPSData* pFPS, XnUInt32 nSamplesCount);
+XN_C_API XnStatus XN_C_DECL xnFPSInit(XnFPSData* pFPS, uint32_t nSamplesCount);
 
 /**
  * This function marks that another frame was processed.
@@ -59,7 +59,7 @@ XN_C_API XnStatus XN_C_DECL xnFPSMarkFrame(XnFPSData* pFPS, XnUInt64 nNow = 0);
  * @param	nAverageOver	[in]	The number of milliseconds to average over.
  * @param	nNow			[in]	Optional. Current time. When not provided, function will take it itself.
  */
-XN_C_API XnDouble XN_C_DECL xnFPSCalc(XnFPSData* pFPS, XnUInt32 nAverageOver = 3000, XnUInt64 nNow = 0);
+XN_C_API XnDouble XN_C_DECL xnFPSCalc(XnFPSData* pFPS, uint32_t nAverageOver = 3000, XnUInt64 nNow = 0);
 
 /**
  * This function frees the FPS calculator.

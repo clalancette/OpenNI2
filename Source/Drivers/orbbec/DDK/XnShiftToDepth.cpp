@@ -62,7 +62,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	}
 
 	enum OpticsRelationShip OpticsRelation;
-	XnUInt32 nIndex = 0;
+	uint32_t nIndex = 0;
 	XnInt16  nShiftValue = 0;
 	XnDouble dFixedRefX = 0;
 	XnDouble dMetric = 0;
@@ -94,7 +94,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	XnUInt16 nLastDepth = 0;
 	XnUInt16 nLastIndex = 0;
 
-	XnUInt32 nMaxDepth = XN_MIN(pConfig->nDeviceMaxDepthValue, pConfig->nDepthMaxCutOff);
+	uint32_t nMaxDepth = XN_MIN(pConfig->nDeviceMaxDepthValue, pConfig->nDepthMaxCutOff);
 
 	for (nIndex = 1; nIndex < pConfig->nDeviceMaxShiftValue; nIndex++)
 	{
@@ -132,7 +132,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth, const XnShift
 	return XN_STATUS_OK;
 }
 
-XnStatus XnShiftToDepthConvert(XnShiftToDepthTables* pShiftToDepth, XnUInt16* pInput, XnUInt32 nInputSize, OniDepthPixel* pOutput)
+XnStatus XnShiftToDepthConvert(XnShiftToDepthTables* pShiftToDepth, XnUInt16* pInput, uint32_t nInputSize, OniDepthPixel* pOutput)
 {
 	XN_VALIDATE_INPUT_PTR(pShiftToDepth);
 	XN_VALIDATE_INPUT_PTR(pInput);

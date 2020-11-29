@@ -40,7 +40,7 @@ XnActualPropertiesHash::~XnActualPropertiesHash()
 	}
 }
 
-XnStatus XnActualPropertiesHash::Add(XnUInt32 propertyId, const XnChar* strName, XnUInt64 nValue)
+XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName, XnUInt64 nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -65,7 +65,7 @@ XnStatus XnActualPropertiesHash::Add(XnUInt32 propertyId, const XnChar* strName,
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnActualPropertiesHash::Add(XnUInt32 propertyId, const XnChar* strName, XnDouble dValue)
+XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName, XnDouble dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -90,7 +90,7 @@ XnStatus XnActualPropertiesHash::Add(XnUInt32 propertyId, const XnChar* strName,
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnActualPropertiesHash::Add(XnUInt32 propertyId, const XnChar* strName, const XnChar* strValue)
+XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName, const XnChar* strValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -115,7 +115,7 @@ XnStatus XnActualPropertiesHash::Add(XnUInt32 propertyId, const XnChar* strName,
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnActualPropertiesHash::Add(XnUInt32 propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue)
+XnStatus XnActualPropertiesHash::Add(uint32_t propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -150,7 +150,7 @@ XnStatus XnActualPropertiesHash::Add(XnUInt32 propertyId, const XnChar* strName,
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnActualPropertiesHash::Remove(XnUInt32 propertyId)
+XnStatus XnActualPropertiesHash::Remove(uint32_t propertyId)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

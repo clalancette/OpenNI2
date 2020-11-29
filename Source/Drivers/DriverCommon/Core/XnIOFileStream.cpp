@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnIOFileStream::XnIOFileStream(const XnChar* pcsFileName, XnUInt32 nFlags) :
+XnIOFileStream::XnIOFileStream(const XnChar* pcsFileName, uint32_t nFlags) :
 	m_pcsFileName(pcsFileName), m_nFlags(nFlags)
 {
 }
@@ -46,16 +46,16 @@ XnStatus XnIOFileStream::Free()
 	return xnOSCloseFile(&m_hFile);
 }
 
-XnStatus XnIOFileStream::WriteData(const XnUChar *pData, XnUInt32 nDataSize)
+XnStatus XnIOFileStream::WriteData(const XnUChar *pData, uint32_t nDataSize)
 {
 	return xnOSWriteFile(m_hFile, pData, nDataSize);
 }
 
-XnStatus XnIOFileStream::ReadData(XnUChar *pData, XnUInt32 nDataSize)
+XnStatus XnIOFileStream::ReadData(XnUChar *pData, uint32_t nDataSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnUInt32 nReadSize = nDataSize;
+	uint32_t nReadSize = nDataSize;
 	nRetVal = xnOSReadFile(m_hFile, pData, &nReadSize);
 	XN_IS_STATUS_OK(nRetVal);
 

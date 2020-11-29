@@ -32,7 +32,7 @@
 class XnWholePacketProcessor : public XnDataProcessor
 {
 public:
-	XnWholePacketProcessor(XnDevicePrivateData* pDevicePrivateData, const XnChar* csName, XnUInt32 nMaxPacketSize);
+	XnWholePacketProcessor(XnDevicePrivateData* pDevicePrivateData, const XnChar* csName, uint32_t nMaxPacketSize);
 	~XnWholePacketProcessor();
 
 	XnStatus Init();
@@ -41,7 +41,7 @@ protected:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize) override;
+	void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) override;
 
 	//---------------------------------------------------------------------------
 	// Virtual Functions
@@ -50,7 +50,7 @@ protected:
 
 private:
 	/* The maximum size of the packet. */
-	XnUInt32 m_nMaxPacketSize;
+	uint32_t m_nMaxPacketSize;
 	/* A buffer to store whole packet */
 	XnBuffer m_WholePacket;
 };

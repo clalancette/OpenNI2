@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStringProperty::XnStringProperty(XnUInt32 propertyId, const XnChar* strName, XnChar* pValueHolder, const XnChar* strModule /* = "" */) :
+XnStringProperty::XnStringProperty(uint32_t propertyId, const XnChar* strName, XnChar* pValueHolder, const XnChar* strModule /* = "" */) :
 	XnProperty(XN_PROPERTY_TYPE_STRING, pValueHolder, propertyId, strName, strModule)
 {
 }

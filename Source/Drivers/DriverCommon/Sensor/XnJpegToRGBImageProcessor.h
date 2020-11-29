@@ -43,7 +43,7 @@ public:
 	// Overridden Functions
 	//---------------------------------------------------------------------------
 protected:
-	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize);
+	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
 	virtual void OnStartOfFrame(const XnSensorProtocolResponseHeader* pHeader);
 	virtual void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader);
 

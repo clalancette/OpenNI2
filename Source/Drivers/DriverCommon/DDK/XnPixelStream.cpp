@@ -92,17 +92,17 @@ XnStatus XnPixelStream::Init()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPixelStream::AddSupportedModes(XnCmosPreset* aPresets, XnUInt32 nCount)
+XnStatus XnPixelStream::AddSupportedModes(XnCmosPreset* aPresets, uint32_t nCount)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	for (XnUInt32 i = 0; i < nCount; ++i)
+	for (uint32_t i = 0; i < nCount; ++i)
 	{
 		m_supportedModesData.push_back(*(aPresets + i));
 	}
 
 	// update our general property
-	XnUInt32 nAllPresetsCount = m_supportedModesData.size();
+	uint32_t nAllPresetsCount = m_supportedModesData.size();
 
 	nRetVal = m_SupportedModesCount.UnsafeUpdateValue(nAllPresetsCount);
 	XN_IS_STATUS_OK(nRetVal);
@@ -112,7 +112,7 @@ XnStatus XnPixelStream::AddSupportedModes(XnCmosPreset* aPresets, XnUInt32 nCoun
 
 XnStatus XnPixelStream::ValidateSupportedMode(const XnCmosPreset& preset)
 {
-	for (XnUInt32 i = 0; i < m_supportedModesData.size(); ++i)
+	for (uint32_t i = 0; i < m_supportedModesData.size(); ++i)
 	{
 		if (preset.nFormat == m_supportedModesData[i].nFormat &&
 			preset.nResolution == m_supportedModesData[i].nResolution &&
@@ -125,7 +125,7 @@ XnStatus XnPixelStream::ValidateSupportedMode(const XnCmosPreset& preset)
 	XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DDK, "Mode is not supported (format: %d, resolution: %d, FPS: %d)!", preset.nFormat, preset.nResolution, preset.nFPS);
 }
 
-XnStatus XnPixelStream::GetSupportedModes(XnCmosPreset* aPresets, XnUInt32& nCount)
+XnStatus XnPixelStream::GetSupportedModes(XnCmosPreset* aPresets, uint32_t& nCount)
 {
 	if (nCount < m_supportedModesData.size())
 	{
@@ -146,7 +146,7 @@ XnStatus XnPixelStream::SetResolution(XnResolutions nResolution)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPixelStream::SetXRes(XnUInt32 nXRes)
+XnStatus XnPixelStream::SetXRes(uint32_t nXRes)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -166,7 +166,7 @@ XnStatus XnPixelStream::SetXRes(XnUInt32 nXRes)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPixelStream::SetYRes(XnUInt32 nYRes)
+XnStatus XnPixelStream::SetYRes(uint32_t nYRes)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -204,9 +204,9 @@ XnStatus XnPixelStream::ValidateCropping(const OniCropping* pCropping)
 	if (pCropping->enabled)
 	{
 		if (pCropping->originX > (int)GetXRes() ||
-			XnUInt32(pCropping->originX + pCropping->width) > GetXRes() ||
+			uint32_t(pCropping->originX + pCropping->width) > GetXRes() ||
 			pCropping->originY > (int)GetYRes() ||
-			XnUInt32(pCropping->originY + pCropping->height) > GetYRes())
+			uint32_t(pCropping->originY + pCropping->height) > GetYRes())
 		{
 			XN_LOG_WARNING_RETURN(XN_STATUS_DEVICE_BAD_PARAM, XN_MASK_DDK, "Cropping values do not match stream resolution!");
 		}
@@ -228,8 +228,8 @@ XnStatus XnPixelStream::OnResolutionChanged()
 	if (res != XN_RESOLUTION_CUSTOM)
 	{
 		// update XRes and YRes accordingly
-		XnUInt32 nXRes;
-		XnUInt32 nYRes;
+		uint32_t nXRes;
+		uint32_t nYRes;
 		if (!XnDDKGetXYFromResolution(res, &nXRes, &nYRes))
 		{
 			XN_ASSERT(FALSE);
@@ -250,7 +250,7 @@ XnStatus XnPixelStream::OnOutputFormatChanged()
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// update the bytes-per-pixel value
-	XnUInt32 nBytesPerPixel;
+	uint32_t nBytesPerPixel;
 
 	switch (GetOutputFormat())
 	{
@@ -308,7 +308,7 @@ XnStatus XnPixelStream::FixCropping()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnPixelStream::CalcRequiredSize(XnUInt32* pnRequiredSize) const
+XnStatus XnPixelStream::CalcRequiredSize(uint32_t* pnRequiredSize) const
 {
 	*pnRequiredSize = GetXRes() * GetYRes() * GetBytesPerPixel();
 	return XN_STATUS_OK;
@@ -343,9 +343,9 @@ XnStatus XnPixelStream::Mirror(OniFrame* pFrame) const
 XnStatus XnPixelStream::CropImpl(OniFrame* pFrame, const OniCropping* pCropping)
 {
 	XnUChar* pPixelData = (XnUChar*)pFrame->data;
-	XnUInt32 nCurDataSize = 0;
+	uint32_t nCurDataSize = 0;
 
-	for (XnUInt32 y = pCropping->originY; y < XnUInt32(pCropping->originY + pCropping->height); ++y)
+	for (uint32_t y = pCropping->originY; y < uint32_t(pCropping->originY + pCropping->height); ++y)
 	{
 		XnUChar* pOrigLine = &pPixelData[y * GetXRes() * GetBytesPerPixel()];
 
@@ -387,13 +387,13 @@ XnStatus XN_CALLBACK_TYPE XnPixelStream::SetResolutionCallback(XnActualIntProper
 XnStatus XN_CALLBACK_TYPE XnPixelStream::SetXResCallback(XnActualIntProperty* /*pSenser*/, XnUInt64 nValue, void* pCookie)
 {
 	XnPixelStream* pStream = (XnPixelStream*)pCookie;
-	return pStream->SetXRes((XnUInt32)nValue);
+	return pStream->SetXRes((uint32_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnPixelStream::SetYResCallback(XnActualIntProperty* /*pSenser*/, XnUInt64 nValue, void* pCookie)
 {
 	XnPixelStream* pStream = (XnPixelStream*)pCookie;
-	return pStream->SetYRes((XnUInt32)nValue);
+	return pStream->SetYRes((uint32_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnPixelStream::SetCroppingCallback(XnActualGeneralProperty* /*pSender*/, const OniGeneralBuffer& gbValue, void* pCookie)
@@ -452,7 +452,7 @@ XnStatus XN_CALLBACK_TYPE XnPixelStream::GetSupportedModesCallback(const XnGener
 		return XN_STATUS_INVALID_BUFFER_SIZE;
 	}
 
-	XnUInt32 nCount = gbValue.dataSize / sizeof(XnCmosPreset);
+	uint32_t nCount = gbValue.dataSize / sizeof(XnCmosPreset);
 	if (pThis->m_SupportedModesCount.GetValue() != nCount)
 	{
 		return XN_STATUS_INVALID_BUFFER_SIZE;
@@ -464,7 +464,7 @@ XnStatus XN_CALLBACK_TYPE XnPixelStream::GetSupportedModesCallback(const XnGener
 //---------------------------------------------------------------------------
 // XnResolutionProperty
 //---------------------------------------------------------------------------
-XnPixelStream::XnResolutionProperty::XnResolutionProperty(XnUInt32 propertyId, const XnChar* strName, XnUInt64 nInitialValue /* = 0 */, const XnChar* strModule /* = "" */) :
+XnPixelStream::XnResolutionProperty::XnResolutionProperty(uint32_t propertyId, const XnChar* strName, XnUInt64 nInitialValue /* = 0 */, const XnChar* strModule /* = "" */) :
 	XnActualIntProperty(propertyId, strName, nInitialValue, strModule)
 {
 }

@@ -42,12 +42,12 @@ struct BaseStreamProps;
 class LinkControlEndpoint
 {
 public:
-	static const XnUInt32 MUTEX_TIMEOUT;
+	static const uint32_t MUTEX_TIMEOUT;
 
 	LinkControlEndpoint();
 	virtual ~LinkControlEndpoint();
 
-	XnStatus Init(XnUInt32 nMaxOutMsgSize, IConnectionFactory* pConnectionFactory);
+	XnStatus Init(uint32_t nMaxOutMsgSize, IConnectionFactory* pConnectionFactory);
 	void Shutdown();
 
 	XnStatus Connect();
@@ -60,8 +60,8 @@ public:
 
 	//nResponseSize is max size on input, actual size on output
 	//pIsLast - optional. If provided, command will not automatically continue response, and the out value is whether this is the last packet. If NULL, all data is fetched automatically.
-	XnStatus ExecuteCommand(XnUInt16 nMsgType, XnUInt16 nStreamID, const void* pCmdData, XnUInt32 nCmdSize, void* pResponseData, XnUInt32& nResponseSize, XnBool* pIsLast = NULL);
-	XnStatus SendData(XnUInt16 nMsgType, const void* pCmdData, XnUInt32 nCmdSize, void* pResponseData, XnUInt32& nResponseSize);
+	XnStatus ExecuteCommand(XnUInt16 nMsgType, XnUInt16 nStreamID, const void* pCmdData, uint32_t nCmdSize, void* pResponseData, uint32_t& nResponseSize, XnBool* pIsLast = NULL);
+	XnStatus SendData(XnUInt16 nMsgType, const void* pCmdData, uint32_t nCmdSize, void* pResponseData, uint32_t& nResponseSize);
 	XnUInt16 GetPacketID() const;
 	XN_MUTEX_HANDLE GetMutex() const;
 	XnBool IsMsgTypeSupported(XnUInt16 nMsgType);
@@ -70,8 +70,8 @@ public:
 	/* Specific commands */
 	XnStatus GetFWVersion(XnLinkDetailedVersion& version);
 	XnStatus GetProtocolVersion(XnLeanVersion& version);
-	XnStatus GetHardwareVersion(XnUInt32& version);
-	XnStatus GetSerialNumber(XnChar* strSerialNumber, XnUInt32 nSize);
+	XnStatus GetHardwareVersion(uint32_t& version);
+	XnStatus GetSerialNumber(XnChar* strSerialNumber, uint32_t nSize);
 	XnStatus GetComponentsVersions(std::vector<XnComponentVersion>& components);
 	XnStatus GetSupportedMsgTypes(std::vector<xnl::BitSet>& supportedMsgTypes);
 	XnStatus GetSupportedProperties(std::vector<xnl::BitSet>& supportedProperties);
@@ -88,14 +88,14 @@ public:
 	XnStatus GetSupportedBistTests(std::vector<XnBistInfo>& supportedTests);
 	XnStatus GetSupportedTempList(std::vector<XnTempInfo>& supportedTests);
 	XnStatus GetTemperature(XnCommandTemperatureResponse& temp);
-	XnStatus ExecuteBistTests(XnUInt32 nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData);
+	XnStatus ExecuteBistTests(uint32_t nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData);
 	XnStatus StartUsbTest();
 	XnStatus StopUsbTest();
 	XnStatus GetSupportedI2CDevices(std::vector<XnLinkI2CDevice>& supporteddevices);
-	XnStatus WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32 nValue, XnUInt32 nMask);
-	XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32& nValue);
-	XnStatus WriteAHB(XnUInt32 nAddress, XnUInt32 nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth);
-	XnStatus ReadAHB(XnUInt32 nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, XnUInt32& nValue);
+	XnStatus WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t nValue, uint32_t nMask);
+	XnStatus ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t& nValue);
+	XnStatus WriteAHB(uint32_t nAddress, uint32_t nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth);
+	XnStatus ReadAHB(uint32_t nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, uint32_t& nValue);
 	XnStatus GetShiftToDepthConfig(XnUInt16 nStreamID, XnShiftToDepthConfig& shiftToDepthConfig);
 	XnStatus SetVideoMode(XnUInt16 nStreamID, const XnFwStreamVideoMode& videoMode);
 	XnStatus GetVideoMode(XnUInt16 nStreamID, XnFwStreamVideoMode& videoMode);
@@ -148,19 +148,19 @@ private:
 	XnStatus ExecuteImpl(XnUInt16 nMsgType,
 				XnUInt16 nStreamID,
 				const void* pData,
-				XnUInt32 nSize,
+				uint32_t nSize,
 				XnLinkFragmentation fragmentation,
 				void* pResponseData,
-				XnUInt32& nResponseSize,
+				uint32_t& nResponseSize,
 				XnBool autoContinue,
 				XnBool& isLast);
 
-	XnStatus ContinueResponseImpl(XnUInt16 originalMsgType, XnUInt16 streamID, void* pResponseData, XnUInt32& nResponseSize, XnBool& outLastPacket);
+	XnStatus ContinueResponseImpl(XnUInt16 originalMsgType, XnUInt16 streamID, void* pResponseData, uint32_t& nResponseSize, XnBool& outLastPacket);
 
 	XnStatus ValidateResponsePacket(const LinkPacketHeader* pResponsePacket,
 					XnUInt16 nExpectedMsgType,
 					XnUInt16 nExpectedStreamID,
-					XnUInt32 nBytesToRead);
+					uint32_t nBytesToRead);
 
 	/* Properties */
 	XnStatus SetIntProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnUInt64 nValue);
@@ -168,13 +168,13 @@ private:
 	XnStatus SetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnDouble dValue);
 	XnStatus GetRealProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnDouble& dValue);
 	XnStatus SetStringProperty(XnUInt16 nStreamID, XnLinkPropID propID, const XnChar* strValue);
-	XnStatus GetStringProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnUInt32 nSize, XnChar* strValue);
-	XnStatus SetGeneralProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnUInt32 nSize, const void* pSource);
+	XnStatus GetStringProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint32_t nSize, XnChar* strValue);
+	XnStatus SetGeneralProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint32_t nSize, const void* pSource);
 	//nSize is max size on input, actual size on output
-	XnStatus GetGeneralProperty(XnUInt16 nStreamID, XnLinkPropID propID, XnUInt32& nSize, void* pDest);
+	XnStatus GetGeneralProperty(XnUInt16 nStreamID, XnLinkPropID propID, uint32_t& nSize, void* pDest);
 	XnStatus GetBitSetProperty(XnUInt16 nStreamID, XnLinkPropID propID, xnl::BitSet& bitSet);
-	XnStatus SetProperty(XnUInt16 nStreamID, XnLinkPropType propType, XnLinkPropID propID, XnUInt32 nSize, const void* pSource);
-	XnStatus GetProperty(XnUInt16 nStreamID, XnLinkPropType propType, XnLinkPropID propID, XnUInt32& nSize, void* pDest);
+	XnStatus SetProperty(XnUInt16 nStreamID, XnLinkPropType propType, XnLinkPropID propID, uint32_t nSize, const void* pSource);
+	XnStatus GetProperty(XnUInt16 nStreamID, XnLinkPropType propType, XnLinkPropID propID, uint32_t& nSize, void* pDest);
 
 	union
 	{
@@ -182,12 +182,12 @@ private:
 		LinkPacketHeader* m_pIncomingPacket;
 	};
 
-	XnUInt32 m_nMaxOutMsgSize;
+	uint32_t m_nMaxOutMsgSize;
 	ISyncIOConnection* m_pConnection;
 	LinkMsgEncoder m_msgEncoder;
 	LinkResponseMsgParser m_responseMsgParser;
 	XnUInt8* m_pIncomingResponse; //Holds complete parsed response (without link headers)
-	XnUInt32 m_nMaxResponseSize;
+	uint32_t m_nMaxResponseSize;
 	XnBool m_bInitialized;
 	XnBool m_bConnected;
 	XnUInt16 m_nPacketID;

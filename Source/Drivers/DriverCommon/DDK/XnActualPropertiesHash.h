@@ -40,19 +40,19 @@ public:
 	typedef XnPropertiesHash::Iterator Iterator;
 	typedef XnPropertiesHash::ConstIterator ConstIterator;
 
-	XnStatus Add(XnUInt32 propertyId, const XnChar* strName, XnUInt64 nValue);
-	XnStatus Add(XnUInt32 propertyId, const XnChar* strName, XnDouble dValue);
-	XnStatus Add(XnUInt32 propertyId, const XnChar* strName, const XnChar* strValue);
-	XnStatus Add(XnUInt32 propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue);
+	XnStatus Add(uint32_t propertyId, const XnChar* strName, XnUInt64 nValue);
+	XnStatus Add(uint32_t propertyId, const XnChar* strName, XnDouble dValue);
+	XnStatus Add(uint32_t propertyId, const XnChar* strName, const XnChar* strValue);
+	XnStatus Add(uint32_t propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue);
 
-	XnStatus Remove(XnUInt32 propertyId);
+	XnStatus Remove(uint32_t propertyId);
 	XnStatus Remove(ConstIterator where);
 	inline XnBool IsEmpty() const { return m_Hash.IsEmpty(); }
 	XnStatus Clear();
 
-	inline XnStatus Find(XnUInt32 propertyId, Iterator& iter) { return m_Hash.Find(propertyId, iter); }
-	inline XnStatus Find(XnUInt32 propertyId, ConstIterator& iter) const { return m_Hash.Find(propertyId, iter); }
-	inline XnStatus Get(XnUInt32 propertyId, XnProperty*& pProp) const { return m_Hash.Get(propertyId, pProp); }
+	inline XnStatus Find(uint32_t propertyId, Iterator& iter) { return m_Hash.Find(propertyId, iter); }
+	inline XnStatus Find(uint32_t propertyId, ConstIterator& iter) const { return m_Hash.Find(propertyId, iter); }
+	inline XnStatus Get(uint32_t propertyId, XnProperty*& pProp) const { return m_Hash.Get(propertyId, pProp); }
 
 	inline Iterator Begin() { return m_Hash.Begin(); }
 	inline ConstIterator Begin() const { return m_Hash.Begin(); }

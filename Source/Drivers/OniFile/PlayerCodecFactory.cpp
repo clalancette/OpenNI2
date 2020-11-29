@@ -104,8 +104,8 @@ XnStatus PlayerCodecFactory::Create(XnCodecID nCodecID, PlayerSource* pSource, X
 			}
 
 			// take X and Y res
-			XnUInt32 nXRes = videoMode.resolutionX;
-			XnUInt32 nYRes = videoMode.resolutionY;
+			uint32_t nXRes = videoMode.resolutionX;
+			uint32_t nYRes = videoMode.resolutionY;
 			XN_VALIDATE_NEW_AND_INIT(pCodec, XnJpegCodec, bRGB, nXRes, nYRes);
 			break;
 		}

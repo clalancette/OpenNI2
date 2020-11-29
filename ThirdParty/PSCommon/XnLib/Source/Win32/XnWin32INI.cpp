@@ -23,10 +23,10 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnChar* cpDest, const XnUInt32 nDestLength)
+XN_C_API XnStatus xnOSReadStringFromINI(const XnChar* cpINIFile, const XnChar* cpSection, const XnChar* cpKey, XnChar* cpDest, const uint32_t nDestLength)
 {
 	// Local function variables
-	XnUInt32 nReadBytes = 0;
+	uint32_t nReadBytes = 0;
 	XnBool bINIFileExists = FALSE;
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -56,7 +56,7 @@ XN_C_API XnStatus xnOSReadFloatFromINI(const XnChar* cpINIFile, const XnChar* cp
 {
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
-	XnUInt32 nReadBytes = 0;
+	uint32_t nReadBytes = 0;
 	XnBool bINIFileExists = FALSE;
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -89,7 +89,7 @@ XN_C_API XnStatus xnOSReadDoubleFromINI(const XnChar* cpINIFile, const XnChar* c
 {
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
-	XnUInt32 nReadBytes = 0;
+	uint32_t nReadBytes = 0;
 	XnBool bINIFileExists = FALSE;
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -122,7 +122,7 @@ XN_C_API XnStatus xnOSReadIntFromINI(const XnChar* cpINIFile, const XnChar* cpSe
 {
 	// Local function variables
 	XnChar cpTempBuffer[XN_INI_MAX_LEN];
-	XnUInt32 nReadBytes = 0;
+	uint32_t nReadBytes = 0;
 	XnBool bINIFileExists = FALSE;
 	XnStatus nRetVal = XN_STATUS_OK;
 

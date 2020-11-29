@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnActualStringProperty::XnActualStringProperty(XnUInt32 propertyId, const XnChar* strName, const XnChar* strInitialValue /* = "" */, const XnChar* strModule /* = "" */ ) :
+XnActualStringProperty::XnActualStringProperty(uint32_t propertyId, const XnChar* strName, const XnChar* strInitialValue /* = "" */, const XnChar* strModule /* = "" */ ) :
 	XnStringProperty(propertyId, strName, m_strValue, strModule)
 {
 	strncpy(m_strValue, strInitialValue, XN_DEVICE_MAX_STRING_LENGTH);

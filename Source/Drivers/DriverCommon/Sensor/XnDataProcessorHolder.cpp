@@ -74,7 +74,7 @@ void XnDataProcessorHolder::Replace(XnDataProcessor* pNew)
 	Unlock();
 }
 
-void XnDataProcessorHolder::ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize)
+void XnDataProcessorHolder::ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	if (m_pProcessor == NULL)
 		return;

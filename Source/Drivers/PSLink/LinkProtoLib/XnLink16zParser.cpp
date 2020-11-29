@@ -45,13 +45,13 @@ Link16zParser<TS2D>::~Link16zParser()
 }
 
 template<>
-inline OniDepthPixel Link16zParser<true>::TranslatePixel(XnUInt32 nShift)
+inline OniDepthPixel Link16zParser<true>::TranslatePixel(uint32_t nShift)
 {
 	return m_pShiftToDepth[nShift];
 }
 
 template<>
-inline OniDepthPixel Link16zParser<false>::TranslatePixel(XnUInt32 nShift)
+inline OniDepthPixel Link16zParser<false>::TranslatePixel(uint32_t nShift)
 {
 	return static_cast<OniDepthPixel>(nShift);
 }
@@ -66,9 +66,9 @@ XnStatus Link16zParser<TS2D>::ParsePacketImpl(XnLinkFragmentation fragmentation,
 {
 	OniDepthPixel*& pDstPixel = reinterpret_cast<OniDepthPixel*&>(pDst); //Reference to pointer - moving pDstPixel affects pDst also.
 	const OniDepthPixel* pDstPixelEnd = reinterpret_cast<const OniDepthPixel*>(pDstEnd);
-	XnUInt32 nRLERepeats = 0;
+	uint32_t nRLERepeats = 0;
 	XnBool bReadHigh = TRUE; //TRUE when reading high part of byte, FALSE when reading low part
-	XnUInt32 nNibble = 0;
+	uint32_t nNibble = 0;
 
 	if ((fragmentation & XN_LINK_FRAG_BEGIN) != 0)
 	{
@@ -127,7 +127,7 @@ XnStatus Link16zParser<TS2D>::ParsePacketImpl(XnLinkFragmentation fragmentation,
 				}
 
 				//Write as many values as needed or just fill remaining space.
-				nRLERepeats = XN_MIN(nNibble + 1, XnUInt32(pDstPixelEnd - pDstPixel));
+				nRLERepeats = XN_MIN(nNibble + 1, uint32_t(pDstPixelEnd - pDstPixel));
 				while (nRLERepeats > 0)
 				{
 					*pDstPixel++ = TranslatePixel(m_nShift);

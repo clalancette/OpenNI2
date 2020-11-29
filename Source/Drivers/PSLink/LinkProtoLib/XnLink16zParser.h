@@ -42,10 +42,10 @@ protected:
 						XnUInt8*& pDst,
 						const XnUInt8* pDstEnd);
 private:
-	inline OniDepthPixel TranslatePixel(XnUInt32 nShift);
+	inline OniDepthPixel TranslatePixel(uint32_t nShift);
 
 	const OniDepthPixel* m_pShiftToDepth;
-	XnUInt32 m_nShift;
+	uint32_t m_nShift;
 
 	enum State
 	{
@@ -60,7 +60,7 @@ private:
 	};
 
 	State m_nState;
-	XnUInt32 m_nBigDiff;
+	uint32_t m_nBigDiff;
 	XnUInt16 m_nMaxShift;
 };
 

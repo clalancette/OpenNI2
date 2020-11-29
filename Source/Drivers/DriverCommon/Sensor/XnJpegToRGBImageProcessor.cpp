@@ -55,7 +55,7 @@ XnStatus XnJpegToRGBImageProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnJpegToRGBImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, XnUInt32 /*nDataOffset*/, XnUInt32 nDataSize)
+void XnJpegToRGBImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, uint32_t /*nDataOffset*/, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnJpegToRGBImageProcessor::ProcessFramePacketChunk")
 
@@ -86,7 +86,7 @@ void XnJpegToRGBImageProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeade
 
 	XnBuffer* pWriteBuffer = GetWriteBuffer();
 
-	XnUInt32 nOutputSize = pWriteBuffer->GetMaxSize();
+	uint32_t nOutputSize = pWriteBuffer->GetMaxSize();
 	XnStatus nRetVal = XnStreamUncompressImageJ(&mp_JPEGContext, m_RawData.GetData(), m_RawData.GetSize(), pWriteBuffer->GetUnsafeWritePointer(), &nOutputSize);
 	if (nRetVal != XN_STATUS_OK)
 	{

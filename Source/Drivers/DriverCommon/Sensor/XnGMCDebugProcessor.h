@@ -47,7 +47,7 @@ private:
 	//---------------------------------------------------------------------------
 	XnDumpFile* m_DumpTxt;
 	XnDumpFile* m_DumpBin;
-	XnUInt32 m_nGMCTime;
+	uint32_t m_nGMCTime;
 };
 
 #endif // XNGMCDEBUGPROCESSOR_H

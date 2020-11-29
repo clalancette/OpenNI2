@@ -49,7 +49,7 @@ XnOniDevice::~XnOniDevice()
 
 XnStatus XnOniDevice::FillSupportedVideoModes()
 {
-	XnUInt32 nSupportedModes      = 0;
+	uint32_t nSupportedModes      = 0;
 	XnCmosPreset* pSupportedModes = NULL;
 
 	int s = 0;
@@ -66,7 +66,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 	XnSizeT depthFormatsCount = sizeof(depthFormats) / sizeof(depthFormats[0]);
 
 	int writeIndex = 0;
-	for(XnUInt32 i = 0; i < nSupportedModes; ++i)
+	for(uint32_t i = 0; i < nSupportedModes; ++i)
 	{
 		for (XnSizeT formatIndex = 0; formatIndex < depthFormatsCount; ++formatIndex)
 		{
@@ -74,8 +74,8 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 			m_sensors[s].pSupportedVideoModes[writeIndex].fps = pSupportedModes[i].nFPS;
 			XnBool bOK = XnDDKGetXYFromResolution(
 				(XnResolutions)pSupportedModes[i].nResolution,
-				(XnUInt32*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionX,
-				(XnUInt32*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionY
+				(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionX,
+				(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionY
 				);
 			XN_ASSERT(bOK);
 			XN_REFERENCE_VARIABLE(bOK);
@@ -119,7 +119,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 		XN_VALIDATE_ALLOC_PTR(m_sensors[s].pSupportedVideoModes);
 
 		writeIndex = 0;
-		for(XnUInt32 j=0; j < nSupportedModes; ++j)
+		for(uint32_t j=0; j < nSupportedModes; ++j)
 		{
 			// make an OniVideoMode for each OniFormat supported by the input format
 			OniPixelFormat aOniFormats[10];
@@ -132,8 +132,8 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 				m_sensors[s].pSupportedVideoModes[writeIndex].fps = pSupportedModes[j].nFPS;
 				XnBool bOK = XnDDKGetXYFromResolution(
 					(XnResolutions)pSupportedModes[j].nResolution,
-					(XnUInt32*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionX,
-					(XnUInt32*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionY
+					(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionX,
+					(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionY
 					);
 				XN_ASSERT(bOK);
 				XN_REFERENCE_VARIABLE(bOK);
@@ -171,7 +171,7 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 
 	OniPixelFormat irFormats[] = {ONI_PIXEL_FORMAT_GRAY16, ONI_PIXEL_FORMAT_RGB888};
 	writeIndex = 0;
-	for(XnUInt32 i=0; i < nSupportedModes; ++i)
+	for(uint32_t i=0; i < nSupportedModes; ++i)
 	{
 		for (int fmt = 0; fmt <= 1; ++fmt)
 		{
@@ -179,8 +179,8 @@ XnStatus XnOniDevice::FillSupportedVideoModes()
 			m_sensors[s].pSupportedVideoModes[writeIndex].fps = pSupportedModes[i].nFPS;
 			XnBool bOK = XnDDKGetXYFromResolution(
 				(XnResolutions)pSupportedModes[i].nResolution,
-				(XnUInt32*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionX,
-				(XnUInt32*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionY
+				(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionX,
+				(uint32_t*)&m_sensors[s].pSupportedVideoModes[writeIndex].resolutionY
 				);
 			XN_ASSERT(bOK);
 			XN_REFERENCE_VARIABLE(bOK);
@@ -302,7 +302,7 @@ OniStatus XnOniDevice::getProperty(int propertyId, void* data, int* pDataSize)
 	case ONI_DEVICE_PROPERTY_FIRMWARE_VERSION:
 		{
 			XnVersions &versions = m_sensor.GetDevicePrivateData()->Version;
-			XnUInt32 nCharsWritten = 0;
+			uint32_t nCharsWritten = 0;
 			XnStatus rc = xnOSStrFormat((XnChar*)data, *pDataSize, &nCharsWritten, "%d.%d.%d", versions.nMajor, versions.nMinor, versions.nBuild);
 			if (rc != XN_STATUS_OK)
 			{
@@ -471,7 +471,7 @@ OniBool XnOniDevice::isPropertySupported(int propertyId)
 
 void XnOniDevice::notifyAllProperties()
 {
-	XnUInt32 nValue = (XnUInt32)m_sensor.GetCurrentUsbInterface();
+	uint32_t nValue = (uint32_t)m_sensor.GetCurrentUsbInterface();
 	int size = sizeof(nValue);
 	raisePropertyChanged(XN_MODULE_PROPERTY_USB_INTERFACE, &nValue, sizeof(nValue));
 

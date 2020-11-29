@@ -28,7 +28,7 @@
 #include <XnOS.h>
 #include <XnLog.h>
 
-XnStatus xn::LinkPacketHeader::Validate(XnUInt32 nBytesToRead) const
+XnStatus xn::LinkPacketHeader::Validate(uint32_t nBytesToRead) const
 {
 	//First of all validate minimum header size
 	if (nBytesToRead < sizeof(LinkPacketHeader))
@@ -42,7 +42,7 @@ XnStatus xn::LinkPacketHeader::Validate(XnUInt32 nBytesToRead) const
 	if (!IsMagicValid())
 	{
 		XnChar strData[256] = "";
-		for (XnUInt32 i = 0; i < XN_MIN(nBytesToRead, 10); ++i)
+		for (uint32_t i = 0; i < XN_MIN(nBytesToRead, 10); ++i)
 		{
 			XnChar s[10];
 			sprintf(s, "%02X ", ((XnUInt8*)this)[i]);
@@ -195,7 +195,7 @@ XnStreamType xnLinkStreamTypeFromString(const XnChar* strType)
 #define XN_GESTURE_NAME_CLICK "Click"
 #define XN_GESTURE_NAME_MOVING_HAND "MovingHand"
 
-const XnChar* xnLinkGestureTypeToName(XnUInt32 gestureType)
+const XnChar* xnLinkGestureTypeToName(uint32_t gestureType)
 {
 	switch (gestureType)
 	{
@@ -214,7 +214,7 @@ const XnChar* xnLinkGestureTypeToName(XnUInt32 gestureType)
 	}
 }
 
-XnUInt32 xnLinkGestureNameToType(const XnChar* strGesture)
+uint32_t xnLinkGestureNameToType(const XnChar* strGesture)
 {
 	if (strcmp(strGesture, XN_GESTURE_NAME_RAISE_HAND) == 0)
 		return XN_LINK_GESTURE_RAISE_HAND;
@@ -232,7 +232,7 @@ XnUInt32 xnLinkGestureNameToType(const XnChar* strGesture)
 
 #define XN_POSE_NAME_PSI "Psi"
 
-const XnChar* xnLinkPoseTypeToName(XnUInt32 poseType)
+const XnChar* xnLinkPoseTypeToName(uint32_t poseType)
 {
 	switch (poseType)
 	{
@@ -247,7 +247,7 @@ const XnChar* xnLinkPoseTypeToName(XnUInt32 poseType)
 	}
 }
 
-XnUInt32 xnLinkPoseNameToType(const XnChar* strPose)
+uint32_t xnLinkPoseNameToType(const XnChar* strPose)
 {
 	if (strPose == NULL)
 		return XN_LINK_POSE_TYPE_NONE;
@@ -259,11 +259,11 @@ XnUInt32 xnLinkPoseNameToType(const XnChar* strPose)
 	return XN_LINK_GESTURE_NONE;
 }
 
-XnStatus xnLinkPosesToNames(XnUInt32 nPoses, std::vector<const XnChar*>& aPosesNames)
+XnStatus xnLinkPosesToNames(uint32_t nPoses, std::vector<const XnChar*>& aPosesNames)
 {
 	aPosesNames.clear();
 
-	XnUInt32 shifted = 0;
+	uint32_t shifted = 0;
 	while (nPoses != 0)
 	{
 		if ((nPoses & 0x01) != 0)
@@ -320,19 +320,19 @@ xnl::Box3D xnLinkBoundingBox3DToBoundingBox3D(const XnLinkBoundingBox3D& box)
 	return result;
 }
 
-XnStatus xnLinkGetStreamDumpName(XnUInt16 nStreamID, XnChar* strDumpName, XnUInt32 nDumpNameSize)
+XnStatus xnLinkGetStreamDumpName(XnUInt16 nStreamID, XnChar* strDumpName, uint32_t nDumpNameSize)
 {
-	XnUInt32 nCharsWritten = 0;
+	uint32_t nCharsWritten = 0;
 	return xnOSStrFormat(strDumpName, nDumpNameSize, &nCharsWritten, "Stream.%05u.In.raw", nStreamID);
 }
 
-XnStatus xnLinkGetEPDumpName(XnUInt16 nEPID, XnChar* strDumpName, XnUInt32 nDumpNameSize)
+XnStatus xnLinkGetEPDumpName(XnUInt16 nEPID, XnChar* strDumpName, uint32_t nDumpNameSize)
 {
-	XnUInt32 nCharsWritten = 0;
+	uint32_t nCharsWritten = 0;
 	return xnOSStrFormat(strDumpName, nDumpNameSize, &nCharsWritten, "EP.%05u.In", nEPID);
 }
 
-XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pLinkIDSet, XnUInt32 nSize)
+XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pLinkIDSet, uint32_t nSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	const XnUInt8* pSource = reinterpret_cast<const XnUInt8*>(pLinkIDSet);
@@ -341,7 +341,7 @@ XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pLinkIDSe
 	const XnLinkIDSetHeader* pHeader = reinterpret_cast<const XnLinkIDSetHeader*>(pSource);
 	const XnLinkIDSetGroup* pLinkIDBitSet = NULL;
 	XnUInt8 nGroupID = 0;
-	XnUInt32 nGroupSize = 0;
+	uint32_t nGroupSize = 0;
 
 	if (nSize < sizeof(*pHeader))
 	{
@@ -377,15 +377,15 @@ XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pLinkIDSe
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkEncodeIDSet(void* pIDSet, XnUInt32 *pnEncodedSize, const XnUInt16* pIDs, XnUInt32 nNumIDs)
+XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const XnUInt16* pIDs, uint32_t nNumIDs)
 {
 	XnUInt8 nGroupID = 0xFF;
 	XnUInt8 nNewGroupID = 0xFF;
 	const XnUInt16* pMsgType = pIDs;
 	const XnUInt16* pMsgTypesEnd = pIDs + nNumIDs;
-	XnUInt32 nMaxEncodedSize = *pnEncodedSize;
-	XnUInt32 nMsgTypeLow = 0;
-	XnUInt32 nByteIndex = 0;
+	uint32_t nMaxEncodedSize = *pnEncodedSize;
+	uint32_t nMsgTypeLow = 0;
+	uint32_t nByteIndex = 0;
 	XnLinkIDSetHeader* pHeader = (XnLinkIDSetHeader*)pIDSet;
 	XnLinkIDSetGroup* pIDSetGroup = (XnLinkIDSetGroup*)((XnUInt8*)pIDSet + sizeof(*pHeader));
 	XnUInt8* pIDSetEnd = (XnUInt8*)pIDSet + nMaxEncodedSize;
@@ -445,12 +445,12 @@ XnStatus xnLinkEncodeIDSet(void* pIDSet, XnUInt32 *pnEncodedSize, const XnUInt16
 	}
 
 	pHeader->m_nNumGroups = XN_PREPARE_VAR16_IN_BUFFER(nNumGroups);
-	*pnEncodedSize = XnUInt32((XnUInt8*)pIDSetGroup + pIDSetGroup->m_header.m_nSize - (XnUInt8*)pIDSet);
+	*pnEncodedSize = uint32_t((XnUInt8*)pIDSetGroup + pIDSetGroup->m_header.m_nSize - (XnUInt8*)pIDSet);
 
 	return XN_STATUS_OK; //Success
 }
 
-XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<XnUInt16>& frameSyncStreamIDs, const void* pFrameSyncStreamIDs, XnUInt32 nBufferSize)
+XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<XnUInt16>& frameSyncStreamIDs, const void* pFrameSyncStreamIDs, uint32_t nBufferSize)
 {
 	const XnLinkFrameSyncStreamIDs* pLinkFrameSyncStreamIDs = reinterpret_cast<const XnLinkFrameSyncStreamIDs*>(pFrameSyncStreamIDs);
 	XnUInt16 nNumStreamIDs = XN_PREPARE_VAR16_IN_BUFFER(pLinkFrameSyncStreamIDs->m_nNumStreamIDs);
@@ -468,7 +468,7 @@ XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<XnUInt16>& frameSyncStreamIDs
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, XnUInt32& nBufferSize, const std::vector<XnUInt16>& frameSyncStreamIDs)
+XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, uint32_t& nBufferSize, const std::vector<XnUInt16>& frameSyncStreamIDs)
 {
 	XnLinkFrameSyncStreamIDs* pLinkFrameSyncStreamIDs = reinterpret_cast<XnLinkFrameSyncStreamIDs*>(pFrameSyncStreamIDs);
 
@@ -479,7 +479,7 @@ XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, XnUInt32& nBu
 
 	pLinkFrameSyncStreamIDs->m_nNumStreamIDs = XN_PREPARE_VAR16_IN_BUFFER(XnUInt16(frameSyncStreamIDs.size()));
 
-	for (XnUInt32 i = 0; i < frameSyncStreamIDs.size(); i++)
+	for (uint32_t i = 0; i < frameSyncStreamIDs.size(); i++)
 	{
 		pLinkFrameSyncStreamIDs->m_anStreamIDs[i] = XN_PREPARE_VAR16_IN_BUFFER(frameSyncStreamIDs[i]);
 	}
@@ -487,7 +487,7 @@ XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, XnUInt32& nBu
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& componentVersions, const XnLinkComponentVersionsList* pLinkList, XnUInt32 nBufferSize)
+XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& componentVersions, const XnLinkComponentVersionsList* pLinkList, uint32_t nBufferSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -498,9 +498,9 @@ XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& compo
 		return XN_STATUS_LINK_BAD_PROP_SIZE;
 	}
 
-	XnUInt32 nCount = XN_PREPARE_VAR32_IN_BUFFER(pLinkList->m_nCount);
+	uint32_t nCount = XN_PREPARE_VAR32_IN_BUFFER(pLinkList->m_nCount);
 
-	XnUInt32 nExpectedSize =
+	uint32_t nExpectedSize =
 		sizeof(pLinkList->m_nCount) +
 		(sizeof(pLinkList->m_components[0]) * nCount);
 
@@ -512,7 +512,7 @@ XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& compo
 	}
 
 	componentVersions.resize(nCount);
-	for (XnUInt32 i = 0; i < nCount; i++)
+	for (uint32_t i = 0; i < nCount; i++)
 	{
 		nRetVal = xnOSStrCopy(componentVersions[i].m_strName, pLinkList->m_components[i].m_strName, sizeof(componentVersions[i].m_strName));
 		XN_IS_STATUS_OK(nRetVal);
@@ -561,7 +561,7 @@ XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& compo
 
 XnUInt8 xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName)
 {
-	for (XnUInt32 i = 0; i < sizeof(CAP_NAME_TO_LINK_INTERFACE_ID) / sizeof(CAP_NAME_TO_LINK_INTERFACE_ID[0]); i++)
+	for (uint32_t i = 0; i < sizeof(CAP_NAME_TO_LINK_INTERFACE_ID) / sizeof(CAP_NAME_TO_LINK_INTERFACE_ID[0]); i++)
 	{
 		if (xnOSStrCmp(strCapabilityName, CAP_NAME_TO_LINK_INTERFACE_ID[i].m_strCapabilityName) == 0)
 		{
@@ -574,7 +574,7 @@ XnUInt8 xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName)
 
 const XnChar* xnLinkInterfaceIDToNICapability(XnUInt8 nInterfaceID)
 {
-	for (XnUInt32 i = 0; i < sizeof(CAP_NAME_TO_LINK_INTERFACE_ID) / sizeof(CAP_NAME_TO_LINK_INTERFACE_ID[0]); i++)
+	for (uint32_t i = 0; i < sizeof(CAP_NAME_TO_LINK_INTERFACE_ID) / sizeof(CAP_NAME_TO_LINK_INTERFACE_ID[0]); i++)
 	{
 		if (nInterfaceID == CAP_NAME_TO_LINK_INTERFACE_ID[i].m_nInterfaceID)
 		{
@@ -690,10 +690,10 @@ void xnLinkEncodeVideoMode(XnLinkVideoMode& linkVideoMode, const XnFwStreamVideo
 
 XnStatus xnLinkParseSupportedVideoModes(std::vector<XnFwStreamVideoMode>& aModes,
 												const XnLinkSupportedVideoModes* pLinkSupportedModes,
-												XnUInt32 nBufferSize)
+												uint32_t nBufferSize)
 {
-	XnUInt32 nModes = 0;
-	XnUInt32 nExpectedSize = 0;
+	uint32_t nModes = 0;
+	uint32_t nExpectedSize = 0;
 
 	XN_VALIDATE_INPUT_PTR(pLinkSupportedModes);
 
@@ -716,7 +716,7 @@ XnStatus xnLinkParseSupportedVideoModes(std::vector<XnFwStreamVideoMode>& aModes
 	}
 
 	aModes.resize(nModes);
-	for (XnUInt32 i = 0; i < nModes; i++)
+	for (uint32_t i = 0; i < nModes; i++)
 	{
 		xnLinkParseVideoMode(aModes[i], pLinkSupportedModes->m_supportedVideoModes[i]);
 	}
@@ -724,11 +724,11 @@ XnStatus xnLinkParseSupportedVideoModes(std::vector<XnFwStreamVideoMode>& aModes
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseBitSet(xnl::BitSet& bitSet, const XnLinkBitSet* pLinkBitSet, XnUInt32 nBufferSize)
+XnStatus xnLinkParseBitSet(xnl::BitSet& bitSet, const XnLinkBitSet* pLinkBitSet, uint32_t nBufferSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt32 nExpectedSize = 0;
-	XnUInt32 nBitSetSize = 0;
+	uint32_t nExpectedSize = 0;
+	uint32_t nBitSetSize = 0;
 	XN_VALIDATE_INPUT_PTR(pLinkBitSet);
 
 	if (nBufferSize < sizeof(pLinkBitSet->m_nSize))
@@ -753,13 +753,13 @@ XnStatus xnLinkParseBitSet(xnl::BitSet& bitSet, const XnLinkBitSet* pLinkBitSet,
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkEncodeBitSet(XnLinkBitSet& linkBitSet, XnUInt32& nBufferSize, const xnl::BitSet& bitSet)
+XnStatus xnLinkEncodeBitSet(XnLinkBitSet& linkBitSet, uint32_t& nBufferSize, const xnl::BitSet& bitSet)
 {
-	XnUInt32 nBytes   = (bitSet.GetSize() >> 3);
-	XnUInt32 nPartial = (bitSet.GetSize()%4)?1:0;
-	XnUInt32 nDataSize = (nBytes + nPartial)<<2;
+	uint32_t nBytes   = (bitSet.GetSize() >> 3);
+	uint32_t nPartial = (bitSet.GetSize()%4)?1:0;
+	uint32_t nDataSize = (nBytes + nPartial)<<2;
 
-	XnUInt32 nRequiredBufferSize = nDataSize + sizeof(linkBitSet.m_nSize);
+	uint32_t nRequiredBufferSize = nDataSize + sizeof(linkBitSet.m_nSize);
 	if (nBufferSize < nRequiredBufferSize)
 	{
 		XN_ASSERT(FALSE);
@@ -876,7 +876,7 @@ const XnChar* xnLinkGetPropName(XnLinkPropID propID)
 
 
 
-XnStatus xnLinkValidateGeneralProp(XnLinkPropType propType, XnUInt32 nValueSize, XnUInt32 nMinSize)
+XnStatus xnLinkValidateGeneralProp(XnLinkPropType propType, uint32_t nValueSize, uint32_t nMinSize)
 {
 	if (propType != XN_LINK_PROP_TYPE_GENERAL)
 	{
@@ -895,7 +895,7 @@ XnStatus xnLinkValidateGeneralProp(XnLinkPropType propType, XnUInt32 nValueSize,
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseLeanVersionProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, XnLeanVersion& leanVersion)
+XnStatus xnLinkParseLeanVersionProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, XnLeanVersion& leanVersion)
 {
 	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnLinkLeanVersion));
 	XN_IS_STATUS_OK_LOG_ERROR("Validate version property", nRetVal);
@@ -903,7 +903,7 @@ XnStatus xnLinkParseLeanVersionProp(XnLinkPropType propType, const void* pValue,
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseIDSetProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<xnl::BitSet>& idSet)
+XnStatus xnLinkParseIDSetProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<xnl::BitSet>& idSet)
 {
 	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnLinkIDSetHeader));
 	XN_IS_STATUS_OK_LOG_ERROR("Validate id set property", nRetVal);
@@ -912,16 +912,16 @@ XnStatus xnLinkParseIDSetProp(XnLinkPropType propType, const void* pValue, XnUIn
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseBitSetProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, xnl::BitSet& bitSet)
+XnStatus xnLinkParseBitSetProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, xnl::BitSet& bitSet)
 {
-	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnUInt32)); //min size of of m_nSize
+	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(uint32_t)); //min size of of m_nSize
 	XN_IS_STATUS_OK_LOG_ERROR("Validate id set property", nRetVal);
 	nRetVal = xnLinkParseBitSet(bitSet, reinterpret_cast<const XnLinkBitSet*>(pValue), nValueSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Parse bit set", nRetVal);
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<XnUInt16>& streamIDs)
+XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<XnUInt16>& streamIDs)
 {
 	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(XnUInt16)); //Min size is of m_nNumStreamIDs
 	XN_IS_STATUS_OK_LOG_ERROR("Validate frame sync stream IDs property", nRetVal);
@@ -930,7 +930,7 @@ XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* 
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseComponentVersionsListProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<XnComponentVersion>& componentVersions)
+XnStatus xnLinkParseComponentVersionsListProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<XnComponentVersion>& componentVersions)
 {
 	const XnLinkComponentVersionsList* pLinkList = reinterpret_cast<const XnLinkComponentVersionsList*>(pValue);
 	XnStatus nRetVal = xnLinkValidateGeneralProp(propType, nValueSize, sizeof(pLinkList->m_nCount)); //Min size is the count field
@@ -940,7 +940,7 @@ XnStatus xnLinkParseComponentVersionsListProp(XnLinkPropType propType, const voi
 	return XN_STATUS_OK;
 }
 
-XnUInt32 xnLinkGetPixelSizeByStreamType(XnLinkStreamType streamType)
+uint32_t xnLinkGetPixelSizeByStreamType(XnLinkStreamType streamType)
 {
 	switch (streamType)
 	{
@@ -977,11 +977,11 @@ XnStatus xnLinkReadDebugData(XnCommandDebugData& commandDebugData, XnLinkDebugDa
 	return nRetVal;
 }
 
-XnStatus xnLinkParseSupportedI2CDevices(const XnLinkSupportedI2CDevices* pDevicesList, XnUInt32 nBufferSize, std::vector<XnLinkI2CDevice>& supportedDevices)
+XnStatus xnLinkParseSupportedI2CDevices(const XnLinkSupportedI2CDevices* pDevicesList, uint32_t nBufferSize, std::vector<XnLinkI2CDevice>& supportedDevices)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt32 nDevices = 0;
-	XnUInt32 nExpectedSize = 0;
+	uint32_t nDevices = 0;
+	uint32_t nExpectedSize = 0;
 
 	XN_VALIDATE_INPUT_PTR(pDevicesList);
 
@@ -1005,7 +1005,7 @@ XnStatus xnLinkParseSupportedI2CDevices(const XnLinkSupportedI2CDevices* pDevice
 
 	supportedDevices.resize(nDevices);
 
-	for (XnUInt32 i = 0; i < nDevices; i++)
+	for (uint32_t i = 0; i < nDevices; i++)
 	{
 		supportedDevices[i].m_nID = XN_PREPARE_VAR32_IN_BUFFER(pDevicesList->m_aI2CDevices[i].m_nID);
 		nRetVal = xnOSStrCopy(supportedDevices[i].m_strName, pDevicesList->m_aI2CDevices[i].m_strName, sizeof(supportedDevices[i].m_strName));
@@ -1017,11 +1017,11 @@ XnStatus xnLinkParseSupportedI2CDevices(const XnLinkSupportedI2CDevices* pDevice
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseSupportedLogFiles(const XnLinkSupportedLogFiles* pFilesList, XnUInt32 nBufferSize, std::vector<XnLinkLogFile>& supportedFiles)
+XnStatus xnLinkParseSupportedLogFiles(const XnLinkSupportedLogFiles* pFilesList, uint32_t nBufferSize, std::vector<XnLinkLogFile>& supportedFiles)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt32 nLogFiles = 0;
-	XnUInt32 nExpectedSize = 0;
+	uint32_t nLogFiles = 0;
+	uint32_t nExpectedSize = 0;
 
 	XN_VALIDATE_INPUT_PTR(pFilesList);
 
@@ -1045,7 +1045,7 @@ XnStatus xnLinkParseSupportedLogFiles(const XnLinkSupportedLogFiles* pFilesList,
 
 	supportedFiles.resize(nLogFiles);
 
-	for (XnUInt32 i = 0; i < nLogFiles; i++)
+	for (uint32_t i = 0; i < nLogFiles; i++)
 	{
 		supportedFiles[i].m_nID = XN_PREPARE_VAR32_IN_BUFFER(pFilesList->m_aLogFiles[i].m_nID);
 		nRetVal = xnOSStrCopy(supportedFiles[i].m_strName, pFilesList->m_aLogFiles[i].m_strName, sizeof(supportedFiles[i].m_strName));
@@ -1055,11 +1055,11 @@ XnStatus xnLinkParseSupportedLogFiles(const XnLinkSupportedLogFiles* pFilesList,
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupportedTests, XnUInt32 nBufferSize, std::vector<XnBistInfo>& supportedTests)
+XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupportedTests, uint32_t nBufferSize, std::vector<XnBistInfo>& supportedTests)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt32 nTests = 0;
-	XnUInt32 nExpectedSize = 0;
+	uint32_t nTests = 0;
+	uint32_t nExpectedSize = 0;
 
 	XN_VALIDATE_INPUT_PTR(pSupportedTests);
 
@@ -1083,7 +1083,7 @@ XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupporte
 
 	supportedTests.resize(nTests);
 
-	for (XnUInt32 i = 0; i < nTests; i++)
+	for (uint32_t i = 0; i < nTests; i++)
 	{
 		supportedTests[i].id = XN_PREPARE_VAR32_IN_BUFFER(pSupportedTests->m_aTests[i].m_nID);
 		nRetVal = xnOSStrCopy(supportedTests[i].name, pSupportedTests->m_aTests[i].m_strName, sizeof(supportedTests[i].name));
@@ -1093,11 +1093,11 @@ XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupporte
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseSupportedTempList(const XnLinkTemperatureSensorsList* pSupportedList, XnUInt32 nBufferSize, std::vector<XnTempInfo>& supportedTempList)
+XnStatus xnLinkParseSupportedTempList(const XnLinkTemperatureSensorsList* pSupportedList, uint32_t nBufferSize, std::vector<XnTempInfo>& supportedTempList)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt32 nTemp = 0;
-	XnUInt32 nExpectedSize = 0;
+	uint32_t nTemp = 0;
+	uint32_t nExpectedSize = 0;
 
 	XN_VALIDATE_INPUT_PTR(pSupportedList);
 
@@ -1121,7 +1121,7 @@ XnStatus xnLinkParseSupportedTempList(const XnLinkTemperatureSensorsList* pSuppo
 
 	supportedTempList.resize(nTemp);
 
-	for (XnUInt32 i = 0; i < nTemp; i++)
+	for (uint32_t i = 0; i < nTemp; i++)
 	{
 		supportedTempList[i].id = XN_PREPARE_VAR32_IN_BUFFER(pSupportedList->m_aSensors[i].m_nID);
 		nRetVal = xnOSStrCopy(supportedTempList[i].name, (const XnChar*) pSupportedList->m_aSensors[i].m_strName, sizeof(supportedTempList[i].name));
@@ -1131,10 +1131,10 @@ XnStatus xnLinkParseSupportedTempList(const XnLinkTemperatureSensorsList* pSuppo
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseGetTemperature(const XnLinkTemperatureResponse* tempResponse, XnUInt32 nBufferSize, XnCommandTemperatureResponse& tempData)
+XnStatus xnLinkParseGetTemperature(const XnLinkTemperatureResponse* tempResponse, uint32_t nBufferSize, XnCommandTemperatureResponse& tempData)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt32 nExpectedSize = 0;
+	uint32_t nExpectedSize = 0;
 
 	XN_VALIDATE_INPUT_PTR(tempResponse);
 
@@ -1269,9 +1269,9 @@ XnFwCompressionType xnLinkCompressionFromName(const XnChar* name)
 	}
 }
 
-void xnLinkVideoModeToString(XnFwStreamVideoMode videoMode, XnChar* buffer, XnUInt32 bufferSize)
+void xnLinkVideoModeToString(XnFwStreamVideoMode videoMode, XnChar* buffer, uint32_t bufferSize)
 {
-	XnUInt32 charsWritten = 0;
+	uint32_t charsWritten = 0;
 	xnOSStrFormat(buffer, bufferSize, &charsWritten, "%ux%u@%u (%s, %s)",
 		videoMode.m_nXRes, videoMode.m_nYRes, videoMode.m_nFPS,
 		xnLinkPixelFormatToName(videoMode.m_nPixelFormat),

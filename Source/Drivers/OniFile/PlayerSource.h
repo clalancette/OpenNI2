@@ -48,9 +48,9 @@ public:
 	typedef struct
 	{
 		XnUInt64 nTimeStamp;
-		XnUInt32 nFrameId;
+		uint32_t nFrameId;
 		void* pData;
-		XnUInt32 nSize;
+		uint32_t nSize;
 	} NewDataEventArgs;
 	typedef xnl::Event<NewDataEventArgs> NewDataEvent;
 	typedef void (ONI_CALLBACK_TYPE* NewDataCallback)(const NewDataEventArgs& newDataEventArgs, void* pCookie);
@@ -74,7 +74,7 @@ public:
 	OniStatus SetProperty(int propertyId, const void* data, int dataSize);
 
 	// Process new data.
-	void ProcessNewData(XnUInt64 nTimeStamp, XnUInt32 nFrameId, void* pData, XnUInt32 nSize);
+	void ProcessNewData(XnUInt64 nTimeStamp, uint32_t nFrameId, void* pData, uint32_t nSize);
 
 	// Register for new data event.
 	OniStatus RegisterNewDataEvent(NewDataCallback callback, void* pCookie, OniCallbackHandle& handle);

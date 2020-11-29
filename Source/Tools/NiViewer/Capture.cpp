@@ -225,7 +225,7 @@ void captureStart(int nDelay)
 	xnOSGetTimeStamp(&nNow);
 	nNow /= 1000;
 
-	g_Capture.nStartOn = (XnUInt32)nNow + nDelay;
+	g_Capture.nStartOn = (uint32_t)nNow + nDelay;
 	g_Capture.State = SHOULD_CAPTURE;
 }
 
@@ -324,7 +324,7 @@ void getCaptureMessage(char* pMessage)
 			XnUInt64 nNow;
 			xnOSGetTimeStamp(&nNow);
 			nNow /= 1000;
-			sprintf(pMessage, "Capturing will start in %u seconds...", g_Capture.nStartOn - (XnUInt32)nNow);
+			sprintf(pMessage, "Capturing will start in %u seconds...", g_Capture.nStartOn - (uint32_t)nNow);
 		}
 		break;
 	case CAPTURING:

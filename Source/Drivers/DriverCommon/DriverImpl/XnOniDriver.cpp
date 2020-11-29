@@ -225,7 +225,7 @@ void XnOniDriver::disableFrameSync(void* frameSyncGroup)
 	}
 }
 
-void XN_CALLBACK_TYPE XnOniDriver::OnDevicePropertyChanged(const XnChar* ModuleName, XnUInt32 nPropertyId, void* pCookie)
+void XN_CALLBACK_TYPE XnOniDriver::OnDevicePropertyChanged(const XnChar* ModuleName, uint32_t nPropertyId, void* pCookie)
 {
 	XnOniDevice* pDevice = (XnOniDevice*)pCookie;
 	XnOniDriver* pThis = pDevice->GetDriver();

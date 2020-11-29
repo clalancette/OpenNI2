@@ -204,7 +204,7 @@ XnStatus LinkLogParser::CloseLogFile( XnUInt8 fileID )
 
 }
 
-XnStatus LinkLogParser::WriteToLogFile( XnUInt8 fileID, const void* pData, XnUInt32 dataLength )
+XnStatus LinkLogParser::WriteToLogFile( XnUInt8 fileID, const void* pData, uint32_t dataLength )
 {
 	//We should have a file with this ID
 	xnl::Hash<XnUInt8, XnDumpFile*>::Iterator fileRecord = m_activeLogs.Find(fileID);

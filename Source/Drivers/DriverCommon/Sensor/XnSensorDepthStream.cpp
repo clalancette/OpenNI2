@@ -117,7 +117,7 @@ XnStatus XnSensorDepthStream::Init()
 
 	// register supported modes
 	XnCmosPreset* pSupportedModes = m_Helper.GetPrivateData()->FWInfo.depthModes.data();
-	XnUInt32 nSupportedModes = m_Helper.GetPrivateData()->FWInfo.depthModes.size();
+	uint32_t nSupportedModes = m_Helper.GetPrivateData()->FWInfo.depthModes.size();
 	nRetVal = AddSupportedModes(pSupportedModes, nSupportedModes);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -513,7 +513,7 @@ XnStatus XnSensorDepthStream::SetMirror(XnBool bIsMirrored)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::SetFPS(XnUInt32 nFPS)
+XnStatus XnSensorDepthStream::SetFPS(uint32_t nFPS)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -618,7 +618,7 @@ XnStatus XnSensorDepthStream::SetWhiteBalance(XnBool bWhiteBalance)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::SetGain(XnUInt32 nGain)
+XnStatus XnSensorDepthStream::SetGain(uint32_t nGain)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -985,7 +985,7 @@ XnStatus XnSensorDepthStream::DecidePixelSizeFactor()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnUInt32 nPixelSizeFactor;
+	uint32_t nPixelSizeFactor;
 	switch (GetFirmwareParams()->m_ReferenceResolution.GetValue())
 	{
 	case XN_RESOLUTION_SXGA:
@@ -1015,7 +1015,7 @@ XnStatus XnSensorDepthStream::DecidePixelSizeFactor()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorDepthStream::GetImageCoordinatesOfDepthPixel(XnUInt32 x, XnUInt32 y, OniDepthPixel z, XnUInt32 imageXRes, XnUInt32 imageYRes, XnUInt32& imageX, XnUInt32& imageY)
+XnStatus XnSensorDepthStream::GetImageCoordinatesOfDepthPixel(uint32_t x, uint32_t y, OniDepthPixel z, uint32_t imageXRes, uint32_t imageYRes, uint32_t& imageX, uint32_t& imageY)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1144,7 +1144,7 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetWhiteBalanceCallback(XnActualI
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetGainCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
 {
 	XnSensorDepthStream* pStream = (XnSensorDepthStream*)pCookie;
-	return pStream->SetGain((XnUInt32)nValue);
+	return pStream->SetGain((uint32_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::SetRegistrationTypeCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
@@ -1233,7 +1233,7 @@ XnStatus XN_CALLBACK_TYPE XnSensorDepthStream::ReadAGCBinsFromFile(XnGeneralProp
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	for (XnUInt32 nBin = 0; nBin < XN_DEPTH_STREAM_AGC_NUMBER_OF_BINS; ++nBin)
+	for (uint32_t nBin = 0; nBin < XN_DEPTH_STREAM_AGC_NUMBER_OF_BINS; ++nBin)
 	{
 		XnChar csKey[XN_INI_MAX_LEN];
 		XnInt32 nValue;

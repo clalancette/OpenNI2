@@ -50,7 +50,7 @@ XnStatus XnUncompressedYUV422toRGBImageProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnUncompressedYUV422toRGBImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, XnUInt32 /*nDataOffset*/, XnUInt32 nDataSize)
+void XnUncompressedYUV422toRGBImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, uint32_t /*nDataOffset*/, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnUncompressedYUV422toRGBImageProcessor::ProcessFramePacketChunk")
 
@@ -59,7 +59,7 @@ void XnUncompressedYUV422toRGBImageProcessor::ProcessFramePacketChunk(const XnSe
 	if (m_ContinuousBuffer.GetSize() != 0)
 	{
 		// fill in to a whole element
-		XnUInt32 nReadBytes = XN_MIN(nDataSize, XN_YUV_TO_RGB_INPUT_ELEMENT_SIZE - m_ContinuousBuffer.GetSize());
+		uint32_t nReadBytes = XN_MIN(nDataSize, XN_YUV_TO_RGB_INPUT_ELEMENT_SIZE - m_ContinuousBuffer.GetSize());
 		m_ContinuousBuffer.UnsafeWrite(pData, nReadBytes);
 		pData += nReadBytes;
 		nDataSize -= nReadBytes;
@@ -69,8 +69,8 @@ void XnUncompressedYUV422toRGBImageProcessor::ProcessFramePacketChunk(const XnSe
 			if (CheckWriteBufferForOverflow(XN_YUV_TO_RGB_OUTPUT_ELEMENT_SIZE))
 			{
 				// process it
-				XnUInt32 nActualRead = 0;
-				XnUInt32 nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
+				uint32_t nActualRead = 0;
+				uint32_t nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
 				YUV422ToRGB888(m_ContinuousBuffer.GetData(), pWriteBuffer->GetUnsafeWritePointer(), XN_YUV_TO_RGB_INPUT_ELEMENT_SIZE, &nActualRead, &nOutputSize);
 				pWriteBuffer->UnsafeUpdateSize(XN_YUV_TO_RGB_OUTPUT_ELEMENT_SIZE);
 			}
@@ -81,8 +81,8 @@ void XnUncompressedYUV422toRGBImageProcessor::ProcessFramePacketChunk(const XnSe
 
 	if (CheckWriteBufferForOverflow(nDataSize / XN_YUV_TO_RGB_INPUT_ELEMENT_SIZE * XN_YUV_TO_RGB_OUTPUT_ELEMENT_SIZE))
 	{
-		XnUInt32 nActualRead = 0;
-		XnUInt32 nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
+		uint32_t nActualRead = 0;
+		uint32_t nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
 		YUV422ToRGB888(pData, pWriteBuffer->GetUnsafeWritePointer(), nDataSize, &nActualRead, &nOutputSize);
 		pWriteBuffer->UnsafeUpdateSize(nOutputSize);
 		pData += nActualRead;

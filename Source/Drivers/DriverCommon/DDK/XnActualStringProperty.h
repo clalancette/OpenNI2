@@ -36,7 +36,7 @@
 class XnActualStringProperty final : public XnStringProperty
 {
 public:
-	XnActualStringProperty(XnUInt32 propertyId, const XnChar* strName, const XnChar* strInitialValue = "", const XnChar* strModule = "");
+	XnActualStringProperty(uint32_t propertyId, const XnChar* strName, const XnChar* strInitialValue = "", const XnChar* strModule = "");
 
 	inline const XnChar* GetValue() const { return m_strValue; }
 

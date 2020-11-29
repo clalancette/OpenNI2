@@ -148,7 +148,7 @@ XN_C_API XnBool xnOSIsEventSet(const XN_EVENT_HANDLE EventHandle)
 	return (xnOSWaitEvent(EventHandle, 0) == XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSWaitEvent(const XN_EVENT_HANDLE EventHandle, XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSWaitEvent(const XN_EVENT_HANDLE EventHandle, uint32_t nMilliseconds)
 {
 	// Make sure the actual event handle isn't NULL
 	XN_RET_IF_NULL(EventHandle, XN_STATUS_OS_INVALID_EVENT);

@@ -42,7 +42,7 @@ protected:
 					XnUInt8*& pDst,
 					const XnUInt8* pDstEnd);
 
-	XnStatus WriteToLogFile(XnUInt8 fileID, const void* pData, XnUInt32 dataLength);
+	XnStatus WriteToLogFile(XnUInt8 fileID, const void* pData, uint32_t dataLength);
 	XnStatus CloseLogFile(XnUInt8 fileID);
 	XnStatus OpenLogFile(XnUInt8 fileID, const XnChar* fileName);
 private:

@@ -42,7 +42,7 @@ public:
 
 	virtual XnCompressionFormats GetCompressionFormat() const = 0;
 
-	XnStatus Compress(const XnUChar* pData, XnUInt32 nDataSize, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize)
+	XnStatus Compress(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize)
 	{
 		XnStatus nRetVal = XN_STATUS_OK;
 
@@ -61,7 +61,7 @@ public:
 		return (XN_STATUS_OK);
 	}
 
-	XnStatus Decompress(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize)
+	XnStatus Decompress(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize)
 	{
 		XnStatus nRetVal = XN_STATUS_OK;
 
@@ -75,12 +75,12 @@ public:
 		return (XN_STATUS_OK);
 	}
 
-	virtual XnUInt32 GetOverheadSize() const = 0;
+	virtual uint32_t GetOverheadSize() const = 0;
 	virtual XnFloat GetWorseCompressionRatio() const = 0;
 
 protected:
-	virtual XnStatus CompressImpl(const XnUChar* pData, XnUInt32 nDataSize, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize) = 0;
-	virtual XnStatus DecompressImpl(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize) = 0;
+	virtual XnStatus CompressImpl(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize) = 0;
+	virtual XnStatus DecompressImpl(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize) = 0;
 };
 
 #endif // XNCODECBASE_H

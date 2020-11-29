@@ -52,7 +52,7 @@ void LinkOutputStreamsMgr::Shutdown()
 }
 
 XnStatus LinkOutputStreamsMgr::InitOutputStream(XnUInt16 nStreamID,
-						XnUInt32 nMaxMsgSize,
+						uint32_t nMaxMsgSize,
 						XnUInt16 nMaxPacketSize,
 						XnLinkCompressionType compression,
 						XnStreamFragLevel streamFragLevel,
@@ -124,7 +124,7 @@ XnStatus LinkOutputStreamsMgr::SendData(XnUInt16 nStreamID,
 										XnUInt16 nCID,
 										XnLinkFragmentation fragmentation,
 										const void* pData,
-										XnUInt32 nDataSize)
+										uint32_t nDataSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	if ((nStreamID >= m_outputStreams.size()) || (m_outputStreams[nStreamID] == NULL) ||

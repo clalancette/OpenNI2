@@ -33,7 +33,7 @@ namespace xn
 
 
 /* FRAG_FLAGS_ALLOWED_CHANGES[y][x] is 1 if a change from fragmentation flag y to x is allowed, 0 otherwise. */
-const XnUInt32 LinkInputStreamsMgr::FRAG_FLAGS_ALLOWED_CHANGES[4][4] = {
+const uint32_t LinkInputStreamsMgr::FRAG_FLAGS_ALLOWED_CHANGES[4][4] = {
 	/*                                        M, B, E, S */
 	/* Allowed state changes from MIDDLE: */ {1, 0, 1, 0},
 	/* Allowed state changes from BEGIN:  */ {1, 0, 1, 0},
@@ -289,10 +289,10 @@ void LinkInputStreamsMgr::HandlePacket(const LinkPacketHeader* pLinkPacketHeader
 	}
 }
 
-XnStatus LinkInputStreamsMgr::HandleData(const void* pData, XnUInt32 nSize)
+XnStatus LinkInputStreamsMgr::HandleData(const void* pData, uint32_t nSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt32 nBytesToRead = nSize;
+	uint32_t nBytesToRead = nSize;
 
 	XN_PROFILING_START_SECTION("LinkInputStreamsMgr::HandleData()");
 

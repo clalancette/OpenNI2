@@ -46,7 +46,7 @@ enum RecordType
 	RECORD_SEEK_TABLE               = 0x0E,
 };
 
-#define INVALID_NODE_ID ((XnUInt32)-1)
+#define INVALID_NODE_ID ((uint32_t)-1)
 #define INVALID_TIMESTAMP ((XnUInt64)-1)
 
 struct RecordingHeader
@@ -54,7 +54,7 @@ struct RecordingHeader
 	XnChar headerMagic[HEADER_MAGIC_SIZE];
 	XnVersion version;
 	XnUInt64 nGlobalMaxTimeStamp;
-	XnUInt32 nMaxNodeID;
+	uint32_t nMaxNodeID;
 };
 
 extern const RecordingHeader DEFAULT_RECORDING_HEADER;
@@ -65,37 +65,37 @@ public:
 	Record(XnUInt8* pData, XnSizeT nMaxSize, XnBool bUseOld32Header);
 	Record(const Record &other);
 	RecordType GetType() const;
-	XnUInt32 GetNodeID() const;
-	XnUInt32 GetSize() const; //GetSize() returns just the fields' size, not including the payload
-	XnUInt32 GetPayloadSize() const;
+	uint32_t GetNodeID() const;
+	uint32_t GetSize() const; //GetSize() returns just the fields' size, not including the payload
+	uint32_t GetPayloadSize() const;
 	XnUInt64 GetUndoRecordPos() const;
 
-	void SetNodeID(XnUInt32 nNodeID);
-	void SetPayloadSize(XnUInt32 nPayloadSize);
+	void SetNodeID(uint32_t nNodeID);
+	void SetPayloadSize(uint32_t nPayloadSize);
 	void SetUndoRecordPos(XnUInt64 nUndoRecordPos);
 
 	XnUInt8* GetData(); //GetData() returns the entire encoded record
 	const XnUInt8* GetData() const; //GetData() returns the entire encoded record
-	void SetData(XnUInt8* pData, XnUInt32 nMaxSize);
+	void SetData(XnUInt8* pData, uint32_t nMaxSize);
 	XnUInt8* GetPayload(); //GetPayload() returns just the payload part of the record (after the fields)
 	const XnUInt8* GetPayload() const;
 	const XnUInt8* GetReadPos() const;
 	XnBool IsHeaderValid() const;
 	void ResetRead();
 
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 protected:
 	const XnUInt8* GetWritePos() const;
-	XnStatus StartWrite(XnUInt32 nRecordType);
-	XnStatus Write(const void* pData, XnUInt32 nSize);
+	XnStatus StartWrite(uint32_t nRecordType);
+	XnStatus Write(const void* pData, uint32_t nSize);
 	XnStatus WriteString(const XnChar* str);
 	XnStatus FinishWrite();
 
 	XnStatus StartRead();
 
 	//Copies the data to the specified output buffer
-	XnStatus Read(void* pData, XnUInt32 nSize) const;
+	XnStatus Read(void* pData, uint32_t nSize) const;
 
 	//Gives a pointer to the string in the current position, and advances that position till after the string.
 	XnStatus ReadString(const XnChar*& strDest) const;
@@ -104,20 +104,20 @@ protected:
 private:
 	struct Header_old32
 	{
-		XnUInt32 m_nMagic;
-		XnUInt32 m_nRecordType;
-		XnUInt32 m_nNodeID;
-		XnUInt32 m_nFieldsSize;
-		XnUInt32 m_nPayloadSize;
-		XnUInt32 m_nUndoRecordPos;
+		uint32_t m_nMagic;
+		uint32_t m_nRecordType;
+		uint32_t m_nNodeID;
+		uint32_t m_nFieldsSize;
+		uint32_t m_nPayloadSize;
+		uint32_t m_nUndoRecordPos;
 	};
 	struct Header
 	{
-		XnUInt32 m_nMagic;
-		XnUInt32 m_nRecordType;
-		XnUInt32 m_nNodeID;
-		XnUInt32 m_nFieldsSize;
-		XnUInt32 m_nPayloadSize;
+		uint32_t m_nMagic;
+		uint32_t m_nRecordType;
+		uint32_t m_nNodeID;
+		uint32_t m_nFieldsSize;
+		uint32_t m_nPayloadSize;
 		XnUInt64 m_nUndoRecordPos;
 	};
 
@@ -127,22 +127,22 @@ private:
 		XnUInt8* m_pData;
 	};
 
-	static const XnUInt32 MAGIC;
-	mutable XnUInt32 m_nReadOffset;
-	XnUInt32 m_nMaxSize;
+	static const uint32_t MAGIC;
+	mutable uint32_t m_nReadOffset;
+	uint32_t m_nMaxSize;
 protected:
 	enum {HEADER_SIZE_current = sizeof(Header),
 	      HEADER_SIZE_old32   = sizeof(Header_old32)};
 	XnBool m_bUseOld32Header;
 
 public:
-	XnUInt32 HEADER_SIZE;
+	uint32_t HEADER_SIZE;
 };
 
 class NodeAdded_1_0_0_4_Record : public Record
 {
 public:
-	NodeAdded_1_0_0_4_Record(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	NodeAdded_1_0_0_4_Record(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	NodeAdded_1_0_0_4_Record(const Record& record);
 	void SetNodeName(const XnChar* strNodeName);
 	void SetNodeType(XnProductionNodeType type);
@@ -154,7 +154,7 @@ public:
 
 	XnStatus Encode();
 	XnStatus Decode();
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 protected:
 	XnStatus EncodeImpl();
@@ -169,27 +169,27 @@ private:
 class NodeAdded_1_0_0_5_Record : public NodeAdded_1_0_0_4_Record
 {
 public:
-	NodeAdded_1_0_0_5_Record(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	NodeAdded_1_0_0_5_Record(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	NodeAdded_1_0_0_5_Record(const Record& record);
 
-	void SetNumberOfFrames(XnUInt32 nNumberOfFrames);
+	void SetNumberOfFrames(uint32_t nNumberOfFrames);
 	void SetMinTimestamp(XnUInt64 nMinTimestamp);
 	void SetMaxTimestamp(XnUInt64 nMaxTimestamp);
 
-	XnUInt32 GetNumberOfFrames() const;
+	uint32_t GetNumberOfFrames() const;
 	XnUInt64 GetMinTimestamp() const;
 	XnUInt64 GetMaxTimestamp() const;
 
 	XnStatus Encode();
 	XnStatus Decode();
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 protected:
 	XnStatus EncodeImpl();
 	XnStatus DecodeImpl();
 
 private:
-	XnUInt32 m_nNumberOfFrames;
+	uint32_t m_nNumberOfFrames;
 	XnUInt64 m_nMinTimestamp;
 	XnUInt64 m_nMaxTimestamp;
 };
@@ -197,7 +197,7 @@ private:
 class NodeAddedRecord final : public NodeAdded_1_0_0_5_Record
 {
 public:
-	NodeAddedRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	NodeAddedRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	NodeAddedRecord(const Record& record);
 
 	void SetSeekTablePosition(XnUInt64 nPos);
@@ -206,7 +206,7 @@ public:
 
 	XnStatus Encode();
 	XnStatus Decode();
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 private:
 	XnUInt64 m_nSeekTablePosition;
@@ -215,46 +215,46 @@ private:
 class NodeRemovedRecord final : public Record
 {
 public:
-	NodeRemovedRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	NodeRemovedRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	NodeRemovedRecord(const Record& record);
 
 	XnStatus Encode();
 	XnStatus Decode();
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 };
 
 class GeneralPropRecord : public Record
 {
 public:
-	GeneralPropRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header, XnUInt32 nPropRecordType = RECORD_GENERAL_PROPERTY);
+	GeneralPropRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header, uint32_t nPropRecordType = RECORD_GENERAL_PROPERTY);
 	GeneralPropRecord(const Record& record);
 
 	void SetPropName(const XnChar* strPropName);
-	void SetPropDataSize(XnUInt32 nPropDataSize);
+	void SetPropDataSize(uint32_t nPropDataSize);
 	void SetPropData(const void* pPropData);
 
 	const XnChar* GetPropName() const;
-	XnUInt32 GetPropDataSize() const;
+	uint32_t GetPropDataSize() const;
 	const void* GetPropData() const;
 
 	XnStatus Encode();
 	XnStatus Decode();
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 private:
-	XnUInt32 m_nPropRecordType;
+	uint32_t m_nPropRecordType;
 	const XnChar* m_strPropName;
-	XnUInt32 m_nPropDataSize;
+	uint32_t m_nPropDataSize;
 	void* m_pPropData;
 };
 
 class IntPropRecord final : public GeneralPropRecord
 {
 public:
-	IntPropRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	IntPropRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	IntPropRecord(const Record& record);
 	void SetValue(XnUInt64 nValue);
 	XnUInt64 GetValue() const;
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 private:
 	XnUInt64 m_nValue;
@@ -263,11 +263,11 @@ private:
 class RealPropRecord final : public GeneralPropRecord
 {
 public:
-	RealPropRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	RealPropRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	RealPropRecord(const Record& record);
 	void SetValue(XnDouble dValue);
 	XnDouble GetValue() const;
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 private:
 	XnDouble m_dValue;
@@ -276,31 +276,31 @@ private:
 class StringPropRecord final : public GeneralPropRecord
 {
 public:
-	StringPropRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	StringPropRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	StringPropRecord(const Record& record);
 	void SetValue(const XnChar* strValue);
 	const XnChar* GetValue() const;
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 };
 
 struct SeekInfo
 {
-	XnUInt32 m_nFrames;
+	uint32_t m_nFrames;
 	XnUInt64 m_nMaxTimeStamp;
 };
 
 class NodeDataBeginRecord final : public Record
 {
 public:
-	NodeDataBeginRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	NodeDataBeginRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	NodeDataBeginRecord(const Record& record);
 
-	XnUInt32 GetNumFrames() const;
+	uint32_t GetNumFrames() const;
 	XnUInt64 GetMaxTimeStamp() const;
 
 	XnStatus Encode();
 	XnStatus Decode();
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 private:
 	SeekInfo m_seekInfo;
@@ -309,11 +309,11 @@ private:
 class NodeStateReadyRecord final : public Record
 {
 public:
-	NodeStateReadyRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	NodeStateReadyRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	NodeStateReadyRecord(const Record& record);
 	XnStatus Encode();
 	XnStatus Decode();
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 };
 
 /*This class represents only the data record HEADER, not the data itself.
@@ -324,36 +324,36 @@ public:
 	enum {MAX_SIZE = Record::HEADER_SIZE_current + //Record header
 	             (XN_MAX_NAME_LENGTH + 1) + //Max node name + terminating null
 	             sizeof(XnUInt64) + //Data timestamp
-				 sizeof(XnUInt32)}; //Frame number
+				 sizeof(uint32_t)}; //Frame number
 
-	NewDataRecordHeader(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	NewDataRecordHeader(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	NewDataRecordHeader(const Record& record);
 	void SetTimeStamp(XnUInt64 nTimeStamp);
-	void SetFrameNumber(XnUInt32 nFrameNumber);
+	void SetFrameNumber(uint32_t nFrameNumber);
 
 	XnUInt64 GetTimeStamp() const;
-	XnUInt32 GetFrameNumber() const;
+	uint32_t GetFrameNumber() const;
 
 	XnStatus Encode();
 	XnStatus Decode();
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 
 private:
 	XnUInt64 m_nTimeStamp;
-	XnUInt32 m_nFrameNumber;
+	uint32_t m_nFrameNumber;
 };
 
 typedef struct
 {
 	XnUInt64 nTimestamp;
-	XnUInt32 nConfigurationID;
-	XnUInt32 nSeekPos;
+	uint32_t nConfigurationID;
+	uint32_t nSeekPos;
 } DataIndexEntry_old32;
 
 typedef struct _DataIndexEntry
 {
 	XnUInt64 nTimestamp;
-	XnUInt32 nConfigurationID;
+	uint32_t nConfigurationID;
 	XnUInt64 nSeekPos;
 
 	static void FillFromOld32Entry(struct _DataIndexEntry *newEntry, DataIndexEntry_old32 *old32Entry)
@@ -367,22 +367,22 @@ typedef struct _DataIndexEntry
 class DataIndexRecordHeader final : public Record
 {
 public:
-	DataIndexRecordHeader(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	DataIndexRecordHeader(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	DataIndexRecordHeader(const Record& record);
 
 	XnStatus Encode();
 	XnStatus Decode();
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 };
 
 class EndRecord : public Record
 {
 public:
-	EndRecord(XnUInt8* pData, XnUInt32 nMaxSize, XnBool bUseOld32Header);
+	EndRecord(XnUInt8* pData, uint32_t nMaxSize, XnBool bUseOld32Header);
 	EndRecord(const Record& record);
 	XnStatus Encode();
 	XnStatus Decode();
-	XnStatus AsString(XnChar* strDest, XnUInt32 nSize, XnUInt32& nCharsWritten);
+	XnStatus AsString(XnChar* strDest, uint32_t nSize, uint32_t& nCharsWritten);
 };
 #pragma pack(pop)
 

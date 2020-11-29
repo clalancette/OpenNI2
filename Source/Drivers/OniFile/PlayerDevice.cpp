@@ -61,7 +61,7 @@ namespace driver = oni::driver;
 typedef struct
 {
 	// Identifier of the property.
-	XnUInt32 propertyId;
+	uint32_t propertyId;
 
 	// Name of the property.
 	XnChar propertyName[40];
@@ -107,7 +107,7 @@ static PropertyEntry PSLinkPropertyList[] =
 	{ LINK_PROP_DEPTH_TO_SHIFT_TABLE,		"D2S" },
 };
 
-XnStatus PlayerDevice::ResolveGlobalConfigFileName(XnChar* strConfigFile, XnUInt32 nBufSize, const XnChar* strConfigDir)
+XnStatus PlayerDevice::ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32_t nBufSize, const XnChar* strConfigDir)
 {
 	XnStatus rc = XN_STATUS_OK;
 
@@ -583,7 +583,7 @@ void PlayerDevice::SleepToTimestamp(XnUInt64 nTimeStamp)
 			XnInt64 nRequestedTimeDiff = (XnInt64)(nTimestampDiff / m_dPlaybackSpeed);
 			if (nTimeDiff < nRequestedTimeDiff)
 			{
-				XnUInt32 nSleep = XnUInt32((nRequestedTimeDiff - nTimeDiff)/1000);
+				uint32_t nSleep = uint32_t((nRequestedTimeDiff - nTimeDiff)/1000);
 				nSleep = XN_MIN(nSleep, XN_PLAYBACK_SPEED_SANITY_SLEEP);
 				xnOSSleep(nSleep);
 			}
@@ -689,7 +689,7 @@ void ONI_CALLBACK_TYPE PlayerDevice::StreamDestroyCallback(const PlayerStream::D
 	}
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeAdded(void* pCookie, const XnChar* strNodeName, XnProductionNodeType type, XnCodecID /*compression*/, XnUInt32 nNumberOfFrames)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeAdded(void* pCookie, const XnChar* strNodeName, XnProductionNodeType type, XnCodecID /*compression*/, uint32_t nNumberOfFrames)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 
@@ -877,13 +877,13 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeStringPropChanged(void* pCookie, c
 	PlayerSource* pSource = pThis->FindSource(strNodeName);
 	if (pSource != NULL)
 	{
-		nRetVal = pThis->AddPrivateProperty(pSource, strPropName, (XnUInt32)strlen(strValue)+1, strValue);
+		nRetVal = pThis->AddPrivateProperty(pSource, strPropName, (uint32_t)strlen(strValue)+1, strValue);
 	}
 
 	return nRetVal;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeGeneralPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeGeneralPropChanged(void* pCookie, const XnChar* strNodeName, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 	XnStatus nRetVal = XN_STATUS_OK;
@@ -1020,7 +1020,7 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeStateReady(void* /*pCookie*/, cons
 	return XN_STATUS_OK;
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeNewData(void* pCookie, const XnChar* strNodeName, XnUInt64 nTimeStamp, XnUInt32 nFrame, const void* pData, XnUInt32 nSize)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::OnNodeNewData(void* pCookie, const XnChar* strNodeName, XnUInt64 nTimeStamp, uint32_t nFrame, const void* pData, uint32_t nSize)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
 
@@ -1111,7 +1111,7 @@ void XN_CALLBACK_TYPE PlayerDevice::OnEndOfFileReached(void* pCookie)
 	}
 }
 
-XnStatus PlayerDevice::AddPrivateProperty(PlayerSource* pSource, const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer)
+XnStatus PlayerDevice::AddPrivateProperty(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer)
 {
 	if (xnOSStrCmp(m_originalDevice, "PSLink") == 0)
 	{
@@ -1120,7 +1120,7 @@ XnStatus PlayerDevice::AddPrivateProperty(PlayerSource* pSource, const XnChar* s
 	return AddPrivateProperty_PS1080(pSource, strPropName, nBufferSize, pBuffer);
 }
 
-XnStatus PlayerDevice::AddPrivateProperty_PSLink(PlayerSource* pSource, const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer)
+XnStatus PlayerDevice::AddPrivateProperty_PSLink(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1141,7 +1141,7 @@ XnStatus PlayerDevice::AddPrivateProperty_PSLink(PlayerSource* pSource, const Xn
 
 	return nRetVal;
 }
-XnStatus PlayerDevice::AddPrivateProperty_PS1080(PlayerSource* pSource, const XnChar* strPropName, XnUInt32 nBufferSize, const void* pBuffer)
+XnStatus PlayerDevice::AddPrivateProperty_PS1080(PlayerSource* pSource, const XnChar* strPropName, uint32_t nBufferSize, const void* pBuffer)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1169,10 +1169,10 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::FileOpen(void* pCookie)
 	return xnOSOpenFile(pThis->m_filePath.c_str(), XN_OS_FILE_READ, &pThis->m_fileHandle);
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDevice::FileRead(void* pCookie, void* pBuffer, XnUInt32 nSize, XnUInt32* pnBytesRead)
+XnStatus XN_CALLBACK_TYPE PlayerDevice::FileRead(void* pCookie, void* pBuffer, uint32_t nSize, uint32_t* pnBytesRead)
 {
 	PlayerDevice* pThis = (PlayerDevice*)pCookie;
-	XnUInt32 bufferSize = nSize;
+	uint32_t bufferSize = nSize;
 	XnStatus rc = xnOSReadFile(pThis->m_fileHandle, pBuffer, &bufferSize);
 	*pnBytesRead = bufferSize;
 	return rc;
@@ -1183,9 +1183,9 @@ XnStatus XN_CALLBACK_TYPE PlayerDevice::FileSeek(void* pCookie, XnOSSeekType see
 	return PlayerDevice::FileSeek64(pCookie, seekType, nOffset);
 }
 
-XnUInt32 XN_CALLBACK_TYPE PlayerDevice::FileTell(void* pCookie)
+uint32_t XN_CALLBACK_TYPE PlayerDevice::FileTell(void* pCookie)
 {
-	return (XnUInt32)PlayerDevice::FileTell64(pCookie);
+	return (uint32_t)PlayerDevice::FileTell64(pCookie);
 }
 
 void XN_CALLBACK_TYPE PlayerDevice::FileClose(void* pCookie)

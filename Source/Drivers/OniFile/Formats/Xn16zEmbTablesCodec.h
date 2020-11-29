@@ -41,15 +41,15 @@ public:
 	XnCompressionFormats GetCompressionFormat() const override { return XN_COMPRESSION_16Z_EMB_TABLE; }
 
 	XnFloat GetWorseCompressionRatio() const override { return XN_STREAM_COMPRESSION_DEPTH16Z_WORSE_RATIO; }
-	XnUInt32 GetOverheadSize() const override { return m_nMaxValue * sizeof(XnUInt16); }
+	uint32_t GetOverheadSize() const override { return m_nMaxValue * sizeof(XnUInt16); }
 
 private:
-	XnStatus CompressImpl(const XnUChar* pData, XnUInt32 nDataSize, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize)
+	XnStatus CompressImpl(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize)
 	{
 		return XnStreamCompressDepth16ZWithEmbTable((XnUInt16*)pData, nDataSize, pCompressedData, pnCompressedDataSize, m_nMaxValue);
 	}
 
-	XnStatus DecompressImpl(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize)
+	XnStatus DecompressImpl(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize)
 	{
 		return XnStreamUncompressDepth16ZWithEmbTable(pCompressedData, nCompressedDataSize, (XnUInt16*)pData, pnDataSize);
 	}

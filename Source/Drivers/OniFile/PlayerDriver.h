@@ -59,7 +59,7 @@ public:
 private:
 
 	static XnStatus XN_CALLBACK_TYPE FileOpen(void* pCookie);
-	static XnStatus XN_CALLBACK_TYPE FileRead(void* pCookie, void* pBuffer, XnUInt32 nSize, XnUInt32* pnBytesRead);
+	static XnStatus XN_CALLBACK_TYPE FileRead(void* pCookie, void* pBuffer, uint32_t nSize, uint32_t* pnBytesRead);
 	static void     XN_CALLBACK_TYPE FileClose(void* pCookie);
 
 	static void     XN_CALLBACK_TYPE EOFReached(void* pCookie, const char *strUri);

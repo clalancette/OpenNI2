@@ -177,7 +177,7 @@ void XnOniMapStream::notifyAllProperties()
 {
 	XnOniStream::notifyAllProperties();
 
-	XnUInt32 nValue;
+	uint32_t nValue;
 	int size = sizeof(nValue);
 
 	// input format
@@ -243,9 +243,9 @@ XnStatus XnOniMapStream::SetVideoMode(OniVideoMode* pVideoMode)
 	nRetVal = m_pSensor->GetProperty(m_strType, XN_STREAM_PROPERTY_INPUT_FORMAT, &nCurrInputFormat);
 	XN_IS_STATUS_OK(nRetVal);
 
-	XnUInt32 nChosenInputFormat = XN_MAX_UINT32;
+	uint32_t nChosenInputFormat = XN_MAX_UINT32;
 
-	for (XnUInt32 i = 0; i < m_nSupportedModesCount; ++i)
+	for (uint32_t i = 0; i < m_nSupportedModesCount; ++i)
 	{
 		if (EqualsResFPS(pVideoMode, &m_aSupportedModes[i].OutputMode))
 		{
@@ -257,7 +257,7 @@ XnStatus XnOniMapStream::SetVideoMode(OniVideoMode* pVideoMode)
 				{
 					continue;
 				}
-				nChosenInputFormat = (XnUInt32)nCurrInputFormat;
+				nChosenInputFormat = (uint32_t)nCurrInputFormat;
 				break;
 			}
 			else if (nChosenInputFormat == XN_MAX_UINT32 ||
@@ -308,9 +308,9 @@ XnStatus XnOniMapStream::FillSupportedVideoModes()
 
 	m_aSupportedModes = XN_NEW_ARR(SupportedVideoMode, (int)nCount);
 	XN_VALIDATE_ALLOC_PTR(m_aSupportedModes);
-	m_nSupportedModesCount = (XnUInt32)nCount;
+	m_nSupportedModesCount = (uint32_t)nCount;
 
-	const XnUInt32 nAllocCount = 150;
+	const uint32_t nAllocCount = 150;
 	XnCmosPreset aPresets[nAllocCount];
 	XN_ASSERT(nAllocCount >= m_nSupportedModesCount);
 	OniGeneralBuffer gb = XnGeneralBufferPack(aPresets,  m_nSupportedModesCount * sizeof(XnCmosPreset));
@@ -319,10 +319,10 @@ XnStatus XnOniMapStream::FillSupportedVideoModes()
 
 	// Keep those modes
 	XnBool bOK = TRUE;
-	for (XnUInt32 i = 0; i < m_nSupportedModesCount; ++i)
+	for (uint32_t i = 0; i < m_nSupportedModesCount; ++i)
 	{
 		m_aSupportedModes[i].nInputFormat = aPresets[i].nFormat;
-		bOK = XnDDKGetXYFromResolution((XnResolutions)aPresets[i].nResolution, (XnUInt32*)&m_aSupportedModes[i].OutputMode.resolutionX, (XnUInt32*)&m_aSupportedModes[i].OutputMode.resolutionY);
+		bOK = XnDDKGetXYFromResolution((XnResolutions)aPresets[i].nResolution, (uint32_t*)&m_aSupportedModes[i].OutputMode.resolutionX, (uint32_t*)&m_aSupportedModes[i].OutputMode.resolutionY);
 		XN_ASSERT(bOK);
 		XN_REFERENCE_VARIABLE(bOK);
 		m_aSupportedModes[i].OutputMode.fps = aPresets[i].nFPS;

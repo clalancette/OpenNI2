@@ -21,7 +21,7 @@
 #include <XnLib.h>
 #include <XnLog.h>
 
-XN_C_API XnStatus xnOSWaitAndTerminateThread(XN_THREAD_HANDLE* pThreadHandle, XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSWaitAndTerminateThread(XN_THREAD_HANDLE* pThreadHandle, uint32_t nMilliseconds)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

@@ -31,8 +31,8 @@
 //---------------------------------------------------------------------------
 typedef struct
 {
-	XnUInt32 nTimesExecuted;
-	XnUInt32 nTimeInMicroSeconds;
+	uint32_t nTimesExecuted;
+	uint32_t nTimeInMicroSeconds;
 } XnTaskCPUInfo;
 
 #endif // XNFIRMWARETYPES_H

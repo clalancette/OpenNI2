@@ -36,7 +36,7 @@
 class XnActualRealProperty final : public XnRealProperty
 {
 public:
-	XnActualRealProperty(XnUInt32 propertyId, const XnChar* strName, XnDouble dInitialValue = 0.0, const XnChar* strModule = "");
+	XnActualRealProperty(uint32_t propertyId, const XnChar* strName, XnDouble dInitialValue = 0.0, const XnChar* strModule = "");
 
 	inline XnDouble GetValue() const { return m_dValue; }
 

@@ -29,10 +29,10 @@ static XnStatus g_initalizeStatus = xnOSTimeInit();
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XN_C_API XnStatus xnOSGetEpochTime(XnUInt32* nEpochTime)
+XN_C_API XnStatus xnOSGetEpochTime(uint32_t* nEpochTime)
 {
 	// Local function variables
-	*nEpochTime = (XnUInt32)time(NULL);
+	*nEpochTime = (uint32_t)time(NULL);
 
 	// All is good...
 	return (XN_STATUS_OK);
@@ -72,7 +72,7 @@ XN_C_API XnStatus xnOSGetHighResTimeStamp(XnUInt64* nTimeStamp)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSSleep(XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSSleep(uint32_t nMilliseconds)
 {
 	// Sleep via the OS
 	Sleep(nMilliseconds);

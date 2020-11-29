@@ -408,7 +408,7 @@ void createMenu()
 							{
 								const openni::VideoMode* pSupportedMode = &supportedModes[i];
 								char name[50];
-								XnUInt32 dummy;
+								uint32_t dummy;
 								xnOSStrFormat(name, 50, &dummy, "%d x %d @ %d (%s)", pSupportedMode->getResolutionX(), pSupportedMode->getResolutionY(), pSupportedMode->getFps(), getFormatName(pSupportedMode->getPixelFormat()));
 								createMenuEntry(name, setDepthVideoMode, i);
 							}
@@ -434,7 +434,7 @@ void createMenu()
 							{
 								const openni::VideoMode* pSupportedMode = &supportedModes[i];
 								char name[50];
-								XnUInt32 dummy;
+								uint32_t dummy;
 								xnOSStrFormat(name, 50, &dummy, "%d x %d @ %d (%s)", pSupportedMode->getResolutionX(), pSupportedMode->getResolutionY(), pSupportedMode->getFps(), getFormatName(pSupportedMode->getPixelFormat()));
 								createMenuEntry(name, setColorVideoMode, i);
 							}
@@ -460,7 +460,7 @@ void createMenu()
 							{
 								const openni::VideoMode* pSupportedMode = &supportedModes[i];
 								char name[50];
-								XnUInt32 dummy;
+								uint32_t dummy;
 								xnOSStrFormat(name, 50, &dummy, "%d x %d @ %d (%s)", pSupportedMode->getResolutionX(), pSupportedMode->getResolutionY(), pSupportedMode->getFps(), getFormatName(pSupportedMode->getPixelFormat()));
 								createMenuEntry(name, setIRVideoMode, i);
 							}

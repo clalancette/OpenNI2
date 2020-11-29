@@ -41,7 +41,7 @@ public:
 	static DeviceConnectivityEvent::Interface& ConnectedEvent() { return ms_connectedEvent; }
 	static DeviceConnectivityEvent::Interface& DisconnectedEvent() { return ms_disconnectedEvent; }
 
-	static XnStatus EnumerateSensors(OniDeviceInfo* aDevices, XnUInt32* pnCount);
+	static XnStatus EnumerateSensors(OniDeviceInfo* aDevices, uint32_t* pnCount);
 
 private:
 	typedef struct XnUsbId
@@ -60,7 +60,7 @@ private:
 	static DeviceConnectivityEvent ms_disconnectedEvent;
 
 	static XnUsbId ms_supportedProducts[];
-	static XnUInt32 ms_supportedProductsCount;
+	static uint32_t ms_supportedProductsCount;
 	static DevicesHash ms_devices;
 	static std::vector<XnRegistrationHandle> ms_aRegistrationHandles;
 	static XN_CRITICAL_SECTION_HANDLE ms_lock;

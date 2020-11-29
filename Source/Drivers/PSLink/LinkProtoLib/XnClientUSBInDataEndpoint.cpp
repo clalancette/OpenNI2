@@ -29,26 +29,26 @@ namespace xn
 {
 
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_BUFFER_NUM_PACKETS_ISO = 80;
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_NUM_BUFFERS_ISO = 8;
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_TIMEOUT_ISO = 100;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_BUFFER_NUM_PACKETS_ISO = 80;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_NUM_BUFFERS_ISO = 8;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_TIMEOUT_ISO = 100;
 
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_BUFFER_NUM_PACKETS_BULK = 120;
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_NUM_BUFFERS_BULK = 8;
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_TIMEOUT_BULK = 1000;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_BUFFER_NUM_PACKETS_BULK = 120;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_NUM_BUFFERS_BULK = 8;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_TIMEOUT_BULK = 1000;
 #elif (XN_PLATFORM == XN_PLATFORM_LINUX_X86 || XN_PLATFORM == XN_PLATFORM_LINUX_ARM || XN_PLATFORM == XN_PLATFORM_MACOSX)
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_BUFFER_NUM_PACKETS_ISO = 32;
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_NUM_BUFFERS_ISO = 16;
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_TIMEOUT_ISO = 100;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_BUFFER_NUM_PACKETS_ISO = 32;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_NUM_BUFFERS_ISO = 16;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_TIMEOUT_ISO = 100;
 
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_BUFFER_NUM_PACKETS_BULK = 32;
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_NUM_BUFFERS_BULK = 16;
-	const XnUInt32 ClientUSBInDataEndpoint::READ_THREAD_TIMEOUT_BULK = 1000;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_BUFFER_NUM_PACKETS_BULK = 32;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_NUM_BUFFERS_BULK = 16;
+	const uint32_t ClientUSBInDataEndpoint::READ_THREAD_TIMEOUT_BULK = 1000;
 #else
 	#error "Unsupported platform :("
 #endif
 
-const XnUInt32 ClientUSBInDataEndpoint::BASE_INPUT_ENDPOINT = XN_EE_DEVICE_IN_DATA_BASE_ENDPOINT;
+const uint32_t ClientUSBInDataEndpoint::BASE_INPUT_ENDPOINT = XN_EE_DEVICE_IN_DATA_BASE_ENDPOINT;
 
 ClientUSBInDataEndpoint::ClientUSBInDataEndpoint()
 {
@@ -79,7 +79,7 @@ XnStatus ClientUSBInDataEndpoint::Init(XN_USB_DEV_HANDLE hUSBDevice, XnUInt16 nE
 		nRetVal = xnUSBOpenEndPoint(m_hUSBDevice, m_nEndpointID, m_endpointType, XN_USB_DIRECTION_IN, &m_hEndpoint);
 	}
 	XN_IS_STATUS_OK_LOG_ERROR("Open USB endpoint", nRetVal);
-	XnUInt32 nTempMaxPacketSize = 0;
+	uint32_t nTempMaxPacketSize = 0;
 	nRetVal = xnUSBGetEndPointMaxPacketSize(m_hEndpoint, &nTempMaxPacketSize);
 	XN_IS_STATUS_OK_LOG_ERROR("Get USB endpoint max packet size", nRetVal);
 	if (nTempMaxPacketSize > XN_MAX_UINT16)
@@ -108,9 +108,9 @@ XnStatus ClientUSBInDataEndpoint::Connect()
 
 	if (!m_bConnected)
 	{
-		XnUInt32 nBufferSize = m_nMaxPacketSize * ((m_endpointType == XN_USB_EP_ISOCHRONOUS) ? READ_THREAD_BUFFER_NUM_PACKETS_ISO : READ_THREAD_BUFFER_NUM_PACKETS_BULK);
-		XnUInt32 nBuffersCount = (m_endpointType == XN_USB_EP_ISOCHRONOUS) ? READ_THREAD_NUM_BUFFERS_ISO : READ_THREAD_NUM_BUFFERS_BULK;
-		XnUInt32 nTimeout = (m_endpointType == XN_USB_EP_ISOCHRONOUS) ? READ_THREAD_TIMEOUT_ISO : READ_THREAD_TIMEOUT_BULK;
+		uint32_t nBufferSize = m_nMaxPacketSize * ((m_endpointType == XN_USB_EP_ISOCHRONOUS) ? READ_THREAD_BUFFER_NUM_PACKETS_ISO : READ_THREAD_BUFFER_NUM_PACKETS_BULK);
+		uint32_t nBuffersCount = (m_endpointType == XN_USB_EP_ISOCHRONOUS) ? READ_THREAD_NUM_BUFFERS_ISO : READ_THREAD_NUM_BUFFERS_BULK;
+		uint32_t nTimeout = (m_endpointType == XN_USB_EP_ISOCHRONOUS) ? READ_THREAD_TIMEOUT_ISO : READ_THREAD_TIMEOUT_BULK;
 		nRetVal = xnUSBInitReadThread(m_hEndpoint, nBufferSize, nBuffersCount, nTimeout, ReadThreadCallback, this);
 		XN_IS_STATUS_OK_LOG_ERROR("Init USB Read thread", nRetVal);
 		m_bConnected = TRUE;
@@ -146,7 +146,7 @@ XnStatus ClientUSBInDataEndpoint::SetDataDestination(IDataDestination* pDataDest
 	return XN_STATUS_OK;
 }
 
-XnBool XN_CALLBACK_TYPE ClientUSBInDataEndpoint::ReadThreadCallback(XnUChar* pBuffer, XnUInt32 nBufferSize, void* pCallbackData)
+XnBool XN_CALLBACK_TYPE ClientUSBInDataEndpoint::ReadThreadCallback(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData)
 {
 	ClientUSBInDataEndpoint* pThis = reinterpret_cast<ClientUSBInDataEndpoint*>(pCallbackData);
 	IDataDestination* pDataDestination = pThis->m_pDataDestination;

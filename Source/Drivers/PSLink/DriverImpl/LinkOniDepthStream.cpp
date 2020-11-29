@@ -38,7 +38,7 @@ OniStatus LinkOniDepthStream::getProperty(int propertyId, void* data, int* pData
 	const XnShiftToDepthTables* pTables = NULL;
 	XnStatus nRetVal;
 	XnFloat fValue = 0;
-	XnUInt32 nTableSize;
+	uint32_t nTableSize;
 
 	switch (propertyId)
 	{

@@ -28,7 +28,7 @@ namespace xn
 {
 
 const XnUInt16 ClientUSBOutDataEndpoint::ENDPOINT_ID = 0x0001;
-const XnUInt32 ClientUSBOutDataEndpoint::SEND_TIMEOUT = 2000;
+const uint32_t ClientUSBOutDataEndpoint::SEND_TIMEOUT = 2000;
 
 ClientUSBOutDataEndpoint::ClientUSBOutDataEndpoint(XnUSBEndPointType endpointType)
 {
@@ -65,7 +65,7 @@ XnStatus ClientUSBOutDataEndpoint::Connect()
 	{
 		nRetVal = xnUSBOpenEndPoint(m_hUSBDevice, ENDPOINT_ID, m_endpointType, XN_USB_DIRECTION_OUT, &m_hEndpoint);
 		XN_IS_STATUS_OK_LOG_ERROR("Open USB Out Data Endpoint", nRetVal);
-		XnUInt32 nTempMaxPacketSize = 0;
+		uint32_t nTempMaxPacketSize = 0;
 		nRetVal = xnUSBGetEndPointMaxPacketSize(m_hEndpoint, &nTempMaxPacketSize);
 		XN_IS_STATUS_OK_LOG_ERROR("Get USB Out Data endpoint max packet size", nRetVal);
 		if (nTempMaxPacketSize > XN_MAX_UINT16)
@@ -89,13 +89,13 @@ void ClientUSBOutDataEndpoint::Disconnect()
 	}
 }
 
-XnStatus ClientUSBOutDataEndpoint::Send(const void* pData, XnUInt32 nSize)
+XnStatus ClientUSBOutDataEndpoint::Send(const void* pData, uint32_t nSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	/* TEMP TEMP TEMP - Patch to bypass USB driver bug */
 	{
-		XnUInt32 nBlockSize = 8 * m_nMaxPacketSize;
-		XnUInt32 nRemainderSize = nSize % nBlockSize;
+		uint32_t nBlockSize = 8 * m_nMaxPacketSize;
+		uint32_t nRemainderSize = nSize % nBlockSize;
 		if (nRemainderSize > 0)
 		{
 			xnLogVerbose(XN_MASK_USB, "Temporary USB patch: rounded up size to %u (instead of %u) before sending data", nSize + nBlockSize - nRemainderSize, nSize);

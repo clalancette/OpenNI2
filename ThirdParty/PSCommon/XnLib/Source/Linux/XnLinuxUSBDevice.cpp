@@ -93,9 +93,9 @@ typedef struct XnUSBDeviceEndpoint
 {
 	int fd;
 	XnUSBDeviceEndpointWriteTx txs[XN_USB_MAX_WRITE_TX];
-	XnUInt32 nFirst;
-	XnUInt32 nQueued;
-	XnUInt32 nBufferSize;
+	uint32_t nFirst;
+	uint32_t nQueued;
+	uint32_t nBufferSize;
 } XnUSBDeviceEndpoint;
 
 struct XnUSBDevice
@@ -108,7 +108,7 @@ struct XnUSBDevice
 	XN_EVENT_HANDLE hReplyEvent;
 	XnUSBDeviceConnectionState connectionState;
 	enum usb_device_speed speed;
-	XnUInt32 nControlMessageMaxSize;
+	uint32_t nControlMessageMaxSize;
 	XnUInt8 nConfigID;
 	XnUInt8 nInterfaceID;
 	XnUInt8 nAltInterfaceID;
@@ -119,7 +119,7 @@ struct XnUSBDevice
 	DeviceControlState eDeviceControlState;
 	HostControlState eHostControlState;
 	XnUChar* pControlBuffer;
-	XnUInt32 nControlSize;
+	uint32_t nControlSize;
 	XnUSBDeviceNewControlRequestCallback pNewControlRequestCallback;
 	void* pNewControlRequestCallbackCookie;
 	XnUSBDeviceConnectivityChangedCallback pConnectivityChangedCallback;
@@ -196,7 +196,7 @@ static XnStatus buildGadgetFSDescriptors(const XnUSBDeviceDescriptorHolder* pDes
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// write format ID
-	XnUInt32 nFormatID = 0;
+	uint32_t nFormatID = 0;
 	WRITE_OBJ_TO_BUF(buf, nFormatID);
 
 	// for now, gadget FS supports a single configuration
@@ -236,7 +236,7 @@ static int openEndpointFile(struct usb_endpoint_descriptor* pDesc)
 	XnUChar bufConfig[1024];
 	XnUChar* buf = bufConfig;
 
-	XnUInt32 nFormatID = 1;
+	uint32_t nFormatID = 1;
 	WRITE_OBJ_TO_BUF(buf, nFormatID);
 
 	// now we should write the full-speed descriptor. Take high-speed one and reduce speed
@@ -450,7 +450,7 @@ static XnBool handleGetStringDescriptor(XnUSBDevice* pDevice, __u16 nMaxLength, 
 		buf [1] = USB_DT_STRING;
 	}
 
-	XnUInt32 nReplySize = XN_MIN(buf[0], nMaxLength);
+	uint32_t nReplySize = XN_MIN(buf[0], nMaxLength);
 	int status = write(pDevice->deviceFD, buf, nReplySize);
 	if (status < 0)
 	{
@@ -677,7 +677,7 @@ XN_THREAD_PROC xnUSBDeviceEndPoint0Handler(XN_THREAD_PARAM pThreadParam)
 //---------------------------------------------------------------------------
 // Init & Shutdown
 //---------------------------------------------------------------------------
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* pDescriptors, XnUInt32 nControlMessageMaxSize, XnUSBDevice** ppDevice)
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceInit(const XnUSBDeviceDescriptorHolder* pDescriptors, uint32_t nControlMessageMaxSize, XnUSBDevice** ppDevice)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -819,7 +819,7 @@ XN_C_API XnBool XN_C_DECL xnUSBDeviceIsControlRequestPending(XnUSBDevice* pDevic
 	return (pDevice->eDeviceControlState == DEVICE_CONTROL_REQUEST_RECEIVED);
 }
 
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevice, XnUChar* pBuffer, XnUInt32* pnRequestSize)
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevice, XnUChar* pBuffer, uint32_t* pnRequestSize)
 {
 	XN_VALIDATE_INPUT_PTR(pDevice);
 	XN_VALIDATE_INPUT_PTR(pBuffer);
@@ -848,7 +848,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceReceiveControlRequest(XnUSBDevice* pDevic
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, const XnUChar* pBuffer, XnUInt32 nReplySize)
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceSendControlReply(XnUSBDevice* pDevice, const XnUChar* pBuffer, uint32_t nReplySize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1091,7 +1091,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceSetConnectivityChangedCallback(XnUSBDevic
 // Writing Data
 //---------------------------------------------------------------------------
 
-XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, XnUInt8 nEndpointID, const XnUChar* pData, XnUInt32 nDataSize)
+XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, XnUInt8 nEndpointID, const XnUChar* pData, uint32_t nDataSize)
 {
 	XN_VALIDATE_INPUT_PTR(pDevice);
 	XN_VALIDATE_INPUT_PTR(pData);
@@ -1108,7 +1108,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, XnUIn
 	// clear ended txs
 	while (pDevice->endpoints[nIndex].nQueued > 0)
 	{
-		XnUInt32 iTx = pDevice->endpoints[nIndex].nFirst;
+		uint32_t iTx = pDevice->endpoints[nIndex].nFirst;
 		int status = aio_error(&pDevice->endpoints[nIndex].txs[iTx].cb);
 		if (status == EINPROGRESS)
 		{
@@ -1134,7 +1134,7 @@ XN_C_API XnStatus XN_C_DECL xnUSBDeviceWriteEndpoint(XnUSBDevice* pDevice, XnUIn
 		return XN_STATUS_OUTPUT_BUFFER_OVERFLOW;
 	}
 
-	XnUInt32 iTx = (pDevice->endpoints[nIndex].nFirst + pDevice->endpoints[nIndex].nQueued) % XN_USB_MAX_WRITE_TX;
+	uint32_t iTx = (pDevice->endpoints[nIndex].nFirst + pDevice->endpoints[nIndex].nQueued) % XN_USB_MAX_WRITE_TX;
 	xnOSMemCopy(pDevice->endpoints[nIndex].txs[iTx].pBuffer, pData, nDataSize);
 
 	struct aiocb& cb = pDevice->endpoints[nIndex].txs[iTx].cb;

@@ -31,11 +31,11 @@ namespace xn
 
 /*USB control endpoints' REAL max packet size is always 64 bytes. We group a few of these together, so we
   treat the packet size as a different (larger) number.*/
-const XnUInt32 ClientUSBControlEndpoint::USB_LOW_LEVEL_MAX_PACKET_SIZE = 64;
-const XnUInt32 ClientUSBControlEndpoint::SEND_TIMEOUT = 5000;
-const XnUInt32 ClientUSBControlEndpoint::RECEIVE_TIMEOUT = 5000;
+const uint32_t ClientUSBControlEndpoint::USB_LOW_LEVEL_MAX_PACKET_SIZE = 64;
+const uint32_t ClientUSBControlEndpoint::SEND_TIMEOUT = 5000;
+const uint32_t ClientUSBControlEndpoint::RECEIVE_TIMEOUT = 5000;
 
-ClientUSBControlEndpoint::ClientUSBControlEndpoint(XnUInt32 nPreControlReceiveSleep)
+ClientUSBControlEndpoint::ClientUSBControlEndpoint(uint32_t nPreControlReceiveSleep)
 {
 	m_hUSBDevice = NULL;
 	m_nPreControlReceiveSleep = nPreControlReceiveSleep;
@@ -76,9 +76,9 @@ XnUInt16 ClientUSBControlEndpoint::GetMaxPacketSize() const
 	return USB_LOW_LEVEL_MAX_PACKET_SIZE;
 }
 
-XnStatus ClientUSBControlEndpoint::Receive(void* pData, XnUInt32& nSize)
+XnStatus ClientUSBControlEndpoint::Receive(void* pData, uint32_t& nSize)
 {
-	XnUInt32 nBufferSize = nSize;
+	uint32_t nBufferSize = nSize;
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// Workaround devices bug: in some devices (Lena for example), one cannot receive
@@ -94,7 +94,7 @@ XnStatus ClientUSBControlEndpoint::Receive(void* pData, XnUInt32& nSize)
 	return XN_STATUS_OK;
 }
 
-XnStatus ClientUSBControlEndpoint::Send(const void* pData, XnUInt32 nSize)
+XnStatus ClientUSBControlEndpoint::Send(const void* pData, uint32_t nSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	nRetVal = xnUSBSendControl(m_hUSBDevice, XN_USB_CONTROL_TYPE_VENDOR, 0, 0, 0, (XnUInt8*)pData, nSize, SEND_TIMEOUT);

@@ -277,7 +277,7 @@ XnStatus Context::loadLibraries()
 	// Change directory
 	xnOSSetCurrentDir(m_driverRepo);
 
-	for (XnUInt32 i = 0; i < m_driversList.size(); ++i)
+	for (uint32_t i = 0; i < m_driversList.size(); ++i)
 	{
 		xnLogVerbose(XN_MASK_ONI_CONTEXT, "Loading device driver '%s'...", m_driversList[i].c_str());
 		DeviceDriver* pDeviceDriver = XN_NEW(DeviceDriver, m_driversList[i].c_str(), m_frameManager, m_errorLogger);
@@ -776,7 +776,7 @@ OniStatus Context::waitForStreams(OniStreamHandle* pStreams, int streamCount, in
 
 	XnUInt64 passedTime;
 	XnOSTimer workTimer;
-	XnUInt32 timeToWait = timeout;
+	uint32_t timeToWait = timeout;
 	xnOSStartTimer(&workTimer);
 
 	do
@@ -1138,8 +1138,8 @@ void Context::onNewFrame()
 	if (nNow != m_lastFPSPrint)
 	{
 		XnChar fpsInfo[2048] = "";
-		XnUInt32 written = 0;
-		XnUInt32 writtenNow = 0;
+		uint32_t written = 0;
+		uint32_t writtenNow = 0;
 		xnOSStrFormat(fpsInfo + written, sizeof(fpsInfo) - written, &writtenNow, "[FPS] ");
 		written += writtenNow;
 

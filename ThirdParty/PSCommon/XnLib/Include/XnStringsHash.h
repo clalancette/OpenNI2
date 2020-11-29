@@ -37,7 +37,7 @@ class XnStringsHashKeyManager
 public:
 	static xnl::HashCode Hash(const XnChar* const& key)
 	{
-		XnUInt32 nCRC = 0;
+		uint32_t nCRC = 0;
 		xnOSStrCRC32(key, &nCRC);
 
 		// convert from UINT32 to XnHashValue

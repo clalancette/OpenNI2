@@ -127,7 +127,7 @@ private:
 	} XnFirmwareParam;
 
 	typedef xnl::Hash<XnActualIntProperty*, XnFirmwareParam> XnFirmwareParamsHash;
-	typedef xnl::Hash<XnActualIntProperty*, XnUInt32> XnPropertyToValueHash;
+	typedef xnl::Hash<XnActualIntProperty*, uint32_t> XnPropertyToValueHash;
 
 	XnStatus AddFirmwareParam(XnActualIntProperty& Property, XnUInt16 nFirmwareParam, XnFWVer nMinVer = XN_SENSOR_FW_VER_UNKNOWN, XnFWVer nMaxVer = XN_SENSOR_FW_VER_UNKNOWN, XnUInt16 nValueIfNotSupported = 0);
 	XnStatus AddFirmwareAudioParam(XnActualIntProperty& Property, XnUInt16 nFirmwareParam, XnFWVer nMinVer = XN_SENSOR_FW_VER_3_0, XnFWVer nMaxVer = XN_SENSOR_FW_VER_UNKNOWN, XnUInt16 nValueIfNotSupported = 0);

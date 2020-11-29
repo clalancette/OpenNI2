@@ -37,15 +37,15 @@ public:
 	XnCodecID GetCodecID() const override { return XN_CODEC_8Z; }
 	XnCompressionFormats GetCompressionFormat() const override { return XN_COMPRESSION_COLOR_8Z; }
 	XnFloat GetWorseCompressionRatio() const override { return XN_STREAM_COMPRESSION_IMAGE8Z_WORSE_RATIO; }
-	XnUInt32 GetOverheadSize() const override { return 0; }
+	uint32_t GetOverheadSize() const override { return 0; }
 
 protected:
-	XnStatus CompressImpl(const XnUChar* pData, XnUInt32 nDataSize, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize)
+	XnStatus CompressImpl(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize)
 	{
 		return XnStreamCompressImage8Z(pData, nDataSize, pCompressedData, pnCompressedDataSize);
 	}
 
-	XnStatus DecompressImpl(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize)
+	XnStatus DecompressImpl(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize)
 	{
 		return XnStreamUncompressImage8Z(pCompressedData, nCompressedDataSize, pData, pnDataSize);
 	}

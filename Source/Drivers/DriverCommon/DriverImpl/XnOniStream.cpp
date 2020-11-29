@@ -126,7 +126,7 @@ OniStatus XnOniStream::setProperty(int propertyId, const void* data, int dataSiz
 	xnl::AutoCSLocker locker(*m_pDeviceStream->GetOpenLock());
 
 	// if this stream is open, and not just by me (multiple depth streams for example), don't allow any changes
-	XnUInt32 myOpenRefCount = m_started ? 1 : 0;
+	uint32_t myOpenRefCount = m_started ? 1 : 0;
 	if (m_pDeviceStream->GetOpenRefCount() > myOpenRefCount)
 	{
 		return ONI_STATUS_OUT_OF_FLOW;

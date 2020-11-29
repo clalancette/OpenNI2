@@ -41,10 +41,10 @@ typedef struct
 {
 	void* pMemBlock;
 	XnAllocationType nAllocType;
-	XnUInt32 nBytes;
+	uint32_t nBytes;
 	const XnChar* csFunction;
 	const XnChar* csFile;
-	XnUInt32 nLine;
+	uint32_t nLine;
 	const XnChar* csAdditional;
 	XnInt32 nFrames;
 	XnFrame aFrames[XN_MEM_PROF_MAX_FRAMES];
@@ -93,7 +93,7 @@ const XnChar* XnGetAllocTypeString(XnAllocationType nType)
 	}
 }
 
-XN_C_API void* xnOSLogMemAlloc(void* pMemBlock, XnAllocationType nAllocType, XnUInt32 nBytes, const XnChar* csFunction, const XnChar* csFile, XnUInt32 nLine, const XnChar* csAdditional)
+XN_C_API void* xnOSLogMemAlloc(void* pMemBlock, XnAllocationType nAllocType, uint32_t nBytes, const XnChar* csFunction, const XnChar* csFile, uint32_t nLine, const XnChar* csAdditional)
 {
 	static XnBool bFirstTime = TRUE;
 	static XnBool bReentrent = FALSE;
@@ -136,7 +136,7 @@ XN_C_API void* xnOSLogMemAlloc(void* pMemBlock, XnAllocationType nAllocType, XnU
 
 	// try to get call stack (skip 2 frames - this one and the alloc func)
 	XnChar* pstrFrames[XN_MEM_PROF_MAX_FRAMES];
-	for (XnUInt32 i = 0; i < XN_MEM_PROF_MAX_FRAMES; ++i)
+	for (uint32_t i = 0; i < XN_MEM_PROF_MAX_FRAMES; ++i)
 	{
 		pstrFrames[i] = pNode->Data.aFrames[i];
 	}
@@ -207,13 +207,13 @@ XN_C_API void xnOSWriteMemoryReport(const XnChar* csFileName)
 	XnStatus nRetVal = xnOSOpenFile(csFileName, XN_OS_FILE_WRITE | XN_OS_FILE_TRUNCATE, &FileHandle);
 	if (nRetVal != XN_STATUS_OK) return;
 
-	const XnUInt32 nReportLineMaxSize = 2048;
+	const uint32_t nReportLineMaxSize = 2048;
 	XnChar csReportLine[nReportLineMaxSize];
-	XnUInt32 nReportLength = 0;
+	uint32_t nReportLength = 0;
 
-	XnUInt32 nChars;
+	uint32_t nChars;
 
-	XnUInt32 nSum = 0;
+	uint32_t nSum = 0;
 	xnOSStrFormat(csReportLine + nReportLength, nReportLineMaxSize - nReportLength, &nChars, "Allocated memory blocks:\n");
 	nReportLength += nChars;
 	xnOSStrFormat(csReportLine + nReportLength, nReportLineMaxSize - nReportLength, &nChars, "============================================\n");

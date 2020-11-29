@@ -40,7 +40,7 @@ class IXnSensorStream
 public:
 	virtual ~IXnSensorStream() {}
 
-	virtual void GetFirmwareStreamConfig(XnResolutions* pnRes, XnUInt32* pnFPS) = 0;
+	virtual void GetFirmwareStreamConfig(XnResolutions* pnRes, uint32_t* pnFPS) = 0;
 	virtual XnStatus ConfigureStreamImpl() = 0;
 	virtual XnStatus OpenStreamImpl() = 0;
 	virtual XnStatus CloseStreamImpl() = 0;

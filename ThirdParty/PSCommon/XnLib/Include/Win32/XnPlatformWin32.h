@@ -104,8 +104,6 @@ typedef	unsigned short		XnUInt16;
 
 /** 32-bit signed integer. */
 typedef	int					XnInt32;
-/** 32-bit unsigned integer. */
-typedef	unsigned int		XnUInt32;
 
 /** 64-bit signed integer. */
 typedef	__int64				XnInt64;

@@ -35,7 +35,7 @@ const XnUInt16 ClientUSBConnectionFactory::NUM_INPUT_CONNECTIONS = 2;
 
 ClientUSBConnectionFactory::ClientUSBConnectionFactory(XnUInt16 nInputConnections,
 													   XnUInt16 nOutputConnections,
-													   XnUInt32 nPreControlReceiveSleep) :
+													   uint32_t nPreControlReceiveSleep) :
 	m_nInputConnections(nInputConnections),
 	m_nOutputConnections(nOutputConnections),
 	m_nPreControlReceiveSleep(nPreControlReceiveSleep),
@@ -170,7 +170,7 @@ XnStatus ClientUSBConnectionFactory::CreateInputDataConnection(XnUInt16 nID, IAs
 
 XnStatus ClientUSBConnectionFactory::EnumerateConnStrings(XnUInt16 nProductID,
 								XnConnectionString*& astrConnStrings,
-								XnUInt32& nCount)
+								uint32_t& nCount)
 {
 	XnStatus nRetVal = xnUSBInit();
 	if (nRetVal == XN_STATUS_USB_ALREADY_INIT)

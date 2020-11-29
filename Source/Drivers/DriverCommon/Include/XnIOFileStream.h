@@ -33,11 +33,11 @@
 class XnIOFileStream final : public XnIOStream
 {
 public:
-	XnIOFileStream(const XnChar* pcsFileName, XnUInt32 nFlags);
+	XnIOFileStream(const XnChar* pcsFileName, uint32_t nFlags);
 	~XnIOFileStream() { Free(); }
 
-	XnStatus WriteData(const XnUChar* pData, XnUInt32 nDataSize) override;
-	XnStatus ReadData(XnUChar* pData, XnUInt32 nDataSize) override;
+	XnStatus WriteData(const XnUChar* pData, uint32_t nDataSize) override;
+	XnStatus ReadData(XnUChar* pData, uint32_t nDataSize) override;
 	XnStatus Init() override;
 	XnStatus Free() override;
 
@@ -46,7 +46,7 @@ public:
 
 private:
 	const XnChar* m_pcsFileName;
-	XnUInt32 m_nFlags;
+	uint32_t m_nFlags;
 	XN_FILE_HANDLE m_hFile;
 };
 

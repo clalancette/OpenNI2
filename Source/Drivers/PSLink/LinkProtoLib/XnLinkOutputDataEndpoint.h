@@ -46,7 +46,7 @@ public:
 	XnBool IsConnected() const;
 	XnUInt16 GetMaxPacketSize() const;
 
-	XnStatus SendData(const void* pData, XnUInt32 nSize);
+	XnStatus SendData(const void* pData, uint32_t nSize);
 
 private:
 	IOutputConnection* m_pConnection;

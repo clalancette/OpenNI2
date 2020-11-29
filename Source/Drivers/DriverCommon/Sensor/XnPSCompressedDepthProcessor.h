@@ -42,16 +42,16 @@ protected:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize);
+	virtual void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
 	virtual void OnStartOfFrame(const XnSensorProtocolResponseHeader* pHeader);
 	virtual void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader);
 
 	//---------------------------------------------------------------------------
 	// Internal Functions
 	//---------------------------------------------------------------------------
-	XnStatus UncompressDepthPS(const XnUInt8* pInput, const XnUInt32 nInputSize,
-		XnUInt16* pDepthOutput, XnUInt32* pnOutputSize,
-		XnUInt32* pnActualRead, XnBool bLastPart);
+	XnStatus UncompressDepthPS(const XnUInt8* pInput, const uint32_t nInputSize,
+		XnUInt16* pDepthOutput, uint32_t* pnOutputSize,
+		uint32_t* pnActualRead, XnBool bLastPart);
 
 private:
 	//---------------------------------------------------------------------------

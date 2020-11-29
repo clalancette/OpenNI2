@@ -481,14 +481,14 @@ XnStatus XnSensor::OpenAllStreams()
 
 	// take a list of all the streams
 	const XnChar* astrStreams[XN_SENSOR_MAX_STREAM_COUNT];
-	XnUInt32 nStreamCount = XN_SENSOR_MAX_STREAM_COUNT;
+	uint32_t nStreamCount = XN_SENSOR_MAX_STREAM_COUNT;
 	XnDeviceStream* apStreams[XN_SENSOR_MAX_STREAM_COUNT];
 	XnSensorStreamHolder* apSensorStreams[XN_SENSOR_MAX_STREAM_COUNT];
 
 	nRetVal = GetStreamNames(astrStreams, &nStreamCount);
 	XN_IS_STATUS_OK(nRetVal);
 
-	for (XnUInt32 i = 0; i < nStreamCount; ++i)
+	for (uint32_t i = 0; i < nStreamCount; ++i)
 	{
 		XnDeviceModuleHolder* pHolder;
 		nRetVal = FindStream(astrStreams[i], &pHolder);
@@ -500,7 +500,7 @@ XnStatus XnSensor::OpenAllStreams()
 
 	// NOTE: the following is an ugly patch. When depth and IR both exist, Depth stream MUST be configured
 	// and opened BEFORE IR stream. So, generally, if one of the streams is depth, we move it to be first.
-	for (XnUInt32 i = 1; i < nStreamCount; ++i)
+	for (uint32_t i = 1; i < nStreamCount; ++i)
 	{
 		if (strcmp(apStreams[i]->GetType(), XN_STREAM_TYPE_DEPTH) == 0)
 		{
@@ -521,7 +521,7 @@ XnStatus XnSensor::OpenAllStreams()
 	}
 
 	// now configure them all
-	for (XnUInt32 i = 0; i < nStreamCount; ++i)
+	for (uint32_t i = 0; i < nStreamCount; ++i)
 	{
 		if (!apStreams[i]->IsOpen())
 		{
@@ -537,7 +537,7 @@ XnStatus XnSensor::OpenAllStreams()
 	}
 
 	// and open them all
-	for (XnUInt32 i = 0; i < nStreamCount; ++i)
+	for (uint32_t i = 0; i < nStreamCount; ++i)
 	{
 		if (!apStreams[i]->IsOpen())
 		{
@@ -649,7 +649,7 @@ XnStatus XnSensor::InitReading()
 	return XN_STATUS_OK;
 }
 
-XnStatus XnSensor::ChangeTaskInterval(XnScheduledTask** ppTask, XnTaskCallbackFuncPtr pCallback, XnUInt32 nInterval)
+XnStatus XnSensor::ChangeTaskInterval(XnScheduledTask** ppTask, XnTaskCallbackFuncPtr pCallback, uint32_t nInterval)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -690,7 +690,7 @@ XnStatus XnSensor::ValidateSensorID(XnChar* csSensorID)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::ResolveGlobalConfigFileName(XnChar* strConfigFile, XnUInt32 nBufSize, const XnChar* strConfigDir)
+XnStatus XnSensor::ResolveGlobalConfigFileName(XnChar* strConfigFile, uint32_t nBufSize, const XnChar* strConfigDir)
 {
 	XnStatus rc = XN_STATUS_OK;
 
@@ -843,7 +843,7 @@ void XnSensor::ReadFirmwareLog()
 void XnSensor::ReadFirmwareCPU()
 {
 	XnTaskCPUInfo aTasks[100];
-	XnUInt32 nTasksCount = 100;
+	uint32_t nTasksCount = 100;
 	XnStatus nRetVal = XnHostProtocolGetCPUStats(&m_DevicePrivateData, aTasks, &nTasksCount);
 	if (nRetVal != XN_STATUS_OK)
 	{
@@ -853,13 +853,13 @@ void XnSensor::ReadFirmwareCPU()
 
 	// sum it all up
 	XnUInt64 nSum = 0;
-	for (XnUInt32 nIndex = 0; nIndex < nTasksCount; ++nIndex)
+	for (uint32_t nIndex = 0; nIndex < nTasksCount; ++nIndex)
 		nSum += aTasks[nIndex].nTimeInMicroSeconds;
 
 	// print
 	printf("Task ID  Total Time (us)  Percentage  Times    Avg. Time Per Call\n");
 	printf("=======  ===============  ==========  =======  ==================\n");
-	for (XnUInt32 nIndex = 0; nIndex < nTasksCount; ++nIndex)
+	for (uint32_t nIndex = 0; nIndex < nTasksCount; ++nIndex)
 	{
 		printf("%7u  %15u  %10.3f  %7u  %18.3f\n",
 			nIndex, aTasks[nIndex].nTimeInMicroSeconds,
@@ -1039,7 +1039,7 @@ XnStatus XnSensor::GetImageCmosRegister(XnControlProcessingData* pRegister)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::GetFirmwareLog(XnChar* csLog, XnUInt32 nSize)
+XnStatus XnSensor::GetFirmwareLog(XnChar* csLog, uint32_t nSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1078,7 +1078,7 @@ XnStatus XnSensor::GetFixedParams(XnDynamicSizeBuffer* pBuffer)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::RunBIST(XnUInt32 nTestsMask, XnUInt32* pnFailures)
+XnStatus XnSensor::RunBIST(uint32_t nTestsMask, uint32_t* pnFailures)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1246,7 +1246,7 @@ XnStatus XnSensor::SetImageCmosRegister(const XnControlProcessingData* pRegister
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetFirmwareLogFilter(XnUInt32 nFilter)
+XnStatus XnSensor::SetFirmwareLogFilter(uint32_t nFilter)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1257,7 +1257,7 @@ XnStatus XnSensor::SetFirmwareLogFilter(XnUInt32 nFilter)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetFirmwareLogInterval(XnUInt32 nMilliSeconds)
+XnStatus XnSensor::SetFirmwareLogInterval(uint32_t nMilliSeconds)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1289,7 +1289,7 @@ XnStatus XnSensor::SetFirmwareLogPrint(XnBool bPrint)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensor::SetFirmwareCPUInterval(XnUInt32 nMilliSeconds)
+XnStatus XnSensor::SetFirmwareCPUInterval(uint32_t nMilliSeconds)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1519,10 +1519,10 @@ void XnSensor::OnNewStreamData(XnDeviceStream* pStream, OniFrame* pFrame)
 
 	// Find the relevant stream in the frame-synced streams.
 	FrameSyncedStream* pFrameSyncedStream = NULL;
-	XnUInt32 nValidFrameCount = 0; // received frame
-	XnUInt32 nFrameSyncStreamCount = m_FrameSyncedStreams.size();
+	uint32_t nValidFrameCount = 0; // received frame
+	uint32_t nFrameSyncStreamCount = m_FrameSyncedStreams.size();
 	int receivedFrameId = pFrame->frameIndex;
-	for (XnUInt32 i = 0; m_nFrameSyncEnabled && (i < nFrameSyncStreamCount); ++i)
+	for (uint32_t i = 0; m_nFrameSyncEnabled && (i < nFrameSyncStreamCount); ++i)
 	{
 		if (pStream == m_FrameSyncedStreams[i].pStream)
 		{
@@ -1591,7 +1591,7 @@ void XnSensor::OnNewStreamData(XnDeviceStream* pStream, OniFrame* pFrame)
 		{
 			// Send all the frames.
 			++m_nFrameSyncLastFrameID;
-			for (XnUInt32 i = 0; i < nFrameSyncStreamCount; ++i)
+			for (uint32_t i = 0; i < nFrameSyncStreamCount; ++i)
 			{
 				// Send the frame.
 				m_FrameSyncedStreams[i].pFrame->frameIndex = m_nFrameSyncLastFrameID;
@@ -1620,7 +1620,7 @@ void XnSensor::OnNewStreamData(XnDeviceStream* pStream, OniFrame* pFrame)
 	}
 }
 
-XnStatus XnSensor::SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, XnUInt32 numStreams)
+XnStatus XnSensor::SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, uint32_t numStreams)
 {
 	// Lock critical section.
 	m_frameSyncCs.Lock();
@@ -1636,8 +1636,8 @@ XnStatus XnSensor::SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, XnUInt
 	}
 
 	// Clear all the streams from frame-sync list.
-	XnUInt32 nFrameSyncStreamCount = m_FrameSyncedStreams.size();
-	for (XnUInt32 i = 0; i < nFrameSyncStreamCount; ++i)
+	uint32_t nFrameSyncStreamCount = m_FrameSyncedStreams.size();
+	for (uint32_t i = 0; i < nFrameSyncStreamCount; ++i)
 	{
 		// Release stored frame.
 		if (m_FrameSyncedStreams[i].pFrame != NULL)
@@ -1657,7 +1657,7 @@ XnStatus XnSensor::SetFrameSyncStreamGroup(XnDeviceStream** ppStreamList, XnUInt
 		m_FrameSyncedStreams.resize(numStreams);
 
 		// Add streams to frame-sync list.
-		for (XnUInt32 i = 0; i < numStreams; ++i)
+		for (uint32_t i = 0; i < numStreams; ++i)
 		{
 			m_FrameSyncedStreams[i].pStream = ppStreamList[i];
 			m_FrameSyncedStreams[i].pFrame = NULL;
@@ -1862,13 +1862,13 @@ XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareFrameSyncCallback(XnActualIntProp
 XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogFilterCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->SetFirmwareLogFilter((XnUInt32)nValue);
+	return pThis->SetFirmwareLogFilter((uint32_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogIntervalCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->SetFirmwareLogInterval((XnUInt32)nValue);
+	return pThis->SetFirmwareLogInterval((uint32_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogPrintCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
@@ -1880,7 +1880,7 @@ XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareLogPrintCallback(XnActualIntPrope
 XnStatus XN_CALLBACK_TYPE XnSensor::SetFirmwareCPUIntervalCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
 {
 	XnSensor* pThis = (XnSensor*)pCookie;
-	return pThis->SetFirmwareCPUInterval((XnUInt32)nValue);
+	return pThis->SetFirmwareCPUInterval((uint32_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensor::SetReadAllEndpointsCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)

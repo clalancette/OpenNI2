@@ -56,7 +56,7 @@ public:
 	 * @param	nDataOffset	[in]	The offset of this data chunk inside current packet.
 	 * @param	nDataSize	[in]	Size of the data in bytes.
 	 */
-	void ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize);
+	void ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize);
 
 	inline XnBool ShouldUseHostTimestamps() { return m_bUseHostTimestamps; }
 
@@ -64,7 +64,7 @@ protected:
 	//---------------------------------------------------------------------------
 	// Virtual Functions
 	//---------------------------------------------------------------------------
-	virtual void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize) = 0;
+	virtual void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) = 0;
 	virtual void OnPacketLost();
 
 	//---------------------------------------------------------------------------
@@ -75,7 +75,7 @@ protected:
 	 *
 	 * @param	nDeviceTimeStamp	[in]	The device TS to translate.
 	 */
-	virtual XnUInt64 CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp);
+	virtual XnUInt64 CreateTimestampFromDevice(uint32_t nDeviceTimeStamp);
 
 	XnUInt64 GetHostTimestamp();
 
@@ -84,7 +84,7 @@ protected:
 	//---------------------------------------------------------------------------
 	XnDevicePrivateData* m_pDevicePrivateData;
 	/* The number of bytes received so far (since last time this member was reset). */
-	XnUInt32 m_nBytesReceived;
+	uint32_t m_nBytesReceived;
 	/* Stores last packet ID */
 	XnUInt16 m_nLastPacketID;
 	/* The name of the stream. */

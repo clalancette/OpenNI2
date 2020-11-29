@@ -238,7 +238,7 @@ XnStatus LinkFrameInputStream::HandlePacket(const LinkPacketHeader& origHeader, 
 
 	if (!m_currentFrameCorrupt)
 	{
-		XnUInt32 nPrevSize = m_pLinkMsgParser->GetParsedSize();
+		uint32_t nPrevSize = m_pLinkMsgParser->GetParsedSize();
 		nRetVal = m_pLinkMsgParser->ParsePacket(header, pData);
 		if (nRetVal != XN_STATUS_OK)
 		{
@@ -414,14 +414,14 @@ void LinkFrameInputStream::SetDumpOn(XnBool bDumpOn)
 	}
 }
 
-void LinkFrameInputStream::Swap(XnUInt32& nVal1, XnUInt32& nVal2)
+void LinkFrameInputStream::Swap(uint32_t& nVal1, uint32_t& nVal2)
 {
-	XnUInt32 nTemp = nVal1;
+	uint32_t nTemp = nVal1;
 	nVal1 = nVal2;
 	nVal2 = nTemp;
 }
 
-XnUInt32 LinkFrameInputStream::GetOutputBytesPerPixel() const
+uint32_t LinkFrameInputStream::GetOutputBytesPerPixel() const
 {
 	if (m_outputFormat == XN_FORMAT_PASS_THROUGH_RAW    ||
         m_outputFormat == XN_FORMAT_PASS_THROUGH_UNPACK   )
@@ -446,9 +446,9 @@ XnUInt32 LinkFrameInputStream::GetOutputBytesPerPixel() const
 	}
 }
 
-XnUInt32 LinkFrameInputStream::CalcBufferSize() const
+uint32_t LinkFrameInputStream::CalcBufferSize() const
 {
-    XnUInt32 nPixelSize = 0;
+    uint32_t nPixelSize = 0;
 
 	if (IsInterfaceSupported(XN_LINK_INTERFACE_MAP_GENERATOR))
 	{
@@ -470,9 +470,9 @@ XnUInt32 LinkFrameInputStream::CalcBufferSize() const
 	}
 }
 
-XnUInt32 LinkFrameInputStream::CalcExpectedSize() const
+uint32_t LinkFrameInputStream::CalcExpectedSize() const
 {
-	XnUInt32 nPixelSize = 0;
+	uint32_t nPixelSize = 0;
 
 	if (IsInterfaceSupported(XN_LINK_INTERFACE_MAP_GENERATOR))
 	{
@@ -538,7 +538,7 @@ XnStatus LinkFrameInputStream::SetVideoMode(const XnFwStreamVideoMode& videoMode
 
 	xnLogVerbose(XN_MASK_LINK, "Stream %u - Setting video mode %s...", m_nStreamID, strVideoMode);
 
-	for (XnUInt32 i = 0; i < m_supportedVideoModes.size() && !bModeSupported; i++)
+	for (uint32_t i = 0; i < m_supportedVideoModes.size() && !bModeSupported; i++)
 	{
 		if (xnOSMemCmp(&videoMode, &m_supportedVideoModes[i], sizeof(videoMode)) == 0)
 		{
@@ -615,8 +615,8 @@ XnStatus LinkFrameInputStream::SetCropping(OniCropping cropping)
 	// validate
 	if (cropping.enabled)
 	{
-		if ((XnUInt32(cropping.originX + cropping.width)  > m_videoMode.m_nXRes) ||
-			(XnUInt32(cropping.originY + cropping.height) > m_videoMode.m_nYRes))
+		if ((uint32_t(cropping.originX + cropping.width)  > m_videoMode.m_nXRes) ||
+			(uint32_t(cropping.originY + cropping.height) > m_videoMode.m_nYRes))
 		{
 			xnLogWarning(XN_MASK_LINK, "cropping window is out of full resolution");
 			return XN_STATUS_BAD_PARAM;

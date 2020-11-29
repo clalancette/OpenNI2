@@ -64,7 +64,7 @@ XN_C_API void* xnOSCallocAligned(const XnSizeT nAllocNum, const XnSizeT nAllocSi
 {
 	// Local function variables
 	void* pMemBlock = NULL;
-	XnUInt32 nBlockSize = nAllocNum * nAllocSize;
+	uint32_t nBlockSize = nAllocNum * nAllocSize;
 
 	// Allocate the aligned memory block
 	pMemBlock = xnOSMallocAligned(nBlockSize, nAlignment);
@@ -141,7 +141,7 @@ XN_C_API XnUInt64  xnOSEndianSwapUINT64(XnUInt64 nValue)
 			((nValue << 40) & 0x00ff000000000000ULL) | ((nValue << 56) );
 }
 
-XN_C_API XnUInt32  xnOSEndianSwapUINT32(XnUInt32 nValue)
+XN_C_API uint32_t  xnOSEndianSwapUINT32(uint32_t nValue)
 {
 	return  (nValue>>24) |
 			((nValue<<8) & 0x00FF0000) |
@@ -155,8 +155,8 @@ XN_C_API XnUInt16 xnOSEndianSwapUINT16(XnUInt16 nValue)
 }
 XN_C_API XnFloat xnOSEndianSwapFLOAT(XnFloat fValue)
 {
-	XnUInt32* pnValue = (XnUInt32*)&fValue;
-	XnUInt32 nValue = xnOSEndianSwapUINT32(*pnValue);
+	uint32_t* pnValue = (uint32_t*)&fValue;
+	uint32_t nValue = xnOSEndianSwapUINT32(*pnValue);
 	XnFloat* pfValue = (XnFloat*)&nValue;
 	return *pfValue;
 }

@@ -68,10 +68,10 @@ typedef struct xnUSBReadThreadData
 
 	XN_USB_EP_HANDLE pEPHandle;
 
-	XnUInt32 nBufferSize;
-	XnUInt32 nNumBuffers;
+	uint32_t nBufferSize;
+	uint32_t nNumBuffers;
 
-	XnUInt32 nTimeOut;
+	uint32_t nTimeOut;
 
 	XnUSBReadCallbackFunctionPtr pCallbackFunction;
 	PVOID pCallbackData;
@@ -82,7 +82,7 @@ typedef struct xnUSBReadThreadData
 	xnUSBBuffersInfo* pBuffersInfo;
 	OVERLAPPED* pOvlpIO;
 
-	XnUInt32 nTotalBytesSinceLastPrint;
+	uint32_t nTotalBytesSinceLastPrint;
 	XnUInt64 nLastPrint;
 } xnUSBReadThreadData;
 
@@ -95,7 +95,7 @@ typedef struct XnUSBEndPointHandle
 	HANDLE hEPHandle;
 	HANDLE hEPHandleOvlp;
 
-	XnUInt32 nTimeOut;
+	uint32_t nTimeOut;
 
 	OVERLAPPED ovlpIO;
 	xnUSBReadThreadData ThreadData;
@@ -103,7 +103,7 @@ typedef struct XnUSBEndPointHandle
 	XnUInt16 nEndPointID;
 	XnUSBEndPointType  nEPType;
 	XnUSBDirectionType nEPDir;
-	XnUInt32 nMaxPacketSize;
+	uint32_t nMaxPacketSize;
 } xnUSBEPHandle;
 
 #endif //_XN_USBWIN32_H_

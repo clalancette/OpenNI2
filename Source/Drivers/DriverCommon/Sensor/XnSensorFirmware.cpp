@@ -54,7 +54,7 @@ XnStatus XnSensorFirmware::Init(XnBool bReset, XnBool bLeanInit)
 		}
 
 		// check if device is alive
-		XnUInt32 nCounter = 5;
+		uint32_t nCounter = 5;
 		while (nCounter)
 		{
 			nRetVal = XnHostProtocolKeepAlive(m_pDevicePrivateData);

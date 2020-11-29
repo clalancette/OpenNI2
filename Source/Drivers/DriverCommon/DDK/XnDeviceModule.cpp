@@ -83,11 +83,11 @@ XnStatus XnDeviceModule::AddProperty(XnProperty* pProperty)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::AddProperties(XnProperty** apProperties, XnUInt32 nCount)
+XnStatus XnDeviceModule::AddProperties(XnProperty** apProperties, uint32_t nCount)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	for (XnUInt32 i = 0; i < nCount; ++i)
+	for (uint32_t i = 0; i < nCount; ++i)
 	{
 		nRetVal = AddProperty(apProperties[i]);
 		XN_IS_STATUS_OK(nRetVal);
@@ -96,7 +96,7 @@ XnStatus XnDeviceModule::AddProperties(XnProperty** apProperties, XnUInt32 nCoun
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::DoesPropertyExist(XnUInt32 propertyId, XnBool* pbDoesExist) const
+XnStatus XnDeviceModule::DoesPropertyExist(uint32_t propertyId, XnBool* pbDoesExist) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -114,7 +114,7 @@ XnStatus XnDeviceModule::DoesPropertyExist(XnUInt32 propertyId, XnBool* pbDoesEx
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::GetPropertyType(XnUInt32 propertyId, XnPropertyType* pnType) const
+XnStatus XnDeviceModule::GetPropertyType(uint32_t propertyId, XnPropertyType* pnType) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -127,7 +127,7 @@ XnStatus XnDeviceModule::GetPropertyType(XnUInt32 propertyId, XnPropertyType* pn
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::GetPropertyImpl(XnUInt32 propertyId, XnPropertyType Type, XnProperty** ppProperty) const
+XnStatus XnDeviceModule::GetPropertyImpl(uint32_t propertyId, XnPropertyType Type, XnProperty** ppProperty) const
 {
 	*ppProperty = NULL;
 
@@ -146,7 +146,7 @@ XnStatus XnDeviceModule::GetPropertyImpl(XnUInt32 propertyId, XnPropertyType Typ
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnProperty **ppProperty) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnProperty **ppProperty) const
 {
 	XnProperty* pProperty;
 	if (XN_STATUS_NO_MATCH == m_Properties.Get(propertyId, pProperty))
@@ -159,7 +159,7 @@ XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnProperty **ppPropert
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnUInt64* pnValue) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnUInt64* pnValue) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -173,7 +173,7 @@ XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnUInt64* pnValue) con
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnDouble* pdValue) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnDouble* pdValue) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -187,7 +187,7 @@ XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnDouble* pdValue) con
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnChar* csValue) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnChar* csValue) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -202,7 +202,7 @@ XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnChar* csValue) const
 
 }
 
-XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, const OniGeneralBuffer& gbValue) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -216,7 +216,7 @@ XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, const OniGeneralBuffer
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, void* data, int* pDataSize) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, void* data, int* pDataSize) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -240,9 +240,9 @@ XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, void* data, int* pData
 			{
 				*(XnUInt64*)data = nValue;
 			}
-			else if (*pDataSize == sizeof(XnUInt32))
+			else if (*pDataSize == sizeof(uint32_t))
 			{
-				*(XnUInt32*)data = (XnUInt32)nValue;
+				*(uint32_t*)data = (uint32_t)nValue;
 			}
 			else if (*pDataSize == sizeof(XnUInt16))
 			{
@@ -320,7 +320,7 @@ XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, void* data, int* pData
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, XnUInt64 nValue)
+XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, XnUInt64 nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -334,7 +334,7 @@ XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, XnUInt64 nValue)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, XnDouble dValue)
+XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, XnDouble dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -348,7 +348,7 @@ XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, XnDouble dValue)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, const XnChar* strValue)
+XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const XnChar* strValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -362,7 +362,7 @@ XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, const XnChar* strValue
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, const OniGeneralBuffer& gbValue)
+XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -376,7 +376,7 @@ XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, const OniGeneralBuffer
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, const void* data, int dataSize)
+XnStatus XnDeviceModule::SetProperty(uint32_t propertyId, const void* data, int dataSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -394,9 +394,9 @@ XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, const void* data, int 
 			{
 				nValue = *(XnUInt64*)data;
 			}
-			else if (dataSize == sizeof(XnUInt32))
+			else if (dataSize == sizeof(uint32_t))
 			{
-				nValue = *(XnUInt32*)data;
+				nValue = *(uint32_t*)data;
 			}
 			else if (dataSize == sizeof(XnUInt16))
 			{
@@ -462,7 +462,7 @@ XnStatus XnDeviceModule::SetProperty(XnUInt32 propertyId, const void* data, int 
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceModule::UnsafeUpdateProperty(XnUInt32 propertyId, XnUInt64 nValue)
+XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, XnUInt64 nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -476,7 +476,7 @@ XnStatus XnDeviceModule::UnsafeUpdateProperty(XnUInt32 propertyId, XnUInt64 nVal
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::UnsafeUpdateProperty(XnUInt32 propertyId, XnDouble dValue)
+XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, XnDouble dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -490,7 +490,7 @@ XnStatus XnDeviceModule::UnsafeUpdateProperty(XnUInt32 propertyId, XnDouble dVal
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::UnsafeUpdateProperty(XnUInt32 propertyId, const XnChar* strValue)
+XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, const XnChar* strValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -504,7 +504,7 @@ XnStatus XnDeviceModule::UnsafeUpdateProperty(XnUInt32 propertyId, const XnChar*
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::UnsafeUpdateProperty(XnUInt32 propertyId, const OniGeneralBuffer& gbValue)
+XnStatus XnDeviceModule::UnsafeUpdateProperty(uint32_t propertyId, const OniGeneralBuffer& gbValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -518,7 +518,7 @@ XnStatus XnDeviceModule::UnsafeUpdateProperty(XnUInt32 propertyId, const OniGene
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::RegisterForOnPropertyValueChanged(XnUInt32 propertyId, XnProperty::OnValueChangedHandler pFunc, void* pCookie, XnCallbackHandle& hCallback)
+XnStatus XnDeviceModule::RegisterForOnPropertyValueChanged(uint32_t propertyId, XnProperty::OnValueChangedHandler pFunc, void* pCookie, XnCallbackHandle& hCallback)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -532,7 +532,7 @@ XnStatus XnDeviceModule::RegisterForOnPropertyValueChanged(XnUInt32 propertyId, 
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::UnregisterFromOnPropertyValueChanged(XnUInt32 propertyId, XnCallbackHandle hCallback)
+XnStatus XnDeviceModule::UnregisterFromOnPropertyValueChanged(uint32_t propertyId, XnCallbackHandle hCallback)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -546,22 +546,22 @@ XnStatus XnDeviceModule::UnregisterFromOnPropertyValueChanged(XnUInt32 propertyI
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnIntProperty **ppIntProperty) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnIntProperty **ppIntProperty) const
 {
 	return GetPropertyImpl(propertyId, XN_PROPERTY_TYPE_INTEGER, (XnProperty**)ppIntProperty);
 }
 
-XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnRealProperty **ppRealProperty) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnRealProperty **ppRealProperty) const
 {
 	return GetPropertyImpl(propertyId, XN_PROPERTY_TYPE_REAL, (XnProperty**)ppRealProperty);
 }
 
-XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnStringProperty **ppStringProperty) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnStringProperty **ppStringProperty) const
 {
 	return GetPropertyImpl(propertyId, XN_PROPERTY_TYPE_STRING, (XnProperty**)ppStringProperty);
 }
 
-XnStatus XnDeviceModule::GetProperty(XnUInt32 propertyId, XnGeneralProperty **ppPtrProperty) const
+XnStatus XnDeviceModule::GetProperty(uint32_t propertyId, XnGeneralProperty **ppPtrProperty) const
 {
 	return GetPropertyImpl(propertyId, XN_PROPERTY_TYPE_GENERAL, (XnProperty**)ppPtrProperty);
 }

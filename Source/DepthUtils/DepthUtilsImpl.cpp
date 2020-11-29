@@ -21,7 +21,7 @@
 
 #include "DepthUtilsImpl.h"
 
-static XnInt32 GetFieldValueSigned(XnUInt32 regValue, XnInt32 fieldWidth, XnInt32 fieldOffset)
+static XnInt32 GetFieldValueSigned(uint32_t regValue, XnInt32 fieldWidth, XnInt32 fieldOffset)
 {
 	XnInt32 val = (int)(regValue>>fieldOffset);
 	val = (val<<(32-fieldWidth))>>(32-fieldWidth);
@@ -142,28 +142,28 @@ XnStatus DepthUtilsImpl::Apply(unsigned short* pOutput)
 	XnInt16* pRGBRegDepthToShiftTable = (XnInt16*)m_pDepth2ShiftTable;
 	unsigned short nValue = 0;
 	unsigned short nOutValue = 0;
-	XnUInt32 nNewX = 0;
-	XnUInt32 nNewY = 0;
-	XnUInt32 nArrPos = 0;
-	XnUInt32 nDepthXRes = m_depthResolution.x;
-	XnUInt32 nDepthYRes = m_depthResolution.y;
+	uint32_t nNewX = 0;
+	uint32_t nNewY = 0;
+	uint32_t nArrPos = 0;
+	uint32_t nDepthXRes = m_depthResolution.x;
+	uint32_t nDepthYRes = m_depthResolution.y;
 
 	memset(pOutput, 0, nDepthXRes*nDepthYRes*sizeof(unsigned short));
 
 	XnBool bMirror = m_isMirrored;
 
-	XnUInt32 nLinesShift = m_pPadInfo->nCroppingLines - m_pPadInfo->nStartLines;
+	uint32_t nLinesShift = m_pPadInfo->nCroppingLines - m_pPadInfo->nStartLines;
 
-	for (XnUInt32 y = 0; y < nDepthYRes; ++y)
+	for (uint32_t y = 0; y < nDepthYRes; ++y)
 	{
 		pRegTable = (XnInt16*)&m_pRegTable[ bMirror ? ((y+1) * nDepthXRes - 1) * 2 : y * nDepthXRes * 2 ];
-		for (XnUInt32 x = 0; x < nDepthXRes; ++x)
+		for (uint32_t x = 0; x < nDepthXRes; ++x)
 		{
 			nValue = *pInput;
 
 			if (nValue != 0)
 			{
-				nNewX = (XnUInt32)(*pRegTable + pRGBRegDepthToShiftTable[nValue]) / m_blob.params1080.rgbRegXValScale;
+				nNewX = (uint32_t)(*pRegTable + pRGBRegDepthToShiftTable[nValue]) / m_blob.params1080.rgbRegXValScale;
 				nNewY = *(pRegTable+1);
 
 				if (nNewX < nDepthXRes && nNewY > nLinesShift)
@@ -254,27 +254,27 @@ XnStatus DepthUtilsImpl::SetColorResolution(int xres, int yres)
 	return XN_STATUS_OK;
 }
 
-XnStatus DepthUtilsImpl::TranslateSinglePixel(XnUInt32 x, XnUInt32 y, unsigned short z, XnUInt32& imageX, XnUInt32& imageY)
+XnStatus DepthUtilsImpl::TranslateSinglePixel(uint32_t x, uint32_t y, unsigned short z, uint32_t& imageX, uint32_t& imageY)
 {
 	imageX = 0;
 	imageY = 0;
 
-	XnUInt32 nDepthXRes = m_depthResolution.x;
+	uint32_t nDepthXRes = m_depthResolution.x;
 	XnBool bMirror = m_isMirrored;
-	XnUInt32 nIndex = bMirror ? ((y+1)*nDepthXRes - x - 1) * 2 : (y*nDepthXRes + x) * 2;
+	uint32_t nIndex = bMirror ? ((y+1)*nDepthXRes - x - 1) * 2 : (y*nDepthXRes + x) * 2;
 	XnInt16* pRegTable = (XnInt16*)&m_pRegTable[nIndex];
 	XnInt16* pRGBRegDepthToShiftTable = (XnInt16*)m_pDepth2ShiftTable;
-	XnUInt32 nNewX = 0;
-	XnUInt32 nNewY = 0;
+	uint32_t nNewX = 0;
+	uint32_t nNewY = 0;
 
-	XnUInt32 nLinesShift = m_pPadInfo->nCroppingLines - m_pPadInfo->nStartLines;
+	uint32_t nLinesShift = m_pPadInfo->nCroppingLines - m_pPadInfo->nStartLines;
 
 	if (z == 0)
 	{
 		return XN_STATUS_BAD_PARAM;
 	}
 
-	nNewX = (XnUInt32)(*pRegTable + pRGBRegDepthToShiftTable[z]) / m_blob.params1080.rgbRegXValScale;
+	nNewX = (uint32_t)(*pRegTable + pRGBRegDepthToShiftTable[z]) / m_blob.params1080.rgbRegXValScale;
 	nNewY = *(pRegTable+1);
 	if (nNewX >= nDepthXRes || nNewY < nLinesShift)
 	{
@@ -302,14 +302,14 @@ XnStatus DepthUtilsImpl::TranslateSinglePixel(XnUInt32 x, XnUInt32 y, unsigned s
 	}
 
 	// inflate to full res
-	imageX = (XnUInt32)(fullXRes / m_depthResolution.x * imageX);
-	imageY = (XnUInt32)(fullYRes / m_depthResolution.y * imageY);
+	imageX = (uint32_t)(fullXRes / m_depthResolution.x * imageX);
+	imageY = (uint32_t)(fullYRes / m_depthResolution.y * imageY);
 
 	if (bCrop)
 	{
 		// crop from center
-		imageY -= (XnUInt32)(fullYRes - m_colorResolution.y)/2;
-		if (imageY > (XnUInt32)m_colorResolution.y)
+		imageY -= (uint32_t)(fullYRes - m_colorResolution.y)/2;
+		if (imageY > (uint32_t)m_colorResolution.y)
 		{
 			return XN_STATUS_BAD_PARAM;
 		}
@@ -320,8 +320,8 @@ XnStatus DepthUtilsImpl::TranslateSinglePixel(XnUInt32 x, XnUInt32 y, unsigned s
 
 void DepthUtilsImpl::BuildDepthToShiftTable(XnUInt16* pRGBRegDepthToShiftTable, int xres)
 {
-	XnUInt32 nXScale = m_blob.params1080.cmosVGAOutputXRes / xres;
-	XnUInt32 nIndex = 0;
+	uint32_t nXScale = m_blob.params1080.cmosVGAOutputXRes / xres;
+	uint32_t nIndex = 0;
 	XnDouble dDepth = 0;
 
 	unsigned short nMaxDepth = MAX_Z;
@@ -435,16 +435,16 @@ XnStatus DepthUtilsImpl::BuildRegistrationTable(XnUInt16* pRegTable, Registratio
 }
 
 void DepthUtilsImpl::CreateDXDYTables (XnDouble* RegXTable, XnDouble* RegYTable,
-	XnUInt32 resX, XnUInt32 resY,
+	uint32_t resX, uint32_t resY,
 	XnInt64 AX6, XnInt64 BX6, XnInt64 CX2, XnInt64 DX2,
-	XnUInt32 deltaBetaX,
+	uint32_t deltaBetaX,
 	XnInt64 AY6, XnInt64 BY6, XnInt64 CY2, XnInt64 DY2,
-	XnUInt32 deltaBetaY,
+	uint32_t deltaBetaY,
 	XnInt64 dX0, XnInt64 dY0,
 	XnInt64 dXdX0, XnInt64 dXdY0, XnInt64 dYdX0, XnInt64 dYdY0,
 	XnInt64 dXdXdX0, XnInt64 dYdXdX0, XnInt64 dYdXdY0, XnInt64 dXdXdY0,
 	XnInt64 dYdYdX0, XnInt64 dYdYdY0,
-	XnUInt32 startingBetaX, XnUInt32 startingBetaY)
+	uint32_t startingBetaX, uint32_t startingBetaY)
 {
 	dX0 <<= 9;
 	dY0 <<= 9;

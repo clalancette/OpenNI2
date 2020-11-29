@@ -52,7 +52,7 @@ XnStatus XnGeneralBufferCopy(OniGeneralBuffer* pDest, const OniGeneralBuffer* pS
 	return XN_STATUS_OK;
 }
 
-XnStatus XnGeneralBufferAlloc(OniGeneralBuffer* pDest, XnUInt32 nSize)
+XnStatus XnGeneralBufferAlloc(OniGeneralBuffer* pDest, uint32_t nSize)
 {
 	XN_VALIDATE_INPUT_PTR(pDest);
 
@@ -64,7 +64,7 @@ XnStatus XnGeneralBufferAlloc(OniGeneralBuffer* pDest, XnUInt32 nSize)
 	return XN_STATUS_OK;
 }
 
-XnStatus XnGeneralBufferRealloc(OniGeneralBuffer* pDest, XnUInt32 nSize)
+XnStatus XnGeneralBufferRealloc(OniGeneralBuffer* pDest, uint32_t nSize)
 {
 	XN_VALIDATE_INPUT_PTR(pDest);
 

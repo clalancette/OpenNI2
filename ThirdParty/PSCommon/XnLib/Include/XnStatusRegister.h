@@ -32,7 +32,7 @@
 typedef struct XnErrorCodeData
 {
 	/** The code of this error. */
-	XnUInt32 nCode;
+	uint32_t nCode;
 	/** The name of this error. */
 	const XnChar* csName;
 	/** A user message describing this error. */

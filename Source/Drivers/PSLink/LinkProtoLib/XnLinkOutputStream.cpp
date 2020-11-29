@@ -42,7 +42,7 @@ LinkOutputStream::~LinkOutputStream()
 }
 
 XnStatus LinkOutputStream::Init(XnUInt16 nStreamID,
-				XnUInt32 nMaxMsgSize,
+				uint32_t nMaxMsgSize,
 				XnUInt16 nMaxPacketSize,
 				XnLinkCompressionType compression,
 				XnUInt16 nInitialPacketID,
@@ -93,7 +93,7 @@ XnStatus LinkOutputStream::SendData(XnUInt16 nMsgType,
 					XnUInt16 nCID,
 					XnLinkFragmentation fragmentation,
 					const void* pData,
-					XnUInt32 nDataSize) const
+					uint32_t nDataSize) const
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	m_pLinkMsgEncoder->BeginEncoding(nMsgType, m_nPacketID, m_nStreamID,

@@ -54,10 +54,10 @@ void XnGMCDebugProcessor::ProcessWholePacket(const XnSensorProtocolResponseHeade
 	{
 		m_DumpBin = xnDumpFileOpenEx("GMCDebug", TRUE, TRUE, "GMC_Points.%d.xydxdy.bin", m_nGMCTime);
 
-		XnUInt32 nNumOfPoints = pHeader->nBufSize / sizeof(XnHostProtocolGMCPoint_1080);
+		uint32_t nNumOfPoints = pHeader->nBufSize / sizeof(XnHostProtocolGMCPoint_1080);
 
 		// Dump points
-		for (XnUInt32 nIndex = 0; nIndex < nNumOfPoints; ++nIndex)
+		for (uint32_t nIndex = 0; nIndex < nNumOfPoints; ++nIndex)
 		{
 			XnDeviceSensorGMCPoint* pGMCPoint = (XnDeviceSensorGMCPoint*)pData;
 

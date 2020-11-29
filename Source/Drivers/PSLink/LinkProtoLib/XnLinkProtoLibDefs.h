@@ -64,8 +64,8 @@ typedef enum XnTransportType
 #define XN_FORMAT_PASS_THROUGH_UNPACK  (OniPixelFormat)0
 #define XN_FORMAT_PASS_THROUGH_RAW     (OniPixelFormat)1
 
-typedef XnUInt32 XnStreamFragLevel;
-typedef XnUInt32 XnStreamType;
+typedef uint32_t XnStreamFragLevel;
+typedef uint32_t XnStreamType;
 
 typedef struct XnAvailableGesture
 {

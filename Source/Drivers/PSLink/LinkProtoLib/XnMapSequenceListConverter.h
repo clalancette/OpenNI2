@@ -45,11 +45,11 @@ private:
 		XnUInt16 nSequenceCount;
 	};
 
-	XnStatus FillMapTopDown(PixelType* pMap, XnUInt32 nHeight, XnUInt32 nWidth, XnUInt32& nX, XnUInt32& nY, XnUInt32 nPixels, PixelType val)
+	XnStatus FillMapTopDown(PixelType* pMap, uint32_t nHeight, uint32_t nWidth, uint32_t& nX, uint32_t& nY, uint32_t nPixels, PixelType val)
 	{
-		XnUInt32 nCurrIndex = nWidth * nY + nX;
+		uint32_t nCurrIndex = nWidth * nY + nX;
 
-		for (XnUInt32 pxl = 0; pxl < nPixels; pxl++ )
+		for (uint32_t pxl = 0; pxl < nPixels; pxl++ )
 		{
 			// Check indexes
 			if (nX >= nWidth || nY >= nHeight)
@@ -79,7 +79,7 @@ private:
 public:
 
 	// We processing the map up down first, because people are more likely to stand next to each other than on top of each other.
-	XnStatus MapToSequenceList(const PixelType* pMap, XnUInt32 nHeight, XnUInt32 nWidth, XnUChar* pSeqBuffer, XnUInt32& nSeqSize)
+	XnStatus MapToSequenceList(const PixelType* pMap, uint32_t nHeight, uint32_t nWidth, XnUChar* pSeqBuffer, uint32_t& nSeqSize)
 	{
 		const PixelType NA_PIXEL		= (PixelType)-1;
 		const PixelType	MAX_PIXEL_SIZE	= (1 << sizeof(ValueType) * 8) - 1;
@@ -97,11 +97,11 @@ public:
 		XnUInt		nCurrOutputSize	= 0;
 
 		const PixelType*	pColumn = pMap;
-		for (XnUInt32 x = 0; x < nWidth; x++)
+		for (uint32_t x = 0; x < nWidth; x++)
 		{
 			const PixelType* pCurr = pColumn;
 
-			for (XnUInt32 y = 0; y < nHeight; y++)
+			for (uint32_t y = 0; y < nHeight; y++)
 			{
 				// Make sure no pixel uses NA_PIXEL value and that the pixel will fit ValueHeader.nValue
 				if (*pCurr == NA_PIXEL || *pCurr > MAX_PIXEL_SIZE)
@@ -171,11 +171,11 @@ public:
 		return XN_STATUS_OK;
 	}
 
-	XnStatus SequenceListToMap(XnUChar* pSeqBuffer, XnUInt32 nSeqSize, PixelType* pMap, XnUInt32 nHeight, XnUInt32 nWidth)
+	XnStatus SequenceListToMap(XnUChar* pSeqBuffer, uint32_t nSeqSize, PixelType* pMap, uint32_t nHeight, uint32_t nWidth)
 	{
-		XnUInt32 nCurrProcessed = 0;
-		XnUInt32 nX = 0;
-		XnUInt32 nY = 0;
+		uint32_t nCurrProcessed = 0;
+		uint32_t nX = 0;
+		uint32_t nY = 0;
 
 		XnUChar* pCurr = pSeqBuffer;
 

@@ -41,9 +41,9 @@ static XnStatus g_initalizeStatus = xnOSTimeInit();
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XN_C_API XnStatus xnOSGetEpochTime(XnUInt32* nEpochTime)
+XN_C_API XnStatus xnOSGetEpochTime(uint32_t* nEpochTime)
 {
-	*nEpochTime = (XnUInt32)time(NULL);
+	*nEpochTime = (uint32_t)time(NULL);
 
 	// All is good...
 	return (XN_STATUS_OK);
@@ -83,7 +83,7 @@ XN_C_API XnStatus xnOSGetHighResTimeStamp(XnUInt64* nTimeStamp)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSSleep(XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSSleep(uint32_t nMilliseconds)
 {
 	// Sleep via the OS (function needs time in microseconds)
 	usleep(nMilliseconds*1000);
@@ -178,7 +178,7 @@ XN_C_API XnStatus xnOSGetMonoTime(struct timespec* pTime)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSGetTimeout(struct timespec* pTime, XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSGetTimeout(struct timespec* pTime, uint32_t nMilliseconds)
 {
 	pTime->tv_sec = (nMilliseconds / 1000);
 	pTime->tv_nsec = ((nMilliseconds % 1000) * 1000000);
@@ -186,7 +186,7 @@ XN_C_API XnStatus xnOSGetTimeout(struct timespec* pTime, XnUInt32 nMilliseconds)
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnOSGetAbsTimeout(struct timespec* pTime, XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSGetAbsTimeout(struct timespec* pTime, uint32_t nMilliseconds)
 {
 	XnStatus nRetVal = xnOSGetMonoTime(pTime);
 	XN_IS_STATUS_OK(nRetVal);

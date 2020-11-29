@@ -62,7 +62,7 @@ XnStatus XnPSCompressedImageProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnPSCompressedImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize)
+void XnPSCompressedImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnPSCompressedImageProcessor::ProcessFramePacketChunk")
 
@@ -71,7 +71,7 @@ void XnPSCompressedImageProcessor::ProcessFramePacketChunk(const XnSensorProtoco
 	XnBuffer* pWriteBuffer = (GetStream()->GetOutputFormat() == ONI_PIXEL_FORMAT_YUV422) ? GetWriteBuffer() : &m_UncompressedYUVBuffer;
 
 	const XnUChar* pBuf = NULL;
-	XnUInt32 nBufSize = 0;
+	uint32_t nBufSize = 0;
 
 	// check if we have bytes stored from previous calls
 	if (m_ContinuousBuffer.GetSize() > 0)
@@ -98,9 +98,9 @@ void XnPSCompressedImageProcessor::ProcessFramePacketChunk(const XnSensorProtoco
 		nBufSize = nDataSize;
 	}
 
-	XnUInt32 nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
-	XnUInt32 nWrittenOutput = nOutputSize;
-	XnUInt32 nActualRead = 0;
+	uint32_t nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
+	uint32_t nWrittenOutput = nOutputSize;
+	uint32_t nActualRead = 0;
 	XnBool bLastPart = pHeader->nType == XN_SENSOR_PROTOCOL_RESPONSE_IMAGE_END && (nDataOffset + nDataSize) == pHeader->nBufSize;
 	XnStatus nRetVal = XnStreamUncompressYUVImagePS(pBuf, nBufSize, pWriteBuffer->GetUnsafeWritePointer(),
 		&nWrittenOutput, (XnUInt16)(GetActualXRes()*2), &nActualRead, bLastPart);
@@ -143,8 +143,8 @@ void XnPSCompressedImageProcessor::OnEndOfFrame(const XnSensorProtocolResponseHe
 		break;
 	case ONI_PIXEL_FORMAT_RGB888:
 		{
-			XnUInt32 nActualRead = 0;
-			XnUInt32 nOutputSize = GetWriteBuffer()->GetFreeSpaceInBuffer();
+			uint32_t nActualRead = 0;
+			uint32_t nOutputSize = GetWriteBuffer()->GetFreeSpaceInBuffer();
 			YUV422ToRGB888(m_UncompressedYUVBuffer.GetData(), GetWriteBuffer()->GetUnsafeWritePointer(), m_UncompressedYUVBuffer.GetSize(), &nActualRead, &nOutputSize);
 			GetWriteBuffer()->UnsafeUpdateSize(nOutputSize);
 			m_UncompressedYUVBuffer.Reset();

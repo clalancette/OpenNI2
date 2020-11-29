@@ -451,7 +451,7 @@ void displayMessage(const char* csFormat, ...)
 	g_DrawConfig.bShowMessage = true;
 	va_list args;
 	va_start(args, csFormat);
-	XnUInt32 nCount;
+	uint32_t nCount;
 	xnOSStrFormatV(g_csUserMessage, sizeof(g_csUserMessage), &nCount, csFormat, args);
 	va_end(args);
 }
@@ -462,7 +462,7 @@ void displayError(const char* csFormat, ...)
 	g_DrawConfig.bShowMessage = true;
 	va_list args;
 	va_start(args, csFormat);
-	XnUInt32 nCount;
+	uint32_t nCount;
 	xnOSStrFormatV(g_csUserMessage, sizeof(g_csUserMessage), &nCount, csFormat, args);
 	va_end(args);
 }
@@ -470,7 +470,7 @@ void displayError(const char* csFormat, ...)
 void setErrorState(const char* strFormat, ...)
 {
 	va_list args;
-	XnUInt32 nWritten;
+	uint32_t nWritten;
 	va_start(args, strFormat);
 	xnOSStrFormatV(g_DrawConfig.strErrorState, sizeof(g_DrawConfig.strErrorState), &nWritten, strFormat, args);
 	va_end(args);
@@ -639,7 +639,7 @@ void calculateHistogram()
 // --------------------------------
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 
-void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, XnUInt32 nYUVSize, XnUInt32 nRGBSize)
+void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, uint32_t nYUVSize, uint32_t nRGBSize)
 {
 	const XnUInt8* pYUVLast = pYUVImage + nYUVSize - 8;
 	XnUInt8* pRGBLast = pRGBAImage + nRGBSize - 16;
@@ -669,9 +669,9 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, XnUInt32 nYUV
 	__m128i iG;
 	__m128i iB;
 
-	XnUInt32* piR = (XnUInt32*)&iR;
-	XnUInt32* piG = (XnUInt32*)&iG;
-	XnUInt32* piB = (XnUInt32*)&iB;
+	uint32_t* piR = (uint32_t*)&iR;
+	uint32_t* piG = (uint32_t*)&iG;
+	uint32_t* piB = (uint32_t*)&iB;
 
 	while (pYUVImage <= pYUVLast && pRGBAImage <= pRGBLast)
 	{
@@ -766,7 +766,7 @@ void YUV444ToRGBA(XnUInt8 cY, XnUInt8 cU, XnUInt8 cV,
 	cA = 255;
 }
 
-void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSize, XnUInt32 nRGBSize)
+void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t nRGBSize)
 {
 	const XnUInt8* pCurrYUV = pYUVImage;
 	XnUInt8* pCurrRGB = pRGBImage;
@@ -789,7 +789,7 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVS
 
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 
-void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, XnUInt32 nYUVSize, XnUInt32 nRGBSize)
+void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, uint32_t nYUVSize, uint32_t nRGBSize)
 {
 	const XnUInt8* pYUVLast = pYUVImage + nYUVSize - 8;
 	XnUInt8* pRGBLast = pRGBAImage + nRGBSize - 16;
@@ -819,9 +819,9 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, XnUInt32 nYUVSi
 	__m128i iG;
 	__m128i iB;
 
-	XnUInt32* piR = (XnUInt32*)&iR;
-	XnUInt32* piG = (XnUInt32*)&iG;
-	XnUInt32* piB = (XnUInt32*)&iB;
+	uint32_t* piR = (uint32_t*)&iR;
+	uint32_t* piG = (uint32_t*)&iG;
+	uint32_t* piB = (uint32_t*)&iB;
 
 	while (pYUVImage <= pYUVLast && pRGBAImage <= pRGBLast)
 	{
@@ -901,7 +901,7 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBAImage, XnUInt32 nYUVSi
 
 #else // not Win32
 
-void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSize, XnUInt32 nRGBSize)
+void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t nRGBSize)
 {
 	const XnUInt8* pCurrYUV = pYUVImage;
 	XnUInt8* pCurrRGB = pRGBImage;
@@ -925,7 +925,7 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSiz
 void drawClosedStream(IntRect* pLocation, const char* csStreamName)
 {
 	char csMessage[512];
-	XnUInt32 nWritten;
+	uint32_t nWritten;
 	xnOSStrFormat(csMessage, sizeof(csMessage), &nWritten, "%s stream is OFF", csStreamName);
 	void* pFont = GLUT_BITMAP_TIMES_ROMAN_24;
 
@@ -1257,7 +1257,7 @@ void drawDepth(IntRect* pLocation, IntPair* pPointer)
 void drawPointerMode(IntPair* pPointer)
 {
 	char buf[512] = "";
-	XnUInt32 chars;
+	uint32_t chars;
 	int nCharWidth = glutBitmapWidth(GLUT_BITMAP_HELVETICA_18, '0');
 	int nPointerValue = 0;
 
@@ -1332,7 +1332,7 @@ void drawPointerMode(IntPair* pPointer)
 			glEnd();
 
 			// place a label under, and in the middle of, that line.
-			XnUInt32 chars;
+			uint32_t chars;
 			xnOSStrFormat(buf, sizeof(buf), &chars, "%d", i);
 			glColor3f(1,0,0);
 			glRasterPos2i(xPos - chars*nCharWidth/2, g_NonFullWinSize.Y - 40);
@@ -1350,7 +1350,7 @@ void drawPointerMode(IntPair* pPointer)
 			xnOSStrAppend(buf, " | ", sizeof(buf));
 		}
 
-		xnOSStrFormat(buf + strlen(buf), (XnUInt32)(sizeof(buf) - strlen(buf)), &chars, "%s - Frame %4u, Timestamp %.3f", "Color", pImageMD->getFrameIndex(), (double)pImageMD->getTimestamp()/dTimestampDivider);
+		xnOSStrFormat(buf + strlen(buf), (uint32_t)(sizeof(buf) - strlen(buf)), &chars, "%s - Frame %4u, Timestamp %.3f", "Color", pImageMD->getFrameIndex(), (double)pImageMD->getTimestamp()/dTimestampDivider);
 	}
 
 	openni::VideoFrameRef* pIRMD = &getIRFrame();
@@ -1361,7 +1361,7 @@ void drawPointerMode(IntPair* pPointer)
 			xnOSStrAppend(buf, " | ", sizeof(buf));
 		}
 
-		xnOSStrFormat(buf + strlen(buf), (XnUInt32)(sizeof(buf) - strlen(buf)), &chars, "%s - Frame %4u, Timestamp %.3f", "IR", pIRMD->getFrameIndex(), (double)pIRMD->getTimestamp()/dTimestampDivider);
+		xnOSStrFormat(buf + strlen(buf), (uint32_t)(sizeof(buf) - strlen(buf)), &chars, "%s - Frame %4u, Timestamp %.3f", "IR", pIRMD->getFrameIndex(), (double)pIRMD->getTimestamp()/dTimestampDivider);
 	}
 
 	int nYLocation = g_NonFullWinSize.Y - 88;
@@ -1396,12 +1396,12 @@ void drawPointerMode(IntPair* pPointer)
 
 void drawCenteredMessage(void* font, int y, const char* message, float fRed, float fGreen, float fBlue)
 {
-	const XnUInt32 nMaxLines = 5;
+	const uint32_t nMaxLines = 5;
 	XnChar buf[512];
 	XnChar* aLines[nMaxLines];
-	XnUInt32 anLinesWidths[nMaxLines];
-	XnUInt32 nLine = 0;
-	XnUInt32 nLineLengthChars = 0;
+	uint32_t anLinesWidths[nMaxLines];
+	uint32_t nLine = 0;
+	uint32_t nLineLengthChars = 0;
 	XnInt32 nLineLengthPixels = 0;
 	XnInt32 nMaxLineLength = 0;
 
@@ -1440,7 +1440,7 @@ void drawCenteredMessage(void* font, int y, const char* message, float fRed, flo
 		pChar++;
 	}
 
-	XnUInt32 nHeight = 26;
+	uint32_t nHeight = 26;
 	int nXLocation = xnl::Math::Max(0, (g_NonFullWinSize.X - nMaxLineLength) / 2);
 	int nYLocation = y;
 
@@ -1460,7 +1460,7 @@ void drawCenteredMessage(void* font, int y, const char* message, float fRed, flo
 
 	// show message
 	glColor3f(fRed, fGreen, fBlue);
-	for (XnUInt32 i = 0; i < nLine; ++i)
+	for (uint32_t i = 0; i < nLine; ++i)
 	{
 		glRasterPos2i(nXLocation + (nMaxLineLength - anLinesWidths[i])/2, nYLocation + i * nHeight);
 		glPrintString(font, aLines[i]);
@@ -1512,7 +1512,7 @@ void printRecordingInfo()
 		drawCenteredMessage(GLUT_BITMAP_TIMES_ROMAN_24, 30, csMessage, 1, 0, 0);
 	}
 
-	XnUInt32 nWritten;
+	uint32_t nWritten;
 	xnOSStrFormat(csMessage, sizeof(csMessage), &nWritten,
 		"Image registration is %s. Capture Formats - Depth: %s | Image: %s | IR: %s",
 		getDevice().getImageRegistrationMode() == openni::IMAGE_REGISTRATION_OFF ? "off " : "on",
@@ -1542,7 +1542,7 @@ void printHelpGroup(int nXLocation, int* pnYLocation, const char* csGroup)
 	for (int i = 0; i < (nSpecialCount + nCount); ++i, nYLocation += 22)
 	{
 		char buf[256];
-		XnUInt32 nWritten;
+		uint32_t nWritten;
 		if(i < nSpecialCount)
 		{
 			switch (aSpecialKeys[i])

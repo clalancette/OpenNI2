@@ -92,7 +92,7 @@ XN_C_API XnStatus xnOSCloseThread(XN_THREAD_HANDLE* pThreadHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSWaitForThreadExit(XN_THREAD_HANDLE ThreadHandle, XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSWaitForThreadExit(XN_THREAD_HANDLE ThreadHandle, uint32_t nMilliseconds)
 {
 	// Local function variables
 	XnInt32 nRetVal = 0;

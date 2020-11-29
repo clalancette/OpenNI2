@@ -280,7 +280,7 @@ XnStatus LinkOniMapStream::SetVideoMode(OniVideoMode* pVideoMode)
 	// now look for the first mode that matches
 	const std::vector<XnFwStreamVideoMode>& supportedModes = m_pInputStream->GetSupportedVideoModes();
 	XnInt32 selectedIndex = -1;
-	for (XnUInt32 i = 0; i < supportedModes.size(); ++i)
+	for (uint32_t i = 0; i < supportedModes.size(); ++i)
 	{
 		if (pVideoMode->resolutionX == (int)supportedModes[i].m_nXRes &&
 			pVideoMode->resolutionY == (int)supportedModes[i].m_nYRes &&

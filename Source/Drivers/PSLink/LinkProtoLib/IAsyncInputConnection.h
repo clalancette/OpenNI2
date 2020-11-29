@@ -31,7 +31,7 @@ class IDataDestination
 {
 public:
 	virtual ~IDataDestination() {}
-	virtual XnStatus IncomingData(const void* pData, XnUInt32 nSize) = 0;
+	virtual XnStatus IncomingData(const void* pData, uint32_t nSize) = 0;
 	virtual void HandleDisconnection() = 0;
 };
 

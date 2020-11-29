@@ -35,7 +35,7 @@ typedef struct
 {
 	XnCmosBlankingInformation BlankingInfo;
 	XnResolutions nRes;
-	XnUInt32 nFPS;
+	uint32_t nFPS;
 } XnCmosBlankingData;
 
 class XnCmosInfo final
@@ -44,7 +44,7 @@ public:
 	XnCmosInfo(XnSensorFirmware* pFirmware, XnDevicePrivateData* pDevicePrivateData);
 	~XnCmosInfo();
 
-	XnStatus SetCmosConfig(XnCMOSType nCmos, XnResolutions nResolution, XnUInt32 nFPS);
+	XnStatus SetCmosConfig(XnCMOSType nCmos, XnResolutions nResolution, uint32_t nFPS);
 
 	inline const XnCmosBlankingCoefficients* GetBlankingCoefficients(XnCMOSType nCmos) const { return m_pCurrCmosBlankingInfo[nCmos]; }
 

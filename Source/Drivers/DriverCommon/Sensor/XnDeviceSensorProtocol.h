@@ -88,7 +88,7 @@ typedef struct XnSensorProtocolResponseHeader
 	XnUInt16 nType;
 	XnUInt16 nPacketID;
 	XnUInt16 nBufSize;
-	XnUInt32 nTimeStamp;
+	uint32_t nTimeStamp;
 } XnSensorProtocolResponseHeader;
 #pragma pack (pop) // Undo the pack change...
 
@@ -105,28 +105,28 @@ typedef struct XnSpecificUsbDeviceState
 {
 	XnMiniPacketState State;
 	XnSensorProtocolResponseHeader CurrHeader;
-	XnUInt32 nMissingBytesInState;
+	uint32_t nMissingBytesInState;
 } XnSpecificUsbDeviceState;
 
 typedef struct XnSpecificUsbDevice
 {
 	XnDevicePrivateData* pDevicePrivateData;
 	XnUsbConnection* pUsbConnection;
-	XnUInt32 nIgnoreBytes;
-	XnUInt32 nChunkReadBytes;
-	XnUInt32 nNumberOfBuffers;
+	uint32_t nIgnoreBytes;
+	uint32_t nChunkReadBytes;
+	uint32_t nNumberOfBuffers;
 	XnSpecificUsbDeviceState CurrState;
-	XnUInt32 nTimeout;
+	uint32_t nTimeout;
 } XnSpecificUsbDevice;
 
 
 //---------------------------------------------------------------------------
 // Functions Declaration
 //---------------------------------------------------------------------------
-XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, XnUInt32 nBufferSize, void* pCallbackData);
+XnBool XN_CALLBACK_TYPE XnDeviceSensorProtocolUsbEpCb(XnUChar* pBuffer, uint32_t nBufferSize, void* pCallbackData);
 
-XnStatus XnCalculateExpectedImageSize(XnDevicePrivateData* pDevicePrivateData, XnUInt32* pnExpectedSize);
-void XnProcessUncompressedDepthPacket(XnSensorProtocolResponseHeader* pCurrHeader, XnUChar* pData, XnUInt32 nDataSize, XnBool bEOP, XnSpecificUsbDevice* pSpecificDevice);
+XnStatus XnCalculateExpectedImageSize(XnDevicePrivateData* pDevicePrivateData, uint32_t* pnExpectedSize);
+void XnProcessUncompressedDepthPacket(XnSensorProtocolResponseHeader* pCurrHeader, XnUChar* pData, uint32_t nDataSize, XnBool bEOP, XnSpecificUsbDevice* pSpecificDevice);
 XnStatus XnDeviceSensorProtocolUpdateImageProcessor(XnDevicePrivateData* pDevicePrivateData);
 
 XN_THREAD_PROC XnDeviceSensorProtocolScriptThread(XN_THREAD_PARAM pThreadParam);

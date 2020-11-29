@@ -30,7 +30,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const XnUInt32 nInputSize, XnUInt8* pOutput, XnUInt32* pnOutputSize, XnUInt16 nMaxValue)
+XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize, XnUInt16 nMaxValue)
 {
 	// Local function variables
 	const XnUInt16* pInputEnd = pInput + (nInputSize / sizeof(XnUInt16));
@@ -63,7 +63,7 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const XnUI
 		pInput++;
 	}
 
-	for (XnUInt32 i=0; i<nMaxValue; i++)
+	for (uint32_t i=0; i<nMaxValue; i++)
 	{
 		if (nEmbTable[i] == 1)
 		{
@@ -186,13 +186,13 @@ XnStatus XnStreamCompressDepth16ZWithEmbTable(const XnUInt16* pInput, const XnUI
 		pOutput++;
 	}
 
-	*pnOutputSize = (XnUInt32)(pOutput - pOrigOutput);
+	*pnOutputSize = (uint32_t)(pOutput - pOrigOutput);
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const XnUInt32 nInputSize, XnUInt16* pOutput, XnUInt32* pnOutputSize)
+XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const uint32_t nInputSize, XnUInt16* pOutput, uint32_t* pnOutputSize)
 {
 	// Local function variables
 	const XnUInt8* pInputEnd = pInput + nInputSize;
@@ -222,7 +222,7 @@ XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const XnU
 	pInput+=2;
 	pEmbTable = (XnUInt16*)pInput;
 	pInput+=nEmbTableIdx * 2;
-	for (XnUInt32 i = 0; i < nEmbTableIdx; i++)
+	for (uint32_t i = 0; i < nEmbTableIdx; i++)
 		pEmbTable[i] = XN_PREPARE_VAR16_IN_BUFFER(pEmbTable[i]);
 
 	pOutputEnd = pOutput + (*pnOutputSize / sizeof(XnUInt16));
@@ -337,13 +337,13 @@ XnStatus XnStreamUncompressDepth16ZWithEmbTable(const XnUInt8* pInput, const XnU
 		}
 	}
 
-	*pnOutputSize = (XnUInt32)((pOutput - pOrigOutput) * sizeof(XnUInt16));
+	*pnOutputSize = (uint32_t)((pOutput - pOrigOutput) * sizeof(XnUInt16));
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const XnUInt32 nInputSize, XnUInt8* pOutput, XnUInt32* pnOutputSize)
+XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
 {
 	// Local function variables
 	const XnUInt16* pInputEnd = pInput + (nInputSize / sizeof(XnUInt16));
@@ -478,13 +478,13 @@ XnStatus XnStreamCompressDepth16Z(const XnUInt16* pInput, const XnUInt32 nInputS
 		pOutput++;
 	}
 
-	*pnOutputSize = (XnUInt32)(pOutput - pOrigOutput);
+	*pnOutputSize = (uint32_t)(pOutput - pOrigOutput);
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const XnUInt32 nInputSize, XnUInt16* pOutput, XnUInt32* pnOutputSize)
+XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const uint32_t nInputSize, XnUInt16* pOutput, uint32_t* pnOutputSize)
 {
 	// Local function variables
 	const XnUInt8* pInputEnd = pInput + nInputSize;
@@ -620,13 +620,13 @@ XnStatus XnStreamUncompressDepth16Z(const XnUInt8* pInput, const XnUInt32 nInput
 		}
 	}
 
-	*pnOutputSize = (XnUInt32)((pOutput - pOrigOutput) * sizeof(XnUInt16));
+	*pnOutputSize = (uint32_t)((pOutput - pOrigOutput) * sizeof(XnUInt16));
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamCompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputSize, XnUInt8* pOutput, XnUInt32* pnOutputSize)
+XnStatus XnStreamCompressImage8Z(const XnUInt8* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
 {
 	// Local function variables
 	const XnUInt8* pInputEnd = pInput + nInputSize;
@@ -757,13 +757,13 @@ XnStatus XnStreamCompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputSiz
 		pOutput++;
 	}
 
-	*pnOutputSize = (XnUInt32)(pOutput - pOrigOutput);
+	*pnOutputSize = (uint32_t)(pOutput - pOrigOutput);
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamUncompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputSize, XnUInt8* pOutput, XnUInt32* pnOutputSize)
+XnStatus XnStreamUncompressImage8Z(const XnUInt8* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
 {
 	const XnUInt8* pInputEnd = pInput + nInputSize;
 	const XnUInt8* pOrigOutput = pOutput;
@@ -877,7 +877,7 @@ XnStatus XnStreamUncompressImage8Z(const XnUInt8* pInput, const XnUInt32 nInputS
 		}
 	}
 
-	*pnOutputSize = (XnUInt32)(pOutput - pOrigOutput);
+	*pnOutputSize = (uint32_t)(pOutput - pOrigOutput);
 
 	// All is good...
 	return (XN_STATUS_OK);

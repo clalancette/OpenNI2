@@ -80,7 +80,7 @@ XnStatus XnShiftToDepthStreamHelper::InitShiftToDepth()
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	// register to any shift-to-depth property (so tables can be updated if needed)
-	XnUInt32 propIds[] =
+	uint32_t propIds[] =
 	{
 		XN_STREAM_PROPERTY_MIN_DEPTH,
 		XN_STREAM_PROPERTY_MAX_DEPTH,
@@ -94,12 +94,12 @@ XnStatus XnShiftToDepthStreamHelper::InitShiftToDepth()
 		XN_STREAM_PROPERTY_OUTPUT_FORMAT,
 	};
 
-	XnUInt32 nPropCount = sizeof(propIds) / sizeof(propIds[0]);
+	uint32_t nPropCount = sizeof(propIds) / sizeof(propIds[0]);
 
 	XnCallbackHandle hDummy;
 
 	XnProperty* pProperty = NULL;
-	for (XnUInt32 i = 0; i < nPropCount; ++i)
+	for (uint32_t i = 0; i < nPropCount; ++i)
 	{
 		nRetVal = m_pModule->GetProperty(propIds[i], &pProperty);
 		XN_IS_STATUS_OK(nRetVal);
@@ -167,32 +167,32 @@ XnStatus XnShiftToDepthStreamHelper::GetShiftToDepthConfig(XnShiftToDepthConfig&
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_MAX_SHIFT, &nTemp);
 	XN_IS_STATUS_OK(nRetVal);
 
-	Config.nDeviceMaxShiftValue = (XnUInt32)nTemp;
+	Config.nDeviceMaxShiftValue = (uint32_t)nTemp;
 
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_DEVICE_MAX_DEPTH, &nTemp);
 	XN_IS_STATUS_OK(nRetVal);
 
-	Config.nDeviceMaxDepthValue = (XnUInt32)nTemp;
+	Config.nDeviceMaxDepthValue = (uint32_t)nTemp;
 
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_CONST_SHIFT, &nTemp);
 	XN_IS_STATUS_OK(nRetVal);
 
-	Config.nConstShift = (XnUInt32)nTemp;
+	Config.nConstShift = (uint32_t)nTemp;
 
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_PIXEL_SIZE_FACTOR, &nTemp);
 	XN_IS_STATUS_OK(nRetVal);
 
-	Config.nPixelSizeFactor = (XnUInt32)nTemp;
+	Config.nPixelSizeFactor = (uint32_t)nTemp;
 
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_PARAM_COEFF, &nTemp);
 	XN_IS_STATUS_OK(nRetVal);
 
-	Config.nParamCoeff = (XnUInt32)nTemp;
+	Config.nParamCoeff = (uint32_t)nTemp;
 
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_SHIFT_SCALE, &nTemp);
 	XN_IS_STATUS_OK(nRetVal);
 
-	Config.nShiftScale = (XnUInt32)nTemp;
+	Config.nShiftScale = (uint32_t)nTemp;
 
 	// change scale according to output format
 	nRetVal = m_pModule->GetProperty(XN_STREAM_PROPERTY_OUTPUT_FORMAT, &nTemp);

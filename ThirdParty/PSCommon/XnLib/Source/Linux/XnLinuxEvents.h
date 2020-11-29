@@ -44,7 +44,7 @@ public:
 	virtual XnStatus Destroy() = 0;
 	virtual XnStatus Set() = 0;
 	virtual XnStatus Reset() = 0;
-	virtual XnStatus Wait(XnUInt32 nMilliseconds) = 0;
+	virtual XnStatus Wait(uint32_t nMilliseconds) = 0;
 
 protected:
 	XnBool m_bSignaled;

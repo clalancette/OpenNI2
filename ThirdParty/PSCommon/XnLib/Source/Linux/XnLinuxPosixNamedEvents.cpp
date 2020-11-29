@@ -81,7 +81,7 @@ XnStatus XnLinuxPosixNamedEvent::Reset()
 	return (XN_STATUS_OS_EVENT_RESET_FAILED);
 }
 
-XnStatus XnLinuxPosixNamedEvent::Wait(XnUInt32 nTimeout)
+XnStatus XnLinuxPosixNamedEvent::Wait(uint32_t nTimeout)
 {
 	return (XN_STATUS_OS_EVENT_WAIT_FAILED);
 }

@@ -40,14 +40,14 @@ typedef struct XnShiftToDepthConfig
 	/** The distance between the emitter and the Depth Cmos */
 	XnFloat fEmitterDCmosDistance;
 	/** The maximum possible shift value from this device. */
-	XnUInt32 nDeviceMaxShiftValue;
+	uint32_t nDeviceMaxShiftValue;
 	/** The maximum possible depth from this device (as opposed to a cut-off). */
-	XnUInt32 nDeviceMaxDepthValue;
+	uint32_t nDeviceMaxDepthValue;
 
-	XnUInt32 nConstShift;
-	XnUInt32 nPixelSizeFactor;
-	XnUInt32 nParamCoeff;
-	XnUInt32 nShiftScale;
+	uint32_t nConstShift;
+	uint32_t nPixelSizeFactor;
+	uint32_t nParamCoeff;
+	uint32_t nShiftScale;
 
 	XnDouble dDepthScale;
 	OniDepthPixel nDepthMinCutOff;
@@ -61,11 +61,11 @@ typedef struct XnShiftToDepthTables
 	/** The shift-to-depth table. */
 	OniDepthPixel* pShiftToDepthTable;
 	/** The number of entries in the shift-to-depth table. */
-	XnUInt32 nShiftsCount;
+	uint32_t nShiftsCount;
 	/** The depth-to-shift table. */
 	XnUInt16* pDepthToShiftTable;
 	/** The number of entries in the depth-to-shift table. */
-	XnUInt32 nDepthsCount;
+	uint32_t nDepthsCount;
 } XnShiftToDepthTables;
 
 //---------------------------------------------------------------------------
@@ -79,7 +79,7 @@ XnStatus XnShiftToDepthUpdate(XnShiftToDepthTables* pShiftToDepth,
 
 XnStatus XnShiftToDepthConvert(const XnShiftToDepthTables* pShiftToDepth,
 							   const XnUInt16* pInput,
-							   XnUInt32 nInputSize,
+							   uint32_t nInputSize,
 							   OniDepthPixel* pOutput);
 
 XnStatus XnShiftToDepthFree(XnShiftToDepthTables* pShiftToDepth);

@@ -150,11 +150,11 @@ typedef struct
 	/* Is this the first time timestamp is calculated. */
 	XnBool bFirst;
 	/* The device TS which we use as reference for calculation. */
-	XnUInt32 nReferenceTS;
+	uint32_t nReferenceTS;
 	/* The time corresponding to the TS in nReferenceTS. */
 	XnUInt64 nTotalTicksAtReferenceTS;
 	/* The last device TS received. */
-	XnUInt32 nLastDeviceTS;
+	uint32_t nLastDeviceTS;
 	/* The last result time calculated. */
 	XnUInt64 nLastResultTime;
 	/* Stream name - for debug purposes. */
@@ -200,14 +200,14 @@ typedef struct XnDeviceAudioBuffer
 	/** An array of pointers into the audio buffer. */
 	XnUInt64* pAudioPacketsTimestamps;
 	/** The index of the next packet that should be written. */
-	volatile XnUInt32 nAudioWriteIndex;
+	volatile uint32_t nAudioWriteIndex;
 	/** The index of the next packet that can be read. */
-	volatile XnUInt32 nAudioReadIndex;
+	volatile uint32_t nAudioReadIndex;
 	/** Size of the audio buffer, in packets. */
-	XnUInt32 nAudioBufferNumOfPackets;
+	uint32_t nAudioBufferNumOfPackets;
 	/** Size of the audio buffer, in bytes. */
-	XnUInt32 nAudioBufferSize;
-	XnUInt32 nAudioPacketSize;
+	uint32_t nAudioBufferSize;
+	uint32_t nAudioPacketSize;
 	/** A callback for new data */
 	NewAudioDataCallback pAudioCallback;
 	void* pAudioCallbackCookie;
@@ -229,7 +229,7 @@ typedef struct XnDevicePrivateData
 	XnFloat fDeviceFrequency;
 
 	/** Keeps the global reference TS (the one marking time-zero). */
-	XnUInt32 nGlobalReferenceTS;
+	uint32_t nGlobalReferenceTS;
 	/** Keeps the OS time of global reference TS. */
 	XnUInt64 nGlobalReferenceOSTime;
 
@@ -249,7 +249,7 @@ typedef struct XnDevicePrivateData
 
 	XnDeviceSensorThreadContext		LogThread;
 	/** GMC Mode. */
-	XnUInt32 nGMCMode;
+	uint32_t nGMCMode;
 	XnBool bWavelengthCorrectionEnabled;
 	XnBool bWavelengthCorrectionDebugEnabled;
 
@@ -492,9 +492,9 @@ typedef struct XnFrequencyInformation
 
 typedef struct XnAudioSharedBuffer
 {
-	XnUInt32 nPacketCount;
-	XnUInt32 nPacketSize;
-	XnUInt32 nWritePacketIndex;
+	uint32_t nPacketCount;
+	uint32_t nPacketSize;
+	uint32_t nWritePacketIndex;
 } XnAudioSharedBuffer;
 
 #pragma pack (pop)

@@ -105,7 +105,7 @@ struct xnUSBInitData
 	libusb_context* pContext;
 	XN_THREAD_HANDLE hThread;
 	XnBool bShouldThreadRun;
-	XnUInt32 nOpenDevices;
+	uint32_t nOpenDevices;
 	XN_CRITICAL_SECTION_HANDLE hLock;
 } g_InitData = {NULL, NULL, FALSE, 0, NULL};
 
@@ -575,14 +575,14 @@ XN_C_API XnStatus xnUSBIsDevicePresent(XnUInt16 nVendorID, XnUInt16 nProductID, 
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID, const XnUSBConnectionString** pastrDevicePaths, XnUInt32* pnCount)
+XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID, const XnUSBConnectionString** pastrDevicePaths, uint32_t* pnCount)
 {
 	// get device list
 	libusb_device** ppDevices;
 	ssize_t nDeviceCount = libusb_get_device_list(g_InitData.pContext, &ppDevices);
 
 	// first enumeration - count
-	XnUInt32 nCount = 0;
+	uint32_t nCount = 0;
 
 	for (ssize_t i = 0; i < nDeviceCount; ++i)
 	{
@@ -613,7 +613,7 @@ XN_C_API XnStatus xnUSBEnumerateDevices(XnUInt16 nVendorID, XnUInt16 nProductID,
 	}
 
 	// second enumeration - fill
-	XnUInt32 nCurrent = 0;
+	uint32_t nCurrent = 0;
 	for (ssize_t i = 0; i < nDeviceCount; ++i)
 	{
 		libusb_device* pDevice = ppDevices[i];
@@ -914,14 +914,14 @@ XN_C_API XnStatus xnUSBOpenEndPoint(XN_USB_DEV_HANDLE pDevHandle, XnUInt16 nEndP
 	// calculate max packet size
 	// NOTE: we do not use libusb functions (libusb_get_max_packet_size/libusb_get_max_iso_packet_size) because
 	// they have a bug and do not consider alternative interfaces
-	XnUInt32 nMaxPacketSize = 0;
+	uint32_t nMaxPacketSize = 0;
 
 	if (transfer_type == LIBUSB_TRANSFER_TYPE_ISOCHRONOUS)
 	{
-		XnUInt32 wMaxPacketSize = pEndpointDesc->wMaxPacketSize;
+		uint32_t wMaxPacketSize = pEndpointDesc->wMaxPacketSize;
 		// bits 11 and 12 mark the number of additional transactions, bits 0-10 mark the size
-		XnUInt32 nAdditionalTransactions = wMaxPacketSize >> 11;
-		XnUInt32 nPacketSize = wMaxPacketSize & 0x7FF;
+		uint32_t nAdditionalTransactions = wMaxPacketSize >> 11;
+		uint32_t nPacketSize = wMaxPacketSize & 0x7FF;
 		nMaxPacketSize = (nAdditionalTransactions + 1) * (nPacketSize);
 	}
 	else
@@ -1004,7 +1004,7 @@ XN_C_API XnStatus xnUSBCloseEndPoint(XN_USB_EP_HANDLE pEPHandle)
 	return XN_STATUS_OK;
 }
 
-XN_C_API XnStatus xnUSBGetEndPointMaxPacketSize(XN_USB_EP_HANDLE pEPHandle, XnUInt32* pnMaxPacketSize)
+XN_C_API XnStatus xnUSBGetEndPointMaxPacketSize(XN_USB_EP_HANDLE pEPHandle, uint32_t* pnMaxPacketSize)
 {
 	// Validate xnUSB
 	XN_VALIDATE_USB_INIT();
@@ -1035,7 +1035,7 @@ XN_C_API XnStatus xnUSBResetEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/)
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
@@ -1080,7 +1080,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 		return (XN_STATUS_USB_CONTROL_SEND_FAILED);
 	}
 
-	if ((XnUInt32)nBytesSent != nBufferSize)
+	if ((uint32_t)nBytesSent != nBufferSize)
 	{
 		return (XN_STATUS_USB_GOT_UNEXPECTED_BYTES);
 	}
@@ -1088,7 +1088,7 @@ XN_C_API XnStatus xnUSBSendControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlTyp
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32* pnBytesReceived, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControlType nType, XnUInt8 nRequest, XnUInt16 nValue, XnUInt16 nIndex, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
@@ -1142,7 +1142,7 @@ XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControl
 		// received empty message
 		return (XN_STATUS_USB_NOT_ENOUGH_DATA);
 	}
-	else if ((XnUInt32)nBytesReceived > nBufferSize) // too much
+	else if ((uint32_t)nBytesReceived > nBufferSize) // too much
 	{
 		xnLogWarning(XN_MASK_USB, "Too many bytes!!!");
 		return (XN_STATUS_USB_TOO_MUCH_DATA);
@@ -1154,7 +1154,7 @@ XN_C_API XnStatus xnUSBReceiveControl(XN_USB_DEV_HANDLE pDevHandle, XnUSBControl
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nTimeOut)
 {
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
@@ -1198,7 +1198,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 		return (XN_STATUS_USB_ENDPOINT_WRITE_FAILED);
 	}
 
-	if ((XnUInt32)nBytesSent != nBufferSize)
+	if ((uint32_t)nBytesSent != nBufferSize)
 	{
 		return (XN_STATUS_USB_GOT_UNEXPECTED_BYTES);
 	}
@@ -1206,7 +1206,7 @@ XN_C_API XnStatus xnUSBWriteEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffe
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32* pnBytesReceived, XnUInt32 nTimeOut)
+XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t* pnBytesReceived, uint32_t nTimeOut)
 {
 	// validate parameters
 	XN_VALIDATE_USB_INIT();
@@ -1263,19 +1263,19 @@ XN_C_API XnStatus xnUSBReadEndPoint(XN_USB_EP_HANDLE pEPHandle, XnUChar* pBuffer
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/, XnUChar* /*pBuffer*/, XnUInt32 /*nBufferSize*/, XnUInt32 /*nTimeOut*/)
+XN_C_API XnStatus xnUSBQueueReadEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/, XnUChar* /*pBuffer*/, uint32_t /*nBufferSize*/, uint32_t /*nTimeOut*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
-XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/, XnUInt32* /*pnBytesReceived*/, XnUInt32 /*nTimeOut*/)
+XN_C_API XnStatus xnUSBFinishReadEndPoint(XN_USB_EP_HANDLE /*pEPHandle*/, uint32_t* /*pnBytesReceived*/, uint32_t /*nTimeOut*/)
 {
 	return XN_STATUS_OS_UNSUPPORTED_FUNCTION;
 }
 
 void xnCleanupThreadData(XnUSBReadThreadData* pThreadData)
 {
-	for (XnUInt32 i = 0; i < pThreadData->nNumBuffers; ++i)
+	for (uint32_t i = 0; i < pThreadData->nNumBuffers; ++i)
 	{
 		if (pThreadData->pBuffersInfo[i].transfer != NULL)
 		{
@@ -1292,7 +1292,7 @@ void xnCleanupThreadData(XnUSBReadThreadData* pThreadData)
 /** Checks if any transfer of the thread is queued. */
 XnBool xnIsAnyTransferQueued(XnUSBReadThreadData* pThreadData)
 {
-	for (XnUInt32 i = 0; i < pThreadData->nNumBuffers; ++i)
+	for (uint32_t i = 0; i < pThreadData->nNumBuffers; ++i)
 	{
 		if (pThreadData->pBuffersInfo[i].bIsQueued)
 			return (TRUE);
@@ -1313,7 +1313,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 	}
 
 	// first of all, submit all transfers
-	for (XnUInt32 i = 0; i < pThreadData->nNumBuffers; ++i)
+	for (uint32_t i = 0; i < pThreadData->nNumBuffers; ++i)
 	{
 		XnUSBBuffersInfo* pBufferInfo = &pThreadData->pBuffersInfo[i];
 		libusb_transfer* pTransfer = pBufferInfo->transfer;
@@ -1331,7 +1331,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 
 	while (TRUE)
 	{
-		for (XnUInt32 i = 0; i < pThreadData->nNumBuffers; ++i)
+		for (uint32_t i = 0; i < pThreadData->nNumBuffers; ++i)
 		{
 			// check if thread can exit (only after kill was requested, and all transfers returned)
 			if (pThreadData->bKillReadThread && !xnIsAnyTransferQueued(pThreadData))
@@ -1396,7 +1396,7 @@ XN_THREAD_PROC xnUSBReadThreadMain(XN_THREAD_PARAM pThreadParam)
 					if (pTransfer->type == LIBUSB_TRANSFER_TYPE_ISOCHRONOUS)
 					{
 						XnUChar* pBuffer = NULL;
-						XnUInt32 nTotalBytes = 0;
+						uint32_t nTotalBytes = 0;
 						XnBool bCompletePacket;
 
 						// some packets may return empty or partial, aggregate as many consequent packets as possible, and then send them to processing
@@ -1503,7 +1503,7 @@ void xnTransferCallback(libusb_transfer *pTransfer)
 	}
 }
 
-XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, XnUInt32 nBufferSize, XnUInt32 nNumBuffers, XnUInt32 nTimeOut, XnUSBReadCallbackFunctionPtr pCallbackFunction, void* pCallbackData)
+XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, uint32_t nBufferSize, uint32_t nNumBuffers, uint32_t nTimeOut, XnUSBReadCallbackFunctionPtr pCallbackFunction, void* pCallbackData)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1546,7 +1546,7 @@ XN_C_API XnStatus xnUSBInitReadThread(XN_USB_EP_HANDLE pEPHandle, XnUInt32 nBuff
 		nNumIsoPackets = nBufferSize / nMaxPacketSize;
 	}
 
-	for (XnUInt32 i = 0; i < nNumBuffers; i++)
+	for (uint32_t i = 0; i < nNumBuffers; i++)
 	{
 		XnUSBBuffersInfo* pBufferInfo = &pThreadData->pBuffersInfo[i];
 		pBufferInfo->nBufferID = i;

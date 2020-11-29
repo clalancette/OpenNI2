@@ -341,7 +341,7 @@ XnStatus XnSensorFirmwareParams::CommitTransaction()
 	{
 		XnActualIntProperty* pProp = *it;
 
-		XnUInt32 nValue;
+		uint32_t nValue;
 		nRetVal = m_Transaction.Get(pProp, nValue);
 		XN_IS_STATUS_OK(nRetVal);
 
@@ -369,24 +369,24 @@ XnStatus XnSensorFirmwareParams::CommitTransactionAsBatch()
 
 	if (m_TransactionOrder.size() != 0)
 	{
-		XnUInt32 nMaxCount = m_TransactionOrder.size();
+		uint32_t nMaxCount = m_TransactionOrder.size();
 		XnInnerParamData* pParams;
 		XN_VALIDATE_CALLOC(pParams, XnInnerParamData, nMaxCount);
 
 		XnChar strLogMessage[1024];
-		XnUInt32 nMaxLength = 1024;
-		XnUInt32 nLength = 0;
-		XnUInt32 nChars;
+		uint32_t nMaxLength = 1024;
+		uint32_t nLength = 0;
+		uint32_t nChars;
 		xnOSStrFormat(strLogMessage + nLength, nMaxLength - nLength, &nChars, "Setting firmware params:\n\t");
 		nLength += nChars;
 
-		XnUInt32 nCount = 0;
+		uint32_t nCount = 0;
 
 		for (std::list<XnActualIntProperty*>::iterator it = m_TransactionOrder.begin(); it != m_TransactionOrder.end(); ++it)
 		{
 			XnActualIntProperty* pProp = *it;
 
-			XnUInt32 nValue;
+			uint32_t nValue;
 			nRetVal = m_Transaction.Get(pProp, nValue);
 			if (nRetVal != XN_STATUS_OK)
 			{
@@ -425,7 +425,7 @@ XnStatus XnSensorFirmwareParams::CommitTransactionAsBatch()
 		{
 			XnActualIntProperty* pProp = *it;
 
-			XnUInt32 nValue;
+			uint32_t nValue;
 			nRetVal = m_Transaction.Get(pProp, nValue);
 			XN_IS_STATUS_OK(nRetVal);
 
@@ -491,7 +491,7 @@ XnStatus XnSensorFirmwareParams::SetFirmwareParam(XnActualIntProperty* pProperty
 
 	if (m_bInTransaction)
 	{
-		nRetVal = m_Transaction.Set(pProperty, (XnUInt32)nValue);
+		nRetVal = m_Transaction.Set(pProperty, (uint32_t)nValue);
 		XN_IS_STATUS_OK(nRetVal);
 
 		m_TransactionOrder.push_back(pProperty);

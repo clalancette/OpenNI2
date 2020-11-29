@@ -40,7 +40,7 @@ protected:
 						const XnUInt8* pDstEnd);
 
 private:
-	XnUInt32 m_nState;
+	uint32_t m_nState;
 	XnUInt16 m_nShift;
 };
 

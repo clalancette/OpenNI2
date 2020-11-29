@@ -51,7 +51,7 @@ void LinkMsgParser::Shutdown()
 	m_pDestEnd = NULL;
 }
 
-XnStatus LinkMsgParser::BeginParsing(void* pDestBuffer, XnUInt32 nDestBufferSize)
+XnStatus LinkMsgParser::BeginParsing(void* pDestBuffer, uint32_t nDestBufferSize)
 {
 	XN_VALIDATE_INPUT_PTR(pDestBuffer);
 	m_pDestBuffer = reinterpret_cast<XnUInt8*>(pDestBuffer);
@@ -75,14 +75,14 @@ const void* LinkMsgParser::GetParsedData() const
 	return m_pDestBuffer;
 }
 
-XnUInt32 LinkMsgParser::GetParsedSize() const
+uint32_t LinkMsgParser::GetParsedSize() const
 {
-	return XnUInt32(m_pCurrDest - m_pDestBuffer);
+	return uint32_t(m_pCurrDest - m_pDestBuffer);
 }
 
-XnUInt32 LinkMsgParser::GetBufferSize() const
+uint32_t LinkMsgParser::GetBufferSize() const
 {
-	return XnUInt32(m_pDestEnd - m_pDestBuffer);
+	return uint32_t(m_pDestEnd - m_pDestBuffer);
 }
 
 XnStatus LinkMsgParser::ParsePacketImpl(XnLinkFragmentation /*fragmentation*/,

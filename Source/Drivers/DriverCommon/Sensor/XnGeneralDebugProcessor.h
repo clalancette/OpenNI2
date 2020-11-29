@@ -30,7 +30,7 @@ public:
 	~XnGeneralDebugProcessor();
 
 private:
-	void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize) override;
+	void ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) override;
 
 	XnDumpFile* m_pDump;
 };

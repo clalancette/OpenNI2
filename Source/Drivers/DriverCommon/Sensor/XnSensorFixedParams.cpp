@@ -90,8 +90,8 @@ XnStatus XnSensorFixedParams::Init()
 	m_nSensorImageCMOSI2CBus = (XnUInt16)FixedParams.nImageCmosI2CBus;
 	m_nSensorImageCMOSI2CSlaveAddress = (XnUInt16)FixedParams.nImageCmosI2CAddress;
 
-	m_nImageCmosType = (XnUInt32)FixedParams.nImageCmosType;
-	m_nDepthCmosType = (XnUInt32)FixedParams.nDepthCmosType;
+	m_nImageCmosType = (uint32_t)FixedParams.nImageCmosType;
+	m_nDepthCmosType = (uint32_t)FixedParams.nDepthCmosType;
 
 	nRetVal = XnHostProtocolAlgorithmParams(m_pDevicePrivateData, XN_HOST_PROTOCOL_ALGORITHM_DEVICE_INFO,
 		&m_deviceInfo, sizeof(m_deviceInfo), (XnResolutions)0, 0);

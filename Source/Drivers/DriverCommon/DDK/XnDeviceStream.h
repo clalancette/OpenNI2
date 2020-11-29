@@ -49,11 +49,11 @@ public:
 	void ReleaseFrame(OniFrame* pFrame) { m_pServices->releaseFrame(pFrame); }
 
 	void AddRef();
-	XnUInt32 DecRef();
+	uint32_t DecRef();
 
 	void OpenAddRef();
-	XnUInt32 OpenDecRef();
-	XnUInt32 GetOpenRefCount() const { return m_nOpenRefCount; }
+	uint32_t OpenDecRef();
+	uint32_t GetOpenRefCount() const { return m_nOpenRefCount; }
 
 	typedef void (*NewDataCallbackPtr)(XnDeviceStream* pSender, OniFrame* pFrame, void* pCookie);
 
@@ -70,8 +70,8 @@ public:
 	inline XnBool IsOpen() const { return (XnBool)m_IsOpen.GetValue(); }
 	inline OniPixelFormat GetOutputFormat() const { return (OniPixelFormat)m_OutputFormat.GetValue(); }
 	inline XnBool IsMirrored() const { return (XnBool)m_IsMirrored.GetValue(); }
-	inline XnUInt32 GetRequiredDataSize() const { return (XnUInt32)m_RequiredSize.GetValue(); }
-	inline XnUInt32 GetLastFrameID() const { return m_nFrameID; }
+	inline uint32_t GetRequiredDataSize() const { return (uint32_t)m_RequiredSize.GetValue(); }
+	inline uint32_t GetLastFrameID() const { return m_nFrameID; }
 
 	//---------------------------------------------------------------------------
 	// Setters
@@ -101,7 +101,7 @@ protected:
 	/** Performs mirror on the given stream output. */
 	virtual XnStatus Mirror(OniFrame* pFrame) const = 0;
 	/** Calculates the required size. */
-	virtual XnStatus CalcRequiredSize(XnUInt32* pnRequiredSize) const = 0;
+	virtual XnStatus CalcRequiredSize(uint32_t* pnRequiredSize) const = 0;
 
 	//---------------------------------------------------------------------------
 	// Utility Functions
@@ -128,12 +128,12 @@ private:
 	XnActualIntProperty m_OutputFormat;
 	XnActualIntProperty m_IsMirrored;
 
-	XnUInt32 m_nFrameID;
+	uint32_t m_nFrameID;
 	NewDataCallbackPtr m_pNewDataCallback;
 	void* m_pNewDataCallbackCookie;
 
-	XnUInt32 m_nRefCount;
-	XnUInt32 m_nOpenRefCount;
+	uint32_t m_nRefCount;
+	uint32_t m_nOpenRefCount;
 	XN_CRITICAL_SECTION_HANDLE m_hCriticalSection;
 	XN_CRITICAL_SECTION_HANDLE m_hOpenLock;
 };

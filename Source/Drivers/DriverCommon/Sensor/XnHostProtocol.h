@@ -274,15 +274,15 @@ typedef struct XnHostProtocolGMCLastPacketData
 	XnFloat m_C;
 	XnInt16 m_N;
 	XnUInt16 m_RICC;
-	XnUInt32 m_StartB;
-	XnUInt32 m_DeltaB;
+	uint32_t m_StartB;
+	uint32_t m_DeltaB;
 	XnInt16 m_FlashStoredRefOffset;
 } XnHostProtocolGMCLastPacketData;
 
 typedef struct XnBestTecConf
 {
 	XnUInt16 nBestHopsCount; // Lowest hops count among all unstable points
-	XnUInt32 nBestSetPoint;  // The TEC set point that gave m_BestHopsCount
+	uint32_t nBestSetPoint;  // The TEC set point that gave m_BestHopsCount
 	XnInt32  nBestStep;	 // The TEC scan step that gave m_BestHopsCount
 } XnBestTecConf;
 
@@ -291,14 +291,14 @@ typedef struct XnWavelengthCorrectionDebugPacket
 	XnFloat fBLast;
 	XnFloat fBCurrent;
 	XnUInt16 nIsHop;
-	XnUInt32 nCurrentSlidingWindow;
+	uint32_t nCurrentSlidingWindow;
 	XnUInt16 nCurrentHopsCount;
 	XnUInt16 nIsTecCalibrated;
-	XnUInt32 nWaitPeriod;
+	uint32_t nWaitPeriod;
 	XnUInt16 nIsWavelengthUnstable;
 	XnBestTecConf BestConf;
 	XnUInt16 nIsTotallyUnstable; //whole scan no stable point
-	XnUInt32 nConfiguredTecSetPoint; // 0 if not configured
+	uint32_t nConfiguredTecSetPoint; // 0 if not configured
 	XnInt32 nCurrentStep;
 } XnWavelengthCorrectionDebugPacket;
 
@@ -316,7 +316,7 @@ XnStatus XnHostProtocolGetVersion		(const XnDevicePrivateData* pDevicePrivateDat
 XnStatus XnHostProtocolAlgorithmParams	(XnDevicePrivateData* pDevicePrivateData,
 										 XnHostProtocolAlgorithmType eAlgorithmType,
 										 void* pAlgorithmInformation, XnUInt16 nAlgInfoSize, XnResolutions nResolution, XnUInt16 nFPS);
-XnStatus XnHostProtocolSetImageResolution(XnDevicePrivateData* pDevicePrivateData, XnUInt32 nResolutionParamName, XnResolutions nRes);
+XnStatus XnHostProtocolSetImageResolution(XnDevicePrivateData* pDevicePrivateData, uint32_t nResolutionParamName, XnResolutions nRes);
 XnStatus XnHostProtocolSetDepthResolution(XnDevicePrivateData* pDevicePrivateData, XnResolutions nRes);
 XnStatus XnHostProtocolGetFixedParams(XnDevicePrivateData* pDevicePrivateData, XnFixedParams& FixedParams);
 
@@ -338,7 +338,7 @@ XnStatus XnHostProtocolGetDepthAGCBin(XnDevicePrivateData* pDevicePrivateData, X
 XnStatus XnHostProtocolSetCmosBlanking	(XnDevicePrivateData* pDevicePrivateData, XnUInt16 nLines, XnCMOSType nCMOSID, XnUInt16 nNumberOfFrames);
 XnStatus XnHostProtocolGetCmosBlanking	(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOSID, XnUInt16* pnLines);
 
-XnStatus XnHostProtocolGetCmosPresets	(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOSID, XnCmosPreset* aPresets, XnUInt32& nCount);
+XnStatus XnHostProtocolGetCmosPresets	(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOSID, XnCmosPreset* aPresets, uint32_t& nCount);
 
 XnStatus XnHostProtocolGetSerialNumber	(XnDevicePrivateData* pDevicePrivateData, XnChar* cpSerialNumber);
 XnStatus XnHostProtocolGetPlatformString(XnDevicePrivateData* pDevicePrivateData, XnChar* cpPlatformString);
@@ -347,20 +347,20 @@ XnStatus XnHostProtocolGetCMOSRegister(XnDevicePrivateData* pDevicePrivateData, 
 XnStatus XnHostProtocolSetCMOSRegister	(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOS, XnUInt16 nAddress, XnUInt16 nValue);
 XnStatus XnHostProtocolGetCMOSRegisterI2C(XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOS, XnUInt16 nAddress, XnUInt16& nValue);
 XnStatus XnHostProtocolSetCMOSRegisterI2C (XnDevicePrivateData* pDevicePrivateData, XnCMOSType nCMOS, XnUInt16 nAddress, XnUInt16 nValue);
-XnStatus XnHostProtocolReadAHB			(XnDevicePrivateData* pDevicePrivateData, XnUInt32 nAddress, XnUInt32 &nValue);
-XnStatus XnHostProtocolWriteAHB 		(XnDevicePrivateData* pDevicePrivateData, XnUInt32 nAddress, XnUInt32 nValue, XnUInt32 nMask);
+XnStatus XnHostProtocolReadAHB			(XnDevicePrivateData* pDevicePrivateData, uint32_t nAddress, uint32_t &nValue);
+XnStatus XnHostProtocolWriteAHB 		(XnDevicePrivateData* pDevicePrivateData, uint32_t nAddress, uint32_t nValue, uint32_t nMask);
 XnStatus XnHostProtocolGetUsbCoreType	(XnDevicePrivateData* pDevicePrivateData, XnHostProtocolUsbCore& nValue);
 XnStatus XnHostProtocolSetLedState	(XnDevicePrivateData* pDevicePrivateData, XnUInt16 nLedId, XnUInt16 nState);
 XnStatus XnHostProtocolSetEmitterState	(XnDevicePrivateData* pDevicePrivateData, XnBool bActive);
 XnStatus XnHostProtocolUpdateSupportedImageModes(XnDevicePrivateData* pDevicePrivateData);
 
 // Commands.txt
-XnStatus XnHostProtocolGetLog			(XnDevicePrivateData* pDevicePrivateData, XnChar* csBuffer, XnUInt32 nBufferSize);
-XnStatus XnHostProtocolFileUpload		(XnDevicePrivateData* pDevicePrivateData, XnUInt32 nOffset, const XnChar* strFileName, XnUInt16 nAttributes);
+XnStatus XnHostProtocolGetLog			(XnDevicePrivateData* pDevicePrivateData, XnChar* csBuffer, uint32_t nBufferSize);
+XnStatus XnHostProtocolFileUpload		(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, const XnChar* strFileName, XnUInt16 nAttributes);
 XnStatus XnHostProtocolFileDownload		(XnDevicePrivateData* pDevicePrivateData, XnUInt16 nFileType, const XnChar* strFileName);
-XnStatus XnHostProtocolReadFlash		(XnDevicePrivateData* pDevicePrivateData, XnUInt32 nOffset, XnUInt32 nSize, XnUChar* pBuffer);
-XnStatus XnHostProtocolRunBIST			(XnDevicePrivateData* pDevicePrivateData, XnUInt32 nTestsMask, XnUInt32* pnFailures);
-XnStatus XnHostProtocolGetCPUStats		(XnDevicePrivateData* pDevicePrivateData, XnTaskCPUInfo* pTasks, XnUInt32 *pnTimesCount);
+XnStatus XnHostProtocolReadFlash		(XnDevicePrivateData* pDevicePrivateData, uint32_t nOffset, uint32_t nSize, XnUChar* pBuffer);
+XnStatus XnHostProtocolRunBIST			(XnDevicePrivateData* pDevicePrivateData, uint32_t nTestsMask, uint32_t* pnFailures);
+XnStatus XnHostProtocolGetCPUStats		(XnDevicePrivateData* pDevicePrivateData, XnTaskCPUInfo* pTasks, uint32_t *pnTimesCount);
 XnStatus XnHostProtocolCalibrateTec		(XnDevicePrivateData* pDevicePrivateData, XnUInt16 nSetPoint);
 XnStatus XnHostProtocolGetTecData		(XnDevicePrivateData* pDevicePrivateData, XnTecData* pTecData);
 XnStatus XnHostProtocolGetTecFastConvergenceData (XnDevicePrivateData* pDevicePrivateData, XnTecFastConvergenceData* pTecData);

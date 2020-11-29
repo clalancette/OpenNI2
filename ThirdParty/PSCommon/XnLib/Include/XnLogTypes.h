@@ -63,7 +63,7 @@ typedef struct XnLogEntry
 	const XnChar* strMask;
 	const XnChar* strMessage;
 	const XnChar* strFile;
-	XnUInt32 nLine;
+	uint32_t nLine;
 } XnLogEntry;
 
 typedef struct XnLogWriter

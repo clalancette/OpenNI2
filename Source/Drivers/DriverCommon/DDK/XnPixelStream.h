@@ -49,14 +49,14 @@ public:
 	// Getters
 	//---------------------------------------------------------------------------
 	inline XnResolutions GetResolution() const { return (XnResolutions)m_Resolution.GetValue(); }
-	inline XnUInt32 GetXRes() const { return (XnUInt32)m_XRes.GetValue(); }
-	inline XnUInt32 GetYRes() const { return (XnUInt32)m_YRes.GetValue(); }
-	inline XnUInt32 GetBytesPerPixel() const { return (XnUInt32)m_BytesPerPixel.GetValue(); }
+	inline uint32_t GetXRes() const { return (uint32_t)m_XRes.GetValue(); }
+	inline uint32_t GetYRes() const { return (uint32_t)m_YRes.GetValue(); }
+	inline uint32_t GetBytesPerPixel() const { return (uint32_t)m_BytesPerPixel.GetValue(); }
 	inline const OniCropping* GetCropping() const { return (OniCropping*)m_Cropping.GetValue().data; }
 	inline const std::vector<XnCmosPreset>& GetSupportedModes() const { return m_supportedModesData; }
 
 protected:
-	XnStatus AddSupportedModes(XnCmosPreset* aPresets, XnUInt32 nCount);
+	XnStatus AddSupportedModes(XnCmosPreset* aPresets, uint32_t nCount);
 	XnStatus ValidateSupportedMode(const XnCmosPreset& preset);
 
 	/** Notifies new data is available in this stream. */
@@ -76,8 +76,8 @@ protected:
 	// Setters
 	//---------------------------------------------------------------------------
 	virtual XnStatus SetResolution(XnResolutions nResolution);
-	virtual XnStatus SetXRes(XnUInt32 nXRes);
-	virtual XnStatus SetYRes(XnUInt32 nYRes);
+	virtual XnStatus SetXRes(uint32_t nXRes);
+	virtual XnStatus SetYRes(uint32_t nYRes);
 	virtual XnStatus SetCropping(const OniCropping* pCropping);
 
 	//---------------------------------------------------------------------------
@@ -91,7 +91,7 @@ protected:
 	// Overridden Methods
 	//---------------------------------------------------------------------------
 	XnStatus Mirror(OniFrame* pFrame) const;
-	virtual XnStatus CalcRequiredSize(XnUInt32* pnRequiredSize) const;
+	virtual XnStatus CalcRequiredSize(uint32_t* pnRequiredSize) const;
 
 	XnStatus ValidateCropping(const OniCropping* pCropping);
 
@@ -99,14 +99,14 @@ private:
 	class XnResolutionProperty : public XnActualIntProperty
 	{
 	public:
-		XnResolutionProperty(XnUInt32 propertyId, const XnChar* strName, XnUInt64 nInitialValue = 0, const XnChar* strModule = "");
+		XnResolutionProperty(uint32_t propertyId, const XnChar* strName, XnUInt64 nInitialValue = 0, const XnChar* strModule = "");
 		XnBool ConvertValueToString(XnChar* csValue, const void* pValue) const;
 	};
 
 	XnStatus OnResolutionChanged();
 	XnStatus OnOutputFormatChanged();
 	XnStatus FixCropping();
-	XnStatus GetSupportedModes(XnCmosPreset* aPresets, XnUInt32& nCount);
+	XnStatus GetSupportedModes(XnCmosPreset* aPresets, uint32_t& nCount);
 
 	static XnStatus XN_CALLBACK_TYPE SetResolutionCallback(XnActualIntProperty* pSenser, XnUInt64 nValue, void* pCookie);
 	static XnStatus XN_CALLBACK_TYPE SetXResCallback(XnActualIntProperty* pSenser, XnUInt64 nValue, void* pCookie);

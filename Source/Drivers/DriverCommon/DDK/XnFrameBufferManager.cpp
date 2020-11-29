@@ -98,7 +98,7 @@ void XnFrameBufferManager::Stop()
 	m_pServices = NULL;
 }
 
-void XnFrameBufferManager::MarkWriteBufferAsStable(XnUInt32* pnFrameID)
+void XnFrameBufferManager::MarkWriteBufferAsStable(uint32_t* pnFrameID)
 {
 	xnOSEnterCriticalSection(&m_hLock);
 

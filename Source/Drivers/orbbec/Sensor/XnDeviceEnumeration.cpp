@@ -58,7 +58,7 @@ static XnUsbId ms_supportedProducts[] =
 	{ 0x2BC5, 0x04ff },
 };
 
-static XnUInt32 ms_supportedProductsCount = sizeof(ms_supportedProducts) / sizeof(ms_supportedProducts[0]);
+static uint32_t ms_supportedProductsCount = sizeof(ms_supportedProducts) / sizeof(ms_supportedProducts[0]);
 
 static void XN_CALLBACK_TYPE OnConnectivityEventCallback(XnUSBEventArgs* pArgs, void* pCookie);
 static void OnConnectivityEvent(const XnChar* uri, XnUSBEventType eventType, XnUsbId usbId);
@@ -82,10 +82,10 @@ XnStatus XnDeviceEnumeration::Initialize()
 	XN_IS_STATUS_OK(nRetVal);
 
 	// check all products
-	for (XnUInt32 i = 0; i < ms_supportedProductsCount; ++i)
+	for (uint32_t i = 0; i < ms_supportedProductsCount; ++i)
 	{
 		const XnUSBConnectionString* astrDevicePaths;
-		XnUInt32 nCount;
+		uint32_t nCount;
 		// register for USB events
 		XnRegistrationHandle hRegistration = NULL;
 		nRetVal = xnUSBRegisterToConnectivityEvents(ms_supportedProducts[i].vendorID, ms_supportedProducts[i].productID, OnConnectivityEventCallback, &ms_supportedProducts[i], &hRegistration);
@@ -97,7 +97,7 @@ XnStatus XnDeviceEnumeration::Initialize()
 		nRetVal = xnUSBEnumerateDevices(ms_supportedProducts[i].vendorID, ms_supportedProducts[i].productID, &astrDevicePaths, &nCount);
 		XN_IS_STATUS_OK(nRetVal);
 
-		for (XnUInt32 j = 0; j < nCount; ++j)
+		for (uint32_t j = 0; j < nCount; ++j)
 		{
 			OnConnectivityEvent(astrDevicePaths[j], XN_USB_EVENT_DEVICE_CONNECT, ms_supportedProducts[i]);
 		}
@@ -114,7 +114,7 @@ void XnDeviceEnumeration::Shutdown()
 {
 	if (ms_initialized)
 	{
-		for (XnUInt32 i = 0; i < ms_aRegistrationHandles.size(); ++i)
+		for (uint32_t i = 0; i < ms_aRegistrationHandles.size(); ++i)
 		{
 			xnUSBUnregisterFromConnectivityEvents(ms_aRegistrationHandles[i]);
 		}

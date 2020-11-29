@@ -83,7 +83,7 @@ XN_C_API XnDumpFile* XN_C_DECL xnDumpFileOpenEx(const XnChar* strDumpName, XnBoo
  * @param	pBuffer			[in]	Data to be written to file.
  * @param	nBufferSize		[in]	Size of the buffer.
  */
-XN_C_API void XN_C_DECL _xnDumpFileWriteBuffer(XnDumpFile* pFile, const void* pBuffer, XnUInt32 nBufferSize);
+XN_C_API void XN_C_DECL _xnDumpFileWriteBuffer(XnDumpFile* pFile, const void* pBuffer, uint32_t nBufferSize);
 
 /**
  * Writes a formatted string to a dump file.
@@ -156,7 +156,7 @@ const XnDump XN_DUMP_CLOSED = { XN_INVALID_FILE_HANDLE };
 XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpInit(XnDump* pDump, const XnChar* csDumpMask, const XnChar* csHeader, const XnChar* csFileNameFormat, ...);
 XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpForceInit(XnDump* pDump, const XnChar* csHeader, const XnChar* csFileNameFormat, ...);
 XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpClose(XnDump* pDump);
-XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpWriteBufferImpl(XnDump dump, const void* pBuffer, XnUInt32 nBufferSize);
+XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpWriteBufferImpl(XnDump dump, const void* pBuffer, uint32_t nBufferSize);
 XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpWriteStringImpl(XnDump dump, const XnChar* csFormat, ...);
 XN_C_API void XN_API_DEPRECATED("Use xnDumpFileX methods instead") XN_C_DECL xnDumpFlush(XnDump dump);
 

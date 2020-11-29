@@ -71,7 +71,7 @@ XnStatus XnSensorStreamHelper::Configure()
 	XnStatus nRetVal = XN_STATUS_OK;
 
 	XnResolutions nRes;
-	XnUInt32 nFPS;
+	uint32_t nFPS;
 	m_pSensorStream->GetFirmwareStreamConfig(&nRes, &nFPS);
 
 	// claim the stream

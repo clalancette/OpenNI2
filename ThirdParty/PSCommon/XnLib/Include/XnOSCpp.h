@@ -79,7 +79,7 @@ public:
 		Unlock();
 		xnOSCloseMutex(&m_mutex);
 	}
-	XnStatus Lock(XnUInt32 milliseconds = XN_WAIT_INFINITE)
+	XnStatus Lock(uint32_t milliseconds = XN_WAIT_INFINITE)
 	{
 		return xnOSLockMutex(m_mutex, milliseconds);
 	}
@@ -107,11 +107,11 @@ class VirtualLock<false> : public NoLock {};
 class AutoMutexLocker
 {
 public:
-	inline AutoMutexLocker(XN_MUTEX_HANDLE hMutex, XnUInt32 nMilliseconds) : m_hMutex(hMutex)
+	inline AutoMutexLocker(XN_MUTEX_HANDLE hMutex, uint32_t nMilliseconds) : m_hMutex(hMutex)
 	{
 		Lock(nMilliseconds);
 	}
-	AutoMutexLocker(const Mutex& mutex, XnUInt32 nMilliseconds) : m_hMutex(mutex.m_mutex)
+	AutoMutexLocker(const Mutex& mutex, uint32_t nMilliseconds) : m_hMutex(mutex.m_mutex)
 	{
 		Lock(nMilliseconds);
 	}
@@ -125,7 +125,7 @@ public:
 		Unlock();
 	}
 private:
-	void Lock(XnUInt32 milliseconds)
+	void Lock(uint32_t milliseconds)
 	{
 		m_nStatus = xnOSLockMutex(m_hMutex, milliseconds);
 	}
@@ -250,7 +250,7 @@ public:
 		return xnOSResetEvent(m_hEvent);
 	}
 
-	XnStatus Wait(XnUInt32 nMilliseconds)
+	XnStatus Wait(uint32_t nMilliseconds)
 	{
 		return xnOSWaitEvent(m_hEvent, nMilliseconds);
 	}

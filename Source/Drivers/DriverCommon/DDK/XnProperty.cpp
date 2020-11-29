@@ -31,7 +31,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnProperty::XnProperty(XnPropertyType Type, void* pValueHolder, XnUInt32 propertyId, const XnChar* strName, const XnChar* strModule) :
+XnProperty::XnProperty(XnPropertyType Type, void* pValueHolder, uint32_t propertyId, const XnChar* strName, const XnChar* strModule) :
 	m_propertyId(propertyId),
 	m_Type(Type),
 	m_pValueHolder(pValueHolder),

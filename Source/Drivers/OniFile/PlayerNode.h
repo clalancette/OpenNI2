@@ -63,8 +63,8 @@ public:
 
 	XnStatus SeekToFrame(const XnChar* strNodeName, XnInt32 nFrameOffset, XnPlayerSeekOrigin origin);
 	XnStatus TellTimestamp(XnUInt64& nTimestamp);
-	XnStatus TellFrame(const XnChar* strNodeName, XnUInt32& nFrameNumber);
-	XnUInt32 GetNumFrames(const XnChar* strNodeName, XnUInt32& nFrames);
+	XnStatus TellFrame(const XnChar* strNodeName, uint32_t& nFrameNumber);
+	uint32_t GetNumFrames(const XnChar* strNodeName, uint32_t& nFrames);
 
 	const XnChar* GetSupportedFormat();
 	XnBool IsEOF();
@@ -95,8 +95,8 @@ private:
 		XnChar strName[XN_MAX_NAME_LENGTH];
 		XnUInt64 nLastDataPos;
 		XnCodecID compression;
-		XnUInt32 nFrames;
-		XnUInt32 nCurFrame;
+		uint32_t nFrames;
+		uint32_t nCurFrame;
 		XnUInt64 nMaxTimeStamp;
 		XnBool bStateReady;
 		XnBool bIsGenerator;
@@ -110,12 +110,12 @@ private:
 	XnStatus SeekToTimeStampAbsolute(XnUInt64 nDestTimeStamp);
 	XnStatus SeekToTimeStampRelative(XnInt64 nOffset);
 	XnStatus UndoRecord(PlayerNode::RecordUndoInfo& undoInfo, XnUInt64 nDestPos, XnBool& nUndone);
-	XnStatus SeekToFrameAbsolute(XnUInt32 nNodeID, XnUInt32 nFrameNumber);
-	XnStatus ProcessEachNodeLastData(XnUInt32 nIDToProcessLast);
+	XnStatus SeekToFrameAbsolute(uint32_t nNodeID, uint32_t nFrameNumber);
+	XnStatus ProcessEachNodeLastData(uint32_t nIDToProcessLast);
 
 	static XnInt32 CompareVersions(const XnVersion* pV0, const XnVersion* pV1);
 	XnStatus OpenStream();
-	XnStatus Read(void* pData, XnUInt32 nSize, XnUInt32& nBytesRead);
+	XnStatus Read(void* pData, uint32_t nSize, uint32_t& nBytesRead);
 	XnStatus ReadRecordHeader(Record& record);
 	XnStatus ReadRecordFields(Record& record);
 	//ReadRecord reads just the fields of the record, not the payload.
@@ -127,7 +127,7 @@ private:
 	XnBool IsTypeGenerator(XnProductionNodeType type);
 
 	XnStatus HandleRecord(Record& record, XnBool bHandleRecord);
-	XnStatus HandleNodeAddedImpl(XnUInt32 nNodeID, XnProductionNodeType type, const XnChar* strName, XnCodecID compression, XnUInt32 nNumberOfFrames, XnUInt64 nMinTimestamp, XnUInt64 nMaxTimestamp);
+	XnStatus HandleNodeAddedImpl(uint32_t nNodeID, XnProductionNodeType type, const XnChar* strName, XnCodecID compression, uint32_t nNumberOfFrames, XnUInt64 nMinTimestamp, XnUInt64 nMaxTimestamp);
 	XnStatus HandleNodeAddedRecord(NodeAddedRecord record);
 	XnStatus HandleGeneralPropRecord(GeneralPropRecord record);
 	XnStatus HandleIntPropRecord(IntPropRecord record);
@@ -141,16 +141,16 @@ private:
 	XnStatus HandleEndRecord(EndRecord record);
 	XnStatus Rewind();
 	XnStatus ProcessUntilFirstData();
-	PlayerNodeInfo* GetPlayerNodeInfo(XnUInt32 nNodeID);
-	XnStatus RemovePlayerNodeInfo(XnUInt32 nNodeID);
-	XnUInt32 GetPlayerNodeIDByName(const XnChar* strNodeName);
+	PlayerNodeInfo* GetPlayerNodeInfo(uint32_t nNodeID);
+	XnStatus RemovePlayerNodeInfo(uint32_t nNodeID);
+	uint32_t GetPlayerNodeIDByName(const XnChar* strNodeName);
 	PlayerNodeInfo* GetPlayerNodeInfoByName(const XnChar* strNodeName);
 	XnStatus SaveRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const XnChar* strPropName, XnUInt64 nRecordPos, XnUInt64 nUndoRecordPos);
 	XnStatus GetRecordUndoInfo(PlayerNodeInfo* pPlayerNodeInfo, const XnChar* strPropName, XnUInt64& nRecordPos, XnUInt64& nUndoRecordPos);
 	XnStatus SkipRecordPayload(Record record);
-	XnStatus SeekToRecordByType(XnUInt32 nNodeID, RecordType type);
-	DataIndexEntry* FindTimestampInDataIndex(XnUInt32 nNodeID, XnUInt64 nTimestamp);
-	DataIndexEntry** GetSeekLocationsFromDataIndex(XnUInt32 nNodeID, XnUInt32 nDestFrame);
+	XnStatus SeekToRecordByType(uint32_t nNodeID, RecordType type);
+	DataIndexEntry* FindTimestampInDataIndex(uint32_t nNodeID, XnUInt64 nTimestamp);
+	DataIndexEntry** GetSeekLocationsFromDataIndex(uint32_t nNodeID, uint32_t nDestFrame);
 
 	// BC functions
 	XnStatus HandleNodeAdded_1_0_0_5_Record(NodeAdded_1_0_0_5_Record record);
@@ -183,7 +183,7 @@ private:
 	xnl::EventNoArgs m_eofReachedEvent;
 
 	PlayerNodeInfo* m_pNodeInfoMap;
-	XnUInt32 m_nMaxNodes;
+	uint32_t m_nMaxNodes;
 
 	DataIndexEntry** m_aSeekTempArray;
 

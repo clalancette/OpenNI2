@@ -99,7 +99,7 @@ XnStatus xnOSNamedMutexCreate(XnMutex* pMutex, const XnChar* csMutexName)
 	strMutexOSName[i] = '\0';
 
 	// tanslate mutex name to key file name
-	XnUInt32 nBytesWritten;
+	uint32_t nBytesWritten;
 	xnOSStrFormat(pMutex->csSemFileName, XN_FILE_MAX_PATH, &nBytesWritten, "/tmp/XnCore.Mutex.%s.key", strMutexOSName);
 
 	// open this file (we hold it open until mutex is closed. That way it cannot be deleted as long
@@ -289,7 +289,7 @@ XN_C_API XnStatus xnOSCloseMutex(XN_MUTEX_HANDLE* pMutexHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, uint32_t nMilliseconds)
 {
 	// Local function variables
 	XnStatus nRetVal = XN_STATUS_OK;

@@ -51,10 +51,10 @@ public:
 	* @param	strName 		[in]	Name of the property.
 	* @param	strModule		[in]	Name of the module holding this property.
 	*/
-	XnProperty(XnPropertyType Type, void* pValueHolder, XnUInt32 propertyId, const XnChar* strName, const XnChar* strModule);
+	XnProperty(XnPropertyType Type, void* pValueHolder, uint32_t propertyId, const XnChar* strName, const XnChar* strModule);
 	virtual ~XnProperty();
 
-	inline XnUInt32 GetId() const { return m_propertyId; }
+	inline uint32_t GetId() const { return m_propertyId; }
 	inline const XnChar* GetName() const { return m_strName; }
 	inline const XnChar* GetModule() const { return m_strModule; }
 	inline XnBool IsActual() const { return (m_pValueHolder != NULL); }
@@ -105,7 +105,7 @@ private:
 
 	XnChar m_strModule[XN_DEVICE_MAX_STRING_LENGTH]; // module name
 	XnChar m_strName[XN_DEVICE_MAX_STRING_LENGTH]; // property name
-	XnUInt32 m_propertyId;
+	uint32_t m_propertyId;
 	XnPropertyType m_Type; // property type
 
 	void* m_pValueHolder; // a pointer to the storage of the property
@@ -117,6 +117,6 @@ private:
 };
 
 /** A hash table, mapping property name to the property */
-typedef xnl::Hash<XnUInt32, XnProperty*> XnPropertiesHash;
+typedef xnl::Hash<uint32_t, XnProperty*> XnPropertiesHash;
 
 #endif // XNPROPERTY_H

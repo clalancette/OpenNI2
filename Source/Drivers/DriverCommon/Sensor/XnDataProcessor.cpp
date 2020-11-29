@@ -48,7 +48,7 @@ XnStatus XnDataProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnDataProcessor::ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize)
+void XnDataProcessor::ProcessData(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnDataProcessor::ProcessData")
 
@@ -81,7 +81,7 @@ void XnDataProcessor::ProcessData(const XnSensorProtocolResponseHeader* pHeader,
 void XnDataProcessor::OnPacketLost()
 {}
 
-XnUInt64 XnDataProcessor::CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp)
+XnUInt64 XnDataProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 {
 	XnUInt64 nNow;
 	xnOSGetHighResTimeStamp(&nNow);
@@ -101,7 +101,7 @@ XnUInt64 XnDataProcessor::CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp)
 
 	const XnUInt64 nWrapPoint = ((XnUInt64)XN_MAX_UINT32) + 1;
 	XnUInt64 nResultInTicks;
-	const XnUInt32 nDumpCommentMaxLength = 200;
+	const uint32_t nDumpCommentMaxLength = 200;
 	XnChar csDumpComment[nDumpCommentMaxLength] = "";
 	XnBool bCheckSanity = TRUE;
 
@@ -229,7 +229,7 @@ XnUInt64 XnDataProcessor::GetHostTimestamp()
 		xnOSEnterCriticalSection(&m_pDevicePrivateData->hEndPointsCS);
 		if (m_pDevicePrivateData->nGlobalReferenceTS == 0)
 		{
-			m_pDevicePrivateData->nGlobalReferenceTS = (XnUInt32)nNow;
+			m_pDevicePrivateData->nGlobalReferenceTS = (uint32_t)nNow;
 			m_pDevicePrivateData->nGlobalReferenceOSTime = nNow;
 		}
 		xnOSLeaveCriticalSection(&m_pDevicePrivateData->hEndPointsCS);

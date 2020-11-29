@@ -72,14 +72,14 @@ XnStatus XnImageProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-XnUInt32 XnImageProcessor::CalculateExpectedSize()
+uint32_t XnImageProcessor::CalculateExpectedSize()
 {
-	XnUInt32 nExpectedDepthBufferSize = GetStream()->GetXRes() * GetStream()->GetYRes();
+	uint32_t nExpectedDepthBufferSize = GetStream()->GetXRes() * GetStream()->GetYRes();
 
 	// when cropping is turned on, actual depth size is smaller
 	if (GetStream()->m_FirmwareCropMode.GetValue() != XN_FIRMWARE_CROPPING_MODE_DISABLED)
 	{
-		nExpectedDepthBufferSize = (XnUInt32)(GetStream()->m_FirmwareCropSizeX.GetValue() * GetStream()->m_FirmwareCropSizeY.GetValue());
+		nExpectedDepthBufferSize = (uint32_t)(GetStream()->m_FirmwareCropSizeX.GetValue() * GetStream()->m_FirmwareCropSizeY.GetValue());
 	}
 
 	nExpectedDepthBufferSize *= GetStream()->GetBytesPerPixel();
@@ -92,7 +92,7 @@ void XnImageProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 	if (!m_bCompressedOutput)
 	{
 		// make sure data size is right
-		XnUInt32 nExpectedSize = CalculateExpectedSize();
+		uint32_t nExpectedSize = CalculateExpectedSize();
 		if (GetWriteBuffer()->GetSize() != nExpectedSize)
 		{
 			xnLogWarning(XN_MASK_SENSOR_READ, "Read: Image buffer is corrupt. Size is %u (!= %u)", GetWriteBuffer()->GetSize(), nExpectedSize);
@@ -131,7 +131,7 @@ void XnImageProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeade
 	XnFrameStreamProcessor::OnEndOfFrame(pHeader);
 }
 
-void XnImageProcessor::OnFrameReady(XnUInt32 nFrameID, XnUInt64 nFrameTS)
+void XnImageProcessor::OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS)
 {
 	XnFrameStreamProcessor::OnFrameReady(nFrameID, nFrameTS);
 
@@ -142,8 +142,8 @@ void XnImageProcessor::CalcActualRes()
 {
 	if (GetStream()->m_FirmwareCropMode.GetValue() != XN_FIRMWARE_CROPPING_MODE_DISABLED)
 	{
-		m_nActualXRes = (XnUInt32)GetStream()->m_FirmwareCropSizeX.GetValue();
-		m_nActualYRes = (XnUInt32)GetStream()->m_FirmwareCropSizeY.GetValue();
+		m_nActualXRes = (uint32_t)GetStream()->m_FirmwareCropSizeX.GetValue();
+		m_nActualYRes = (uint32_t)GetStream()->m_FirmwareCropSizeY.GetValue();
 	}
 	else
 	{

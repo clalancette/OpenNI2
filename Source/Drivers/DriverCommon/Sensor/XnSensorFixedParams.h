@@ -76,8 +76,8 @@ private:
 	XnDouble m_dEmitterDCmosDistance;
 	XnDouble m_dDCmosRCmosDistance;
 
-	XnUInt32 m_nImageCmosType;
-	XnUInt32 m_nDepthCmosType;
+	uint32_t m_nImageCmosType;
+	uint32_t m_nDepthCmosType;
 
 	XnChar m_strSensorSerial[XN_DEVICE_MAX_STRING_LENGTH];
 	XnDeviceInformation m_deviceInfo;

@@ -32,9 +32,9 @@ struct XnFPSDataImpl
 	/** An array of the time of each frame. */
 	XnUInt64* anTimes;
 	/** The size of the array. */
-	XnUInt32 nArraySize;
+	uint32_t nArraySize;
 	/** Index of the next place to write to. */
-	XnUInt32 nCurrIndex;
+	uint32_t nCurrIndex;
 };
 
 typedef struct XnFPSDataImpl XnFPSDataImpl;
@@ -42,7 +42,7 @@ typedef struct XnFPSDataImpl XnFPSDataImpl;
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStatus xnFPSInit(XnFPSData* pFPS, XnUInt32 nSamplesCount)
+XnStatus xnFPSInit(XnFPSData* pFPS, uint32_t nSamplesCount)
 {
 	XN_VALIDATE_OUTPUT_PTR(pFPS);
 
@@ -80,7 +80,7 @@ XnStatus xnFPSMarkFrame(XnFPSData* pFPS, XnUInt64 nNow /* = 0 */)
 	return XN_STATUS_OK;
 }
 
-XnDouble xnFPSCalc(XnFPSData* pFPS, XnUInt32 nAverageOver /* = 3000 */, XnUInt64 nNow /* = 0 */)
+XnDouble xnFPSCalc(XnFPSData* pFPS, uint32_t nAverageOver /* = 3000 */, XnUInt64 nNow /* = 0 */)
 {
 	XN_VALIDATE_INPUT_PTR(pFPS);
 	XnFPSDataImpl* pData = *pFPS;
@@ -93,8 +93,8 @@ XnDouble xnFPSCalc(XnFPSData* pFPS, XnUInt32 nAverageOver /* = 3000 */, XnUInt64
 	XnUInt64 nSince = nNow - nAverageOver*1000;
 
 	// search for first index
-	XnUInt32 nFirst = pData->nCurrIndex;
-	XnUInt32 nLast = (pData->nCurrIndex + pData->nArraySize - 1) % pData->nArraySize;
+	uint32_t nFirst = pData->nCurrIndex;
+	uint32_t nLast = (pData->nCurrIndex + pData->nArraySize - 1) % pData->nArraySize;
 
 	// no valid samples
 	if (pData->anTimes[nLast] < nSince)
@@ -109,7 +109,7 @@ XnDouble xnFPSCalc(XnFPSData* pFPS, XnUInt32 nAverageOver /* = 3000 */, XnUInt64
 	}
 
 	// calculate frames per second
-	XnUInt32 nFrames = ((nLast - nFirst + pData->nArraySize) % pData->nArraySize) + 1;
+	uint32_t nFrames = ((nLast - nFirst + pData->nArraySize) % pData->nArraySize) + 1;
 
 	// if have no statistics...
 	if (nFrames <= 1)

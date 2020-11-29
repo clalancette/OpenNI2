@@ -58,7 +58,7 @@ XnLinuxSysVNamedEvent::XnLinuxSysVNamedEvent(XnBool bManualReset, const XnChar* 
 XnStatus XnLinuxSysVNamedEvent::CreateNamed(const XnChar* strName)
 {
 	// translate event name to key file name
-	XnUInt32 nBytesWritten;
+	uint32_t nBytesWritten;
 	xnOSStrFormat(m_csSemFileName, XN_FILE_MAX_PATH, &nBytesWritten, "/tmp/XnCore.Event.%s.key", strName);
 
 	// create the file (must exist for ftok)
@@ -117,7 +117,7 @@ XnStatus XnLinuxSysVNamedEvent::CreateNamed(const XnChar* strName)
 XnStatus XnLinuxSysVNamedEvent::OpenNamed(const XnChar* strName)
 {
 	// translate event name to key file name
-	XnUInt32 nBytesWritten;
+	uint32_t nBytesWritten;
 	xnOSStrFormat(m_csSemFileName, XN_FILE_MAX_PATH, &nBytesWritten, "/tmp/XnCore.Event.%s.key", strName);
 
 	// create the key
@@ -207,7 +207,7 @@ XnStatus XnLinuxSysVNamedEvent::Reset()
 	return XN_STATUS_OK;
 }
 
-XnStatus XnLinuxSysVNamedEvent::Wait(XnUInt32 nMilliseconds)
+XnStatus XnLinuxSysVNamedEvent::Wait(uint32_t nMilliseconds)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

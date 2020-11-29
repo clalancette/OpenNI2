@@ -54,7 +54,7 @@ XnStatus LinkUnpackedS2DParser::ParsePacketImpl(XnLinkFragmentation /*fragmentat
 	////////////////////////////////////////////
 	nRetVal = XnShiftToDepthConvert(&m_shiftToDepthTables,
 		reinterpret_cast<const XnUInt16*>(pSrc),
-		XnUInt32(nPacketDataSize / 2),
+		uint32_t(nPacketDataSize / 2),
 		reinterpret_cast<OniDepthPixel*>(pDst));
 	XN_IS_STATUS_OK(nRetVal);
 	////////////////////////////////////////////

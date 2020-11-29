@@ -37,7 +37,7 @@ typedef enum
 	EdgeAwareWeighted
 } DebayeringMethod;
 
-void fillRGB(unsigned width, unsigned height, const XnUInt8* bayer_pixel, unsigned char* rgb_buffer, DebayeringMethod debayering_method, XnUInt32 nDownSampleStep)
+void fillRGB(unsigned width, unsigned height, const XnUInt8* bayer_pixel, unsigned char* rgb_buffer, DebayeringMethod debayering_method, uint32_t nDownSampleStep)
 {
 	unsigned rgb_line_step = width * 3;
 	unsigned rgb_line_skip = rgb_line_step - width * 3;
@@ -1146,7 +1146,7 @@ void fillRGB(unsigned width, unsigned height, const XnUInt8* bayer_pixel, unsign
 	}
 }
 
-void Bayer2RGB888(const XnUInt8* pBayerImage, XnUInt8* pRGBImage, XnUInt32 nXRes, XnUInt32 nYRes, XnUInt32 nDownSampleStep)
+void Bayer2RGB888(const XnUInt8* pBayerImage, XnUInt8* pRGBImage, uint32_t nXRes, uint32_t nYRes, uint32_t nDownSampleStep)
 {
 	fillRGB(nXRes, nYRes, pBayerImage, pRGBImage, DebayeringMethod(1), nDownSampleStep); // DebayeringMethod(0) == bilinear, (1) == edge aware, (2) == edge aware weighted
 }

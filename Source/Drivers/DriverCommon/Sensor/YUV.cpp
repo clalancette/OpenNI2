@@ -55,7 +55,7 @@ void YUV444ToRGB888(XnUInt8 cY, XnUInt8 cU, XnUInt8 cV,
 
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 
-void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSize, XnUInt32* pnActualRead, XnUInt32* pnRGBSize)
+void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
 {
 	const XnUInt8* pYUVLast = pYUVImage + nYUVSize - 8;
 	const XnUInt8* pYUVOrig = pYUVImage;
@@ -87,9 +87,9 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVS
 	__m128i iG;
 	__m128i iB;
 
-	XnUInt32* piR = (XnUInt32*)&iR;
-	XnUInt32* piG = (XnUInt32*)&iG;
-	XnUInt32* piB = (XnUInt32*)&iB;
+	uint32_t* piR = (uint32_t*)&iR;
+	uint32_t* piG = (uint32_t*)&iG;
+	uint32_t* piB = (uint32_t*)&iB;
 
 	while (pYUVImage <= pYUVLast && pRGBImage <= pRGBLast)
 	{
@@ -162,13 +162,13 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVS
 		pRGBImage += 12;
 	}
 
-	*pnActualRead = (XnUInt32)(pYUVImage - pYUVOrig);
-	*pnRGBSize = (XnUInt32)(pRGBImage - pRGBOrig);
+	*pnActualRead = (uint32_t)(pYUVImage - pYUVOrig);
+	*pnRGBSize = (uint32_t)(pRGBImage - pRGBOrig);
 }
 
 #else // not Win32
 
-void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSize, XnUInt32* pnActualRead, XnUInt32* pnRGBSize)
+void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
 {
 	const XnUInt8* pOrigYUV = pYUVImage;
 	const XnUInt8* pCurrYUV = pYUVImage;
@@ -196,7 +196,7 @@ void YUV422ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVS
 
 #if (XN_PLATFORM == XN_PLATFORM_WIN32)
 
-void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSize, XnUInt32* pnActualRead, XnUInt32* pnRGBSize)
+void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
 {
 	const XnUInt8* pYUVLast = pYUVImage + nYUVSize - 8;
 	const XnUInt8* pYUVOrig = pYUVImage;
@@ -228,9 +228,9 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSiz
 	__m128i iG;
 	__m128i iB;
 
-	XnUInt32* piR = (XnUInt32*)&iR;
-	XnUInt32* piG = (XnUInt32*)&iG;
-	XnUInt32* piB = (XnUInt32*)&iB;
+	uint32_t* piR = (uint32_t*)&iR;
+	uint32_t* piG = (uint32_t*)&iG;
+	uint32_t* piB = (uint32_t*)&iB;
 
 	while (pYUVImage <= pYUVLast && pRGBImage <= pRGBLast)
 	{
@@ -303,13 +303,13 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSiz
 		pRGBImage += 12;
 	}
 
-	*pnActualRead = (XnUInt32)(pYUVImage - pYUVOrig);
-	*pnRGBSize = (XnUInt32)(pRGBImage - pRGBOrig);
+	*pnActualRead = (uint32_t)(pYUVImage - pYUVOrig);
+	*pnRGBSize = (uint32_t)(pRGBImage - pRGBOrig);
 }
 
 #else // not Win32
 
-void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSize, XnUInt32* pnActualRead, XnUInt32* pnRGBSize)
+void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t* pnActualRead, uint32_t* pnRGBSize)
 {
 	const XnUInt8* pOrigYUV = pYUVImage;
 	const XnUInt8* pCurrYUV = pYUVImage;
@@ -335,7 +335,7 @@ void YUYVToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSiz
 
 #endif
 
-void YUV420ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, XnUInt32 nYUVSize, XnUInt32 /*nRGBSize*/)
+void YUV420ToRGB888(const XnUInt8* pYUVImage, XnUInt8* pRGBImage, uint32_t nYUVSize, uint32_t /*nRGBSize*/)
 {
 	const XnUInt8* pLastYUV = pYUVImage + nYUVSize - YUV420_BPP;
 

@@ -36,8 +36,8 @@
 class XnActualGeneralProperty final : public XnGeneralProperty
 {
 public:
-	XnActualGeneralProperty(XnUInt32 propertyId, const XnChar* strName, void* pData, XnUInt32 nDataSize, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
-	XnActualGeneralProperty(XnUInt32 propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
+	XnActualGeneralProperty(uint32_t propertyId, const XnChar* strName, void* pData, uint32_t nDataSize, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
+	XnActualGeneralProperty(uint32_t propertyId, const XnChar* strName, const OniGeneralBuffer& gbValue, ReadValueFromFileFuncPtr pReadFromFileFunc = NULL, const XnChar* strModule = "");
 	~XnActualGeneralProperty();
 
 	void SetAsBufferOwner(XnBool bOwner);
@@ -62,7 +62,7 @@ public:
 		XnGeneralProperty::UpdateGetCallback((XnGeneralProperty::GetFuncPtr)pFunc, pCookie);
 	}
 
-	inline void ReplaceBuffer(void* pData, XnUInt32 nDataSize)
+	inline void ReplaceBuffer(void* pData, uint32_t nDataSize)
 	{
 		m_gbValue.data = pData;
 		m_gbValue.dataSize = nDataSize;

@@ -109,7 +109,7 @@ XN_C_API XnStatus xnOSCloseMutex(XN_MUTEX_HANDLE* pMutexHandle)
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, XnUInt32 nMilliseconds)
+XN_C_API XnStatus xnOSLockMutex(const XN_MUTEX_HANDLE MutexHandle, uint32_t nMilliseconds)
 {
 	// Local function variables
 	XnInt32 nRetVal = 0;

@@ -56,8 +56,8 @@ public:
 	inline Vector3D& operator=(const Point3D& point);
 	inline Vector3D& operator=(const Vector3D& other);
 
-	inline XnFloat operator[](XnUInt32 index) const;
-	inline XnFloat& operator[](XnUInt32 index);
+	inline XnFloat operator[](uint32_t index) const;
+	inline XnFloat& operator[](uint32_t index);
 
 	inline Vector3D& Set(const Vector3D& other);
 	inline Vector3D& Set(const Point3D& point);
@@ -140,7 +140,7 @@ Vector3D::Vector3D(const Point3D& point) {Set(point);}
 Vector3D& Vector3D::operator=(const Vector3D& other) {m_tolerance = other.m_tolerance; return Set(other.x, other.y, other.z);}
 Vector3D& Vector3D::operator=(const Point3D& point) {m_tolerance = 1e-5f; return Set(point.x, point.y, point.z);}
 
-XnFloat Vector3D::operator[](XnUInt32 index) const
+XnFloat Vector3D::operator[](uint32_t index) const
 {
 	switch (index)
 	{
@@ -154,7 +154,7 @@ XnFloat Vector3D::operator[](XnUInt32 index) const
 	XN_ASSERT(false);
 	return z;
 }
-XnFloat &Vector3D::operator[](XnUInt32 index)
+XnFloat &Vector3D::operator[](uint32_t index)
 {
 	switch (index)
 	{

@@ -52,7 +52,7 @@ XnFrameStreamProcessor::~XnFrameStreamProcessor()
 	xnDumpFileClose(m_InternalDump);
 }
 
-void XnFrameStreamProcessor::ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize)
+void XnFrameStreamProcessor::ProcessPacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnFrameStreamProcessor::ProcessPacketChunk");
 
@@ -122,7 +122,7 @@ void XnFrameStreamProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* 
 		OniFrame* pFrame = m_pTripleBuffer->GetWriteFrame();
 		pFrame->timestamp = nTimestamp;
 
-		XnUInt32 nFrameID;
+		uint32_t nFrameID;
 		m_pTripleBuffer->MarkWriteBufferAsStable(&nFrameID);
 
 		// let inheriting classes do their stuff

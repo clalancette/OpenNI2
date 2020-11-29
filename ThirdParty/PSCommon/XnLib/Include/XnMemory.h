@@ -37,7 +37,7 @@ XN_C_API XnInt32 XN_C_DECL xnOSMemCmp(const void *pBuf1, const void *pBuf2, XnSi
 XN_C_API void XN_C_DECL xnOSMemSet(void* pDest, XnUInt8 nValue, XnSizeT nCount);
 XN_C_API void XN_C_DECL xnOSMemMove(void* pDest, const void* pSource, XnSizeT nCount);
 XN_C_API XnUInt64 XN_C_DECL xnOSEndianSwapUINT64(XnUInt64 nValue);
-XN_C_API XnUInt32 XN_C_DECL xnOSEndianSwapUINT32(XnUInt32 nValue);
+XN_C_API uint32_t XN_C_DECL xnOSEndianSwapUINT32(uint32_t nValue);
 XN_C_API XnUInt16 XN_C_DECL xnOSEndianSwapUINT16(XnUInt16 nValue);
 XN_C_API XnFloat XN_C_DECL xnOSEndianSwapFLOAT(XnFloat fValue);
 

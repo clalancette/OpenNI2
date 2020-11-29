@@ -26,7 +26,7 @@
 //---------------------------------------------------------------------------
 // Globals
 //---------------------------------------------------------------------------
-static const XnUInt32 xnOSStrCRC32Table[0x100] =
+static const uint32_t xnOSStrCRC32Table[0x100] =
 {
 	0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA,
 	0x076DC419, 0x706AF48F, 0xE963A535, 0x9E6495A3,
@@ -97,11 +97,11 @@ static const XnUInt32 xnOSStrCRC32Table[0x100] =
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XN_C_API XnStatus xnOSStrPrefix(const XnChar* cpPrefixString, XnChar* cpDestString, const XnUInt32 nDestLength)
+XN_C_API XnStatus xnOSStrPrefix(const XnChar* cpPrefixString, XnChar* cpDestString, const uint32_t nDestLength)
 {
 	// Local function variables
 	XnChar* cpTempBuffer = NULL;
-	XnUInt32 nOutStringLength = 0;
+	uint32_t nOutStringLength = 0;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpPrefixString);
@@ -133,7 +133,7 @@ XN_C_API XnStatus xnOSStrPrefix(const XnChar* cpPrefixString, XnChar* cpDestStri
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSStrAppend(XnChar* cpDestString, const XnChar* cpSrcString, const XnUInt32 nDestLength)
+XN_C_API XnStatus xnOSStrAppend(XnChar* cpDestString, const XnChar* cpSrcString, const uint32_t nDestLength)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpSrcString);
@@ -152,7 +152,7 @@ XN_C_API XnStatus xnOSStrAppend(XnChar* cpDestString, const XnChar* cpSrcString,
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSStrCopy(XnChar* cpDestString, const XnChar* cpSrcString, const XnUInt32 nDestLength)
+XN_C_API XnStatus xnOSStrCopy(XnChar* cpDestString, const XnChar* cpSrcString, const uint32_t nDestLength)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpSrcString);
@@ -171,13 +171,13 @@ XN_C_API XnStatus xnOSStrCopy(XnChar* cpDestString, const XnChar* cpSrcString, c
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnUInt32 xnOSStrLen(const XnChar* cpString)
+XN_C_API uint32_t xnOSStrLen(const XnChar* cpString)
 {
 	XN_VALIDATE_PTR(cpString, 0);
 	return strlen(cpString);
 }
 
-XN_C_API XnStatus xnOSStrNCopy(XnChar* cpDestString, const XnChar* cpSrcString, const XnUInt32 nCopyLength, const XnUInt32 nDestLength)
+XN_C_API XnStatus xnOSStrNCopy(XnChar* cpDestString, const XnChar* cpSrcString, const uint32_t nCopyLength, const uint32_t nDestLength)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpSrcString);
@@ -196,12 +196,12 @@ XN_C_API XnStatus xnOSStrNCopy(XnChar* cpDestString, const XnChar* cpSrcString, 
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSStrCRC32(const XnChar* cpString, XnUInt32* nCRC32)
+XN_C_API XnStatus xnOSStrCRC32(const XnChar* cpString, uint32_t* nCRC32)
 {
 	// Local function variables
-	XnUInt32 nTempCRC32 = 0xffffffff;
-	XnUInt32 nStrLen = 0;
-	XnUInt32 nIdx = 0;
+	uint32_t nTempCRC32 = 0xffffffff;
+	uint32_t nStrLen = 0;
+	uint32_t nIdx = 0;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpString);
@@ -223,11 +223,11 @@ XN_C_API XnStatus xnOSStrCRC32(const XnChar* cpString, XnUInt32* nCRC32)
 
 }
 
-XN_C_API XnStatus xnOSStrNCRC32(XnUChar* cpBuffer, XnUInt32 nBufferSize, XnUInt32* nCRC32)
+XN_C_API XnStatus xnOSStrNCRC32(XnUChar* cpBuffer, uint32_t nBufferSize, uint32_t* nCRC32)
 {
 	// Local function variables
-	XnUInt32 nTempCRC32 = 0xffffffff;
-	XnUInt32 nIdx = 0;
+	uint32_t nTempCRC32 = 0xffffffff;
+	uint32_t nIdx = 0;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpBuffer);
@@ -246,7 +246,7 @@ XN_C_API XnStatus xnOSStrNCRC32(XnUChar* cpBuffer, XnUInt32 nBufferSize, XnUInt3
 	return (XN_STATUS_OK);
 }
 
-XN_C_API XnStatus xnOSStrFormatV(XnChar* cpDestString, const XnUInt32 nDestLength, XnUInt32* pnBytesWritten, const XnChar* cpFormat, va_list args)
+XN_C_API XnStatus xnOSStrFormatV(XnChar* cpDestString, const uint32_t nDestLength, uint32_t* pnBytesWritten, const XnChar* cpFormat, va_list args)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(cpDestString);
@@ -329,7 +329,7 @@ XN_C_API XnInt32 xnOSStrCaseCmp(const XnChar* cpFirstString, const XnChar* cpSec
 	return strcasecmp(cpFirstString, cpSecondString);
 }
 
-XN_C_API XnStatus XN_C_DECL xnOSGetEnvironmentVariable(const XnChar* strEnv, XnChar* strDest, XnUInt32 nDestSize)
+XN_C_API XnStatus XN_C_DECL xnOSGetEnvironmentVariable(const XnChar* strEnv, XnChar* strDest, uint32_t nDestSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

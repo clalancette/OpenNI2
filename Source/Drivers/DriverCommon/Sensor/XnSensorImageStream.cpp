@@ -134,7 +134,7 @@ XnStatus XnSensorImageStream::Init()
 
 	const std::vector<XnCmosPreset>& aSupportedModes = GetSupportedModes();
 
-	for (XnUInt32 i = 0; i < aSupportedModes.size(); ++i)
+	for (uint32_t i = 0; i < aSupportedModes.size(); ++i)
 	{
 		if (aSupportedModes[i].nResolution == XN_IMAGE_STREAM_DEFAULT_RESOLUTION &&
 			aSupportedModes[i].nFPS == XN_IMAGE_STREAM_DEFAULT_FPS)
@@ -230,7 +230,7 @@ XnStatus XnSensorImageStream::ValidateMode()
 	XnIOImageFormats nInputFormat = (XnIOImageFormats)m_InputFormat.GetValue();
 	OniPixelFormat nOutputFormat = GetOutputFormat();
 	XnResolutions nResolution = GetResolution();
-	XnUInt32 nFPS = GetFPS();
+	uint32_t nFPS = GetFPS();
 
 	// check that input format matches output format
 	switch (nOutputFormat)
@@ -463,7 +463,7 @@ XnStatus XnSensorImageStream::SetMirror(XnBool bIsMirrored)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorImageStream::SetFPS(XnUInt32 nFPS)
+XnStatus XnSensorImageStream::SetFPS(uint32_t nFPS)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -519,7 +519,7 @@ XnStatus XnSensorImageStream::SetInputFormat(XnIOImageFormats nInputFormat)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorImageStream::SetAntiFlicker(XnUInt32 nFrequency)
+XnStatus XnSensorImageStream::SetAntiFlicker(uint32_t nFrequency)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -529,7 +529,7 @@ XnStatus XnSensorImageStream::SetAntiFlicker(XnUInt32 nFrequency)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnSensorImageStream::SetImageQuality(XnUInt32 /*nQuality*/)
+XnStatus XnSensorImageStream::SetImageQuality(uint32_t /*nQuality*/)
 {
 	// check relevance
 	if (m_InputFormat.GetValue() != XN_IO_IMAGE_FORMAT_JPEG)
@@ -794,9 +794,9 @@ XnStatus XnSensorImageStream::Mirror(OniFrame* pFrame) const
 	return (XN_STATUS_OK);
 }
 
-XnUInt32 XnSensorImageStream::CalculateExpectedSize()
+uint32_t XnSensorImageStream::CalculateExpectedSize()
 {
-	XnUInt32 nExpectedImageBufferSize = GetXRes() * GetYRes();
+	uint32_t nExpectedImageBufferSize = GetXRes() * GetYRes();
 
 	// when cropping is turned on, actual IR size is smaller
 	const OniCropping* pCropping = GetCropping();
@@ -908,13 +908,13 @@ XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetInputFormatCallback(XnActualIn
 XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetAntiFlickerCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
 {
 	XnSensorImageStream* pThis = (XnSensorImageStream*)pCookie;
-	return pThis->SetAntiFlicker((XnUInt32)nValue);
+	return pThis->SetAntiFlicker((uint32_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetImageQualityCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
 {
 	XnSensorImageStream* pThis = (XnSensorImageStream*)pCookie;
-	return pThis->SetImageQuality((XnUInt32)nValue);
+	return pThis->SetImageQuality((uint32_t)nValue);
 }
 
 XnStatus XN_CALLBACK_TYPE XnSensorImageStream::SetActualReadCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)

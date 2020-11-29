@@ -91,7 +91,7 @@ protected:
 	XnStatus CloseStreamImpl();
 	XnStatus CreateDataProcessor(XnDataProcessor** ppProcessor);
 	XnStatus MapPropertiesToFirmware();
-	void GetFirmwareStreamConfig(XnResolutions* pnRes, XnUInt32* pnFPS) { *pnRes = GetResolution(); *pnFPS = GetFPS(); }
+	void GetFirmwareStreamConfig(XnResolutions* pnRes, uint32_t* pnFPS) { *pnRes = GetResolution(); *pnFPS = GetFPS(); }
 
 	XnStatus ApplyRegistration(OniDepthPixel* pDetphmap);
 	OniStatus GetSensorCalibrationInfo(void* data, int* dataSize);
@@ -104,12 +104,12 @@ protected:
 	XnStatus SetOutputFormat(OniPixelFormat nOutputFormat);
 	XnStatus SetMirror(XnBool bIsMirrored);
 	XnStatus SetResolution(XnResolutions nResolution);
-	XnStatus SetFPS(XnUInt32 nFPS);
+	XnStatus SetFPS(uint32_t nFPS);
 	virtual XnStatus SetInputFormat(XnIODepthFormats nInputFormat);
 	virtual XnStatus SetRegistration(XnBool bRegistration);
 	virtual XnStatus SetHoleFilter(XnBool bHoleFilter);
 	virtual XnStatus SetWhiteBalance(XnBool bWhiteBalance);
-	virtual XnStatus SetGain(XnUInt32 nGain);
+	virtual XnStatus SetGain(uint32_t nGain);
 	virtual XnStatus SetRegistrationType(XnProcessingType type);
 	virtual XnStatus SetAGCBin(const XnDepthAGCBin* pBin);
 	virtual XnStatus GetAGCBin(XnDepthAGCBin* pBin);
@@ -118,13 +118,13 @@ protected:
 	virtual XnStatus SetGMCMode(XnBool bGMCMode);
 	virtual XnStatus SetCloseRange(XnBool bCloseRange);
 	virtual XnStatus SetCroppingMode(XnCroppingMode mode);
-	XnStatus GetImageCoordinatesOfDepthPixel(XnUInt32 x, XnUInt32 y, OniDepthPixel z, XnUInt32 imageXRes, XnUInt32 imageYRes, XnUInt32& imageX, XnUInt32& imageY);
+	XnStatus GetImageCoordinatesOfDepthPixel(uint32_t x, uint32_t y, OniDepthPixel z, uint32_t imageXRes, uint32_t imageYRes, uint32_t& imageX, uint32_t& imageY);
 	virtual XnStatus SetGMCDebug(XnBool bGMCDebug);
 	virtual XnStatus SetWavelengthCorrection(XnBool bWavelengthCorrection);
 	virtual XnStatus SetWavelengthCorrectionDebug(XnBool bWavelengthCorrectionDebug);
 
 private:
-	XnUInt32 CalculateExpectedSize();
+	uint32_t CalculateExpectedSize();
 	XnStatus DecideFirmwareRegistration(XnBool bRegistration, XnProcessingType registrationType, XnResolutions nRes);
 	XnStatus DecidePixelSizeFactor();
 	XnStatus SetCroppingImpl(const OniCropping* pCropping, XnCroppingMode mode);

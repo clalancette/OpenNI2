@@ -62,7 +62,7 @@ XnStatus XnBayerImageProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-void XnBayerImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize)
+void XnBayerImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnBayerImageProcessor::ProcessFramePacketChunk")
 
@@ -71,7 +71,7 @@ void XnBayerImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolRespon
 	XnBuffer* pWriteBuffer = (GetStream()->GetOutputFormat() == ONI_PIXEL_FORMAT_GRAY8) ? GetWriteBuffer() : &m_UncompressedBayerBuffer;
 
 	const XnUChar* pBuf = NULL;
-	XnUInt32 nBufSize = 0;
+	uint32_t nBufSize = 0;
 
 	// check if we have bytes stored from previous calls
 	if (m_ContinuousBuffer.GetSize() > 0)
@@ -97,9 +97,9 @@ void XnBayerImageProcessor::ProcessFramePacketChunk(const XnSensorProtocolRespon
 		nBufSize = nDataSize;
 	}
 
-	XnUInt32 nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
-	XnUInt32 nWrittenOutput = nOutputSize;
-	XnUInt32 nActualRead = 0;
+	uint32_t nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
+	uint32_t nWrittenOutput = nOutputSize;
+	uint32_t nActualRead = 0;
 	XnBool bLastPart = pHeader->nType == XN_SENSOR_PROTOCOL_RESPONSE_IMAGE_END && (nDataOffset + nDataSize) == pHeader->nBufSize;
 	XnStatus nRetVal = XnStreamUncompressImageNew(pBuf, nBufSize, pWriteBuffer->GetUnsafeWritePointer(),
 		&nWrittenOutput, (XnUInt16)GetActualXRes(), &nActualRead, bLastPart);

@@ -117,11 +117,11 @@ XnStatus XnStreamFreeCompressImageJ(XnStreamCompJPEGContext** ppStreamCompJPEGCo
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamCompressImage8J(XnStreamCompJPEGContext** ppStreamCompJPEGContext, const XnUInt8* pInput, XnUInt8* pOutput, XnUInt32* pnOutputSize, const XnUInt32 nXRes, const XnUInt32 nYRes, const XnUInt32 nQuality)
+XnStatus XnStreamCompressImage8J(XnStreamCompJPEGContext** ppStreamCompJPEGContext, const XnUInt8* pInput, XnUInt8* pOutput, uint32_t* pnOutputSize, const uint32_t nXRes, const uint32_t nYRes, const uint32_t nQuality)
 {
 	// Local function variables
 	XnUInt8* pCurrScanline = (XnUInt8*)pInput;
-	XnUInt32 nYIndex = 0;
+	uint32_t nYIndex = 0;
 	jpeg_compress_struct* pjCompStruct = NULL;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -158,18 +158,18 @@ XnStatus XnStreamCompressImage8J(XnStreamCompJPEGContext** ppStreamCompJPEGConte
 
 	jpeg_finish_compress(pjCompStruct);
 
-	*pnOutputSize -= (XnUInt32)pjCompStruct->dest->free_in_buffer;
+	*pnOutputSize -= (uint32_t)pjCompStruct->dest->free_in_buffer;
 
 	// All is good...
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamCompressImage24J(XnStreamCompJPEGContext** ppStreamCompJPEGContext, const XnUInt8* pInput, XnUInt8* pOutput, XnUInt32* pnOutputSize, const XnUInt32 nXRes, const XnUInt32 nYRes, const XnUInt32 nQuality)
+XnStatus XnStreamCompressImage24J(XnStreamCompJPEGContext** ppStreamCompJPEGContext, const XnUInt8* pInput, XnUInt8* pOutput, uint32_t* pnOutputSize, const uint32_t nXRes, const uint32_t nYRes, const uint32_t nQuality)
 {
 	// Local function variables
 	XnUInt8* pCurrScanline = (XnUChar*)pInput;
-	XnUInt32 nYIndex = 0;
-	XnUInt32 nScanLineSize = 0;
+	uint32_t nYIndex = 0;
+	uint32_t nScanLineSize = 0;
 	jpeg_compress_struct* pjCompStruct = NULL;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)
@@ -207,7 +207,7 @@ XnStatus XnStreamCompressImage24J(XnStreamCompJPEGContext** ppStreamCompJPEGCont
 
 	jpeg_finish_compress(pjCompStruct);
 
-	*pnOutputSize -= (XnUInt32)pjCompStruct->dest->free_in_buffer;
+	*pnOutputSize -= (uint32_t)pjCompStruct->dest->free_in_buffer;
 
 	// All is good...
 	return (XN_STATUS_OK);
@@ -220,7 +220,7 @@ void XnStreamJPEGOutputMessage(j_common_ptr cinfo)
 	if (msg_code == JWRN_EXTRANEOUS_DATA)
 	{
 		// NOTE: we are aware this problem occurs. Log a warning every once in a while
-		static XnUInt32 nTimes = 0;
+		static uint32_t nTimes = 0;
 		if (++nTimes == 50)
 		{
 			char buffer[JMSG_LENGTH_MAX];
@@ -338,14 +338,14 @@ XnStatus XnStreamFreeUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncomp
 #pragma warning(disable: 4611)
 #endif
 
-XnStatus XnStreamUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncompJPEGContext, const XnUInt8* pInput, const XnUInt32 nInputSize, XnUInt8* pOutput, XnUInt32* pnOutputSize)
+XnStatus XnStreamUncompressImageJ(XnStreamUncompJPEGContext** ppStreamUncompJPEGContext, const XnUInt8* pInput, const uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
 {
 	// Local function variables
 	XnUInt8* pCurrScanline = pOutput;
 	XnUInt8* pNextScanline = NULL;
 	XnUInt8* pOutputEnd = 0;
-	XnUInt32 nScanLineSize = 0;
-	XnUInt32 nOutputSize = 0;
+	uint32_t nScanLineSize = 0;
+	uint32_t nOutputSize = 0;
 	jpeg_decompress_struct* pjDecompStruct = NULL;
 
 	// Validate the input/output pointers (to make sure none of them is NULL)

@@ -81,9 +81,9 @@ XnStatus LinkYuvToRgb::Yuv422ToRgb888(const XnUInt8* pSrc, XnSizeT srcSize, XnUI
 	__m128i iG;
 	__m128i iB;
 
-	XnUInt32* piR = (XnUInt32*)&iR;
-	XnUInt32* piG = (XnUInt32*)&iG;
-	XnUInt32* piB = (XnUInt32*)&iB;
+	uint32_t* piR = (uint32_t*)&iR;
+	uint32_t* piG = (uint32_t*)&iG;
+	uint32_t* piB = (uint32_t*)&iB;
 
 	while (pSrc <= pYUVLast)
 	{

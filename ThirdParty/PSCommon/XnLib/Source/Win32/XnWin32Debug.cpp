@@ -89,7 +89,7 @@ static void Init()
 		(g_pSymGetModuleBase64 != NULL);
 }
 
-XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, XnUInt32 nMaxNameLength, XnInt32* pnFrames)
+XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFrames, uint32_t nMaxNameLength, XnInt32* pnFrames)
 {
 	if (*pnFrames == 0 || nMaxNameLength == 0)
 	{
@@ -150,7 +150,7 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFr
 
 	XnInt32 nFrames = 0;
 	XnInt32 iFrame = 0;
-	const XnUInt32 BUFFER_SIZE = 1024;
+	const uint32_t BUFFER_SIZE = 1024;
 	XnChar symbolBuffer[BUFFER_SIZE];
 	SYMBOL_INFO* pSymbolInfo = (SYMBOL_INFO*)symbolBuffer;
 	pSymbolInfo->SizeOfStruct = sizeof(SYMBOL_INFO);
@@ -185,7 +185,7 @@ XN_C_API XnStatus xnOSGetCurrentCallStack(XnInt32 nFramesToSkip, XnChar** astrFr
 				}
 			}
 
-			XnUInt32 nWritten;
+			uint32_t nWritten;
 			if (found)
 			{
 				if (lineNum != 0)

@@ -32,7 +32,7 @@ namespace xn
 class ClientUSBControlEndpoint : virtual public ISyncIOConnection
 {
 public:
-	ClientUSBControlEndpoint(XnUInt32 nPreControlReceiveSleep);
+	ClientUSBControlEndpoint(uint32_t nPreControlReceiveSleep);
 	virtual ~ClientUSBControlEndpoint();
 	// Operations
 	XnStatus Init(XN_USB_DEV_HANDLE hUSBDevice);
@@ -46,18 +46,18 @@ public:
 	virtual XnUInt16 GetMaxPacketSize() const;
 
 	//nSize is max size on input, actual size on output
-	virtual XnStatus Receive(void* pData, XnUInt32& nSize);
-	virtual XnStatus Send(const void* pData, XnUInt32 nSize);
+	virtual XnStatus Receive(void* pData, uint32_t& nSize);
+	virtual XnStatus Send(const void* pData, uint32_t nSize);
 
 private:
 	//Low level usb packet size - not to be confused with our "logical" packet size which is bigger
-	static const XnUInt32 USB_LOW_LEVEL_MAX_PACKET_SIZE;
+	static const uint32_t USB_LOW_LEVEL_MAX_PACKET_SIZE;
 
-	static const XnUInt32 SEND_TIMEOUT;
-	static const XnUInt32 RECEIVE_TIMEOUT;
+	static const uint32_t SEND_TIMEOUT;
+	static const uint32_t RECEIVE_TIMEOUT;
 
 	XN_USB_DEV_HANDLE m_hUSBDevice;
-	XnUInt32 m_nPreControlReceiveSleep;
+	uint32_t m_nPreControlReceiveSleep;
 };
 
 }

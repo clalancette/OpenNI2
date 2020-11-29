@@ -42,7 +42,7 @@ namespace xn
 class LinkPacketHeader : private XnLinkPacketHeader
 {
 public:
-	XnStatus Validate(XnUInt32 nBytesToRead) const;
+	XnStatus Validate(uint32_t nBytesToRead) const;
 	XnBool IsMagicValid() const { return (m_nMagic == XN_LINK_MAGIC); }
 	XnUInt16 GetSize() const { return m_nSize; }
 	XnUInt16 GetDataSize() const { return (m_nSize - sizeof(XnLinkPacketHeader)); }
@@ -74,17 +74,17 @@ const XnChar* xnFragmentationFlagsToStr(XnLinkFragmentation fragmentation);
 const XnChar* xnLinkStreamTypeToString(XnStreamType streamType);
 XnStreamType xnLinkStreamTypeFromString(const XnChar* strType);
 
-const XnChar* xnLinkGestureTypeToName(XnUInt32 gestureType);
-XnUInt32 xnLinkGestureNameToType(const XnChar* strGesture);
+const XnChar* xnLinkGestureTypeToName(uint32_t gestureType);
+uint32_t xnLinkGestureNameToType(const XnChar* strGesture);
 
 const XnChar* xnLinkPixelFormatToName(XnFwPixelFormat pixelFormat);
 XnFwPixelFormat xnLinkPixelFormatFromName(const XnChar* name);
 const XnChar* xnLinkCompressionToName(XnFwCompressionType compression);
 XnFwCompressionType xnLinkCompressionFromName(const XnChar* name);
 
-const XnChar* xnLinkPoseTypeToName(XnUInt32 poseType);
-XnUInt32 xnLinkPoseNameToType(const XnChar* strPose);
-XnStatus xnLinkPosesToNames(XnUInt32 nPoses, std::vector<const XnChar*>& aPosesNames);
+const XnChar* xnLinkPoseTypeToName(uint32_t poseType);
+uint32_t xnLinkPoseNameToType(const XnChar* strPose);
+XnStatus xnLinkPosesToNames(uint32_t nPoses, std::vector<const XnChar*>& aPosesNames);
 
 xnl::Point3D xnLinkPoint3DToPoint3D(const XnLinkPoint3D& point);
 XnLinkPoint3D XnPoint3DToLinkPoint3D(const xnl::Point3D& point);
@@ -92,18 +92,18 @@ XnLinkPoint3D XnPoint3DToLinkPoint3D(const xnl::Point3D& point);
 XnLinkBoundingBox3D xnBoundingBox3DToLinkBoundingBox3D(const xnl::Box3D& box);
 xnl::Box3D xnLinkBoundingBox3DToBoundingBox3D(const XnLinkBoundingBox3D& box);
 
-XnStatus xnLinkGetStreamDumpName(XnUInt16 nStreamID, XnChar* strDumpName, XnUInt32 nDumpNameSize);
-XnStatus xnLinkGetEPDumpName(XnUInt16 nEPID, XnChar* strDumpName, XnUInt32 nDumpNameSize);
+XnStatus xnLinkGetStreamDumpName(XnUInt16 nStreamID, XnChar* strDumpName, uint32_t nDumpNameSize);
+XnStatus xnLinkGetEPDumpName(XnUInt16 nEPID, XnChar* strDumpName, uint32_t nDumpNameSize);
 
-XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pIDSet, XnUInt32 nSize);
+XnStatus xnLinkParseIDSet(std::vector<xnl::BitSet>& idSet, const void* pIDSet, uint32_t nSize);
 
 /*pnEncodedSize is max size on input, actual size on output. pIDs is an array of uint16 values that must be grouped by interface ID.*/
-XnStatus xnLinkEncodeIDSet(void* pIDSet, XnUInt32 *pnEncodedSize, const XnUInt16* pIDs, XnUInt32 nNumIDs);
+XnStatus xnLinkEncodeIDSet(void* pIDSet, uint32_t *pnEncodedSize, const XnUInt16* pIDs, uint32_t nNumIDs);
 
-XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<XnUInt16>& frameSyncStreamIDs, const void* pFrameSyncStreamIDs, XnUInt32 nBufferSize);
+XnStatus xnLinkParseFrameSyncStreamIDs(std::vector<XnUInt16>& frameSyncStreamIDs, const void* pFrameSyncStreamIDs, uint32_t nBufferSize);
 //nBufferSize is max size on input, actual size on output
-XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, XnUInt32& nBufferSize, const std::vector<XnUInt16>& frameSyncStreamIDs);
-XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& componentVersions, const XnLinkComponentVersionsList* pLinkList, XnUInt32 nBufferSize);
+XnStatus xnLinkEncodeFrameSyncStreamIDs(void* pFrameSyncStreamIDs, uint32_t& nBufferSize, const std::vector<XnUInt16>& frameSyncStreamIDs);
+XnStatus xnLinkParseComponentVersionsList(std::vector<XnComponentVersion>& componentVersions, const XnLinkComponentVersionsList* pLinkList, uint32_t nBufferSize);
 
 /*
 XnUInt8 xnLinkNICapabilityToInterfaceID(const XnChar* strCapabilityName);
@@ -124,9 +124,9 @@ void xnEncodeLeanVersion(XnLinkLeanVersion& linkVersion, const XnLeanVersion& ve
 /* nNumModes is max number of modes on input, actual number on output. */
 XnStatus xnLinkParseSupportedVideoModes(std::vector<XnFwStreamVideoMode>& aModes,
 												const XnLinkSupportedVideoModes* pLinkSupportedModes,
-												XnUInt32 nBufferSize);
-XnStatus xnLinkParseBitSet(xnl::BitSet& bitSet, const XnLinkBitSet* pBitSet, XnUInt32 nBufferSize);
-XnStatus xnLinkEncodeBitSet(XnLinkBitSet& linkBitSet, XnUInt32& nBufferSize, const xnl::BitSet& bitSet);
+												uint32_t nBufferSize);
+XnStatus xnLinkParseBitSet(xnl::BitSet& bitSet, const XnLinkBitSet* pBitSet, uint32_t nBufferSize);
+XnStatus xnLinkEncodeBitSet(XnLinkBitSet& linkBitSet, uint32_t& nBufferSize, const xnl::BitSet& bitSet);
 
 void xnLinkParseShiftToDepthConfig(XnShiftToDepthConfig& shiftToDepthConfig, const XnLinkShiftToDepthConfig& linkShiftToDepthConfig);
 
@@ -135,10 +135,10 @@ void xnLinkEncodeCropping(XnLinkCropping& linkCropping, const OniCropping& cropp
 
 const XnChar* xnLinkGetPropName(XnLinkPropID propID);
 
-XnStatus xnLinkValidateGeneralProp(XnLinkPropType propType, XnUInt32 nValueSize, XnUInt32 nMinSize);
+XnStatus xnLinkValidateGeneralProp(XnLinkPropType propType, uint32_t nValueSize, uint32_t nMinSize);
 
 template <typename T>
-XnStatus xnLinkParseIntProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, T& nParsedVal)
+XnStatus xnLinkParseIntProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, T& nParsedVal)
 {
 	if (nValueSize < sizeof(T))
 	{
@@ -160,23 +160,23 @@ XnStatus xnLinkParseIntProp(XnLinkPropType propType, const void* pValue, XnUInt3
 	return XN_STATUS_OK;
 }
 
-XnStatus xnLinkParseLeanVersionProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, XnLeanVersion& leanVersion);
-XnStatus xnLinkParseIDSetProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<xnl::BitSet>& idSet);
-XnStatus xnLinkParseBitSetProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, xnl::BitSet& bitSet);
-XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<XnUInt16>& streamIDs);
-XnStatus xnLinkParseComponentVersionsListProp(XnLinkPropType propType, const void* pValue, XnUInt32 nValueSize, std::vector<XnComponentVersion>& componentVersions);
+XnStatus xnLinkParseLeanVersionProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, XnLeanVersion& leanVersion);
+XnStatus xnLinkParseIDSetProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<xnl::BitSet>& idSet);
+XnStatus xnLinkParseBitSetProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, xnl::BitSet& bitSet);
+XnStatus xnLinkParseFrameSyncStreamIDsProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<XnUInt16>& streamIDs);
+XnStatus xnLinkParseComponentVersionsListProp(XnLinkPropType propType, const void* pValue, uint32_t nValueSize, std::vector<XnComponentVersion>& componentVersions);
 
-XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupportedTests, XnUInt32 nBufferSize, std::vector<XnBistInfo>& supportedTests);
-XnStatus xnLinkParseSupportedTempList(const XnLinkTemperatureSensorsList* pSupportedList, XnUInt32 nBufferSize, std::vector<XnTempInfo>& supportedTempList);
-XnStatus xnLinkParseGetTemperature(const XnLinkTemperatureResponse* tempResponse, XnUInt32 nBufferSize, XnCommandTemperatureResponse& tempData);
+XnStatus xnLinkParseSupportedBistTests(const XnLinkSupportedBistTests* pSupportedTests, uint32_t nBufferSize, std::vector<XnBistInfo>& supportedTests);
+XnStatus xnLinkParseSupportedTempList(const XnLinkTemperatureSensorsList* pSupportedList, uint32_t nBufferSize, std::vector<XnTempInfo>& supportedTempList);
+XnStatus xnLinkParseGetTemperature(const XnLinkTemperatureResponse* tempResponse, uint32_t nBufferSize, XnCommandTemperatureResponse& tempData);
 XnStatus xnLinkReadDebugData(XnCommandDebugData& commandDebugData, XnLinkDebugDataResponse* pDebugDataResponse);
-XnStatus xnLinkParseSupportedI2CDevices(const XnLinkSupportedI2CDevices* pSupportedTests, XnUInt32 nBufferSize, std::vector<XnLinkI2CDevice>& supportedDevices);
-XnStatus xnLinkParseSupportedLogFiles(const XnLinkSupportedLogFiles* pFilesList, XnUInt32 nBufferSize, std::vector<XnLinkLogFile>& supportedFiles);
+XnStatus xnLinkParseSupportedI2CDevices(const XnLinkSupportedI2CDevices* pSupportedTests, uint32_t nBufferSize, std::vector<XnLinkI2CDevice>& supportedDevices);
+XnStatus xnLinkParseSupportedLogFiles(const XnLinkSupportedLogFiles* pFilesList, uint32_t nBufferSize, std::vector<XnLinkLogFile>& supportedFiles);
 
 void xnLinkParseBootStatus(XnBootStatus& bootStatus, const XnLinkBootStatus& linkBootStatus);
 
-XnUInt32 xnLinkGetPixelSizeByStreamType(XnLinkStreamType streamType);
+uint32_t xnLinkGetPixelSizeByStreamType(XnLinkStreamType streamType);
 
-void xnLinkVideoModeToString(XnFwStreamVideoMode videoMode, XnChar* buffer, XnUInt32 bufferSize);
+void xnLinkVideoModeToString(XnFwStreamVideoMode videoMode, XnChar* buffer, uint32_t bufferSize);
 
 #endif // XNLINKPROTOUTILS_H

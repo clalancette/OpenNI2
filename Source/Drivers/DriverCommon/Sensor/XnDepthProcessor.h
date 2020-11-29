@@ -57,7 +57,7 @@ protected:
 	//---------------------------------------------------------------------------
 	virtual void OnStartOfFrame(const XnSensorProtocolResponseHeader* pHeader);
 	virtual void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader);
-	virtual void OnFrameReady(XnUInt32 nFrameID, XnUInt64 nFrameTS);
+	virtual void OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS);
 
 	//---------------------------------------------------------------------------
 	// Helper Functions
@@ -72,18 +72,18 @@ protected:
 		return m_pShiftToDepthTable[nShift];
 	}
 
-	inline XnUInt32 GetExpectedSize()
+	inline uint32_t GetExpectedSize()
 	{
 		return m_nExpectedFrameSize;
 	}
 
 private:
-	void PadPixels(XnUInt32 nPixels);
-	XnUInt32 CalculateExpectedSize();
+	void PadPixels(uint32_t nPixels);
+	uint32_t CalculateExpectedSize();
 
-	XnUInt32 m_nPaddingPixelsOnEnd;
+	uint32_t m_nPaddingPixelsOnEnd;
 	XnBool m_applyRegistrationOnEnd;
-	XnUInt32 m_nExpectedFrameSize;
+	uint32_t m_nExpectedFrameSize;
 	XnBool m_bShiftToDepthAllocated;
 	OniDepthPixel* m_pShiftToDepthTable;
 	OniDepthPixel m_noDepthValue;

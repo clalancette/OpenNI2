@@ -36,7 +36,7 @@
 class XnStringProperty : public XnProperty
 {
 public:
-	XnStringProperty(XnUInt32 propertyId, const XnChar* strName, XnChar* pValueHolder, const XnChar* strModule = "");
+	XnStringProperty(uint32_t propertyId, const XnChar* strName, XnChar* pValueHolder, const XnChar* strModule = "");
 
 	typedef XnStatus (XN_CALLBACK_TYPE* SetFuncPtr)(XnStringProperty* pSender, const XnChar* strValue, void* pCookie);
 	typedef XnStatus (XN_CALLBACK_TYPE* GetFuncPtr)(const XnStringProperty* pSender, XnChar* csValue, void* pCookie);

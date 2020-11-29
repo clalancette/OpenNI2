@@ -49,7 +49,7 @@ XnStatus XnStreamingStream::Init()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnStreamingStream::SetReadChunkSize(XnUInt32 nChunkSize)
+XnStatus XnStreamingStream::SetReadChunkSize(uint32_t nChunkSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -62,5 +62,5 @@ XnStatus XnStreamingStream::SetReadChunkSize(XnUInt32 nChunkSize)
 XnStatus XN_CALLBACK_TYPE XnStreamingStream::SetReadChunkSizeCallback(XnActualIntProperty* /*pSender*/, XnUInt64 nValue, void* pCookie)
 {
 	XnStreamingStream* pStream = (XnStreamingStream*)pCookie;
-	return pStream->SetReadChunkSize((XnUInt32)nValue);
+	return pStream->SetReadChunkSize((uint32_t)nValue);
 }

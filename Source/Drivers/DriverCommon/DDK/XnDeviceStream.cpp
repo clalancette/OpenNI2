@@ -164,7 +164,7 @@ XnStatus XnDeviceStream::UpdateRequiredSize()
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
-	XnUInt32 nRequiredSize;
+	uint32_t nRequiredSize;
 	nRetVal = CalcRequiredSize(&nRequiredSize);
 	XN_IS_STATUS_OK(nRetVal);
 
@@ -211,7 +211,7 @@ void XnDeviceStream::AddRef()
 	++m_nRefCount;
 }
 
-XnUInt32 XnDeviceStream::DecRef()
+uint32_t XnDeviceStream::DecRef()
 {
 	xnl::AutoCSLocker lock(m_hCriticalSection);
 	return --m_nRefCount;
@@ -223,7 +223,7 @@ void XnDeviceStream::OpenAddRef()
 	++m_nOpenRefCount;
 }
 
-XnUInt32 XnDeviceStream::OpenDecRef()
+uint32_t XnDeviceStream::OpenDecRef()
 {
 	xnl::AutoCSLocker lock(m_hOpenLock);
 	return --m_nOpenRefCount;

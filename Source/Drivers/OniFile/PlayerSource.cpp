@@ -131,7 +131,7 @@ OniStatus PlayerSource::SetProperty(int propertyId, const void* data, int dataSi
 }
 
 // Process new data.
-void PlayerSource::ProcessNewData(XnUInt64 nTimeStamp, XnUInt32 nFrameId, void* pData, XnUInt32 nSize)
+void PlayerSource::ProcessNewData(XnUInt64 nTimeStamp, uint32_t nFrameId, void* pData, uint32_t nSize)
 {
 	// Raise the event to all registered callbacks.
 	NewDataEventArgs args;

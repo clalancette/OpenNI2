@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStatus xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, XnUInt32 nMilliseconds, XnConditionFunc pConditionFunc, void* pConditionData)
+XnStatus xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, uint32_t nMilliseconds, XnConditionFunc pConditionFunc, void* pConditionData)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -53,7 +53,7 @@ XnStatus xnOSWaitForCondition(const XN_EVENT_HANDLE EventHandle, XnUInt32 nMilli
 		else
 		{
 			// not yet. Wait for event to be set
-			nRetVal = xnOSWaitEvent(EventHandle, (XnUInt32)(nMilliseconds - (nNow - nStarted)));
+			nRetVal = xnOSWaitEvent(EventHandle, (uint32_t)(nMilliseconds - (nNow - nStarted)));
 			if (nRetVal == XN_STATUS_OS_EVENT_TIMEOUT)
 			{
 				bTimeout = TRUE;

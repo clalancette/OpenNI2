@@ -35,7 +35,7 @@
 //---------------------------------------------------------------------------
 // Code
 //---------------------------------------------------------------------------
-XnStatus XnMirrorOneBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nLineSize)
+XnStatus XnMirrorOneBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
 	XnUInt8* pSrc = pBuffer;
@@ -68,7 +68,7 @@ XnStatus XnMirrorOneBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnMirrorTwoBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nLineSize)
+XnStatus XnMirrorTwoBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
 	XnUInt8* pSrc = pBuffer;
@@ -103,7 +103,7 @@ XnStatus XnMirrorTwoBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnMirrorThreeBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nLineSize)
+XnStatus XnMirrorThreeBytePixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
 	XnUInt8* pSrc = pBuffer;
@@ -139,16 +139,16 @@ XnStatus XnMirrorThreeBytePixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt3
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnMirrorYUV422Pixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nLineSize)
+XnStatus XnMirrorYUV422Pixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
 	XnUInt8* pSrc = pBuffer;
 	XnUInt8 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
 	XnUInt8* pSrcEnd = (XnUInt8*)pSrc + nBufferSize;
 	XnUInt8* pDest = NULL;
-	XnUInt8* pDestVal = &pLineBuffer[(nLineSize/2-1)*sizeof(XnUInt32)]; // last element
+	XnUInt8* pDestVal = &pLineBuffer[(nLineSize/2-1)*sizeof(uint32_t)]; // last element
 	XnUInt8* pDestEnd = &pLineBuffer[0]; // first element
-	XnUInt32 nMemCpyLineSize = nLineSize/2*sizeof(XnUInt32);
+	uint32_t nMemCpyLineSize = nLineSize/2*sizeof(uint32_t);
 
 	if (nMemCpyLineSize > XN_MIRROR_MAX_LINE_SIZE)
 	{
@@ -176,16 +176,16 @@ XnStatus XnMirrorYUV422Pixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 n
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnMirrorYUYVPixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nLineSize)
+XnStatus XnMirrorYUYVPixels(XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nLineSize)
 {
 	// Local function variables
 	XnUInt8* pSrc = pBuffer;
 	XnUInt8 pLineBuffer[XN_MIRROR_MAX_LINE_SIZE];
 	XnUInt8* pSrcEnd = (XnUInt8*)pSrc + nBufferSize;
 	XnUInt8* pDest = NULL;
-	XnUInt8* pDestVal = &pLineBuffer[(nLineSize/2-1)*sizeof(XnUInt32)]; // last element
+	XnUInt8* pDestVal = &pLineBuffer[(nLineSize/2-1)*sizeof(uint32_t)]; // last element
 	XnUInt8* pDestEnd = &pLineBuffer[0]; // first element
-	XnUInt32 nMemCpyLineSize = nLineSize/2*sizeof(XnUInt32);
+	uint32_t nMemCpyLineSize = nLineSize/2*sizeof(uint32_t);
 
 	if (nMemCpyLineSize > XN_MIRROR_MAX_LINE_SIZE)
 	{
@@ -213,7 +213,7 @@ XnStatus XnMirrorYUYVPixels(XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nLi
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnFormatsMirrorPixelData(OniPixelFormat nOutputFormat, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nXRes)
+XnStatus XnFormatsMirrorPixelData(OniPixelFormat nOutputFormat, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nXRes)
 {
 	// Validate the input/output pointers (to make sure none of them is NULL)
 	XN_VALIDATE_INPUT_PTR(pBuffer);

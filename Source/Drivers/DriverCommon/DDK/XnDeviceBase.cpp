@@ -226,13 +226,13 @@ XnStatus XnDeviceBase::SetMirror(XnBool bMirror)
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetSupportedStreams(const XnChar** aStreamNames, XnUInt32* pnStreamNamesCount)
+XnStatus XnDeviceBase::GetSupportedStreams(const XnChar** aStreamNames, uint32_t* pnStreamNamesCount)
 {
 	XN_VALIDATE_OUTPUT_PTR(pnStreamNamesCount);
 	// NOTE: we allow aStreamName to be NULL
 
 	// first of all count streams
-	XnUInt32 nStreamsCount = m_SupportedStreams.size();
+	uint32_t nStreamsCount = m_SupportedStreams.size();
 
 	// now check if we have enough room
 	if (nStreamsCount > *pnStreamNamesCount)
@@ -349,10 +349,10 @@ XnStatus XnDeviceBase::CloseAllStreams()
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetStreamNames(const XnChar** pstrNames, XnUInt32* pnNamesCount)
+XnStatus XnDeviceBase::GetStreamNames(const XnChar** pstrNames, uint32_t* pnNamesCount)
 {
 	// first we need to count them
-	XnUInt32 nCount = 0;
+	uint32_t nCount = 0;
 
 	for (ModuleHoldersHash::Iterator it = m_Modules.Begin(); it != m_Modules.End(); ++it)
 	{
@@ -423,7 +423,7 @@ XnStatus XnDeviceBase::UnregisterFromNewStreamData(XnCallbackHandle hCallback)
 	return m_OnNewStreamDataEvent.Unregister(hCallback);
 }
 
-XnStatus XnDeviceBase::DoesPropertyExist(const XnChar* ModuleName, XnUInt32 propertyId, XnBool* pbDoesExist)
+XnStatus XnDeviceBase::DoesPropertyExist(const XnChar* ModuleName, uint32_t propertyId, XnBool* pbDoesExist)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -446,7 +446,7 @@ XnStatus XnDeviceBase::DoesPropertyExist(const XnChar* ModuleName, XnUInt32 prop
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetPropertyType(const XnChar* ModuleName, XnUInt32 propertyId, XnPropertyType* pnType)
+XnStatus XnDeviceBase::GetPropertyType(const XnChar* ModuleName, uint32_t propertyId, XnPropertyType* pnType)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -460,7 +460,7 @@ XnStatus XnDeviceBase::GetPropertyType(const XnChar* ModuleName, XnUInt32 proper
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, XnUInt32 propertyId, XnUInt64 nValue)
+XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, XnUInt64 nValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -474,7 +474,7 @@ XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, XnUInt32 propertyId
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, XnUInt32 propertyId, XnDouble dValue)
+XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, XnDouble dValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -488,7 +488,7 @@ XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, XnUInt32 propertyId
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, XnUInt32 propertyId, const XnChar* csValue)
+XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, const XnChar* csValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -502,7 +502,7 @@ XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, XnUInt32 propertyId
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, XnUInt32 propertyId, const OniGeneralBuffer& gbValue)
+XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, uint32_t propertyId, const OniGeneralBuffer& gbValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -516,7 +516,7 @@ XnStatus XnDeviceBase::SetProperty(const XnChar* ModuleName, XnUInt32 propertyId
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, XnUInt32 propertyId, XnUInt64* pnValue)
+XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnUInt64* pnValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -530,7 +530,7 @@ XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, XnUInt32 propertyId
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, XnUInt32 propertyId, XnDouble* pdValue)
+XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnDouble* pdValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -544,7 +544,7 @@ XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, XnUInt32 propertyId
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, XnUInt32 propertyId, XnChar* csValue)
+XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, XnChar* csValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -558,7 +558,7 @@ XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, XnUInt32 propertyId
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, XnUInt32 propertyId, const OniGeneralBuffer& gbValue)
+XnStatus XnDeviceBase::GetProperty(const XnChar* ModuleName, uint32_t propertyId, const OniGeneralBuffer& gbValue)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -639,7 +639,7 @@ XnStatus XnDeviceBase::GetAllProperties(XnPropertySet* pSet, XnBool bNoStreams /
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::RegisterToPropertyChange(const XnChar* Module, XnUInt32 propertyId, XnDeviceOnPropertyChangedEventHandler Handler, void* pCookie, XnCallbackHandle& hCallback)
+XnStatus XnDeviceBase::RegisterToPropertyChange(const XnChar* Module, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler Handler, void* pCookie, XnCallbackHandle& hCallback)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -665,7 +665,7 @@ XnStatus XnDeviceBase::RegisterToPropertyChange(const XnChar* Module, XnUInt32 p
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnDeviceBase::UnregisterFromPropertyChange(const XnChar* Module, XnUInt32 propertyId, XnCallbackHandle hCallback)
+XnStatus XnDeviceBase::UnregisterFromPropertyChange(const XnChar* Module, uint32_t propertyId, XnCallbackHandle hCallback)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -819,7 +819,7 @@ XnStatus XnDeviceBase::AddSupportedStream(const XnChar* StreamType)
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetStreamRequiredDataSize(const XnChar* StreamName, XnUInt32* pnRequiredSize)
+XnStatus XnDeviceBase::GetStreamRequiredDataSize(const XnChar* StreamName, uint32_t* pnRequiredSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -1039,7 +1039,7 @@ XnStatus XnDeviceBase::DestroyStream(const XnChar* StreamName)
 	XN_IS_STATUS_OK(nRetVal);
 
 	XnDeviceStream* pStream = (XnDeviceStream*)pStreamHolder->GetModule();
-	XnUInt32 nRefCount = pStream->DecRef();
+	uint32_t nRefCount = pStream->DecRef();
 	if (0 == nRefCount)
 	{
 		// remove it from map
@@ -1062,9 +1062,9 @@ XnStatus XnDeviceBase::DestroyStream(const XnChar* StreamName)
 	return XN_STATUS_OK;
 }
 
-XnStatus XnDeviceBase::GetModulesList(XnDeviceModuleHolder** apModules, XnUInt32* pnCount)
+XnStatus XnDeviceBase::GetModulesList(XnDeviceModuleHolder** apModules, uint32_t* pnCount)
 {
-	XnUInt32 nCount = 0;
+	uint32_t nCount = 0;
 
 	for (ModuleHoldersHash::Iterator it = m_Modules.Begin(); it != m_Modules.End(); ++it)
 	{
@@ -1147,7 +1147,7 @@ XnStatus XN_CALLBACK_TYPE XnDeviceBase::SetMirrorCallback(XnActualIntProperty* /
 	return pThis->SetMirror((XnBool)nValue);
 }
 
-XnDeviceBase::XnPropertyCallback::XnPropertyCallback(const XnChar* strModule, XnUInt32 propertyId, XnDeviceOnPropertyChangedEventHandler pHandler, void* pCookie) :
+XnDeviceBase::XnPropertyCallback::XnPropertyCallback(const XnChar* strModule, uint32_t propertyId, XnDeviceOnPropertyChangedEventHandler pHandler, void* pCookie) :
 	propertyId(propertyId),
 	pCookie(pCookie),
 	pHandler(pHandler)

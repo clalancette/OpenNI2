@@ -27,7 +27,7 @@
 //---------------------------------------------------------------------------
 // Static Data
 //---------------------------------------------------------------------------
-static const XnUInt32 INVALID_INPUT_FORMAT = 9999;
+static const uint32_t INVALID_INPUT_FORMAT = 9999;
 // the order in the allowed input formats is the preferred one
 static XnIOImageFormats g_anAllowedRGBFormats[]   = { XN_IO_IMAGE_FORMAT_UNCOMPRESSED_YUV422, XN_IO_IMAGE_FORMAT_YUV422, XN_IO_IMAGE_FORMAT_BAYER, XN_IO_IMAGE_FORMAT_UNCOMPRESSED_BAYER, XN_IO_IMAGE_FORMAT_UNCOMPRESSED_YUYV };
 static XnIOImageFormats g_anAllowedYUVFormats[]   = { XN_IO_IMAGE_FORMAT_UNCOMPRESSED_YUV422, XN_IO_IMAGE_FORMAT_YUV422 };
@@ -38,7 +38,7 @@ static XnIOImageFormats g_anAllowedGray8Formats[] = { XN_IO_IMAGE_FORMAT_BAYER, 
 void XnOniColorStream::GetAllowedOniOutputFormatForInputFormat(XnIOImageFormats inputFormat, OniPixelFormat *aOniFormats, int *nOniFormats)
 {
 	*nOniFormats = 0;
-	for(XnUInt32 i=0; i<(sizeof(g_anAllowedRGBFormats)/sizeof(XnIOImageFormats)); ++i)
+	for(uint32_t i=0; i<(sizeof(g_anAllowedRGBFormats)/sizeof(XnIOImageFormats)); ++i)
 	{
 		if(g_anAllowedRGBFormats[i] == inputFormat)
 		{
@@ -47,7 +47,7 @@ void XnOniColorStream::GetAllowedOniOutputFormatForInputFormat(XnIOImageFormats 
 			break;
 		}
 	}
-	for(XnUInt32 i=0; i<(sizeof(g_anAllowedYUVFormats)/sizeof(XnIOImageFormats)); ++i)
+	for(uint32_t i=0; i<(sizeof(g_anAllowedYUVFormats)/sizeof(XnIOImageFormats)); ++i)
 	{
 		if(g_anAllowedYUVFormats[i] == inputFormat)
 		{
@@ -56,7 +56,7 @@ void XnOniColorStream::GetAllowedOniOutputFormatForInputFormat(XnIOImageFormats 
 			break;
 		}
 	}
-	for(XnUInt32 i=0; i<(sizeof(g_anAllowedYUYVFormats)/sizeof(XnIOImageFormats)); ++i)
+	for(uint32_t i=0; i<(sizeof(g_anAllowedYUYVFormats)/sizeof(XnIOImageFormats)); ++i)
 	{
 		if(g_anAllowedYUYVFormats[i] == inputFormat)
 		{
@@ -65,7 +65,7 @@ void XnOniColorStream::GetAllowedOniOutputFormatForInputFormat(XnIOImageFormats 
 			break;
 		}
 	}
-	for(XnUInt32 i=0; i<(sizeof(g_anAllowedJPEGFormats)/sizeof(XnIOImageFormats)); ++i)
+	for(uint32_t i=0; i<(sizeof(g_anAllowedJPEGFormats)/sizeof(XnIOImageFormats)); ++i)
 	{
 		if(g_anAllowedJPEGFormats[i] == inputFormat)
 		{
@@ -74,7 +74,7 @@ void XnOniColorStream::GetAllowedOniOutputFormatForInputFormat(XnIOImageFormats 
 			break;
 		}
 	}
-	for(XnUInt32 i=0; i<(sizeof(g_anAllowedGray8Formats)/sizeof(XnIOImageFormats)); ++i)
+	for(uint32_t i=0; i<(sizeof(g_anAllowedGray8Formats)/sizeof(XnIOImageFormats)); ++i)
 	{
 		if(g_anAllowedGray8Formats[i] == inputFormat)
 		{

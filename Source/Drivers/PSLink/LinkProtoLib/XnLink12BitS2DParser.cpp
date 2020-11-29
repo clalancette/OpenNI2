@@ -70,7 +70,7 @@ XnStatus Link12BitS2DParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 		m_ContinuousBufferSize=0;
 	}
 
-	XnUInt32 bytesWritten = ProcessFramePacketChunk(pSrc,pDst,(XnUInt32)(pSrcEnd - pSrc));
+	uint32_t bytesWritten = ProcessFramePacketChunk(pSrc,pDst,(uint32_t)(pSrcEnd - pSrc));
 
 	pDstPixel += (OniDepthPixel)(bytesWritten/2); //progress pDst by the number of pixels (bytes divided by two)
 	if (pDstPixel > pDstPixelEnd) //Do we have enough room for this packet?
@@ -82,17 +82,17 @@ XnStatus Link12BitS2DParser::ParsePacketImpl(XnLinkFragmentation fragmentation,
 	return XN_STATUS_OK;
 }
 
-XnUInt32 Link12BitS2DParser::ProcessFramePacketChunk(const XnUInt8* pData,XnUInt8* pDest, XnUInt32 nDataSize)
+uint32_t Link12BitS2DParser::ProcessFramePacketChunk(const XnUInt8* pData,XnUInt8* pDest, uint32_t nDataSize)
 {
 
 	XnStatus nRetVal = XN_STATUS_OK;
-	XnUInt32 totalWrite = 0;
+	uint32_t totalWrite = 0;
 
 	// check if we have data from previous packet
 	if (m_ContinuousBufferSize!= 0)
 	{
 		// fill in to a whole element
-		XnUInt32 nReadBytes = XN_MIN(nDataSize, XN_INPUT_ELEMENT_SIZE - m_ContinuousBufferSize);
+		uint32_t nReadBytes = XN_MIN(nDataSize, XN_INPUT_ELEMENT_SIZE - m_ContinuousBufferSize);
 
 		xnOSMemCopy(m_ContinuousBuffer + m_ContinuousBufferSize, pData, nReadBytes);
 		m_ContinuousBufferSize += nReadBytes;
@@ -103,8 +103,8 @@ XnUInt32 Link12BitS2DParser::ProcessFramePacketChunk(const XnUInt8* pData,XnUInt
 		if (m_ContinuousBufferSize == XN_INPUT_ELEMENT_SIZE)
 		{
 			// process it
-			XnUInt32 nActualRead = 0;
-			XnUInt32 nActualWritten = 0;
+			uint32_t nActualRead = 0;
+			uint32_t nActualWritten = 0;
 			Unpack12to16(m_ContinuousBuffer,pDest, XN_INPUT_ELEMENT_SIZE, &nActualRead, &nActualWritten);
 			pDest += nActualWritten;
 			totalWrite += nActualWritten;
@@ -113,8 +113,8 @@ XnUInt32 Link12BitS2DParser::ProcessFramePacketChunk(const XnUInt8* pData,XnUInt
 	}
 
 	// find out the number of input elements we have
-	XnUInt32 nActualRead = 0;
-	XnUInt32 nActualWritten = 0;
+	uint32_t nActualRead = 0;
+	uint32_t nActualWritten = 0;
 	nRetVal = Unpack12to16(pData, pDest, nDataSize, &nActualRead, &nActualWritten);
 	totalWrite += nActualWritten;
 	if (nRetVal == XN_STATUS_OK)
@@ -135,11 +135,11 @@ XnUInt32 Link12BitS2DParser::ProcessFramePacketChunk(const XnUInt8* pData,XnUInt
 	return totalWrite; //return total written bytes
 }
 
-XnStatus Link12BitS2DParser::Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest, const XnUInt32 nInputSize, XnUInt32* pnActualRead, XnUInt32* pnActualWritten)
+XnStatus Link12BitS2DParser::Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest, const uint32_t nInputSize, uint32_t* pnActualRead, uint32_t* pnActualWritten)
 {
 	const XnUInt8* pOrigInput = (XnUInt8*)pcInput;
 
-	XnUInt32 nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored
+	uint32_t nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored
 
 	*pnActualRead = 0;
 
@@ -147,7 +147,7 @@ XnStatus Link12BitS2DParser::Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest,
 	XnUInt16 shift[16];
 
 	// Convert the 11bit packed data into 16bit shorts
-	for (XnUInt32 nElem = 0; nElem < nElements; ++nElem)
+	for (uint32_t nElem = 0; nElem < nElements; ++nElem)
 	{
 		// input:	0,  1,2,3,  4,5,6,  7,8,9, 10,11,12, 13,14,15, 16,17,18, 19,20,21, 22,23
 		//			-,---,-,-,---,-,-,---,-,-,---,--,--,---,--,--,---,--,--,---,--,--,---,--
@@ -193,8 +193,8 @@ XnStatus Link12BitS2DParser::Unpack12to16(const XnUInt8* pcInput,XnUInt8* pDest,
 		pnOutput += 16;
 	}
 
-	*pnActualRead = (XnUInt32)(pcInput - pOrigInput); // total bytes
-	*pnActualWritten = (XnUInt32)((XnUInt8*)pnOutput - pDest);
+	*pnActualRead = (uint32_t)(pcInput - pOrigInput); // total bytes
+	*pnActualWritten = (uint32_t)((XnUInt8*)pnOutput - pDest);
 
 	return XN_STATUS_OK;
 }

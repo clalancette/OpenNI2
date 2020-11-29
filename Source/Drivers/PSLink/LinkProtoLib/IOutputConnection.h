@@ -37,7 +37,7 @@ public:
 	 * @param	pData		[out]	Buffer that holds data to send.
 	 * @param	nDataSize	[in]	Size of data to send.
 	 */
-	virtual XnStatus Send(const void* pData, XnUInt32 nSize) = 0;
+	virtual XnStatus Send(const void* pData, uint32_t nSize) = 0;
 };
 
 }

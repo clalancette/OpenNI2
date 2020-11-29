@@ -56,7 +56,7 @@ public:
 
 	virtual void SetStreamServices(oni::driver::StreamServices* pServices) { m_pServices = pServices; }
 
-	XnUInt32 GetRequiredFrameSize() const { return CalcBufferSize(); }
+	uint32_t GetRequiredFrameSize() const { return CalcBufferSize(); }
 
 	virtual void Reset();
 
@@ -111,10 +111,10 @@ private:
 		int refCount;
 	};
 
-	static void Swap(XnUInt32& nVal1, XnUInt32& nVal2);
-	XnUInt32 GetOutputBytesPerPixel() const;
-	virtual XnUInt32 CalcBufferSize() const;
-	XnUInt32 CalcExpectedSize() const;
+	static void Swap(uint32_t& nVal1, uint32_t& nVal2);
+	uint32_t GetOutputBytesPerPixel() const;
+	virtual uint32_t CalcBufferSize() const;
+	uint32_t CalcExpectedSize() const;
 	XnStatus UpdateCameraIntrinsics();
 
 	DefaultStreamServices m_defaultServices;
@@ -129,12 +129,12 @@ private:
 	XnBool m_currentFrameCorrupt;
 	mutable XN_CRITICAL_SECTION_HANDLE m_hCriticalSection; //Protects buffers info
 
-	XnUInt32 m_nBufferSize;
+	uint32_t m_nBufferSize;
 	LinkMsgParser* m_pLinkMsgParser;
 
 	XnDumpFile* m_pDumpFile;
 	XnChar m_strDumpName[XN_FILE_MAX_PATH];
-	XnUInt32 m_nDumpFrameID;
+	uint32_t m_nDumpFrameID;
 
 	std::vector<XnFwStreamVideoMode> m_supportedVideoModes;
 	XnFwStreamVideoMode m_videoMode;

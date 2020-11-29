@@ -54,7 +54,7 @@ public:
 					IConnection* pConnection);
 
 	void ShutdownInputStream(XnUInt16 nStreamID);
-	XnStatus HandleData(const void* pData, XnUInt32 nSize);
+	XnStatus HandleData(const void* pData, uint32_t nSize);
 	const LinkInputStream* GetInputStream(XnUInt16 nStreamID) const;
 	LinkInputStream* GetInputStream(XnUInt16 nStreamID);
 
@@ -64,7 +64,7 @@ private:
 	void HandlePacket(const LinkPacketHeader* pLinkPacketHeader);
 	int FindStreamByType(XnStreamType streamType, const XnChar* strCreationInfo); //returns found streamId, or -1
 
-	static const XnUInt32 FRAG_FLAGS_ALLOWED_CHANGES[4][4];
+	static const uint32_t FRAG_FLAGS_ALLOWED_CHANGES[4][4];
 	static const XnUInt16 INITIAL_PACKET_ID;
 
 	struct StreamInfo

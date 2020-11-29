@@ -43,15 +43,15 @@ private:
 	//---------------------------------------------------------------------------
 	// Overridden Functions
 	//---------------------------------------------------------------------------
-	void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize) override;
+	void ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* pHeader, const XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize) override;
 	void OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader) override;
-	XnUInt64 CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp) override;
-	void OnFrameReady(XnUInt32 nFrameID, XnUInt64 nFrameTS) override;
+	XnUInt64 CreateTimestampFromDevice(uint32_t nDeviceTimeStamp) override;
+	void OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS) override;
 
 	//---------------------------------------------------------------------------
 	// Internal Functions
 	//---------------------------------------------------------------------------
-	XnStatus Unpack10to16(const XnUInt8* pcInput, const XnUInt32 nInputSize, XnUInt16* pnOutput, XnUInt32* pnActualRead, XnUInt32* pnOutputSize);
+	XnStatus Unpack10to16(const XnUInt8* pcInput, const uint32_t nInputSize, XnUInt16* pnOutput, uint32_t* pnActualRead, uint32_t* pnOutputSize);
 	inline XnSensorIRStream* GetStream()
 	{
 		return (XnSensorIRStream*)XnFrameStreamProcessor::GetStream();

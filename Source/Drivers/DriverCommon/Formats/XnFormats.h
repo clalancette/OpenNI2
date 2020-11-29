@@ -46,6 +46,6 @@
 * @param	nBufferSize		[in]	The size of the buffer, in bytes.
 * @param	nXRes			[in]	X-resolution (line size in pixels) of the buffer.
 */
-XnStatus XnFormatsMirrorPixelData(OniPixelFormat nOutputFormat, XnUChar* pBuffer, XnUInt32 nBufferSize, XnUInt32 nXRes);
+XnStatus XnFormatsMirrorPixelData(OniPixelFormat nOutputFormat, XnUChar* pBuffer, uint32_t nBufferSize, uint32_t nXRes);
 
 #endif // XNFORMATS_H

@@ -44,7 +44,7 @@ public:
 	void Shutdown();
 
 	XnStatus InitOutputStream(XnUInt16 nStreamID,
-				  XnUInt32 nMaxMsgSize,
+				  uint32_t nMaxMsgSize,
 				  XnUInt16 nMaxPacketSize,
 				  XnLinkCompressionType compression,
 				  XnStreamFragLevel streamFragLevel,
@@ -58,7 +58,7 @@ public:
 			  XnUInt16 nCID,
 			  XnLinkFragmentation fragmentation,
 			  const void* pData,
-			  XnUInt32 nDataSize);
+			  uint32_t nDataSize);
 
 private:
 	static const XnUInt16 INITIAL_PACKET_ID;

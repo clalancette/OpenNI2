@@ -29,7 +29,7 @@
 // Code
 //---------------------------------------------------------------------------
 
-XnGeneralProperty::XnGeneralProperty(XnUInt32 propertyId, const XnChar* strName, OniGeneralBuffer* pValueHolder /* = NULL */, ReadValueFromFileFuncPtr pReadFromFileFunc /* = NULL */, const XnChar* strModule /* = "" */ ) :
+XnGeneralProperty::XnGeneralProperty(uint32_t propertyId, const XnChar* strName, OniGeneralBuffer* pValueHolder /* = NULL */, ReadValueFromFileFuncPtr pReadFromFileFunc /* = NULL */, const XnChar* strModule /* = "" */ ) :
 	XnProperty(XN_PROPERTY_TYPE_GENERAL, pValueHolder, propertyId, strName, strModule),
 	m_pReadFromFileFunc(pReadFromFileFunc)
 {

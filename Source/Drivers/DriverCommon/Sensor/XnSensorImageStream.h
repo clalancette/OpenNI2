@@ -72,7 +72,7 @@ public:
 	XnStatus Free();
 	XnStatus BatchConfig(const XnActualPropertiesHash& props) { return m_Helper.BatchConfig(props); }
 
-	XnUInt32 CalculateExpectedSize();
+	uint32_t CalculateExpectedSize();
 
 	inline XnSensorStreamHelper* GetHelper() { return &m_Helper; }
 
@@ -93,7 +93,7 @@ protected:
 	XnStatus CloseStreamImpl();
 	XnStatus CreateDataProcessor(XnDataProcessor** ppProcessor);
 	XnStatus MapPropertiesToFirmware();
-	void GetFirmwareStreamConfig(XnResolutions* pnRes, XnUInt32* pnFPS) { *pnRes = GetResolution(); *pnFPS = GetFPS(); }
+	void GetFirmwareStreamConfig(XnResolutions* pnRes, uint32_t* pnFPS) { *pnRes = GetResolution(); *pnFPS = GetFPS(); }
 
 	//---------------------------------------------------------------------------
 	// Setters
@@ -101,10 +101,10 @@ protected:
 	XnStatus SetOutputFormat(OniPixelFormat nOutputFormat);
 	XnStatus SetMirror(XnBool bIsMirrored);
 	XnStatus SetResolution(XnResolutions nResolution);
-	XnStatus SetFPS(XnUInt32 nFPS);
+	XnStatus SetFPS(uint32_t nFPS);
 	virtual XnStatus SetInputFormat(XnIOImageFormats nInputFormat);
-	virtual XnStatus SetAntiFlicker(XnUInt32 nFrequency);
-	virtual XnStatus SetImageQuality(XnUInt32 nQuality);
+	virtual XnStatus SetAntiFlicker(uint32_t nFrequency);
+	virtual XnStatus SetImageQuality(uint32_t nQuality);
 	virtual XnStatus SetCropping(const OniCropping* pCropping);
 	virtual XnStatus SetCroppingMode(XnCroppingMode mode);
 	XnStatus SetActualRead(XnBool bRead);

@@ -147,7 +147,7 @@ XN_THREAD_PROC xnSchedulerThreadFunc(XN_THREAD_PARAM pThreadParam)
 		}
 
 		// wait for a change of the list, or the time of the next task
-		xnOSWaitEvent(pScheduler->hWakeThreadEvent, (XnUInt32)nWait);
+		xnOSWaitEvent(pScheduler->hWakeThreadEvent, (uint32_t)nWait);
 	}
 
 	XN_THREAD_PROC_RETURN(XN_STATUS_OK);

@@ -250,8 +250,8 @@ typedef enum
 typedef struct XnDynamicSizeBuffer
 {
 	void* pData;
-	XnUInt32 nMaxSize;
-	XnUInt32 nDataSize;
+	uint32_t nMaxSize;
+	uint32_t nDataSize;
 } XnDynamicSizeBuffer;
 
 typedef struct XnCmosPreset

@@ -63,21 +63,21 @@ private:
 	//---------------------------------------------------------------------------
 	XnStatus Open() { return m_Helper.Open(); }
 	XnStatus Close() override { return m_Helper.Close(); }
-	XnStatus CalcRequiredSize(XnUInt32* pnRequiredSize) const override;
+	XnStatus CalcRequiredSize(uint32_t* pnRequiredSize) const override;
 	XnStatus CropImpl(OniFrame* pFrame, const OniCropping* pCropping) override;
 	XnStatus ConfigureStreamImpl() override;
 	XnStatus OpenStreamImpl() override;
 	XnStatus CloseStreamImpl() override;
 	XnStatus CreateDataProcessor(XnDataProcessor** ppProcessor) override;
 	XnStatus MapPropertiesToFirmware() override;
-	void GetFirmwareStreamConfig(XnResolutions* pnRes, XnUInt32* pnFPS) override { *pnRes = GetResolution(); *pnFPS = GetFPS(); }
+	void GetFirmwareStreamConfig(XnResolutions* pnRes, uint32_t* pnFPS) override { *pnRes = GetResolution(); *pnFPS = GetFPS(); }
 
 	//---------------------------------------------------------------------------
 	// Setters
 	//---------------------------------------------------------------------------
 	XnStatus SetOutputFormat(OniPixelFormat nOutputFormat);
 	XnStatus SetResolution(XnResolutions nResolution) override;
-	XnStatus SetFPS(XnUInt32 nFPS) override;
+	XnStatus SetFPS(uint32_t nFPS) override;
 	XnStatus SetCropping(const OniCropping* pCropping) override;
 	XnStatus SetCroppingMode(XnCroppingMode mode);
 	XnStatus SetActualRead(XnBool bRead);

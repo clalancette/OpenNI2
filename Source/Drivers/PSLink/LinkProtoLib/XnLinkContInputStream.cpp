@@ -31,7 +31,7 @@ namespace xn
 {
 
 
-const XnUInt32 LinkContInputStream::CONT_STREAM_PREDEFINED_BUFFER_SIZE = 0x40000;
+const uint32_t LinkContInputStream::CONT_STREAM_PREDEFINED_BUFFER_SIZE = 0x40000;
 
 LinkContInputStream::LinkContInputStream()
 {
@@ -175,7 +175,7 @@ const void* LinkContInputStream::GetData() const
 	return m_pUserBuffer;
 }
 
-XnUInt32 LinkContInputStream::GetDataSize() const
+uint32_t LinkContInputStream::GetDataSize() const
 {
 	return m_nUserBufferCurrentSize;
 }
@@ -188,7 +188,7 @@ const void* LinkContInputStream::GetNextData() const
 	return &nDummy;
 }
 
-XnUInt32 LinkContInputStream::GetNextDataSize() const
+uint32_t LinkContInputStream::GetNextDataSize() const
 {
 	return 0;
 }

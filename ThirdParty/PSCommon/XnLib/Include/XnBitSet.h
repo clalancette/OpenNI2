@@ -35,7 +35,7 @@ public:
 
 	/** Reserves space in this bitset for the specified number of bits.
 	    This saves you re-allocations and data copies if you know the size in advance. **/
-	XnStatus Reserve(XnUInt32 nBits)
+	XnStatus Reserve(uint32_t nBits)
 	{
 		// note: dividing by 8 to get to bytes count
 		m_array.reserve((nBits / 8) + 1);
@@ -43,7 +43,7 @@ public:
 	}
 
 	/** Sets the size of the bitset to the specified number of bits and sets them all to 0. **/
-	XnStatus SetSize(XnUInt32 nBits)
+	XnStatus SetSize(uint32_t nBits)
 	{
 		// note: dividing by 8 to get to bytes count
 		m_array.resize((nBits / 8) + 1, 0);
@@ -51,10 +51,10 @@ public:
 	}
 
 	/** Sets the bit at nIndex to bValue. **/
-	XnStatus Set(XnUInt32 nIndex, XnBool bValue)
+	XnStatus Set(uint32_t nIndex, XnBool bValue)
 	{
-		XnUInt32 nArrayIndex = (nIndex / 8);
-		XnUInt32 nBitIndex = (nIndex % 8);
+		uint32_t nArrayIndex = (nIndex / 8);
+		uint32_t nBitIndex = (nIndex % 8);
 		XnUInt8 nMask = (1 << nBitIndex);
 		XnUInt8 nOldVal = nArrayIndex < m_array.size() ? m_array[nArrayIndex] : 0;
 		XnUInt8 nNewVal = bValue ? (nOldVal | nMask) : (nOldVal & (~nMask));
@@ -65,10 +65,10 @@ public:
 	}
 
 	/** @returns the value of the bit specified by nIndex. **/
-	XnBool IsSet(XnUInt32 nIndex) const
+	XnBool IsSet(uint32_t nIndex) const
 	{
-		XnUInt32 nArrayIndex = (nIndex / 8);
-		XnUInt32 nBitIndex = (nIndex % 8);
+		uint32_t nArrayIndex = (nIndex / 8);
+		uint32_t nBitIndex = (nIndex % 8);
 		if (nArrayIndex >= m_array.size())
 		{
 			return FALSE;
@@ -77,7 +77,7 @@ public:
 	}
 
 	/** Copies raw data from a buffer of bytes to this bitset. **/
-	XnStatus SetData(const XnUInt8* pData, XnUInt32 nSizeInBytes)
+	XnStatus SetData(const XnUInt8* pData, uint32_t nSizeInBytes)
 	{
 		m_array.resize(nSizeInBytes);
 		memcpy(&m_array[0], pData, nSizeInBytes);
@@ -100,13 +100,13 @@ public:
 	}
 
 	/** @returns size in bytes of this bitset. **/
-	XnUInt32 GetDataSizeInBytes() const
+	uint32_t GetDataSizeInBytes() const
 	{
 		return m_array.size();
 	}
 
 	/** @returns size in bits of this bitset. **/
-	XnUInt32 GetSize() const
+	uint32_t GetSize() const
 	{
 		return m_nSize;
 	}
@@ -126,7 +126,7 @@ public:
 
 private:
 	std::vector<XnUInt8> m_array;
-	XnUInt32 m_nSize;
+	uint32_t m_nSize;
 };
 
 }

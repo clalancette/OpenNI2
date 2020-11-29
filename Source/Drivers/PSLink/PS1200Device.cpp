@@ -28,10 +28,10 @@
 namespace xn
 {
 
-const XnUInt32 PS1200Device::WAIT_FOR_FREE_BUFFER_TIMEOUT_MS = XN_WAIT_INFINITE;
-const XnUInt32 PS1200Device::NUM_OUTPUT_CONNECTIONS = 0;
-const XnUInt32 PS1200Device::NUM_INPUT_CONNECTIONS = 3;
-const XnUInt32 PS1200Device::PRE_CONTROL_RECEIVE_SLEEP = 0;
+const uint32_t PS1200Device::WAIT_FOR_FREE_BUFFER_TIMEOUT_MS = XN_WAIT_INFINITE;
+const uint32_t PS1200Device::NUM_OUTPUT_CONNECTIONS = 0;
+const uint32_t PS1200Device::NUM_INPUT_CONNECTIONS = 3;
+const uint32_t PS1200Device::PRE_CONTROL_RECEIVE_SLEEP = 0;
 
 PS1200Device::PS1200Device()
 {
@@ -117,7 +117,7 @@ public:
 		m_nLostPackets = 0;
 	}
 
-	virtual XnStatus IncomingData(const void* pData, XnUInt32 nSize)
+	virtual XnStatus IncomingData(const void* pData, uint32_t nSize)
 	{
 		m_nTotalBytes += nSize;
 
@@ -127,11 +127,11 @@ public:
 		while (pCurData < pEndData)
 		{
 			// first word is a counter
-			const XnUInt32* pDWords = (const XnUInt32*)pCurData;
-			XnUInt32 nPacketSize = pDWords[0];
-			XnUInt32 nCounter = pDWords[1];
+			const uint32_t* pDWords = (const uint32_t*)pCurData;
+			uint32_t nPacketSize = pDWords[0];
+			uint32_t nCounter = pDWords[1];
 
-			XnUInt32 nLostPackets = (nCounter - m_nCounter - 1);
+			uint32_t nLostPackets = (nCounter - m_nCounter - 1);
 
 			m_nLostPackets += nLostPackets;
 			m_nCounter = nCounter;
@@ -146,15 +146,15 @@ public:
 		xnLogWarning(XN_MASK_PS1200_DEVICE, "Endpoint disconnected during USB test!");
 	}
 
-	XnUInt32 m_nEP;
-	XnUInt32 m_nTotalBytes;
-	XnUInt32 m_nLostPackets;
+	uint32_t m_nEP;
+	uint32_t m_nTotalBytes;
+	uint32_t m_nLostPackets;
 
 private:
 	int m_nCounter;
 };
 
-XnStatus PS1200Device::UsbTest(XnUInt32 nSeconds, XnUInt32& endpointsCount, XnUsbTestEndpointResult* endpoints)
+XnStatus PS1200Device::UsbTest(uint32_t nSeconds, uint32_t& endpointsCount, XnUsbTestEndpointResult* endpoints)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 

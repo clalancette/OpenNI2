@@ -73,13 +73,13 @@ XnStatus XnIRProcessor::Init()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnIRProcessor::Unpack10to16(const XnUInt8* pcInput, const XnUInt32 nInputSize, XnUInt16* pnOutput, XnUInt32* pnActualRead, XnUInt32* pnOutputSize)
+XnStatus XnIRProcessor::Unpack10to16(const XnUInt8* pcInput, const uint32_t nInputSize, XnUInt16* pnOutput, uint32_t* pnActualRead, uint32_t* pnOutputSize)
 {
 	XnInt32 cInput = 0;
 	const XnUInt8* pOrigInput = pcInput;
 
-	XnUInt32 nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored
-	XnUInt32 nNeededOutput = nElements * XN_OUTPUT_ELEMENT_SIZE;
+	uint32_t nElements = nInputSize / XN_INPUT_ELEMENT_SIZE; // floored
+	uint32_t nNeededOutput = nElements * XN_OUTPUT_ELEMENT_SIZE;
 
 	*pnActualRead = 0;
 
@@ -91,7 +91,7 @@ XnStatus XnIRProcessor::Unpack10to16(const XnUInt8* pcInput, const XnUInt32 nInp
 
 	// Convert the 10bit packed data into 16bit shorts
 
-	for (XnUInt32 nElem = 0; nElem < nElements; ++nElem)
+	for (uint32_t nElem = 0; nElem < nElements; ++nElem)
 	{
 		//1a
 		cInput = *pcInput;
@@ -133,12 +133,12 @@ XnStatus XnIRProcessor::Unpack10to16(const XnUInt8* pcInput, const XnUInt32 nInp
 		pcInput++;
 	}
 
-	*pnActualRead = (XnUInt32)(pcInput - pOrigInput);
+	*pnActualRead = (uint32_t)(pcInput - pOrigInput);
 	*pnOutputSize = nNeededOutput;
 	return XN_STATUS_OK;
 }
 
-void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, XnUInt32 /*nDataOffset*/, XnUInt32 nDataSize)
+void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader* /*pHeader*/, const XnUChar* pData, uint32_t /*nDataOffset*/, uint32_t nDataSize)
 {
 	XN_PROFILING_START_SECTION("XnIRProcessor::ProcessFramePacketChunk")
 
@@ -149,7 +149,7 @@ void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader
 	if (m_ContinuousBuffer.GetSize() != 0)
 	{
 		// fill in to a whole element
-		XnUInt32 nReadBytes = XN_MIN(nDataSize, XN_INPUT_ELEMENT_SIZE - m_ContinuousBuffer.GetSize());
+		uint32_t nReadBytes = XN_MIN(nDataSize, XN_INPUT_ELEMENT_SIZE - m_ContinuousBuffer.GetSize());
 		m_ContinuousBuffer.UnsafeWrite(pData, nReadBytes);
 		pData += nReadBytes;
 		nDataSize -= nReadBytes;
@@ -157,8 +157,8 @@ void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader
 		if (m_ContinuousBuffer.GetSize() == XN_INPUT_ELEMENT_SIZE)
 		{
 			// process it
-			XnUInt32 nActualRead = 0;
-			XnUInt32 nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
+			uint32_t nActualRead = 0;
+			uint32_t nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
 			if (XN_STATUS_OK != Unpack10to16(m_ContinuousBuffer.GetData(), XN_INPUT_ELEMENT_SIZE, (XnUInt16*)pWriteBuffer->GetUnsafeWritePointer(), &nActualRead, &nOutputSize))
 				WriteBufferOverflowed();
 			else
@@ -168,8 +168,8 @@ void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader
 		}
 	}
 
-	XnUInt32 nActualRead = 0;
-	XnUInt32 nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
+	uint32_t nActualRead = 0;
+	uint32_t nOutputSize = pWriteBuffer->GetFreeSpaceInBuffer();
 	if (XN_STATUS_OK != Unpack10to16(pData, nDataSize, (XnUInt16*)pWriteBuffer->GetUnsafeWritePointer(), &nActualRead, &nOutputSize))
 	{
 		WriteBufferOverflowed();
@@ -193,7 +193,7 @@ void XnIRProcessor::ProcessFramePacketChunk(const XnSensorProtocolResponseHeader
 	XN_PROFILING_END_SECTION
 }
 
-void IRto888(XnUInt16* pInput, XnUInt32 nInputSize, XnUInt8* pOutput, XnUInt32* pnOutputSize)
+void IRto888(XnUInt16* pInput, uint32_t nInputSize, XnUInt8* pOutput, uint32_t* pnOutputSize)
 {
 	XnUInt16* pInputEnd = pInput + nInputSize;
 	XnUInt8* pOutputOrig = pOutput;
@@ -209,7 +209,7 @@ void IRto888(XnUInt16* pInput, XnUInt32 nInputSize, XnUInt8* pOutput, XnUInt32* 
 		pInput++;
 	}
 
-	*pnOutputSize = (XnUInt32)(pOutput - pOutputOrig);
+	*pnOutputSize = (uint32_t)(pOutput - pOutputOrig);
 }
 
 void XnIRProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader)
@@ -230,7 +230,7 @@ void XnIRProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader)
 		break;
 	case ONI_PIXEL_FORMAT_RGB888:
 		{
-			XnUInt32 nOutputSize = GetWriteBuffer()->GetFreeSpaceInBuffer();
+			uint32_t nOutputSize = GetWriteBuffer()->GetFreeSpaceInBuffer();
 			IRto888((XnUInt16*)m_UnpackedBuffer.GetData(), m_UnpackedBuffer.GetSize() / sizeof(XnUInt16), GetWriteBuffer()->GetUnsafeWritePointer(), &nOutputSize);
 			GetWriteBuffer()->UnsafeUpdateSize(nOutputSize);
 			m_UnpackedBuffer.Reset();
@@ -242,15 +242,15 @@ void XnIRProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader)
 	}
 
 	// calculate expected size
-	XnUInt32 width = GetStream()->GetXRes();
-	XnUInt32 height = GetStream()->GetYRes();
-	XnUInt32 actualHeight = height;
+	uint32_t width = GetStream()->GetXRes();
+	uint32_t height = GetStream()->GetYRes();
+	uint32_t actualHeight = height;
 
 	// when cropping is turned on, actual depth size is smaller
 	if (GetStream()->m_FirmwareCropMode.GetValue() != XN_FIRMWARE_CROPPING_MODE_DISABLED)
 	{
-		width = (XnUInt32)GetStream()->m_FirmwareCropSizeX.GetValue();
-		height = (XnUInt32)GetStream()->m_FirmwareCropSizeY.GetValue();
+		width = (uint32_t)GetStream()->m_FirmwareCropSizeX.GetValue();
+		height = (uint32_t)GetStream()->m_FirmwareCropSizeY.GetValue();
 		actualHeight = height;
 	}
 	else if (GetStream()->GetResolution() != XN_RESOLUTION_SXGA)
@@ -270,7 +270,7 @@ void XnIRProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader)
 		}
 	}
 
-	XnUInt32 nExpectedBufferSize = width * actualHeight * GetStream()->GetBytesPerPixel();
+	uint32_t nExpectedBufferSize = width * actualHeight * GetStream()->GetBytesPerPixel();
 
 	if (GetWriteBuffer()->GetSize() != nExpectedBufferSize)
 	{
@@ -312,7 +312,7 @@ void XnIRProcessor::OnEndOfFrame(const XnSensorProtocolResponseHeader* pHeader)
 	XN_PROFILING_END_SECTION
 }
 
-XnUInt64 XnIRProcessor::CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp)
+XnUInt64 XnIRProcessor::CreateTimestampFromDevice(uint32_t nDeviceTimeStamp)
 {
 	XnUInt64 nNow;
 	xnOSGetHighResTimeStamp(&nNow);
@@ -339,7 +339,7 @@ XnUInt64 XnIRProcessor::CreateTimestampFromDevice(XnUInt32 nDeviceTimeStamp)
 	}
 }
 
-void XnIRProcessor::OnFrameReady(XnUInt32 nFrameID, XnUInt64 nFrameTS)
+void XnIRProcessor::OnFrameReady(uint32_t nFrameID, XnUInt64 nFrameTS)
 {
 	XnFrameStreamProcessor::OnFrameReady(nFrameID, nFrameTS);
 

@@ -128,7 +128,7 @@ XnStatus XnFirmwareStreams::Init()
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnFirmwareStreams::CheckClaimStream(const XnChar* strType, XnResolutions nRes, XnUInt32 nFPS, XnDeviceStream* pOwner)
+XnStatus XnFirmwareStreams::CheckClaimStream(const XnChar* strType, XnResolutions nRes, uint32_t nFPS, XnDeviceStream* pOwner)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -217,7 +217,7 @@ XnStatus XnFirmwareStreams::CheckClaimStream(const XnChar* strType, XnResolution
 	return (XN_STATUS_OK);
 }
 
-XnStatus XnFirmwareStreams::ClaimStream(const XnChar* strType, XnResolutions nRes, XnUInt32 nFPS, XnDeviceStream* pOwner)
+XnStatus XnFirmwareStreams::ClaimStream(const XnChar* strType, XnResolutions nRes, uint32_t nFPS, XnDeviceStream* pOwner)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 
@@ -331,7 +331,7 @@ XnBool XnFirmwareStreams::IsClaimed(const XnChar* strType, XnDeviceStream* pStre
 		return FALSE;
 }
 
-void XnFirmwareStreams::ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, XnUChar* pData, XnUInt32 nDataOffset, XnUInt32 nDataSize)
+void XnFirmwareStreams::ProcessPacketChunk(XnSensorProtocolResponseHeader* pHeader, XnUChar* pData, uint32_t nDataOffset, uint32_t nDataSize)
 {
 	XN_PROFILING_START_MT_SECTION("XnFirmwareStreams::ProcessPacketChunk")
 

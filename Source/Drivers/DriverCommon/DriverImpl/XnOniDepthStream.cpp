@@ -76,7 +76,7 @@ void XnOniDepthStream::notifyAllProperties()
 {
 	XnOniMapStream::notifyAllProperties();
 
-	XnUInt32 nValue;
+	uint32_t nValue;
 	int size = sizeof(nValue);
 
 	// white balance

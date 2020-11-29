@@ -36,7 +36,7 @@ public:
 	virtual ~LinkMsgEncoder();
 
 	//nMaxMsgSize includes all message headers (not link layer headers). nPacketSize is total link layer packet size, including link layer header.
-	virtual XnStatus Init(XnUInt32 nMaxMsgSize, XnUInt16 nPacketSize);
+	virtual XnStatus Init(uint32_t nMaxMsgSize, XnUInt16 nPacketSize);
 	virtual void Shutdown();
 	virtual void BeginEncoding(XnUInt16 nMsgType,
 					XnUInt16 nBasePacketID,
@@ -44,12 +44,12 @@ public:
 					XnLinkFragmentation firstPacketFrag = XN_LINK_FRAG_BEGIN,
 					XnUInt16 nCID = 0);
 
-	virtual void EncodeData(const void* pSourceData, XnUInt32 nSize);
+	virtual void EncodeData(const void* pSourceData, uint32_t nSize);
 	virtual void EndEncoding(XnLinkFragmentation lastPacketFrag = XN_LINK_FRAG_END);
 
 	virtual const void* GetEncodedData() const;
-	virtual XnUInt32 GetEncodedSize() const;
-	virtual XnUInt32 GetMaxMsgSize() const;
+	virtual uint32_t GetEncodedSize() const;
+	virtual uint32_t GetMaxMsgSize() const;
 	virtual XnUInt16 GetMaxPacketSize() const;
 
 	//Returns the packet ID of the current packet. Only valid after encoding.
@@ -59,10 +59,10 @@ public:
 	virtual void SetPacketID(XnUInt16 nPacketID);
 
 private:
-	XnUInt32 m_nMaxMsgSize;
+	uint32_t m_nMaxMsgSize;
 	XnUInt16 m_nMaxPacketSize;
-	XnUInt32 m_nMaxNumPackets;
-	XnUInt32 m_nBufferSize;
+	uint32_t m_nMaxNumPackets;
+	uint32_t m_nBufferSize;
 
 	/******* This points to the actual encoded data ******/
 	XnUInt8* m_pOutputBuffer;
@@ -74,7 +74,7 @@ private:
 		LinkPacketHeader* m_pCurrPacket;
 	};
 	LinkPacketHeader m_packetHeader;
-	XnUInt32 m_nEncodedSize;
+	uint32_t m_nEncodedSize;
 };
 
 }

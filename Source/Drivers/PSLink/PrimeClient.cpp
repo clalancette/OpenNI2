@@ -34,8 +34,8 @@
 namespace xn
 {
 
-const XnUInt32 PrimeClient::MAX_COMMAND_SIZE = 0x40000;
-const XnUInt32 PrimeClient::CONT_STREAM_PREDEFINED_BUFFER_SIZE = 0x40000;
+const uint32_t PrimeClient::MAX_COMMAND_SIZE = 0x40000;
+const uint32_t PrimeClient::CONT_STREAM_PREDEFINED_BUFFER_SIZE = 0x40000;
 
 PrimeClient::PrimeClient()
 {
@@ -82,7 +82,7 @@ void PrimeClient::Shutdown()
 {
 	if (m_bInitialized)
 	{
-		for (XnUInt32 nEndpointID = 0; nEndpointID < m_inputDataEndpoints.size(); nEndpointID++)
+		for (uint32_t nEndpointID = 0; nEndpointID < m_inputDataEndpoints.size(); nEndpointID++)
 		{
 			m_inputDataEndpoints[nEndpointID].Shutdown();
 		}
@@ -179,7 +179,7 @@ const XnDetailedVersion& PrimeClient::GetFWVersion() const
 	return m_fwVersion;
 }
 
-XnUInt32 PrimeClient::GetHWVersion() const
+uint32_t PrimeClient::GetHWVersion() const
 {
 	return m_nHWVersion;
 }
@@ -200,7 +200,7 @@ XnStatus PrimeClient::GetComponentsVersions(std::vector<XnComponentVersion>& com
 }
 
 XnStatus PrimeClient::InitOutputStream(XnUInt16 nStreamID,
-									   XnUInt32 nMaxMsgSize,
+									   uint32_t nMaxMsgSize,
 									   XnUInt16 nMaxPacketSize,
 									   XnLinkCompressionType compression,
 									   XnStreamFragLevel streamFragLevel)
@@ -233,22 +233,22 @@ XnStatus PrimeClient::ReadDebugData(XnCommandDebugData& commandDebugData)
 	return m_linkControlEndpoint.ReadDebugData(commandDebugData);
 }
 
-XnStatus PrimeClient::WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32 nValue, XnUInt32 nMask)
+XnStatus PrimeClient::WriteI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t nValue, uint32_t nMask)
 {
 	return m_linkControlEndpoint.WriteI2C(nDeviceID, nAddressSize, nAddress, nValueSize, nValue, nMask);
 }
 
-XnStatus PrimeClient::ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, XnUInt32 nAddress, XnUInt8 nValueSize, XnUInt32& nValue)
+XnStatus PrimeClient::ReadI2C(XnUInt8 nDeviceID, XnUInt8 nAddressSize, uint32_t nAddress, XnUInt8 nValueSize, uint32_t& nValue)
 {
 	return m_linkControlEndpoint.ReadI2C(nDeviceID, nAddressSize, nAddress, nValueSize, nValue);
 }
 
-XnStatus PrimeClient::WriteAHB(XnUInt32 nAddress, XnUInt32 nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth)
+XnStatus PrimeClient::WriteAHB(uint32_t nAddress, uint32_t nValue, XnUInt8 nBitOffset, XnUInt8 nBitWidth)
 {
 	return m_linkControlEndpoint.WriteAHB(nAddress, nValue, nBitOffset, nBitWidth);
 }
 
-XnStatus PrimeClient::ReadAHB(XnUInt32 nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, XnUInt32& nValue)
+XnStatus PrimeClient::ReadAHB(uint32_t nAddress, XnUInt8 nBitOffset, XnUInt8 nBitWidth, uint32_t& nValue)
 {
 	return m_linkControlEndpoint.ReadAHB(nAddress, nBitOffset, nBitWidth, nValue);
 }
@@ -266,9 +266,9 @@ XnStatus PrimeClient::EnumerateStreams(XnStreamType streamType, std::vector<XnFw
 	nRetVal = m_linkControlEndpoint.EnumerateStreams(aAll);
 	XN_IS_STATUS_OK(nRetVal);
 
-	for (XnUInt32 i = 0; i < aAll.size(); ++i)
+	for (uint32_t i = 0; i < aAll.size(); ++i)
 	{
-		if ((XnUInt32)aAll[i].type == streamType)
+		if ((uint32_t)aAll[i].type == streamType)
 		{
 			aStreamInfos.push_back(aAll[i]);
 		}
@@ -596,8 +596,8 @@ XnStatus PrimeClient::RunPresetFile(const XnChar* strFileName)
 		return XN_STATUS_ERROR;
 	}
 
-	XnUInt32 nAddress;
-	XnUInt32 nValue;
+	uint32_t nAddress;
+	uint32_t nValue;
 	XnUInt8 nBitOffset;
 	XnUInt8 nBitWidth;
 
@@ -700,15 +700,15 @@ XnStatus PrimeClient::GetSupportedLogFiles(std::vector<XnLinkLogFile>& supported
 	return m_linkControlEndpoint.GetSupportedLogFiles(supportedFiles);
 }
 
-XnStatus PrimeClient::ExecuteBist(XnUInt32 nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData)
+XnStatus PrimeClient::ExecuteBist(uint32_t nID, uint32_t& errorCode, uint32_t& extraDataSize, uint8_t* extraData)
 {
 	return m_linkControlEndpoint.ExecuteBistTests(nID, errorCode, extraDataSize, extraData);
 }
 
 XnBool PrimeClient::IsPropertySupported(XnUInt16 propID)
 {
-	XnUInt32 nInterface = (propID >> 8);
-	XnUInt32 nProp = (propID & 0x0F);
+	uint32_t nInterface = (propID >> 8);
+	uint32_t nProp = (propID & 0x0F);
 	return (nInterface < m_supportedProps.size() && m_supportedProps[nInterface].IsSet(nProp));
 }
 

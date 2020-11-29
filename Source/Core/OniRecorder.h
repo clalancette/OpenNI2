@@ -96,7 +96,7 @@ protected:
 	OniRecorderHandle m_handle;
 
 	// A map of stream -> stream information.
-	typedef xnl::Lockable< xnl::Hash<VideoStream*, XnUInt32> > StreamFrameIDList;
+	typedef xnl::Lockable< xnl::Hash<VideoStream*, uint32_t> > StreamFrameIDList;
 	StreamFrameIDList m_frameIds;
 
 	XnBool           m_running;     //< TRUE whenever the threadMain is running.

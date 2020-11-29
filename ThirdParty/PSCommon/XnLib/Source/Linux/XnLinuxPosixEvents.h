@@ -29,7 +29,7 @@ public:
 	virtual XnStatus Destroy();
 	virtual XnStatus Set();
 	virtual XnStatus Reset();
-	virtual XnStatus Wait(XnUInt32 nMilliseconds);
+	virtual XnStatus Wait(uint32_t nMilliseconds);
 
 private:
 	pthread_cond_t m_cond;

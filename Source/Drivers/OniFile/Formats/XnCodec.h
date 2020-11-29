@@ -27,7 +27,7 @@
 #include "XnStatus.h"
 #include "XnStreamFormats.h"
 
-typedef XnUInt32 XnCodecID;
+typedef uint32_t XnCodecID;
 
 //---------------------------------------------------------------------------
 // Types
@@ -44,9 +44,9 @@ public:
 
 	virtual XnCompressionFormats GetCompressionFormat() const = 0;
 
-	virtual XnStatus Compress(const XnUChar* pData, XnUInt32 nDataSize, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize) = 0;
+	virtual XnStatus Compress(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize) = 0;
 
-	virtual XnStatus Decompress(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize) = 0;
+	virtual XnStatus Decompress(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize) = 0;
 
 	static XnCompressionFormats GetCompressionFormatFromCodecID(XnCodecID codecID);
 	static XnCodecID GetCodecIDFromCompressionFormat(XnCompressionFormats format);

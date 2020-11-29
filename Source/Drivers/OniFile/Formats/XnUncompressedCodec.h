@@ -40,10 +40,10 @@ public:
 
 	XnCompressionFormats GetCompressionFormat() const override { return XN_COMPRESSION_NONE; }
 	XnFloat GetWorseCompressionRatio() const override { return 1.0; }
-	XnUInt32 GetOverheadSize() const override { return 0; }
+	uint32_t GetOverheadSize() const override { return 0; }
 
 private:
-	XnStatus CompressImpl(const XnUChar* pData, XnUInt32 nDataSize, XnUChar* pCompressedData, XnUInt32* pnCompressedDataSize) override
+	XnStatus CompressImpl(const XnUChar* pData, uint32_t nDataSize, XnUChar* pCompressedData, uint32_t* pnCompressedDataSize) override
 	{
 		if (nDataSize > *pnCompressedDataSize)
 		{
@@ -55,7 +55,7 @@ private:
 		return (XN_STATUS_OK);
 	}
 
-	XnStatus DecompressImpl(const XnUChar* pCompressedData, XnUInt32 nCompressedDataSize, XnUChar* pData, XnUInt32* pnDataSize) override
+	XnStatus DecompressImpl(const XnUChar* pCompressedData, uint32_t nCompressedDataSize, XnUChar* pData, uint32_t* pnDataSize) override
 	{
 		if (nCompressedDataSize > *pnDataSize)
 		{

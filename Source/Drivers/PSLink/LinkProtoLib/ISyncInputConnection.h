@@ -31,7 +31,7 @@ class ISyncInputConnection : virtual public IConnection
 {
 public:
 	virtual ~ISyncInputConnection() {}
-	virtual XnStatus Receive(void* pData, XnUInt32& nSize) = 0;
+	virtual XnStatus Receive(void* pData, uint32_t& nSize) = 0;
 };
 
 }

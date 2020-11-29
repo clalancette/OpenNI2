@@ -56,7 +56,7 @@ typedef struct XnUSBBuffersInfo
 	XnBool bIsQueued;
 	/* An event to notify when buffer is ready. */
 	XN_EVENT_HANDLE hEvent;
-	XnUInt32 nBufferID;
+	uint32_t nBufferID;
 	/* Holds the last status received. */
 	libusb_transfer_status nLastStatus;
 } XnUSBBuffersInfo;
@@ -67,13 +67,13 @@ typedef struct XnUSBReadThreadData
 	/* TRUE when thread is running. */
 	XnBool bIsRunning;
 	/* Number of buffers allocated. */
-	XnUInt32 nNumBuffers;
+	uint32_t nNumBuffers;
 	/* Array of buffers. */
 	XnUSBBuffersInfo* pBuffersInfo;
 	/* Size of each buffer. */
-	XnUInt32 nBufferSize;
+	uint32_t nBufferSize;
 	/* Timeout value. */
-	XnUInt32 nTimeOut;
+	uint32_t nTimeOut;
 	/* User callback function. */
 	XnUSBReadCallbackFunctionPtr pCallbackFunction;
 	/* User callback data. */
@@ -91,7 +91,7 @@ typedef struct XnUSBEndPointHandle
 	XnUSBEndPointType  nType;
 	XnUSBDirectionType nDirection;
 	XnUSBReadThreadData ThreadData;
-	XnUInt32 nMaxPacketSize;
+	uint32_t nMaxPacketSize;
 } XnUSBEPHandle;
 
 #endif //_XN_USBLINUX_X86_H_

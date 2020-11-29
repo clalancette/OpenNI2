@@ -151,7 +151,7 @@ XnBool LinkInputDataEndpoint::IsConnected() const
 	return (m_nConnected > 0);
 }
 
-XnStatus LinkInputDataEndpoint::IncomingData(const void* pData, XnUInt32 nSize)
+XnStatus LinkInputDataEndpoint::IncomingData(const void* pData, uint32_t nSize)
 {
 	XnStatus nRetVal = XN_STATUS_OK;
 	xnDumpFileWriteBuffer(m_pDumpFile, pData, nSize);

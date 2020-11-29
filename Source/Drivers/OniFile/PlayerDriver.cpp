@@ -110,10 +110,10 @@ XnStatus XN_CALLBACK_TYPE PlayerDriver::FileOpen(void* pCookie)
 	return xnOSOpenFile(pThis->m_filePath.c_str(), XN_OS_FILE_READ, &pThis->m_fileHandle);
 }
 
-XnStatus XN_CALLBACK_TYPE PlayerDriver::FileRead(void* pCookie, void* pBuffer, XnUInt32 nSize, XnUInt32* pnBytesRead)
+XnStatus XN_CALLBACK_TYPE PlayerDriver::FileRead(void* pCookie, void* pBuffer, uint32_t nSize, uint32_t* pnBytesRead)
 {
 	PlayerDriver* pThis = (PlayerDriver*)pCookie;
-	XnUInt32 bufferSize = nSize;
+	uint32_t bufferSize = nSize;
 	XnStatus rc = xnOSReadFile(pThis->m_fileHandle, pBuffer, &bufferSize);
 	*pnBytesRead = bufferSize;
 	return rc;
