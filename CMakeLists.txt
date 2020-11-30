@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(OpenNI2)
 
+include(CheckCXXCompilerFlag)
+
 # Default to C11
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 11)
@@ -14,7 +16,14 @@ endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -fPIC -fvisibility=hidden -Woverloaded-virtual -Wnon-virtual-dtor -Wformat=2)
+  check_cxx_compiler_flag(-msse3 HAS_SSE3)
+  if (HAS_SSE3)
+    add_compile_options(-msse3)
+  endif()
 endif()
+
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -DNDEBUG -O2")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG -O2")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -48,7 +57,6 @@ set(XNLIB_LINUX_SOURCES
   ThirdParty/PSCommon/XnLib/Source/Linux/XnLinuxUSBDevice.cpp
 )
 
-# FIXME: missing compile flags: -msse3 -O2 -DNDEBUG
 add_library(XnLib STATIC
   ThirdParty/PSCommon/XnLib/Source/XnDump.cpp
   ThirdParty/PSCommon/XnLib/Source/XnDumpFileWriter.cpp
@@ -83,7 +91,6 @@ target_link_libraries(XnLib PUBLIC
 )
 # Since we are building and linking XnLib statically, no need to install it
 
-# FIXME: missing compile flags: -msse3 -O2 -DNDEBUG
 add_library(DepthUtils STATIC
   Source/DepthUtils/DepthUtils.cpp
   Source/DepthUtils/DepthUtilsImpl.cpp
@@ -97,7 +104,6 @@ target_link_libraries(XnLib PUBLIC
 )
 # Since we are building and linking DepthUtils statically, no need to install it
 
-# FIXME: missing compile flags -msse3 -O2 -DNDEBUG
 add_library(OpenNI2 SHARED
   Source/Core/OniContext.cpp
   Source/Core/OniDataRecords.cpp
@@ -132,7 +138,6 @@ install(TARGETS OpenNI2
   DESTINATION .
 )
 
-# FIXME: missing compile flags -msse3 -O2 -DNDEBUG
 add_library(DummyDevice SHARED
   Source/Drivers/DummyDevice/DummyDevice.cpp
 )
@@ -246,7 +251,6 @@ target_link_libraries(DriverCommon
   -Wl,--no-undefined
 )
 
-# FIXME: missing compile flags -msse3 -O2 -DNDEBUG
 add_library(PS1080 SHARED
   Source/Drivers/DriverCommon/DriverImpl/XnExportedOniDriver.cpp
 
@@ -278,7 +282,6 @@ install(TARGETS PS1080
   DESTINATION OpenNI2/Drivers
 )
 
-# FIXME: missing compile flags -msse3 -O2 -DNDEBUG
 add_library(orbbec SHARED
   Source/Drivers/DriverCommon/DriverImpl/XnExportedOniDriver.cpp
 
@@ -310,7 +313,6 @@ install(TARGETS orbbec
   DESTINATION OpenNI2/Drivers
 )
 
-# FIXME: missing compile flags -msse3 -O2 -DNDEBUG
 add_library(TestDevice SHARED
   Source/Drivers/TestDevice/TestDevice.cpp
   Source/Drivers/TestDevice/TestDriver.cpp
@@ -329,7 +331,6 @@ install(TARGETS TestDevice
   DESTINATION OpenNI2/Drivers
 )
 
-# FIXME: missing compile flags -msse3 -O2 -DNDEBUG
 add_library(PSLink SHARED
   Source/Drivers/PSLink/LinkDeviceEnumeration.cpp
   Source/Drivers/PSLink/PrimeClient.cpp
