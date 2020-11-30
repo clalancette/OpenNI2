@@ -70,7 +70,7 @@ OniStatus TestStream::getProperty(int propertyId, void* data, int* pDataSize)
 	{
 		if (*pDataSize != sizeof(OniVideoMode))
 		{
-			printf("Unexpected size: %d != %d\n", *pDataSize, sizeof(OniVideoMode));
+			printf("Unexpected size: %d != %lu\n", *pDataSize, sizeof(OniVideoMode));
 			return ONI_STATUS_ERROR;
 		}
 		return getVideoMode((OniVideoMode*)data);
@@ -85,7 +85,7 @@ OniStatus TestStream::setProperty(int propertyId, const void* data, int dataSize
 	{
 		if (dataSize != sizeof(OniVideoMode))
 		{
-			printf("Unexpected size: %d != %d\n", dataSize, sizeof(OniVideoMode));
+			printf("Unexpected size: %d != %lu\n", dataSize, sizeof(OniVideoMode));
 			return ONI_STATUS_ERROR;
 		}
 		return setVideoMode((OniVideoMode*)data);
@@ -139,7 +139,7 @@ OniStatus TestStream::invoke(int commandId, void* data, int dataSize)
 		{
 			if (dataSize != sizeof(TestCommandIssueFrame))
 			{
-				printf("Unexpected size: %d != %d\n", dataSize, sizeof(TestCommandIssueFrame));
+				printf("Unexpected size: %d != %lu\n", dataSize, sizeof(TestCommandIssueFrame));
 				return ONI_STATUS_BAD_PARAMETER;
 			}
 

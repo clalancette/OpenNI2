@@ -23,11 +23,11 @@
 TestDevice::TestDevice(OniDeviceInfo* pInfo, oni::driver::DriverServices& driverServices) : m_pInfo(pInfo), m_driverServices(driverServices)
 {
 	OniSensorType sensorTypes[] = { ONI_SENSOR_DEPTH, ONI_SENSOR_COLOR, ONI_SENSOR_IR };
-	int count = sizeof(sensorTypes)/sizeof(sensorTypes[0]);
+	size_t count = sizeof(sensorTypes)/sizeof(sensorTypes[0]);
 
 	XN_ASSERT(count < sizeof(m_sensors)/sizeof(m_sensors[0]));
 
-	for (int i = 0; i < count; ++i)
+	for (size_t i = 0; i < count; ++i)
 	{
 		m_sensors[i].sensorType = sensorTypes[i];
 		m_sensors[i].numSupportedVideoModes = 1;

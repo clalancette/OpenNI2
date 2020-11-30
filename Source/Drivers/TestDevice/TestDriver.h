@@ -21,7 +21,7 @@
 #ifndef TESTDRIVER_H
 #define TESTDRIVER_H
 
-#include <Driver\OniDriverAPI.h>
+#include <Driver/OniDriverAPI.h>
 #include <XnLib.h>
 #include <XnHash.h>
 

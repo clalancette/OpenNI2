@@ -311,6 +311,25 @@ install(TARGETS orbbec
 )
 
 # FIXME: missing compile flags -msse3 -O2 -DNDEBUG
+add_library(TestDevice SHARED
+  Source/Drivers/TestDevice/TestDevice.cpp
+  Source/Drivers/TestDevice/TestDriver.cpp
+  Source/Drivers/TestDevice/TestStream.cpp
+)
+target_include_directories(TestDevice PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/TestDevice>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/PSCommon/XnLib/Include>"
+)
+target_link_libraries(TestDevice
+  XnLib
+  -Wl,--no-undefined
+)
+install(TARGETS TestDevice
+  DESTINATION OpenNI2/Drivers
+)
+
+# FIXME: missing compile flags -msse3 -O2 -DNDEBUG
 add_library(PSLink SHARED
   Source/Drivers/PSLink/LinkDeviceEnumeration.cpp
   Source/Drivers/PSLink/PrimeClient.cpp

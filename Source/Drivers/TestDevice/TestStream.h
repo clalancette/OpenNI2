@@ -21,7 +21,7 @@
 #ifndef TESTSTREAM_H
 #define TESTSTREAM_H
 
-#include <Driver\OniDriverAPI.h>
+#include <Driver/OniDriverAPI.h>
 #include <XnLib.h>
 #include <XnOSCpp.h>
 

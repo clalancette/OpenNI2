@@ -21,7 +21,7 @@
 #ifndef TESTDEVICE_H
 #define TESTDEVICE_H
 
-#include <Driver\OniDriverAPI.h>
+#include <Driver/OniDriverAPI.h>
 #include "TestStream.h"
 
 class TestDevice : public oni::driver::DeviceBase
