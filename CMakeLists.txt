@@ -27,6 +27,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -DNDEBUG -O2")
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+find_package(freenect REQUIRED)
 find_package(GLUT REQUIRED)
 set(OpenGL_GL_PREFERENCE LEGACY)
 find_package(OpenGL REQUIRED)
@@ -328,6 +329,27 @@ target_link_libraries(TestDevice
   -Wl,--no-undefined
 )
 install(TARGETS TestDevice
+  DESTINATION OpenNI2/Drivers
+)
+
+add_library(Kinect SHARED
+  Source/Drivers/Kinect/ColorStream.cpp
+  Source/Drivers/Kinect/DepthStream.cpp
+  Source/Drivers/Kinect/DeviceDriver.cpp
+  Source/Drivers/Kinect/Utility.cpp
+)
+target_include_directories(Kinect PUBLIC
+  ${FREENECT_INCLUDE_DIRS}
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Include>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/Source/Drivers/Kinect>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/PSCommon/XnLib/Include>"
+)
+target_link_libraries(Kinect
+  ${FREENECT_LIBRARIES}
+  XnLib
+  -Wl,--no-undefined
+)
+install(TARGETS Kinect
   DESTINATION OpenNI2/Drivers
 )
 
