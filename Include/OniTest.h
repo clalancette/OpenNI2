@@ -28,7 +28,7 @@
 */
 enum
 {
-	TEST_COMMAND_ISSUE_FRAME = 0xFFFF0001, // TestCommandIssueFrame
+	TEST_COMMAND_ISSUE_FRAME = 0x0FFF0001, // TestCommandIssueFrame
 };
 
 typedef struct TestCommandIssueFrame
