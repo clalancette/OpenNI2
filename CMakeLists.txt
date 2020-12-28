@@ -591,3 +591,5 @@ target_link_libraries(ClosestPointViewer
 install(TARGETS ClosestPointViewer
   DESTINATION .
 )
+
+install(DIRECTORY Include DESTINATION .)
